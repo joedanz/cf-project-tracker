@@ -1,0 +1,202 @@
+h5.sub { margin-left:23px; margin-top:6px; }
+fieldset { padding:10px; }
+
+ol.nobullet,ul.nobullet { list-style:none; margin-left:10px; }
+ul.nobullet li { margin-bottom:5px; }
+
+.markcomplete {
+	padding-left:10px;
+	margin-left:20px;
+}
+
+.mb10 { margin-bottom:10px; }
+
+div.pagediv {
+	padding:3px 5px;
+	margin-bottom:5px;
+}
+
+table.activity td {
+	padding:2px 5px;
+}
+
+#notify { display:none;
+	margin-left:180px;
+	padding:10px;
+	width:250px;
+	margin-bottom:10px; 
+}
+#notifylink { padding:4px; }
+
+.catbox { width:60px;padding:0 2px; }
+
+/* LEFT COLUMN */
+#container {
+	margin:15px 30px;
+}
+
+#container .left {
+	width:69%; float:left;
+}
+
+#container .left .main {
+	padding-right:8px; 
+}
+
+#container .left .main .header {
+	padding:10px 20px;
+	margin-bottom:15px;
+}
+
+#container .left .main .header .rightmenu {
+	float:right;
+}
+
+#container .left .main .header h2 img { 
+	vertical-align: middle;
+}
+
+#container .left .main .header h4 {
+	padding-left:28px;
+	margin:5px 0;
+}
+
+#container .left .main .content #slidediv {
+	margin-bottom:20px;
+	padding:0 20px;
+}
+
+#container .left .main .content .stamp {
+	padding-left:20px;
+	padding-right:5px;
+}
+
+#container .left .main .content .wrapper {
+	padding:0 20px 20px 20px;
+}
+
+#container .left .main .content .ml28 {
+	margin-left:28px;
+}
+
+#container .left .main .content .wrapper h3.padtop {
+	margin-top:10px;
+}
+
+#container .left .main .content .wrapper h3.padbottom {
+	margin-bottom:5px;
+}
+
+#container .left .main .content .wrapper p {
+	margin:12px 10px;
+}
+
+#container .left .main .content .itemlist ul,
+#container .left .main .content .itemlist ol {
+	margin-left:40px;
+	margin-bottom: 12px;
+}
+
+#container .left .main .content .wrapper .milestones {
+	margin-bottom:15px;
+}
+
+#container .left .main .content .wrapper .milestones > .header {
+	padding:3px 5px;
+	margin-bottom:0px;
+}
+
+#container .left .main .content .wrapper .milestones .milestone {
+	padding:0 0 10px 10px;
+}
+
+#container .left .main .content .wrapper .milestones .milestone .date {
+	margin-bottom:5px;
+	padding-top:10px;
+}
+
+#container .left .main .content .wrapper .milestones .milestone .desc {
+	margin-left:20px;
+}
+
+#container .left .main .content .wrapper .milestones .milestone ul.sub {
+	margin-left:32px;
+}
+
+#container .left .main .content .wrapper .milestones .milestone li.sub {
+	margin-left:10px;
+	padding:0;
+}
+
+#container .left .main .content .wrapper #commentbar {
+	margin:15px 0 10px 0; padding:5px;
+}
+
+#container .left .main .content .wrapper .commentbody {
+	margin-bottom:10px;
+	padding:10px 6px 6px 58px;
+}
+
+#container .left .main .content .ms {
+	padding-left:20px;
+	margin-bottom:10px;
+	margin-left:10px;
+}
+
+#container .left .main .content .posted {
+	padding-left:20px;
+	margin-bottom:10px;
+	margin-left:10px;
+}
+
+#container .left .main .content .byline {
+	padding:8px;
+}
+
+#container .left .main .content .listItem .top {
+	float:right; 
+	margin:8px 5px 0 0;
+}
+
+#container .left .main .content .listWrapper .todolist {
+	padding:2px 5px 5px 10px;
+	margin-bottom:20px;
+}
+
+#container .left .footer {
+	padding:0px 20px;
+}
+
+/* RIGHT COLUMN */
+#container .right {
+	width:30%; float:right;
+}
+
+#container .right .header {
+	padding:5px 10px; 
+	margin-bottom:5px;
+}
+
+#container .right .content {
+	padding-left:10px; 
+	padding-top:5px;
+	margin-bottom:15px;
+}
+
+#container .right .content ul {
+	padding-left:20px;
+}
+
+#container .right .content ul li {
+	margin-bottom:4px;
+}
+
+#container .right .content ul li.mb10 {
+	margin-bottom:10px;
+}
+
+#container .right .content ul.people {
+	vertical-align:middle;
+	padding-left:20px;
+}
+

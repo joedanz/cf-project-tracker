@@ -1,0 +1,97 @@
+#header #loggedin {
+	float:right; 
+	font-size:.85em; 
+	margin-right:30px; 
+	margin-top:5px; 
+	color:#fff;
+}
+
+#header .sm {
+	font-size:.9em;
+}
+
+#header h1 {
+	font-size:2.5em;
+	font-weight:bold;
+	color:#f5f5f5;
+	padding-left:30px;
+}
+
+#header #linksback {
+	font-size:.9em;
+	margin-left:30px;
+	color:#f5f5f5;
+	margin-bottom:3px;
+}
+
+#header #linksback a {
+	color: #fff;
+}
+
+#header #loggedin a.current {
+	color: #fc0;
+	font-weight:bold;
+	text-decoration:none;
+}
+
+#header a {
+	color:#fff;
+}
+
+#header #tabs {
+	margin: 5px 0 0 30px;
+	height: 25px;
+	padding: 0;
+}
+
+#header #tabs ul {
+	margin: 0; padding: 0;
+}
+
+#header #tabs li {
+	margin: 0; padding: 0;
+	display: inline;
+	list-style: none;
+	border: none;
+}
+
+#header #tabs ul#maintabs {
+}
+
+#header div#tabs a:link,
+#header div#tabs a:visited {
+  text-decoration: none;
+}
+
+#header #tabs a:hover {
+	color: #fff;
+	background: #333;
+}
+
+#header #tabs ul#maintabs a:link, #header #tabs ul#maintabs a:visited {
+  float: left; /* for IE6 */
+	font-size: 1em;
+	font-weight: bold;
+	padding: 4px 8px 3px 8px;
+	margin: 0;
+}
+
+#header #tabs ul#maintabs a:link.current, #header #tabs ul#maintabs a:visited.current {
+	background: #e5e5e5 url(../images/tab-bg.gif) top repeat-x;
+	border-bottom: 1px solid #e5e5e5;
+	color: #222;
+	font-size:1.1em;
+	font-weight: bold;
+	text-decoration: none;
+  	margin: 0;
+}
+
+#header #tabs ul#maintabs a:link.current, #header #tabs ul#maintabs a:visited.current {
+    color: #393;
+  }
+
+#header #tabs a:hover {
+    color: #000;
+    background-color: #ffc;
+    border-bottom: 1px solid #ffc;
+  }
