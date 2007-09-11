@@ -1,0 +1,149 @@
+#container .left .main .header h2.activity {
+	background:url(../images/activity.png) no-repeat;
+	padding-left:28px;
+}
+
+#container .left .main .header h2.admin {
+	background:url(../images/gear.png) no-repeat;
+	padding-left:28px;
+}
+
+#container .left .main .header h2.milestone {
+	background:url(../images/milestone.png) no-repeat;
+	padding-left:28px;
+}
+
+#container .left .main .header h2.files {
+	background:url(../images/files.png) no-repeat;
+	padding-left:28px;
+}
+
+#container .left .main .header h2.issues {
+	background:url(../images/issues.png) no-repeat;
+	padding-left:28px;
+}
+
+#container .left .main .header h2.msg {
+	background:url(../images/messages.png) no-repeat;
+	padding-left:28px;
+}
+
+#container .left .main .header h2.overview {
+	background:url(../images/overview.png) no-repeat;
+	padding-left:28px;
+}
+
+#container .left .main .header h2.people {
+	background:url(../images/users.png) no-repeat;
+	padding-left:28px;
+}
+
+#container .left .main .header h2.project {
+	background:url(../images/project.png) no-repeat;
+	padding-left:28px;
+}
+
+#container .left .main .header h2.svn {
+	background:url(../images/svn.png) no-repeat;
+	padding-left:28px;
+}
+
+#container .left .main .header h2.todo {
+	background:url(../images/clipboard.png) no-repeat;
+	padding-left:28px;
+}
+
+#container .left .main .header h2.user {
+	background:url(../images/people.png) no-repeat;
+	padding-left:28px;
+}
+
+#container .left .main .content div.user {
+	background:url(../images/people.png) no-repeat;
+	padding-left:28px;
+	margin-bottom:15px;
+}
+
+.add {
+	background: url(../images/add.png) no-repeat;
+	padding-left:20px;
+}
+
+.alert {
+	background: url(../images/alert.png) no-repeat;
+	padding-left:20px;
+}
+
+.back {
+	background: url(../images/back.png) no-repeat;
+	padding-left:20px;
+}
+
+.cancel {
+	background: url(../images/cancel.png) no-repeat;
+	padding-left:20px;
+}
+
+.check {
+	background: url(../images/ok_16x16.gif) no-repeat;
+	padding-left:20px;
+}
+
+.comment {
+	background: url(../images/comments.png) no-repeat;
+	padding-left:20px;
+}
+
+.delete {
+	background: url(../images/trash.gif) no-repeat;
+	padding-left:20px;
+}
+
+.download {
+	background: url(../images/files_sm.png) no-repeat;
+	padding-left:20px;
+}
+
+.drag {
+	background: url(../images/drag_handle.gif) no-repeat;
+	padding-left:20px;
+}
+
+.edit {
+	background: url(../images/edit.png) no-repeat;
+	padding-left:20px;
+}
+
+.feed {
+	background: url(../images/feed.png) no-repeat;
+	padding-left:20px;
+}
+
+.mstone {
+	background: url(../images/milestone16.png) no-repeat;
+	padding-left:20px;
+}
+
+.posted {
+	background: url(../images/time.png) no-repeat;
+	padding-left:20px;
+}
+
+.reorder {
+	background: url(../images/reorder.png) no-repeat;
+	padding-left:20px;
+}
+
+.warn {
+	background: url(../images/warn.gif) no-repeat;
+	padding-left:20px;
+}
+
+.collapsed {
+	background: url(../images/menu-collapsed.gif) no-repeat;
+	padding-left:15px;
+}
+.expanded {
+	background: url(../images/menu-expanded.gif) no-repeat;
+	padding-left:15px;
+}

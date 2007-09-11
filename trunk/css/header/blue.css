@@ -1,0 +1,13 @@
+#header {
+	background-image: url("../../images/header/header-blue.png");
+	background-repeat: repeat-x;
+	padding:6px 0 0 0;
+	padding-bottom:1px;
+}
+
+#header #tabs a:link, #header #tabs a:visited {
+    background-color: #185285;
+    color: #fff;
+    border: 1px solid #036;
+    border-bottom: 1px solid #185285;
+}

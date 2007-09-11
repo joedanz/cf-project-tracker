@@ -1,0 +1,85 @@
+form.frm {
+	font-size:1.2em;
+	padding-bottom:15px;
+}
+
+form.frm label {
+	width: 160px;
+	margin-right:6px;
+	text-align: right;
+	float:left;
+}
+
+form.frm label.req {
+	font-weight: bold;
+}
+
+form.frm label.req:before { content: " * " }
+
+form.frm label.list {
+	float:none;
+}	
+
+form.frm p {
+	clear:left;
+	margin-bottom:10px;
+}
+
+form.frm p input, form.frm p textarea {
+	width:450px;
+	padding:2px;
+}
+
+form.frm p input.checkbox {
+	width:20px;
+}
+
+form.frm p textarea {
+	height:250px;
+}
+
+form.frm p input.title {
+	padding:4px;
+	font-weight:bold;
+}
+
+/* buttons */
+input.button {
+	border: 3px double #999;
+	border-top-color: #CCC;
+	border-left-color: #CCC;
+	padding: 0.25em;
+	background-color: #F5f5f5;
+	background-image: url(../images/input-bg.gif);
+	background-repeat:repeat-x;
+	color: #333;
+	font-size: 85%;
+	font-weight: bold;
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+}
+input.button2 {
+	border: 3px double #999;
+	border-top-color: #CCC;
+	border-left-color: #CCC;
+	padding: 0.15em;
+	background-color: #F5f5f5;
+	background-image: url(../images/input-bg.gif);
+	background-repeat:repeat-x;
+	color: #333;
+	font-size: 75%;
+	font-weight: bold;
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+}
+input.button:active,input.button2:active {
+	border: 3px double #CCC;
+	border-top-color: #999;
+	border-left-color: #999;
+}
+textarea.addtask {
+	padding:2px;
+	width:400px;
+	height:54px;
+}
+textarea.addtask:focus {
+	background-color:#ffc;
+}
