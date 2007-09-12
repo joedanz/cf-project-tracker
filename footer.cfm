@@ -1,1 +1,1 @@
-&copy;2007 <a href="http://www.monmouth.army.mil/cecom/lrc/lrcwebtm.html">LRC Web Team</a> | <a href="http://lrc1.monmouth.army.mil/internet/internet.nsf/attention.htm?OpenPage">Privacy Policy</a>
+Developed by <a href="http://www.ajaxcf.com">Joe Danziger</a>
