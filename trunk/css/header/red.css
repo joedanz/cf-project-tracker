@@ -1,0 +1,10 @@
+#header {
+	background-image: url("../../images/header/header-red.png");
+}
+
+#header #tabs a {
+    background-color: #E83C3C;
+    color: #fff;
+    border: 1px solid #C41010;
+    border-bottom: 1px solid #E83C3C;
+}
