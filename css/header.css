@@ -1,0 +1,82 @@
+#header {
+	background-repeat: repeat-x;
+	padding:6px 0 0 0;
+}
+
+#header #loggedin {
+	float:right; 
+	font-size:.85em; 
+	margin-right:30px; 
+	margin-top:5px; 
+	color:#fff;
+}
+
+#header #projectmenu {
+	background-color:#ffc;
+	position:absolute;
+	left:190px; top:0;
+	font-size:.9em;	
+}
+
+#header #projectmenu ul { list-style-type:none; }
+#header #projectmenu ul li { border:1px solid #ffd61f; padding:3px 5px; }
+#header #projectmenu ul li a { text-decoration:none; color:#00f; } 
+
+#header h1 {
+	font-size:2.5em;
+	font-weight:bold;
+	color:#f5f5f5;
+	margin-left:30px;
+	margin-top:3px;
+}
+
+#header #linksback {
+	font-size:.85em;
+	margin-left:30px;
+	color:#f5f5f5;
+}
+
+#header a {
+	color: #fff;
+}
+
+#header #loggedin a.current {
+	color: #fc0;
+	font-weight:bold;
+	text-decoration:none;
+}
+
+#header #tabs {
+	margin: 5px 0 0 30px;
+	height: 26px;
+}
+
+#header #tabs li {
+	display: inline;
+	list-style: none;
+}
+
+#header div#tabs a {
+  text-decoration: none;
+}
+
+#header #tabs ul#maintabs a {
+	float: left; 
+	font-weight: bold;
+	padding: 4px 8px 4px 8px;
+}
+
+#header #tabs ul#maintabs a.current {
+	background: #e5e5e5 url(../images/tab-bg.png) top repeat-x;
+	border-bottom: 1px solid #e5e5e5;
+	padding: 3px 8px 4px 8px;
+	font-size:1.1em;
+	color: #393;
+}
+
+#header #tabs a:hover {
+    color: #000;
+    background-color: #ffc;
+}
+
+.menuhover { background-color:#fc0; cursor:pointer; }

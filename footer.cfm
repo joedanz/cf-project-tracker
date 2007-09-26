@@ -1,0 +1,1 @@
+Developed by <a href="http://www.ajaxcf.com">Joe Danziger</a>
