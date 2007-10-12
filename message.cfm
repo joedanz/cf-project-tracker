@@ -30,9 +30,9 @@
 			<div class="header">
 				<span class="rightmenu">
 					<a href="messages.cfm?p=#url.p#" class="back">Back</a>
-					<cfif message.userID eq session.user.userID>
-						| <a href="editMessage.cfm?p=#url.p#&m=#url.m#" class="edit">Edit</a>
-						| <a href="messages.cfm?p=#url.p#&dm=#url.m#" class="delete" onclick="return confirm('Are you sure you wish to delete this message and all associated comments?')">Delete</a>
+					<cfif message.userID eq session.user.userID or session.user.admin>
+						| <a href="editMessage.cfm?p=#url.p#&m=#url.m#&mh=#hash(url.m)#" class="edit">Edit</a>
+						| <a href="messages.cfm?p=#url.p#&dm=#url.m#&dmh=#hash(url.m)#" class="delete" onclick="return confirm('Are you sure you wish to delete this message and all associated comments?')">Delete</a>
 					</cfif>
 				</span>
 				
