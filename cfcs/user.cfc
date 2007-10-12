@@ -67,7 +67,7 @@
 			SELECT userID, firstName, lastName, username, email, phone, lastLogin, avatar, style, admin, active
 			FROM #variables.tableprefix#users
 			WHERE username = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.username#" MAXLENGTH="35">
-		<!---		AND password = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.password#" MAXLENGTH="30">--->
+				AND password = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.password#" MAXLENGTH="30">
 		</cfquery>
 		<cfif qLogin.recordCount eq 1>
 			<cfscript>
