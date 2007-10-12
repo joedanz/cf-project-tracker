@@ -246,12 +246,14 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfreturn true>
 	</cffunction>
 	
-	<CFFUNCTION NAME="makeAdmin" ACCESS="public" returnType="boolean" output="false"
+	<CFFUNCTION NAME="changeRole" ACCESS="public" returnType="boolean" output="false"
 				HINT="Makes user owner of a project.">
 		<cfargument name="projectid" type="uuid" required="true">
 		<cfargument name="userid" type="uuid" required="true">
+		<cfargument name="role" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
-			UPDATE #variables.tableprefix#project_users SET role = 'Admin'
+			UPDATE #variables.tableprefix#project_users 
+			SET role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.role#" maxlength="9">
 				WHERE projectid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.projectID#" maxlength="35">
 					AND userid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.userID#" maxlength="35">
 		</cfquery>

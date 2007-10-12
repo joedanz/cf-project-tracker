@@ -2,8 +2,8 @@
 
 <cfif isDefined("url.makeOwner")>
 	<cfset application.user.makeOwner(url.p,url.makeOwner)>
-<cfelseif isDefined("url.makeAdmin")>
-	<cfset application.user.makeAdmin(url.p,url.makeAdmin)>
+<cfelseif isDefined("url.r")>
+	<cfset application.user.changeRole(url.p,url.u,url.r)>
 </cfif>
 
 <cfparam name="url.p" default="">
@@ -49,6 +49,7 @@
 				<select name="role" id="role">
 					<option value="User">User</option>
 					<option value="Admin">Admin</option>
+					<option value="Read-Only">Read-Only</option>
 				</select>
 				<input type="button" class="button2" name="add" value="Add Person" onclick="add_existing('#url.p#');" /> or 
 				<a href="##" onclick="$('##slidediv').SlideOutUp(1000);">cancel</a><br />
@@ -80,6 +81,7 @@
 						<select name="newrole" id="newrole">
 							<option value="User">User</option>
 							<option value="Admin">Admin</option>
+							<option value="Read-Only">Read-Only</option>
 						</select>
 					</label>
 					</div>
@@ -119,15 +121,19 @@
 					 		<cfif compare(phone,'')>#phone#<br /></cfif>
 					 		
 					 		
-					 		<cfif listFind('Admin,Owner',userRole.role) or session.user.userID eq userID>						<div style="font-weight:bold;font-size:.9em;margin-top:3px;">[ 
+					 		<cfif (listFind('Admin,Owner',userRole.role) and compare('Owner',role)) or session.user.userID eq userID>						<div style="font-weight:bold;font-size:.9em;margin-top:3px;">[ 
 						 	
 						 	<cfif session.user.userID eq userID><a href="account.cfm">edit</a></cfif>
 
-							<cfif session.user.userID eq userID and listFind('User,Admin',role)> / </cfif>
+							<cfif session.user.userID eq userID and listFind('User,Admin,Read-Only',role)> / </cfif>
 
-					 		<cfif listFind('User,Admin',role)>
+					 		<cfif listFind('User,Admin,Read-Only',role)>
 					 		<a href="##" onclick="remove_user('#url.p#','#userID#','#lastName#','#firstName#');$('###userID#').DropOutDown(500);">remove from project</a></cfif>
-					 		<cfif not compareNoCase('User',role)> / <a href="#cgi.script_name#?p=#url.p#&makeAdmin=#userID#">make admin</a></cfif>
+		<cfif compareNoCase('Owner',role)>
+	 		<cfif compareNoCase('User',role)> / <a href="people.cfm?p=#url.p#&u=#userID#&r=User">make user</a></cfif>
+	 		<cfif compareNoCase('Admin',role)> / <a href="people.cfm?p=#url.p#&u=#userID#&r=Admin">make admin</a></cfif>
+			<cfif compareNoCase('Read-Only',role)> / <a href="people.cfm?p=#url.p#&u=#userID#&r=Read-Only">make read-only</a></cfif>
+		</cfif>
 					 		
 					 		]</div>
 					 		</cfif>						 		
@@ -158,9 +164,7 @@
 			</ul>
 		</div>
 
-		<cfquery name="proj_admins" dbtype="query">
-			select * from projectUsers where role = 'Admin'
-		</cfquery>
+		<cfset proj_admins = application.project.projectUsers(url.p,'Admin')>
 		<div id="proj_admins">
 		<cfif proj_admins.recordCount>
 		<div class="header"><h3>Project Admin<cfif proj_admins.recordCount gt 1>s</cfif></h3></div>
