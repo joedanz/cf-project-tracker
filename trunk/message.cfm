@@ -53,7 +53,7 @@
 
 					<cfloop query="comments">
 					<div id="#commentID#">
-					<cfif userID eq session.user.userID>
+					<cfif userID eq session.user.userID or session.user.admin>
 					<a href="##" onclick="return delete_comment('#commentID#');"><img src="./images/delete.gif" height="16" width="16" border="0" style="float:right;padding:5px;" /></a>
 					</cfif>
 					<cfif application.isCF8 or application.isBD>
@@ -66,6 +66,7 @@
 					</div>
 					</cfloop>
 					
+					<cfif compare(project.role,'Read-Only')>
 					<form action="#cgi.script_name#?p=#url.p#&m=#url.m#" method="post" name="add" id="add" class="frm" onsubmit="return confirmSubmit();">
 					<div class="b">Post a new comment...</div>
 					<cfscript>
@@ -88,7 +89,8 @@
 	
 					<input type="button" class="button" value="Preview" onclick="show_preview();" /> or 
 					<input type="submit" class="button" name="submit" value="Post Comment" />
-					</form>			
+					</form>
+					</cfif>
 					
 				</div>
 			</div>

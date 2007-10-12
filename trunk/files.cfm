@@ -29,9 +29,11 @@
 		<div class="main">
 
 				<div class="header">
+					<cfif compare(project.role,'Read-Only')>
 					<span class="rightmenu">
 						<a href="editFile.cfm?p=#url.p#" class="add">Upload a file</a>
 					</span>
+					</cfif>
 										
 					<h2 class="files">
 					<cfif compare(url.c,'')>
@@ -60,7 +62,7 @@
 						#Int(filesize/1024)#K,
 						</cfif>
 						uploaded to <a href="#cgi.script_name#?p=#url.p#&c=#urlEncodedFormat(category)#">#category#</a> by #firstName# #lastName# | <a href="download.cfm?p=#url.p#&f=#fileID#" class="download">Download file</a>
-						<cfif session.user.userID eq uploadedBy>
+						<cfif session.user.userID eq uploadedBy or session.user.admin>
 						| <a href="editFile.cfm?p=#url.p#&f=#fileID#" class="edit">Edit details</a>
 						| <a href="#cgi.script_name#?p=#url.p#&df=#fileID#" class="delete" onclick="return confirm('Are you sure you wish to delete this file?');">Delete File</a>
 						</cfif>

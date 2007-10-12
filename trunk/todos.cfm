@@ -29,10 +29,12 @@
 		<div class="main">
 
 				<div class="header">
+					<cfif compare(project.role,'Read-Only')>
 					<span class="rightmenu">
 						<a href="editTodolist.cfm?p=#url.p#" class="add">Add a new list</a>	| 
 						<span id="reorder_menu"><a href="##" onclick="reorder_lists();" class="reorder">Reorder lists</a></span>
-					</span>					
+					</span>
+					</cfif>
 					
 					<h2 class="todo">All to-do lists</h2>
 				</div>
@@ -44,7 +46,7 @@
 					<div class="listItem todolist" id="#todolistID#" style="margin-bottom:20px;">
 					<div class="top"><a href="##" onclick="$('body').ScrollTo(800)"><img src="./images/top.gif" height="12" width="31" border="0" alt="Top" /></a></div>
 					
-					<h3 class="padtop padbottom list">#title# <span class="itemedit">[<a href="editTodolist.cfm?p=#url.p#&t=#todolistid#">edit</a> / <a href="#cgi.script_name#?p=#url.p#&del=#todolistid#" onclick="return confirm('Are you sure you wish to delete this to-do list?');">del</a>]</span></h3>
+					<h3 class="padtop padbottom list">#title#<cfif compare(project.role,'Read-Only')> <span class="itemedit">[<a href="editTodolist.cfm?p=#url.p#&t=#todolistid#">edit</a> / <a href="#cgi.script_name#?p=#url.p#&del=#todolistid#" onclick="return confirm('Are you sure you wish to delete this to-do list?');">del</a>]</span></cfif></h3>
 						<div class="tododetail">
 						<cfif compare(description,'')><div style="font-style:italic;">#description#</div></cfif>
 						<cfquery name="todos_notcompleted" dbtype="query">
@@ -52,7 +54,7 @@
 						</cfquery>
 						<ul class="nobullet" id="todoitems#todolistID#">
 						<cfloop query="todos_notcompleted">
-						<li class="li#todolistID#" id="#todoID#"><input type="checkbox" name="todoID" value="#todoID#" class="cb#todolistID#" onclick="mark_complete('#url.p#','#todolistID#','#todoID#');" /> #task#<cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)</span></cfif> <span class="li_edit"><a href="##" onclick="$('###todoID#').hide();$('##edititemform#todoID#').show();$('##ta#todoID#').focus();"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" /></a> <a href="##" onclick="delete_li('#url.p#','#todolistID#','#todoID#')"><img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" /></a></span></li>
+						<li class="li#todolistID#" id="#todoID#"><cfif compare(project.role,'Read-Only')><input type="checkbox" name="todoID" value="#todoID#" class="cb#todolistID#" onclick="mark_complete('#url.p#','#todolistID#','#todoID#');" /> </cfif>#task#<cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)</span></cfif><cfif compare(project.role,'Read-Only')> <span class="li_edit"><a href="##" onclick="$('###todoID#').hide();$('##edititemform#todoID#').show();$('##ta#todoID#').focus();"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" /></a> <a href="##" onclick="delete_li('#url.p#','#todolistID#','#todoID#')"><img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" /></a></span></cfif></li>
 						<li><div id="edititemform#todoID#" style="display:none;background-color:##ddd;padding:5px;">
 						<div style="float:left;margin-right:15px;clear:both">	
 						<form>					
@@ -73,7 +75,8 @@
 												
 						</cfloop>
 						</ul>
-
+						
+						<cfif compare(project.role,'Read-Only')>
 						<div style="margin:5px 5px 5px 26px;padding:5px;background-color:##ddd;">
 						<div id="listmenu#todolistID#">
 						<a href="##" onclick="$('##listmenu#todolistID#').hide();$('##additemform#currentRow#').show();$('##ta#todolistID#').focus();" class="add">Add an item</a>
@@ -98,7 +101,7 @@
 						</form>
 						</div>
 						</div>
-						
+						</cfif>
 						
 						<cfquery name="todos_completed" dbtype="query">
 							select * from todos where todolistID = '#todolistID#' and completed IS NOT NULL
