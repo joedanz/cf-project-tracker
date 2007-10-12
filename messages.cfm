@@ -3,7 +3,7 @@
 <cfparam name="url.p" default="">
 <cfset project = application.project.get(session.user.userid,url.p)>
 
-<cfif isDefined("url.dm") and not compare(hash(url.dm),url.dmh>
+<cfif isDefined("url.dm") and not compare(hash(url.dm),url.dmh)>
 	<cfset application.message.delete(url.p,url.dm)>
 <cfelseif isDefined("url.v")>
 	<cfset session.user.msgview = url.v>
