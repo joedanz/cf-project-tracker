@@ -113,7 +113,7 @@ CREATE TABLE `pt_milestones` (
 CREATE TABLE `pt_project_users` (
   `userID` varchar(35) NOT NULL,
   `projectID` varchar(35) NOT NULL,
-  `role` varchar(5) default NULL,
+  `role` varchar(9) default NULL,
   PRIMARY KEY  (`userID`,`projectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

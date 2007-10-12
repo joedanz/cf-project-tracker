@@ -22,16 +22,19 @@
 		<cfif compare(email,'')><a href="mailto:#email#">#email#</a><br /></cfif>
 		<cfif compare(phone,'')>#phone#<br /></cfif>
 		
-		<cfif listFind('Admin,Owner',userRole.role) or session.user.userID eq userID>						<div style="font-weight:bold;font-size:.9em;margin-top:3px;">[ 
+		<cfif (listFind('Admin,Owner',userRole.role) and compare('Owner',role)) or session.user.userID eq userID>						<div style="font-weight:bold;font-size:.9em;margin-top:3px;">[ 
 			
 		<cfif session.user.userID eq userID><a href="account.cfm">edit</a></cfif>
 		
-		<cfif session.user.userID eq userID and listFind('User,Admin',role)> / </cfif>
+		<cfif session.user.userID eq userID and listFind('User,Admin,Read-Only',role)> / </cfif>
 
- 		<cfif listFind('User,Admin',role)>
+ 		<cfif listFind('User,Admin,Read-Only',role)>
  		<a href="##" onclick="remove_user('#url.p#','#userID#','#lastName#','#firstName#');$('###userID#').DropOutDown(500);">remove from project</a></cfif>
- 		<cfif not compareNoCase('User',role)> / <a href="people.cfm?p=#url.p#&makeAdmin=#userID#">make admin</a></cfif>
- 		
+		<cfif compareNoCase('Owner',role)>
+	 		<cfif compareNoCase('User',role)> / <a href="people.cfm?p=#url.p#&u=#userID#&r=Admin">make user</a></cfif>
+	 		<cfif compareNoCase('Admin',role)> / <a href="people.cfm?p=#url.p#&u=#userID#&r=Admin">make admin</a></cfif>
+			<cfif compareNoCase('Read-Only',role)> / <a href="people.cfm?p=#url.p#&u=#userID#&r=Read-Only">make read-only</a></cfif>
+		</cfif>
  		]</div>
  		</cfif>					
 		
