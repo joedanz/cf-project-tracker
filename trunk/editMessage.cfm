@@ -27,13 +27,21 @@
 <cfparam name="title_action" default="Add">
 
 <cfif isDefined("url.m")>
-	<cfset thisMessage = application.message.get(url.p,url.m)>
-	<cfset title = thisMessage.title>
-	<cfset cat = thisMessage.category>
-	<cfset message = thisMessage.message>
-	<cfset msID = thisMessage.milestoneID>
-	<cfset variables.allowComments = thisMessage.allowComments>
-	<cfset title_action = "Edit">
+	<cfif not compare(hash(url.m),url.mh)>
+		<cfset thisMessage = application.message.get(url.p,url.m)>
+		<cfset title = thisMessage.title>
+		<cfset cat = thisMessage.category>
+		<cfset message = thisMessage.message>
+		<cfset msID = thisMessage.milestoneID>
+		<cfset variables.allowComments = thisMessage.allowComments>
+		<cfset title_action = "Edit">
+	<cfelse>
+		<cfoutput>
+			<h1>Security Alert!</h1>
+			<h2>You must be the message creator or an admin to edit this message.</h2>
+		</cfoutput>
+		<cfabort>
+	</cfif>
 </cfif>
 
 <!--- Loads header/footer --->

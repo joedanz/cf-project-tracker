@@ -3,7 +3,7 @@
 <cfparam name="url.p" default="">
 <cfset project = application.project.get(session.user.userid,url.p)>
 
-<cfif isDefined("url.dm")>
+<cfif isDefined("url.dm") and not compare(hash(url.dm),url.dmh>
 	<cfset application.message.delete(url.p,url.dm)>
 <cfelseif isDefined("url.v")>
 	<cfset session.user.msgview = url.v>
@@ -74,8 +74,8 @@
 					<cfif compare(name,'')><div class="ms">Milestone: #name#</div></cfif>
 					<div class="byline<cfif currentRow neq recordCount> listitem</cfif>">
 						Posted by #firstName# #lastName# in <a href="#cgi.script_name#?p=#url.p#&c=#urlEncodedFormat(category)#">#category#</a>
-						<cfif userID eq session.user.userID> | <a href="editMessage.cfm?p=#url.p#&m=#messageID#" class="edit">Edit</a>
-						 | <a href="messages.cfm?p=#url.p#&dm=#messageID#" class="delete" onclick="return confirm('Are you sure you wish to delete this message and all associated comments?')">Delete</a></cfif>
+						<cfif userID eq session.user.userID or session.user.admin> | <a href="editMessage.cfm?p=#url.p#&m=#messageID#&mh=#hash(messageID)#" class="edit">Edit</a>
+						 | <a href="messages.cfm?p=#url.p#&dm=#messageID#&dmh=#hash(messageID)#" class="delete" onclick="return confirm('Are you sure you wish to delete this message and all associated comments?')">Delete</a></cfif>
 						<cfif allowComments> | <a href="message.cfm?p=#url.p#&m=#messageID###comments" class="comment">Post <cfif not commentCount>the first<cfelse>another</cfif> comment</a></cfif>
 					</div>
 					</div>
