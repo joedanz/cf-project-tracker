@@ -1,18 +1,18 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfparam name="form.display" default="0">
-<cfif isDefined("form.projectID")>
+<cfif isDefined("form.projectID")> <!--- update project --->
 	<cfset application.project.update(form.projectid,form.name,form.description,form.display,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'edited')>
 	<cflocation url="project.cfm?p=#form.projectID#" addtoken="false">
-<cfelseif isDefined("form.submit")>
+<cfelseif isDefined("form.submit")> <!--- add project --->
 	<cfset newID = createUUID()>
 	<cfset application.project.add(newID,form.name,form.description,form.display,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,session.user.userid)>
 	<cfset application.role.add(newID,session.user.userid,'Owner')>
 	<cfset application.activity.add(createUUID(),newID,session.user.userid,'Project',newID,form.name,'added')>
 	<cfset session.user.projects = application.project.get(session.user.userid)>
 	<cflocation url="project.cfm?p=#newID#" addtoken="false">
-<cfelseif isDefined("url.del") and hash(url.p) eq url.ph>
+<cfelseif isDefined("url.del") and hash(url.p) eq url.ph> <!--- delete project --->
 	<cfset application.project.delete(url.p)>
 	<cfset session.user.projects = application.project.get(session.user.userid)>
 	<cflocation url="index.cfm" addtoken="false">

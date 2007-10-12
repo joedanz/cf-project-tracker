@@ -1,16 +1,16 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfparam name="form.display" default="0">
-<cfif isDefined("form.issueID")>
+<cfif isDefined("form.issueID")> <!--- update issue --->
 	<cfset application.issue.update(form.issueID,form.projectid,form.issue,form.detail,form.type,form.severity,form.status,form.assignedTo,form.relevantURL,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Issue',form.issueID,form.issue,'edited')>
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#form.issueID#" addtoken="false">
-<cfelseif isDefined("form.submit")>
+<cfelseif isDefined("form.submit")> <!--- add issue --->
 	<cfset newID = createUUID()>
 	<cfset application.issue.add(newID,form.projectID,form.ticketPrefix,form.issue,form.detail,form.type,form.severity,form.status,form.assignedTo,form.relevantURL,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Issue',newID,form.issue,'added')>
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#newID#" addtoken="false">
-<cfelseif isDefined("url.del") and hash(url.p) eq url.ph>
+<cfelseif isDefined("url.del") and hash(url.p) eq url.ph> <!--- delete issue --->
 	<cfset application.project.delete(url.p)>
 	<cflocation url="index.cfm" addtoken="false">
 </cfif>

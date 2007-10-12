@@ -1,11 +1,11 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfparam name="form.completed" default="0">
-<cfif isDefined("form.milestoneID")>
+<cfif isDefined("form.milestoneID")> <!--- update milestone --->
 	<cfset application.milestone.update(form.milestoneID,form.projectid,form.name,createDate(form.y,form.m,form.d),form.description,form.forID,form.completed)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Milestone',form.milestoneID,form.name,'edited')>
 	<cflocation url="milestones.cfm?p=#form.projectID#" addtoken="false">
-<cfelseif isDefined("form.projectID")>
+<cfelseif isDefined("form.projectID")> <!--- add milestone --->
 	<cfset newID = createUUID()>
 	<cfset application.milestone.add(newID,form.projectID,form.name,createDate(form.y,form.m,form.d),form.description,form.forID,form.completed,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Milestone',newID,form.name,'added')>

@@ -2,11 +2,11 @@
 
 <cfparam name="form.allowComments" default="0">
 <cfparam name="form.notifylist" default="">
-<cfif isDefined("form.messageID")>
+<cfif isDefined("form.messageID")> <!--- update message --->
 	<cfset application.message.update(form.messageID,form.projectid,form.title,form.category,form.message,form.milestoneID,form.allowComments)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Message',form.messageID,form.title,'edited')>
 	<cflocation url="messages.cfm?p=#form.projectID#" addtoken="false">
-<cfelseif isDefined("form.projectID")>
+<cfelseif isDefined("form.projectID")> <!--- add message --->
 	<cfset newID = createUUID()>
 	<cfset application.message.add(newID,form.projectID,form.title,form.category,form.message,form.milestoneID,form.allowComments,session.user.userid,form.notifylist)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Message',newID,form.title,'added')>
