@@ -20,7 +20,7 @@
 		<CFSET var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT p.projectID, p.name, p.description, p.display, p.added, p.addedBy, p.status, 
-				p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass
+				p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, pu.role
 			FROM #variables.tableprefix#projects p INNER JOIN #variables.tableprefix#project_users pu
 			 ON p.projectID = pu.projectID
 			WHERE 0=0
