@@ -1,10 +1,10 @@
 <cfsetting enablecfoutputonly="true">
 
-<cfif isDefined("form.todolistID")>
+<cfif isDefined("form.todolistID")> <!--- update todo list --->
 	<cfset application.todolist.update(form.todolistID,form.projectid,form.title,form.description,form.milestoneID)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'To-Do List',form.projectID,form.title,'edited')>
 	<cflocation url="todos.cfm?p=#form.projectID#" addtoken="false">
-<cfelseif isDefined("form.submit")>
+<cfelseif isDefined("form.submit")> <!--- add todo list --->
 	<cfset newID = createUUID()>
 	<cfset application.todolist.add(newID,form.projectID,form.title,form.description,form.milestoneID,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'To-Do List',newID,form.title,'added')>

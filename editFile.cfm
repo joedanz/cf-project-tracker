@@ -1,10 +1,10 @@
 <cfsetting enablecfoutputonly="true">
 
-<cfif isDefined("form.fileID")>
+<cfif isDefined("form.fileID")> <!--- update file --->
 	<cfset application.file.update(form.fileID,form.projectid,form.title,form.category,form.description)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'File',form.fileID,form.title,'edited')>
 	<cflocation url="files.cfm?p=#form.projectID#" addtoken="false">
-<cfelseif isDefined("form.projectID")>
+<cfelseif isDefined("form.projectID")> <!--- add/upload file --->
 	<cftry>
 		<cfdirectory action="create" directory="#ExpandPath('./userfiles/')##form.projectID#">
 		<cfcatch></cfcatch>
