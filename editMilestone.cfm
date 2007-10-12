@@ -74,7 +74,7 @@
 				 	
 					<form action="#cgi.script_name#" method="post" name="edit" id="edit" class="frm" onsubmit="return confirmSubmit();">
 						
-		<div style="padding:0 15px;float:left;margin-bottom:50px;border-right:2px solid ##ddd;">
+		<div style="padding:0 15px;float:left;margin-bottom:50px;border-right:2px solid ##ddd;height:400px;">
 
 		<strong>* When is it due?</strong>
 		<div id="duedate">
@@ -122,7 +122,7 @@
 							fckEditor.value			= '#description#';
 							fckEditor.basePath		= basePath;
 							fckEditor.width			= 360;
-							fckEditor.height		= 130;
+							fckEditor.height		= 300;
 							fckEditor.ToolbarSet	= "Basic";
 							fckEditor.create(); // create the editor.
 						</cfscript>
