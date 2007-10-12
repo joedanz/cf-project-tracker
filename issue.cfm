@@ -26,13 +26,14 @@
 		<div class="main">
 
 				<div class="header">
+				<cfif compare(project.role,'Read-Only')>
 				<span class="rightmenu">
 					<a href="editIssue.cfm?p=#url.p#&i=#url.i#" class="edit">Edit</a>
 					<cfif compare(issue.status,'Closed')>
 					| <a href="#cgi.script_name#?p=#url.p#&i=#url.i#&close=1" class="close">Close Ticket</a>
 					</cfif>
 				</span>
-					
+				</cfif>
 					
 					<h2 class="issues">#issue.shortID# - #issue.issue#</h2>
 				</div>
@@ -128,6 +129,7 @@
 						</div>
 						</cfloop>						
 						
+						<cfif compare(project.role,'Read-Only')>
 						<form action="#cgi.script_name#?p=#url.p#&i=#url.i#" method="post" name="add" id="add" class="frm" onsubmit="return confirmSubmit();">
 						<div class="b">Post a new comment...</div>
 						<cfscript>
@@ -150,7 +152,8 @@
 		
 						<input type="button" class="button" value="Preview" onclick="show_preview();" /> or 
 						<input type="submit" class="button" name="submit" value="Post Comment" />
-						</form>												
+						</form>
+						</cfif>			
 						
 					</div>
 				</div>

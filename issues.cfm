@@ -131,7 +131,7 @@ $(document).ready(function(){
 	<!--- right column --->
 	<div class="right">
 		
-		<cfif compare(project.ticketPrefix,'')>
+		<cfif compare(project.role,'Read-Only') and compare(project.ticketPrefix,'')>
 		<h3><a href="editIssue.cfm?p=#url.p#" class="add">Submit new issue</a></h3><br />
 		</cfif>
 		
