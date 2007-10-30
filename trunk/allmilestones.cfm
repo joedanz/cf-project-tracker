@@ -39,8 +39,8 @@
 								<cfloop query="milestones_overdue">
 									<cfset daysago = DateDiff("d",dueDate,Now())>
 								<li><span class="b" style="color:##f00;"><cfif daysago eq 0>Today<cfelseif daysago eq 1>Yesterday<cfelse>#daysago# day ago</cfif>:</span> 
-									<a href="milestones.cfm?p=#projectID#">#name#</a>
-									<span style="font-size:.9em;">(<span class="b">#projName#</span><cfif compare(lastName,'')> | #firstName# #lastName# is responsible</cfif>)</span>
+									<a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a>
+									<span style="font-size:.9em;">(<a href="project.cfm?p=#projectID#" class="b">#projName#</a><cfif compare(lastName,'')> | #firstName# #lastName# is responsible</cfif>)</span>
 								</li>
 								</cfloop>
 							</ul>
@@ -53,7 +53,7 @@
 									<cfset daysago = DateDiff("d",Now(),dueDate)>
 								<li><span class="b"><cfif daysago eq 0>Tomorrow<cfelse>#daysago+1# day<cfif daysago neq 1>s</cfif> away</cfif>:</span> 
 									<a href="milestones.cfm?p=#projectID#">#name#</a>
-									<span style="font-size:.9em;">(<span class="b">#projName#</span><cfif compare(lastName,'')> | #firstName# #lastName# is responsible</cfif>)</span>
+									<span style="font-size:.9em;">(<a href="project.cfm?p=#projectID#" class="b">#projName#</a><cfif compare(lastName,'')> | #firstName# #lastName# is responsible</cfif>)</span>
 								</li>
 								</cfloop>
 							</ul>
