@@ -105,7 +105,7 @@
 						<cfloop query="issues">
 						<tr>
 							<td><a href="issue.cfm?p=#projectID#&i=#issueID#">#shortID#</a></td>
-							<td>#name#</td>
+							<td><a href="project.cfm?p=#projectID#">#name#</a></td>
 							<td>#issue#</td>
 							<td>#type#</td>
 							<td>#severity#</td>
