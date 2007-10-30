@@ -54,7 +54,7 @@
 						</cfquery>
 						<ul class="nobullet" id="todoitems#todolistID#">
 						<cfloop query="todos_notcompleted">
-						<li class="li#todolistID#" id="#todoID#"><cfif compare(project.role,'Read-Only')><input type="checkbox" name="todoID" value="#todoID#" class="cb#todolistID#" onclick="mark_complete('#url.p#','#todolistID#','#todoID#');" /> </cfif>#task#<cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)</span></cfif><cfif compare(project.role,'Read-Only')> <span class="li_edit"><a href="##" onclick="$('###todoID#').hide();$('##edititemform#todoID#').show();$('##ta#todoID#').focus();"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" /></a> <a href="##" onclick="delete_li('#url.p#','#todolistID#','#todoID#')"><img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" /></a></span></cfif></li>
+						<li class="li#todolistID#" id="#todoID#"><cfif compare(project.role,'Read-Only')><input type="checkbox" name="todoID" value="#todoID#" class="cb#todolistID#" onclick="mark_complete('#url.p#','#todolistID#','#todoID#');" /> </cfif>#task#<cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)</span></cfif><cfif compare(project.role,'Read-Only')> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="$('###todoID#').hide();$('##edititemform#todoID#').show();$('##ta#todoID#').focus();" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#url.p#','#todolistID#','#todoID#')" /></span></cfif></li>
 						<li><div id="edititemform#todoID#" style="display:none;background-color:##ddd;padding:5px;">
 						<div style="float:left;margin-right:15px;clear:both">	
 						<form>					
@@ -108,7 +108,7 @@
 						</cfquery>
 						<ul class="nobullet" id="todocomplete#todolistID#">
 						<cfloop query="todos_completed">
-						<li class="g" id="#todoID#"><input type="checkbox" name="todoID" value="#todoID#" checked="checked" onclick="mark_incomplete('#url.p#','#todolistID#','#todoID#');" /> <strike>#task#</strike> - <span class="g">#DateFormat(completed,"mmm d")#</span> <span class="li_edit"><a href="##" onclick="$('###todoID#').hide();$('##edititemform#todoID#').show();$('##ta#todoID#').focus();"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" /></a> <a href="##" onclick="delete_li('#url.p#','#todolistID#','#todoID#')"><img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" /></a></span></li>
+						<li class="g" id="#todoID#"><input type="checkbox" name="todoID" value="#todoID#" checked="checked" onclick="mark_incomplete('#url.p#','#todolistID#','#todoID#');" /> <strike>#task#</strike> - <span class="g">#DateFormat(completed,"mmm d")#</span> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="$('###todoID#').hide();$('##edititemform#todoID#').show();$('##ta#todoID#').focus();" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#url.p#','#todolistID#','#todoID#')" /></span></li>
 						
 						<li><div id="edititemform#todoID#" style="display:none;background-color:##ddd;padding:5px;">
 						<form>
