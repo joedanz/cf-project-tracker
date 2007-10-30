@@ -35,6 +35,7 @@
 		<cfset msID = thisMessage.milestoneID>
 		<cfset variables.allowComments = thisMessage.allowComments>
 		<cfset title_action = "Edit">
+		<cfset notifyList = application.message.getNotifyList(url.p,url.m)>
 	<cfelse>
 		<cfoutput>
 			<h1>Security Alert!</h1>
@@ -154,14 +155,14 @@
 						<p>
 						<span id="notifylinkbg" class="collapsed">
 						<label for="notifylink">Notify People:</label>
-						<a href="##" onclick="showNotify();" id="notifylink"> Send copies of this message via email</a>
+						<a href="##" onclick="showNotify();" id="notifylink"> Send copies of this message to...</a>
 						</span>
 						<span id="notify" style="display:none;">
 						<ul class="nobullet">
 						<li><input type="checkbox" id="everyone" class="checkbox notoggle" onclick="notify_all();" /><label for="everyone" class="list b">Everyone</label></li>
-						<li><input type="checkbox" name="notifylist" class="checkbox" id="#session.user.userID#" value="#session.user.userID#" checked="checked" /><label for="#session.user.userID#" class="list">Myself</label>
+						<li><input type="checkbox" name="notifylist" class="checkbox" id="#session.user.userID#" value="#session.user.userID#"<cfif isDefined("url.m") and (listFind(valueList(notifyList.userid),session.user.userID))> checked="checked"</cfif> /><label for="#session.user.userID#" class="list">Myself</label>
 						<cfloop query="projectUsers">
-						<cfif compare(userID,session.user.userID)><li><input type="checkbox" name="notifylist" class="checkbox" id="#userID#" value="#userID#" /><label for="#userID#" class="list">#firstName# #lastName#</label></li></cfif>
+						<cfif compare(userID,session.user.userID)><li><input type="checkbox" name="notifylist" class="checkbox" id="#userID#" value="#userID#"<cfif not isDefined("url.m") or (listFind(valueList(notifyList.userid),userID))> checked="checked"</cfif> /><label for="#userID#" class="list">#firstName# #lastName#</label></li></cfif>
 						</cfloop>
 						</ul>
 						</span>
