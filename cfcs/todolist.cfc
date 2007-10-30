@@ -18,6 +18,7 @@
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfargument name="todolistID" type="string" required="false" default="">
 		<cfargument name="projectIDlist" type="string" required="false" default="">
+		<cfargument name="milestoneID" type="string" required="false" default="">
 		<cfset var qGetTodoLists = "">
 		<cfquery name="qGetTodoLists" datasource="#variables.dsn#">
 			SELECT u.firstName,u.lastName,tl.todolistID,tl.projectID,tl.title,tl.description,
@@ -32,6 +33,7 @@
 					AND tl.projectID IN ('#replace(arguments.projectIDlist,",","','","ALL")#')
 				</cfif>				
 				<cfif compare(arguments.todolistID,'')> AND tl.todolistID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.todolistID#" maxlength="35"></cfif>
+				<cfif compare(arguments.milestoneID,'')> AND ms.milestoneID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35"></cfif>
 			ORDER BY tl.rank, tl.added, tl.title
 		</cfquery>
 		<cfreturn qGetTodoLists>
