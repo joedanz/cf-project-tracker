@@ -244,7 +244,7 @@ To view the full message and leave comments, visit this link:
 				hint="Deletes a message notification.">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="messageID" type="uuid" required="true">
-		<cfargument name="userID" type="uuid" required="false" default="">
+		<cfargument name="userID" type="string" required="false" default="">
 		<cfquery datasource="#variables.dsn#">
 			DELETE FROM #variables.tableprefix#message_notify
 			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">
