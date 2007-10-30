@@ -216,7 +216,7 @@ function RFind(substr,str) {
 	<thead><tr><th>Rev</th><th>Message</th><th>Timestamp</th><th>Author</th><th>Files</th></tr></thead>
 	<tbody>
 	<cfloop from="1" to="#arrayLen(logEntries)#" index="i">
-		<tr class="<cfif i mod 2 eq 1>odd<cfelse>even</cfif>"<cfif isDefined("url.r") and url.r eq logEntries[i].revision> style="background-color:##ffc;"</cfif>>
+		<tr class="<cfif i mod 2 eq 1>odd<cfelse>even</cfif>"<cfif StructKeyExists(url,"r") and url.r eq logEntries[i].revision> style="background-color:##ffc;"</cfif>>
 			<td>#logEntries[i].revision#<br /></td>
 			<td><div id="r#logEntries[i].revision#view">&nbsp;#logEntries[i].msg#</div></td>
 			<cfset dt = DateConvertISO8601(logEntries[i].date,-getTimeZoneInfo().utcHourOffset)>

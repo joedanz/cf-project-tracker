@@ -2,13 +2,13 @@
 
 <cfparam name="whichTab" default="">
 
-<cfif isDefined("form.submit1")>
+<cfif StructKeyExists(form,"submit1")>
 	<cfset application.user.userUpdate(session.user.userID,form.firstname,form.lastname,form.email,form.phone)>
 	<cfset session.user.firstName = form.firstname>
 	<cfset session.user.lastName = form.lastname>
 	<cfset session.user.email = form.email>
 	<cfset session.user.phone = form.phone>
-<cfelseif isDefined("form.submit2")>
+<cfelseif StructKeyExists(form,"submit2")>
 	<cfif not compareNoCase(form.pass1,form.pass2)>
 		<cfset newPass = form.pass1>
 	<cfelse>		
@@ -17,14 +17,14 @@
 	<cfset application.user.acctUpdate(session.user.userID,form.username,newPass)>
 	<cfset session.user.username = form.username>
 	<cfset whichTab = 2>
-<cfelseif isDefined("form.submitimage")>
+<cfelseif StructKeyExists(form,"submitimage")>
 	<cfif application.isCF8> <!--- include prevents invalid tag error from on earlier versions --->
 		<cfinclude template="img_proc_acct_cf8.cfm">
 	<cfelseif application.isBD>
 		<cfinclude template="img_proc_acct_bd.cfm">
 	</cfif>
 	<cfset whichTab = 3>
-<cfelseif isDefined("url.rmvimg")>	
+<cfelseif StructKeyExists(url,"rmvimg")>
 	<cftry>
 	<cffile action="delete" file="#ExpandPath('./images/avatars')#/#session.user.userid#_72.jpg">
 	<cffile action="delete" file="#ExpandPath('./images/avatars')#/#session.user.userid#_48.jpg">
@@ -34,14 +34,14 @@
 	</cftry>
 	<cfset application.user.setImage(session.user.userID,0)>
 	<cfset whichTab = 3>
-<cfelseif isDefined("form.style")>
+<cfelseif StructKeyExists(form,"style")>
 	<cfset session.style = form.style>
 	<cfset application.user.setStyle(session.user.userID,form.style)>
 	<cfset whichTab = 4>
 	<cfif not application.isCF8 and not application.isBD>
 		<cfset whichTab = whichTab - 1>
 	</cfif>
-<cfelseif isDefined("url.editStyle")>
+<cfelseif StructKeyExists(url,"editStyle")>
 	<cfset whichTab = 4>
 	<cfif not application.isCF8 and not application.isBD>
 		<cfset whichTab = whichTab - 1>

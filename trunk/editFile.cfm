@@ -1,10 +1,10 @@
 <cfsetting enablecfoutputonly="true">
 
-<cfif isDefined("form.fileID")> <!--- update file --->
+<cfif StructKeyExists(form,"fileID")> <!--- update file --->
 	<cfset application.file.update(form.fileID,form.projectid,form.title,form.category,form.description)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'File',form.fileID,form.title,'edited')>
 	<cflocation url="files.cfm?p=#form.projectID#" addtoken="false">
-<cfelseif isDefined("form.projectID")> <!--- add/upload file --->
+<cfelseif StructKeyExists(form,"projectID")> <!--- add/upload file --->
 	<cftry>
 		<cfdirectory action="create" directory="#ExpandPath('./userfiles/')##form.projectID#">
 		<cfcatch></cfcatch>
@@ -26,7 +26,7 @@
 <cfparam name="description" default="">
 <cfparam name="title_action" default="Add">
 
-<cfif isDefined("url.f")>
+<cfif StructKeyExists(url,"f")>
 	<cfset thisFile = application.file.get(url.p,url.f)>
 	<cfset title = thisFile.title>
 	<cfset cat = thisFile.category>
@@ -75,12 +75,12 @@
 						<a href="javascript:history.back();" class="cancel">Cancel</a>
 					</span>
 					
-					<h2 class="msg"><cfif isDefined("url.m")>Edit<cfelse>Upload new</cfif> file</h2>
+					<h2 class="msg"><cfif StructKeyExists(url,"m")>Edit<cfelse>Upload new</cfif> file</h2>
 				</div>
 				<div class="content">
 				 	
 					<form action="#cgi.script_name#" method="post" name="edit" id="edit" class="frm" enctype="multipart/form-data" onsubmit="return confirmSubmit();">
-						<cfif not isDefined("url.f")>
+						<cfif not StructKeyExists(url,"f")>
 						<p>
 						<label for="fileupload" class="req">File:</label>
 						<input type="file" name="fileupload" id="fileupload" value="#fileupload#" />
@@ -115,7 +115,7 @@
 						</cfscript>&nbsp;
 						</p><br />			
 						<label for="submit">&nbsp;</label>
-						<cfif isDefined("url.f")>
+						<cfif StructKeyExists(url,"f")>
 							<input type="submit" class="button" name="submit" id="submit" value="Update File" onclick="return confirmSubmit();" />
 							<input type="hidden" name="fileID" value="#url.f#" />
 						<cfelse>

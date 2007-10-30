@@ -30,7 +30,7 @@
 <body>
 <div id="header">
 
-	<cfif isDefined("session.loggedin") and session.loggedin>
+	<cfif StructKeyExists(session,"loggedin") and session.loggedin>
 	<div id="loggedin">
 		<img src="#application.settings.mapping#/images/user.gif" style="vertical-align:middle;"> #session.user.firstName# #session.user.lastName#
 		| <a href="#application.settings.mapping#/account.cfm" title="My Account"<cfif find('/account.cfm',cgi.script_name)> class="current"</cfif>>My Account</a>
@@ -76,15 +76,15 @@
 			<li><a href="#application.settings.mapping#/allmilestones.cfm" title="Milestones"<cfif find('/allmilestones.cfm',cgi.script_name)> class="current"</cfif>>Milestones</a></li>
 			<li><a href="#application.settings.mapping#/allissues.cfm" title="Issues"<cfif find('/allissues.cfm',cgi.script_name)> class="current"</cfif>>Issues</a></li>
 			</cfif>
-			<cfif isDefined("session.user.admin") and session.user.admin>
+			<cfif StructKeyExists(session.user,"admin") and session.user.admin>
 			<li style="float:right; margin-right:30px;"><a href="#application.settings.mapping#/admin.cfm" title="Admin"<cfif find('/admin.cfm',cgi.script_name)> class="current"</cfif>>Admin</a></li>
 			</cfif>
 			<cfif compare(attributes.projectid,'')>
 				<cfset userRole = application.role.get(session.user.userid,attributes.projectid)>
 				<cfif listFind('Owner,Admin',userRole.role)>
-					<li style="float:right;"><a href="#application.settings.mapping#/editProject.cfm?p=#attributes.projectid#" title="Settings"<cfif find('/editProject.cfm',cgi.script_name) and isDefined("url.p")> class="current"</cfif>>Settings</a></li>
+					<li style="float:right;"><a href="#application.settings.mapping#/editProject.cfm?p=#attributes.projectid#" title="Settings"<cfif find('/editProject.cfm',cgi.script_name) and StructKeyExists(url,"p")> class="current"</cfif>>Settings</a></li>
 				</cfif>
-			<li style="float:right;<cfif not isDefined("session.user.admin") or not session.user.admin> margin-right:30px;</cfif>"><a href="#application.settings.mapping#/people.cfm?p=#attributes.projectid#" title="People"<cfif find('/people.cfm',cgi.script_name)> class="current"</cfif>>People</a></li>
+			<li style="float:right;<cfif not StructKeyExists(session.user,"admin") or not session.user.admin> margin-right:30px;</cfif>"><a href="#application.settings.mapping#/people.cfm?p=#attributes.projectid#" title="People"<cfif find('/people.cfm',cgi.script_name)> class="current"</cfif>>People</a></li>
 			</cfif>
 		</ul>
 	</div>

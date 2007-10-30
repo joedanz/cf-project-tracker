@@ -1,11 +1,11 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfparam name="form.completed" default="0">
-<cfif isDefined("form.milestoneID")> <!--- update milestone --->
+<cfif StructKeyExists(form,"milestoneID")> <!--- update milestone --->
 	<cfset application.milestone.update(form.milestoneID,form.projectid,form.name,createDate(form.y,form.m,form.d),form.description,form.forID,form.completed)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Milestone',form.milestoneID,form.name,'edited')>
 	<cflocation url="milestones.cfm?p=#form.projectID#" addtoken="false">
-<cfelseif isDefined("form.projectID")> <!--- add milestone --->
+<cfelseif StructKeyExists(form,"projectID")> <!--- add milestone --->
 	<cfset newID = createUUID()>
 	<cfset application.milestone.add(newID,form.projectID,form.name,createDate(form.y,form.m,form.d),form.description,form.forID,form.completed,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Milestone',newID,form.name,'added')>
@@ -24,7 +24,7 @@
 <cfparam name="variables.isCompleted" default="false">
 <cfparam name="title_action" default="Add">
 
-<cfif isDefined("url.m")>
+<cfif StructKeyExists(url,"m")>
 	<cfset thisMilestone = application.milestone.get(url.p,url.m)>
 	<cfset thisDay = datePart("d",thisMilestone.dueDate)>
 	<cfset thisMonth = datePart("m",thisMilestone.dueDate)>
@@ -68,7 +68,7 @@
 						<a href="javascript:history.back();" class="cancel">Cancel</a>
 					</span>
 					
-					<h2 class="msg"><cfif isDefined("url.m")>Edit<cfelse>Add new</cfif> milestone &nbsp;<span style="font-size:.75em;font-weight:normal;color:##666;">Today is #DateFormat(Now(),"d mmm")#</h2>
+					<h2 class="msg"><cfif StructKeyExists(url,"m")>Edit<cfelse>Add new</cfif> milestone &nbsp;<span style="font-size:.75em;font-weight:normal;color:##666;">Today is #DateFormat(Now(),"d mmm")#</h2>
 				</div>
 				<div class="content">
 				 	
@@ -132,7 +132,7 @@
 						<label for="forwho">Who's Responsible?</label>
 						<select name="forID" id="forwho">
 							<cfloop query="projectUsers">
-							<option value="#userID#"<cfif isDefined("url.m")><cfif not compare(thisMilestone.forID,userID)> selected="selected"</cfif><cfelseif not compare(session.user.userid,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>
+							<option value="#userID#"<cfif StructKeyExists(url,"m")><cfif not compare(thisMilestone.forID,userID)> selected="selected"</cfif><cfelseif not compare(session.user.userid,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>
 							</cfloop>
 						</select>
 						</div>
@@ -144,7 +144,7 @@
 						
 						<div style="margin:10px 0;">
 						<label for="submit">&nbsp;</label>
-						<cfif isDefined("url.m")>
+						<cfif StructKeyExists(url,"m")>
 							<input type="submit" class="button" name="submit" id="submit" value="Update Milestone" onclick="return confirmSubmit();" />
 							<input type="hidden" name="milestoneID" value="#url.m#" />
 						<cfelse>

@@ -1,6 +1,6 @@
 <cfsetting enablecfoutputonly="true">
 
-<cfif isDefined("url.del")>
+<cfif StructKeyExists(url,"del")>
 	<cfset application.todolist.delete(url.p,url.del)>
 	<cfset application.todo.delete(url.p,url.del)>
 </cfif>

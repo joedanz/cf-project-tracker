@@ -6,7 +6,7 @@
 --->
 
 <!--- Because "template" is a reserved attribute for cfmodule, we allow templatename as well. --->
-<cfif isDefined("attributes.templatename")>
+<cfif StructKeyExists(attributes,"templatename")>
 	<cfset attributes.template = attributes.templatename>
 </cfif>
 <cfparam name="attributes.template">

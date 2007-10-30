@@ -1,18 +1,18 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfparam name="form.display" default="0">
-<cfif isDefined("form.projectID")> <!--- update project --->
+<cfif StructKeyExists(form,"projectID")> <!--- update project --->
 	<cfset application.project.update(form.projectid,form.name,form.description,form.display,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'edited')>
 	<cflocation url="project.cfm?p=#form.projectID#" addtoken="false">
-<cfelseif isDefined("form.submit")> <!--- add project --->
+<cfelseif StructKeyExists(form,"submit")> <!--- add project --->
 	<cfset newID = createUUID()>
 	<cfset application.project.add(newID,form.name,form.description,form.display,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,session.user.userid)>
 	<cfset application.role.add(newID,session.user.userid,'Owner')>
 	<cfset application.activity.add(createUUID(),newID,session.user.userid,'Project',newID,form.name,'added')>
 	<cfset session.user.projects = application.project.get(session.user.userid)>
 	<cflocation url="project.cfm?p=#newID#" addtoken="false">
-<cfelseif isDefined("url.del") and hash(url.p) eq url.ph> <!--- delete project --->
+<cfelseif StructKeyExists(url,"del") and hash(url.p) eq url.ph> <!--- delete project --->
 	<cfset application.project.delete(url.p)>
 	<cfset session.user.projects = application.project.get(session.user.userid)>
 	<cflocation url="index.cfm" addtoken="false">
@@ -29,7 +29,7 @@
 <cfparam name="svnpass" default="">
 <cfparam name="title_action" default="Add">
 
-<cfif isDefined("url.p")>
+<cfif StructKeyExists(url,"p")>
 	<cfset projID = url.p>
 	<cfset thisProject = application.project.get(session.user.userid,url.p)>
 	<cfset userRole = application.role.get(session.user.userid,url.p)>
@@ -87,7 +87,7 @@
 						<a href="javascript:history.back();" class="cancel">Cancel</a>
 					</span>
 					
-					<h2 class="project"><cfif isDefined("url.p")>Edit<cfelse>Create a new</cfif> project</h2>
+					<h2 class="project"><cfif StructKeyExists(url,"p")>Edit<cfelse>Create a new</cfif> project</h2>
 				</div>
 				<div class="content">
 				 	
@@ -145,7 +145,7 @@
 						</div>
 						</fieldset>
 						<label for="submit">&nbsp;</label>
-						<cfif isDefined("url.p")>
+						<cfif StructKeyExists(url,"p")>
 							<input type="submit" class="button" name="submit" id="submit" value="Update Project" />
 							<input type="hidden" name="projectID" value="#url.p#" />
 						<cfelse>
@@ -166,7 +166,7 @@
 	<!--- right column --->
 	<div class="right">
 
-		<cfif isDefined("url.p")>
+		<cfif StructKeyExists(url,"p")>
 		<div class="header"><h3 class="delete">Delete this project?</h3></div>
 		<div class="content">
 			Deleting a project immediately and permanently deletes all the messages, milestones, and to-do lists associated with this project. There is no Undo so make sure you're absolutely sure you want to delete this project.<br /><br />

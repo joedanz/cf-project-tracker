@@ -56,7 +56,7 @@ function RFind(substr,str) {
 <cfparam name="url.p" default="">
 <cfset project = application.project.get(session.user.userid,url.p)>
 
-<cfif isDefined("url.dl") and project.recordCount>
+<cfif StructKeyExists(url,"dl") and project.recordCount>
 	<cfset svnargs = "cat #project.svnurl##url.wd#/#url.f#">
 	<cfif compare(project.svnuser,'')>
 		<cfset svnargs = svnargs & ' --username #project.svnuser# --password #srssion.project.svnpass#'>

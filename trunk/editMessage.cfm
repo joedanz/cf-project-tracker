@@ -2,11 +2,11 @@
 
 <cfparam name="form.allowComments" default="0">
 <cfparam name="form.notifylist" default="">
-<cfif isDefined("form.messageID")> <!--- update message --->
+<cfif StructKeyExists(form,"messageID")> <!--- update message --->
 	<cfset application.message.update(form.messageID,form.projectid,form.title,form.category,form.message,form.milestoneID,form.allowComments,form.notifyList)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Message',form.messageID,form.title,'edited')>
 	<cflocation url="messages.cfm?p=#form.projectID#" addtoken="false">
-<cfelseif isDefined("form.projectID")> <!--- add message --->
+<cfelseif StructKeyExists(form,"projectID")> <!--- add message --->
 	<cfset newID = createUUID()>
 	<cfset application.message.add(newID,form.projectID,form.title,form.category,form.message,form.milestoneID,form.allowComments,session.user.userid,form.notifylist)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Message',newID,form.title,'added')>
@@ -26,7 +26,7 @@
 <cfparam name="variables.allowComments" default="1">
 <cfparam name="title_action" default="Add">
 
-<cfif isDefined("url.m")>
+<cfif StructKeyExists(url,"m")>
 	<cfif not compare(hash(url.m),url.mh)>
 		<cfset thisMessage = application.message.get(url.p,url.m)>
 		<cfset title = thisMessage.title>
@@ -108,7 +108,7 @@
 						<a href="javascript:history.back();" class="cancel">Cancel</a>
 					</span>
 					
-					<h2 class="msg"><cfif isDefined("url.m")>Edit<cfelse>Add new</cfif> message</h2>
+					<h2 class="msg"><cfif StructKeyExists(url,"m")>Edit<cfelse>Add new</cfif> message</h2>
 				</div>
 				<div class="content">
 				 	
@@ -160,9 +160,9 @@
 						<span id="notify" style="display:none;">
 						<ul class="nobullet">
 						<li><input type="checkbox" id="everyone" class="checkbox notoggle" onclick="notify_all();" /><label for="everyone" class="list b">Everyone</label></li>
-						<li><input type="checkbox" name="notifylist" class="checkbox" id="#session.user.userID#" value="#session.user.userID#"<cfif isDefined("url.m") and (listFind(valueList(notifyList.userid),session.user.userID))> checked="checked"</cfif> /><label for="#session.user.userID#" class="list">Myself</label>
+						<li><input type="checkbox" name="notifylist" class="checkbox" id="#session.user.userID#" value="#session.user.userID#"<cfif StructKeyExists(url,"m") and (listFind(valueList(notifyList.userid),session.user.userID))> checked="checked"</cfif> /><label for="#session.user.userID#" class="list">Myself</label>
 						<cfloop query="projectUsers">
-						<cfif compare(userID,session.user.userID)><li><input type="checkbox" name="notifylist" class="checkbox" id="#userID#" value="#userID#"<cfif not isDefined("url.m") or (listFind(valueList(notifyList.userid),userID))> checked="checked"</cfif> /><label for="#userID#" class="list">#firstName# #lastName#</label></li></cfif>
+						<cfif compare(userID,session.user.userID)><li><input type="checkbox" name="notifylist" class="checkbox" id="#userID#" value="#userID#"<cfif not StructKeyExists(url,"m") or (listFind(valueList(notifyList.userid),userID))> checked="checked"</cfif> /><label for="#userID#" class="list">#firstName# #lastName#</label></li></cfif>
 						</cfloop>
 						</ul>
 						</span>
@@ -175,7 +175,7 @@
 						</p>
 						
 						<label for="submit">&nbsp;</label>
-						<cfif isDefined("url.m")>
+						<cfif StructKeyExists(url,"m")>
 							<input type="submit" class="button" name="submit" id="submit" value="Update Message" onclick="return confirmSubmit();" />
 							<input type="hidden" name="messageID" value="#url.m#" />
 						<cfelse>
