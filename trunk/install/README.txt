@@ -1,6 +1,8 @@
 Project Tracker v1.0 BETA
 by Joe Danziger
 
+Initial Release: June 5, 2007
+
 This application was inspired by Basecamp (http://www.basecamphq.com) 
 put out by the 37signals crew.  It is being released as open source
 in response to the CFUnited contest to win a Wii.
