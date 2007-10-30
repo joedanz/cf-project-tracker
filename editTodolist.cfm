@@ -1,10 +1,10 @@
 <cfsetting enablecfoutputonly="true">
 
-<cfif isDefined("form.todolistID")> <!--- update todo list --->
+<cfif StructKeyExists(form,"todolistID")> <!--- update todo list --->
 	<cfset application.todolist.update(form.todolistID,form.projectid,form.title,form.description,form.milestoneID)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'To-Do List',form.projectID,form.title,'edited')>
 	<cflocation url="todos.cfm?p=#form.projectID#" addtoken="false">
-<cfelseif isDefined("form.submit")> <!--- add todo list --->
+<cfelseif StructKeyExists(form,"submit")> <!--- add todo list --->
 	<cfset newID = createUUID()>
 	<cfset application.todolist.add(newID,form.projectID,form.title,form.description,form.milestoneID,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'To-Do List',newID,form.title,'added')>
@@ -20,7 +20,7 @@
 <cfparam name="msID" default="">
 <cfparam name="title_action" default="Add">
 
-<cfif isDefined("url.t")>
+<cfif StructKeyExists(url,"t")>
 	<cfset thisTodolist = application.todolist.get(url.p,url.t)>
 	<cfset title = thisTodolist.title>
 	<cfset description = thisTodolist.description>
@@ -59,7 +59,7 @@
 						<a href="javascript:history.back();" class="cancel">Cancel</a>
 					</span>
 					
-					<h2 class="project"><cfif isDefined("url.p")>Edit<cfelse>Add new</cfif> to-do list</h2>
+					<h2 class="project"><cfif StructKeyExists(url,"t")>Edit<cfelse>Add new</cfif> to-do list</h2>
 				</div>
 				<div class="content">
 				 	
@@ -92,7 +92,7 @@
 						</select>
 						</p>						
 						<label for="submit">&nbsp;</label>
-						<cfif isDefined("url.t")>
+						<cfif StructKeyExists(url,"t")>
 							<input type="submit" class="button" name="submit" id="submit" value="Update To-Do List" />
 							<input type="hidden" name="todolistID" value="#url.t#" />
 						<cfelse>

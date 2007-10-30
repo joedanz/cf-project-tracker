@@ -3,13 +3,13 @@
 <cfparam name="url.p" default="">
 <cfset project = application.project.get(session.user.userid,url.p)>
 
-<cfif isDefined("url.c")> <!--- mark completed --->
+<cfif StructKeyExists(url,"c")> <!--- mark completed --->
 	<cfset application.milestone.markCompleted(url.c,url.p)>
 	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Milestone',url.c,url.ms,'marked completed')>
-<cfelseif isDefined("url.a")> <!--- mark active --->
+<cfelseif StructKeyExists(url,"a")> <!--- mark active --->
 	<cfset application.milestone.markActive(url.a,url.p)>
 	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Milestone',url.a,url.ms,'reactivated')>
-<cfelseif isDefined("url.d")> <!--- delete --->
+<cfelseif StructKeyExists(url,"d")> <!--- delete --->
 	<cfset application.milestone.remove(url.d,url.p)>
 	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Milestone',url.d,url.ms,'deleted')>
 </cfif>

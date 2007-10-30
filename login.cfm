@@ -20,7 +20,7 @@ a:link, a:visited {color:##00f;}</style>
 	
 <div id="login">
 	
-<cfif isDefined("error")>
+<cfif StructKeyExists(variables,"error")>
 <div class="alert b">#error#</div><br />
 </cfif>	
 	

@@ -1,13 +1,13 @@
 <cfsetting enablecfoutputonly="true" showdebugoutput="false">
 
-<cfif isDefined("url.a")>
+<cfif StructKeyExists(url,"a")>
 	<cfset application.role.add(url.p,url.a,url.r)>
-<cfelseif isDefined("form.addnew")>
+<cfelseif StructKeyExists(form,"addnew")>
 	<cfset newID = createUUID()>
 	<cfset application.user.create(newID,form.f,form.l,form.e,form.admin)>
 	<cfset application.role.add(form.p,newID,form.r)>
 	<cfset url.p = form.p>
-<cfelseif isDefined("url.d")>
+<cfelseif StructKeyExists(url,"d")>
 	<cfset application.role.remove(url.p,url.d)>
 </cfif>
 
@@ -42,7 +42,7 @@
 	</cfloop>
 </cfoutput>
 
-<cfif isDefined("url.a")>
+<cfif StructKeyExists(url,"a")>
 	<cfoutput>
 	<script type="text/javascript">
 		$('###url.a#').Highlight(2000, '##ffa');

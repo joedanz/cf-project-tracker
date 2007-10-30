@@ -1,6 +1,6 @@
 <cfsetting enablecfoutputonly="true">
 
-<cfif isDefined("url.df")>
+<cfif StructKeyExists(url,"df")>
 	<cfset thisFile = application.file.get(url.p,url.df)>
 	<cftry>
 	<cffile action="delete" file="#ExpandPath('./userfiles/')##url.p#/#thisFile.serverfilename#">

@@ -1,8 +1,8 @@
 <cfsetting enablecfoutputonly="true">
 
-<cfif isDefined("url.makeOwner")>
+<cfif StructKeyExists(url,"makeOwner")>
 	<cfset application.user.makeOwner(url.p,url.makeOwner)>
-<cfelseif isDefined("url.r")>
+<cfelseif StructKeyExists(url,"r")>
 	<cfset application.user.changeRole(url.p,url.u,url.r)>
 </cfif>
 

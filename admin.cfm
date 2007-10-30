@@ -5,7 +5,7 @@
 	<cfabort>
 </cfif>
 
-<cfif isDefined("form.submit")>
+<cfif StructKeyExists(form,"submit")>
 	<cfinvoke component="config.settings" method="setSettings">
 		<cfinvokeargument name="dsn" value="#application.settings.dsn#">
 		<cfinvokeargument name="app_title" value="#form.app_title#">

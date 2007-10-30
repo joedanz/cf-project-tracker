@@ -3,7 +3,7 @@
 <cfset applicationName = "project_tracker">
 <cfapplication name="#applicationName#" sessionManagement="true" loginstorage="session">
 
-<cfif not isDefined("application.init") or isDefined("url.reinit")>
+<cfif not StructKeyExists(application,"init") or StructKeyExists(url,"reinit")>
 
 	<!--- Get application settings depending on which server --->
 	<cfif not compare(cgi.server_name,'127.0.0.1')>
@@ -36,7 +36,7 @@
 	<cfset cfversion = majorVersion & "." & minorVersion>
 	<cfset application.isCF8 = server.coldfusion.productname is "ColdFusion Server" and cfversion gte 8>
 	<!--- check for Blue Dragon --->
-	<cfset application.isBD = isDefined("server.bluedragon")>
+	<cfset application.isBD = StructKeyExists(server,"bluedragon")>
 	
 	<cfset application.init = true>
 	
@@ -45,7 +45,7 @@
 <cfparam name="session.style" default="#application.settings.default_style#">
 
 <!--- check for logout --->
-<cfif isDefined("url.logout")>
+<cfif StructKeyExists(url,"logout")>
 	<cfset structDelete(session, "user")>
 	<cfset session.loggedin = false>
 	<cflogout>
@@ -55,20 +55,20 @@
 <cfif not findNoCase('/rss.cfm',cgi.script_name)>
 <cflogin>
 
-	<cfif NOT IsDefined("username")>
+	<cfif NOT StructKeyExists(form,"username")>
 		<cfinclude template="login.cfm">
 		<cfabort>
 	<cfelse>	
 		<!--- are we trying to logon? --->
 		<cfif not compare(trim(form.username),'') or not compare(trim(form.password),'')>
-			<cfset error="Your must enter your login info to continue!">
+			<cfset variables.error="Your must enter your login info to continue!">
 			<cfinclude template="login.cfm">
 			<cfabort>
 		<cfelse>
 			<!--- check user account against database table --->
 			<cfset thisUser = application.user.login(trim(form.username),trim(form.password))>
 			<cfif not structKeyExists(thisUser,"userid") or not compare(thisUser.userid,'')>
-				<cfset error="Your login was not accepted. Please try again!">
+				<cfset variables.error="Your login was not accepted. Please try again!">
 				<cfinclude template="login.cfm">
 				<cfabort>
 			<cfelse>
