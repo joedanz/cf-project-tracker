@@ -3,7 +3,7 @@
 <cfparam name="form.allowComments" default="0">
 <cfparam name="form.notifylist" default="">
 <cfif isDefined("form.messageID")> <!--- update message --->
-	<cfset application.message.update(form.messageID,form.projectid,form.title,form.category,form.message,form.milestoneID,form.allowComments)>
+	<cfset application.message.update(form.messageID,form.projectid,form.title,form.category,form.message,form.milestoneID,form.allowComments,form.notifyList)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Message',form.messageID,form.title,'edited')>
 	<cflocation url="messages.cfm?p=#form.projectID#" addtoken="false">
 <cfelseif isDefined("form.projectID")> <!--- add message --->
@@ -155,7 +155,7 @@
 						<p>
 						<span id="notifylinkbg" class="collapsed">
 						<label for="notifylink">Notify People:</label>
-						<a href="##" onclick="showNotify();" id="notifylink"> Send copies of this message to...</a>
+						<a href="##" onclick="showNotify();" id="notifylink"> Send a copy of message comments &amp; updates to...</a>
 						</span>
 						<span id="notify" style="display:none;">
 						<ul class="nobullet">

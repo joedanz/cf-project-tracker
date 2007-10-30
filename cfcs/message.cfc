@@ -126,21 +126,21 @@
 			<cfset sText = reReplace(sText, "<[^>]*>", "", "all")>
 			<cfset sText = replaceNoCase(sText,"&nbsp;","","ALL")>
 			<cfloop query="qMailUsers">
-				<cfquery datasource="#variables.dsn#">
-					INSERT INTO #variables.tableprefix#message_notify (messageID,projectID,userID)
-						VALUES (<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">,
-								<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">,
-								<cfqueryparam cfsqltype="cf_sql_varchar" value="#userID#" maxlength="35">)
-				</cfquery>
-				<cfmail from="#session.user.email#" to="#email#" subject="New #qProject.name# Message: #arguments.title#">A new #qProject.name# message has been posted in category #arguments.category# entitled:
+				<cfset addNotify(arguments.messageID,arguments.projectID,userID)>
+				<cfif compare(userID,session.user.userID)> <!--- don't send to message creator --->
+					<cfmail from="#session.user.email#" to="#email#" subject="New #qProject.name# Message: #arguments.title#">A new #qProject.name# message has been posted in category #arguments.category# entitled:
 #arguments.title#
-
+	
 #sText#
-
+	
 To view the full message and leave comments, visit this link:
 #application.settings.rootURL##application.settings.mapping#/message.cfm?p=#arguments.projectID#&m=#arguments.messageID#
-				</cfmail>
+					</cfmail>
+				</cfif>
 			</cfloop>
+		</cfif>
+		<cfif not listFind(valueList(arguments.notifyList),session.user.userID)>
+			<cfset application.message.addNotify(arguments.messageID,arguments.projectID,session.user.userID)>
 		</cfif>
 		<cfreturn true>
 	</cffunction>	
@@ -154,8 +154,19 @@ To view the full message and leave comments, visit this link:
 		<cfargument name="message" type="string" required="true">
 		<cfargument name="milestoneID" type="string" required="true">
 		<cfargument name="allowcomments" type="numeric" required="true">
-		<cfset var qProject = application.project.get(arguments.projectID)>		
-		<cfset var qMailUsers = application.message.getNotify(arguments.projectID,arguments.messageID)>
+		<cfargument name="notifyList" type="string" required="true">
+		<cfset var qProject = application.project.get(arguments.projectID)>
+		<cfset var qMailUsers = "">
+		
+		<!--- clear and repopulate message notify list --->
+		<cfset application.message.removeNotify(arguments.projectID,arguments.messageID)>
+		<cfif listLen(arguments.notifylist)>
+			<cfloop list="#arguments.notifyList#" index="i">
+				<cfset application.message.addNotify(arguments.messageID,arguments.projectID,i)>
+			</cfloop>
+		</cfif>
+		<cfset qMailUsers = application.message.getNotify(arguments.projectID,arguments.messageID)>
+		
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#messages 
 				SET title = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="120">,
@@ -166,12 +177,15 @@ To view the full message and leave comments, visit this link:
 				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
 					AND messageid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">
 		</cfquery>
+		
 		<cfloop query="qMailUsers">
-			<cfmail from="#session.user.email#" to="#email#" subject="#qProject.name# Message Updated">The message entitled #arguments.title# has been updated:
+			<cfif compare(userID,session.user.userID)> <!--- don't notify message updater --->
+				<cfmail from="#session.user.email#" to="#email#" subject="#qProject.name# Message Updated">The message entitled #arguments.title# has been updated:
 
 To view the full message and leave comments, visit this link:
 #application.settings.rootURL##application.settings.mapping#/message.cfm?p=#arguments.projectID#&m=#arguments.messageID#
 				</cfmail>
+			</cfif>
 		</cfloop>
 		<cfreturn true>
 	</cffunction>
@@ -199,6 +213,20 @@ To view the full message and leave comments, visit this link:
 		<cfreturn true>
 	</cffunction>		
 
+	<cffunction name="addNotify" access="public" returnType="boolean" output="false"
+				hint="Adds message notification for a user.">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="messageID" type="uuid" required="true">
+		<cfargument name="userID" type="uuid" required="true">
+		<cfquery datasource="#variables.dsn#">
+			INSERT INTO #variables.tableprefix#message_notify (messageID,projectID,userID)
+				VALUES (<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#userID#" maxlength="35">)
+		</cfquery>
+		<cfreturn true>
+	</cffunction>
+
 	<cffunction name="getNotify" access="public" returnType="boolean" output="false"
 				hint="Gets users for message notification.">
 		<cfargument name="projectID" type="uuid" required="true">
@@ -216,12 +244,14 @@ To view the full message and leave comments, visit this link:
 				hint="Deletes a message notification.">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="messageID" type="uuid" required="true">
-		<cfargument name="userID" type="uuid" required="true">
+		<cfargument name="userID" type="uuid" required="false" default="">
 		<cfquery datasource="#variables.dsn#">
 			DELETE FROM #variables.tableprefix#message_notify
 			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">
 				AND projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
-				AND userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
+				<cfif compare(arguments.userID,'')>
+					AND userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
+				</cfif>
 		</cfquery>
 		<cfreturn true>
 	</cffunction>		
