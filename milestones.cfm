@@ -54,7 +54,7 @@
 							<cfif not compare(project.role,'Read-Only')>
 								<h3>#name#</h3>
 							<cfelse>
-								<h3><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&c=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;" /> #name# <span style="font-size:.65em;font-weight:normal;">[<a href="editMilestone.cfm?p=#url.p#&m=#milestoneid#">edit</a>]</span></h3>
+								<h3><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&c=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;" /> <a href="milestone.cfm?p=#url.p#&m=#milestoneid#">#name#</a> <span style="font-size:.65em;font-weight:normal;">[<a href="editMilestone.cfm?p=#url.p#&m=#milestoneid#">edit</a>]</span></h3>
 							</cfif>
 							<cfif compare(description,'')><div class="desc">#description#</div></cfif>
 							
@@ -100,9 +100,9 @@
 							<cfif not compare(project.role,'Read-Only')>
 								<h3>#name#</h3>
 							<cfelse>
-							<h3><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&c=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;" /> #name# <span style="font-size:.65em;font-weight:normal;">[<a href="editMilestone.cfm?p=#url.p#&m=#milestoneid#">edit</a>]</span></h3>
+							<h3><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&c=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;" /> <a href="milestone.cfm?p=#url.p#&m=#milestoneid#">#name#</a> <span style="font-size:.65em;font-weight:normal;">[<a href="editMilestone.cfm?p=#url.p#&m=#milestoneid#">edit</a>]</span></h3>
 							</cfif>
-							<!---<cfif compare(description,'')><div class="desc">#description#</div></cfif>--->
+							<cfif compare(description,'')><div class="desc">#description#</div></cfif>
 							
 							<cfquery name="msgs" dbtype="query">
 								select messageid,title,stamp,firstName,lastName,commentcount from messages where milestoneid = '#milestoneid#'
@@ -145,7 +145,7 @@
 							<cfif not compare(project.role,'Read-Only')>
 								<h3>#name#</h3>
 							<cfelse>
-								<h3><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&a=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;" checked="checked" /> #name# <span style="font-size:.65em;font-weight:normal;">[<a href="editMilestone.cfm?p=#url.p#&m=#milestoneid#">edit</a>]</span></h3>
+								<h3><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&a=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;" checked="checked" /> <a href="milestone.cfm?p=#url.p#&m=#milestoneid#">#name#</a> <span style="font-size:.65em;font-weight:normal;">[<a href="editMilestone.cfm?p=#url.p#&m=#milestoneid#">edit</a>]</span></h3>
 							</cfif>
 							<cfif compare(description,'')><div class="desc">#description#</div></cfif>
 							

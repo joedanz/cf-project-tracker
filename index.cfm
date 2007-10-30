@@ -69,7 +69,7 @@ $(document).ready(function(){
 							<cfloop query="milestones_overdue">
 								<cfset daysago = DateDiff("d",dueDate,Now())>
 							<li><span class="b" style="color:##f00;"><cfif daysago eq 0>Today<cfelse>#daysago# day<cfif daysago neq 1>s</cfif> ago</cfif>:</span> 
-								<a href="milestones.cfm?p=#projectID#">#name#</a>
+								<a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a>
 								<span style="font-size:.9em;">(<a href="project.cfm?p=#projectID#" class="b">#projName#</a><cfif compare(lastName,'')> | #firstName# #lastName# is responsible</cfif>)</span>
 							</li>
 							</cfloop>
@@ -86,7 +86,7 @@ $(document).ready(function(){
 							<cfloop query="milestones_upcoming">
 								<cfset daysago = DateDiff("d",Now(),dueDate)>
 							<li><span class="b"><cfif daysago eq 0>Tomorrow<cfelse>#daysago+1# days away</cfif>:</span> 
-								<a href="milestones.cfm?p=#projectID#">#name#</a>
+								<a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a>
 								<span style="font-size:.9em;">(<a href="project.cfm?p=#projectID#" class="b">#projName#</a><cfif compare(lastName,'')> | #firstName# #lastName# is responsible</cfif>)</span>
 							</li>
 							</cfloop>
