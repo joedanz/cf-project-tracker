@@ -103,7 +103,7 @@
             <ul>
                 <li><a href="##user"><span>General Info</span></a></li>
 				<li><a href="##account"><span>Account Info</span></a></li>
-                <cfif application.isCF8>
+                <cfif application.isCF8 or application.isBD>
 					<li><a href="##avatar"><span>Avatar</span></a></li>
 				</cfif>
                 <li><a href="##skin"><span>Style</span></a></li>
@@ -149,7 +149,7 @@
 					<input type="submit" class="button" name="submit2" id="submit2" value="Update Account" onclick="return confirmSubmit2();" />				
 				</form>								
             </div>
-			<cfif application.isCF8>			
+			<cfif application.isCF8 or application.isBD>			
             <div id="avatar">
 				<form action="#cgi.script_name#" method="post" name="edit" id="avatar" class="frm" enctype="multipart/form-data">
 					<p>
