@@ -140,7 +140,7 @@ To view the full message and leave comments, visit this link:
 			</cfloop>
 		</cfif>
 		<cfif not listFind(valueList(arguments.notifyList),session.user.userID)>
-			<cfset application.message.addNotify(arguments.messageID,arguments.projectID,session.user.userID)>
+			<cfset application.message.addNotify(arguments.projectID,arguments.messageID,session.user.userID)>
 		</cfif>
 		<cfreturn true>
 	</cffunction>	
@@ -162,10 +162,9 @@ To view the full message and leave comments, visit this link:
 		<cfset application.message.removeNotify(arguments.projectID,arguments.messageID)>
 		<cfif listLen(arguments.notifylist)>
 			<cfloop list="#arguments.notifyList#" index="i">
-				<cfset application.message.addNotify(arguments.messageID,arguments.projectID,i)>
+				<cfset application.message.addNotify(arguments.projectID,arguments.messageID,i)>
 			</cfloop>
 		</cfif>
-		<cfset qMailUsers = application.message.getNotify(arguments.projectID,arguments.messageID)>
 		
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#messages 
@@ -177,7 +176,8 @@ To view the full message and leave comments, visit this link:
 				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
 					AND messageid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">
 		</cfquery>
-		
+
+		<cfset qMailUsers = application.message.getNotify(arguments.projectID,arguments.messageID)>
 		<cfloop query="qMailUsers">
 			<cfif compare(userID,session.user.userID)> <!--- don't notify message updater --->
 				<cfmail from="#session.user.email#" to="#email#" subject="#qProject.name# Message Updated">The message entitled #arguments.title# has been updated:
@@ -227,17 +227,18 @@ To view the full message and leave comments, visit this link:
 		<cfreturn true>
 	</cffunction>
 
-	<cffunction name="getNotify" access="public" returnType="boolean" output="false"
+	<cffunction name="getNotify" access="public" returnType="query" output="false"
 				hint="Gets users for message notification.">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="messageID" type="uuid" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfset var qGetNotify = "">
+		<cfquery name="qGetNotify" datasource="#variables.dsn#">
 			SELECT u.userID,u.email FROM #variables.tableprefix#message_notify mn
 				LEFT JOIN #variables.tableprefix#users u ON mn.userID = u.userID
 			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">
 				AND projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
-		<cfreturn true>
+		<cfreturn qGetNotify>
 	</cffunction>		
 
 	<cffunction name="removeNotify" access="public" returnType="boolean" output="false"
