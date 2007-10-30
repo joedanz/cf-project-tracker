@@ -10,6 +10,10 @@
 <cfquery name="arch_projects" dbtype="query">
 	select * from projects where status = 'Archived'
 </cfquery>
+<cfif not projects.recordCount>
+	<cfset QueryAddRow(projects)>
+	<cfset QuerySetCell(projects, "projectID", "0")>
+</cfif>
 <cfset milestones_overdue = application.milestone.get('','','overdue','',valueList(projects.projectID))>
 <cfset milestones_upcoming = application.milestone.get('','','upcoming','',valueList(projects.projectID))>
 
