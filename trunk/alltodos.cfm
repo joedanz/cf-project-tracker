@@ -10,6 +10,10 @@
 <cfquery name="arch_projects" dbtype="query">
 	select * from projects where status = 'Archived'
 </cfquery>
+<cfif not projects.recordCount>
+	<cfset QueryAddRow(projects)>
+	<cfset QuerySetCell(projects, "projectID", "0")>
+</cfif>
 <cfset todolists = application.todolist.get('','',valueList(projects.projectID))>
 <cfset todos = application.todo.get('','','','rank,added','',valueList(projects.projectID))>
 
@@ -32,7 +36,7 @@
 				 	<div class="wrapper">
 					 	
 					 	
-					 	
+					<cfif todolists.recordCount>
 					 	
 					<div class="listWrapper" id="lw">
 					<cfloop query="todolists">
@@ -82,9 +86,9 @@
 					</cfloop>
 					</div>
 
-					 	
-					 	
-					 	
+					<cfelse>
+						<div class="warn">You have no to-do items.</div> 	
+					</cfif>					 	
 					 	
 					 	
 					</div>
