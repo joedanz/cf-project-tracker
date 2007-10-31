@@ -17,6 +17,8 @@
 		<cfset application.todo.markCompleted(url.t,url.i,'false')>
 	</cfcase>		
 	<cfcase value="redraw_completed">
+		<cfset thread = CreateObject("java", "java.lang.Thread")>
+		<cfset thread.sleep(200)>
 		<cfset todos_completed = application.todo.get(url.p,url.t,'true')>
 		<cfset projectUsers = application.project.projectUsers(url.p)>
 		<cfoutput query="todos_completed">
@@ -46,10 +48,8 @@
 		</cfoutput>
 	</cfcase>
 	<cfcase value="redraw_incomplete">
-		<cfif StructKeyExists(url,"delay")>
-			<cfset thread = CreateObject("java", "java.lang.Thread")>
-			<cfset thread.sleep(250)>
-		</cfif>
+		<cfset thread = CreateObject("java", "java.lang.Thread")>
+		<cfset thread.sleep(200)>
 		<cfset todos_notcompleted = application.todo.get(url.p,url.t,'false')>
 		<cfset projectUsers = application.project.projectUsers(url.p)>
 		<cfoutput query="todos_notcompleted">
