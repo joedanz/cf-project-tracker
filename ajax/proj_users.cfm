@@ -2,13 +2,19 @@
 
 <cfif StructKeyExists(url,"a")>
 	<cfset application.role.add(url.p,url.a,url.r)>
+	<cfset thread = CreateObject("java", "java.lang.Thread")>
+	<cfset thread.sleep(250)>	
 <cfelseif StructKeyExists(form,"addnew")>
 	<cfset newID = createUUID()>
 	<cfset application.user.create(newID,form.f,form.l,form.e,form.admin)>
 	<cfset application.role.add(form.p,newID,form.r)>
+	<cfset thread = CreateObject("java", "java.lang.Thread")>
+	<cfset thread.sleep(250)>
 	<cfset url.p = form.p>
 <cfelseif StructKeyExists(url,"d")>
 	<cfset application.role.remove(url.p,url.d)>
+	<cfset thread = CreateObject("java", "java.lang.Thread")>
+	<cfset thread.sleep(250)>	
 </cfif>
 
 <cfset projectUsers = application.project.projectUsers(url.p)>
