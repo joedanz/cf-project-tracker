@@ -46,6 +46,10 @@
 		</cfoutput>
 	</cfcase>
 	<cfcase value="redraw_incomplete">
+		<cfif StructKeyExists(url,"delay")>
+			<cfset thread = CreateObject("java", "java.lang.Thread")>
+			<cfset thread.sleep(250)>
+		</cfif>
 		<cfset todos_notcompleted = application.todo.get(url.p,url.t,'false')>
 		<cfset projectUsers = application.project.projectUsers(url.p)>
 		<cfoutput query="todos_notcompleted">

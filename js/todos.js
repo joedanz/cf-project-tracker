@@ -1,8 +1,8 @@
-function redraw_incomplete(projectid,todolistid,todoid,type) {
+function redraw_incomplete(projectid,todolistid,todoid,type,delay) {
     $.ajax({
 		type: 'get',
 		url: './ajax/todo.cfm',
-		data: 'action=redraw_incomplete&p=' + projectid + '&t=' + todolistid + '&i=' + todoid + '&type=' + type,
+		data: 'action=redraw_incomplete&p=' + projectid + '&t=' + todolistid + '&i=' + todoid + '&type=' + type + '&delay=' + delay,
 		success: function(txt){
 		     $('#todoitems' + todolistid).html(txt);
 		}
@@ -37,14 +37,14 @@ function mark_incomplete(projectid,todolistid,todoid) {
 		url: './ajax/todo.cfm',
 		data: 'action=mark_incomplete&t=' + todolistid + '&i=' + todoid
 	});
-	redraw_incomplete(projectid,todolistid,todoid,'update');
+	redraw_incomplete(projectid,todolistid,todoid,'update','false');
 }
 
 function add_item(projectid,todolistid) {
 	var newitem = $('#ta' + todolistid).val();
 	var forwho = $('#forwho' + todolistid).val();
 	add_todo_ajax(projectid,todolistid,newitem,forwho);
-	redraw_incomplete(projectid,todolistid,'','add');
+	redraw_incomplete(projectid,todolistid,'','add','true');
 	$('#ta' + todolistid).val(''); $('#ta' + todolistid).focus();
 }
 
@@ -61,7 +61,7 @@ function update_item(projectid,todolistid,todoid,completed) {
 	var forwho = $('#forwho' + todoid).val();
 	update_todo_ajax(projectid,todolistid,todoid,newitem,forwho);
 	if (completed == 'incomplete') {
-		redraw_incomplete(projectid,todolistid,todoid,'update');	
+		redraw_incomplete(projectid,todolistid,todoid,'update','false');	
 	} else if (completed == 'complete') {
 		redraw_completed(projectid,todolistid,todoid,'update');
 	}
