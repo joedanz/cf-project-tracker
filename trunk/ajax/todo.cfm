@@ -49,7 +49,7 @@
 	</cfcase>
 	<cfcase value="redraw_incomplete">
 		<cfset thread = CreateObject("java", "java.lang.Thread")>
-		<cfset thread.sleep(200)>
+		<cfset thread.sleep(250)>
 		<cfset todos_notcompleted = application.todo.get(url.p,url.t,'false')>
 		<cfset projectUsers = application.project.projectUsers(url.p)>
 		<cfoutput query="todos_notcompleted">
