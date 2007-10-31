@@ -21,10 +21,12 @@ settings.  You can name your database whatever you'd like but make
 sure to match the settings in the config files.
 
 UPGRADING:
-To upgrade, simply copy the lates files over the existing ones.
+To upgrade, simply copy the latest files over the existing ones.
 You may need to reinitialize you app by adding a "?reinit" on
 the end of a URL.  All of the settings are contained in the 
-config directory or in the database.
+config directory and in the database.  You should keep your 
+existing config files and copy them back on top of the newly
+installed ones.
 
 SUBVERSION NOTES:
 There is a Subversion repository browser and code browser.  This 
