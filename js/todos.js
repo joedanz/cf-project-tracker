@@ -8,6 +8,7 @@ function redraw_incomplete(projectid,todolistid,todoid,type) {
 		}
 	});
 }
+
 function redraw_completed(projectid,todolistid,todoid) {
     $.ajax({
 		type: 'get',
@@ -46,6 +47,7 @@ function add_item(projectid,todolistid) {
 	redraw_incomplete(projectid,todolistid,'','add');
 	$('#ta' + todolistid).val(''); $('#ta' + todolistid).focus();
 }
+
 function add_todo_ajax(projectid,todolistid,newitem,forwho) {
     $.ajax({
 		type: 'post',
@@ -64,6 +66,7 @@ function update_item(projectid,todolistid,todoid,completed) {
 		redraw_completed(projectid,todolistid,todoid,'update');
 	}
 }
+
 function update_todo_ajax(projectid,todolistid,todoid,newitem,forwho) {
     $.ajax({
 		type: 'post',
@@ -79,6 +82,7 @@ function delete_li(projectid,todolistid,todoid) {
 		$('#' + todoid).DropOutDown(500);
 	} else return false;
 }
+
 function delete_todo_ajax(projectid,todolistid,todoid) {
     $.ajax({
 		type: 'get',
