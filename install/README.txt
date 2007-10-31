@@ -57,3 +57,6 @@ http://amazon.com/gp/registry/wishlist/1X4EGLWAC43FJ/102-5824999-1765764
 
 PROJECT HOME:
 http://projecttracker.riaforge.com 
+
+SVN REPOSITORY:
+http://svn.riaforge.org/projecttracker
