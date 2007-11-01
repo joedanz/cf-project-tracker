@@ -139,7 +139,7 @@ To view the full message and leave comments, visit this link:
 				</cfif>
 			</cfloop>
 		</cfif>
-		<cfif not listFind(valueList(arguments.notifyList),session.user.userID)>
+		<cfif not listFind(arguments.notifyList,session.user.userID)>
 			<cfset application.message.addNotify(arguments.projectID,arguments.messageID,session.user.userID)>
 		</cfif>
 		<cfreturn true>
