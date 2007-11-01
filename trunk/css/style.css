@@ -92,6 +92,11 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 	font-size:1.5em;
 }
 
+#container .left .main .content .wrapper .overdue {
+	background-color: #ffd6d6;
+	padding:5px;
+}
+
 #container .left .main .content .wrapper .milestone h3 {
 	font-size:1.5em;
 }
