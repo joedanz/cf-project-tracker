@@ -64,6 +64,7 @@ $(document).ready(function(){
 					<div class="wrapper">
 
 						<cfif milestones_overdue.recordCount>
+						<div class="overdue">
 						<div class="mb5 b" style="color:##f00;border-bottom:1px solid ##f00;">Late Milestones</div>
 						<ul class="nobullet">
 							<cfloop query="milestones_overdue">
@@ -73,7 +74,8 @@ $(document).ready(function(){
 								<span style="font-size:.9em;">(<a href="project.cfm?p=#projectID#" class="b">#projName#</a><cfif compare(lastName,'')> | #firstName# #lastName# is responsible</cfif>)</span>
 							</li>
 							</cfloop>
-						</ul><br />
+						</ul>
+						</div><br />
 						</cfif>
 						
 						<cfif milestones_upcoming.recordCount>
