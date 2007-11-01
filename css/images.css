@@ -1,60 +1,60 @@
 #container .left .main .header h2.activity {
-	background:url(../images/activity.gif) no-repeat;
+	background:url(../images/activity.gif) no-repeat 0 50%;
 	padding-left:28px;
 }
 
 #container .left .main .header h2.admin {
-	background:url(../images/gear.gif) no-repeat;
+	background:url(../images/gear.gif) no-repeat 0 50%;
 	padding-left:28px;
 }
 
 #container .left .main .header h2.milestone {
-	background:url(../images/milestone.gif) no-repeat;
+	background:url(../images/milestone.gif) no-repeat 0 50%;
 	padding-left:28px;
 }
 
 #container .left .main .header h2.files {
-	background:url(../images/files.gif) no-repeat;
+	background:url(../images/files.gif) no-repeat 0 50%;
 	padding-left:28px;
 }
 
 #container .left .main .header h2.issues {
-	background:url(../images/issues.gif) no-repeat;
+	background:url(../images/issues.gif) no-repeat 0 50%;
 	padding-left:28px;
 }
 
 #container .left .main .header h2.msg {
-	background:url(../images/messages.gif) no-repeat;
+	background:url(../images/messages.gif) no-repeat 0 50%;
 	padding-left:28px;
 }
 
 #container .left .main .header h2.overview {
-	background:url(../images/overview.gif) no-repeat;
+	background:url(../images/overview.gif) no-repeat 0 50%;
 	padding-left:28px;
 }
 
 #container .left .main .header h2.people {
-	background:url(../images/users.gif) no-repeat;
+	background:url(../images/users.gif) no-repeat 0 50%;
 	padding-left:28px;
 }
 
 #container .left .main .header h2.project {
-	background:url(../images/project.gif) no-repeat;
+	background:url(../images/project.gif) no-repeat 0 50%;
 	padding-left:28px;
 }
 
 #container .left .main .header h2.svn {
-	background:url(../images/svn.gif) no-repeat;
+	background:url(../images/svn.gif) no-repeat 0 50%;
 	padding-left:28px;
 }
 
 #container .left .main .header h2.todo {
-	background:url(../images/clipboard.gif) no-repeat;
+	background:url(../images/clipboard.gif) no-repeat 0 50%;
 	padding-left:28px;
 }
 
 #container .left .main .header h2.user {
-	background:url(../images/people.gif) no-repeat;
+	background:url(../images/people.gif) no-repeat 0 50%;
 	padding-left:28px;
 }
 
@@ -65,90 +65,90 @@
 }
 
 .add {
-	background: url(../images/add.gif) no-repeat;
+	background: url(../images/add.gif) no-repeat 0 50%;
 	padding-left:20px;
 }
 
 .alert {
-	background: url(../images/alert.gif) no-repeat;
+	background: url(../images/alert.gif) no-repeat 0 50%;
 	padding-left:20px;
 }
 
 .back {
-	background: url(../images/back.gif) no-repeat;
+	background: url(../images/back.gif) no-repeat 0 50%;
 	padding-left:20px;
 }
 
 .cancel {
-	background: url(../images/cancel.gif) no-repeat;
+	background: url(../images/cancel.gif) no-repeat 0 50%;
 	padding-left:20px;
 }
 
 .check {
-	background: url(../images/ok_16x16.gif) no-repeat;
+	background: url(../images/ok_16x16.gif) no-repeat 0 50%;
 	padding-left:20px;
 }
 
 .close {
-	background: url(../images/close.gif) no-repeat;
+	background: url(../images/close.gif) no-repeat 0 50%;
 	padding-left:20px;
 }
 
 .comment {
-	background: url(../images/comments.gif) no-repeat;
+	background: url(../images/comments.gif) no-repeat 0 50%;
 	padding-left:20px;
 }
 
 .delete {
-	background: url(../images/trash.gif) no-repeat;
+	background: url(../images/trash.gif) no-repeat 0 50%;
 	padding-left:20px;
 }
 
 .download {
-	background: url(../images/files_sm.gif) no-repeat;
+	background: url(../images/files_sm.gif) no-repeat 0 50%;
 	padding-left:20px;
 }
 
 .drag {
-	background: url(../images/drag.gif) no-repeat;
+	background: url(../images/drag.gif) no-repeat 0 50%;
 	padding-left:20px;
 }
 
 .edit {
-	background: url(../images/edit.gif) no-repeat;
+	background: url(../images/edit.gif) no-repeat 0 50%;
 	padding-left:20px;
 }
 
 .feed {
-	background: url(../images/feed.gif) no-repeat;
+	background: url(../images/feed.gif) no-repeat 0 50%;
 	padding-left:20px;
 }
 
 .mstone {
-	background: url(../images/milestone16.gif) no-repeat;
+	background: url(../images/milestone16.gif) no-repeat 0 50%;
 	padding-left:20px;
 }
 
 .posted {
-	background: url(../images/time.gif) no-repeat;
+	background: url(../images/time.gif) no-repeat 0 50%;
 	padding-left:20px;
 }
 
 .reorder {
-	background: url(../images/reorder.gif) no-repeat;
+	background: url(../images/reorder.gif) no-repeat 0 50%;
 	padding-left:20px;
 }
 
 .warn {
-	background: url(../images/warn.gif) no-repeat;
+	background: url(../images/warn.gif) no-repeat 0 50%;
 	padding-left:20px;
 }
 
 .collapsed {
-	background: url(../images/menu-collapsed.gif) no-repeat;
+	background: url(../images/menu-collapsed.gif) no-repeat 0 50%;
 	padding-left:15px;
 }
 .expanded {
-	background: url(../images/menu-expanded.gif) no-repeat;
+	background: url(../images/menu-expanded.gif) no-repeat 0 50%;
 	padding-left:15px;
 }
