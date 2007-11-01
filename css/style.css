@@ -1,6 +1,12 @@
 body{
 	font-family: Trebuchet MS, Verdana, Geneva, Arial, Helvetica, sans-serif;
 	background-color:#e5e5e5;
+	font-size: small;
+}
+
+* html body {
+	font-size: x-small; /* for IE5/Win */
+	f\ont-size: small; /* for other IE versions */
 }
 
 h2 { font-size:1.5em; font-weight:bold; }
@@ -57,7 +63,7 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 }
 
 #container .left .main .header h2 {
-	font-size:1.5em;
+	font-size:1.4em;
 }
 
 #container .left .main .header .rightmenu {
