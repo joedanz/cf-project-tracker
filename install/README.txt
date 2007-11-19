@@ -26,7 +26,9 @@ You may need to reinitialize you app by adding a "?reinit" on
 the end of a URL.  All of the settings are contained in the 
 config directory and in the database.  You should keep your 
 existing config files and copy them back on top of the newly
-installed ones.
+installed ones.  
+Specific database changes made since launch:
+  1) "detail" in the pt_issues table is now a text datatype.
 
 SUBVERSION NOTES:
 There is a Subversion repository browser and code browser.  This 

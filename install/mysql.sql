@@ -57,7 +57,7 @@ CREATE TABLE `pt_issues` (
   `projectID` varchar(35) default NULL,
   `shortID` varchar(7) default NULL,
   `issue` varchar(120) default NULL,
-  `detail` varchar(2000) default NULL,
+  `detail` text default NULL,
   `type` varchar(11) default NULL,
   `severity` varchar(10) default NULL,
   `status` varchar(6) default NULL,
