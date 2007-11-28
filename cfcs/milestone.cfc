@@ -39,13 +39,17 @@
 			</cfif>
 			<cfswitch expression="#arguments.type#">
 				<cfcase value="overdue">
-					AND dueDate < #Now()# AND completed IS NULL
+					AND dueDate < #CreateODBCDate(Now())# AND completed IS NULL
 					ORDER BY dueDate
 				</cfcase>
 				<cfcase value="upcoming">
-					AND dueDate > #Now()# AND completed IS NULL
+					AND dueDate >= #CreateODBCDate(Now())# AND completed IS NULL
 					<cfif compare(arguments.limit,'')>
-						AND dueDate <= #DateAdd("m",arguments.limit,Now())#
+						<cfif not compare(arguments.limit,'d14')>
+							AND dueDate <= #DateAdd("d",14,CreateODBCDate(Now()))#
+						<cfelse>
+							AND dueDate <= #DateAdd("m",arguments.limit,CreateODBCDate(Now()))#
+						</cfif>
 					</cfif>
 					ORDER BY dueDate
 				</cfcase>

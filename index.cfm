@@ -16,7 +16,7 @@
 </cfif>
 <cfset activity = application.activity.get('',valueList(projects.projectID),'true')>
 <cfset milestones_overdue = application.milestone.get('','','overdue','',valueList(projects.projectID))>
-<cfset milestones_upcoming = application.milestone.get('','','upcoming','1',valueList(projects.projectID))>
+<cfset milestones_upcoming = application.milestone.get('','','upcoming','d14',valueList(projects.projectID))>
 <cfset issues = application.issue.get('','','Open',valueList(projects.projectID))>
 
 <!--- Loads header/footer --->
@@ -81,13 +81,13 @@ $(document).ready(function(){
 						<cfif milestones_upcoming.recordCount>
 						<div class="mb5 b" style="border-bottom:1px solid ##000;">
 							
-						<span style="float:right;font-size:.75em;"><a href="##" onclick="all_upcoming_milestones('1');$(this).addClass('subactive');$('##threem').removeClass('subactive');$('##all').removeClass('subactive');" class="sublink subactive" id="onem">1 month</a> | <a href="##" onclick="all_upcoming_milestones('3');$('##onem').removeClass('subactive');$(this).addClass('subactive');$('##all').removeClass('subactive');" class="sublink" id="threem">3 months</a> | <a href="##" onclick="all_upcoming_milestones('');$('##onem').removeClass('subactive');$('##threem').removeClass('subactive');$(this).addClass('subactive');" class="sublink" id="all">All</a></span>
+						<span style="float:right;font-size:.75em;"><a href="##" onclick="all_upcoming_milestones('d14');$(this).addClass('subactive');$('##onem').removeClass('subactive');$('##threem').removeClass('subactive');$('##all').removeClass('subactive');" class="sublink subactive" id="twoweeks">14 days</a> | <a href="##" onclick="all_upcoming_milestones('1');$(this).addClass('subactive');$('##twoweeks').removeClass('subactive');$('##threem').removeClass('subactive');$('##all').removeClass('subactive');" class="sublink" id="onem">1 month</a> | <a href="##" onclick="all_upcoming_milestones('3');$('##twoweeks').removeClass('subactive');$('##onem').removeClass('subactive');$(this).addClass('subactive');$('##all').removeClass('subactive');" class="sublink" id="threem">3 months</a> | <a href="##" onclick="all_upcoming_milestones('');$('##twoweeks').removeClass('subactive');$('##onem').removeClass('subactive');$('##threem').removeClass('subactive');$(this).addClass('subactive');" class="sublink" id="all">All</a></span>
 							
 							Upcoming Milestones</div>
 						<ul class="nobullet" id="upcoming_milestones">
 							<cfloop query="milestones_upcoming">
-								<cfset daysago = DateDiff("d",Now(),dueDate)>
-							<li><span class="b"><cfif daysago eq 0>Tomorrow<cfelse>#daysago+1# days away</cfif>:</span> 
+								<cfset daysDiff = DateDiff("d",CreateDate(year(Now()),month(Now()),day(Now())),dueDate)>
+							<li><span class="b"><cfif daysDiff eq 0>Today<cfelseif daysDiff eq 1>Tomorrow<cfelse>#daysDiff# days away</cfif>:</span> 
 								<a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a>
 								<span style="font-size:.9em;">(<a href="project.cfm?p=#projectID#" class="b">#projName#</a><cfif compare(lastName,'')> | #firstName# #lastName# is responsible</cfif>)</span>
 							</li>

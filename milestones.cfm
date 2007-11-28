@@ -93,9 +93,9 @@
 						<div class="milestones upcoming">
 						<div class="header upcoming">Upcoming</div>
 						<cfloop query="milestones2">
-						<cfset daysago = DateDiff("d",Now(),dueDate)>
+						<cfset daysago = DateDiff("d",CreateDate(year(Now()),month(Now()),day(Now())),dueDate)>
 							<div class="milestone">
-							<div class="date upcoming"><span class=" b"><cfif daysago eq 0>Tomorrow<cfelse>#daysago+1# days away</cfif></span> (#DateFormat(dueDate,"dddd, d mmmm, yyyy")#) <cfif userid neq 0><span style="color:##666;"> - For #firstName# #lastName#</span></cfif></div>
+							<div class="date upcoming"><span class=" b"><cfif daysago eq 0>Today<cfelseif daysago eq 1>Tomorrow<cfelse>#daysago# days away</cfif></span> (#DateFormat(dueDate,"dddd, d mmmm, yyyy")#) <cfif userid neq 0><span style="color:##666;"> - For #firstName# #lastName#</span></cfif></div>
 							<div id="m#milestoneid#" style="display:none;" class="markcomplete">Moving to Completed - just a second...</div>
 							<cfif not compare(project.role,'Read-Only')>
 								<h3>#name#</h3>
