@@ -40,13 +40,13 @@
 				<div class="content">
 					<div class="wrapper">
 
-						<cfset daysago = DateDiff("d",milestone.dueDate,Now())>
+						<cfset daysago = DateDiff("d",milestone.dueDate,CreateDate(year(Now()),month(Now()),day(Now())))>
 						<div class="milestones <cfif isDate(milestone.completed)>completed<cfelseif daysago gte 1>late<cfelse>upcoming</cfif>">
 						<div class="header <cfif isDate(milestone.completed)>completed">Completed<cfelseif daysago gte 1>late">Late<cfelse>upcoming">Upcoming</cfif></div>
 						<cfloop query="milestone">
 						
 							<div class="milestone">
-							<div class="date <cfif isDate(milestone.completed)>completed<cfelseif daysago gte 1>late<cfelse>upcoming</cfif>"><span class="b"><cfif daysago eq 0>Today<cfelseif daysago eq 1>Yesterday<cfelse>#daysago# days ago</cfif></span> (#DateFormat(dueDate,"dddd, d mmmm, yyyy")#)<cfif userid neq 0><span style="color:##666;"> - For #firstName# #lastName#</span></cfif></div>
+							<div class="date <cfif isDate(milestone.completed)>completed<cfelseif daysago gte 1>late<cfelse>upcoming</cfif>"><span class="b"><cfif daysago eq 0>Today<cfelseif daysago eq 1>Yesterday<cfelseif daysAgo gt 1>#daysago# days ago<cfelseif daysAgo eq -1>Tomorrow<cfelse>#Abs(daysago)# days away</cfif></span> (#DateFormat(dueDate,"dddd, d mmmm, yyyy")#)<cfif userid neq 0><span style="color:##666;"> - For #firstName# #lastName#</span></cfif></div>
 							<div id="m#milestoneid#" style="display:none;" class="markcomplete">Moving to <cfif not isDate(milestone.completed)>Completed<cfelseif DateDiff("d",dueDate,Now())>Late<cfelse>Upcoming</cfif> - just a second...</div>
 							<cfif not compare(project.role,'Read-Only')>
 								<h3>#name#</h3>
