@@ -3,6 +3,9 @@ table.svn { width:100%; }
 table.svn > caption { width:100%; padding:5px; }
 table.svn > thead th, table.svn > tbody td { padding:4px; }
 
+table#milestone_cal tr th, table#milestone_cal tr td { padding:3px; vertical-align:top; }
+table#milestone_cal tr td ul.cal_ms li { padding-top:4px; }
+
 /* STYLE */
 table.svn caption { background: #50ADEA url(../images/corner.gif) no-repeat right top;
 		  font-size:1.1em; font-weight: bold; border-bottom:2px solid #1975d7; 
@@ -29,6 +32,15 @@ table.activity thead th {
 table.bug tr td.label { font-weight:bold; text-align:right; width:100px; padding-right:10px; }
 table.bug tr td { padding:3px; }
 table.bug tr td > p { margin:0;padding:0; }
+
+table#milestone_cal { background:#e0e0e0; border-collapse:separate;	border-spacing:1px; }
+table#milestone_cal tr th, table#milestone_cal tr td { font-family:Verdana, Arial, sans-serif; font-size:80%; }
+table#milestone_cal tr th {	background-color:#e0e0e0; color:#666; font-weight:bold;	border-bottom:none; }
+table#milestone_cal tr td {	background-color:#f0f0f0; color:#aaa; }
+table#milestone_cal tr td.today { border:1px solid #000; background-color:#ffc;	color:#000; }
+table#milestone_cal tr td.active { border:1px solid #000; background-color:#fff; color:#000; }
+table#milestone_cal tr td ul.cal_ms { list-style:none; }
+table#milestone_cal tr td ul.cal_ms li { list-style-type:none; }
 
 /* tablesort plugin */
 .highlight { background-color:#FFFFF0;}

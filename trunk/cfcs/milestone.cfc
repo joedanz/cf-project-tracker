@@ -45,11 +45,7 @@
 				<cfcase value="upcoming">
 					AND dueDate >= #CreateODBCDate(Now())# AND completed IS NULL
 					<cfif compare(arguments.limit,'')>
-						<cfif not compare(arguments.limit,'d14')>
-							AND dueDate <= #DateAdd("d",14,CreateODBCDate(Now()))#
-						<cfelse>
-							AND dueDate <= #DateAdd("m",arguments.limit,CreateODBCDate(Now()))#
-						</cfif>
+						AND dueDate <= #DateAdd("m",arguments.limit,CreateODBCDate(Now()))#
 					</cfif>
 					ORDER BY dueDate
 				</cfcase>
