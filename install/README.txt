@@ -54,7 +54,6 @@ ColdFusion or BlueDragon
 CF8/BD7 required for avatars
 mySQL or SQL Server
 
-
 FEEDBACK?
 Please email joe@ajaxcf.com with any suggestions or other feedback.
 My wishlist, should you be inclined, is located at:
