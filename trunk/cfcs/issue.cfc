@@ -1,4 +1,4 @@
-<cfcomponent displayName="pp_issues" HINT="">
+<cfcomponent displayName="pp_issues" hint="">
 
 	<cfset variables.dsn = "">
 	<cfset variables.tableprefix = "">
@@ -13,16 +13,16 @@
 		<cfreturn this>
 	</cffunction>
 	
-	<CFFUNCTION NAME="get" ACCESS="public" RETURNTYPE="query" OUTPUT="false"
+	<cffunction name="get" access="public" returntype="query" output="false"
 				HINT="Returns pp_issues records.">				
-		<CFARGUMENT NAME="projectID" TYPE="string" REQUIRED="false" DEFAULT="">
-		<CFARGUMENT NAME="issueID" TYPE="string" REQUIRED="false" DEFAULT="">
-		<CFARGUMENT NAME="status" TYPE="string" REQUIRED="false" DEFAULT="">
+		<cfargument name="projectID" type="string" required="false" default="">
+		<cfargument name="issueID" type="string" required="false" default="">
+		<cfargument name="status" type="string" required="false" default="">
 		<cfargument name="projectIDlist" type="string" required="false" default="">
 		<cfargument name="type" type="string" required="false" default="">
 		<cfargument name="severity" type="string" required="false" default="">
 		<cfargument name="assignedTo" type="string" required="false" default="">
-		<CFSET var qRecords = "">
+		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT issueID, i.projectID, shortID, issue, detail, type, severity, i.status, created, createdBy, 
 				assignedTo, relevantURL, updated, updatedBy, p.name,
@@ -36,106 +36,106 @@
 				LEFT JOIN #variables.tableprefix#users a ON i.assignedTo = a.userID
 			WHERE 0=0
 			<cfif compare(arguments.projectID,'')>
-				AND i.projectID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.projectID#" MAXLENGTH="35">
+				AND i.projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.projectIDlist,'')>
 				AND i.projectID IN ('#replace(arguments.projectIDlist,",","','","ALL")#')
 			</cfif>			
 			<cfif compare(arguments.issueID,'')>
-				AND issueID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.issueID#" MAXLENGTH="35">
+				AND issueID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.issueID#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.status,'')>
-				AND i.status = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.status#" MAXLENGTH="6">
+				AND i.status = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="6">
 			</cfif>
 			<cfif compare(arguments.type,'')>
-				AND i.type = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.type#" MAXLENGTH="11">
+				AND i.type = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="11">
 			</cfif>
 			<cfif compare(arguments.severity,'')>
-				AND i.severity = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.severity#" MAXLENGTH="10">
+				AND i.severity = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.severity#" maxlength="10">
 			</cfif>
 			<cfif compare(arguments.assignedTo,'')>
-				AND i.assignedTo = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.assignedTo#" MAXLENGTH="35">
+				AND i.assignedTo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.assignedTo#" maxlength="35">
 			</cfif>						
 		</cfquery>		
-		<CFRETURN qRecords>
-	</CFFUNCTION>
+		<cfreturn qRecords>
+	</cffunction>
 	
-	<CFFUNCTION NAME="add" ACCESS="public" RETURNTYPE="void" OUTPUT="false"
+	<cffunction name="add" access="public" returntype="void" output="false"
 				HINT="Inserts a pp_issues record.">
-		<CFARGUMENT NAME="issueID" TYPE="uuid" REQUIRED="true">
-		<CFARGUMENT NAME="projectID" TYPE="uuid" REQUIRED="true">
-		<CFARGUMENT NAME="ticketPrefix" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="issue" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="detail" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="type" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="severity" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="status" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="assignedTo" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="relevantURL" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="createdBy" TYPE="string" REQUIRED="true">
-		<CFSET var qCountTix = "">
+		<cfargument name="issueID" type="uuid" required="true">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="ticketPrefix" type="string" required="true">
+		<cfargument name="issue" type="string" required="true">
+		<cfargument name="detail" type="string" required="true">
+		<cfargument name="type" type="string" required="true">
+		<cfargument name="severity" type="string" required="true">
+		<cfargument name="status" type="string" required="true">
+		<cfargument name="assignedTo" type="string" required="true">
+		<cfargument name="relevantURL" type="string" required="true">
+		<cfargument name="createdBy" type="string" required="true">
+		<cfset var qCountTix = "">
 		<CFTRANSACTION>
 		<CFQUERY NAME="qCountTix" DATASOURCE="#variables.dsn#">
 			SELECT count(*) as numTix FROM #variables.tableprefix#issues 
-				WHERE projectID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.projectID#" MAXLENGTH="35">
+				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
 		</CFQUERY>
-		<CFQUERY DATASOURCE="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#issues (issueID, projectID, shortID, issue, detail, type, severity, status, assignedTo, relevantURL, created, createdBy)
-				VALUES(<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.issueID#" MAXLENGTH="35">,
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.projectID#" MAXLENGTH="35">, 
-						'#ARGUMENTS.ticketPrefix##NumberFormat(qCountTix.numTix+001,"000")#',
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.issue#" MAXLENGTH="120">, 
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_LONGVARCHAR" VALUE="#ARGUMENTS.detail#">, 
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.type#" MAXLENGTH="11">, 
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.severity#" MAXLENGTH="10">, 
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.status#" MAXLENGTH="6">, 
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.assignedTo#" MAXLENGTH="35">,
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.relevantURL#" MAXLENGTH="255">,
+				VALUES(<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.issueID#" maxlength="35">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">, 
+						'#arguments.ticketPrefix##NumberFormat(qCountTix.numTix+001,"000")#',
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.issue#" maxlength="120">, 
+						<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.detail#">, 
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="11">, 
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.severity#" maxlength="10">, 
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="6">, 
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.assignedTo#" maxlength="35">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.relevantURL#" maxlength="255">,
 						#Now()#, 
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.createdBy#" MAXLENGTH="35">
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.createdBy#" maxlength="35">
 						)
 		</CFQUERY>
 		</CFTRANSACTION>
-	</CFFUNCTION>
+	</cffunction>
 	
-	<CFFUNCTION NAME="update" ACCESS="public" RETURNTYPE="void" OUTPUT="false"
+	<cffunction name="update" access="public" returntype="void" output="false"
 				HINT="Updates an issue.">
-		<CFARGUMENT NAME="issueID" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="projectID" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="issue" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="detail" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="type" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="severity" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="status" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="assignedTo" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="relevantURL" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="updatedBy" TYPE="string" REQUIRED="true">
-		<CFQUERY DATASOURCE="#variables.dsn#">
+		<cfargument name="issueID" type="string" required="true">
+		<cfargument name="projectID" type="string" required="true">
+		<cfargument name="issue" type="string" required="true">
+		<cfargument name="detail" type="string" required="true">
+		<cfargument name="type" type="string" required="true">
+		<cfargument name="severity" type="string" required="true">
+		<cfargument name="status" type="string" required="true">
+		<cfargument name="assignedTo" type="string" required="true">
+		<cfargument name="relevantURL" type="string" required="true">
+		<cfargument name="updatedBy" type="string" required="true">
+		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#issues SET
-				projectID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.projectID#" MAXLENGTH="35">, 
-				issue = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.issue#" MAXLENGTH="120">, 
-				detail = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.detail#" MAXLENGTH="2000">, 
-				type = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.type#" MAXLENGTH="11">, 
-				severity = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.severity#" MAXLENGTH="10">, 
-				status = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.status#" MAXLENGTH="6">, 
-				assignedTo = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.assignedTo#" MAXLENGTH="35">, 
-				relevantURL = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.relevantURL#" MAXLENGTH="255">, 
+				projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">, 
+				issue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.issue#" maxlength="120">, 
+				detail = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.detail#">, 
+				type = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="11">, 
+				severity = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.severity#" maxlength="10">, 
+				status = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="6">, 
+				assignedTo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.assignedTo#" maxlength="35">, 
+				relevantURL = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.relevantURL#" maxlength="255">, 
 				updated = #Now()#, 
-				updatedBy = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.updatedBy#" MAXLENGTH="35">
+				updatedBy = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.updatedBy#" maxlength="35">
 			WHERE 0=0
-				AND issueID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.issueID#">			
+				AND issueID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.issueID#">			
 		</cfquery>		
-	</CFFUNCTION>
+	</cffunction>
 	
-	<CFFUNCTION NAME="markClosed" ACCESS="public" RETURNTYPE="void" OUTPUT="false"
+	<cffunction name="markClosed" access="public" returntype="void" output="false"
 				HINT="Marks an issue closed.">
-		<CFARGUMENT NAME="issueID" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="projectID" TYPE="string" REQUIRED="true">
-		<CFQUERY DATASOURCE="#variables.dsn#">
+		<cfargument name="issueID" type="string" required="true">
+		<cfargument name="projectID" type="string" required="true">
+		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#issues SET status = 'Closed'
-				WHERE projectID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.projectID#">
-					AND issueID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.issueID#">
+				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#">
+					AND issueID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.issueID#">
 		</cfquery>		
-	</CFFUNCTION>	
+	</cffunction>	
 	
 </CFCOMPONENT>

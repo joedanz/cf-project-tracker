@@ -1,4 +1,4 @@
-<cfcomponent displayName="Task Lists" hint="Methods dealing with project task lists.">
+<cfcomponent displayName="Todo Lists" hint="Methods dealing with project task lists.">
 
 	<cfset variables.dsn = "">
 	<cfset variables.tableprefix = "">
@@ -51,8 +51,8 @@
 			INSERT INTO #variables.tableprefix#todolists (todolistID,projectID,title,description,milestoneid,userid,added,rank)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.todolistID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#">,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="100">,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="1000">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">,
 					#Now()#,1)
@@ -69,8 +69,8 @@
 		<cfargument name="milestoneID" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#todolists 
-				SET title = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#">,
-					description = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#">,
+				SET title = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="100">,
+					description = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="1000">,
 					milestoneid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">
 				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
 					AND todolistid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.todolistID#" maxlength="35">

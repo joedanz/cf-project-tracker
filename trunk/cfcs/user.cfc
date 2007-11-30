@@ -1,7 +1,7 @@
-<cfcomponent displayName="pp_users" HINT="">
+<cfcomponent displayName="Users" hint="Methods dealing with project users.">
 
-	<CFSET variables.dsn = "">
-	<CFSET variables.tableprefix = "">
+	<cfset variables.dsn = "">
+	<cfset variables.tableprefix = "">
 	
 	<cfscript>
 	/**
@@ -46,28 +46,28 @@
 	}
 	</cfscript>
 	
-	<CFFUNCTION NAME="init" ACCESS="public" RETURNTYPE="user" OUTPUT="false"
-				HINT="Returns an instance of the CFC initialized with the correct DSN & table prefix.">
-		<CFARGUMENT NAME="settings" TYPE="struct" REQUIRED="true" HINT="Settings">
+	<cffunction name="init" access="public" returntype="user" output="false"
+				hint="Returns an instance of the CFC initialized with the correct DSN & table prefix.">
+		<cfargument name="settings" type="struct" required="true" hint="Settings">
 
-		<CFSET variables.dsn = arguments.settings.dsn>
-		<CFSET variables.tableprefix = arguments.settings.tableprefix>
+		<cfset variables.dsn = arguments.settings.dsn>
+		<cfset variables.tableprefix = arguments.settings.tableprefix>
 		
-		<CFRETURN this>
-	</CFFUNCTION>
+		<cfreturn this>
+	</cffunction>
 	
-	<CFFUNCTION NAME="login" ACCESS="public" RETURNTYPE="struct" OUTPUT="false"
-				HINT="Login method.">				
-		<CFARGUMENT NAME="username" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="password" TYPE="string" REQUIRED="true">
-		<CFSET var qLogin = "">
-		<CFSET var sLogin = StructNew()>
-		<CFSET var qProjects = "">
+	<cffunction name="login" access="public" returntype="struct" output="false"
+				hint="Login method.">				
+		<cfargument name="username" type="string" required="true">
+		<cfargument name="password" type="string" required="true">
+		<cfset var qLogin = "">
+		<cfset var sLogin = StructNew()>
+		<cfset var qProjects = "">
 		<cfquery name="qLogin" datasource="#variables.dsn#">
 			SELECT userID, firstName, lastName, username, email, phone, lastLogin, avatar, style, admin, active
 			FROM #variables.tableprefix#users
-			WHERE username = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.username#" MAXLENGTH="35">
-				AND password = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.password#" MAXLENGTH="30">
+			WHERE username = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#" maxlength="35">
+				AND password = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.password#" maxlength="30">
 		</cfquery>
 		<cfif qLogin.recordCount eq 1>
 			<cfscript>
@@ -85,40 +85,40 @@
 				sLogin.projects = application.project.get(qLogin.userID);
 			</cfscript>
 		</cfif>
-		<CFRETURN sLogin>
-	</CFFUNCTION>		
+		<cfreturn sLogin>
+	</cffunction>		
 	
-	<CFFUNCTION NAME="get" ACCESS="public" RETURNTYPE="query" OUTPUT="false"
-				HINT="Returns user records.">				
-		<CFARGUMENT NAME="userID" TYPE="string" REQUIRED="false" DEFAULT="">
-		<CFARGUMENT NAME="userIDlist" TYPE="string" REQUIRED="false" DEFAULT="">
-		<CFARGUMENT NAME="username" TYPE="string" REQUIRED="false" DEFAULT="">
-		<CFSET var qRecords = "">
+	<cffunction name="get" access="public" returntype="query" output="false"
+				hint="Returns user records.">				
+		<cfargument name="userID" type="string" required="false" default="">
+		<cfargument name="userIDlist" type="string" required="false" default="">
+		<cfargument name="username" type="string" required="false" default="">
+		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT userID, firstName, lastName, username, email, phone, lastLogin, avatar, style, admin, active
 			FROM #variables.tableprefix#users
 			WHERE 0=0
 			<cfif compare(ARGUMENTS.userID,'')>
-				AND userID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.userID#" MAXLENGTH="35">
+				AND userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
 			</cfif>
 			<cfif compare(ARGUMENTS.userIDlist,'')>
-				AND userID IN ('#replace(ARGUMENTS.userIDlist,",","','","ALL")#')
+				AND userID IN ('#replace(arguments.userIDlist,",","','","ALL")#')
 			</cfif>
 			<cfif compare(ARGUMENTS.username,'')>
-				AND username = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.username#" MAXLENGTH="30">
+				AND username = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#" maxlength="30">
 			</cfif>			
 		</cfquery>		
-		<CFRETURN qRecords>
-	</CFFUNCTION>	
+		<cfreturn qRecords>
+	</cffunction>	
 	
-	<CFFUNCTION NAME="create" ACCESS="public" RETURNTYPE="void" OUTPUT="false"
-				HINT="Inserts a pp_users record.">
-		<CFARGUMENT NAME="userID" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="firstName" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="lastName" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="email" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="admin" TYPE="numeric" REQUIRED="true">
-		<CFARGUMENT NAME="active" TYPE="numeric" REQUIRED="false" default="1">
+	<cffunction name="create" access="public" returntype="void" output="false"
+				hint="Inserts a pp_users record.">
+		<cfargument name="userID" type="string" required="true">
+		<cfargument name="firstName" type="string" required="true">
+		<cfargument name="lastName" type="string" required="true">
+		<cfargument name="email" type="string" required="true">
+		<cfargument name="admin" type="numeric" required="true">
+		<cfargument name="active" type="numeric" required="false" default="1">
 		<cfset var newUsername = left(lcase(ARGUMENTS.firstName),1) & lcase(ARGUMENTS.lastName)>
 		<cfset var validUsername = false>
 		<cfset var qCheckUser = "">
@@ -133,16 +133,16 @@
 				<cfset startRec = startRec + 1>
 			</cfif>
 		</cfloop>
-		<CFQUERY DATASOURCE="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, style, admin, active)
-				VALUES(<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.userID#" MAXLENGTH="35">,
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.firstName#" MAXLENGTH="12">, 
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.lastName#" MAXLENGTH="20">, 
+				VALUES(<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.firstName#" maxlength="12">, 
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.lastName#" maxlength="20">, 
 						'#newUsername#', '#newPass#',
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.email#" MAXLENGTH="120">, 
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" maxlength="120">, 
 						'#application.settings.default_style#',
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_BIT" VALUE="#ARGUMENTS.admin#">, 
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_BIT" VALUE="#ARGUMENTS.active#">		
+						<cfqueryparam cfsqltype="CF_SQL_BIT" value="#arguments.admin#">, 
+						<cfqueryparam cfsqltype="CF_SQL_BIT" value="#arguments.active#">		
 						)
 		</cfquery>
 		<cfmail to="#arguments.email#" from="#session.user.email#" subject="New #application.settings.app_title# Account">An account has been setup for you to use the #application.settings.app_title#.
@@ -152,112 +152,112 @@ You can login at #application.settings.rootURL##application.settings.mapping#
      Username: #newUsername#
      Password: #newPass#
 		</cfmail>
-	</CFFUNCTION>
+	</cffunction>
 
-	<CFFUNCTION NAME="userUpdate" ACCESS="public" RETURNTYPE="void" OUTPUT="false"
-				HINT="Updates a pp_users record.">
-		<CFARGUMENT NAME="userID" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="firstName" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="lastName" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="email" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="phone" TYPE="string" REQUIRED="true">
-		<CFQUERY DATASOURCE="#variables.dsn#">
+	<cffunction name="userUpdate" access="public" returntype="void" output="false"
+				hint="Updates a pp_users record.">
+		<cfargument name="userID" type="string" required="true">
+		<cfargument name="firstName" type="string" required="true">
+		<cfargument name="lastName" type="string" required="true">
+		<cfargument name="email" type="string" required="true">
+		<cfargument name="phone" type="string" required="true">
+		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#users SET
-				firstName = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.firstName#" MAXLENGTH="12">, 
-				lastName = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.lastName#" MAXLENGTH="20">, 
-				email = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.email#" MAXLENGTH="120">,
-				phone = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.phone#" MAXLENGTH="15">
-			WHERE userID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.userID#">			
+				firstName = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.firstName#" maxlength="12">, 
+				lastName = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.lastName#" maxlength="20">, 
+				email = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" maxlength="120">,
+				phone = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.phone#" maxlength="15">
+			WHERE userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#">			
 		</cfquery>		
-	</CFFUNCTION>
+	</cffunction>
 	
-	<CFFUNCTION NAME="acctUpdate" ACCESS="public" RETURNTYPE="void" OUTPUT="false"
-				HINT="Updates a pp_users record.">
-		<CFARGUMENT NAME="userID" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="username" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="password" TYPE="string" REQUIRED="true">
-		<CFQUERY DATASOURCE="#variables.dsn#">
+	<cffunction name="acctUpdate" access="public" returntype="void" output="false"
+				hint="Updates a pp_users record.">
+		<cfargument name="userID" type="string" required="true">
+		<cfargument name="username" type="string" required="true">
+		<cfargument name="password" type="string" required="true">
+		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#users SET
-				username = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.username#" MAXLENGTH="30">
+				username = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#" maxlength="30">
 				<cfif compare(arguments.password,'')>
-					, password = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.password#" MAXLENGTH="20">
+					, password = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.password#" maxlength="20">
 				</cfif>
-			WHERE userID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.userID#">			
+			WHERE userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#">			
 		</cfquery>		
-	</CFFUNCTION>	
+	</cffunction>	
 	
-	<CFFUNCTION NAME="setImage" ACCESS="public" returnType="boolean" output="false"
-				HINT="Sets avatar for user.">
+	<cffunction name="setImage" access="public" returnType="boolean" output="false"
+				hint="Sets avatar for user.">
 		<cfargument name="userid" type="uuid" required="true">
 		<cfargument name="imageExists" type="boolean" required="true">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#users 
-				SET avatar = <CFQUERYPARAM CFSQLTYPE="CF_SQL_BIT" VALUE="#ARGUMENTS.imageExists#">
-				WHERE userid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.userID#" maxlength="35">
+				SET avatar = <cfqueryparam cfsqltype="cf_sql_bit" value="#arguments.imageExists#">
+				WHERE userid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>		
 	
-	<CFFUNCTION NAME="setStyle" ACCESS="public" returnType="boolean" output="false"
-				HINT="Sets style for user.">
+	<cffunction name="setStyle" access="public" returnType="boolean" output="false"
+				hint="Sets style for user.">
 		<cfargument name="userid" type="uuid" required="true">
 		<cfargument name="style" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#users 
-				SET style = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.style#" maxlength="20">
-				WHERE userid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.userID#" maxlength="35">
+				SET style = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.style#" maxlength="20">
+				WHERE userid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>		
 	
-	<CFFUNCTION NAME="delete" ACCESS="public" RETURNTYPE="void" OUTPUT="false"
-				HINT="Deletes a pp_users record.">
-		<CFARGUMENT NAME="userID" TYPE="string" REQUIRED="true">
-		<CFQUERY DATASOURCE="#variables.dsn#">
+	<cffunction name="delete" access="public" returntype="void" output="false"
+				hint="Deletes a pp_users record.">
+		<cfargument name="userID" type="string" required="true">
+		<cfquery datasource="#variables.dsn#">
 			DELETE FROM #variables.tableprefix#users WHERE 0=0
-				AND userID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.userID#">
+				AND userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#">
 		</cfquery>		
-	</CFFUNCTION>
+	</cffunction>
 
-	<CFFUNCTION NAME="setLastLogin" ACCESS="public" returnType="boolean" output="false"
-				HINT="Sets last login stamp for user.">
+	<cffunction name="setLastLogin" access="public" returnType="boolean" output="false"
+				hint="Sets last login stamp for user.">
 		<cfargument name="userid" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#users SET lastLogin = #Now()# 
-				WHERE userid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.userID#" maxlength="35">
+				WHERE userid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>	
 	
-	<CFFUNCTION NAME="makeOwner" ACCESS="public" returnType="boolean" output="false"
-				HINT="Makes user owner of a project.">
+	<cffunction name="makeOwner" access="public" returnType="boolean" output="false"
+				hint="Makes user owner of a project.">
 		<cfargument name="projectid" type="uuid" required="true">
 		<cfargument name="userid" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#project_users SET role = 'Admin'
-				WHERE projectid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.projectID#" maxlength="35">
+				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
 					AND role = 'Owner'
 		</cfquery>
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#project_users SET role = 'Owner'
-				WHERE projectid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.projectID#" maxlength="35">
-					AND userid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.userID#" maxlength="35">
+				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+					AND userid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>
 	
-	<CFFUNCTION NAME="changeRole" ACCESS="public" returnType="boolean" output="false"
-				HINT="Makes user owner of a project.">
+	<cffunction name="changeRole" access="public" returnType="boolean" output="false"
+				hint="Makes user owner of a project.">
 		<cfargument name="projectid" type="uuid" required="true">
 		<cfargument name="userid" type="uuid" required="true">
 		<cfargument name="role" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#project_users 
-			SET role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.role#" maxlength="9">
-				WHERE projectid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.projectID#" maxlength="35">
-					AND userid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.userID#" maxlength="35">
+			SET role = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role#" maxlength="9">
+				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+					AND userid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>		
 	
-</CFCOMPONENT>
+</cfcomponent>

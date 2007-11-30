@@ -1,23 +1,23 @@
-<cfcomponent displayName="pp_projects" HINT="">
+<cfcomponent displayName="Projects" hint="Methods dealing with projects.">
 
-	<CFSET variables.dsn = "">
-	<CFSET variables.tableprefix = "">
+	<cfset variables.dsn = "">
+	<cfset variables.tableprefix = "">
 	
-	<CFFUNCTION NAME="init" ACCESS="public" RETURNTYPE="project" OUTPUT="false"
-				HINT="Returns an instance of the CFC initialized with the correct DSN & table prefix.">
-		<CFARGUMENT NAME="settings" TYPE="struct" REQUIRED="true" HINT="Settings">
+	<cffunction name="init" access="public" returntype="project" output="false"
+				hint="Returns an instance of the CFC initialized with the correct DSN & table prefix.">
+		<cfargument name="settings" type="struct" required="true" hint="Settings">
 
-		<CFSET variables.dsn = arguments.settings.dsn>
-		<CFSET variables.tableprefix = arguments.settings.tableprefix>
+		<cfset variables.dsn = arguments.settings.dsn>
+		<cfset variables.tableprefix = arguments.settings.tableprefix>
 		
-		<CFRETURN this>
-	</CFFUNCTION>
+		<cfreturn this>
+	</cffunction>
 	
-	<CFFUNCTION NAME="get" ACCESS="public" RETURNTYPE="query" OUTPUT="false"
-				HINT="Returns project records.">				
-		<CFARGUMENT NAME="userID" TYPE="string" REQUIRED="false" DEFAULT="">
-		<CFARGUMENT NAME="projectID" TYPE="string" REQUIRED="false" DEFAULT="">
-		<CFSET var qRecords = "">
+	<cffunction name="get" access="public" returntype="query" output="false"
+				hint="Returns project records.">				
+		<cfargument name="userID" type="string" required="false" default="">
+		<cfargument name="projectID" type="string" required="false" default="">
+		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT p.projectID, p.name, p.description, p.display, p.added, p.addedBy, p.status, 
 				p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, pu.role
@@ -32,8 +32,8 @@
 			  </cfif>
 				ORDER BY name
 		</cfquery>		
-		<CFRETURN qRecords>
-	</CFFUNCTION>
+		<cfreturn qRecords>
+	</cffunction>
 	
 	<cffunction name="add" access="public" returnType="boolean" output="false"
 				hint="Adds a project.">
@@ -51,7 +51,7 @@
 			INSERT INTO #variables.tableprefix#projects (projectID,name,description,display,added,addedBy,status,ticketPrefix,svnurl,svnuser,svnpass)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="1000">,
+					<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">,
 					<cfqueryparam cfsqltype="cf_sql_bit" value="#arguments.display#">,
 					#Now()#, <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.addedBy#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="8">,
@@ -77,7 +77,7 @@
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#projects 
 				SET name = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
-					description = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="1000">,
+					description = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">,
 					display = <cfqueryparam cfsqltype="cf_sql_bit" value="#arguments.display#">,
 					status = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="8">,
 					ticketPrefix = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.ticketPrefix#" maxlength="2">,
@@ -89,70 +89,70 @@
 		<cfreturn true>
 	</cffunction>		
 	
-	<CFFUNCTION NAME="delete" ACCESS="public" RETURNTYPE="void" OUTPUT="false"
-				HINT="Deletes a project record.">
-		<CFARGUMENT NAME="projectID" TYPE="string" REQUIRED="true">
+	<cffunction name="delete" access="public" returntype="void" output="false"
+				hint="Deletes a project record.">
+		<cfargument name="projectID" type="string" required="true">
 		
 		<!--- delete physical files --->
 		<cfset var qFiles = application.file.get(arguments.projectid)>
 		<cfloop query="qFiles">
-		
+			<cfset application.file.delete(arguments.projectid,fileID,uploadedBy)>
 		</cfloop>
 		
 		<!--- delete database records --->
-		<CFQUERY DATASOURCE="#variables.dsn#">
-			DELETE FROM #variables.tableprefix#activity WHERE projectID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.projectID#">;
-			DELETE FROM #variables.tableprefix#files WHERE projectID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.projectID#">;
-			DELETE FROM #variables.tableprefix#issues WHERE projectID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.projectID#">;
-			DELETE FROM #variables.tableprefix#messages WHERE projectID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.projectID#">;
-			DELETE FROM #variables.tableprefix#milestones WHERE projectID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.projectID#">;
-			DELETE FROM #variables.tableprefix#projects WHERE projectID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.projectID#">;
-			DELETE FROM #variables.tableprefix#project_users WHERE projectID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.projectID#">;
-			DELETE FROM #variables.tableprefix#todolists WHERE projectID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.projectID#">;
-			DELETE FROM #variables.tableprefix#todos WHERE projectID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.projectID#">;
+		<cfquery datasource="#variables.dsn#">
+			DELETE FROM #variables.tableprefix#activity WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#">;
+			DELETE FROM #variables.tableprefix#files WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#">;
+			DELETE FROM #variables.tableprefix#issues WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#">;
+			DELETE FROM #variables.tableprefix#messages WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#">;
+			DELETE FROM #variables.tableprefix#milestones WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#">;
+			DELETE FROM #variables.tableprefix#projects WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#">;
+			DELETE FROM #variables.tableprefix#project_users WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#">;
+			DELETE FROM #variables.tableprefix#todolists WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#">;
+			DELETE FROM #variables.tableprefix#todos WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#">;
 		</cfquery>
-	</CFFUNCTION>
+	</cffunction>
 	
 	
-	<CFFUNCTION NAME="projectUsers" ACCESS="public" RETURNTYPE="query" OUTPUT="false"
-				HINT="Returns project users.">				
-		<CFARGUMENT NAME="projectID" TYPE="string" REQUIRED="false" default="">
-		<CFARGUMENT NAME="role" TYPE="string" REQUIRED="false" default="">
-		<CFARGUMENT NAME="order_by" TYPE="string" REQUIRED="false" default="lastName, firstName">
-		<CFARGUMENT NAME="projectIDlist" TYPE="string" REQUIRED="false" default="">
+	<cffunction name="projectUsers" access="public" returntype="query" output="false"
+				hint="Returns project users.">				
+		<cfargument name="projectID" type="string" required="false" default="">
+		<cfargument name="role" type="string" required="false" default="">
+		<cfargument name="order_by" type="string" required="false" default="lastName, firstName">
+		<cfargument name="projectIDlist" type="string" required="false" default="">
 		
-		<CFSET var qRecords = "">
+		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT distinct u.userID, u.firstName, u.lastName, u.username, u.email, u.phone, u.lastLogin, u.avatar, u.admin, pu.role
 			FROM #variables.tableprefix#users u 
 				INNER JOIN #variables.tableprefix#project_users pu ON u.userID = pu.userID
 			WHERE active = 1
 			<cfif compare(arguments.projectID,'')>
-				AND projectID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.projectID#" MAXLENGTH="35">
+				AND projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.projectIDlist,'')>
 				AND projectID IN ('#replace(arguments.projectIDlist,",","','","ALL")#')
 			</cfif>
-			<cfif compare(arguments.role,'')>AND pu.role = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.role#" MAXLENGTH="5"></cfif>
+			<cfif compare(arguments.role,'')>AND pu.role = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role#" maxlength="5"></cfif>
 			ORDER BY #arguments.order_by#
 		</cfquery>		
-		<CFRETURN qRecords>
-	</CFFUNCTION>	
+		<cfreturn qRecords>
+	</cffunction>	
 	
-	<CFFUNCTION NAME="nonProjectUsers" ACCESS="public" RETURNTYPE="query" OUTPUT="false"
-				HINT="Returns project users.">				
-		<CFARGUMENT NAME="projectID" TYPE="string" REQUIRED="true">
-		<CFSET var qRecords = "">
+	<cffunction name="nonProjectUsers" access="public" returntype="query" output="false"
+				hint="Returns project users.">				
+		<cfargument name="projectID" type="string" required="true">
+		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT userID, firstName, lastName
 			FROM #variables.tableprefix#users 
 			WHERE active = 1
 				AND userID NOT IN (
-					select userID from #variables.tableprefix#project_users where projectID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.projectID#" MAXLENGTH="35">
+					select userID from #variables.tableprefix#project_users where projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
 				)
 			ORDER BY lastName, firstName
 		</cfquery>		
-		<CFRETURN qRecords>
-	</CFFUNCTION>		
+		<cfreturn qRecords>
+	</cffunction>		
 	
 </CFCOMPONENT>
