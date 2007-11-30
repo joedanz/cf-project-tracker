@@ -90,3 +90,13 @@ function delete_todo_ajax(projectid,todolistid,todoid) {
 		data: 'action=delete&p=' + projectid + '&l=' + todolistid + '&t=' + todoid
 	});
 }
+
+function limitText(limitField) {
+	var charLimit = 300;
+	if ($('#'+limitField).val().length > charLimit) {
+		$('#'+limitField).val($('#'+limitField).val().substring(0, charLimit));
+	} else {
+		charsLeft = charLimit - $('#'+limitField).val().length;
+		$('.addtask').prev().prev(".remaining").html("(" + charsLeft + " characters remaining)");
+	}
+}
