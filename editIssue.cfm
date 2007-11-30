@@ -79,7 +79,7 @@
 					<form action="#cgi.script_name#" method="post" name="edit" id="edit" class="frm" onsubmit="return confirmSubmit();">
 						<p>
 						<label for="issue" class="req">Issue:</label>
-						<input type="text" name="issue" id="issue" value="#issue#" maxlength="120" />
+						<input type="text" name="issue" id="issue" value="#HTMLEditFormat(issue)#" maxlength="120" />
 						</p>					
 						<p>
 						<label for="detail" class="req">Detail:</label> 
@@ -130,7 +130,7 @@
 						</p>
 						<p>
 						<label for="issue">Relevant URL:</label>
-						<input type="text" name="relevantURL" id="relevantURL" value="#relevantURL#" maxlength="255" />
+						<input type="text" name="relevantURL" id="relevantURL" value="#HTMLEditFormat(relevantURL)#" maxlength="255" />
 						</p>					
 						<label for="submit">&nbsp;</label>
 						<cfif StructKeyExists(url,"i")>

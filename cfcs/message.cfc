@@ -112,7 +112,7 @@
 			VALUES (<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="120">,
-					<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.message#">,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.message#" maxlength="5000">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#" maxlength="50">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.allowcomments#" maxlength="1">,
@@ -169,7 +169,7 @@ To view the full message and leave comments, visit this link:
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#messages 
 				SET title = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="120">,
-					message = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.message#">,
+					message = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.message#" maxlength="5000">,
 					category = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#" maxlength="50">,
 					milestoneid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
 					allowcomments = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.allowcomments#" maxlength="1">
