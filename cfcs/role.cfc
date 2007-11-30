@@ -1,31 +1,31 @@
-<cfcomponent displayName="pp_project_users" HINT="">
+<cfcomponent displayName="Project Users" hint="Methods dealing with project users.">
 
-	<CFSET variables.dsn = "">
-	<CFSET variables.tableprefix = "">
+	<cfset variables.dsn = "">
+	<cfset variables.tableprefix = "">
 	
-	<CFFUNCTION NAME="init" ACCESS="public" RETURNTYPE="role" OUTPUT="false"
+	<cffunction name="init" access="public" returntype="role" output="false"
 				HINT="Returns an instance of the CFC initialized with the correct DSN & table prefix.">
-		<CFARGUMENT NAME="settings" TYPE="struct" REQUIRED="true" HINT="Settings">
+		<cfargument name="settings" type="struct" required="true" hint="Settings">
 
-		<CFSET variables.dsn = arguments.settings.dsn>
-		<CFSET variables.tableprefix = arguments.settings.tableprefix>
+		<cfset variables.dsn = arguments.settings.dsn>
+		<cfset variables.tableprefix = arguments.settings.tableprefix>
 
-		<CFRETURN this>
-	</CFFUNCTION>
+		<cfreturn this>
+	</cffunction>
 	
-	<CFFUNCTION NAME="get" ACCESS="public" RETURNTYPE="query" OUTPUT="false"
+	<cffunction name="get" access="public" returntype="query" output="false"
 				HINT="Returns user role.">				
-		<CFARGUMENT NAME="userID" TYPE="string" REQUIRED="false" DEFAULT="">	
-		<CFARGUMENT NAME="projectID" TYPE="string" REQUIRED="false" DEFAULT="">
-		<CFSET var qRecords = "">
+		<cfargument name="userID" type="string" required="false" default="">	
+		<cfargument name="projectID" type="string" required="false" default="">
+		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT role
 			FROM #variables.tableprefix#project_users
-			WHERE projectID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.projectID#" MAXLENGTH="35">
-				AND userID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.userID#" MAXLENGTH="35">
+			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+				AND userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
 		</cfquery>		
-		<CFRETURN qRecords>
-	</CFFUNCTION>
+		<cfreturn qRecords>
+	</cffunction>
 	
 	<cffunction name="add" access="public" returnType="boolean" output="false"
 				hint="Sets user role.">
@@ -36,7 +36,7 @@
 			INSERT INTO #variables.tableprefix#project_users (projectID,userID,role)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.roles#">)
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.roles#" maxlength="9">)
 		</cfquery>
 		<cfreturn true>
 	</cffunction>
@@ -53,4 +53,4 @@
 		<cfreturn true>
 	</cffunction>	
 	
-</CFCOMPONENT>
+</cfcomponent>

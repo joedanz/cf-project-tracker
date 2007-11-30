@@ -1,4 +1,4 @@
-<cfcomponent displayName="Tasks" hint="Methods dealing with project tasks.">
+<cfcomponent displayName="Todos" hint="Methods dealing with project tasks.">
 
 	<cfset variables.dsn = "">
 	<cfset variables.tableprefix = "">
