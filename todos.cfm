@@ -21,8 +21,6 @@
 
 <cfoutput>
 <div id="container">
-<div id="test"></div>
-
 <cfif project.recordCount>
 	<!--- left column --->
 	<div class="left">
@@ -58,8 +56,8 @@
 						<li><div id="edititemform#todoID#" style="display:none;background-color:##ddd;padding:5px;">
 						<div style="float:left;margin-right:15px;clear:both">	
 						<form>					
-						Edit to-do item:<br />
-						<textarea class="addtask" id="ta#todoID#">#task#</textarea><br />
+						Edit to-do item: <span class="remaining g">(#300-len(task)# characters remaining)</span><br />
+						<textarea class="addtask" id="ta#todoID#" onkeyup="limitText('ta#todoID#');">#task#</textarea><br />
 						</div>
 						Who's responsible?<br />
 						<select name="forID" id="forwho#todoID#">
@@ -88,8 +86,8 @@
 						<div id="additemform#currentRow#" style="display:none;">
 						<form>
 						<div style="float:left;margin-right:15px;clear:both">						
-						Enter a to-do item:<br />
-						<textarea class="addtask" id="ta#todolistID#"></textarea><br />
+						Enter a to-do item: <span class="remaining g">(300 characters remaining)</span><br />
+						<textarea class="addtask" id="ta#todolistID#" onkeyup="limitText('ta#todolistID#');"></textarea>
 						</div>
 						Who's responsible?<br />
 						<select name="forID" id="forwho#todolistID#">
@@ -113,8 +111,8 @@
 						<li><div id="edititemform#todoID#" style="display:none;background-color:##ddd;padding:5px;">
 						<form>
 						<div style="float:left;margin-right:15px;clear:both">						
-						Edit to-do item:<br />
-						<textarea class="addtask" id="ta#todoID#">#task#</textarea><br />
+						Edit to-do item: <span class="remaining g">(#300-len(task)# characters remaining)</span><br />
+						<textarea class="addtask" id="ta#todoID#" onkeyup="limitText('ta#todoID#');">#task#</textarea><br />
 						</div>
 						Who's responsible?<br />
 						<select name="forID" id="forwho#todoID#">
