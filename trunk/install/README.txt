@@ -1,15 +1,12 @@
-Project Tracker v1.0 BETA
+Project Tracker v1.0
 by Joe Danziger
 
 Initial Release: June 5, 2007
+Current Release: November 30, 2007
 
 This application was inspired by Basecamp (http://www.basecamphq.com) 
-put out by the 37signals crew.  It is being released as open source
-in response to the CFUnited contest to win a Wii.
-
-Not too much documentation so far - hopefully most should be self explanatory.
-This app is still under development and will be undergoing improvements.
-It will be hosted on RIAForge so keep an eye there for updates.
+put out by the 37signals crew.  Not too much documentation but 
+hopefully most should be self explanatory.
 
 INSTALLATION:
 You also need to edit the settings files in the config directory.
@@ -20,7 +17,7 @@ scripts add a record for the admin user and 2 entries for default
 settings.  You can name your database whatever you'd like but make
 sure to match the settings in the config files.
 
-UPGRADING:
+UPGRADING FROM 1.0 BETA:
 To upgrade, simply copy the latest files over the existing ones.
 You may need to reinitialize you app by adding a "?reinit" on
 the end of a URL.  All of the settings are contained in the 
@@ -28,7 +25,12 @@ config directory and in the database.  You should keep your
 existing config files and copy them back on top of the newly
 installed ones.  
 Specific database changes made since launch:
-  1) "detail" in the pt_issues table is now a text datatype.
+  1) pt_comments - "comment" extended to 1000 characters.
+  2) pt_issues - "detail" changed to a text datatype.
+  3) pt_messages - "message" changed to a text datatype.
+  4) pt_projects - "description" changed to a text datatype.
+  5) pt_todolists - "description" extended to 1000 characters.
+  6) pt_todos - "task" extended to 300 characters.
 
 SUBVERSION NOTES:
 There is a Subversion repository browser and code browser.  This 
@@ -48,9 +50,10 @@ to projects.  Project users can contribute to any project they have been
 assigned to (by an admin or project owner). 
 
 REQUIREMENTS:
-ColdFusion MX
-ColdFusion 8 required for avatars
+ColdFusion or BlueDragon
+CF8/BD7 required for avatars
 mySQL or SQL Server
+
 
 FEEDBACK?
 Please email joe@ajaxcf.com with any suggestions or other feedback.
@@ -61,4 +64,7 @@ PROJECT HOME:
 http://projecttracker.riaforge.com 
 
 SVN REPOSITORY:
-http://svn.riaforge.org/projecttracker
+http://svn.riaforge.org/projecttracke
+
+INCLUDED CODE:
+RSS feeds created using rss.cfc by Ray Camden (www.coldfusionjedi.com)
