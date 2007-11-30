@@ -26,11 +26,9 @@ existing config files and copy them back on top of the newly
 installed ones.  
 Specific database changes made since launch:
   1) pt_comments - "comment" extended to 1000 characters.
-  2) pt_issues - "detail" changed to a text datatype.
-  3) pt_messages - "message" changed to a text datatype.
-  4) pt_projects - "description" changed to a text datatype.
-  5) pt_todolists - "description" extended to 1000 characters.
-  6) pt_todos - "task" extended to 300 characters.
+  2) pt_project_users - "role" extended to 9 characters.
+  3) pt_todolists - "description" extended to 1000 characters.
+  4) pt_todos - "task" extended to 300 characters.
 
 SUBVERSION NOTES:
 There is a Subversion repository browser and code browser.  This 

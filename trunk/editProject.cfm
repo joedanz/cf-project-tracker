@@ -94,7 +94,7 @@
 					<form action="#cgi.script_name#" method="post" name="edit" id="edit" class="frm" onsubmit="return confirmSubmit();">
 						<p>
 						<label for="name" class="req">Name:</label>
-						<input type="text" name="name" id="name" value="#name#" maxlength="120" />
+						<input type="text" name="name" id="name" value="#HTMLEditFormat(name)#" maxlength="120" />
 						</p>					
 						<p>
 						<label for="description">Description:</label> 
@@ -124,7 +124,7 @@
 						</p>
 						<p>
 						<label for="ticketPrefix" class="req">Ticket Prefix:</label>
-						<input type="text" name="ticketPrefix" id="ticketPrefix" value="#ticketPrefix#" maxlength="2" style="width:50px" />
+						<input type="text" name="ticketPrefix" id="ticketPrefix" value="#HTMLEditFormat(ticketPrefix)#" maxlength="2" style="width:50px" />
 						<span style="font-size:.8em">(two-letter prefix used when generating trouble tickets)</span>
 						</p>
 						<fieldset style="border:0;border-top:2px solid ##d9eaf5;margin:0 0 0 50px;">
@@ -132,15 +132,15 @@
 						<div id="svninfo"<cfif not compare(svnurl,'')> style="display:none"</cfif>>
 						<p>
 						<label for="svnurl">SVN URL:</label>
-						<input type="text" name="svnurl" id="svnurl" value="#svnurl#" maxlength="100" class="short" />
+						<input type="text" name="svnurl" id="svnurl" value="#HTMLEditFormat(svnurl)#" maxlength="100" class="short" />
 						</p>						
 						<p>
 						<label for="svnuser">SVN Username:</label>
-						<input type="text" name="svnuser" id="svnuser" value="#svnuser#" maxlength="20" class="short" />
+						<input type="text" name="svnuser" id="svnuser" value="#HTMLEditFormat(svnuser)#" maxlength="20" class="short" />
 						</p>						
 						<p>
 						<label for="svnpass">SVN Password:</label>
-						<input type="text" name="svnpass" id="svnpass" value="#svnpass#" maxlength="20" class="short" />
+						<input type="text" name="svnpass" id="svnpass" value="#HTMLEditFormat(svnpass)#" maxlength="20" class="short" />
 						</p>
 						</div>
 						</fieldset>

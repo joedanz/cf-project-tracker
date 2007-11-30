@@ -51,7 +51,7 @@
 			INSERT INTO #variables.tableprefix#projects (projectID,name,description,display,added,addedBy,status,ticketPrefix,svnurl,svnuser,svnpass)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
-					<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="1000">,
 					<cfqueryparam cfsqltype="cf_sql_bit" value="#arguments.display#">,
 					#Now()#, <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.addedBy#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="8">,
@@ -77,7 +77,7 @@
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#projects 
 				SET name = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
-					description = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">,
+					description = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="1000">,
 					display = <cfqueryparam cfsqltype="cf_sql_bit" value="#arguments.display#">,
 					status = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="8">,
 					ticketPrefix = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.ticketPrefix#" maxlength="2">,

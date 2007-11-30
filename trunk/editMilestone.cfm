@@ -109,7 +109,7 @@
 						
 						<div style="margin:10px 0;">
 						<label for="name" class="req">Name:</label>
-						<input type="text" name="name" id="name" value="#name#" maxlength="50" style="width:350px;padding:2px;" />
+						<input type="text" name="name" id="name" value="#HTMLEditFormat(name)#" maxlength="50" style="width:350px;padding:2px;" />
 						</div>
 						
 						

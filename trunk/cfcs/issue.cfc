@@ -85,7 +85,7 @@
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">, 
 						'#arguments.ticketPrefix##NumberFormat(qCountTix.numTix+001,"000")#',
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.issue#" maxlength="120">, 
-						<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.detail#">, 
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.detail#" maxlength="2000">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="11">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.severity#" maxlength="10">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="6">, 
@@ -114,7 +114,7 @@
 			UPDATE #variables.tableprefix#issues SET
 				projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">, 
 				issue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.issue#" maxlength="120">, 
-				detail = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.detail#">, 
+				detail = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.detail#" maxlength="2000">, 
 				type = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="11">, 
 				severity = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.severity#" maxlength="10">, 
 				status = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="6">, 

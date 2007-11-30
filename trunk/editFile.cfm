@@ -88,7 +88,7 @@
 						</cfif>
 						<p>
 						<label for="title" class="req">Title:</label>
-						<input type="text" name="title" id="title" value="#title#" maxlength="120" />
+						<input type="text" name="title" id="title" value="#HTMLEditFormat(title)#" maxlength="120" />
 						</p>
 						<p>
 						<label for="category" class="req">Category:</label>
