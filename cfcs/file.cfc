@@ -51,63 +51,63 @@
 		<cfreturn qGetCategories>
 	</cffunction>		
 
-	<CFFUNCTION NAME="add" ACCESS="public" RETURNTYPE="void" OUTPUT="false"
-				HINT="Inserts a pp_files record.">
-		<CFARGUMENT NAME="fileID" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="projectID" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="title" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="category" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="description" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="filename" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="serverfilename" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="filetype" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="filesize" TYPE="numeric" REQUIRED="true">
-		<CFARGUMENT NAME="uploadedBy" TYPE="string" REQUIRED="true">
-		<CFQUERY DATASOURCE="#variables.dsn#">
-			INSERT INTO pt_files (fileID, projectID, title, category, description, filename, serverfilename, filetype, filesize, uploaded, uploadedBy)
-				VALUES(<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.fileID#" MAXLENGTH="35">,
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.projectID#" MAXLENGTH="35">, 
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.title#" MAXLENGTH="200">, 
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.category#" MAXLENGTH="50">, 
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.description#" MAXLENGTH="1000">, 
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.filename#" MAXLENGTH="150">, 
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.serverfilename#" MAXLENGTH="150">, 
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.filetype#" MAXLENGTH="4">, 
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_BIGINT" VALUE="#ARGUMENTS.filesize#">, 
+	<cffunction name="add" access="public" returntype="void" output="false"
+				hint="Inserts a pp_files record.">
+		<cfargument name="fileID" type="string" required="true">
+		<cfargument name="projectID" type="string" required="true">
+		<cfargument name="title" type="string" required="true">
+		<cfargument name="category" type="string" required="true">
+		<cfargument name="description" type="string" required="true">
+		<cfargument name="filename" type="string" required="true">
+		<cfargument name="serverfilename" type="string" required="true">
+		<cfargument name="filetype" type="string" required="true">
+		<cfargument name="filesize" type="numeric" required="true">
+		<cfargument name="uploadedBy" type="string" required="true">
+		<cfquery datasource="#variables.dsn#">
+			INSERT INTO #variables.tableprefix#files (fileID, projectID, title, category, description, filename, serverfilename, filetype, filesize, uploaded, uploadedBy)
+				VALUES(<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.fileID#" maxlength="35">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">, 
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="200">, 
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#" maxlength="50">, 
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="1000">, 
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filename#" maxlength="150">, 
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.serverfilename#" maxlength="150">, 
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filetype#" maxlength="4">, 
+						<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.filesize#">, 
 						#Now()#, 
-						<CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.uploadedBy#" MAXLENGTH="35">		
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.uploadedBy#" maxlength="35">		
 						)
 		</cfquery>		
-	</CFFUNCTION>
+	</cffunction>
 
-	<CFFUNCTION NAME="update" ACCESS="public" RETURNTYPE="void" OUTPUT="false"
-				HINT="Updates a pp_files record.">
-		<CFARGUMENT NAME="fileID" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="projectID" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="title" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="category" TYPE="string" REQUIRED="true">
-		<CFARGUMENT NAME="description" TYPE="string" REQUIRED="true">
-		<CFQUERY DATASOURCE="#variables.dsn#">
-			UPDATE pt_files SET
-				title = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.title#" MAXLENGTH="200">, 
-				category = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.category#" MAXLENGTH="50">, 
-				description = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.description#" MAXLENGTH="1000">
-			WHERE projectID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.projectID#" MAXLENGTH="35">
-				AND fileID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.fileID#" MAXLENGTH="35">
+	<cffunction name="update" access="public" returntype="void" output="false"
+				hint="Updates a pp_files record.">
+		<cfargument name="fileID" type="string" required="true">
+		<cfargument name="projectID" type="string" required="true">
+		<cfargument name="title" type="string" required="true">
+		<cfargument name="category" type="string" required="true">
+		<cfargument name="description" type="string" required="true">
+		<cfquery datasource="#variables.dsn#">
+			UPDATE #variables.tableprefix#files SET
+				title = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="200">, 
+				category = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#" maxlength="50">, 
+				description = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="1000">
+			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+				AND fileID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.fileID#" maxlength="35">
 		</cfquery>		
-	</CFFUNCTION>
+	</cffunction>
 
-	<CFFUNCTION NAME="delete" ACCESS="public" RETURNTYPE="void" OUTPUT="false"
-				HINT="Deletes a pp_files record.">
-		<CFARGUMENT NAME="projectID" TYPE="uuid" REQUIRED="true">
-		<CFARGUMENT NAME="fileID" TYPE="uuid" REQUIRED="true">
-		<CFARGUMENT NAME="uploadedBy" TYPE="uuid" REQUIRED="true">
-		<CFQUERY DATASOURCE="#variables.dsn#">
-			DELETE FROM pt_files 
-				WHERE projectID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.projectID#" MAXLENGTH="35">
-					AND fileID = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.fileID#" MAXLENGTH="35">
-					AND uploadedBy = <CFQUERYPARAM CFSQLTYPE="CF_SQL_VARCHAR" VALUE="#ARGUMENTS.uploadedBy#" MAXLENGTH="35">
+	<cffunction name="delete" access="public" returntype="void" output="false"
+				hint="Deletes a pp_files record.">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="fileID" type="uuid" required="true">
+		<cfargument name="uploadedBy" type="uuid" required="true">
+		<cfquery datasource="#variables.dsn#">
+			DELETE FROM #variables.tableprefix#files 
+				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+					AND fileID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.fileID#" maxlength="35">
+					AND uploadedBy = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.uploadedBy#" maxlength="35">
 		</cfquery>		
-	</CFFUNCTION>
+	</cffunction>
 
-</CFCOMPONENT>
+</cfcomponent>
