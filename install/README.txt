@@ -1,5 +1,5 @@
 Project Tracker v1.0
-by Joe Danziger
+by Joe Danziger (joe@ajaxcf.com)
 
 Initial Release: June 5, 2007
 Current Release: November 30, 2007
