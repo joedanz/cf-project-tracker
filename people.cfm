@@ -45,14 +45,14 @@
 					<option value="#userID#"><cfif compare(lastName,'')>#lastName#, </cfif>#firstName#</option>
 				</cfloop>
 				</select>
-				with a role of
+				with a project role of
 				<select name="role" id="role">
 					<option value="User">User</option>
 					<option value="Admin">Admin</option>
 					<option value="Read-Only">Read-Only</option>
 				</select>
-				<input type="button" class="button2" name="add" value="Add Person" onclick="add_existing('#url.p#');" /> or 
-				<a href="##" onclick="$('##slidediv').SlideOutUp(1000);">cancel</a><br />
+				<input type="button" class="button2" name="add" value="Add Person" onclick="add_existing('#url.p#');return false;" /> or 
+				<a href="##" onclick="$('##slidediv').SlideOutUp(1000);return false;">cancel</a><br />
 				</fieldset>
 				</div>
 				
@@ -73,11 +73,11 @@
 					</div>
 					<div>
 					<label for="email">Email
-						<input type="text" name="email" id="email" size="25" />
+						<input type="text" name="email" id="email" size="22" />
 					</label>
 					</div>
 					<div>
-					<label>Role
+					<label>Project Role
 						<select name="newrole" id="newrole">
 							<option value="User">User</option>
 							<option value="Admin">Admin</option>
@@ -87,7 +87,7 @@
 					</div>
 					<cfif session.user.admin>
 					<div>
-					<label>Admin?
+					<label>System Admin?
 						<select name="admin" id="admin">
 							<option value="0">No</option>
 							<option value="1">Yes</option>
@@ -98,10 +98,10 @@
 						<input type="hidden" name="admin" id="admin" value="0" />
 					</cfif>
 					<div style="float:left;">
-					<input type="button" class="button2" name="add" value="Add Person" onclick="add_new('#url.p#');" /> 
+					<input type="button" class="button2" name="add" value="Add" onclick="add_new('#url.p#');return false;" /> 
 					</div>
 					<div>
-					or <a href="##" onclick="$('##slidediv').SlideOutUp(1000);">cancel</a>
+					or <a href="##" onclick="$('##slidediv').SlideOutUp(1000);return false;">cancel</a>
 					</div>
 				</fieldset>
 				</div>
@@ -128,7 +128,7 @@
 							<cfif session.user.userID eq userID and listFind('User,Admin,Read-Only',role)> / </cfif>
 
 					 		<cfif listFind('User,Admin,Read-Only',role)>
-					 		<a href="##" onclick="remove_user('#url.p#','#userID#','#lastName#','#firstName#');$('###userID#').DropOutDown(500);">remove from project</a></cfif>
+					 		<a href="##" onclick="remove_user('#url.p#','#userID#','#lastName#','#firstName#');$('###userID#').DropOutDown(500);return false;">remove from project</a></cfif>
 		<cfif compareNoCase('Owner',role)>
 	 		<cfif compareNoCase('User',role)> / <a href="people.cfm?p=#url.p#&u=#userID#&r=User">make user</a></cfif>
 	 		<cfif compareNoCase('Admin',role)> / <a href="people.cfm?p=#url.p#&u=#userID#&r=Admin">make admin</a></cfif>
