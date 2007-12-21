@@ -7,7 +7,8 @@
 	<cfcatch></cfcatch>
 	</cftry>
 	<cfset application.file.delete(url.p,url.df,session.user.userID)>
-	<cfif thisFile.recordCount eq 1>
+	<cfset remainingFiles = application.file.get(url.p)>
+	<cfif remainingFiles.recordCount eq 1>
 		<cfdirectory action="delete" directory="#ExpandPath('./userfiles/')##url.p#">
 	</cfif>
 </cfif>
