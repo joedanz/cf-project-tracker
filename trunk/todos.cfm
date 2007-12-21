@@ -30,7 +30,7 @@
 					<cfif compare(project.role,'Read-Only')>
 					<span class="rightmenu">
 						<a href="editTodolist.cfm?p=#url.p#" class="add">Add a new list</a>	| 
-						<span id="reorder_menu"><a href="##" onclick="reorder_lists();" class="reorder">Reorder lists</a></span>
+						<span id="reorder_menu"><a href="##" onclick="reorder_lists();return false;" class="reorder">Reorder lists</a></span>
 					</span>
 					</cfif>
 					
@@ -52,7 +52,7 @@
 						</cfquery>
 						<ul class="nobullet" id="todoitems#todolistID#">
 						<cfloop query="todos_notcompleted">
-						<li class="li#todolistID#" id="#todoID#"><cfif compare(project.role,'Read-Only')><input type="checkbox" name="todoID" value="#todoID#" class="cb#todolistID#" onclick="mark_complete('#url.p#','#todolistID#','#todoID#');" /> </cfif>#task#<cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)</span></cfif><cfif compare(project.role,'Read-Only')> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="$('###todoID#').hide();$('##edititemform#todoID#').show();$('##ta#todoID#').focus();" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#url.p#','#todolistID#','#todoID#')" /></span></cfif></li>
+						<li class="li#todolistID#" id="#todoID#"><cfif compare(project.role,'Read-Only')><input type="checkbox" name="todoID" value="#todoID#" class="cb#todolistID#" onclick="mark_complete('#url.p#','#todolistID#','#todoID#');" /> </cfif>#task#<cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)</span></cfif><cfif compare(project.role,'Read-Only')> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="$('###todoID#').hide();$('##edititemform#todoID#').show();$('##ta#todoID#').focus();return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#url.p#','#todolistID#','#todoID#');return false;" /></span></cfif></li>
 						<li><div id="edititemform#todoID#" style="display:none;background-color:##ddd;padding:5px;">
 						<div style="float:left;margin-right:15px;clear:both">	
 						<form>					
@@ -66,7 +66,7 @@
 							<option value="#userID#"<cfif not compare(thisUserID,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>
 							</cfloop>
 						</select><br /><br />
-						<input type="button" class="button2" value="Update item" onclick="update_item('#url.p#','#todolistID#','#todoID#','incomplete');" /> or <a href="##" onclick="$('###todoID#').show();$('##edititemform#todoID#').hide();">cancel edit</a>
+						<input type="button" class="button2" value="Update item" onclick="update_item('#url.p#','#todolistID#','#todoID#','incomplete');return false;" /> or <a href="##" onclick="$('###todoID#').show();$('##edititemform#todoID#').hide();return false;">cancel edit</a>
 						</form>
 						</div>
 						</li>
@@ -77,11 +77,11 @@
 						<cfif compare(project.role,'Read-Only')>
 						<div style="margin:5px 5px 5px 26px;padding:5px;background-color:##ddd;">
 						<div id="listmenu#todolistID#">
-						<a href="##" onclick="$('##listmenu#todolistID#').hide();$('##additemform#currentRow#').show();$('##ta#todolistID#').focus();" class="add">Add an item</a>
-						| <a href="##" onclick="reorder_items('#todolistID#');" class="reorder">Reorder Items</a>
+						<a href="##" onclick="$('##listmenu#todolistID#').hide();$('##additemform#currentRow#').show();$('##ta#todolistID#').focus();return false;" class="add">Add an item</a>
+						| <a href="##" onclick="reorder_items('#todolistID#');return false;" class="reorder">Reorder Items</a>
 						</div>
 						<div id="reorderdone#todolistID#" style="display:none;">
-						<a href="##" onclick="done_reordering_items('#todolistID#');" class="reorder">Done Reordering</a>
+						<a href="##" onclick="done_reordering_items('#todolistID#');return false;" class="reorder">Done Reordering</a>
 						</div>
 						<div id="additemform#currentRow#" style="display:none;">
 						<form>
@@ -95,7 +95,7 @@
 							<option value="#userID#"<cfif not compare(session.user.userid,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>
 							</cfloop>
 						</select><br /><br />
-						<input type="button" class="button2" value="Add this item" onclick="add_item('#url.p#','#todolistID#');" /> or <a href="##" onclick="$('##listmenu#todolistID#').show();$('##additemform#currentRow#').hide();">finished adding items</a>
+						<input type="button" class="button2" value="Add this item" onclick="add_item('#url.p#','#todolistID#');return false;" /> or <a href="##" onclick="$('##listmenu#todolistID#').show();$('##additemform#currentRow#').hide();return false;">finished adding items</a>
 						</form>
 						</div>
 						</div>
@@ -106,7 +106,7 @@
 						</cfquery>
 						<ul class="nobullet" id="todocomplete#todolistID#">
 						<cfloop query="todos_completed">
-						<li class="g" id="#todoID#"><input type="checkbox" name="todoID" value="#todoID#" checked="checked" onclick="mark_incomplete('#url.p#','#todolistID#','#todoID#');" /> <strike>#task#</strike> - <span class="g">#DateFormat(completed,"mmm d")#</span> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="$('###todoID#').hide();$('##edititemform#todoID#').show();$('##ta#todoID#').focus();" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#url.p#','#todolistID#','#todoID#')" /></span></li>
+						<li class="g" id="#todoID#"><input type="checkbox" name="todoID" value="#todoID#" checked="checked" onclick="mark_incomplete('#url.p#','#todolistID#','#todoID#');" /> <strike>#task#</strike> - <span class="g">#DateFormat(completed,"mmm d")#</span> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="$('###todoID#').hide();$('##edititemform#todoID#').show();$('##ta#todoID#').focus();return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#url.p#','#todolistID#','#todoID#');return false;" /></span></li>
 						
 						<li><div id="edititemform#todoID#" style="display:none;background-color:##ddd;padding:5px;">
 						<form>
@@ -121,7 +121,7 @@
 							<option value="#userID#"<cfif not compare(thisUserID,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>
 							</cfloop>
 						</select><br /><br />
-						<input type="button" class="button2" value="Update item" onclick="update_item('#url.p#','#todolistID#','#todoID#','complete');" /> or <a href="##" onclick="$('###todoID#').show();$('##edititemform#todoID#').hide();">cancel edit</a>
+						<input type="button" class="button2" value="Update item" onclick="update_item('#url.p#','#todolistID#','#todoID#','complete');return false;" /> or <a href="##" onclick="$('###todoID#').show();$('##edititemform#todoID#').hide();return false;">cancel edit</a>
 						</form>
 						</div>
 						</li>								
@@ -141,7 +141,7 @@
 					</div>
 					<div id="sorting_done" style="display:none;margin-top:15px;">
 					<form class="frm" style="margin:0;padding:0;">
-						<input type="button" class="button" value="Done Sorting" onclick="done_reordering();" />
+						<input type="button" class="button" value="Done Sorting" onclick="done_reordering();return false;" />
 						<input type="hidden" name="listsort" id="listsort" value="" />
 						<input type="hidden" name="projectID" id="projectID" value="#url.p#" />
 					</form>

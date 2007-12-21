@@ -155,7 +155,7 @@
 						<p>
 						<span id="notifylinkbg" class="collapsed">
 						<label for="notifylink">Notify People:</label>
-						<a href="##" onclick="showNotify();" id="notifylink"> Send a copy of message comments &amp; updates to...</a>
+						<a href="##" onclick="showNotify();return false;" id="notifylink"> Send a copy of message comments &amp; updates to...</a>
 						</span>
 						<span id="notify" style="display:none;">
 						<ul class="nobullet">
