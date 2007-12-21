@@ -14,3 +14,4 @@
 		destination="#ExpandPath('./images/avatars')#/#session.user.userid#_16.jpg">
 	<cffile action="delete" file="#ExpandPath('./images/avatars')#/#serverFile#">
 	<cfset application.user.setImage(session.user.userID,1)>
+	<cfset session.user.avatar = 1>
