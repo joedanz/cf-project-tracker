@@ -93,7 +93,7 @@ fieldset.addnew label { text-align:left;width:auto;display:block; }
 fieldset.addnew input, fieldset.addnew select { margin-right:5px;display:block; }
 
 form#login label { font-weight:bold; font-size:1.2em; }
-form#login input.login {
+form#login input {
 	width:180px;
 	border:2px solid #999;
 	padding:4px;
@@ -109,3 +109,21 @@ form#login input.sub {
 	font-size:1.1em;
 	font-weight:bold;
 }
+
+form.forgot { clear:both; }
+form.forgot label { font-weight:bold; font-size:1.1em; display:block; }
+form.forgot input.forgot {
+	width:300px;
+	border:2px solid #999;
+	padding:4px;
+	float:left;
+}
+form.forgot input.uname {
+	width:150px;
+}
+form.forgot input.sub {
+	padding:3px;
+	font-size:1.1em;
+	margin-left:5px;
+}
+#container .left .main .content .wrapper form.forgot p { margin:5px 0 15px 0; }

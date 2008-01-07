@@ -1,4 +1,4 @@
-<cfsetting enablecfoutputonly="true" showdebugoutput="false">
+<cfsetting enablecfoutputonly="true" showdebugoutput="1">
 
 <cfset applicationName = "project_tracker">
 <cfapplication name="#applicationName#" sessionManagement="true" loginstorage="session">
@@ -52,7 +52,7 @@
 </cfif>
 
 <!--- handle security --->
-<cfif not findNoCase('/rss.cfm',cgi.script_name)>
+<cfif not findNoCase('/rss.cfm',cgi.script_name) and not findNoCase('/forgot.cfm',cgi.script_name)>
 <cflogin>
 
 	<cfif NOT StructKeyExists(form,"username")>

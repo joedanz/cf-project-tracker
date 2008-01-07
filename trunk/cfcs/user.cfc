@@ -109,7 +109,7 @@
 			</cfif>			
 		</cfquery>		
 		<cfreturn qRecords>
-	</cffunction>	
+	</cffunction>
 	
 	<cffunction name="create" access="public" returntype="void" output="false"
 				hint="Inserts a pp_users record.">
@@ -260,4 +260,28 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfreturn true>
 	</cffunction>		
 	
+	<cffunction name="findUsername" access="public" returntype="query" output="false"
+				hint="Returns username for an email.">				
+		<cfargument name="email" type="string" required="false" default="">
+		<cfset var qFindUsername = "">
+		<cfquery name="qFindUsername" datasource="#variables.dsn#">
+			SELECT username,firstName,lastName
+			FROM #variables.tableprefix#users
+			WHERE email = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#">
+		</cfquery>		
+		<cfreturn qFindUsername>
+	</cffunction>
+
+	<cffunction name="findPassword" access="public" returntype="query" output="false"
+				hint="Returns password for a username.">				
+		<cfargument name="username" type="string" required="false" default="">
+		<cfset var qFindPassword = "">
+		<cfquery name="qFindPassword" datasource="#variables.dsn#">
+			SELECT password,email,firstName
+			FROM #variables.tableprefix#users
+			WHERE username = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#">
+		</cfquery>		
+		<cfreturn qFindPassword>
+	</cffunction>
+		
 </cfcomponent>
