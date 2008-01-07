@@ -35,6 +35,7 @@ a:link, a:visited {color:##00f;}</style>
 <input type="hidden" name="logon" value="true">
 </form>
 </div>	
+<a href="forgot.cfm">Lost your username or password?</a>
 
 <script type="text/javascript">
 	document.forms[0].username.focus();
