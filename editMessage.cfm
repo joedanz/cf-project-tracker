@@ -130,7 +130,7 @@
 						<p>
 						<label for="message" class="req">Message:</label> 
 						<cfscript>
-							basePath = '#application.settings.mapping#/includes/fckeditor/';
+							basePath = 'includes/fckeditor/';
 							fckEditor = createObject("component", "#basePath#fckeditor");
 							fckEditor.instanceName	= "message";
 							fckEditor.value			= '#message#';

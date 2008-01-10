@@ -116,7 +116,7 @@
 						<div style="margin:10px 0;">
 						<label for="description">Description:</label> 
 						<cfscript>
-							basePath = '#application.settings.mapping#/includes/fckeditor/';
+							basePath = 'includes/fckeditor/';
 							fckEditor = createObject("component", "#basePath#fckeditor");
 							fckEditor.instanceName	= "description";
 							fckEditor.value			= '#description#';
