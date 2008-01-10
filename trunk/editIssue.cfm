@@ -84,7 +84,7 @@
 						<p>
 						<label for="detail" class="req">Detail:</label> 
 						<cfscript>
-							basePath = '#application.settings.mapping#/includes/fckeditor/';
+							basePath = 'includes/fckeditor/';
 							fckEditor = createObject("component", "#basePath#fckeditor");
 							fckEditor.instanceName	= "detail";
 							fckEditor.value			= '#detail#';

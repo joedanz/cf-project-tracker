@@ -70,7 +70,7 @@
 					<form action="#cgi.script_name#?p=#url.p#&m=#url.m#" method="post" name="add" id="add" class="frm" onsubmit="return confirmSubmit();">
 					<div class="b">Post a new comment...</div>
 					<cfscript>
-						basePath = '#application.settings.mapping#/includes/fckeditor/';
+						basePath = 'includes/fckeditor/';
 						fckEditor = createObject("component", "#basePath#fckeditor");
 						fckEditor.instanceName	= "comment";
 						fckEditor.value			= '';
