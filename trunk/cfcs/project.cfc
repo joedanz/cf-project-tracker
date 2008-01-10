@@ -52,7 +52,7 @@
 			VALUES (<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="1000">,
-					<cfqueryparam cfsqltype="cf_sql_bit" value="#arguments.display#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.display#">,
 					#Now()#, <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.addedBy#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="8">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.ticketPrefix#" maxlength="2">,
@@ -78,7 +78,7 @@
 			UPDATE #variables.tableprefix#projects 
 				SET name = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
 					description = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="1000">,
-					display = <cfqueryparam cfsqltype="cf_sql_bit" value="#arguments.display#">,
+					display = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.display#">,
 					status = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="8">,
 					ticketPrefix = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.ticketPrefix#" maxlength="2">,
 					svnurl = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnurl#" maxlength="100">,
