@@ -141,8 +141,8 @@
 						'#newUsername#', '#newPass#',
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" maxlength="120">, 
 						'#application.settings.default_style#',
-						<cfqueryparam cfsqltype="CF_SQL_BIT" value="#arguments.admin#">, 
-						<cfqueryparam cfsqltype="CF_SQL_BIT" value="#arguments.active#">		
+						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.admin#">, 
+						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.active#">		
 						)
 		</cfquery>
 		<cfmail to="#arguments.email#" from="#session.user.email#" subject="New #application.settings.app_title# Account">An account has been setup for you to use the #application.settings.app_title#.
@@ -192,7 +192,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfargument name="imageExists" type="boolean" required="true">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#users 
-				SET avatar = <cfqueryparam cfsqltype="cf_sql_bit" value="#arguments.imageExists#">
+				SET avatar = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.imageExists#">
 				WHERE userid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
