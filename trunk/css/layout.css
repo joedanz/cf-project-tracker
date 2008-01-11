@@ -4,6 +4,7 @@ fieldset { padding:10px; }
 ol.nobullet,ul.nobullet { list-style:none; margin-left:10px; }
 ul.nobullet li { margin-bottom:5px; }
 
+.clear { clear:both; height:0; }
 .markcomplete {
 	padding-left:10px;
 	margin-left:20px;
@@ -22,7 +23,8 @@ table.activity td {
 	padding:2px 5px;
 }
 
-#notify { display:none;
+#notify { 
+	display:none;
 	margin-left:180px;
 	padding:10px;
 	width:250px;
@@ -36,7 +38,9 @@ table.activity td {
 
 /* LEFT COLUMN */
 #container {
-	margin:15px 30px;
+	margin:0 30px 15px 30px;
+	clear:both;
+	padding-top:15px;
 }
 
 #container .left {
