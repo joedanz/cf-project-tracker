@@ -4,7 +4,7 @@
 --->
 
 <cfoutput>
-<div style="clear:both;"></div>
+<div class="clear">&nbsp;</div>
 </body>
 </html>
 </cfoutput>
