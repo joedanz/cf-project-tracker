@@ -128,7 +128,6 @@ function redraw_incomplete(projectid,todolistid,todoid,type) {
 		}
 	});
 }
-
 function redraw_completed(projectid,todolistid,todoid) {
     $.ajax({
 		type: 'get',
@@ -139,7 +138,6 @@ function redraw_completed(projectid,todolistid,todoid) {
 		}
 	});
 }
-
 function mark_complete(projectid,todolistid,todoid) {
     $('#' + todoid).fadeOut(500);
 	$.ajax({
@@ -149,7 +147,6 @@ function mark_complete(projectid,todolistid,todoid) {
 	});
 	redraw_completed(projectid,todolistid,todoid);
 }
-
 function mark_incomplete(projectid,todolistid,todoid) {
 	$('#' + todoid).fadeOut(500);
 	$.ajax({
@@ -159,7 +156,6 @@ function mark_incomplete(projectid,todolistid,todoid) {
 	});
 	redraw_incomplete(projectid,todolistid,todoid,'update');
 }
-
 function add_item(projectid,todolistid) {
 	var newitem = $('#ta' + todolistid).val();
 	var forwho = $('#forwho' + todolistid).val();
@@ -167,7 +163,6 @@ function add_item(projectid,todolistid) {
 	redraw_incomplete(projectid,todolistid,'','add');
 	$('#ta' + todolistid).val(''); $('#ta' + todolistid).focus();
 }
-
 function add_todo_ajax(projectid,todolistid,newitem,forwho) {
     $.ajax({
 		type: 'post',
@@ -175,7 +170,6 @@ function add_todo_ajax(projectid,todolistid,newitem,forwho) {
 		data: 'action=add&p=' + projectid + '&l=' + todolistid + '&t=' + escape(newitem) + '&fw=' + forwho
 	});	
 }
-
 function update_item(projectid,todolistid,todoid,completed) {
 	var newitem = $('#ta' + todoid).val();
 	var forwho = $('#forwho' + todoid).val();
@@ -186,7 +180,6 @@ function update_item(projectid,todolistid,todoid,completed) {
 		redraw_completed(projectid,todolistid,todoid,'update');
 	}
 }
-
 function update_todo_ajax(projectid,todolistid,todoid,newitem,forwho) {
     $.ajax({
 		type: 'post',
@@ -194,7 +187,6 @@ function update_todo_ajax(projectid,todolistid,todoid,newitem,forwho) {
 		data: 'action=add&p=' + projectid + '&l=' + todolistid + '&t=' + escape(newitem) + '&i=' + todoid + '&fw=' + forwho
 	});	
 }
-
 function delete_li(projectid,todolistid,todoid) {
 	var del = confirm('Are you sure you wish to delete this item?');
 	if (del == true) {
@@ -202,7 +194,6 @@ function delete_li(projectid,todolistid,todoid) {
 		$('#' + todoid).fadeOut(500);
 	} else return false;
 }
-
 function delete_todo_ajax(projectid,todolistid,todoid) {
     $.ajax({
 		type: 'get',
@@ -210,7 +201,6 @@ function delete_todo_ajax(projectid,todolistid,todoid) {
 		data: 'action=delete&p=' + projectid + '&l=' + todolistid + '&t=' + todoid
 	});
 }
-
 function limitText(limitField) {
 	var charLimit = 300;
 	if ($('#'+limitField).val().length > charLimit) {
@@ -221,3 +211,87 @@ function limitText(limitField) {
 	}
 }
 
+// REORDER TO-DO LISTS
+function reorder_lists() {
+	$('.itemedit').hide(); $('.tododetail').hide(); $('.top').hide(); 
+	$(".listItem").removeClass("todolist"); $(".list").addClass("drag"); 
+	$('#sorting_done').show();
+	$('#reorder_menu').html('<a href="#" onclick="done_reordering();" class="reorder">Done Reordering</a>');
+	$('.listWrapper').sortable(
+		{
+			accept : 'listItem',
+			axis : 'vertically',
+			activeclass : 'sortableactive',
+			hoverclass : 'sortablehover',
+			helperclass : 'sorthelper',
+			opacity: 	0.5,
+			fit :	false,
+			onStop : save_order
+		}
+	)
+}
+function done_reordering() {
+	$('.itemedit').show(); $('.tododetail').show(); $('.top').show(); 
+	$(".list").removeClass("drag"); $(".listItem").addClass("todolist"); 
+	save_order();
+	$('.listWrapper').sortableDestroy(); 
+	$('#sorting_done').hide();
+	$('#reorder_menu').html('<a href="#" onclick="reorder_lists();" class="reorder">Reorder lists</a>');
+}
+function save_order() {
+	thelist = serialize_lists('lw');
+	$("#listsort").val(thelist);
+    $.ajax({
+		type: 'post',
+		url: './ajax/sort_lists.cfm',
+		data: 'pid=' + $('#projectID').val() + '&lw=' + $("#listsort").val()
+	});		
+}
+function serialize_lists(s)
+{
+	serial = $.SortSerialize(s);
+	return serial.hash.replace(/lw\[\]=/g,'').replace(/&/g,'|');
+};
+
+// REORDER TO-DO ITEMS
+function reorder_items(todolistid) {
+	$('.li' + todolistid).addClass('drag');
+	$('.cb' + todolistid).hide(); $('.li_edit').hide();
+	$('#listmenu' + todolistid).hide();
+	$('#reorderdone' + todolistid).show();
+	$('#todoitems' + todolistid).Sortable(
+		{
+			accept : 'li' + todolistid,
+			axis : 'vertically',
+			activeclass : 'sortableactive',
+			hoverclass : 'sortablehover',
+			helperclass : 'sorthelper',
+			opacity: 	0.5,
+			fit :	false,
+			onStop : function() {
+  				save_item_order(todolistid)
+			}
+		}
+	)	
+}
+function done_reordering_items(todolistid) {
+	$('#reorderdone' + todolistid).hide();
+	$('#listmenu' + todolistid).show(); 
+	$('.cb' + todolistid).show(); $('.li_edit').show();
+	$('.li' + todolistid).removeClass('drag');
+	$('#todoitems' + todolistid).SortableDestroy(); 
+}
+function save_item_order(todolistid) {
+	thelist = serialize_items('todoitems' + todolistid,todolistid);
+	$('#listsort').val(thelist);
+    $.ajax({
+		type: 'post',
+		url: './ajax/sort_list_items.cfm',
+		data: 'tlid=' + todolistid + '&li=' + $('#listsort').val()
+	});		
+}
+function serialize_items(s,todolistid)
+{
+	serial = $.SortSerialize(s);
+	return serial.hash.replace(/todoitems.{35}\[\]=/g,'').replace(/&/g,'|');
+};
