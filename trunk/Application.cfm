@@ -38,7 +38,7 @@
 	<!--- check for Blue Dragon --->
 	<cfset application.isBD = StructKeyExists(server,"bluedragon")>
 	
-	<!--- create master.css --->
+	<!--- create all_styles.css --->
 	<cffile action="read" file="#ExpandPath('./css/')#reset.css" variable="reset">
 	<cffile action="read" file="#ExpandPath('./css/')#layout.css" variable="layout">
 	<cffile action="read" file="#ExpandPath('./css/')#style.css" variable="style">
@@ -46,8 +46,8 @@
 	<cffile action="read" file="#ExpandPath('./css/')#images.css" variable="images">
 	<cffile action="read" file="#ExpandPath('./css/')#forms.css" variable="forms">
 	<cffile action="read" file="#ExpandPath('./css/')#tables.css" variable="tables">
-	<cffile action="write" file="#ExpandPath('./css/')#master.css" output="/* THIS FILE IS GENERATED AUTOMATICALLY - EDIT INDIVIDUAL CSS FILES & REINIT TO MODIFY STYLES */#chr(10)##chr(13)#/* RESET.CSS */#chr(10)##chr(13)##reset##chr(10)##chr(13)#/* LAYOUT.CSS */#chr(10)##chr(13)##layout##chr(10)##chr(13)#/* STYLE.CSS */#chr(10)##chr(13)##style##chr(10)##chr(13)#/* HEADER.CSS */#chr(10)##chr(13)##header##chr(10)##chr(13)#/* IMAGES.CSS */#chr(10)##chr(13)##images##chr(10)##chr(13)#/* FORMS.CSS */#chr(10)##chr(13)##forms##chr(10)##chr(13)#/* TABLES.CSS */#chr(10)##chr(13)##tables#">
-	
+	<cffile action="write" file="#ExpandPath('./css/')#all_styles.css" output="/* THIS FILE IS GENERATED AUTOMATICALLY - EDIT INDIVIDUAL CSS FILES & REINIT TO MODIFY STYLES */#chr(10)##chr(13)#/* RESET.CSS */#chr(10)##chr(13)##reset##chr(10)##chr(13)#/* LAYOUT.CSS */#chr(10)##chr(13)##layout##chr(10)##chr(13)#/* STYLE.CSS */#chr(10)##chr(13)##style##chr(10)##chr(13)#/* HEADER.CSS */#chr(10)##chr(13)##header##chr(10)##chr(13)#/* IMAGES.CSS */#chr(10)##chr(13)##images##chr(10)##chr(13)#/* FORMS.CSS */#chr(10)##chr(13)##forms##chr(10)##chr(13)#/* TABLES.CSS */#chr(10)##chr(13)##tables#">
+
 	<cfset application.init = true>
 	
 </cfif>

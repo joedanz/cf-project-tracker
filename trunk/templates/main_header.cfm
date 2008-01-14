@@ -17,14 +17,13 @@
 
 <!-- CSS -->
 <link rel="stylesheet" href="#application.settings.mapping#/css/header/#session.style#.css" media="screen,projection" type="text/css" />
-<link rel="stylesheet" href="#application.settings.mapping#/css/master.css" media="screen,projection" type="text/css" />
+<link rel="stylesheet" href="#application.settings.mapping#/css/all_styles.css" media="screen,projection" type="text/css" />
 
 <!-- JavaScript -->
 <script type="text/javascript" src="#application.settings.mapping#/js/jquery.js"></script>
 <script type="text/javascript" src="#application.settings.mapping#/js/interface.js"></script>
 <script type="text/javascript" src="#application.settings.mapping#/js/jquery.color.js"></script>
 <script type="text/javascript" src="#application.settings.mapping#/js/jquery.tablesorter.js"></script>
-<script type="text/javascript" src="#application.settings.mapping#/js/webtoolkit.jscrollable.js"></script>
 <script type="text/javascript" src="#application.settings.mapping#/js/webtoolkit.scrollabletable.js"></script>
 <script type="text/javascript" src="#application.settings.mapping#/js/master.js"></script>
 </head>
