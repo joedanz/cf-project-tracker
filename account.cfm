@@ -74,8 +74,8 @@
 		} else return true;
 	}
 </script>
-<script type='text/javascript' src='#application.settings.mapping#/js/jquery/jquery.history_remote.pack.js'></script>
-<script type='text/javascript' src='#application.settings.mapping#/js/jquery/jquery.tabs.pack.js'></script>
+<script type='text/javascript' src='#application.settings.mapping#/js/jquery.history_remote.pack.js'></script>
+<script type='text/javascript' src='#application.settings.mapping#/js/jquery.tabs.pack.js'></script>
 <link rel='stylesheet' href='#application.settings.mapping#/css/jquery.tabs.css' media='screen,projection' type='text/css' />
 <!--[if lte IE 7]>
 <link rel='stylesheet' href='#application.settings.mapping#/css/jquery.tabs-ie.css' type='text/css' media='projection, screen' />

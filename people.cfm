@@ -15,7 +15,7 @@
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#project.name# &raquo; People" project="#project.name#" projectid="#url.p#">
 
-<cfhtmlhead text='<script type="text/javascript" src="./js/jquery/jquery-select.js"></script>'>
+<cfhtmlhead text='<script type="text/javascript" src="./js/jquery-select.js"></script>'>
 
 <cfoutput>
 <div id="container">

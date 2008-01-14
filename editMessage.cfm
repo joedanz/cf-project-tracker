@@ -94,7 +94,7 @@
 	  	$('##title').focus();
 	});	
 </script>
-<script type='text/javascript' src='./js/jquery/jquery.checkboxes.js'></script>">
+<script type='text/javascript' src='./js/jquery.checkboxes.js'></script>">
 
 <cfoutput>
 <div id="container">
