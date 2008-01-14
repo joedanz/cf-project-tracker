@@ -52,7 +52,7 @@
 	  	$('##duedate').jcalendar();
 	});
 </script>
-<script type='text/javascript' src='#application.settings.mapping#/js/jquery/jcalendar.js'></script>
+<script type='text/javascript' src='#application.settings.mapping#/js/jcalendar.js'></script>
 <link rel='stylesheet' href='#application.settings.mapping#/css/jcalendar.css' media='screen,projection' type='text/css' />
 ">
 

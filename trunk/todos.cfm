@@ -39,7 +39,7 @@
 					<div class="listWrapper" id="lw">
 					<cfloop query="todolists">
 					<div class="listItem todolist" id="#todolistID#" style="margin-bottom:20px;">
-					<div class="top"><a href="##" onclick="$('body').ScrollTo(800)"><img src="./images/top.gif" height="12" width="31" border="0" alt="Top" /></a></div>
+					<div class="top"><a href="##" onclick="$('body').ScrollTo(800); return false;"><img src="./images/top.gif" height="12" width="31" border="0" alt="Top" /></a></div>
 					
 					<h3 class="padtop padbottom list">#title#<cfif compare(project.role,'Read-Only')> <span class="itemedit">[<a href="editTodolist.cfm?p=#url.p#&t=#todolistid#">edit</a> / <a href="#cgi.script_name#?p=#url.p#&del=#todolistid#" onclick="return confirm('Are you sure you wish to delete this to-do list?');">del</a>]</span></cfif></h3>
 						<div class="tododetail">
@@ -175,7 +175,7 @@
 		<div class="content">
 			<ul>
 				<cfloop query="todolists">
-				<li><a href="##" onclick="$('###todolistID#').ScrollTo(800)">#title#</a></li>
+				<li><a href="##" onclick="$('###todolistID#').ScrollTo(800); return false;">#title#</a></li>
 				</cfloop>
 			</ul>
 		</div>

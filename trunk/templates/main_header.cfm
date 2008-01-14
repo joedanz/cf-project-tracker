@@ -20,19 +20,12 @@
 <link rel="stylesheet" href="#application.settings.mapping#/css/master.css" media="screen,projection" type="text/css" />
 
 <!-- JavaScript -->
-<script type="text/javascript" src="#application.settings.mapping#/js/jquery/jquery.js"></script>
-<script type="text/javascript" src="#application.settings.mapping#/js/jquery/interface.js"></script>
-<script type="text/javascript" src="#application.settings.mapping#/js/jquery/jquery.color.js"></script>
-<script type="text/javascript" src="#application.settings.mapping#/js/jquery/jquery.tablesorter.js"></script>
-<!---
-<script type="text/javascript" src="#application.settings.mapping#/js/jquery.ui/jquery.dimensions.js"></script>
-<script type="text/javascript" src="#application.settings.mapping#/js/jquery.ui/ui.mouse.js"></script>
-<script type="text/javascript" src="#application.settings.mapping#/js/jquery.ui/ui.draggable.js"></script>
-<script type="text/javascript" src="#application.settings.mapping#/js/jquery.ui/ui.droppable.js"></script>
-<script type="text/javascript" src="#application.settings.mapping#/js/jquery.ui/ui.sortable.js"></script>
---->
-<script type="text/javascript" src="#application.settings.mapping#/js/jquery/webtoolkit.jscrollable.js"></script>
-<script type="text/javascript" src="#application.settings.mapping#/js/jquery/webtoolkit.scrollabletable.js"></script>
+<script type="text/javascript" src="#application.settings.mapping#/js/jquery.js"></script>
+<script type="text/javascript" src="#application.settings.mapping#/js/interface.js"></script>
+<script type="text/javascript" src="#application.settings.mapping#/js/jquery.color.js"></script>
+<script type="text/javascript" src="#application.settings.mapping#/js/jquery.tablesorter.js"></script>
+<script type="text/javascript" src="#application.settings.mapping#/js/webtoolkit.jscrollable.js"></script>
+<script type="text/javascript" src="#application.settings.mapping#/js/webtoolkit.scrollabletable.js"></script>
 <script type="text/javascript" src="#application.settings.mapping#/js/master.js"></script>
 </head>
 <body>
