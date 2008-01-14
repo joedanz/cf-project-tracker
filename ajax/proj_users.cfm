@@ -35,7 +35,7 @@
 		<cfif session.user.userID eq userID and listFind('User,Admin,Read-Only',role)> / </cfif>
 
  		<cfif listFind('User,Admin,Read-Only',role)>
- 		<a href="##" onclick="remove_user('#url.p#','#userID#','#lastName#','#firstName#');$('###userID#').DropOutDown(500);">remove from project</a></cfif>
+ 		<a href="##" onclick="remove_user('#url.p#','#userID#','#lastName#','#firstName#');$('###userID#').fadeOut(500);">remove from project</a></cfif>
 		<cfif compareNoCase('Owner',role)>
 	 		<cfif compareNoCase('User',role)> / <a href="people.cfm?p=#url.p#&u=#userID#&r=Admin">make user</a></cfif>
 	 		<cfif compareNoCase('Admin',role)> / <a href="people.cfm?p=#url.p#&u=#userID#&r=Admin">make admin</a></cfif>
@@ -51,7 +51,7 @@
 <cfif StructKeyExists(url,"a")>
 	<cfoutput>
 	<script type="text/javascript">
-		$('###url.a#').Highlight(2000, '##ffa');
+		$('###url.a#').css('backgroundColor','##ffa').animate({backgroundColor:'##f7f7f7'},2000);
 	</script>
 	</cfoutput>	
 </cfif>

@@ -20,9 +20,6 @@
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; To-Dos">
 
-<cfhtmlhead text='<script type="text/javascript" src="./js/todos.js"></script>
-'>
-
 <cfoutput>
 <div id="container">
 	<!--- left column --->

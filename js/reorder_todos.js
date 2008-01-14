@@ -4,7 +4,7 @@ function reorder_lists() {
 	$(".listItem").removeClass("todolist"); $(".list").addClass("drag"); 
 	$('#sorting_done').show();
 	$('#reorder_menu').html('<a href="#" onclick="done_reordering();" class="reorder">Done Reordering</a>');
-	$('.listWrapper').Sortable(
+	$('.listWrapper').sortable(
 		{
 			accept : 'listItem',
 			axis : 'vertically',
@@ -21,7 +21,7 @@ function done_reordering() {
 	$('.itemedit').show(); $('.tododetail').show(); $('.top').show(); 
 	$(".list").removeClass("drag"); $(".listItem").addClass("todolist"); 
 	save_order();
-	$('.listWrapper').SortableDestroy(); 
+	$('.listWrapper').sortableDestroy(); 
 	$('#sorting_done').hide();
 	$('#reorder_menu').html('<a href="#" onclick="reorder_lists();" class="reorder">Reorder lists</a>');
 }
@@ -39,6 +39,10 @@ function serialize_lists(s)
 	serial = $.SortSerialize(s);
 	return serial.hash.replace(/lw\[\]=/g,'').replace(/&/g,'|');
 };
+
+function testalert() {
+	alert('test');
+}
 
 // TO-DO ITEMS
 function reorder_items(todolistid) {

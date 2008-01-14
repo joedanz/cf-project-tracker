@@ -22,7 +22,15 @@
 <!-- JavaScript -->
 <script type="text/javascript" src="#application.settings.mapping#/js/jquery/jquery.js"></script>
 <script type="text/javascript" src="#application.settings.mapping#/js/jquery/interface.js"></script>
+<script type="text/javascript" src="#application.settings.mapping#/js/jquery/jquery.color.js"></script>
 <script type="text/javascript" src="#application.settings.mapping#/js/jquery/jquery.tablesorter.js"></script>
+<!---
+<script type="text/javascript" src="#application.settings.mapping#/js/jquery.ui/jquery.dimensions.js"></script>
+<script type="text/javascript" src="#application.settings.mapping#/js/jquery.ui/ui.mouse.js"></script>
+<script type="text/javascript" src="#application.settings.mapping#/js/jquery.ui/ui.draggable.js"></script>
+<script type="text/javascript" src="#application.settings.mapping#/js/jquery.ui/ui.droppable.js"></script>
+<script type="text/javascript" src="#application.settings.mapping#/js/jquery.ui/ui.sortable.js"></script>
+--->
 <script type="text/javascript" src="#application.settings.mapping#/js/jquery/webtoolkit.jscrollable.js"></script>
 <script type="text/javascript" src="#application.settings.mapping#/js/jquery/webtoolkit.scrollabletable.js"></script>
 <script type="text/javascript" src="#application.settings.mapping#/js/master.js"></script>
