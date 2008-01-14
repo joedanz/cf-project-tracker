@@ -17,9 +17,6 @@
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; #project.name#" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
 
-<cfhtmlhead text='<script type="text/javascript" src="./js/comments.js"></script>
-'>
-
 <cfoutput>
 <div id="container">
 <cfif project.recordCount>
@@ -67,7 +64,7 @@
 					</cfloop>
 					
 					<cfif compare(project.role,'Read-Only')>
-					<form action="#cgi.script_name#?p=#url.p#&m=#url.m#" method="post" name="add" id="add" class="frm" onsubmit="return confirmSubmit();">
+					<form action="#cgi.script_name#?p=#url.p#&m=#url.m#" method="post" name="add" id="add" class="frm" onsubmit="return confirm_comment();">
 					<div class="b">Post a new comment...</div>
 					<cfscript>
 						basePath = 'includes/fckeditor/';
@@ -87,7 +84,7 @@
 					</fieldset>
 					</div>
 	
-					<input type="button" class="button" value="Preview" onclick="show_preview();" /> or 
+					<input type="button" class="button" value="Preview" onclick="comment_preview();" /> or 
 					<input type="submit" class="button" name="submit" value="Post Comment" />
 					</form>
 					</cfif>

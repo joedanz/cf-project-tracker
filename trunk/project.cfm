@@ -35,7 +35,6 @@ $(document).ready(function(){
 	</cfif>
 });
 </script>
-<script type='text/javascript' src='#application.settings.mapping#/js/project.js'></script>
 </cfoutput>
 </cfsavecontent>
 

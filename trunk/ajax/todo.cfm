@@ -42,7 +42,7 @@
 		</li>
 		<cfif not compareNoCase(url.i,todoID)>
 			<script type="text/javascript">
-				$('###url.i#').Highlight(1500, '##ffa');
+				$('###url.i#').css('backgroundColor','##ffa').animate({backgroundColor:'##f7f7f7'},1500);
 			</script>
 		</cfif>
 		</cfoutput>
@@ -76,14 +76,14 @@
 			<cfcase value="add">
 				<cfoutput>
 				<script type="text/javascript">
-					$('###todos_notcompleted.todoID[todos_notcompleted.recordCount]#').Highlight(1500, '##ffa');
+					$('###todos_notcompleted.todoID[todos_notcompleted.recordCount]#').css('backgroundColor','##ffa').animate({backgroundColor:'##f7f7f7'},1500);
 				</script>
 				</cfoutput>	
 			</cfcase>
 			<cfcase value="update">
 				<cfoutput>
 				<script type="text/javascript">
-					$('###url.i#').Highlight(1500, '##ffa');
+					$('###url.i#').css('backgroundColor','##ffa').animate({backgroundColor:'##f7f7f7'},1500);
 				</script>
 				</cfoutput>	
 			</cfcase>

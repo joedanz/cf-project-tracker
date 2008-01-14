@@ -130,7 +130,7 @@
 						</cfloop>						
 						
 						<cfif compare(project.role,'Read-Only')>
-						<form action="#cgi.script_name#?p=#url.p#&i=#url.i#" method="post" name="add" id="add" class="frm" onsubmit="return confirmSubmit();">
+						<form action="#cgi.script_name#?p=#url.p#&i=#url.i#" method="post" name="add" id="add" class="frm" onsubmit="return confirm_comment();">
 						<div class="b">Post a new comment...</div>
 						<cfscript>
 							basePath = 'includes/fckeditor/';
@@ -150,7 +150,7 @@
 						</fieldset>
 						</div>
 		
-						<input type="button" class="button" value="Preview" onclick="show_preview();" /> or 
+						<input type="button" class="button" value="Preview" onclick="comment_preview();" /> or 
 						<input type="submit" class="button" name="submit" value="Post Comment" />
 						</form>
 						</cfif>			

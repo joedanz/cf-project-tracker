@@ -15,8 +15,7 @@
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#project.name# &raquo; People" project="#project.name#" projectid="#url.p#">
 
-<cfhtmlhead text='<script type="text/javascript" src="./js/jquery/jquery-select.js"></script>
-<script type="text/javascript" src="./js/people.js"></script>'>
+<cfhtmlhead text='<script type="text/javascript" src="./js/jquery/jquery-select.js"></script>'>
 
 <cfoutput>
 <div id="container">
@@ -27,7 +26,7 @@
 
 				<div class="header">
 					<span class="rightmenu">
-						<a href="##" onclick="$('##slidediv').SlideInUp(1000);" class="add">Add person to project</a>
+						<a href="##" onclick="$('##slidediv').slideToggle(1000);" class="add">Add person to project</a>
 					</span>					
 					
 					<h2 class="people">People associated with this project</h2>
@@ -52,7 +51,7 @@
 					<option value="Read-Only">Read-Only</option>
 				</select>
 				<input type="button" class="button2" name="add" value="Add Person" onclick="add_existing('#url.p#');return false;" /> or 
-				<a href="##" onclick="$('##slidediv').SlideOutUp(1000);return false;">cancel</a><br />
+				<a href="##" onclick="$('##slidediv').slideUp(1000);return false;">cancel</a><br />
 				</fieldset>
 				</div>
 				
@@ -101,7 +100,7 @@
 					<input type="button" class="button2" name="add" value="Add" onclick="add_new('#url.p#');return false;" /> 
 					</div>
 					<div>
-					or <a href="##" onclick="$('##slidediv').SlideOutUp(1000);return false;">cancel</a>
+					or <a href="##" onclick="$('##slidediv').slideUp(1000);return false;">cancel</a>
 					</div>
 				</fieldset>
 				</div>
@@ -128,7 +127,7 @@
 							<cfif session.user.userID eq userID and listFind('User,Admin,Read-Only',role)> / </cfif>
 
 					 		<cfif listFind('User,Admin,Read-Only',role)>
-					 		<a href="##" onclick="remove_user('#url.p#','#userID#','#lastName#','#firstName#');$('###userID#').DropOutDown(500);return false;">remove from project</a></cfif>
+					 		<a href="##" onclick="remove_user('#url.p#','#userID#','#lastName#','#firstName#');$('###userID#').fadeOut(500);return false;">remove from project</a></cfif>
 		<cfif compareNoCase('Owner',role)>
 	 		<cfif compareNoCase('User',role)> / <a href="people.cfm?p=#url.p#&u=#userID#&r=User">make user</a></cfif>
 	 		<cfif compareNoCase('Admin',role)> / <a href="people.cfm?p=#url.p#&u=#userID#&r=Admin">make admin</a></cfif>

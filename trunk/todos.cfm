@@ -16,8 +16,7 @@
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; #project.name#" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
 
-<cfhtmlhead text='<script type="text/javascript" src="./js/todos.js"></script>
-<script type="text/javascript" src="./js/reorder_todos.js"></script>'>
+<cfhtmlhead text='<script type="text/javascript" src="./js/reorder_todos.js"></script>'>
 
 <cfoutput>
 <div id="container">
