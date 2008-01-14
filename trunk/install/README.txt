@@ -9,11 +9,17 @@ put out by the 37signals crew.  Not too much documentation but
 hopefully most should be self explanatory.
 
 INSTALLATION:
-You also need to edit the settings files in the config directory.
+You need to edit the settings files in the config directory.
 One is called when using the built in dev server on 127.0.0.1,
 the settings.ini.cfm settings get called in any other instance.
-You need to install the database tables (scripts are included).  The 
-scripts add a record for the admin user and 2 entries for default 
+
+The rootURL should be set to the site address without any trailing 
+slash or directories - just the http:// plus the hostname or
+IP address.  The mapping should be set to "/project" or wherever
+you've placed the application - also with no trailing slash.
+
+You also need to install the database tables (scripts are included).  
+The scripts add a record for the admin user and 2 entries for default 
 settings.  You can name your database whatever you'd like but make
 sure to match the settings in the config files.
 
