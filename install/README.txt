@@ -35,6 +35,7 @@ Specific database changes made since launch:
   2) pt_project_users - "role" extended to 9 characters.
   3) pt_todolists - "description" extended to 1000 characters.
   4) pt_todos - "task" extended to 300 characters.
+  5) pt_users - guest user now added by default.
 
 SUBVERSION NOTES:
 There is a Subversion repository browser and code browser.  This 
