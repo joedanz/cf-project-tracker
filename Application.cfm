@@ -39,14 +39,14 @@
 	<cfset application.isBD = StructKeyExists(server,"bluedragon")>
 	
 	<!--- create all_styles.css --->
-	<cffile action="read" file="#ExpandPath('./css/')#reset.css" variable="reset">
-	<cffile action="read" file="#ExpandPath('./css/')#layout.css" variable="layout">
-	<cffile action="read" file="#ExpandPath('./css/')#style.css" variable="style">
-	<cffile action="read" file="#ExpandPath('./css/')#header.css" variable="header">
-	<cffile action="read" file="#ExpandPath('./css/')#images.css" variable="images">
-	<cffile action="read" file="#ExpandPath('./css/')#forms.css" variable="forms">
-	<cffile action="read" file="#ExpandPath('./css/')#tables.css" variable="tables">
-	<cffile action="write" file="#ExpandPath('./css/')#all_styles.css" output="/* THIS FILE IS GENERATED AUTOMATICALLY - EDIT INDIVIDUAL CSS FILES & REINIT TO MODIFY STYLES */#chr(10)##chr(13)#/* RESET.CSS */#chr(10)##chr(13)##reset##chr(10)##chr(13)#/* LAYOUT.CSS */#chr(10)##chr(13)##layout##chr(10)##chr(13)#/* STYLE.CSS */#chr(10)##chr(13)##style##chr(10)##chr(13)#/* HEADER.CSS */#chr(10)##chr(13)##header##chr(10)##chr(13)#/* IMAGES.CSS */#chr(10)##chr(13)##images##chr(10)##chr(13)#/* FORMS.CSS */#chr(10)##chr(13)##forms##chr(10)##chr(13)#/* TABLES.CSS */#chr(10)##chr(13)##tables#">
+	<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#reset.css" variable="reset">
+	<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#layout.css" variable="layout">
+	<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#style.css" variable="style">
+	<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#header.css" variable="header">
+	<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#images.css" variable="images">
+	<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#forms.css" variable="forms">
+	<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#tables.css" variable="tables">
+	<cffile action="write" file="#ExpandPath(settings.mapping & '/css/')#all_styles.css" output="/* THIS FILE IS GENERATED AUTOMATICALLY - EDIT INDIVIDUAL CSS FILES & REINIT TO MODIFY STYLES */#chr(10)##chr(13)#/* RESET.CSS */#chr(10)##chr(13)##reset##chr(10)##chr(13)#/* LAYOUT.CSS */#chr(10)##chr(13)##layout##chr(10)##chr(13)#/* STYLE.CSS */#chr(10)##chr(13)##style##chr(10)##chr(13)#/* HEADER.CSS */#chr(10)##chr(13)##header##chr(10)##chr(13)#/* IMAGES.CSS */#chr(10)##chr(13)##images##chr(10)##chr(13)#/* FORMS.CSS */#chr(10)##chr(13)##forms##chr(10)##chr(13)#/* TABLES.CSS */#chr(10)##chr(13)##tables#">
 
 	<cfset application.init = true>
 	
@@ -62,7 +62,7 @@
 </cfif>
 
 <!--- handle security --->
-<cfif not findNoCase('/rss.cfm',cgi.script_name) and not findNoCase('/forgot.cfm',cgi.script_name)>
+<cfif not findNoCase('/rss.cfm',cgi.script_name) and not findNoCase('/forgot.cfm',cgi.script_name) and not findNoCase('/install/install.cfm',cgi.script_name) and not findNoCase('/install/upgrade.cfm',cgi.script_name)>
 <cflogin>
 
 	<cfif NOT StructKeyExists(form,"username")>
