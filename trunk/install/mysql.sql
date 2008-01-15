@@ -128,7 +128,6 @@ CREATE TABLE `pt_projects` (
   `added` datetime default NULL,
   `addedBy` varchar(35) default NULL,
   `status` varchar(8) default NULL,
-  `active` bit(1) default NULL,
   `svnurl` varchar(100) default NULL,
   `svnuser` varchar(20) default NULL,
   `svnpass` varchar(20) default NULL,
