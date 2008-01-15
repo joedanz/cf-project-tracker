@@ -1,5 +1,15 @@
 <cfsetting enablecfoutputonly="true">
 
+<cfif StructKeyExists(url,"p")>
+	<cfset userRole = application.role.get(session.user.userid,url.p)>
+<cfelse>
+	<cfset userRole = application.role.get(session.user.userid,form.projectid)>
+</cfif>
+<cfif not listFind('Owner,Admin',userRole.role)>
+	<cfoutput><h2>Project Owner or Admin Access Only!!!</h2></cfoutput>
+	<cfabort>
+</cfif>
+
 <cfparam name="form.display" default="0">
 <cfif StructKeyExists(form,"projectID")> <!--- update project --->
 	<cfset application.project.update(form.projectid,form.name,form.description,form.display,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass)>
