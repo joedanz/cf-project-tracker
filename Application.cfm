@@ -62,7 +62,7 @@
 </cfif>
 
 <!--- handle security --->
-<cfif not findNoCase('/rss.cfm',cgi.script_name) and not findNoCase('/forgot.cfm',cgi.script_name) and not findNoCase('/install/install.cfm',cgi.script_name) and not findNoCase('/install/upgrade.cfm',cgi.script_name)>
+<cfif not findNoCase('/rss.cfm',cgi.script_name) and not findNoCase('/forgot.cfm',cgi.script_name)>
 <cflogin>
 
 	<cfif NOT StructKeyExists(form,"username")>
