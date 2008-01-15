@@ -193,6 +193,7 @@ CREATE TABLE `pt_users` (
 
 /*Add admin user */
 insert into `pt_users` (userID,username,password,style,admin,active) values('FCDCF4CD-16E6-58DE-13EDC6A2B362B22C','admin','admin','blue',1,1);
+insert into `pt_users` (userID,username,password,style,admin,active) values('7F16CA08-1372-7975-6F7F9DA33EBD6A09','guest','guest','blue',1,1);
 
 /*Add default settings */
 insert into `pt_settings` values ('FC3D187C-16E6-58DE-133C5098C58225D3','app_title','TICC Project Tracker');

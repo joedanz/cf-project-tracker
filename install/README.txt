@@ -19,7 +19,7 @@ IP address.  The mapping should be set to "/project" or wherever
 you've placed the application - also with no trailing slash.
 
 You also need to install the database tables (scripts are included).  
-The scripts add a record for the admin user and 2 entries for default 
+The scripts add an admin and a guest user, plus 2 entries for default 
 settings.  You can name your database whatever you'd like but make
 sure to match the settings in the config files.
 
