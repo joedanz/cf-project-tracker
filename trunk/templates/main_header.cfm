@@ -89,9 +89,9 @@
 			</cfif>
 			<cfelse>
 			<li><a href="#application.settings.mapping#/index.cfm" title="Dashboard across all your projects"<cfif find('#application.settings.mapping#/index.cfm',cgi.script_name)> class="current"</cfif>>Dashboard</a></li>
-			<li><a href="#application.settings.mapping#/alltodos.cfm" title="To-Dos across all your projects"<cfif find('/alltodos.cfm',cgi.script_name)> class="current"</cfif>>To-Dos</a></li>
-			<li><a href="#application.settings.mapping#/allmilestones.cfm" title="Milestones across all your projects"<cfif find('/allmilestones.cfm',cgi.script_name)> class="current"</cfif>>Milestones</a></li>
-			<li><a href="#application.settings.mapping#/allissues.cfm" title="Issues across all your projects"<cfif find('/allissues.cfm',cgi.script_name)> class="current"</cfif>>Issues</a></li>
+			<li><a href="#application.settings.mapping#/alltodos.cfm" title="To-Dos across all your projects"<cfif find('/alltodos.cfm',cgi.script_name)> class="current"</cfif>>All To-Dos</a></li>
+			<li><a href="#application.settings.mapping#/allmilestones.cfm" title="Milestones across all your projects"<cfif find('/allmilestones.cfm',cgi.script_name)> class="current"</cfif>>All Milestones</a></li>
+			<li><a href="#application.settings.mapping#/allissues.cfm" title="Issues across all your projects"<cfif find('/allissues.cfm',cgi.script_name)> class="current"</cfif>>All Issues</a></li>
 			</cfif>
 		</ul>
 		<br />
