@@ -1,5 +1,11 @@
 <cfsetting enablecfoutputonly="true">
 
+<cfset userRole = application.role.get(session.user.userid,url.p)>
+<cfif not listFind('Owner,Admin',userRole.role) and not session.user.admin>
+	<cfoutput><h2>Project Owner or Admin Access Only!!!</h2></cfoutput>
+	<cfabort>
+</cfif>
+
 <cfif StructKeyExists(url,"makeOwner")>
 	<cfset application.user.makeOwner(url.p,url.makeOwner)>
 <cfelseif StructKeyExists(url,"r")>
@@ -117,7 +123,12 @@
 								<span style="font-weight:normal;font-size:.9em;">(<cfif compare(role,'')>#role#<cfelse>User</cfif>)</span>
 							</h4>
 					 		<cfif compare(email,'')><a href="mailto:#email#">#email#</a><br /></cfif>
-					 		<cfif compare(phone,'')>#phone#<br /></cfif>
+					 		<cfif compare(phone,'')>#request.udf.phoneFormat(phone,"(xxx) xxx-xxxx")#
+						 		<cfif compare(mobile,'')>
+							 		<cfif compare(phone,'') and compare(mobile,'')>	/ mobile: </cfif>
+							 		#request.udf.phoneFormat(mobile,"(xxx) xxx-xxxx")#
+							 	</cfif>
+						 		<br /></cfif>
 					 		
 					 		
 					 		<cfif (listFind('Admin,Owner',userRole.role) and compare('Owner',role)) or session.user.userID eq userID>						<div style="font-weight:bold;font-size:.9em;margin-top:3px;">[ 
