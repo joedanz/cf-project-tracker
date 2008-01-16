@@ -138,13 +138,15 @@
 			</cfif>
 		</cfloop>
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, style, admin, active)
+			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, avatar, style, email_todos, mobile_todos, email_mstones, mobile_mstones, email_issues, mobile_issues, admin, active)
 				VALUES(<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.firstName#" maxlength="12">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.lastName#" maxlength="20">, 
 						'#newUsername#', '#newPass#',
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" maxlength="120">, 
+						0,
 						'#application.settings.default_style#',
+						0,0,0,0,0,0,
 						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.admin#">, 
 						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.active#">		
 						)
@@ -170,14 +172,16 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfargument name="admin" type="numeric" required="true">
 		<cfargument name="active" type="numeric" required="false" default="1">
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, style, admin, active)
+			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, avatar, style, email_todos, mobile_todos, email_mstones, mobile_mstones, email_issues, mobile_issues, admin, active)
 				VALUES(<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.firstName#" maxlength="12">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.lastName#" maxlength="20">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userame#" maxlength="30">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.password#" maxlength="20">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" maxlength="120">, 
+						0,
 						'#application.settings.default_style#',
+						0,0,0,0,0,0,
 						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.admin#">, 
 						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.active#">		
 						)
