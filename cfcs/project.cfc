@@ -35,6 +35,23 @@
 		<cfreturn qRecords>
 	</cffunction>
 	
+	<cffunction name="getDistinct" access="public" returntype="query" output="false"
+				hint="Returns project records.">				
+		<cfargument name="projectID" type="string" required="false" default="">
+		<cfset var qRecords = "">
+		<cfquery name="qRecords" datasource="#variables.dsn#">
+			SELECT projectID, name, description, display, added, addedBy, status, 
+				ticketPrefix, svnurl, svnuser, svnpass
+			FROM #variables.tableprefix#projects
+			WHERE 0=0
+			  <cfif compare(ARGUMENTS.projectID,'')>
+				  AND projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+			  </cfif>
+			ORDER BY name
+		</cfquery>		
+		<cfreturn qRecords>
+	</cffunction>	
+	
 	<cffunction name="add" access="public" returnType="boolean" output="false"
 				hint="Adds a project.">
 		<cfargument name="projectID" type="uuid" required="true">		
@@ -126,7 +143,7 @@
 			SELECT distinct u.userID, u.firstName, u.lastName, u.username, u.email, u.phone, u.lastLogin, u.avatar, u.admin, pu.role
 			FROM #variables.tableprefix#users u 
 				INNER JOIN #variables.tableprefix#project_users pu ON u.userID = pu.userID
-			WHERE active = 1
+			WHERE u.active = 1
 			<cfif compare(arguments.projectID,'')>
 				AND projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
 			</cfif>

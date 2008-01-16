@@ -64,6 +64,19 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 	background-color:#eff7ff;
 }
 
+#container .left .main .submenu {
+	background-color:#f7f7f7;
+}
+
+#container .left .main ul.submenu li a {
+	text-decoration:none;
+}
+
+#container .left .main ul.submenu li a.current {
+	border-bottom:5px solid #ccc;
+	font-weight:bold;
+}
+
 #container .left .main .header h2 {
 	font-size:1.4em;
 }

@@ -12,7 +12,9 @@ ul.nobullet li { margin-bottom:5px; }
 
 .mb5 { margin-bottom:5px; }
 .mb10 { margin-bottom:10px; }
+.mb15 { margin-bottom:15px; }
 .mb20 { margin-bottom:20px; }
+.tac { text-align:center; }
 
 div.pagediv {
 	padding:3px 5px;
@@ -54,6 +56,19 @@ table.activity td {
 #container .left .main .header {
 	padding:10px 20px;
 	margin-bottom:15px;
+}
+
+#container .left .main .submenu {
+	padding:10px 20px 10px 60px;
+}
+
+#container .left .main ul.submenu li {
+	list-style:none;
+	display:inline;
+}
+
+#container .left .main ul.submenu li a {
+	padding:4px 20px;
 }
 
 #container .left .main .header .rightmenu {
