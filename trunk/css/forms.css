@@ -10,6 +10,18 @@ form.frm label {
 	float:left;
 }
 
+form.frm label.cb {
+	width: 160px;
+	margin-right:6px;
+	text-align: left;
+	float:none;
+}
+
+form.frm p input.cb {
+	margin-left:30px;
+	width:auto;
+}
+
 form.frm label.req {
 	font-weight: bold;
 }
@@ -32,8 +44,11 @@ form.frm p input, form.frm p textarea {
 
 form.frm p input.short, form.frm p textarea.short {
 	width:390px;
-	padding:2px;
 }
+
+form.frm p input.shorter {
+	width:180px;
+} 
 
 form.frm p input.checkbox {
 	width:20px;

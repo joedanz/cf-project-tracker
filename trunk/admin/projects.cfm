@@ -1,0 +1,63 @@
+<cfsetting enablecfoutputonly="true">
+
+<cfset projects = application.project.getDistinct()>
+
+<!--- Loads header/footer --->
+<cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Admin">
+
+<cfoutput>
+<div id="container">
+	<!--- left column --->
+	<div class="left">
+		<div class="main">
+
+				<div class="header" style="margin-bottom:0;">
+					<h2 class="admin">Administration</h2>
+				</div>
+				<ul class="submenu mb15">
+					<li><a href="settings.cfm">Settings</li>
+					<li><a href="#cgi.script_name#" class="current">Projects</li>
+					<li><a href="users.cfm">Users</a></li>
+				</ul>
+				<div class="content">
+					<div class="wrapper">
+				 	
+				 	<table class="admin">
+					 	<tr>
+							<th class="tac">##</th>
+							<th>Project Name</th>
+							<th class="tac">Status</th>
+							<th class="tac">Edit</th>
+						</tr>
+					<cfloop query="projects">
+						<tr>
+							<td class="tac b">#currentRow#)</td>
+							<td>#name#</td>
+							<td class="tac">#status#</td>
+							<td class="tac"><a href="../editProject.cfm?from=admin&p=#projectid#">edit</a></td>
+						</tr>					
+					</cfloop>
+					</table><br />
+					<a href="../editProject.cfm?from=admin" class="b add">Add A New Project</a>
+
+				 	</div>
+				</div>
+			
+		</div>
+		<div class="bottom">&nbsp;</div>
+		<div class="footer">
+			<cfinclude template="#application.settings.mapping#/footer.cfm">
+		</div>	  
+	</div>
+
+	<!--- right column --->
+	<div class="right">
+
+	</div>
+		
+</div>
+</cfoutput>
+
+</cfmodule>
+
+<cfsetting enablecfoutputonly="false">

@@ -1,4 +1,4 @@
-<cfsetting enablecfoutputonly="true" showdebugoutput="false">
+<cfsetting enablecfoutputonly="true" showdebugoutput="1">
 
 <cfset applicationName = "project_tracker">
 <cfapplication name="#applicationName#" sessionManagement="true" loginstorage="session">

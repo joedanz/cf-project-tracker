@@ -1,27 +1,38 @@
 <cfsetting enablecfoutputonly="true">
 
-<cfif StructKeyExists(url,"p")>
-	<cfset userRole = application.role.get(session.user.userid,url.p)>
-<cfelse>
-	<cfset userRole = application.role.get(session.user.userid,form.projectid)>
-</cfif>
-<cfif not listFind('Owner,Admin',userRole.role)>
-	<cfoutput><h2>Project Owner or Admin Access Only!!!</h2></cfoutput>
-	<cfabort>
+<cfif StructKeyExists(url,"p") or StructKeyExists(form,"projectid")>
+	<cfif StructKeyExists(url,"p")>
+		<cfset userRole = application.role.get(session.user.userid,url.p)>
+	<cfelse>
+		<cfset userRole = application.role.get(session.user.userid,form.projectid)>
+	</cfif>
+	<cfif not listFind('Owner,Admin',userRole.role) and not session.user.admin>
+		<cfoutput><h2>Project Owner or Admin Access Only!!!</h2></cfoutput>
+		<cfabort>
+	</cfif>
 </cfif>
 
 <cfparam name="form.display" default="0">
+<cfparam name="form.from" default="">
 <cfif StructKeyExists(form,"projectID")> <!--- update project --->
 	<cfset application.project.update(form.projectid,form.name,form.description,form.display,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'edited')>
-	<cflocation url="project.cfm?p=#form.projectID#" addtoken="false">
+	<cfif not compare(form.from,'admin')>
+		<cflocation url="./admin/projects.cfm" addtoken="false">
+	<cfelse>
+		<cflocation url="project.cfm?p=#form.projectID#" addtoken="false">
+	</cfif>
 <cfelseif StructKeyExists(form,"submit")> <!--- add project --->
 	<cfset newID = createUUID()>
 	<cfset application.project.add(newID,form.name,form.description,form.display,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,session.user.userid)>
 	<cfset application.role.add(newID,session.user.userid,'Owner')>
 	<cfset application.activity.add(createUUID(),newID,session.user.userid,'Project',newID,form.name,'added')>
 	<cfset session.user.projects = application.project.get(session.user.userid)>
-	<cflocation url="project.cfm?p=#newID#" addtoken="false">
+	<cfif not compare(form.from,'admin')>
+		<cflocation url="./admin/projects.cfm" addtoken="false">
+	<cfelse>
+		<cflocation url="project.cfm?p=#newID#" addtoken="false">
+	</cfif>
 <cfelseif StructKeyExists(url,"del") and hash(url.p) eq url.ph> <!--- delete project --->
 	<cfset application.project.delete(url.p)>
 	<cfset session.user.projects = application.project.get(session.user.userid)>
@@ -38,11 +49,11 @@
 <cfparam name="svnuser" default="">
 <cfparam name="svnpass" default="">
 <cfparam name="title_action" default="Add">
+<cfparam name="from" default="">
 
 <cfif StructKeyExists(url,"p")>
 	<cfset projID = url.p>
-	<cfset thisProject = application.project.get(session.user.userid,url.p)>
-	<cfset userRole = application.role.get(session.user.userid,url.p)>
+	<cfset thisProject = application.project.getDistinct(url.p)>
 	<cfset name = thisProject.name>
 	<cfset description = thisProject.description>
 	<cfset variables.display = thisProject.display>
@@ -160,6 +171,9 @@
 							<input type="hidden" name="projectID" value="#url.p#" />
 						<cfelse>
 							<input type="submit" class="button" name="submit" id="submit" value="Add Project" />
+						</cfif>
+						<cfif StructKeyExists(url,"from")>
+							<input type="hidden" name="from" value="#url.from#" />
 						</cfif>
 						<input type="button" class="button" name="cancel" value="Cancel" onclick="history.back();" />
 					</form>				 	

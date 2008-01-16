@@ -6,7 +6,7 @@
 	<cfset thread.sleep(250)>	
 <cfelseif StructKeyExists(form,"addnew")>
 	<cfset newID = createUUID()>
-	<cfset application.user.create(newID,form.f,form.l,form.e,form.admin)>
+	<cfset application.user.create(newID,form.f,form.l,form.e,'',form.admin)>
 	<cfset application.role.add(form.p,newID,form.r)>
 	<cfset thread = CreateObject("java", "java.lang.Thread")>
 	<cfset thread.sleep(250)>

@@ -1,10 +1,5 @@
 <cfsetting enablecfoutputonly="true">
 
-<cfif not session.user.admin>
-	<cfoutput><h2>Admin Only!!!</h2></cfoutput>
-	<cfabort>
-</cfif>
-
 <cfif StructKeyExists(form,"submit")>
 	<cfinvoke component="config.settings" method="setSettings">
 		<cfinvokeargument name="dsn" value="#application.settings.dsn#">
@@ -24,9 +19,14 @@
 	<div class="left">
 		<div class="main">
 
-				<div class="header">
+				<div class="header" style="margin-bottom:0;">
 					<h2 class="admin">Administration</h2>
 				</div>
+				<ul class="submenu mb20">
+					<li><a href="#cgi.script_name#" class="current">Settings</li>
+					<li><a href="projects.cfm">Projects</a></li>
+					<li><a href="users.cfm">Users</a></li>
+				</ul>
 				<div class="content">
 					<div class="wrapper">
 				 	

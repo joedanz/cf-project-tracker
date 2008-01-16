@@ -106,17 +106,19 @@
 			</cfif>
 			<cfif compare(ARGUMENTS.username,'')>
 				AND username = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#" maxlength="30">
-			</cfif>			
+			</cfif>
+			ORDER BY lastName, firstName
 		</cfquery>		
 		<cfreturn qRecords>
 	</cffunction>
 	
 	<cffunction name="create" access="public" returntype="void" output="false"
-				hint="Inserts a pp_users record.">
+				hint="Inserts a pt_users record.">
 		<cfargument name="userID" type="string" required="true">
 		<cfargument name="firstName" type="string" required="true">
 		<cfargument name="lastName" type="string" required="true">
 		<cfargument name="email" type="string" required="true">
+		<cfargument name="phone" type="string" required="true">
 		<cfargument name="admin" type="numeric" required="true">
 		<cfargument name="active" type="numeric" required="false" default="1">
 		<cfset var newUsername = left(lcase(ARGUMENTS.firstName),1) & lcase(ARGUMENTS.lastName)>
@@ -154,8 +156,41 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		</cfmail>
 	</cffunction>
 
+	<cffunction name="adminCreate" access="public" returntype="void" output="false"
+				hint="Inserts a pt_users record.">
+		<cfargument name="userID" type="string" required="true">
+		<cfargument name="firstName" type="string" required="true">
+		<cfargument name="lastName" type="string" required="true">
+		<cfargument name="username" type="string" required="true">
+		<cfargument name="password" type="string" required="true">
+		<cfargument name="email" type="string" required="true">
+		<cfargument name="phone" type="string" required="true">
+		<cfargument name="admin" type="numeric" required="true">
+		<cfargument name="active" type="numeric" required="false" default="1">
+		<cfquery datasource="#variables.dsn#">
+			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, style, admin, active)
+				VALUES(<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.firstName#" maxlength="12">, 
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.lastName#" maxlength="20">, 
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userame#" maxlength="30">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.password#" maxlength="20">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" maxlength="120">, 
+						'#application.settings.default_style#',
+						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.admin#">, 
+						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.active#">		
+						)
+		</cfquery>
+		<cfmail to="#arguments.email#" from="#session.user.email#" subject="New #application.settings.app_title# Account">An account has been setup for you to use the #application.settings.app_title#.
+
+You can login at #application.settings.rootURL##application.settings.mapping#
+
+     Username: #arguments.username#
+     Password: #arguments.password#
+		</cfmail>
+	</cffunction>
+
 	<cffunction name="userUpdate" access="public" returntype="void" output="false"
-				hint="Updates a pp_users record.">
+				hint="Updates a pt_users record.">
 		<cfargument name="userID" type="string" required="true">
 		<cfargument name="firstName" type="string" required="true">
 		<cfargument name="lastName" type="string" required="true">
@@ -171,8 +206,35 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		</cfquery>		
 	</cffunction>
 	
+	<cffunction name="adminUpdate" access="public" returntype="void" output="false"
+				hint="Updates a pt_users record.">
+		<cfargument name="userID" type="string" required="true">
+		<cfargument name="firstName" type="string" required="true">
+		<cfargument name="lastName" type="string" required="true">
+		<cfargument name="username" type="string" required="true">
+		<cfargument name="password" type="string" required="true">
+		<cfargument name="email" type="string" required="true">
+		<cfargument name="phone" type="string" required="true">
+		<cfargument name="admin" type="numeric" required="true">
+		<cfargument name="active" type="numeric" required="true">
+		<cfquery datasource="#variables.dsn#">
+			UPDATE #variables.tableprefix#users SET
+				firstName = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.firstName#" maxlength="12">, 
+				lastName = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.lastName#" maxlength="20">,
+				username = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#" maxlength="30">,
+				<cfif compare(arguments.password,'')>
+					password = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.password#" maxlength="20">,
+				</cfif>
+				email = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" maxlength="120">,
+				phone = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.phone#" maxlength="15">,
+				admin = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.admin#">,
+				active = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.active#">
+			WHERE userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#">			
+		</cfquery>		
+	</cffunction>
+	
 	<cffunction name="acctUpdate" access="public" returntype="void" output="false"
-				hint="Updates a pp_users record.">
+				hint="Updates a pt_users record.">
 		<cfargument name="userID" type="string" required="true">
 		<cfargument name="username" type="string" required="true">
 		<cfargument name="password" type="string" required="true">
@@ -211,7 +273,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 	</cffunction>		
 	
 	<cffunction name="delete" access="public" returntype="void" output="false"
-				hint="Deletes a pp_users record.">
+				hint="Deletes a pt_users record.">
 		<cfargument name="userID" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
 			DELETE FROM #variables.tableprefix#users WHERE 0=0

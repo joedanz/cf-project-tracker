@@ -43,11 +43,14 @@
 		
 	<cffunction name="remove" access="public" returnType="boolean" output="false"
 				hint="Removes user role.">
-		<cfargument name="projectID" type="uuid" required="true">		
+		<cfargument name="projectID" type="string" required="false" default="">		
 		<cfargument name="userID" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#">
 			DELETE FROM #variables.tableprefix#project_users
-			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+			WHERE 0=0
+				<cfif compare(arguments.projectID,'')>
+					AND projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+				</cfif>
 				AND userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
