@@ -95,9 +95,9 @@
 		<cfargument name="username" type="string" required="false" default="">
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
-			SELECT userID, firstName, lastName, username, email, phone, mobile, lastLogin, avatar, style, 
-				email_todos, mobile_todos, email_mstones, mobile_mstones, email_issues, mobile_issues,
-				admin, active
+			SELECT userID, firstName, lastName, username, email, phone, mobile, carrierID, lastLogin, 
+				avatar, style, email_todos, mobile_todos, email_mstones, mobile_mstones, email_issues, 
+				mobile_issues, admin, active
 			FROM #variables.tableprefix#users
 			WHERE 0=0
 			<cfif compare(ARGUMENTS.userID,'')>
@@ -169,19 +169,35 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfargument name="password" type="string" required="true">
 		<cfargument name="email" type="string" required="true">
 		<cfargument name="phone" type="string" required="true">
+		<cfargument name="mobile" type="string" required="true">
+		<cfargument name="carrierID" type="string" required="true">
+		<cfargument name="email_todos" type="numeric" required="true">
+		<cfargument name="mobile_todos" type="numeric" required="true">
+		<cfargument name="email_mstones" type="numeric" required="true">
+		<cfargument name="mobile_mstones" type="numeric" required="true">
+		<cfargument name="email_issues" type="numeric" required="true">
+		<cfargument name="mobile_issues" type="numeric" required="true">		
 		<cfargument name="admin" type="numeric" required="true">
 		<cfargument name="active" type="numeric" required="false" default="1">
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, avatar, style, email_todos, mobile_todos, email_mstones, mobile_mstones, email_issues, mobile_issues, admin, active)
+			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, phone, mobile, carrierID, avatar, style, email_todos, mobile_todos, email_mstones, mobile_mstones, email_issues, mobile_issues, admin, active)
 				VALUES(<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.firstName#" maxlength="12">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.lastName#" maxlength="20">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userame#" maxlength="30">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.password#" maxlength="20">,
-						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" maxlength="120">, 
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" maxlength="120">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.phone#" maxlength="15">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.mobile#" maxlength="15">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.carrierID#" maxlength="35">,
 						0,
 						'#application.settings.default_style#',
-						0,0,0,0,0,0,
+						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todos#">,
+						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todos#">,
+						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_mstones#">,
+						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_mstones#">,
+						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_issues#">,
+						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_issues#">,
 						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.admin#">, 
 						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.active#">		
 						)
@@ -214,6 +230,27 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		</cfquery>		
 	</cffunction>
 	
+	<cffunction name="notifyUpdate" access="public" returntype="void" output="false"
+				hint="Updates a pt_users record.">
+		<cfargument name="userID" type="string" required="true">
+		<cfargument name="email_todos" type="numeric" required="true">
+		<cfargument name="mobile_todos" type="numeric" required="true">
+		<cfargument name="email_mstones" type="numeric" required="true">
+		<cfargument name="mobile_mstones" type="numeric" required="true">
+		<cfargument name="email_issues" type="numeric" required="true">
+		<cfargument name="mobile_issues" type="numeric" required="true">
+		<cfquery datasource="#variables.dsn#">
+			UPDATE #variables.tableprefix#users SET
+				email_todos = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todos#">, 
+				mobile_todos = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todos#">, 
+				email_mstones = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_mstones#">, 
+				mobile_mstones = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_mstones#">, 
+				email_issues = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_issues#">, 
+				mobile_issues = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_issues#">
+			WHERE userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#">			
+		</cfquery>		
+	</cffunction>	
+	
 	<cffunction name="adminUpdate" access="public" returntype="void" output="false"
 				hint="Updates a pt_users record.">
 		<cfargument name="userID" type="string" required="true">
@@ -223,6 +260,14 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfargument name="password" type="string" required="true">
 		<cfargument name="email" type="string" required="true">
 		<cfargument name="phone" type="string" required="true">
+		<cfargument name="mobile" type="string" required="true">
+		<cfargument name="carrierID" type="string" required="true">
+		<cfargument name="email_todos" type="numeric" required="true">
+		<cfargument name="mobile_todos" type="numeric" required="true">
+		<cfargument name="email_mstones" type="numeric" required="true">
+		<cfargument name="mobile_mstones" type="numeric" required="true">
+		<cfargument name="email_issues" type="numeric" required="true">
+		<cfargument name="mobile_issues" type="numeric" required="true">		
 		<cfargument name="admin" type="numeric" required="true">
 		<cfargument name="active" type="numeric" required="true">
 		<cfquery datasource="#variables.dsn#">
@@ -235,6 +280,14 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 				</cfif>
 				email = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" maxlength="120">,
 				phone = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.phone#" maxlength="15">,
+				mobile = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.mobile#" maxlength="15">,
+				carrierID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.carrierID#" maxlength="35">,
+				email_todos = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todos#">, 
+				mobile_todos = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todos#">, 
+				email_mstones = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_mstones#">, 
+				mobile_mstones = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_mstones#">, 
+				email_issues = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_issues#">, 
+				mobile_issues = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_issues#">,
 				admin = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.admin#">,
 				active = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.active#">
 			WHERE userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#">			
