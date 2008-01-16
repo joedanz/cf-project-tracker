@@ -14,7 +14,9 @@ ul.nobullet li { margin-bottom:5px; }
 .mb10 { margin-bottom:10px; }
 .mb15 { margin-bottom:15px; }
 .mb20 { margin-bottom:20px; }
+.mt20 { margin-top:20px; }
 .tac { text-align:center; }
+.tal { text-align:left; }
 
 div.pagediv {
 	padding:3px 5px;

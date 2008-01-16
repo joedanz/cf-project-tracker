@@ -3,11 +3,12 @@
 <cfparam name="whichTab" default="">
 
 <cfif StructKeyExists(form,"submit1")>
-	<cfset application.user.userUpdate(session.user.userID,form.firstname,form.lastname,form.email,form.phone)>
+	<cfset application.user.userUpdate(session.user.userID,form.firstname,form.lastname,form.email,request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile))>
 	<cfset session.user.firstName = form.firstname>
 	<cfset session.user.lastName = form.lastname>
 	<cfset session.user.email = form.email>
 	<cfset session.user.phone = form.phone>
+	<cfset session.user.mobile = form.mobile>
 <cfelseif StructKeyExists(form,"submit2")>
 	<cfif not compareNoCase(form.pass1,form.pass2)>
 		<cfset newPass = form.pass1>
@@ -46,6 +47,18 @@
 	<cfif not application.isCF8 and not application.isBD>
 		<cfset whichTab = whichTab - 1>
 	</cfif>
+<cfelseif StructKeyExists(form,"notifysub")>
+	<cfparam name="email_todos" default="0">
+	<cfparam name="mobile_todos" default="0">
+	<cfparam name="email_mstones" default="0">
+	<cfparam name="mobile_mstones" default="0">
+	<cfparam name="email_issues" default="0">
+	<cfparam name="mobile_issues" default="0">
+
+	<cfset whichTab = 5>
+	<cfif not application.isCF8 and not application.isBD>
+		<cfset whichTab = whichTab - 1>
+	</cfif>	
 </cfif>
 
 <cfset user = application.user.get(session.user.userid)>
@@ -107,9 +120,10 @@
 							<li><a href="##avatar"><span>Avatar</span></a></li>
 						</cfif>
 		                <li><a href="##skin"><span>Style</span></a></li>
+		                <li><a href="##notifications"><span>Notifications</span></a></li>
 		            </ul>
 		            <div id="user">   
-						<form action="#cgi.script_name#" method="post" name="edit" id="edit" class="frm">
+						<form action="#cgi.script_name#" method="post" name="edit" class="frm">
 							<p>
 							<label for="fname" class="req">First Name:</label>
 							<input type="text" name="firstname" id="fname" value="#user.firstName#" maxlength="12" />
@@ -124,14 +138,18 @@
 							</p>
 							<p>
 							<label for="phone">Phone:</label>
-							<input type="text" name="phone" id="phone" value="#user.phone#" maxlength="15" />
+							<input type="text" name="phone" id="phone" value="#request.udf.phoneFormat(user.phone,"(xxx) xxx-xxxx")#" maxlength="15" />
 							</p>
-							<label for="submit">&nbsp;</label>
+							<p>
+							<label for="mobile">Mobile:</label>
+							<input type="text" name="mobile" id="mobile" value="#request.udf.phoneFormat(user.mobile,"(xxx) xxx-xxxx")#" maxlength="15" />
+							</p>
+							<label for="submit1">&nbsp;</label>
 							<input type="submit" class="button" name="submit1" id="submit1" value="Update Account" onclick="return confirmSubmit1();" />				
 						</form>								
 		            </div>
 		            <div id="account">            
-						<form action="#cgi.script_name#" method="post" name="editacct" id="editacct" class="frm">
+						<form action="#cgi.script_name#" method="post" name="editacct" class="frm">
 							<p>
 							<label for="user" class="req">Username:</label>
 							<input type="text" name="username" id="username" value="#user.username#" maxlength="20" />
@@ -144,13 +162,13 @@
 							<label for="pass2">Confirm Password:</label>
 							<input type="text" name="pass2" id="pass2" value="" maxlength="20" />
 							</p>
-							<label for="submit">&nbsp;</label>
+							<label for="submit2">&nbsp;</label>
 							<input type="submit" class="button" name="submit2" id="submit2" value="Update Account" onclick="return confirmSubmit2();" />				
 						</form>								
 		            </div>
 					<cfif application.isCF8 or application.isBD>			
 		            <div id="avatar">
-						<form action="#cgi.script_name#" method="post" name="edit" id="avatar" class="frm" enctype="multipart/form-data">
+						<form action="#cgi.script_name#" method="post" name="edit" class="frm" enctype="multipart/form-data">
 							<p>
 							<label for="img">&nbsp;</label>
 							<cfif user.avatar eq 1>
@@ -164,13 +182,13 @@
 							<label for="imgfile">Profile Image:</label>
 							<input type="file" name="imagefile" id="imgfile" />
 							</p>				
-							<label for="submit">&nbsp;</label>
-							<input type="submit" class="button" name="submitimage" id="submit" value="Upload Image" />				
+							<label for="submit3">&nbsp;</label>
+							<input type="submit" class="button" name="submitimage" id="submit3" value="Upload Image" />				
 						</form>
 		            </div>
 					</cfif>
 		            <div id="skin">
-						<form action="#cgi.script_name#" method="post" name="edit" id="headerform" class="frm">
+						<form action="#cgi.script_name#" method="post" name="edit" class="frm">
 							<p>
 							<label for="headstyle">Set Style:</label>
 							<select name="style" id="headstyle">
@@ -180,10 +198,39 @@
 								<option value="red"<cfif not compare(user.style,'red')> selected="selected"</cfif>>Red</option>
 							</select>
 							</p>
-							<label for="submit">&nbsp;</label>					
-							<input type="submit" class="button" name="skinsub" id="skinsub" value="Set Style" />				
+							<label for="submit4">&nbsp;</label>					
+							<input type="submit" class="button" name="skinsub" id="submit4" value="Set Style" />				
 						</form>
 		            </div>
+		            <div id="notifications">
+						<form action="#cgi.script_name#" method="post" name="edit" class="frm tac">
+							<table class="admin half mb15">
+							<tr><th>Action</th><th class="tac">Email</th><th class="tac">Mobile</th></tr>
+							<tr>
+								<td class="tal">New To-Dos</td>
+								<td class="tac"><input type="checkbox" name="email_todos" value="1"<cfif user.email_todos> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_todos" value="1"<cfif user.mobile_todos> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
+							</tr>
+							<tr>
+								<td class="tal">New Milestones</td>
+								<td class="tac"><input type="checkbox" name="email_mstones" value="1"<cfif user.email_mstones> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_mstones" value="1"<cfif user.mobile_mstones> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
+							</tr>
+							<tr>
+								<td class="tal">New Issues</td>
+								<td class="tac"><input type="checkbox" name="email_issues" value="1"<cfif user.email_issues> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_issues" value="1"<cfif user.mobile_issues> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
+							</tr>
+							</table>
+												
+							<input type="submit" class="button" name="notifysub" id="submit5" value="Update Notifications" />
+							
+							<cfif not isNumeric(user.mobile)>
+								<h6 class="b r i mt20">Note: You must have a valid mobile number to enable Mobile Notifications.</h6>
+							</cfif>
+
+						</form>
+					</div>
 		        </div>							
 
 			</div>

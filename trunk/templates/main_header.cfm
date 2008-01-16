@@ -34,7 +34,9 @@
 	
 	<div id="loggedin">
 		<img src="#application.settings.mapping#/images/avatars/<cfif session.user.avatar>#session.user.userid#_16.jpg<cfelse>user.gif</cfif>" style="vertical-align:middle;"> #session.user.firstName# #session.user.lastName#
+		<cfif compareNoCase(session.user.username,'guest')>
 		| <a href="#application.settings.mapping#/account.cfm" title="My Account"<cfif find('/account.cfm',cgi.script_name)> class="current"</cfif>>My Account</a>
+		</cfif>
 		| <a href="#application.settings.mapping#/index.cfm?logout" title="Logout">Logout</a>
 	</div>
 

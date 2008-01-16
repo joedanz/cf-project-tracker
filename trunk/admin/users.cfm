@@ -22,7 +22,7 @@
 				<div class="content">
 					<div class="wrapper">
 				 	
-				 	<table class="admin">
+				 	<table class="admin full">
 					 	<tr>
 							<th class="tac">##</th>
 							<th>Full Name</th>

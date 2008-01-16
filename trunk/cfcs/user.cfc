@@ -95,7 +95,9 @@
 		<cfargument name="username" type="string" required="false" default="">
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
-			SELECT userID, firstName, lastName, username, email, phone, lastLogin, avatar, style, admin, active
+			SELECT userID, firstName, lastName, username, email, phone, mobile, lastLogin, avatar, style, 
+				email_todos, mobile_todos, email_mstones, mobile_mstones, email_issues, mobile_issues,
+				admin, active
 			FROM #variables.tableprefix#users
 			WHERE 0=0
 			<cfif compare(ARGUMENTS.userID,'')>
@@ -196,12 +198,14 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfargument name="lastName" type="string" required="true">
 		<cfargument name="email" type="string" required="true">
 		<cfargument name="phone" type="string" required="true">
+		<cfargument name="mobile" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#users SET
 				firstName = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.firstName#" maxlength="12">, 
 				lastName = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.lastName#" maxlength="20">, 
 				email = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" maxlength="120">,
-				phone = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.phone#" maxlength="15">
+				phone = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.phone#" maxlength="15">,
+				mobile = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.mobile#" maxlength="15">
 			WHERE userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#">			
 		</cfquery>		
 	</cffunction>

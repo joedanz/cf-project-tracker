@@ -12,6 +12,7 @@ body{
 h2 { font-size:1.5em; font-weight:bold; }
 h3 { font-size:1.3em; font-weight:bold; }
 h4 { font-size:1.2em; font-weight:normal; }
+h6 { font-size:.8em; font-weight:normal; }
 
 h5.sub {
 	font-size:.9em;

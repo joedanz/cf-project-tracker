@@ -52,6 +52,9 @@
 	
 </cfif>
 
+<!--- include UDFs --->
+<cfinclude template="#application.settings.mapping#/includes/udf.cfm">
+
 <cfparam name="session.style" default="#application.settings.default_style#">
 
 <!--- check for logout --->

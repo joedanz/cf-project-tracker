@@ -62,7 +62,7 @@ $(document).ready(function(){
 		<div class="main">
 
 			<div class="header">
-				<h2 class="activity">Latest activity across all your projects</h2>
+				<h2 class="activity full">Latest activity across all your projects</h2>
 			</div>
 			<div class="content">
 				<div class="wrapper">
@@ -199,7 +199,7 @@ $(document).ready(function(){
 					<div style="background-color:##eee;font-weight:bold;font-size:1.2em;padding:5px;">
 					<span class="feedlink"><a href="rss.cfm?u=#session.user.userID#&type=allact" class="feed">RSS Feed</a></span>Recent Activity
 					</div>
-					<table class="activity" id="activity">
+					<table class="activity full" id="activity">
 						<thead>
 							<tr>
 								<th>Project</th>
