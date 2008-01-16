@@ -30,12 +30,20 @@ the end of a URL.  All of the settings are contained in the
 config directory and in the database.  You should keep your 
 existing config files and copy them back on top of the newly
 installed ones.  
-Specific database changes made since launch:
+Database changes made since the beta:
   1) pt_comments - "comment" extended to 1000 characters.
   2) pt_project_users - "role" extended to 9 characters.
   3) pt_todolists - "description" extended to 1000 characters.
   4) pt_todos - "task" extended to 300 characters.
-  5) pt_users - guest user now added by default.
+Database changes made since version 1.0:
+  1) pt_users - guest user now added by default.
+  				"mobile" varchar(15) added
+  				"email_todos" tinyint(1) added
+  				"mobile_todos" tinyint(1) added
+  				"email_mstones" tinyint(1) added
+  				"mobile_nstones" tinyint(1) added
+  				"email_issues" tinyint(1) added
+  				"mobile_issues" tinyint(1) added
 
 SUBVERSION NOTES:
 There is a Subversion repository browser and code browser.  This 
