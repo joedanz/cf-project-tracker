@@ -68,6 +68,11 @@
 <cfif not findNoCase('/rss.cfm',cgi.script_name) and not findNoCase('/forgot.cfm',cgi.script_name)>
 <cflogin>
 
+	<cfif StructKeyExists(url,'guest')>
+		<cfset form.username = "guest">
+		<cfset form.password = "guest">
+	</cfif>
+
 	<cfif NOT StructKeyExists(form,"username")>
 		<cfinclude template="login.cfm">
 		<cfabort>

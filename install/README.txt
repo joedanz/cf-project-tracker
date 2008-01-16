@@ -67,6 +67,14 @@ ColdFusion or BlueDragon
 CF8/BD7 required for avatars
 mySQL or SQL Server
 
+AUTO-LOGIN MODIFICATION:
+To launch the application in an already logged in state as the guest user
+(this is good for public views of projects), include "?guest" at the end
+of your project URL.  If you use this as your project URLm you will still 
+be able to logout and log back in as a different user.  You must still 
+mofify the settings for the guest account to determine which projects are
+accessible.
+
 FEEDBACK?
 Please email joe@ajaxcf.com with any suggestions or other feedback.
 My wishlist, should you be inclined, is located at:
