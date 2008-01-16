@@ -45,6 +45,7 @@ Database changes made since version 1.0:
   				"mobile_nstones" tinyint(1) added
   				"email_issues" tinyint(1) added
   				"mobile_issues" tinyint(1) added
+  2) pt_carriers - new table + data
 
 SUBVERSION NOTES:
 There is a Subversion repository browser and code browser.  This 

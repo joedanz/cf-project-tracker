@@ -1,4 +1,4 @@
-<cfsetting enablecfoutputonly="true" showdebugoutput="1">
+<cfsetting enablecfoutputonly="true" showdebugoutput="false">
 
 <cfset applicationName = "project_tracker">
 <cfapplication name="#applicationName#" sessionManagement="true" loginstorage="session">
@@ -19,6 +19,7 @@
 	
 	<!--- application CFCs --->	
 	<cfset application.activity = createObject("component","cfcs.activity").init(settings)>
+	<cfset application.carrier = createObject("component","cfcs.carrier").init(settings)>
 	<cfset application.comment = createObject("component","cfcs.comment").init(settings)>
 	<cfset application.file = createObject("component","cfcs.file").init(settings)>
 	<cfset application.issue = createObject("component","cfcs.issue").init(settings)>
@@ -29,6 +30,9 @@
 	<cfset application.todo = createObject("component","cfcs.todo").init(settings)>
 	<cfset application.todolist = createObject("component","cfcs.todolist").init(settings)>	
 	<cfset application.user = createObject("component","cfcs.user").init(settings)>
+
+	<!--- stored queries --->
+	<cfset application.carriers = application.carrier.get('true')>
 
 	<!--- check for CF8 Scorpio --->
 	<cfset majorVersion = listFirst(server.coldfusion.productversion)>
@@ -47,7 +51,7 @@
 	<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#forms.css" variable="forms">
 	<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#tables.css" variable="tables">
 	<cffile action="write" file="#ExpandPath(settings.mapping & '/css/')#all_styles.css" output="/* THIS FILE IS GENERATED AUTOMATICALLY - EDIT INDIVIDUAL CSS FILES & REINIT TO MODIFY STYLES */#chr(10)##chr(13)#/* RESET.CSS */#chr(10)##chr(13)##reset##chr(10)##chr(13)#/* LAYOUT.CSS */#chr(10)##chr(13)##layout##chr(10)##chr(13)#/* STYLE.CSS */#chr(10)##chr(13)##style##chr(10)##chr(13)#/* HEADER.CSS */#chr(10)##chr(13)##header##chr(10)##chr(13)#/* IMAGES.CSS */#chr(10)##chr(13)##images##chr(10)##chr(13)#/* FORMS.CSS */#chr(10)##chr(13)##forms##chr(10)##chr(13)#/* TABLES.CSS */#chr(10)##chr(13)##tables#">
-
+	
 	<cfset application.init = true>
 	
 </cfif>
