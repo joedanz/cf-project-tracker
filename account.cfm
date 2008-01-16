@@ -48,13 +48,13 @@
 		<cfset whichTab = whichTab - 1>
 	</cfif>
 <cfelseif StructKeyExists(form,"notifysub")>
-	<cfparam name="email_todos" default="0">
-	<cfparam name="mobile_todos" default="0">
-	<cfparam name="email_mstones" default="0">
-	<cfparam name="mobile_mstones" default="0">
-	<cfparam name="email_issues" default="0">
-	<cfparam name="mobile_issues" default="0">
-
+	<cfparam name="form.email_todos" default="0">
+	<cfparam name="form.mobile_todos" default="0">
+	<cfparam name="form.email_mstones" default="0">
+	<cfparam name="form.mobile_mstones" default="0">
+	<cfparam name="form.email_issues" default="0">
+	<cfparam name="form.mobile_issues" default="0">
+	<cfset application.user.notifyUpdate(session.user.userid,form.email_todos,form.mobile_todos,form.email_mstones,form.mobile_mstones,form.email_issues,form.mobile_issues)>
 	<cfset whichTab = 5>
 	<cfif not application.isCF8 and not application.isBD>
 		<cfset whichTab = whichTab - 1>
@@ -143,6 +143,20 @@
 							<p>
 							<label for="mobile">Mobile:</label>
 							<input type="text" name="mobile" id="mobile" value="#request.udf.phoneFormat(user.mobile,"(xxx) xxx-xxxx")#" maxlength="15" />
+							</p>
+							<p>
+							<label for="carrier">Carrier:</label>
+							<select name="carrierID" id="carrier">
+								<option value=""></option>
+						</cfoutput>								
+								<cfoutput query="application.mobile" group="country">
+								<optgroup label="#country#">
+								<cfoutput>
+								<option value="#carrierID#"<cfif not compare(user.carrierID,carrierID)> selected="selected"</cfif>>#carrier#</option>
+								</cfoutput>
+								</cfoutput>
+						<cfoutput>
+							</select> <span style="font-size:85%;" class="i">(used for SMS notifications)
 							</p>
 							<label for="submit1">&nbsp;</label>
 							<input type="submit" class="button" name="submit1" id="submit1" value="Update Account" onclick="return confirmSubmit1();" />				
