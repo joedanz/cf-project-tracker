@@ -39,10 +39,12 @@
 	</div>
 
 	<cfif compare(attributes.project,'')>
+		<cfif session.user.projects.recordCount gt 1>
 		<div id="linksback">
 			<a href="#application.settings.mapping#/index.cfm">Dashboard</a>
-			<cfif session.user.projects.recordCount gt 1> | <a href="##" onclick="togglemenu();">Choose a project</a></cfif>
+			 | <a href="##" onclick="togglemenu();">Choose a project</a>
 		</div>
+		</cfif>
 		<h1>#attributes.project#</h1>
 	<cfelse>
 		<h1>#application.settings.app_title#</h1>

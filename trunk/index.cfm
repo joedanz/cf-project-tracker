@@ -1,6 +1,10 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfset projects = application.project.get(session.user.userid)>
+<cfif projects.recordCount eq 1>
+	<cflocation url="project.cfm?p=#projects.projectid#" addtoken="false">
+	<cfabort>
+</cfif>
 <cfquery name="active_projects" dbtype="query">
 	select * from projects where status = 'Active'
 </cfquery>
