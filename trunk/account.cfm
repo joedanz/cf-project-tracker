@@ -126,23 +126,23 @@
 						<form action="#cgi.script_name#" method="post" name="edit" class="frm">
 							<p>
 							<label for="fname" class="req">First Name:</label>
-							<input type="text" name="firstname" id="fname" value="#user.firstName#" maxlength="12" />
+							<input type="text" name="firstname" id="fname" value="#HTMLEditFormat(user.firstName)#" maxlength="12" />
 							</p>
 							<p>
 							<label for="lname" class="req">Last Name:</label>
-							<input type="text" name="lastname" id="lname" value="#user.lastName#" maxlength="20" />
+							<input type="text" name="lastname" id="lname" value="#HTMLEditFormat(user.lastName)#" maxlength="20" />
 							</p>				
 							<p>
 							<label for="email" class="req">Email:</label>
-							<input type="text" name="email" id="email" value="#user.email#" maxlength="120" />
+							<input type="text" name="email" id="email" value="#HTMLEditFormat(user.email)#" maxlength="120" />
 							</p>
 							<p>
 							<label for="phone">Phone:</label>
-							<input type="text" name="phone" id="phone" value="#request.udf.phoneFormat(user.phone,"(xxx) xxx-xxxx")#" maxlength="15" />
+							<input type="text" name="phone" id="phone" value="#HTMLEditFormat(request.udf.phoneFormat(user.phone,"(xxx) xxx-xxxx"))#" maxlength="15" />
 							</p>
 							<p>
 							<label for="mobile">Mobile:</label>
-							<input type="text" name="mobile" id="mobile" value="#request.udf.phoneFormat(user.mobile,"(xxx) xxx-xxxx")#" maxlength="15" />
+							<input type="text" name="mobile" id="mobile" value="#HTMLEditFormat(request.udf.phoneFormat(user.mobile,"(xxx) xxx-xxxx"))#" maxlength="15" />
 							</p>
 							<p>
 							<label for="carrier">Carrier:</label>
@@ -166,7 +166,7 @@
 						<form action="#cgi.script_name#" method="post" name="editacct" class="frm">
 							<p>
 							<label for="user" class="req">Username:</label>
-							<input type="text" name="username" id="username" value="#user.username#" maxlength="20" />
+							<input type="text" name="username" id="username" value="#HTMLEditFormat(user.username)#" maxlength="20" />
 							</p>					
 							<p>
 							<label for="pass1">New Password:</label>
