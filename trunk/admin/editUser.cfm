@@ -1,20 +1,26 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfif StructKeyExists(form,"submit")>
+	<cfparam name="form.email_todos" default="0">
+	<cfparam name="form.mobile_todos" default="0">
+	<cfparam name="form.email_mstones" default="0">
+	<cfparam name="form.mobile_mstones" default="0">
+	<cfparam name="form.email_issues" default="0">
+	<cfparam name="form.mobile_issues" default="0">
 	<cfparam name="form.admin" default="0">
 	<cfparam name="form.active" default="0">
 	<cfswitch expression="#form.submit#">
 		<cfcase value="Add User">
 			<cfset qCheckUser = application.user.get('','',form.username)>
 			<cfif not qCheckUser.recordCount>
-				<cfset application.user.adminCreate(form.userid,form.firstName,form.lastName,form.username,form.password,form.email,form.phone,form.admin,form.active)>
+				<cfset application.user.adminCreate(form.userid,form.firstName,form.lastName,form.username,form.password,form.email,request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.email_todos,form.mobile_todos,form.email_mstones,form.mobile_mstones,form.email_issues,form.mobile_issues,form.admin,form.active)>
 				<cflocation url="users.cfm" addtoken="false">
 			<cfelse>
 				<cfset variables.error = "Username already exists!">
 			</cfif>
 		</cfcase>
 		<cfcase value="Update User">
-			<cfset application.user.adminUpdate(form.userid,form.firstName,form.lastName,form.username,form.password,form.email,form.phone,form.admin,form.active)>
+			<cfset application.user.adminUpdate(form.userid,form.firstName,form.lastName,form.username,form.password,form.email,request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.email_todos,form.mobile_todos,form.email_mstones,form.mobile_mstones,form.email_issues,form.mobile_issues,form.admin,form.active)>
 			<cfset application.role.remove('',form.userid)>
 			<cfparam name="form.projectid" default="">
 			<cfloop list="#form.projectid#" index="i">
@@ -31,6 +37,14 @@
 <cfparam name="form.password" default="">
 <cfparam name="form.email" default="">
 <cfparam name="form.phone" default="">
+<cfparam name="form.mobile" default="">
+<cfparam name="form.carrierID" default="">
+<cfparam name="form.email_todos" default="0">
+<cfparam name="form.mobile_todos" default="0">
+<cfparam name="form.email_mstones" default="0">
+<cfparam name="form.mobile_mstones" default="0">
+<cfparam name="form.email_issues" default="0">
+<cfparam name="form.mobile_issues" default="0">
 <cfparam name="form.admin" default="0">
 <cfparam name="form.active" default="0">
 
@@ -41,6 +55,14 @@
 	<cfset form.username = user.username>
 	<cfset form.email = user.email>
 	<cfset form.phone = user.phone>
+	<cfset form.mobile = user.mobile>
+	<cfset form.carrierID = user.carrierID>
+	<cfset form.email_todos = user.email_todos>
+	<cfset form.mobile_todos = user.mobile_todos>
+	<cfset form.email_mstones = user.email_mstones>
+	<cfset form.mobile_mstones = user.mobile_mstones>
+	<cfset form.email_issues = user.email_issues>
+	<cfset form.mobile_issues = user.mobile_issues>
 	<cfset form.admin = user.admin>
 	<cfset form.active = user.active>
 	<cfset user_projects = application.project.get(url.u)>
@@ -74,9 +96,7 @@
 					<h2 class="admin">Administration</h2>
 				</div>
 				<ul class="submenu mb15">
-					<li><a href="settings.cfm">Settings</li>
-					<li><a href="projects.cfm">Projects</a></li>
-					<li><a href="users.cfm" class="current">Users</a></li>
+					<cfinclude template="menu.cfm">
 				</ul>
 				<div class="content">
 					<div class="wrapper">
@@ -92,28 +112,48 @@
 						 	<legend>User Information</legend>
 						<p>
 						<label for="firstName">First Name:</label> 
-						<input type="text" name="firstName" id="firstName" value="#HTMLEditFormat(form.firstName)#" size="12" class="shorter" />
+						<input type="text" name="firstName" id="firstName" value="#HTMLEditFormat(form.firstName)#" maxlength="12" class="shorter" />
 						</p>
 						<p>
 						<label for="lastName">Last Name:</label> 
-						<input type="text" name="lastName" id="lastName" value="#HTMLEditFormat(form.lastName)#" size="20" class="shorter" />
+						<input type="text" name="lastName" id="lastName" value="#HTMLEditFormat(form.lastName)#" maxlength="20" class="shorter" />
 						</p>
 						<p>
 						<label for="username">Username:</label> 
-						<input type="text" name="username" id="username" value="#HTMLEditFormat(form.username)#" size="30" class="shorter" />
+						<input type="text" name="username" id="username" value="#HTMLEditFormat(form.username)#" maxlength="30" class="shorter" />
 						</p>
 						<p>
 						<label for="password">Password:</label> 
-						<input type="text" name="password" id="password"<cfif not StructKeyExists(url,"u")> value="#HTMLEditFormat(form.password)#"</cfif> size="20" class="shorter" />
+						<input type="text" name="password" id="password"<cfif not StructKeyExists(url,"u")> value="#HTMLEditFormat(form.password)#"</cfif> maxlength="20" class="shorter" />
 						</p>
 						<p>
 						<label for="email">Email:</label> 
-						<input type="text" name="email" id="email" value="#HTMLEditFormat(form.email)#" size="120" />
+						<input type="text" name="email" id="email" value="#HTMLEditFormat(form.email)#" maxlength="120" />
 						</p>
 						<p>
 						<label for="phone">Phone:</label> 
-						<input type="text" name="phone" id="phone" value="#HTMLEditFormat(form.phone)#" size="15" class="shorter" />
+						<input type="text" name="phone" id="phone" value="#HTMLEditFormat(request.udf.phoneFormat(form.phone,"(xxx) xxx-xxxx"))#" maxlength="15" class="shorter" />
 						</p>
+						<p>
+						<label for="mobile">Mobile:</label> 
+						<input type="text" name="mobile" id="mobile" value="#HTMLEditFormat(request.udf.phoneFormat(form.mobile,"(xxx) xxx-xxxx"))#" maxlength="15" class="shorter" />
+						</p>
+						<p>
+							<label for="carrier">Carrier:</label>
+							<select name="carrierID" id="carrier">
+								<option value=""></option>
+						</cfoutput>
+
+							<cfoutput query="application.mobile" group="country">
+							<optgroup label="#country#">
+							<cfoutput>
+							<option value="#carrierID#"<cfif not compare(form.carrierID,carrierID)> selected="selected"</cfif>>#carrier#</option>
+							</cfoutput>
+							</cfoutput>
+						
+						<cfoutput>
+							</select> <span style="font-size:85%;" class="i">(used for SMS notifications)
+						</p>				
 						<p>
 						<label for="admin">Admin?</label>
 						<input type="checkbox" name="admin" id="admin" value="1" class="checkbox"<cfif form.admin> checked="checked"</cfif> />
@@ -123,6 +163,30 @@
 						<input type="checkbox" name="active" id="active" value="1" class="checkbox"<cfif form.active> checked="checked"</cfif> />
 						</p>
 						</fieldset>
+						
+						<fieldset class="mb15">
+						 	<legend>Notifications</legend>
+						 	
+							<table class="admin half mb15">
+							<tr><th>Action</th><th class="tac">Email</th><th class="tac">Mobile</th></tr>
+							<tr>
+								<td class="tal">New To-Dos</td>
+								<td class="tac"><input type="checkbox" name="email_todos" value="1"<cfif form.email_todos> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_todos" value="1"<cfif form.mobile_todos> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
+							</tr>
+							<tr>
+								<td class="tal">New Milestones</td>
+								<td class="tac"><input type="checkbox" name="email_mstones" value="1"<cfif form.email_mstones> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_mstones" value="1"<cfif form.mobile_mstones> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
+							</tr>
+							<tr>
+								<td class="tal">New Issues</td>
+								<td class="tac"><input type="checkbox" name="email_issues" value="1"<cfif form.email_issues> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_issues" value="1"<cfif form.mobile_issues> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
+							</tr>
+							</table>						 	
+						 	
+						 </fieldset>
 						
 						<fieldset class="mb20">
 							<legend>Projects</legend>

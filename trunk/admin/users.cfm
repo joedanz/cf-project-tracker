@@ -15,9 +15,7 @@
 					<h2 class="admin">Administration</h2>
 				</div>
 				<ul class="submenu mb15">
-					<li><a href="settings.cfm">Settings</li>
-					<li><a href="projects.cfm">Projects</li>
-					<li><a href="#cgi.script_name#" class="current">Users</a></li>
+					<cfinclude template="menu.cfm">
 				</ul>
 				<div class="content">
 					<div class="wrapper">
