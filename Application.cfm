@@ -32,7 +32,7 @@
 	<cfset application.user = createObject("component","cfcs.user").init(settings)>
 
 	<!--- stored queries --->
-	<cfset application.carriers = application.carrier.get('true')>
+	<cfset application.carriers = application.carrier.get('','true')>
 
 	<!--- check for CF8 Scorpio --->
 	<cfset majorVersion = listFirst(server.coldfusion.productversion)>
