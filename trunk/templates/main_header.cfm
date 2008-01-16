@@ -70,7 +70,7 @@
 			<li><a href="#application.settings.mapping#/people.cfm?p=#attributes.projectid#" title="People"<cfif find('/people.cfm',cgi.script_name)> class="current"</cfif>>People</a></li>
 			</cfif>
 			<cfif StructKeyExists(session.user,"admin") and session.user.admin>
-			<li><a href="#application.settings.mapping#/admin/settings.cfm" title="Admin"<cfif find('/admin.cfm',cgi.script_name)> class="current"</cfif>>Admin</a></li>
+			<li><a href="#application.settings.mapping#/admin/settings.cfm" title="Admin"<cfif find('/admin/',cgi.script_name)> class="current"</cfif>>Admin</a></li>
 			</cfif>			
 		</ul>
 
