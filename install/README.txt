@@ -38,6 +38,7 @@ Database changes made since the beta:
 Database changes made since version 1.0:
   1) pt_users - guest user now added by default.
   				"mobile" varchar(15) added
+  				"carrierID" varchar(35) added
   				"email_todos" tinyint(1) added
   				"mobile_todos" tinyint(1) added
   				"email_mstones" tinyint(1) added
