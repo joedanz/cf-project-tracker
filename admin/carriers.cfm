@@ -1,6 +1,6 @@
 <cfsetting enablecfoutputonly="true">
 
-<cfset projects = application.project.getDistinct()>
+<cfset carriers = application.carrier.get()>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Admin">
@@ -23,20 +23,28 @@
 				 	<table class="admin full">
 					 	<tr>
 							<th class="tac">##</th>
-							<th>Project Name</th>
-							<th class="tac">Status</th>
+							<th>Carrier</th>
+							<th class="tac">Country Code</th>
+							<th>Country</th>
+							<th class="tac">Prefix</th>
+							<th>Suffix</th>
+							<th class="tac">Active</th>
 							<th class="tac">Edit</th>
 						</tr>
-					<cfloop query="projects">
+					<cfloop query="carriers">
 						<tr>
 							<td class="tac b">#currentRow#)</td>
-							<td>#name#</td>
-							<td class="tac">#status#</td>
-							<td class="tac"><a href="../editProject.cfm?from=admin&p=#projectid#">edit</a></td>
+							<td>#carrier#</td>
+							<td class="tac">#countryCode#</td>
+							<td>#country#</td>
+							<td class="tac">#prefix#</td>
+							<td>#suffix#</td>
+							<td class="tac"><img src="../images/<cfif active>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(active)#" /></td>
+							<td class="tac"><a href="editCarrier.cfm?c=#carrierid#">edit</a></td>
 						</tr>					
 					</cfloop>
 					</table><br />
-					<a href="../editProject.cfm?from=admin" class="b add">Add A New Project</a>
+					<a href="editCarrier.cfm" class="b add">Add A New Carrier</a>
 
 				 	</div>
 				</div>
