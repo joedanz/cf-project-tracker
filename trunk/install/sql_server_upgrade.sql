@@ -13,6 +13,8 @@ INSERT INTO [dbo].[pt_Users](userID,firstName,lastName,username,password,style,e
 GO
 ALTER TABLE [dbo].[pt_users] ADD [mobile] [varchar] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 GO
+ALTER TABLE [dbo].[pt_users] ADD [carrierID] [varchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
 ALTER TABLE [dbo].[pt_users] ADD [email_todos] [bit] NULL
 GO
 ALTER TABLE [dbo].[pt_users] ADD [mobile_todos] [bit] NULL
