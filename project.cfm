@@ -189,7 +189,7 @@ $(document).ready(function(){
 				<span class="feedlink"><a href="rss.cfm?u=#session.user.userID#&p=#url.p#&type=act" class="feed">RSS Feed</a></span>Recent Activity
 				</div>
 				
-				<table class="activity" id="activity">
+				<table class="activity full" id="activity">
 					<thead>
 						<tr>
 							<th>Type</th>

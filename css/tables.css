@@ -2,7 +2,8 @@
 table.svn { width:100%; }
 table.svn > caption { width:100%; padding:5px; }
 table.svn > thead th, table.svn > tbody td { padding:4px; }
-table.activity, table.admin { width:100%; }
+table.full { width:100%; }
+table.half { width:50%; margin-right:auto; margin-left:auto; }
 table.activity tbody td { padding:4px; text-align:left; }
 table.admin tr th, table.admin tr td { padding:4px 0; }
 table#milestone_cal tr th, table#milestone_cal tr td { padding:3px; vertical-align:top; }
