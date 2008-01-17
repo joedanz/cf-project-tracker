@@ -184,7 +184,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 				VALUES(<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.firstName#" maxlength="12">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.lastName#" maxlength="20">, 
-						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userame#" maxlength="30">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#" maxlength="30">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.password#" maxlength="20">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" maxlength="120">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.phone#" maxlength="15">,
