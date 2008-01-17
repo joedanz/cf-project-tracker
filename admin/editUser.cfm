@@ -9,24 +9,42 @@
 	<cfparam name="form.mobile_issues" default="0">
 	<cfparam name="form.admin" default="0">
 	<cfparam name="form.active" default="0">
+	<cfset variables.errors = "">
+	
+	<cfif not compare(trim(form.username),'')>
+		<cfset variables.errors = variables.errors & '<li>You must enter a username.</li>'>
+	</cfif>
+	
+	<cfif compare(trim(form.email),'') and not request.udf.isEmail(trim(form.email))>
+		<cfset variables.errors = variables.errors & '<li>The email address you entered was invalid.</li>'>
+	</cfif>
+	
 	<cfswitch expression="#form.submit#">
 		<cfcase value="Add User">
-			<cfset qCheckUser = application.user.get('','',form.username)>
-			<cfif not qCheckUser.recordCount>
-				<cfset application.user.adminCreate(form.userid,form.firstName,form.lastName,form.username,form.password,form.email,request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.email_todos,form.mobile_todos,form.email_mstones,form.mobile_mstones,form.email_issues,form.mobile_issues,form.admin,form.active)>
-				<cflocation url="users.cfm" addtoken="false">
-			<cfelse>
-				<cfset variables.error = "Username already exists!">
+			<cfif not compare(trim(form.password),'')>
+				<cfset variables.errors = errors & '<li>You must enter a password.</li>'>
+			</cfif>
+			<cfif not compare(errors,'')>
+				<cfset qCheckUser = application.user.get('','',form.username)>
+				<cfif not qCheckUser.recordCount>
+					<cfset newID = createUUID()>
+					<cfset application.user.adminCreate(newID,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.email_todos,form.mobile_todos,form.email_mstones,form.mobile_mstones,form.email_issues,form.mobile_issues,form.admin,form.active)>
+					<cflocation url="users.cfm" addtoken="false">
+				<cfelse>
+					<cfset variables.errors = "Username already exists!">
+				</cfif>
 			</cfif>
 		</cfcase>
 		<cfcase value="Update User">
-			<cfset application.user.adminUpdate(form.userid,form.firstName,form.lastName,form.username,form.password,form.email,request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.email_todos,form.mobile_todos,form.email_mstones,form.mobile_mstones,form.email_issues,form.mobile_issues,form.admin,form.active)>
-			<cfset application.role.remove('',form.userid)>
-			<cfparam name="form.projectid" default="">
-			<cfloop list="#form.projectid#" index="i">
-				<cfset application.role.add(i,form.userid,ListGetAt(form.role,listFind(form.all_proj_ids,i)))>
-			</cfloop>
-			<cflocation url="users.cfm" addtoken="false">
+			<cfif not compare(errors,'')>
+				<cfset application.user.adminUpdate(form.userid,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.email_todos,form.mobile_todos,form.email_mstones,form.mobile_mstones,form.email_issues,form.mobile_issues,form.admin,form.active)>
+				<cfset application.role.remove('',form.userid)>
+				<cfparam name="form.projectid" default="">
+				<cfloop list="#form.projectid#" index="i">
+					<cfset application.role.add(i,form.userid,ListGetAt(form.role,listFind(form.all_proj_ids,i)))>
+				</cfloop>
+				<cflocation url="users.cfm" addtoken="false">
+			</cfif>
 		</cfcase>
 	</cfswitch>
 </cfif>
@@ -103,8 +121,11 @@
 				 	
 				 	<h3 class="mb10"><cfif StructKeyExists(url,"u")>Edit<cfelse>Add New</cfif> User</h3>
 
-				 	<cfif StructKeyExists(variables,'error')>
-				 	<h4 class="alert b r i mb15">#variables.error#</h4>
+				 	<cfif StructKeyExists(variables,'errors')>
+				 	<div class="error">
+					 	<h4 class="alert b r">An Error Has Occurred</h3>
+					 	<ul>#variables.errors#</ul>
+					</div>
 				 	</cfif>
 				 	
 				 	<form action="#cgi.script_name#" method="post" class="frm">
@@ -119,11 +140,11 @@
 						<input type="text" name="lastName" id="lastName" value="#HTMLEditFormat(form.lastName)#" maxlength="20" class="shorter" />
 						</p>
 						<p>
-						<label for="username">Username:</label> 
+						<label for="username" class="req">Username:</label> 
 						<input type="text" name="username" id="username" value="#HTMLEditFormat(form.username)#" maxlength="30" class="shorter" />
 						</p>
 						<p>
-						<label for="password">Password:</label> 
+						<label for="password" class="req">Password:</label> 
 						<input type="text" name="password" id="password"<cfif not StructKeyExists(url,"u")> value="#HTMLEditFormat(form.password)#"</cfif> maxlength="20" class="shorter" />
 						</p>
 						<p>
@@ -172,17 +193,17 @@
 							<tr>
 								<td class="tal">New To-Dos</td>
 								<td class="tac"><input type="checkbox" name="email_todos" value="1"<cfif form.email_todos> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_todos" value="1"<cfif form.mobile_todos> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_todos" value="1"<cfif form.mobile_todos> checked="checked"</cfif><cfif not isNumeric(form.mobile) and StructKeyExists(url,"u")> disabled="disabled"</cfif> /></td>
 							</tr>
 							<tr>
 								<td class="tal">New Milestones</td>
 								<td class="tac"><input type="checkbox" name="email_mstones" value="1"<cfif form.email_mstones> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_mstones" value="1"<cfif form.mobile_mstones> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_mstones" value="1"<cfif form.mobile_mstones> checked="checked"</cfif><cfif not isNumeric(form.mobile) and StructKeyExists(url,"u")> disabled="disabled"</cfif> /></td>
 							</tr>
 							<tr>
 								<td class="tal">New Issues</td>
 								<td class="tac"><input type="checkbox" name="email_issues" value="1"<cfif form.email_issues> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_issues" value="1"<cfif form.mobile_issues> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_issues" value="1"<cfif form.mobile_issues> checked="checked"</cfif><cfif not isNumeric(form.mobile) and StructKeyExists(url,"u")> disabled="disabled"</cfif> /></td>
 							</tr>
 							</table>						 	
 						 	
@@ -190,9 +211,14 @@
 						
 						<fieldset class="mb20">
 							<legend>Projects</legend>
+							
+							<table class="admin half mb15">
+							<tr><th>Project</th><th class="tac">Active</th><th class="tac">Role</th></tr>
 							<cfloop query="projects">
-							<p>
-							<input type="checkbox" name="projectid" value="#projectid#" id="p_#replace(projectid,'-','','ALL')#" class="cb"<cfif listFind(valueList(user_projects.projectid),projectid)> checked="checked"</cfif> />&nbsp;<label for="p_#replace(projectid,'-','','ALL')#" class="cb">#name#</label>
+							<tr>
+								<td><label for="p_#replace(projectid,'-','','ALL')#" class="cb">#name#</label></td>
+								<td class="tac"><input type="checkbox" name="projectid" value="#projectid#" id="p_#replace(projectid,'-','','ALL')#" class="cb"<cfif listFind(valueList(user_projects.projectid),projectid)> checked="checked"</cfif> /></td>
+							<td class="tac">
 							<cfif StructKeyExists(url,"u")> <!--- update --->
 								<cfset thisProjectRole = application.role.get(url.u,projectid)>
 								<select name="role">
@@ -207,9 +233,10 @@
 									<option value="Read-Only"<cfif not compare(ListGetAt(form.role,listFind(form.all_proj_ids,projectid)),'Read-Only')> selected="selected"</cfif>>Read-Only</option>
 								</select>	
 							</cfif>
-							</p>
+							</td>
 							<input type="hidden" name="all_proj_ids" value="#projectid#" />
 							</cfloop>
+							</table>
 						
 						</fieldset>
 						
