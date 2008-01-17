@@ -8,19 +8,27 @@ ALTER TABLE `pt_todos` MODIFY `task` varchar(300) default NULL;
 INSERT INTO `pt_users` (userID,firstName,lastName,username,password,style,email_todos,mobile_todos,email_mstones,mobile_mstones,email_issues,mobile_issues,avatar,admin,active) values('7F16CA08-1372-7975-6F7F9DA33EBD6A09','Guest','User','guest','guest','blue',0,0,0,0,0,0,0,0,1);
 ALTER TABLE `pt_users` ADD `mobile` varchar(15) default NULL;
 ALTER TABLE `pt_users` ADD `carrierID` varchar(35) default NULL;
-ALTER TABLE `pt_users` ADD `email_todos` tinyint(1) default NULL;
-ALTER TABLE `pt_users` ADD `mobile_todos` tinyint(1) default NULL;
-ALTER TABLE `pt_users` ADD `email_mstones` tinyint(1) default NULL;
-ALTER TABLE `pt_users` ADD `mobile_mstones` tinyint(1) default NULL;
+ALTER TABLE `pt_users` ADD `email_files` tinyint(1) default NULL;
+ALTER TABLE `pt_users` ADD `mobile_files` tinyint(1) default NULL;
 ALTER TABLE `pt_users` ADD `email_issues` tinyint(1) default NULL;
 ALTER TABLE `pt_users` ADD `mobile_issues` tinyint(1) default NULL;
+ALTER TABLE `pt_users` ADD `email_msgs` tinyint(1) default NULL;
+ALTER TABLE `pt_users` ADD `mobile_msgs` tinyint(1) default NULL;
+ALTER TABLE `pt_users` ADD `email_mstones` tinyint(1) default NULL;
+ALTER TABLE `pt_users` ADD `mobile_mstones` tinyint(1) default NULL;
+ALTER TABLE `pt_users` ADD `email_todos` tinyint(1) default NULL;
+ALTER TABLE `pt_users` ADD `mobile_todos` tinyint(1) default NULL;
 update `pt_users` 
-	set `email_todos` = 1 ,
-		`mobile_todos` = 1 ,
+	set `email_files` = 1 ,
+		`mobile_files` = 1 ,
+		`email_issues` = 1 ,
+		`mobile_issues` = 1,
+		`email_msgs` = 1 ,
+		`mobile_msgs` = 1 ,
 		`email_mstones` = 1 ,
 		`mobile_mstones` = 1 ,
-		`email_issues` = 1 ,
-		`mobile_issues` = 1;
+		`email_todos` = 1 ,
+		`mobile_todos` = 1;
 CREATE TABLE `pt_carriers` (
   `carrierID` varchar(35) NOT NULL,
   `carrier` varchar(20) default NULL,
