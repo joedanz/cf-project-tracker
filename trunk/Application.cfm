@@ -20,6 +20,7 @@
 	<!--- application CFCs --->	
 	<cfset application.activity = createObject("component","cfcs.activity").init(settings)>
 	<cfset application.carrier = createObject("component","cfcs.carrier").init(settings)>
+	<cfset application.client = createObject("component","cfcs.client").init(settings)>
 	<cfset application.comment = createObject("component","cfcs.comment").init(settings)>
 	<cfset application.file = createObject("component","cfcs.file").init(settings)>
 	<cfset application.issue = createObject("component","cfcs.issue").init(settings)>
