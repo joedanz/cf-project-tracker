@@ -9,11 +9,11 @@ Server version : 5.0.24a-community-nt
 /*Table structure for table `pt_activity` */
 
 CREATE TABLE `pt_activity` (
-  `activityID` varchar(35) NOT NULL,
-  `projectID` varchar(35) default NULL,
-  `userID` varchar(35) default NULL,
+  `activityID` char(35) NOT NULL,
+  `projectID` char(35) default NULL,
+  `userID` char(35) default NULL,
   `type` varchar(12) default NULL,
-  `id` varchar(35) default NULL,
+  `id` char(35) default NULL,
   `name` varchar(100) default NULL,
   `activity` varchar(50) default NULL,
   `stamp` datetime default NULL,
@@ -23,7 +23,7 @@ CREATE TABLE `pt_activity` (
 /*Table structure for table `pt_carriers` */
 
 CREATE TABLE `pt_carriers` (
-  `carrierID` varchar(35) NOT NULL,
+  `carrierID` char(35) NOT NULL,
   `carrier` varchar(20) default NULL,
   `countryCode` varchar(2) default NULL,
   `country` varchar(20) default NULL,
@@ -36,11 +36,11 @@ CREATE TABLE `pt_carriers` (
 /*Table structure for table `pt_comments` */
 
 CREATE TABLE `pt_comments` (
-  `commentID` varchar(35) NOT NULL,
-  `projectID` varchar(35) default NULL,
+  `commentID` char(35) NOT NULL,
+  `projectID` char(35) default NULL,
   `messageID` varchar(35) default NULL,
   `issueID` varchar(35) default NULL,
-  `userID` varchar(35) default NULL,
+  `userID` char(35) default NULL,
   `comment` text default NULL,
   `stamp` datetime default NULL,
   PRIMARY KEY  (`commentID`)
@@ -49,8 +49,8 @@ CREATE TABLE `pt_comments` (
 /*Table structure for table `pt_files` */
 
 CREATE TABLE `pt_files` (
-  `fileID` varchar(35) NOT NULL,
-  `projectID` varchar(35) default NULL,
+  `fileID` char(35) NOT NULL,
+  `projectID` char(35) default NULL,
   `title` varchar(200) default NULL,
   `description` text default NULL,
   `category` varchar(50) default NULL,
@@ -59,15 +59,15 @@ CREATE TABLE `pt_files` (
   `filetype` varchar(4) default NULL,
   `filesize` int(9) default NULL,
   `uploaded` datetime default NULL,
-  `uploadedBy` varchar(35) default NULL,
+  `uploadedBy` char(35) default NULL,
   PRIMARY KEY  (`fileID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `pt_issues` */
 
 CREATE TABLE `pt_issues` (
-  `issueID` varchar(35) NOT NULL,
-  `projectID` varchar(35) default NULL,
+  `issueID` char(35) NOT NULL,
+  `projectID` char(35) default NULL,
   `shortID` varchar(7) default NULL,
   `issue` varchar(120) default NULL,
   `detail` text default NULL,
@@ -76,7 +76,7 @@ CREATE TABLE `pt_issues` (
   `status` varchar(6) default NULL,
   `relevantURL` varchar(255) default NULL,
   `created` datetime default NULL,
-  `createdBy` varchar(35) default NULL,
+  `createdBy` char(35) default NULL,
   `assignedTo` varchar(35) default NULL,
   `updated` datetime default NULL,
   `updatedBy` varchar(35) default NULL,
@@ -86,19 +86,19 @@ CREATE TABLE `pt_issues` (
 /*Table structure for table `pt_message_notify` */
 
 CREATE TABLE `pt_message_notify` (
-  `messageID` varchar(35) NOT NULL,
-  `projectID` varchar(35) NOT NULL,
-  `userID` varchar(35) NOT NULL,
+  `messageID` char(35) NOT NULL,
+  `projectID` char(35) NOT NULL,
+  `userID` char(35) NOT NULL,
   PRIMARY KEY  (`messageID`,`projectID`,`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `pt_messages` */
 
 CREATE TABLE `pt_messages` (
-  `messageID` varchar(35) NOT NULL,
-  `projectID` varchar(35) default NULL,
+  `messageID` char(35) NOT NULL,
+  `projectID` char(35) default NULL,
   `milestoneID` varchar(35) default NULL,
-  `userID` varchar(35) default NULL,
+  `userID` char(35) default NULL,
   `title` varchar(120) default NULL,
   `message` text default NULL,
   `category` varchar(50) default NULL,
@@ -110,9 +110,9 @@ CREATE TABLE `pt_messages` (
 /*Table structure for table `pt_milestones` */
 
 CREATE TABLE `pt_milestones` (
-  `milestoneID` varchar(35) NOT NULL,
-  `projectID` varchar(35) default NULL,
-  `userID` varchar(35) default NULL,
+  `milestoneID` char(35) NOT NULL,
+  `projectID` char(35) default NULL,
+  `userID` char(35) default NULL,
   `forID` varchar(35) default NULL,
   `name` varchar(50) default NULL,
   `description` text default NULL,
@@ -124,8 +124,8 @@ CREATE TABLE `pt_milestones` (
 /*Table structure for table `pt_project_users` */
 
 CREATE TABLE `pt_project_users` (
-  `userID` varchar(35) NOT NULL,
-  `projectID` varchar(35) NOT NULL,
+  `userID` char(35) NOT NULL,
+  `projectID` char(35) NOT NULL,
   `role` varchar(9) default NULL,
   PRIMARY KEY  (`userID`,`projectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -133,13 +133,13 @@ CREATE TABLE `pt_project_users` (
 /*Table structure for table `pt_projects` */
 
 CREATE TABLE `pt_projects` (
-  `projectID` varchar(35) NOT NULL,
+  `projectID` char(35) NOT NULL,
   `name` varchar(50) default NULL,
   `description` text default NULL,
   `display` bit(1) default NULL,
   `ticketPrefix` varchar(2) default NULL,
   `added` datetime default NULL,
-  `addedBy` varchar(35) default NULL,
+  `addedBy` char(35) default NULL,
   `status` varchar(8) default NULL,
   `svnurl` varchar(100) default NULL,
   `svnuser` varchar(20) default NULL,
@@ -150,7 +150,7 @@ CREATE TABLE `pt_projects` (
 /*Table structure for table `pt_settings` */
 
 CREATE TABLE `pt_settings` (
-  `settingID` varchar(35) NOT NULL,
+  `settingID` char(35) NOT NULL,
   `setting` varchar(50) default NULL,
   `settingValue` varchar(250) default NULL,
   PRIMARY KEY  (`settingID`)
@@ -159,12 +159,12 @@ CREATE TABLE `pt_settings` (
 /*Table structure for table `pt_todolists` */
 
 CREATE TABLE `pt_todolists` (
-  `todolistID` varchar(35) NOT NULL,
-  `projectID` varchar(35) default NULL,
+  `todolistID` char(35) NOT NULL,
+  `projectID` char(35) default NULL,
   `title` varchar(100) default NULL,
   `description` text default NULL,
   `milestoneID` varchar(35) default NULL,
-  `userID` varchar(35) default NULL,
+  `userID` char(35) default NULL,
   `added` datetime default NULL,
   `rank` tinyint(3) default NULL,
   PRIMARY KEY  (`todolistID`)
@@ -173,10 +173,10 @@ CREATE TABLE `pt_todolists` (
 /*Table structure for table `pt_todos` */
 
 CREATE TABLE `pt_todos` (
-  `todoID` varchar(35) NOT NULL,
-  `todolistID` varchar(35) default NULL,
-  `projectID` varchar(35) default NULL,
-  `userID` varchar(35) default NULL,
+  `todoID` char(35) NOT NULL,
+  `todolistID` char(35) default NULL,
+  `projectID` char(35) default NULL,
+  `userID` char(35) default NULL,
   `task` text default NULL,
   `rank` int(3) default NULL,
   `added` datetime default NULL,
@@ -188,7 +188,7 @@ CREATE TABLE `pt_todos` (
 /*Table structure for table `pt_users` */
 
 CREATE TABLE `pt_users` (
-  `userID` varchar(35) NOT NULL,
+  `userID` char(35) NOT NULL,
   `firstName` varchar(12) default NULL,
   `lastName` varchar(20) default NULL,
   `username` varchar(50) default NULL,

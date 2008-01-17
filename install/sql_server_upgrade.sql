@@ -1,142 +1,26 @@
+/** IF YOU RECEIVE ERRORS, YOU MAY NEED TO REMOVE PRIMARY KEYS BEFORE ALTERING COLUMNS **/
 /* UPGRADE FROM BETA */
 ALTER TABLE [dbo].[pt_project_users] ALTER COLUMN [role] [nvarchar] (9) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 GO
 
 /* UPGRADE FROM 1.0 */
-ALTER TABLE [dbo].[pt_comments] ALTER COLUMN [comment] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+/* pt_activity */
+ALTER TABLE [dbo].[pt_activity] ALTER COLUMN [activityID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 GO
-ALTER TABLE [dbo].[pt_files] ALTER COLUMN [description] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+ALTER TABLE [dbo].[pt_activity] ALTER COLUMN [projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 GO
-ALTER TABLE [dbo].[pt_issues] ALTER COLUMN [detail] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+ALTER TABLE [dbo].[pt_activity] ALTER COLUMN [userID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 GO
-ALTER TABLE [dbo].[pt_messages] ALTER COLUMN [message] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+ALTER TABLE [dbo].[pt_activity] ALTER COLUMN [id] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 GO
-ALTER TABLE [dbo].[pt_milestones] ALTER COLUMN [description] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
-GO
-ALTER TABLE [dbo].[pt_projects] ALTER COLUMN [description] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
-GO
-ALTER TABLE [dbo].[pt_todolists] ALTER COLUMN [description] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
-GO
-ALTER TABLE [dbo].[pt_todos] ALTER COLUMN [task] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
-GO
-INSERT INTO [dbo].[pt_users](userID,firstName,lastName,username,password,style,email_todos,mobile_todos,email_mstones,mobile_mstones,email_issues,mobile_issues,avatar,admin,active) values('7F16CA08-1372-7975-6F7F9DA33EBD6A09','Guest','User','guest','guest','blue',0,0,0,0,0,0,0,0,1)
-GO
-ALTER TABLE [dbo].[pt_users] ADD [mobile] [nvarchar] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
-GO
-ALTER TABLE [dbo].[pt_users] ADD [carrierID] [nvarchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
-GO
-ALTER TABLE [dbo].[pt_users] ADD [email_files] [bit] NULL
-GO
-ALTER TABLE [dbo].[pt_users] ADD [mobile_files] [bit] NULL
-GO
-ALTER TABLE [dbo].[pt_users] ADD [email_issues] [bit] NULL
-GO
-ALTER TABLE [dbo].[pt_users] ADD [mobile_issues] [bit] NULL
-GO
-ALTER TABLE [dbo].[pt_users] ADD [email_msgs] [bit] NULL
-GO
-ALTER TABLE [dbo].[pt_users] ADD [mobile_msgs] [bit] NULL
-GO
-ALTER TABLE [dbo].[pt_users] ADD [email_mstones] [bit] NULL
-GO
-ALTER TABLE [dbo].[pt_users] ADD [mobile_mstones] [bit] NULL
-GO
-ALTER TABLE [dbo].[pt_users] ADD [email_todos] [bit] NULL
-GO
-ALTER TABLE [dbo].[pt_users] ADD [mobile_todos] [bit] NULL
-GO
-UPDATE [dbo].[pt_users] 
-	SET [email_files] = 1 ,
-		[mobile_files] = 1 ,
-		[email_issues] = 1 ,
-		[mobile_issues] = 1 ,
-		[email_msgs] = 1 ,
-		[mobile_msgs] = 1 ,
-		[email_mstones] = 1 ,
-		[mobile_mstones] = 1 ,
-		[email_todos] = 1 ,
-		[mobile_todos] = 1
-GO
-
 ALTER TABLE [dbo].[pt_activity] WITH NOCHECK ADD 
 	CONSTRAINT [PK_pt_activity] PRIMARY KEY  CLUSTERED 
 	(
 		[activityID]
 	)  ON [PRIMARY] 
 GO
-ALTER TABLE [dbo].[pt_comments] WITH NOCHECK ADD 
-	CONSTRAINT [PK_pt_comments] PRIMARY KEY  CLUSTERED 
-	(
-		[commentID]
-	)  ON [PRIMARY] 
-GO
-ALTER TABLE [dbo].[pt_files] WITH NOCHECK ADD 
-	CONSTRAINT [PK_pt_files] PRIMARY KEY  CLUSTERED 
-	(
-		[fileID]
-	)  ON [PRIMARY] 
-GO
-ALTER TABLE [dbo].[pt_issues] WITH NOCHECK ADD 
-	CONSTRAINT [PK_pt_issues] PRIMARY KEY  CLUSTERED 
-	(
-		[issueID]
-	)  ON [PRIMARY] 
-GO
-ALTER TABLE [dbo].[pt_message_notify] ALTER COLUMN [messageID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
-GO
-ALTER TABLE [dbo].[pt_message_notify] ALTER COLUMN [projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
-GO
-ALTER TABLE [dbo].[pt_message_notify] ALTER COLUMN [userID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
-GO
-ALTER TABLE [dbo].[pt_message_notify] WITH NOCHECK ADD 
-	CONSTRAINT [PK_pt_message_notify] PRIMARY KEY  CLUSTERED 
-	(
-		[messageID],[projectID],[userID]
-	)  ON [PRIMARY] 
-GO
-ALTER TABLE [dbo].[pt_messages] WITH NOCHECK ADD 
-	CONSTRAINT [PK_pt_messages] PRIMARY KEY  CLUSTERED 
-	(
-		[messageID]
-	)  ON [PRIMARY] 
-GO
-ALTER TABLE [dbo].[pt_milestones] WITH NOCHECK ADD 
-	CONSTRAINT [PK_pt_milestones] PRIMARY KEY  CLUSTERED 
-	(
-		[milestoneID]
-	)  ON [PRIMARY] 
-GO
-ALTER TABLE [dbo].[pt_project_users] WITH NOCHECK ADD 
-	CONSTRAINT [PK_pt_project_users] PRIMARY KEY  CLUSTERED 
-	(
-		[userID],[projectID]
-	)  ON [PRIMARY] 
-GO
-ALTER TABLE [dbo].[pt_projects] WITH NOCHECK ADD 
-	CONSTRAINT [PK_pt_projects] PRIMARY KEY  CLUSTERED 
-	(
-		[projectID]
-	)  ON [PRIMARY] 
-GO
-ALTER TABLE [dbo].[pt_todolists] WITH NOCHECK ADD 
-	CONSTRAINT [PK_pt_todolists] PRIMARY KEY  CLUSTERED 
-	(
-		[todolistID]
-	)  ON [PRIMARY] 
-GO
-ALTER TABLE [dbo].[pt_todos] WITH NOCHECK ADD 
-	CONSTRAINT [PK_pt_todos] PRIMARY KEY  CLUSTERED 
-	(
-		[todoID]
-	)  ON [PRIMARY] 
-GO
-ALTER TABLE [dbo].[pt_users] WITH NOCHECK ADD 
-	CONSTRAINT [PK_pt_users] PRIMARY KEY  CLUSTERED 
-	(
-		[userID]
-	)  ON [PRIMARY] 
-GO
 
+/* pt_carriers */
 CREATE TABLE [dbo].[pt_carriers] (
 	[carrierID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[carrier] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
@@ -190,4 +74,222 @@ GO
 INSERT INTO [dbo].[pt_carriers](carrierID,carrier,countryCode,country,prefix,suffix,active) values('84677BCF-1372-7975-6F89C8D24436A08A','Virgin Canada','CA','Canada','1','@vmobile.ca',1)
 GO
 INSERT INTO [dbo].[pt_carriers](carrierID,carrier,countryCode,country,prefix,suffix,active) values('8467A2B0-1372-7975-6FEB7589919DC435','O2','UK','United Kingdom','1','@mmail.co.uk',1)
+GO
+
+
+/* pt_comments */
+ALTER TABLE [dbo].[pt_comments] ALTER COLUMN [commentID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_comments] ALTER COLUMN [projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_comments] ALTER COLUMN [userID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_comments] ALTER COLUMN [comment] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
+ALTER TABLE [dbo].[pt_comments] WITH NOCHECK ADD 
+	CONSTRAINT [PK_pt_comments] PRIMARY KEY  CLUSTERED 
+	(
+		[commentID]
+	)  ON [PRIMARY] 
+GO
+
+
+/* pt_files */
+ALTER TABLE [dbo].[pt_files] ALTER COLUMN [fileID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_files] ALTER COLUMN [projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_files] ALTER COLUMN [uploadedBy] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_files] ALTER COLUMN [description] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
+ALTER TABLE [dbo].[pt_files] WITH NOCHECK ADD 
+	CONSTRAINT [PK_pt_files] PRIMARY KEY  CLUSTERED 
+	(
+		[fileID]
+	)  ON [PRIMARY] 
+GO
+
+
+/* pt_issues */
+ALTER TABLE [dbo].[pt_issues] ALTER COLUMN [issueID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_issues] ALTER COLUMN [projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_issues] ALTER COLUMN [createdBy] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_issues] ALTER COLUMN [detail] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
+ALTER TABLE [dbo].[pt_issues] WITH NOCHECK ADD 
+	CONSTRAINT [PK_pt_issues] PRIMARY KEY  CLUSTERED 
+	(
+		[issueID]
+	)  ON [PRIMARY] 
+GO
+
+
+/* pt_message_notify */
+ALTER TABLE [dbo].[pt_message_notify] ALTER COLUMN [messageID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_message_notify] ALTER COLUMN [projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_message_notify] ALTER COLUMN [userID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_message_notify] WITH NOCHECK ADD 
+	CONSTRAINT [PK_pt_message_notify] PRIMARY KEY  CLUSTERED 
+	(
+		[messageID],[projectID],[userID]
+	)  ON [PRIMARY] 
+GO
+
+
+/* pt_messages */
+ALTER TABLE [dbo].[pt_messages] ALTER COLUMN [messageID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_messages] ALTER COLUMN [projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_messages] ALTER COLUMN [userID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_messages] ALTER COLUMN [message] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
+ALTER TABLE [dbo].[pt_messages] WITH NOCHECK ADD 
+	CONSTRAINT [PK_pt_messages] PRIMARY KEY  CLUSTERED 
+	(
+		[messageID]
+	)  ON [PRIMARY] 
+GO
+
+
+/* pt_milestones */
+ALTER TABLE [dbo].[pt_milestones] ALTER COLUMN [milestoneID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_milestones] ALTER COLUMN [projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_milestones] ALTER COLUMN [userID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_milestones] ALTER COLUMN [description] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
+ALTER TABLE [dbo].[pt_milestones] WITH NOCHECK ADD 
+	CONSTRAINT [PK_pt_milestones] PRIMARY KEY  CLUSTERED 
+	(
+		[milestoneID]
+	)  ON [PRIMARY] 
+GO
+
+
+/* pt_project_users */
+ALTER TABLE [dbo].[pt_project_users] ALTER COLUMN [userID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ALTER COLUMN [projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] WITH NOCHECK ADD 
+	CONSTRAINT [PK_pt_project_users] PRIMARY KEY  CLUSTERED 
+	(
+		[userID],[projectID]
+	)  ON [PRIMARY] 
+GO
+
+
+/* pt_projects */
+ALTER TABLE [dbo].[pt_projects] ALTER COLUMN [projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ALTER COLUMN [addedBy] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ALTER COLUMN [description] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
+ALTER TABLE [dbo].[pt_projects] WITH NOCHECK ADD 
+	CONSTRAINT [PK_pt_projects] PRIMARY KEY  CLUSTERED 
+	(
+		[projectID]
+	)  ON [PRIMARY] 
+GO
+
+
+/* pt_settings */
+ALTER TABLE [dbo].[pt_settings] ALTER COLUMN [settingID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+
+
+/* pt_todolists */
+ALTER TABLE [dbo].[pt_todolists] ALTER COLUMN [todolistID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_todolists] ALTER COLUMN [projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_todolists] ALTER COLUMN [userID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_todolists] ALTER COLUMN [description] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
+ALTER TABLE [dbo].[pt_todolists] WITH NOCHECK ADD 
+	CONSTRAINT [PK_pt_todolists] PRIMARY KEY  CLUSTERED 
+	(
+		[todolistID]
+	)  ON [PRIMARY] 
+GO
+
+
+/* pt_todos */
+ALTER TABLE [dbo].[pt_todos] ALTER COLUMN [todoID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_todos] ALTER COLUMN [todolistID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_todos] ALTER COLUMN [projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_todos] ALTER COLUMN [userID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_todos] ALTER COLUMN [task] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
+ALTER TABLE [dbo].[pt_todos] WITH NOCHECK ADD 
+	CONSTRAINT [PK_pt_todos] PRIMARY KEY  CLUSTERED 
+	(
+		[todoID]
+	)  ON [PRIMARY] 
+GO
+
+
+/* pt_users */
+ALTER TABLE [dbo].[pt_users] ALTER COLUMN [userID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_users] ADD [mobile] [nvarchar] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
+ALTER TABLE [dbo].[pt_users] ADD [carrierID] [nvarchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
+ALTER TABLE [dbo].[pt_users] ADD [email_files] [bit] NULL
+GO
+ALTER TABLE [dbo].[pt_users] ADD [mobile_files] [bit] NULL
+GO
+ALTER TABLE [dbo].[pt_users] ADD [email_issues] [bit] NULL
+GO
+ALTER TABLE [dbo].[pt_users] ADD [mobile_issues] [bit] NULL
+GO
+ALTER TABLE [dbo].[pt_users] ADD [email_msgs] [bit] NULL
+GO
+ALTER TABLE [dbo].[pt_users] ADD [mobile_msgs] [bit] NULL
+GO
+ALTER TABLE [dbo].[pt_users] ADD [email_mstones] [bit] NULL
+GO
+ALTER TABLE [dbo].[pt_users] ADD [mobile_mstones] [bit] NULL
+GO
+ALTER TABLE [dbo].[pt_users] ADD [email_todos] [bit] NULL
+GO
+ALTER TABLE [dbo].[pt_users] ADD [mobile_todos] [bit] NULL
+GO
+UPDATE [dbo].[pt_users] 
+	SET [email_files] = 1 ,
+		[mobile_files] = 1 ,
+		[email_issues] = 1 ,
+		[mobile_issues] = 1 ,
+		[email_msgs] = 1 ,
+		[mobile_msgs] = 1 ,
+		[email_mstones] = 1 ,
+		[mobile_mstones] = 1 ,
+		[email_todos] = 1 ,
+		[mobile_todos] = 1
+GO
+ALTER TABLE [dbo].[pt_users] WITH NOCHECK ADD 
+	CONSTRAINT [PK_pt_users] PRIMARY KEY  CLUSTERED 
+	(
+		[userID]
+	)  ON [PRIMARY] 
+GO
+INSERT INTO [dbo].[pt_users](userID,firstName,lastName,username,password,style,email_todos,mobile_todos,email_mstones,mobile_mstones,email_issues,mobile_issues,avatar,admin,active) values('7F16CA08-1372-7975-6F7F9DA33EBD6A09','Guest','User','guest','guest','blue',0,0,0,0,0,0,0,0,1)
 GO
