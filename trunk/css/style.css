@@ -47,6 +47,9 @@ fieldset { border:1px solid #666; }
 a.sublink { text-decoration:none; }
 a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 
+.error { background-color:#ffebe8; border:1px solid #96523b; }
+.success { background-color:#fffade; border:1px solid #e7d125; }
+
 /* CATEGORIES */
 .catbox { font-size:.85em;border:1px solid #555;text-align:center;text-transform:uppercase; }
 .issue { background-color:#c00; color:#fff; }
