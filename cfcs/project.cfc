@@ -140,7 +140,9 @@
 		
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
-			SELECT distinct u.userID, u.firstName, u.lastName, u.username, u.email, u.phone, u.lastLogin, u.avatar, u.admin, pu.role
+			SELECT distinct u.userID, u.firstName, u.lastName, u.username, u.email, u.phone, u.mobile,
+				u.lastLogin, u.email_todos, u.mobile_todos, u.email_mstones, u.mobile_mstones, 
+				u.email_issues,	u.mobile_issues, u.avatar, u.admin, pu.role
 			FROM #variables.tableprefix#users u 
 				INNER JOIN #variables.tableprefix#project_users pu ON u.userID = pu.userID
 			WHERE u.active = 1
