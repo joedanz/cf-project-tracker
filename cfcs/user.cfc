@@ -202,13 +202,15 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.active#">		
 						)
 		</cfquery>
-		<cfmail to="#arguments.email#" from="#session.user.email#" subject="New #application.settings.app_title# Account">An account has been setup for you to use the #application.settings.app_title#.
-
+		<cfif compare(arguments.email,'')>
+			<cfmail to="#arguments.email#" from="#session.user.email#" subject="New #application.settings.app_title# Account">An account has been setup for you to use the #application.settings.app_title#.
+	
 You can login at #application.settings.rootURL##application.settings.mapping#
-
+	
      Username: #arguments.username#
      Password: #arguments.password#
-		</cfmail>
+			</cfmail>
+		</cfif>
 	</cffunction>
 
 	<cffunction name="userUpdate" access="public" returntype="void" output="false"
