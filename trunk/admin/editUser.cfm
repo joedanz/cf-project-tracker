@@ -144,7 +144,7 @@
 								<option value=""></option>
 						</cfoutput>
 
-							<cfoutput query="application.mobile" group="country">
+							<cfoutput query="application.carriers" group="country">
 							<optgroup label="#country#">
 							<cfoutput>
 							<option value="#carrierID#"<cfif not compare(form.carrierID,carrierID)> selected="selected"</cfif>>#carrier#</option>
