@@ -48,13 +48,17 @@
 		<cfset whichTab = whichTab - 1>
 	</cfif>
 <cfelseif StructKeyExists(form,"notifysub")>
-	<cfparam name="form.email_todos" default="0">
-	<cfparam name="form.mobile_todos" default="0">
-	<cfparam name="form.email_mstones" default="0">
-	<cfparam name="form.mobile_mstones" default="0">
+	<cfparam name="form.email_files" default="0">
+	<cfparam name="form.mobile_files" default="0">
 	<cfparam name="form.email_issues" default="0">
 	<cfparam name="form.mobile_issues" default="0">
-	<cfset application.user.notifyUpdate(session.user.userid,form.email_todos,form.mobile_todos,form.email_mstones,form.mobile_mstones,form.email_issues,form.mobile_issues)>
+	<cfparam name="form.email_msgs" default="0">
+	<cfparam name="form.mobile_msgs" default="0">
+	<cfparam name="form.email_mstones" default="0">
+	<cfparam name="form.mobile_mstones" default="0">
+	<cfparam name="form.email_todos" default="0">
+	<cfparam name="form.mobile_todos" default="0">
+	<cfset application.user.notifyUpdate(session.user.userid,form.email_files,form.mobile_files,form.email_issues,form.mobile_issues,form.email_msgs,form.mobile_msgs,form.email_mstones,form.mobile_mstones,form.email_todos,form.mobile_todos)>
 	<cfset whichTab = 5>
 	<cfif not application.isCF8 and not application.isBD>
 		<cfset whichTab = whichTab - 1>
@@ -221,9 +225,19 @@
 							<table class="admin half mb15">
 							<tr><th>Action</th><th class="tac">Email</th><th class="tac">Mobile</th></tr>
 							<tr>
-								<td class="tal">New To-Dos</td>
-								<td class="tac"><input type="checkbox" name="email_todos" value="1"<cfif user.email_todos> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_todos" value="1"<cfif user.mobile_todos> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
+								<td class="tal">New Files</td>
+								<td class="tac"><input type="checkbox" name="email_files" value="1"<cfif user.email_files> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_files" value="1"<cfif user.mobile_files> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
+							</tr>
+							<tr>
+								<td class="tal">New Issues</td>
+								<td class="tac"><input type="checkbox" name="email_issues" value="1"<cfif user.email_issues> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_issues" value="1"<cfif user.mobile_issues> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
+							</tr>
+							<tr>
+								<td class="tal">New Messages</td>
+								<td class="tac"><input type="checkbox" name="email_msgs" value="1"<cfif user.email_msgs> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_msgs" value="1"<cfif user.mobile_msgs> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
 							</tr>
 							<tr>
 								<td class="tal">New Milestones</td>
@@ -231,9 +245,9 @@
 								<td class="tac"><input type="checkbox" name="mobile_mstones" value="1"<cfif user.mobile_mstones> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
 							</tr>
 							<tr>
-								<td class="tal">New Issues</td>
-								<td class="tac"><input type="checkbox" name="email_issues" value="1"<cfif user.email_issues> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_issues" value="1"<cfif user.mobile_issues> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
+								<td class="tal">New To-Dos</td>
+								<td class="tac"><input type="checkbox" name="email_todos" value="1"<cfif user.email_todos> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_todos" value="1"<cfif user.mobile_todos> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
 							</tr>
 							</table>
 												

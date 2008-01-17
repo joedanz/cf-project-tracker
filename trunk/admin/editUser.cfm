@@ -1,12 +1,17 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfif StructKeyExists(form,"submit")>
-	<cfparam name="form.email_todos" default="0">
-	<cfparam name="form.mobile_todos" default="0">
-	<cfparam name="form.email_mstones" default="0">
-	<cfparam name="form.mobile_mstones" default="0">
+	<cfparam name="form.email_files" default="0">
+	<cfparam name="form.mobile_files" default="0">
 	<cfparam name="form.email_issues" default="0">
 	<cfparam name="form.mobile_issues" default="0">
+	<cfparam name="form.email_msgs" default="0">
+	<cfparam name="form.mobile_msgs" default="0">
+	<cfparam name="form.email_mstones" default="0">
+	<cfparam name="form.mobile_mstones" default="0">
+	<cfparam name="form.email_todos" default="0">
+	<cfparam name="form.mobile_todos" default="0">
+
 	<cfparam name="form.admin" default="0">
 	<cfparam name="form.active" default="0">
 	<cfset variables.errors = "">
@@ -28,7 +33,7 @@
 				<cfset qCheckUser = application.user.get('','',form.username)>
 				<cfif not qCheckUser.recordCount>
 					<cfset newID = createUUID()>
-					<cfset application.user.adminCreate(newID,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.email_todos,form.mobile_todos,form.email_mstones,form.mobile_mstones,form.email_issues,form.mobile_issues,form.admin,form.active)>
+					<cfset application.user.adminCreate(newID,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.email_files,form.mobile_files,form.email_issues,form.mobile_issues,form.email_msgs,form.mobile_msgs,form.email_mstones,form.mobile_mstones,form.email_todos,form.mobile_todos,form.admin,form.active)>
 					<cflocation url="users.cfm" addtoken="false">
 				<cfelse>
 					<cfset variables.errors = "Username already exists!">
@@ -37,7 +42,7 @@
 		</cfcase>
 		<cfcase value="Update User">
 			<cfif not compare(errors,'')>
-				<cfset application.user.adminUpdate(form.userid,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.email_todos,form.mobile_todos,form.email_mstones,form.mobile_mstones,form.email_issues,form.mobile_issues,form.admin,form.active)>
+				<cfset application.user.adminUpdate(form.userid,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.email_files,form.mobile_files,form.email_issues,form.mobile_issues,form.email_msgs,form.mobile_msgs,form.email_mstones,form.mobile_mstones,form.email_todos,form.mobile_todos,form.admin,form.active)>
 				<cfset application.role.remove('',form.userid)>
 				<cfparam name="form.projectid" default="">
 				<cfloop list="#form.projectid#" index="i">
@@ -57,12 +62,16 @@
 <cfparam name="form.phone" default="">
 <cfparam name="form.mobile" default="">
 <cfparam name="form.carrierID" default="">
-<cfparam name="form.email_todos" default="0">
-<cfparam name="form.mobile_todos" default="0">
-<cfparam name="form.email_mstones" default="0">
-<cfparam name="form.mobile_mstones" default="0">
+<cfparam name="form.email_files" default="0">
+<cfparam name="form.mobile_files" default="0">
 <cfparam name="form.email_issues" default="0">
 <cfparam name="form.mobile_issues" default="0">
+<cfparam name="form.email_msgs" default="0">
+<cfparam name="form.mobile_msgs" default="0">
+<cfparam name="form.email_mstones" default="0">
+<cfparam name="form.mobile_mstones" default="0">
+<cfparam name="form.email_todos" default="0">
+<cfparam name="form.mobile_todos" default="0">
 <cfparam name="form.admin" default="0">
 <cfparam name="form.active" default="0">
 
@@ -75,12 +84,16 @@
 	<cfset form.phone = user.phone>
 	<cfset form.mobile = user.mobile>
 	<cfset form.carrierID = user.carrierID>
-	<cfset form.email_todos = user.email_todos>
-	<cfset form.mobile_todos = user.mobile_todos>
-	<cfset form.email_mstones = user.email_mstones>
-	<cfset form.mobile_mstones = user.mobile_mstones>
+	<cfset form.email_files = user.email_files>
+	<cfset form.mobile_files = user.mobile_files>
 	<cfset form.email_issues = user.email_issues>
 	<cfset form.mobile_issues = user.mobile_issues>
+	<cfset form.email_msgs = user.email_msgs>
+	<cfset form.mobile_msgs = user.mobile_msgs>
+	<cfset form.email_mstones = user.email_mstones>
+	<cfset form.mobile_mstones = user.mobile_mstones>
+	<cfset form.email_todos = user.email_todos>
+	<cfset form.mobile_todos = user.mobile_todos>
 	<cfset form.admin = user.admin>
 	<cfset form.active = user.active>
 	<cfset user_projects = application.project.get(url.u)>
@@ -191,9 +204,19 @@
 							<table class="admin half mb15">
 							<tr><th>Action</th><th class="tac">Email</th><th class="tac">Mobile</th></tr>
 							<tr>
-								<td class="tal">New To-Dos</td>
-								<td class="tac"><input type="checkbox" name="email_todos" value="1"<cfif form.email_todos> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_todos" value="1"<cfif form.mobile_todos> checked="checked"</cfif><cfif not isNumeric(form.mobile) and StructKeyExists(url,"u")> disabled="disabled"</cfif> /></td>
+								<td class="tal">New Files</td>
+								<td class="tac"><input type="checkbox" name="email_files" value="1"<cfif form.email_files> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_files" value="1"<cfif form.mobile_files> checked="checked"</cfif><cfif not isNumeric(form.mobile) and StructKeyExists(url,"u")> disabled="disabled"</cfif> /></td>
+							</tr>
+							<tr>
+								<td class="tal">New Issues</td>
+								<td class="tac"><input type="checkbox" name="email_issues" value="1"<cfif form.email_issues> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_issues" value="1"<cfif form.mobile_issues> checked="checked"</cfif><cfif not isNumeric(form.mobile) and StructKeyExists(url,"u")> disabled="disabled"</cfif> /></td>
+							</tr>
+							<tr>
+								<td class="tal">New Messages</td>
+								<td class="tac"><input type="checkbox" name="email_msgs" value="1"<cfif form.email_msgs> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_msgs" value="1"<cfif form.mobile_msgs> checked="checked"</cfif><cfif not isNumeric(form.mobile) and StructKeyExists(url,"u")> disabled="disabled"</cfif> /></td>
 							</tr>
 							<tr>
 								<td class="tal">New Milestones</td>
@@ -201,9 +224,9 @@
 								<td class="tac"><input type="checkbox" name="mobile_mstones" value="1"<cfif form.mobile_mstones> checked="checked"</cfif><cfif not isNumeric(form.mobile) and StructKeyExists(url,"u")> disabled="disabled"</cfif> /></td>
 							</tr>
 							<tr>
-								<td class="tal">New Issues</td>
-								<td class="tac"><input type="checkbox" name="email_issues" value="1"<cfif form.email_issues> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_issues" value="1"<cfif form.mobile_issues> checked="checked"</cfif><cfif not isNumeric(form.mobile) and StructKeyExists(url,"u")> disabled="disabled"</cfif> /></td>
+								<td class="tal">New To-Dos</td>
+								<td class="tac"><input type="checkbox" name="email_todos" value="1"<cfif form.email_todos> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_todos" value="1"<cfif form.mobile_todos> checked="checked"</cfif><cfif not isNumeric(form.mobile) and StructKeyExists(url,"u")> disabled="disabled"</cfif> /></td>
 							</tr>
 							</table>						 	
 						 	
