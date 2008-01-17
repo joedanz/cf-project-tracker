@@ -1,10 +1,15 @@
 /* UPGRADE FROM BETA */
-ALTER TABLE `pt_comments` MODIFY `comment` varchar(1000) default NULL;
 ALTER TABLE `pt_project_users` MODIFY `role` varchar(9) default NULL;
-ALTER TABLE `pt_todolists` MODIFY `description` varchar(1000) default NULL;
-ALTER TABLE `pt_todos` MODIFY `task` varchar(300) default NULL;
 
 /* UPGRADE FROM 1.0 */
+ALTER TABLE `pt_comments` MODIFY `comment` text default NULL;
+ALTER TABLE `pt_files` MODIFY `description` text default NULL;
+ALTER TABLE `pt_issues` MODIFY `detail` text default NULL;
+ALTER TABLE `pt_messages` MODIFY `message` text default NULL;
+ALTER TABLE `pt_milestones` MODIFY `description` text default NULL;
+ALTER TABLE `pt_projects` MODIFY `description` text default NULL;
+ALTER TABLE `pt_todolists` MODIFY `description` text default NULL;
+ALTER TABLE `pt_todos` MODIFY `task` text default NULL;
 INSERT INTO `pt_users` (userID,firstName,lastName,username,password,style,email_todos,mobile_todos,email_mstones,mobile_mstones,email_issues,mobile_issues,avatar,admin,active) values('7F16CA08-1372-7975-6F7F9DA33EBD6A09','Guest','User','guest','guest','blue',0,0,0,0,0,0,0,0,1);
 ALTER TABLE `pt_users` ADD `mobile` varchar(15) default NULL;
 ALTER TABLE `pt_users` ADD `carrierID` varchar(35) default NULL;
