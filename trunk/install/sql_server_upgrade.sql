@@ -15,25 +15,37 @@ ALTER TABLE [dbo].[pt_users] ADD [mobile] [varchar] (15) COLLATE SQL_Latin1_Gene
 GO
 ALTER TABLE [dbo].[pt_users] ADD [carrierID] [varchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 GO
-ALTER TABLE [dbo].[pt_users] ADD [email_todos] [bit] NULL
+ALTER TABLE [dbo].[pt_users] ADD [email_files] [bit] NULL
 GO
-ALTER TABLE [dbo].[pt_users] ADD [mobile_todos] [bit] NULL
-GO
-ALTER TABLE [dbo].[pt_users] ADD [email_mstones] [bit] NULL
-GO
-ALTER TABLE [dbo].[pt_users] ADD [mobile_mstones] [bit] NULL
+ALTER TABLE [dbo].[pt_users] ADD [mobile_files] [bit] NULL
 GO
 ALTER TABLE [dbo].[pt_users] ADD [email_issues] [bit] NULL
 GO
 ALTER TABLE [dbo].[pt_users] ADD [mobile_issues] [bit] NULL
 GO
+ALTER TABLE [dbo].[pt_users] ADD [email_msgs] [bit] NULL
+GO
+ALTER TABLE [dbo].[pt_users] ADD [mobile_msgs] [bit] NULL
+GO
+ALTER TABLE [dbo].[pt_users] ADD [email_mstones] [bit] NULL
+GO
+ALTER TABLE [dbo].[pt_users] ADD [mobile_mstones] [bit] NULL
+GO
+ALTER TABLE [dbo].[pt_users] ADD [email_todos] [bit] NULL
+GO
+ALTER TABLE [dbo].[pt_users] ADD [mobile_todos] [bit] NULL
+GO
 UPDATE [dbo].[pt_users] 
-	SET [email_todos] = 1 ,
-		[mobile_todos] = 1 ,
+	SET [email_files] = 1 ,
+		[mobile_files] = 1 ,
+		[email_issues] = 1 ,
+		[mobile_issues] = 1 ,
+		[email_msgs] = 1 ,
+		[mobile_msgs] = 1 ,
 		[email_mstones] = 1 ,
 		[mobile_mstones] = 1 ,
-		[email_issues] = 1 ,
-		[mobile_issues] = 1
+		[email_todos] = 1 ,
+		[mobile_todos] = 1
 GO
 
 CREATE TABLE [dbo].[pt_carriers] (
