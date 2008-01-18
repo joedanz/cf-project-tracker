@@ -29,7 +29,7 @@
 		<cfquery name="qGetComments" datasource="#variables.dsn#" maxrows="#maxRows#">
 			SELECT c.commentID,c.messageID,c.comment,c.stamp,u.userID,u.firstName,u.lastName,u.avatar
 				FROM #variables.tableprefix#comments c LEFT JOIN #variables.tableprefix#users u	ON c.userid = u.userid
-			WHERE c.projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+			WHERE c.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			<cfif compare(arguments.messageID,'')> 
 				AND c.messageID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">
 			</cfif>
@@ -54,12 +54,12 @@
 		<cfset var qNotifyList = application.message.getNotifyList(arguments.projectID,arguments.messageID)>
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#comments (commentID,projectID,messageID,issueID,userID,comment,stamp)
-				VALUES (<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.commentID#" maxlength="35">,
-						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">,
+				VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.commentID#" maxlength="35">,
+						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.issueID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">,
-						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.comment#">,
+						<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.comment#">,
 						#Now()#)
 		</cfquery>
 		<cfloop query="qNotifyList">
@@ -81,8 +81,8 @@ To view the full message and leave comments, visit this link:
 		<cfargument name="commentID" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#">
 			DELETE FROM #variables.tableprefix#comments
-				WHERE userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
-					AND commentID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.commentID#" maxlength="35">
+				WHERE userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
+					AND commentID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.commentID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>			

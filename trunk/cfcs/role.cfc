@@ -21,8 +21,8 @@
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT role
 			FROM #variables.tableprefix#project_users
-			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
-				AND userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
+			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				AND userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
 		</cfquery>		
 		<cfreturn qRecords>
 	</cffunction>
@@ -34,8 +34,8 @@
 		<cfargument name="roles" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#project_users (projectID,userID,role)
-			VALUES (<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">,
+			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
+					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.roles#" maxlength="9">)
 		</cfquery>
 		<cfreturn true>
@@ -49,9 +49,9 @@
 			DELETE FROM #variables.tableprefix#project_users
 			WHERE 0=0
 				<cfif compare(arguments.projectID,'')>
-					AND projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+					AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				</cfif>
-				AND userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
+				AND userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>	

@@ -27,7 +27,7 @@
 			INNER JOIN #variables.tableprefix#users u ON a.userID = u.userID
 			WHERE 0=0
 			<cfif compare(arguments.projectID,'')>AND a.projectID = 
-				<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+				<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.projectIDlist,'')>
 				AND a.projectID IN ('#replace(arguments.projectIDlist,",","','","ALL")#')
@@ -60,7 +60,7 @@
 			INNER JOIN #arguments.tableprefix#users u ON a.userID = u.userID
 			WHERE 0=0
 			<cfif compare(arguments.projectID,'')>AND a.projectID = 
-				<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35"></cfif>
+				<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35"></cfif>
 			<cfif arguments.recentOnly>
 				AND a.stamp > #DateAdd("m",-1,Now())#
 			</cfif>
@@ -85,11 +85,11 @@
 		<cfargument name="activity" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#activity (activityID,projectID,userid,type,id,name,activity,stamp)
-			VALUES(<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.activityID#" maxlength="35">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">,
+			VALUES(<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.activityID#" maxlength="35">,
+					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
+					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.id#" maxlength="35">,
+					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.id#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.activity#">,
 					#Now()#)
@@ -108,7 +108,7 @@
 					AND projectID = 
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
 					AND type = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#">
-					AND id = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.id#" maxlength="35">
+					AND id = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.id#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>	

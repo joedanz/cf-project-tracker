@@ -36,13 +36,13 @@
 				LEFT JOIN #variables.tableprefix#users a ON i.assignedTo = a.userID
 			WHERE 0=0
 			<cfif compare(arguments.projectID,'')>
-				AND i.projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+				AND i.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.projectIDlist,'')>
 				AND i.projectID IN ('#replace(arguments.projectIDlist,",","','","ALL")#')
 			</cfif>			
 			<cfif compare(arguments.issueID,'')>
-				AND issueID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.issueID#" maxlength="35">
+				AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.status,'')>
 				AND i.status = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="6">
@@ -81,18 +81,18 @@
 		</CFQUERY>
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#issues (issueID, projectID, shortID, issue, detail, type, severity, status, assignedTo, relevantURL, created, createdBy)
-				VALUES(<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.issueID#" maxlength="35">,
-						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">, 
+				VALUES(<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#" maxlength="35">,
+						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">, 
 						'#arguments.ticketPrefix##NumberFormat(qCountTix.numTix+001,"000")#',
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.issue#" maxlength="120">, 
-						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.detail#" maxlength="2000">, 
+						<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.detail#">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="11">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.severity#" maxlength="10">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="6">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.assignedTo#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.relevantURL#" maxlength="255">,
 						#Now()#, 
-						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.createdBy#" maxlength="35">
+						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.createdBy#" maxlength="35">
 						)
 		</CFQUERY>
 		</CFTRANSACTION>
@@ -112,9 +112,9 @@
 		<cfargument name="updatedBy" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#issues SET
-				projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">, 
+				projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">, 
 				issue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.issue#" maxlength="120">, 
-				detail = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.detail#" maxlength="2000">, 
+				detail = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.detail#">, 
 				type = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="11">, 
 				severity = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.severity#" maxlength="10">, 
 				status = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="6">, 
@@ -123,7 +123,7 @@
 				updated = #Now()#, 
 				updatedBy = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.updatedBy#" maxlength="35">
 			WHERE 0=0
-				AND issueID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.issueID#">			
+				AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#">			
 		</cfquery>		
 	</cffunction>
 	
@@ -133,8 +133,8 @@
 		<cfargument name="projectID" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#issues SET status = 'Closed'
-				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#">
-					AND issueID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.issueID#">
+				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+					AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#">
 		</cfquery>		
 	</cffunction>	
 	

@@ -25,10 +25,10 @@
 			 ON p.projectID = pu.projectID
 			WHERE 0=0
 			  <cfif compare(ARGUMENTS.projectID,'')>
-				  AND p.projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+				  AND p.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			  </cfif>
 			  <cfif compare(ARGUMENTS.userID,'')>
-				  AND pu.userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
+				  AND pu.userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
 			  </cfif>
 				ORDER BY name
 		</cfquery>		
@@ -45,7 +45,7 @@
 			FROM #variables.tableprefix#projects
 			WHERE 0=0
 			  <cfif compare(ARGUMENTS.projectID,'')>
-				  AND projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+				  AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			  </cfif>
 			ORDER BY name
 		</cfquery>		
@@ -66,9 +66,9 @@
 		<cfargument name="addedBy" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#projects (projectID,name,description,display,added,addedBy,status,ticketPrefix,svnurl,svnuser,svnpass)
-			VALUES (<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">,
+			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="1000">,
+					<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.display#">,
 					#Now()#, <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.addedBy#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="8">,
@@ -94,14 +94,14 @@
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#projects 
 				SET name = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
-					description = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="1000">,
+					description = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">,
 					display = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.display#">,
 					status = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="8">,
 					ticketPrefix = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.ticketPrefix#" maxlength="2">,
 					svnurl = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnurl#" maxlength="100">,
 					svnuser = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnuser#" maxlength="20">,
 					svnpass = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnpass#" maxlength="20">
-				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>		
@@ -118,15 +118,15 @@
 		
 		<!--- delete database records --->
 		<cfquery datasource="#variables.dsn#">
-			DELETE FROM #variables.tableprefix#activity WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#">;
-			DELETE FROM #variables.tableprefix#files WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#">;
-			DELETE FROM #variables.tableprefix#issues WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#">;
-			DELETE FROM #variables.tableprefix#messages WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#">;
-			DELETE FROM #variables.tableprefix#milestones WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#">;
-			DELETE FROM #variables.tableprefix#projects WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#">;
-			DELETE FROM #variables.tableprefix#project_users WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#">;
-			DELETE FROM #variables.tableprefix#todolists WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#">;
-			DELETE FROM #variables.tableprefix#todos WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#">;
+			DELETE FROM #variables.tableprefix#activity WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">;
+			DELETE FROM #variables.tableprefix#files WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">;
+			DELETE FROM #variables.tableprefix#issues WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">;
+			DELETE FROM #variables.tableprefix#messages WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">;
+			DELETE FROM #variables.tableprefix#milestones WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">;
+			DELETE FROM #variables.tableprefix#projects WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">;
+			DELETE FROM #variables.tableprefix#project_users WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">;
+			DELETE FROM #variables.tableprefix#todolists WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">;
+			DELETE FROM #variables.tableprefix#todos WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">;
 		</cfquery>
 	</cffunction>
 	
@@ -148,7 +148,7 @@
 				INNER JOIN #variables.tableprefix#project_users pu ON u.userID = pu.userID
 			WHERE u.active = 1
 			<cfif compare(arguments.projectID,'')>
-				AND projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.projectIDlist,'')>
 				AND projectID IN ('#replace(arguments.projectIDlist,",","','","ALL")#')
@@ -168,7 +168,8 @@
 			FROM #variables.tableprefix#users 
 			WHERE active = 1
 				AND userID NOT IN (
-					select userID from #variables.tableprefix#project_users where projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+					select userID from #variables.tableprefix#project_users where projectID = 
+						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				)
 			ORDER BY lastName, firstName
 		</cfquery>		

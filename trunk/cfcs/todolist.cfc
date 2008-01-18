@@ -28,11 +28,11 @@
 				LEFT JOIN #variables.tableprefix#milestones ms ON tl.milestoneid = ms.milestoneid
 				LEFT JOIN #variables.tableprefix#projects p ON tl.projectID = p.projectID
 			WHERE 0=0
-				<cfif compare(arguments.projectID,'')> AND tl.projectID = '#arguments.projectID#'</cfif>
+				<cfif compare(arguments.projectID,'')> AND tl.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35"></cfif>
 				<cfif compare(arguments.projectIDlist,'')>
 					AND tl.projectID IN ('#replace(arguments.projectIDlist,",","','","ALL")#')
 				</cfif>				
-				<cfif compare(arguments.todolistID,'')> AND tl.todolistID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.todolistID#" maxlength="35"></cfif>
+				<cfif compare(arguments.todolistID,'')> AND tl.todolistID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35"></cfif>
 				<cfif compare(arguments.milestoneID,'')> AND ms.milestoneID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35"></cfif>
 			ORDER BY tl.rank, tl.added, tl.title
 		</cfquery>
@@ -49,12 +49,12 @@
 		<cfargument name="userID" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#todolists (todolistID,projectID,title,description,milestoneid,userid,added,rank)
-			VALUES (<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.todolistID#" maxlength="35">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">,
+			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">,
+					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="100">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="1000">,
+					<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">,
+					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					#Now()#,1)
 		</cfquery>
 		<cfreturn true>
@@ -70,10 +70,10 @@
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#todolists 
 				SET title = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="100">,
-					description = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="1000">,
+					description = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">,
 					milestoneid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">
-				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
-					AND todolistid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.todolistID#" maxlength="35">
+				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+					AND todolistid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>
@@ -86,8 +86,8 @@
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#todolists 
 				SET rank = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.rank#">
-				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
-					AND todolistid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.todolistID#" maxlength="35">
+				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+					AND todolistid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>	
@@ -98,8 +98,8 @@
 		<cfargument name="todolistID" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#">
 			DELETE FROM #variables.tableprefix#todolists
-			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
-				AND todolistID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.todolistID#" maxlength="35">
+			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				AND todolistID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">
 		</cfquery>
 		<cfset application.activity.delete(arguments.projectID,'To-Do List',arguments.todolistID)>
 		<cfreturn true>

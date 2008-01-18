@@ -29,13 +29,13 @@
 				LEFT JOIN #variables.tableprefix#projects p ON m.projectID = p.projectID
 			WHERE 0=0
 			<cfif compare(arguments.projectID,'')>
-				AND m.projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+				AND m.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.projectIDlist,'')>
 				AND m.projectID IN ('#replace(arguments.projectIDlist,",","','","ALL")#')
 			</cfif>
 			<cfif compare(arguments.milestoneID,'')>
-				AND m.milestoneID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">
+				AND m.milestoneID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.milestoneID#" maxlength="35">
 			</cfif>
 			<cfswitch expression="#arguments.type#">
 				<cfcase value="overdue">
@@ -70,12 +70,12 @@
 		<cfargument name="userID" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#milestones (milestoneID,projectID,userID,forID,name,description,dueDate,completed)
-			VALUES (<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">,
+			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.milestoneID#" maxlength="35">,
+					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
+					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.forID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="2000">,
+					<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">,
 					<cfqueryparam cfsqltype="cf_sql_date" value="#arguments.dueDate#">,
 					<cfif arguments.completed>#CreateODBCDateTime(Now())#<cfelse>NULL</cfif>)
 		</cfquery>
@@ -95,12 +95,12 @@
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#milestones 
 				SET name = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
-					description = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="2000">,
+					description = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">,
 					dueDate = <cfqueryparam cfsqltype="cf_sql_date" value="#arguments.dueDate#">,
 					forID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.forID#" maxlength="35">,
 					completed = <cfif arguments.completed><cfif isDate(original.completed)>#CreateODBCDateTime(original.completed)#<cfelse>#CreateODBCDateTime(Now())#</cfif><cfelse>NULL</cfif>
-				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
-					AND milestoneID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">
+				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+					AND milestoneID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.milestoneID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>	
@@ -111,8 +111,8 @@
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#">
 			DELETE FROM #variables.tableprefix#milestones
-			WHERE milestoneID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">
-				AND projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+			WHERE milestoneID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.milestoneID#" maxlength="35">
+				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
 		<cfset application.activity.delete(arguments.projectID,'Milestone',arguments.milestoneID)>
 		<cfreturn true>
@@ -124,8 +124,8 @@
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#milestones SET completed = #Now()#
-			WHERE milestoneID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">
-				AND projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+			WHERE milestoneID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.milestoneID#" maxlength="35">
+				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>	
@@ -136,8 +136,8 @@
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#milestones SET completed = NULL
-			WHERE milestoneID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">
-				AND projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+			WHERE milestoneID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.milestoneID#" maxlength="35">
+				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>		

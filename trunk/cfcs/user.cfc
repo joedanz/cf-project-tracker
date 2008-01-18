@@ -101,7 +101,7 @@
 			FROM #variables.tableprefix#users
 			WHERE 0=0
 			<cfif compare(ARGUMENTS.userID,'')>
-				AND userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
+				AND userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
 			</cfif>
 			<cfif compare(ARGUMENTS.userIDlist,'')>
 				AND userID IN ('#replace(arguments.userIDlist,",","','","ALL")#')
@@ -139,7 +139,7 @@
 		</cfloop>
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, avatar, style, email_todos, mobile_todos, email_mstones, mobile_mstones, email_issues, mobile_issues, admin, active)
-				VALUES(<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">,
+				VALUES(<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.firstName#" maxlength="12">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.lastName#" maxlength="20">, 
 						'#newUsername#', '#newPass#',
@@ -185,7 +185,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfargument name="active" type="numeric" required="false" default="1">
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, phone, mobile, carrierID, avatar, style, email_files, mobile_files, email_issues, mobile_issues, email_msgs, mobile_msgs, email_mstones, mobile_mstones, email_todos, mobile_todos, admin, active)
-				VALUES(<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">,
+				VALUES(<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.firstName#" maxlength="12">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.lastName#" maxlength="20">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#" maxlength="30">,
@@ -236,7 +236,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 				email = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" maxlength="120">,
 				phone = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.phone#" maxlength="15">,
 				mobile = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.mobile#" maxlength="15">
-			WHERE userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#">			
+			WHERE userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">			
 		</cfquery>		
 	</cffunction>
 	
@@ -265,7 +265,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 				mobile_mstones = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_mstones#">,
 				email_todos = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todos#">, 
 				mobile_todos = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todos#"> 
-			WHERE userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#">			
+			WHERE userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">			
 		</cfquery>		
 	</cffunction>	
 	
@@ -316,7 +316,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 				mobile_todos = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todos#">, 
 				admin = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.admin#">,
 				active = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.active#">
-			WHERE userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#">			
+			WHERE userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">			
 		</cfquery>		
 	</cffunction>
 	
@@ -331,7 +331,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 				<cfif compare(arguments.password,'')>
 					, password = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.password#" maxlength="20">
 				</cfif>
-			WHERE userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#">			
+			WHERE userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">			
 		</cfquery>		
 	</cffunction>	
 	
@@ -342,7 +342,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#users 
 				SET avatar = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.imageExists#">
-				WHERE userid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
+				WHERE userid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>		
@@ -354,7 +354,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#users 
 				SET style = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.style#" maxlength="20">
-				WHERE userid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
+				WHERE userid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>		
@@ -364,7 +364,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfargument name="userID" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
 			DELETE FROM #variables.tableprefix#users WHERE 0=0
-				AND userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#">
+				AND userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
 		</cfquery>		
 	</cffunction>
 
@@ -373,7 +373,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfargument name="userid" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#users SET lastLogin = #Now()# 
-				WHERE userid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
+				WHERE userid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>	
@@ -384,13 +384,13 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfargument name="userid" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#project_users SET role = 'Admin'
-				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 					AND role = 'Owner'
 		</cfquery>
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#project_users SET role = 'Owner'
-				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
-					AND userid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
+				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+					AND userid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>
@@ -403,8 +403,8 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#project_users 
 			SET role = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role#" maxlength="9">
-				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
-					AND userid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
+				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+					AND userid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>		
