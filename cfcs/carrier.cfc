@@ -25,7 +25,7 @@
 				WHERE 0 = 0
 				<cfif compare(arguments.carrierID,'')>
 					AND carrierID = 
-						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.carrierID#" maxlength="35">
+						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.carrierID#" maxlength="35">
 				<cfelseif arguments.activeOnly>
 					AND active = 1
 				</cfif>
@@ -72,7 +72,7 @@
 					prefix = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.prefix#" maxlength="3">,
 					suffix = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.suffix#" maxlength="40">,
 					active = <cfqueryparam cfsqltype="cf_sql_tinyiny" value="#arguments.active#">
-				WHERE carrierID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.carrierID#" maxlength="35">
+				WHERE carrierID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.carrierID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>		

@@ -28,11 +28,11 @@
 				FROM #variables.tableprefix#todos t LEFT JOIN #variables.tableprefix#users u
 					ON t.userID = u.userID
 			WHERE 0=0
-				<cfif compare(arguments.projectID,'')> AND projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35"></cfif>
+				<cfif compare(arguments.projectID,'')> AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35"></cfif>
 				<cfif compare(arguments.projectIDlist,'')>
 					AND t.projectID IN ('#replace(arguments.projectIDlist,",","','","ALL")#')
 				</cfif>	
-				<cfif compare(arguments.todolistID,'')> AND todolistID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.todolistID#" maxlength="35"></cfif>
+				<cfif compare(arguments.todolistID,'')> AND todolistID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35"></cfif>
 				<cfif compare(arguments.completed,'')>
 					<cfif arguments.completed>
 						AND t.completed IS NOT NULL
@@ -53,14 +53,14 @@
 		<cfargument name="todolistID" type="uuid" required="true">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="task" type="string" required="true">
-		<cfargument name="userID" type="string" required="true">
+		<cfargument name="userID" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#todos (todoID,todolistID,projectID,task,userid,rank,added)
-			VALUES (<cfqueryparam cfsqltype="cf_sql_varchar" value="#createUUID()#" maxlength="35">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.todolistID#" maxlength="35">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.task#">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">,
+			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#createUUID()#" maxlength="35">,
+					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">,
+					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
+					<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.task#">,
+					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					999,#Now()#)
 		</cfquery>
 		<cfreturn true>
@@ -72,16 +72,16 @@
 		<cfargument name="todolistID" type="uuid" required="true">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="task" type="string" required="true">
-		<cfargument name="userID" type="string" required="true">
+		<cfargument name="userID" type="uuid" required="true">
 		<cfargument name="svnRevision" type="numeric" required="false" default="0">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#todos
-				SET task = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.task#">,
-					userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">,
+				SET task = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.task#">,
+					userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					svnRevision = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.svnRevision#">
-				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
-					AND todolistID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.todolistID#" maxlength="35">
-					AND todoID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.todoID#" maxlength="35">
+				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+					AND todolistID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">
+					AND todoID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todoID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>	
@@ -93,9 +93,9 @@
 		<cfargument name="todoID" type="string" required="false" default="">
 		<cfquery datasource="#variables.dsn#">
 			DELETE FROM #variables.tableprefix#todos
-			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
-				AND todolistID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.todolistID#" maxlength="35">
-				<cfif compare(arguments.todoID,'')>AND todoID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.todoID#" maxlength="35"></cfif>
+			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				AND todolistID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">
+				<cfif compare(arguments.todoID,'')>AND todoID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todoID#" maxlength="35"></cfif>
 		</cfquery>
 		<cfreturn true>
 	</cffunction>
@@ -108,8 +108,8 @@
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#todos
 			SET rank = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.rank#">
-			WHERE todoID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.todoID#" maxlength="35">
-				AND todolistID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.todolistID#" maxlength="35">			
+			WHERE todoID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todoID#" maxlength="35">
+				AND todolistID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">			
 		</cfquery>
 		<cfreturn true>
 	</cffunction>
@@ -122,8 +122,8 @@
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#todos
 			SET completed = <cfif arguments.isCompleted>#Now()#<cfelse>NULL</cfif>
-			WHERE todoID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.todoID#" maxlength="35">
-				AND todolistID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.todolistID#" maxlength="35">			
+			WHERE todoID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todoID#" maxlength="35">
+				AND todolistID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">			
 		</cfquery>
 		<cfreturn true>
 	</cffunction>

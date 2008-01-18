@@ -25,15 +25,15 @@
 				filesize,uploaded,uploadedBy,u.firstName, u.lastName
 			FROM #variables.tableprefix#files f LEFT JOIN #variables.tableprefix#users u
 				ON f.uploadedBy = u.userID
-			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			<cfif compare(arguments.fileID,'')>
-				AND fileID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.fileID#" maxlength="35">
+				AND fileID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.category,'')>
 				AND category = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#" maxlength="50">
 			</cfif>
 			<cfif compare(arguments.uploadedBy,'')>
-				AND uploadedBy = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.uploadedBy#" maxlength="35">
+				AND uploadedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.uploadedBy#" maxlength="35">
 			</cfif>
 		</cfquery>
 		<cfreturn qGetFiles>
@@ -45,7 +45,7 @@
 		<cfset var qGetCategories = "">
 		<cfquery name="qGetCategories" datasource="#variables.dsn#">
 			SELECT distinct category FROM #variables.tableprefix#files
-			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			ORDER BY category
 		</cfquery>
 		<cfreturn qGetCategories>
@@ -65,17 +65,17 @@
 		<cfargument name="uploadedBy" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#files (fileID, projectID, title, category, description, filename, serverfilename, filetype, filesize, uploaded, uploadedBy)
-				VALUES(<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.fileID#" maxlength="35">,
-						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">, 
+				VALUES(<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">,
+						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="200">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#" maxlength="50">, 
-						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="1000">, 
+						<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filename#" maxlength="150">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.serverfilename#" maxlength="150">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filetype#" maxlength="4">, 
 						<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.filesize#">, 
 						#Now()#, 
-						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.uploadedBy#" maxlength="35">		
+						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.uploadedBy#" maxlength="35">		
 						)
 		</cfquery>		
 	</cffunction>
@@ -91,9 +91,9 @@
 			UPDATE #variables.tableprefix#files SET
 				title = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="200">, 
 				category = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#" maxlength="50">, 
-				description = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="1000">
-			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
-				AND fileID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.fileID#" maxlength="35">
+				description = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">
+			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				AND fileID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">
 		</cfquery>		
 	</cffunction>
 
@@ -104,9 +104,9 @@
 		<cfargument name="uploadedBy" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#">
 			DELETE FROM #variables.tableprefix#files 
-				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
-					AND fileID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.fileID#" maxlength="35">
-					AND uploadedBy = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.uploadedBy#" maxlength="35">
+				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+					AND fileID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">
+					AND uploadedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.uploadedBy#" maxlength="35">
 		</cfquery>		
 	</cffunction>
 

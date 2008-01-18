@@ -10,8 +10,8 @@ Server version : 5.0.24a-community-nt
 
 CREATE TABLE `pt_activity` (
   `activityID` char(35) NOT NULL,
-  `projectID` char(35) default NULL,
-  `userID` char(35) default NULL,
+  `projectID` char(35) default NOT NULL,
+  `userID` char(35) default NOT NULL,
   `type` varchar(12) default NULL,
   `id` char(35) default NULL,
   `name` varchar(100) default NULL,

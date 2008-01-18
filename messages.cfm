@@ -63,7 +63,7 @@
 					 	
 					<div class="wrapper itemlist">
 					<h3 class="padtop">#title#</h3>
-					<cfif commentCount>
+					<cfif commentCount gt 0>
 						<cfset comment = application.comment.get(url.p,messageID,'','1')>
 						<a class="b" href="message.cfm?p=#url.p#&m=#messageID###comments">#commentCount# comment<cfif commentCount gt 1>s</cfif></a>
 						<span style="color:##666;">
@@ -76,7 +76,7 @@
 						Posted by #firstName# #lastName# in <a href="#cgi.script_name#?p=#url.p#&c=#urlEncodedFormat(category)#">#category#</a>
 						<cfif userID eq session.user.userID or session.user.admin> | <a href="editMessage.cfm?p=#url.p#&m=#messageID#&mh=#hash(messageID)#" class="edit">Edit</a>
 						 | <a href="messages.cfm?p=#url.p#&dm=#messageID#&dmh=#hash(messageID)#" class="delete" onclick="return confirm('Are you sure you wish to delete this message and all associated comments?')">Delete</a></cfif>
-						<cfif allowComments> | <a href="message.cfm?p=#url.p#&m=#messageID###comments" class="comment">Post <cfif not commentCount>the first<cfelse>another</cfif> comment</a></cfif>
+						<cfif allowComments> | <a href="message.cfm?p=#url.p#&m=#messageID###comments" class="comment">Post <cfif commentCount eq 0>the first<cfelse>another</cfif> comment</a></cfif>
 					</div>
 					</div>
 					</cfloop>

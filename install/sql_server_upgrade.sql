@@ -1,8 +1,4 @@
 /** IF YOU RECEIVE ERRORS, YOU MAY NEED TO REMOVE PRIMARY KEYS BEFORE ALTERING COLUMNS **/
-/* UPGRADE FROM BETA */
-ALTER TABLE [dbo].[pt_project_users] ALTER COLUMN [role] [nvarchar] (9) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
-GO
-
 /* UPGRADE FROM 1.0 */
 /* pt_activity */
 ALTER TABLE [dbo].[pt_activity] ALTER COLUMN [activityID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
@@ -181,6 +177,8 @@ GO
 ALTER TABLE [dbo].[pt_project_users] ALTER COLUMN [userID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 GO
 ALTER TABLE [dbo].[pt_project_users] ALTER COLUMN [projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ALTER COLUMN [role] [nvarchar] (9) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 GO
 ALTER TABLE [dbo].[pt_project_users] WITH NOCHECK ADD 
 	CONSTRAINT [PK_pt_project_users] PRIMARY KEY  CLUSTERED 

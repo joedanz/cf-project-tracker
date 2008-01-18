@@ -24,18 +24,19 @@
 		<cfset var qGetMessages = "">
 		<cfquery name="qGetMessages" datasource="#variables.dsn#">
 			SELECT u.userID,u.firstName,u.lastName,u.avatar,m.messageID,m.milestoneid,m.title,m.message,m.category,
-					m.allowcomments,m.stamp,ms.name,count(c.commentID) as commentcount
+					m.allowcomments,m.stamp,ms.name,
+					(SELECT count(commentID) FROM pt_comments c where m.messageid = c.messageid) as commentcount
 				FROM #variables.tableprefix#messages m LEFT JOIN #variables.tableprefix#users u
 					ON u.userID = m.userID LEFT JOIN #variables.tableprefix#milestones ms
-					ON m.milestoneid = ms.milestoneid LEFT JOIN #variables.tableprefix#comments c
-					ON m.messageid = c.messageid
-			WHERE m.projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
-				<cfif compare(arguments.messageid,'')> AND m.messageID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35"></cfif>
-				<cfif compare(arguments.category,'')> AND m.category = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#"></cfif>
-				<cfif compare(arguments.milestoneID,'')> AND m.milestoneID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35"></cfif>
+					ON m.milestoneid = ms.milestoneid
+			WHERE m.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				<cfif compare(arguments.messageid,'')> AND m.messageID = 
+					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35"></cfif>
+				<cfif compare(arguments.category,'')> AND m.category = 
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#"></cfif>
+				<cfif compare(arguments.milestoneID,'')> AND m.milestoneID = 
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35"></cfif>
 				<cfif arguments.m> AND m.stamp between #createdate(arguments.y,arguments.m,'1')# AND #createDateTime(arguments.y,arguments.m,daysInMonth(createdate(arguments.y,arguments.m,'1')),'23','59','59')#</cfif>
-			GROUP BY u.userID,u.firstName,u.lastName,u.avatar,m.messageID,m.milestoneid,m.title,m.message,m.category,m.allowcomments,
-					m.stamp,ms.name
 			ORDER BY m.stamp desc
 		</cfquery>
 		<cfreturn qGetMessages>
@@ -49,8 +50,8 @@
 		<cfquery name="qGetNotifyList" datasource="#variables.dsn#">
 			SELECT u.userID,u.firstName,u.lastName,u.email FROM #variables.tableprefix#message_notify m
 				LEFT JOIN #variables.tableprefix#users u ON m.userID = u.userID
-				WHERE m.projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
-					AND m.messageID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">
+				WHERE m.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+					AND m.messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
 		</cfquery>
 		<cfreturn qGetNotifyList>
 	</cffunction>	
@@ -61,7 +62,7 @@
 		<cfset var qGetCategories = "">
 		<cfquery name="qGetCategories" datasource="#variables.dsn#">
 			SELECT distinct category FROM #variables.tableprefix#messages
-			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			ORDER BY category
 		</cfquery>
 		<cfreturn qGetCategories>
@@ -75,7 +76,7 @@
 			SELECT distinct ms.milestoneid, ms.name 
 			FROM #variables.tableprefix#messages m LEFT JOIN #variables.tableprefix#milestones ms
 					ON m.milestoneid = ms.milestoneid
-			WHERE m.projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+			WHERE m.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				AND ms.name != ''
 		</cfquery>
 		<cfreturn qGetMilestones>
@@ -88,7 +89,7 @@
 		<cfquery name="qGetDates" datasource="#variables.dsn#">
 			SELECT distinct month(stamp) as m, year(stamp) as y
 			FROM #variables.tableprefix#messages
-			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
 		<cfreturn qGetDates>
 	</cffunction>		
@@ -109,14 +110,14 @@
 		<cfset var sText = "">
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#messages (messageID,projectID,title,message,category,milestoneid,allowcomments,userid,stamp)
-			VALUES (<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">,
+			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">,
+					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="120">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.message#" maxlength="5000">,
+					<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.message#">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#" maxlength="50">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.allowcomments#" maxlength="1">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.addedBy#" maxlength="35">,
+					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.addedBy#" maxlength="35">,
 					#Now()#)
 		</cfquery>
 		<cfif listLen(arguments.notifylist)>
@@ -169,12 +170,12 @@ To view the full message and leave comments, visit this link:
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#messages 
 				SET title = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="120">,
-					message = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.message#" maxlength="5000">,
+					message = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.message#">,
 					category = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#" maxlength="50">,
 					milestoneid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
 					allowcomments = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.allowcomments#" maxlength="1">
-				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
-					AND messageid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">
+				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+					AND messageid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
 		</cfquery>
 
 		<cfset qMailUsers = application.message.getNotify(arguments.projectID,arguments.messageID)>
@@ -196,18 +197,18 @@ To view the full message and leave comments, visit this link:
 		<cfargument name="messageID" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#">
 			DELETE FROM #variables.tableprefix#messages
-			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">
-				AND projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
+				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
 		<cfquery datasource="#variables.dsn#">
 			DELETE FROM #variables.tableprefix#comments
-			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">
-				AND projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
+				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
 		<cfquery datasource="#variables.dsn#">
 			DELETE FROM #variables.tableprefix#message_notify
-			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">
-				AND projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
+				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
 		<cfset application.activity.delete(arguments.projectID,'Message',arguments.messageID)>		
 		<cfreturn true>
@@ -220,9 +221,9 @@ To view the full message and leave comments, visit this link:
 		<cfargument name="userID" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#message_notify (messageID,projectID,userID)
-				VALUES (<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">,
-						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">,
-						<cfqueryparam cfsqltype="cf_sql_varchar" value="#userID#" maxlength="35">)
+				VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">,
+						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
+						<cfqueryparam cfsqltype="cf_sql_char" value="#userID#" maxlength="35">)
 		</cfquery>
 		<cfreturn true>
 	</cffunction>
@@ -235,8 +236,8 @@ To view the full message and leave comments, visit this link:
 		<cfquery name="qGetNotify" datasource="#variables.dsn#">
 			SELECT u.userID,u.email FROM #variables.tableprefix#message_notify mn
 				LEFT JOIN #variables.tableprefix#users u ON mn.userID = u.userID
-			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">
-				AND projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
+				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
 		<cfreturn qGetNotify>
 	</cffunction>		
@@ -248,10 +249,10 @@ To view the full message and leave comments, visit this link:
 		<cfargument name="userID" type="string" required="false" default="">
 		<cfquery datasource="#variables.dsn#">
 			DELETE FROM #variables.tableprefix#message_notify
-			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">
-				AND projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
+				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				<cfif compare(arguments.userID,'')>
-					AND userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">
+					AND userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
 				</cfif>
 		</cfquery>
 		<cfreturn true>
