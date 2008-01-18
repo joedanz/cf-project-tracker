@@ -41,7 +41,7 @@ fieldset { border:1px solid #666; }
 	cursor:hand;
 }
 
-#notify { background-color:#f5f5f5; }
+#notify, #files { background-color:#f5f5f5; }
 .notifybg { background-color:#f5f5f5; }
 
 a.sublink { text-decoration:none; }

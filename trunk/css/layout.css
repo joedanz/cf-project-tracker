@@ -30,14 +30,14 @@ table.activity td {
 	padding:2px 5px;
 }
 
-#notify { 
+#notify,#files { 
 	display:none;
 	margin-left:180px;
 	padding:10px;
 	width:250px;
 	margin-bottom:10px; 
 }
-#notifylink { padding:4px; }
+#notifylink,#fileslink { padding:4px; }
 
 .catbox { width:60px;padding:0 2px; }
 
