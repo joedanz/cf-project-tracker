@@ -124,6 +124,20 @@ ALTER TABLE [dbo].[pt_issues] WITH NOCHECK ADD
 GO
 
 
+/* pt_message_files */
+CREATE TABLE [dbo].[pt_message_files] (
+	[messageID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[fileID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[pt_message_files] WITH NOCHECK ADD 
+	CONSTRAINT [PK_pt_message_files] PRIMARY KEY  CLUSTERED 
+	(
+		[messageID],[fileID]
+	)  ON [PRIMARY] 
+GO
+
+
 /* pt_message_notify */
 ALTER TABLE [dbo].[pt_message_notify] ALTER COLUMN [messageID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 GO

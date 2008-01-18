@@ -58,6 +58,13 @@ ALTER TABLE `pt_issues` MODIFY `projectID` char(35) default NOT NULL;
 ALTER TABLE `pt_issues` MODIFY `createdBy` char(35) default NOT NULL;
 ALTER TABLE `pt_issues` MODIFY `detail` text default NULL;
 
+/* pt_message_files */
+CREATE TABLE `pt_message_files` (
+  `messageID` char(35) NOT NULL,
+  `fileID` char(35) NOT NULL,
+  PRIMARY KEY  (`messageID`,`fileID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /* pt_message_notify */
 ALTER TABLE `pt_message_notify` MODIFY `messageID` char(35) default NOT NULL;
 ALTER TABLE `pt_message_notify` MODIFY `projectID` char(35) default NOT NULL;
