@@ -43,7 +43,7 @@
 	</cffunction>
 	
 	<cffunction name="getNotifyList" access="public" returnType="query" output="false"
-				hint="Returns messages.">
+				hint="Returns notify list for a message.">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="messageID" type="string" required="false" default="">
 		<cfset var qGetNotifyList = "">
@@ -54,6 +54,20 @@
 					AND m.messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
 		</cfquery>
 		<cfreturn qGetNotifyList>
+	</cffunction>
+	
+	<cffunction name="getFileList" access="public" returnType="query" output="false"
+				hint="Returns files associated with a message.">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="messageID" type="uuid" required="true">
+		<cfset var qGetFileList = "">
+		<cfquery name="qGetFileList" datasource="#variables.dsn#">
+			SELECT f.fileID,f.title FROM #variables.tableprefix#message_files mf
+				LEFT JOIN #variables.tableprefix#files f ON mf.fileID = f.fileID
+				WHERE f.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+					AND mf.messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
+		</cfquery>
+		<cfreturn qGetFileList>
 	</cffunction>	
 	
 	<cffunction name="categories" access="public" returnType="query" output="false"
@@ -104,7 +118,8 @@
 		<cfargument name="milestoneID" type="string" required="true">
 		<cfargument name="allowcomments" type="numeric" required="true">
 		<cfargument name="addedBy" type="uuid" required="true">
-		<cfargument name="notifylist" type="string" required="true">
+		<cfargument name="notifyList" type="string" required="true">
+		<cfargument name="filesList" type="string" required="true">
 		<cfset var qMailUsers = "">
 		<cfset var qProject = "">
 		<cfset var sText = "">
@@ -120,14 +135,19 @@
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.addedBy#" maxlength="35">,
 					#Now()#)
 		</cfquery>
-		<cfif listLen(arguments.notifylist)>
-			<cfset qMailUsers = application.user.get('',ListAppend(arguments.notifylist,arguments.addedBy))>
+		<cfif listLen(arguments.filesList)>
+			<cfloop list="#arguments.filesList#" index="i">
+				<cfset application.message.addFile(arguments.messageID,i)>
+			</cfloop>
+		</cfif>
+		<cfif listLen(arguments.notifyList)>
+			<cfset qMailUsers = application.user.get('',ListAppend(arguments.notifyList,arguments.addedBy))>
 			<cfset qProject = application.project.get(arguments.projectID)>
 			<cfset sText = htmlCodeFormat(arguments.message)>
 			<cfset sText = reReplace(sText, "<[^>]*>", "", "all")>
 			<cfset sText = replaceNoCase(sText,"&nbsp;","","ALL")>
 			<cfloop query="qMailUsers">
-				<cfset addNotify(arguments.messageID,arguments.projectID,userID)>
+				<cfset application.message.addNotify(arguments.messageID,arguments.projectID,userID)>
 				<cfif compare(userID,session.user.userID)> <!--- don't send to message creator --->
 					<cfmail from="#session.user.email#" to="#email#" subject="New #qProject.name# Message: #arguments.title#">A new #qProject.name# message has been posted in category #arguments.category# entitled:
 #arguments.title#
@@ -156,12 +176,13 @@ To view the full message and leave comments, visit this link:
 		<cfargument name="milestoneID" type="string" required="true">
 		<cfargument name="allowcomments" type="numeric" required="true">
 		<cfargument name="notifyList" type="string" required="true">
+		<cfargument name="filesList" type="string" required="true">
 		<cfset var qProject = application.project.get(arguments.projectID)>
 		<cfset var qMailUsers = "">
 		
 		<!--- clear and repopulate message notify list --->
 		<cfset application.message.removeNotify(arguments.projectID,arguments.messageID)>
-		<cfif listLen(arguments.notifylist)>
+		<cfif listLen(arguments.notifyList)>
 			<cfloop list="#arguments.notifyList#" index="i">
 				<cfset application.message.addNotify(arguments.projectID,arguments.messageID,i)>
 			</cfloop>
@@ -210,6 +231,10 @@ To view the full message and leave comments, visit this link:
 			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
 				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
+		<cfquery datasource="#variables.dsn#">
+			DELETE FROM #variables.tableprefix#message_files
+			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
+		</cfquery>
 		<cfset application.activity.delete(arguments.projectID,'Message',arguments.messageID)>		
 		<cfreturn true>
 	</cffunction>		
@@ -227,6 +252,18 @@ To view the full message and leave comments, visit this link:
 		</cfquery>
 		<cfreturn true>
 	</cffunction>
+	
+	<cffunction name="addFile" access="public" returnType="boolean" output="false"
+				hint="Adds message notification for a user.">
+		<cfargument name="messageID" type="uuid" required="true">
+		<cfargument name="fileID" type="uuid" required="true">
+		<cfquery datasource="#variables.dsn#">
+			INSERT INTO #variables.tableprefix#message_files (messageID,fileID)
+				VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">,
+						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">)
+		</cfquery>
+		<cfreturn true>
+	</cffunction>	
 
 	<cffunction name="getNotify" access="public" returnType="query" output="false"
 				hint="Gets users for message notification.">
