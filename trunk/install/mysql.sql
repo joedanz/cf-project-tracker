@@ -83,6 +83,14 @@ CREATE TABLE `pt_issues` (
   PRIMARY KEY  (`issueID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `pt_message_files` */
+
+CREATE TABLE `pt_message_files` (
+  `messageID` char(35) NOT NULL,
+  `fileID` char(35) NOT NULL,
+  PRIMARY KEY  (`messageID`,`fileID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `pt_message_notify` */
 
 CREATE TABLE `pt_message_notify` (
