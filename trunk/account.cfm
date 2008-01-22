@@ -1,9 +1,14 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfparam name="whichTab" default="">
+<cfset variables.errors = "">
 
 <cfif StructKeyExists(form,"submit1")>
-	<cfset application.user.userUpdate(session.user.userID,form.firstname,form.lastname,form.email,request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile))>
+	<cfif compare(trim(form.email),'') and not request.udf.isEmail(trim(form.email))>
+		<cfset variables.errors = variables.errors & '<li>The email address you entered was invalid.</li>'>
+	<cfelse>
+		<cfset application.user.userUpdate(session.user.userID,form.firstname,form.lastname,form.email,request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile))>
+	</cfif>
 	<cfset session.user.firstName = form.firstname>
 	<cfset session.user.lastName = form.lastname>
 	<cfset session.user.email = form.email>
@@ -116,6 +121,15 @@
 			</div>
 			<div class="content">
 				
+			 	<cfif compare(variables.errors,'')>
+			 	<div class="wrapper">
+				 	<div class="error">
+					 	<h4 class="alert b r">An Error Has Occurred</h3>
+					 	<ul>#variables.errors#</ul>
+					</div>
+				</div>
+			 	</cfif>				
+				
 		        <div id="container1">
 		            <ul>
 		                <li><a href="##user"><span>General Info</span></a></li>
@@ -137,7 +151,7 @@
 							<input type="text" name="lastname" id="lname" value="#HTMLEditFormat(user.lastName)#" maxlength="20" />
 							</p>				
 							<p>
-							<label for="email" class="req">Email:</label>
+							<label for="email">Email:</label>
 							<input type="text" name="email" id="email" value="#HTMLEditFormat(user.email)#" maxlength="120" />
 							</p>
 							<p>
