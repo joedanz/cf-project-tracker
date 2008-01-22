@@ -25,10 +25,11 @@
 		<cfquery name="qGetMessages" datasource="#variables.dsn#">
 			SELECT u.userID,u.firstName,u.lastName,u.avatar,m.messageID,m.milestoneid,m.title,m.message,m.category,
 					m.allowcomments,m.stamp,ms.name,
-					(SELECT count(commentID) FROM pt_comments c where m.messageid = c.messageid) as commentcount
-				FROM #variables.tableprefix#messages m LEFT JOIN #variables.tableprefix#users u
-					ON u.userID = m.userID LEFT JOIN #variables.tableprefix#milestones ms
-					ON m.milestoneid = ms.milestoneid
+					(SELECT count(commentID) FROM pt_comments c where m.messageid = c.messageid) as commentcount,
+					(SELECT count(fileID) FROM pt_message_files mf where m.messageid = mf.messageid) as attachcount
+			FROM #variables.tableprefix#messages m LEFT JOIN #variables.tableprefix#users u
+				ON u.userID = m.userID LEFT JOIN #variables.tableprefix#milestones ms
+				ON m.milestoneid = ms.milestoneid
 			WHERE m.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				<cfif compare(arguments.messageid,'')> AND m.messageID = 
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35"></cfif>
@@ -50,8 +51,8 @@
 		<cfquery name="qGetNotifyList" datasource="#variables.dsn#">
 			SELECT u.userID,u.firstName,u.lastName,u.email FROM #variables.tableprefix#message_notify m
 				LEFT JOIN #variables.tableprefix#users u ON m.userID = u.userID
-				WHERE m.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
-					AND m.messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
+			WHERE m.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				AND m.messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
 		</cfquery>
 		<cfreturn qGetNotifyList>
 	</cffunction>
@@ -62,10 +63,11 @@
 		<cfargument name="messageID" type="uuid" required="true">
 		<cfset var qGetFileList = "">
 		<cfquery name="qGetFileList" datasource="#variables.dsn#">
-			SELECT f.fileID,f.title FROM #variables.tableprefix#message_files mf
+			SELECT f.fileID,f.title,f.filetype,f.filename,f.serverfilename,f.filesize,f.category,f.uploaded
+			FROM #variables.tableprefix#message_files mf
 				LEFT JOIN #variables.tableprefix#files f ON mf.fileID = f.fileID
-				WHERE f.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
-					AND mf.messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
+			WHERE f.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				AND mf.messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
 		</cfquery>
 		<cfreturn qGetFileList>
 	</cffunction>	

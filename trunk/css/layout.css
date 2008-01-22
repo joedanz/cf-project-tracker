@@ -125,6 +125,14 @@ table.activity td {
 	margin-bottom: 12px;
 }
 
+#container .left .main .content ul.filelist {
+	margin-left:30px;
+}
+
+#container .left .main .content ul.filelist li {
+	margin-bottom: 5px;
+}
+
 #container .left .main .content .wrapper .milestones {
 	margin-bottom:15px;
 }
@@ -156,7 +164,7 @@ table.activity td {
 	padding:0;
 }
 
-#container .left .main .content .wrapper #commentbar {
+#container .left .main .content .wrapper .commentbar {
 	margin:15px 0 10px 0; padding:5px;
 }
 

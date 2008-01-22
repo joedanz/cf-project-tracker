@@ -74,6 +74,11 @@
 	padding-left:20px;
 }
 
+.attach {
+	background: url(../images/file.gif) no-repeat 0 50%;
+	padding-left:20px;
+}
+
 .back {
 	background: url(../images/back.gif) no-repeat 0 50%;
 	padding-left:20px;
@@ -155,4 +160,157 @@
 .expanded {
 	background: url(../images/menu-expanded.gif) no-repeat 0 50%;
 	padding-left:15px;
+}
+
+/* extensions */
+.doc,.rtf {
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_doc.gif) no-repeat center right;
+}
+
+.txt {
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_txt.gif) no-repeat center right;
+}
+
+.xls {
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_xls.gif) no-repeat center right;
+}
+
+.rss,.atom { 
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_feed.gif) no-repeat center right;
+}
+
+.opml { 
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_opml.gif) no-repeat center right;
+}
+
+.php,.phps { 
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_phps.gif) no-repeat center right;
+}
+
+.torrent { 
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_torrent.gif) no-repeat center right;
+}
+
+.vcard { 
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_vcard.gif) no-repeat center right;
+}
+
+.exe { 
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_exe.gif) no-repeat center right;
+}
+
+.dmg, .app { 
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_dmg.gif) no-repeat center right;
+}
+
+.pps { 
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_pps.gif) no-repeat center right;
+}
+
+.pdf { 
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_pdf.gif) no-repeat center right;
+}
+
+.xpi { 
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_plugin.gif) no-repeat center right;
+}
+
+.fla,.swf { 
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_flash.gif) no-repeat center right;
+}
+
+.zip,.rar,.gzip,.bzip,.ace { 
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_archive.gif) no-repeat center right;
+}
+
+.ical { 
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_ical.gif) no-repeat center right;
+}
+
+.css { 
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_css.gif) no-repeat center right;
+}
+
+.ttf { 
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_ttf.gif) no-repeat center right;
+}
+
+.jpg,.gif,.png,.bmp,.jpeg,.svg,.eps { 
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_pic.gif) no-repeat center right;
+}
+
+.mov,.wmv,.mp4,.avi,.mpg { 
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_film.gif) no-repeat center right;
+}
+
+.mp3,.wav,.ogg,.wma,.m4a { 
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_music.gif) no-repeat center right;
+}
+
+/* messenger */
+a[href ^="aim:"] {
+	padding: 5px 20px 5px 0;
+    background: transparent url(../images/filetypes/icon_aim.gif) no-repeat center right;
+}
+
+a[href ^="msnim:"] {
+	padding: 5px 20px 5px 0;
+    background: transparent url(../images/filetypes/icon_msn.gif) no-repeat center right;
+}
+
+a[href ^="xmpp:"] {
+	padding: 5px 20px 5px 0;
+    background: transparent url(../images/filetypes/icon_jabber.gif) no-repeat center right;
+}
+
+a[href *="icq.com"] { 
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_icq.gif) no-repeat center right;
+}
+
+a[href *="edit.yahoo.com/config/send_webmesg?"] { 
+	padding: 5px 20px 5px 0;
+	background: transparent url(../images/filetypes/icon_yim.gif) no-repeat center right;
+}
+
+a[href ^="callto:"] {
+	padding: 5px 20px 5px 0;
+    background: transparent url(../images/filetypes/icon_call.gif) no-repeat center right;
+}
+
+a[href ^="skype:"] {
+	padding: 5px 20px 5px 0;
+    background: transparent url(../images/filetypes/icon_skype.gif) no-repeat center right;
+}
+
+a[href ^="gg:"] {
+	padding: 5px 20px 5px 0;
+    background: transparent url(../images/filetypes/icon_gadugadu.gif) no-repeat center right;
+}
+
+/* email */
+.email {
+	padding: 5px 20px 5px 0;
+    background: transparent url(../images/filetypes/icon_mailto.gif) no-repeat center right;
 }

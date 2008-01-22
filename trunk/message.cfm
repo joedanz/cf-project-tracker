@@ -10,6 +10,7 @@
 <cfset project = application.project.get(session.user.userid,url.p)>
 <cfset message = application.message.get(url.p,url.m)>
 <cfset comments = application.comment.get(url.p,url.m)>
+<cfset attachments = application.message.getFileList(url.p,url.m)>
 <cfset notifyList = application.message.getNotifyList(url.p,url.m)>
 <cfset talkList = listAppend(valueList(comments.userID),message.userID)>
 <cfset usersTalking = application.user.get('',talkList)>
@@ -45,8 +46,18 @@
 					<cfif compare(message.name,'')><div class="ms">Milestone: #message.name#</div></cfif>
 					</div>
 					
-					<a name="comments" />
-					<div id="commentbar"><span id="cnum">#comments.recordCount#</span> comment<cfif comments.recordCount neq 1>s</cfif> so far</div>
+					<cfif attachments.recordCount>
+					<a name="attach"></a>
+					<div class="commentbar">#attachments.recordCount# file<cfif attachments.recordCount neq 1>s</cfif> associated with this message</div>
+					<ul class="filelist">
+						<cfloop query="attachments">
+						<li><a href="./userfiles/#url.p#/#serverfilename#" class="#lcase(filetype)#">#filename#</a> <span class="g i">(#ceiling(filesize/1024)#K - #dateFormat(uploaded,"medium")#)</span></li>
+						</cfloop>
+					</ul>
+					</cfif>
+					
+					<a name="comments"></a>
+					<div class="commentbar"><span id="cnum">#comments.recordCount#</span> comment<cfif comments.recordCount neq 1>s</cfif> so far</div>
 
 					<cfloop query="comments">
 					<div id="#commentID#">
