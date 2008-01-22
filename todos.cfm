@@ -17,7 +17,7 @@
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; #project.name#" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
 
 <cfoutput>
-<a name="top" />
+<a name="top"></a>
 <div id="container">
 <cfif project.recordCount>
 	<!--- left column --->
@@ -28,11 +28,11 @@
 					<cfif compare(project.role,'Read-Only')>
 					<span class="rightmenu">
 						<a href="editTodolist.cfm?p=#url.p#" class="add">Add a new list</a>	| 
-						<span id="reorder_menu"><a href="##" onclick="reorder_lists();return false;" class="reorder">Reorder lists</a></span>
+						<a href="##" onclick="reorder_lists();return false;" class="reorder">Reorder lists</a>
 					</span>
 					</cfif>
 					
-					<h2 class="todo">All to-do lists</h2>
+					<h2 class="todo">To-Do Lists</h2>
 				</div>
 				<div class="content">
 				 	<div class="wrapper">
