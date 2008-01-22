@@ -1,5 +1,7 @@
 <cfsetting enablecfoutputonly="true">
 
+<cfset variables.errors = "">
+
 <cfif StructKeyExists(form,"submit")>
 	<cfparam name="form.email_files" default="0">
 	<cfparam name="form.mobile_files" default="0">
@@ -14,7 +16,6 @@
 
 	<cfparam name="form.admin" default="0">
 	<cfparam name="form.active" default="0">
-	<cfset variables.errors = "">
 	
 	<cfif not compare(trim(form.username),'')>
 		<cfset variables.errors = variables.errors & '<li>You must enter a username.</li>'>
@@ -134,7 +135,7 @@
 				 	
 				 	<h3 class="mb10"><cfif StructKeyExists(url,"u")>Edit<cfelse>Add New</cfif> User</h3>
 
-				 	<cfif StructKeyExists(variables,'errors')>
+				 	<cfif compare(variables.errors,'')>
 				 	<div class="error">
 					 	<h4 class="alert b r">An Error Has Occurred</h3>
 					 	<ul>#variables.errors#</ul>
