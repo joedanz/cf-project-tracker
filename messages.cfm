@@ -77,6 +77,7 @@
 						<cfif userID eq session.user.userID or session.user.admin> | <a href="editMessage.cfm?p=#url.p#&m=#messageID#&mh=#hash(messageID)#" class="edit">Edit</a>
 						 | <a href="messages.cfm?p=#url.p#&dm=#messageID#&dmh=#hash(messageID)#" class="delete" onclick="return confirm('Are you sure you wish to delete this message and all associated comments?')">Delete</a></cfif>
 						<cfif allowComments> | <a href="message.cfm?p=#url.p#&m=#messageID###comments" class="comment">Post <cfif not commentCount>the first<cfelse>another</cfif> comment</a></cfif>
+						<cfif attachcount gt 0> | <a href="message.cfm?p=#url.p#&m=#messageID###attach" class="attach">#attachcount# file<cfif attachcount gt 1>s</cfif> attached</a></cfif>
 					</div>
 					</div>
 					</cfloop>
@@ -84,8 +85,8 @@
 					
 					<div class="wrapper">
 					<cfloop query="messages">
-					<div style="border-bottom:1px solid ##ccc;padding:10px;">
-					<div style="float:right;width:300px;">
+					<div style="border-bottom:1px solid ##ccc;padding:10px 5px;">
+					<div style="float:right;width:250px;">
 						<cfif commentCount eq 0><span class="comment g">No comments posted.</span><cfelse>
 						<cfset comment = application.comment.get(url.p,'','1')>
 						<span class="comment g">
@@ -103,7 +104,12 @@
 						</cfif> ago						
 						</span>
 						</cfif>
+						
 					</div>	
+					
+					<div style="float:right;width:120px;margin-right:20px;">
+					<cfif attachcount gt 0><a href="message.cfm?p=#url.p#&m=#messageID###attach" class="attach">#attachcount# file<cfif attachcount gt 1>s</cfif> attached</a></cfif>
+					</div>
 						
 					<a href="message.cfm?p=#url.p#&m=#messageID#" class="fs12">#title#</a><br />
 					by #firstName# #lastName# on #dateFormat(stamp,"ddd, d mmm")# at #timeFormat(stamp,"h:mmtt")#
