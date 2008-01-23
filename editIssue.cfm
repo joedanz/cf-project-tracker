@@ -2,13 +2,22 @@
 
 <cfparam name="form.display" default="0">
 <cfif StructKeyExists(form,"issueID")> <!--- update issue --->
-	<cfset application.issue.update(form.issueID,form.projectid,form.issue,form.detail,form.type,form.severity,form.status,form.assignedTo,form.relevantURL,session.user.userid)>
+	<cfset application.issue.update(form.issueID,form.projectid,form.issue,form.detail,form.type,form.severity,form.status,form.assignedTo,form.milestone,form.relevantURL,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Issue',form.issueID,form.issue,'edited')>
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#form.issueID#" addtoken="false">
 <cfelseif StructKeyExists(form,"submit")> <!--- add issue --->
 	<cfset newID = createUUID()>
-	<cfset application.issue.add(newID,form.projectID,form.ticketPrefix,form.issue,form.detail,form.type,form.severity,form.status,form.assignedTo,form.relevantURL,session.user.userid)>
+	<cfset application.issue.add(newID,form.projectID,form.ticketPrefix,form.issue,form.detail,form.type,form.severity,form.status,form.assignedTo,form.milestone,form.relevantURL,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Issue',newID,form.issue,'added')>
+	<cfset projectUsers = application.project.projectUsers(form.projectID)>
+	<cfloop query="projectUsers">
+		<cfif email_issues>
+		
+		</cfif>
+		<cfif mobile_issues and isNumeric(mobile)>
+		
+		</cfif>
+	</cfloop>
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#newID#" addtoken="false">
 <cfelseif StructKeyExists(url,"del") and hash(url.p) eq url.ph> <!--- delete issue --->
 	<cfset application.project.delete(url.p)>
@@ -18,6 +27,7 @@
 <cfparam name="url.p" default="">
 <cfset project = application.project.get(session.user.userid,url.p)>
 <cfset projectUsers = application.project.projectUsers(url.p)>
+<cfset milestones = application.milestone.get(url.p,'','incomplete')>
 
 <cfparam name="issue" default="">
 <cfparam name="detail" default="">
@@ -25,6 +35,7 @@
 <cfparam name="severity" default="Normal">
 <cfparam name="status" default="Open">
 <cfparam name="assignedTo" default="#session.user.userID#">
+<cfparam name="milestone" default="">
 <cfparam name="relevantURL" default="">
 <cfparam name="title_action" default="Add">
 
@@ -37,6 +48,7 @@
 	<cfset severity = thisIssue.severity>
 	<cfset status = thisIssue.status>
 	<cfset assignedTo = thisIssue.assignedTo>
+	<cfset milestone = thisIssue.milestoneID>
 	<cfset relevantURL = thisIssue.relevantURL>
 	<cfset title_action = "Edit">
 </cfif>
@@ -128,6 +140,15 @@
 							</cfloop>
 						</select>
 						</p>
+						<p>
+						<label for="milestone">Milestone:</label>
+						<select name="milestone" id="milestone">
+							<option value=""></option>
+							<cfloop query="milestones">
+							<option value="#milestoneID#"<cfif not compare(milestone,milestoneID)> selected="selected"</cfif>>#name#</option>
+							</cfloop>
+						</select>
+						</p>						
 						<p>
 						<label for="issue">Relevant URL:</label>
 						<input type="text" name="relevantURL" id="relevantURL" value="#HTMLEditFormat(relevantURL)#" maxlength="255" />

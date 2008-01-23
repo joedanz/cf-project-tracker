@@ -53,6 +53,10 @@
 					AND completed IS NOT NULL
 					ORDER BY dueDate
 				</cfcase>
+				<cfcase value="incomplete">
+					AND completed IS NULL
+					ORDER BY dueDate
+				</cfcase>
 			</cfswitch>
 		</cfquery>
 		<cfreturn qGetMilestones>

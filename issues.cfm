@@ -5,10 +5,12 @@
 <cfparam name="form.severity" default="">
 <cfparam name="form.status" default="">
 <cfparam name="form.assignedTo" default="">
+<cfparam name="form.milestone" default="">
 
 <cfset project = application.project.get(session.user.userid,url.p)>
 <cfset projectUsers = application.project.projectUsers(url.p)>
-<cfset issues = application.issue.get(url.p,'',form.status,'',form.type,form.severity,form.assignedTo)>
+<cfset issues = application.issue.get(url.p,'',form.status,'',form.type,form.severity,form.assignedTo,form.milestone)>
+<cfset milestones = application.milestone.get(url.p)>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#project.name# &raquo; Issues" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
@@ -43,7 +45,7 @@ $(document).ready(function(){
 							<div class="warn mb10">A ticket prefix must be set in order to create issues.</div>
 						</cfif>					 	
 					 	
-					 	<cfif issues.recordCount>
+					 	<cfif issues.recordCount or (compare(form.type,'') or compare(form.severity,'') or compare(form.status,'') or compare(form.assignedTo,'') or compare(form.milestone,''))>
 						 	
 						 <div class="mb10" style="background-color:##ffc;padding:8px;border:1px solid ##ccc;">
 
@@ -80,12 +82,20 @@ $(document).ready(function(){
 						 		</cfloop>
 						 	</select>
 						 	
+						 	<select name="milestone">
+						 		<option value="">Milestone</option>
+						 		<cfloop query="milestones">
+						 			<option value="#milestoneID#"<cfif not compare(form.milestone,milestoneID)> selected="selected"</cfif>>#name#</option>
+						 		</cfloop>
+						 	</select>						 	
+						 	
 						 	<input type="submit" value="Filter" />
 						 	</form>
 						 	
 						 </div>	
+						 </cfif>
 						 
-						 	
+						<cfif issues.recordCount>
 					 	<table class="svn" id="issues">
 						<thead>
 							<tr>
@@ -108,16 +118,16 @@ $(document).ready(function(){
 							<td>#severity#</td>
 							<td>#status#</td>
 							<td>#assignedFirstName# #assignedLastName#</td>
-							<td>#DateFormat(created,"d mmm")#</td>
-							<td>#DateFormat(updated,"d mmm")#</td>
+							<td>#DateFormat(created,"mmm d")#</td>
+							<td>#DateFormat(updated,"mmm d")#</td>
 						</tr>
 						</cfloop>
 						</tbody>
 						</table>
 						<cfelse>
-							<div class="warn">No issues have been submitted.</div>
+							<div class="warn">No issues <cfif compare(form.type,'') or compare(form.severity,'') or compare(form.status,'') or compare(form.assignedTo,'') or compare(form.milestone,'')>match your query<cfelse>have been submitted</cfif>.</div>
 						</cfif>
-						
+
 					</div>
 				</div>
 			

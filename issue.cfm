@@ -45,18 +45,17 @@
 					 	<table class="bug" style="float:right;margin-right:20px;">
 							<tr>
 								<td class="label">Created:</td>
-								<td>#DateFormat(issue.created,"d mmm")# @ #TimeFormat(issue.created,"h:mmtt")# by #issue.createdFirstName# #issue.createdLastName#</td>
+								<td>#DateFormat(issue.created,"mmm d")# @ #TimeFormat(issue.created,"h:mmtt")# by #issue.createdFirstName# #issue.createdLastName#</td>
 							</tr>
 							<tr>
 								<td class="label">Updated:</td>
-								<td><cfif isDate(issue.updated)>#DateFormat(issue.updated,"d mmm")# @ #TimeFormat(issue.updated,"h:mmtt")# by #issue.updatedFirstName# #issue.updatedLastName#<cfelse>N/A</cfif></td>
+								<td><cfif isDate(issue.updated)>#DateFormat(issue.updated,"mmm d")# @ #TimeFormat(issue.updated,"h:mmtt")# by #issue.updatedFirstName# #issue.updatedLastName#<cfelse>N/A</cfif></td>
 							</tr>
-							<cfif compare(issue.assignedLastName,'')>
+							
 							<tr>
 								<td class="label">Assigned To:</td>
-								<td>#issue.assignedFirstName# #issue.assignedLastName#</td>
+								<td><cfif compare(issue.assignedLastName,'')>#issue.assignedFirstName# #issue.assignedLastName#<cfelse>Unassigned</cfif></td>
 							</tr>
-							</cfif>
 						</table>
 					
 					 	<table class="bug">
@@ -72,6 +71,12 @@
 								<td class="label">Severity:</td>
 								<td>#issue.severity#</td>
 							</tr>
+							<cfif compare(issue.milestoneID,'')>
+							<tr>
+								<td class="label">Milestone:</td>
+								<td><a href="milestone.cfm?p=#url.p#&m=#issue.milestoneID#">#issue.milestone#</a></td>
+							</tr>
+							</cfif>							
 						</table>
 						</div>
 						
@@ -112,7 +117,7 @@
 						--->			
 						
 						<a name="comments" />
-						<div id="commentbar"><span id="cnum">#comments.recordCount#</span> comment<cfif comments.recordCount neq 1>s</cfif> so far</div>
+						<div class="commentbar"><span id="cnum">#comments.recordCount#</span> comment<cfif comments.recordCount neq 1>s</cfif> so far</div>
 	
 						<cfloop query="comments">
 						<div id="#commentID#">
