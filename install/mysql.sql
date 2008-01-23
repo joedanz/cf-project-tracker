@@ -33,6 +33,25 @@ CREATE TABLE `pt_carriers` (
   PRIMARY KEY  (`carrierID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `pt_clients` */
+
+CREATE TABLE `pt_clients` (
+  `clientID` char(35) NOT NULL,
+  `name` varchar(150) default NULL,
+  `address` text default NULL,
+  `city` varchar(150) default NULL,
+  `locality` varchar(200) default NULL,
+  `country` varchar(35) default NULL,
+  `postal` varchar(40) default NULL,
+  `phone` varchar(40) default NULL,
+  `fax` varchar(40) default NULL,
+  `contactName` varchar(60) default NULL,
+  `contactPhone` varchar(40) default NULL,
+  `notes` text default NULL,
+  `active` tinyint(1) default NULL,
+  PRIMARY KEY  (`clientID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `pt_comments` */
 
 CREATE TABLE `pt_comments` (
