@@ -24,7 +24,7 @@ CREATE TABLE [dbo].[pt_carriers] (
 	[country] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
 	[prefix] [nvarchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
 	[suffix] [nvarchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
-	[active] [bit] NULL 
+	[active] [tinyint] NULL 
 ) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[pt_carriers] WITH NOCHECK ADD 
@@ -112,6 +112,8 @@ ALTER TABLE [dbo].[pt_issues] ALTER COLUMN [issueID] [char] (35) COLLATE SQL_Lat
 GO
 ALTER TABLE [dbo].[pt_issues] ALTER COLUMN [projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 GO
+ALTER TABLE [dbo].[pt_issues] ADD [milestoneID] [varchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
 ALTER TABLE [dbo].[pt_issues] ALTER COLUMN [createdBy] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 GO
 ALTER TABLE [dbo].[pt_issues] ALTER COLUMN [detail] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
@@ -162,6 +164,8 @@ ALTER TABLE [dbo].[pt_messages] ALTER COLUMN [userID] [char] (35) COLLATE SQL_La
 GO
 ALTER TABLE [dbo].[pt_messages] ALTER COLUMN [message] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 GO
+ALTER TABLE [dbo].[pt_messages] ALTER COLUMN [allowcomments] [tinyint] NULL
+GO
 ALTER TABLE [dbo].[pt_messages] WITH NOCHECK ADD 
 	CONSTRAINT [PK_pt_messages] PRIMARY KEY  CLUSTERED 
 	(
@@ -205,9 +209,13 @@ GO
 /* pt_projects */
 ALTER TABLE [dbo].[pt_projects] ALTER COLUMN [projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 GO
+ALTER TABLE [dbo].[pt_projects] ADD [clientID] [varchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
 ALTER TABLE [dbo].[pt_projects] ALTER COLUMN [addedBy] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 GO
 ALTER TABLE [dbo].[pt_projects] ALTER COLUMN [description] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ALTER COLUMN [display] [tinyint] NULL
 GO
 ALTER TABLE [dbo].[pt_projects] WITH NOCHECK ADD 
 	CONSTRAINT [PK_pt_projects] PRIMARY KEY  CLUSTERED 
@@ -265,25 +273,31 @@ ALTER TABLE [dbo].[pt_users] ADD [mobile] [nvarchar] (15) COLLATE SQL_Latin1_Gen
 GO
 ALTER TABLE [dbo].[pt_users] ADD [carrierID] [nvarchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 GO
-ALTER TABLE [dbo].[pt_users] ADD [email_files] [bit] NULL
+ALTER TABLE [dbo].[pt_users] ALTER COLUMN [avatar] [tinyint] NULL
 GO
-ALTER TABLE [dbo].[pt_users] ADD [mobile_files] [bit] NULL
+ALTER TABLE [dbo].[pt_users] ADD [email_files] [tinyint] NULL
 GO
-ALTER TABLE [dbo].[pt_users] ADD [email_issues] [bit] NULL
+ALTER TABLE [dbo].[pt_users] ADD [mobile_files] [tinyint] NULL
 GO
-ALTER TABLE [dbo].[pt_users] ADD [mobile_issues] [bit] NULL
+ALTER TABLE [dbo].[pt_users] ADD [email_issues] [tinyint] NULL
 GO
-ALTER TABLE [dbo].[pt_users] ADD [email_msgs] [bit] NULL
+ALTER TABLE [dbo].[pt_users] ADD [mobile_issues] [tinyint] NULL
 GO
-ALTER TABLE [dbo].[pt_users] ADD [mobile_msgs] [bit] NULL
+ALTER TABLE [dbo].[pt_users] ADD [email_msgs] [tinyint] NULL
 GO
-ALTER TABLE [dbo].[pt_users] ADD [email_mstones] [bit] NULL
+ALTER TABLE [dbo].[pt_users] ADD [mobile_msgs] [tinyint] NULL
 GO
-ALTER TABLE [dbo].[pt_users] ADD [mobile_mstones] [bit] NULL
+ALTER TABLE [dbo].[pt_users] ADD [email_mstones] [tinyint] NULL
 GO
-ALTER TABLE [dbo].[pt_users] ADD [email_todos] [bit] NULL
+ALTER TABLE [dbo].[pt_users] ADD [mobile_mstones] [tinyint] NULL
 GO
-ALTER TABLE [dbo].[pt_users] ADD [mobile_todos] [bit] NULL
+ALTER TABLE [dbo].[pt_users] ADD [email_todos] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_users] ADD [mobile_todos] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_users] ALTER COLUMN [admin] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_users] ALTER COLUMN [active] [tinyint] NULL
 GO
 UPDATE [dbo].[pt_users] 
 	SET [email_files] = 1 ,
@@ -303,5 +317,5 @@ ALTER TABLE [dbo].[pt_users] WITH NOCHECK ADD
 		[userID]
 	)  ON [PRIMARY] 
 GO
-INSERT INTO [dbo].[pt_users](userID,firstName,lastName,username,password,style,email_todos,mobile_todos,email_mstones,mobile_mstones,email_issues,mobile_issues,avatar,admin,active) values('7F16CA08-1372-7975-6F7F9DA33EBD6A09','Guest','User','guest','guest','blue',0,0,0,0,0,0,0,0,1)
+INSERT INTO [dbo].[pt_users](userID,firstName,lastName,username,password,style,email_files,mobile_files,email_issues,mobile_issues,email_msgs,mobile_msgs,email_mstones,mobile_mstones,email_todos,mobile_todos,avatar,admin,active) values('7F16CA08-1372-7975-6F7F9DA33EBD6A09','Guest','User','guest','guest','blue',1,1,1,1,1,1,1,1,1,1,0,0,1)
 GO
