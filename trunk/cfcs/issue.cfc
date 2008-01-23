@@ -22,18 +22,21 @@
 		<cfargument name="type" type="string" required="false" default="">
 		<cfargument name="severity" type="string" required="false" default="">
 		<cfargument name="assignedTo" type="string" required="false" default="">
+		<cfargument name="milestoneID" type="string" required="false" default="">
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
-			SELECT issueID, i.projectID, shortID, issue, detail, type, severity, i.status, created, createdBy, 
-				assignedTo, relevantURL, updated, updatedBy, p.name,
-				c.firstName as createdFirstName, c.lastName as createdLastName, 
+			SELECT issueID, i.projectID, i.shortID, i.issue, i.detail, i.type, i.severity, i.status, 
+				i.created, i.createdBy,	i.assignedTo, i.milestoneID, i.relevantURL, i.updated, i.updatedBy, 
+				p.name,	c.firstName as createdFirstName, c.lastName as createdLastName, 
 				u.firstName as updatedFirstName, u.lastName as updatedLastName, 
-				a.firstName as assignedFirstName, a.lastName as assignedLastName
+				a.firstName as assignedFirstName, a.lastName as assignedLastName,
+				m.name as milestone
 			FROM #variables.tableprefix#issues i 
 				LEFT JOIN #variables.tableprefix#projects p ON i.projectID = p.projectID
 				LEFT JOIN #variables.tableprefix#users c ON i.createdBy = c.userID
 				LEFT JOIN #variables.tableprefix#users u ON i.updatedBy = u.userID
 				LEFT JOIN #variables.tableprefix#users a ON i.assignedTo = a.userID
+				LEFT JOIN #variables.tableprefix#milestones m ON i.milestoneID = m.milestoneID
 			WHERE 0=0
 			<cfif compare(arguments.projectID,'')>
 				AND i.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
@@ -55,7 +58,10 @@
 			</cfif>
 			<cfif compare(arguments.assignedTo,'')>
 				AND i.assignedTo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.assignedTo#" maxlength="35">
-			</cfif>						
+			</cfif>
+			<cfif compare(arguments.milestoneID,'')>
+				AND i.milestoneID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">
+			</cfif>
 		</cfquery>		
 		<cfreturn qRecords>
 	</cffunction>
@@ -71,6 +77,7 @@
 		<cfargument name="severity" type="string" required="true">
 		<cfargument name="status" type="string" required="true">
 		<cfargument name="assignedTo" type="string" required="true">
+		<cfargument name="milestoneID" type="string" required="true">
 		<cfargument name="relevantURL" type="string" required="true">
 		<cfargument name="createdBy" type="string" required="true">
 		<cfset var qCountTix = "">
@@ -80,7 +87,7 @@
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
 		</CFQUERY>
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#issues (issueID, projectID, shortID, issue, detail, type, severity, status, assignedTo, relevantURL, created, createdBy)
+			INSERT INTO #variables.tableprefix#issues (issueID, projectID, shortID, issue, detail, type, severity, status, assignedTo, milestoneID, relevantURL, created, createdBy)
 				VALUES(<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">, 
 						'#arguments.ticketPrefix##NumberFormat(qCountTix.numTix+001,"000")#',
@@ -90,6 +97,7 @@
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.severity#" maxlength="10">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="6">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.assignedTo#" maxlength="35">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.relevantURL#" maxlength="255">,
 						#Now()#, 
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.createdBy#" maxlength="35">
@@ -108,6 +116,7 @@
 		<cfargument name="severity" type="string" required="true">
 		<cfargument name="status" type="string" required="true">
 		<cfargument name="assignedTo" type="string" required="true">
+		<cfargument name="milestoneID" type="string" required="true">
 		<cfargument name="relevantURL" type="string" required="true">
 		<cfargument name="updatedBy" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
@@ -118,7 +127,8 @@
 				type = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="11">, 
 				severity = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.severity#" maxlength="10">, 
 				status = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="6">, 
-				assignedTo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.assignedTo#" maxlength="35">, 
+				assignedTo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.assignedTo#" maxlength="35">,
+				milestoneID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
 				relevantURL = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.relevantURL#" maxlength="255">, 
 				updated = #Now()#, 
 				updatedBy = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.updatedBy#" maxlength="35">
