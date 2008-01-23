@@ -25,8 +25,8 @@
 		<cfquery name="qGetMessages" datasource="#variables.dsn#">
 			SELECT u.userID,u.firstName,u.lastName,u.avatar,m.messageID,m.milestoneid,m.title,m.message,m.category,
 					m.allowcomments,m.stamp,ms.name,
-					(SELECT count(commentID) FROM pt_comments c where m.messageid = c.messageid) as commentcount,
-					(SELECT count(fileID) FROM pt_message_files mf where m.messageid = mf.messageid) as attachcount
+					(SELECT count(commentID) FROM #variables.tableprefix#comments c where m.messageid = c.messageid) as commentcount,
+					(SELECT count(fileID) FROM #variables.tableprefix#message_files mf where m.messageid = mf.messageid) as attachcount
 			FROM #variables.tableprefix#messages m LEFT JOIN #variables.tableprefix#users u
 				ON u.userID = m.userID LEFT JOIN #variables.tableprefix#milestones ms
 				ON m.milestoneid = ms.milestoneid

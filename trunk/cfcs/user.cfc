@@ -115,7 +115,7 @@
 	</cffunction>
 	
 	<cffunction name="create" access="public" returntype="void" output="false"
-				hint="Inserts a pt_users record.">
+				hint="Inserts a users record.">
 		<cfargument name="userID" type="string" required="true">
 		<cfargument name="firstName" type="string" required="true">
 		<cfargument name="lastName" type="string" required="true">
@@ -161,7 +161,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 	</cffunction>
 
 	<cffunction name="adminCreate" access="public" returntype="void" output="false"
-				hint="Inserts a pt_users record.">
+				hint="Inserts a users record.">
 		<cfargument name="userID" type="string" required="true">
 		<cfargument name="firstName" type="string" required="true">
 		<cfargument name="lastName" type="string" required="true">
@@ -222,7 +222,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 	</cffunction>
 
 	<cffunction name="userUpdate" access="public" returntype="void" output="false"
-				hint="Updates a pt_users record.">
+				hint="Updates a users record.">
 		<cfargument name="userID" type="string" required="true">
 		<cfargument name="firstName" type="string" required="true">
 		<cfargument name="lastName" type="string" required="true">
@@ -241,7 +241,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 	</cffunction>
 	
 	<cffunction name="notifyUpdate" access="public" returntype="void" output="false"
-				hint="Updates a pt_users record.">
+				hint="Updates a users record.">
 		<cfargument name="userID" type="string" required="true">
 		<cfargument name="email_files" type="numeric" required="true">
 		<cfargument name="mobile_files" type="numeric" required="true">
@@ -270,7 +270,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 	</cffunction>	
 	
 	<cffunction name="adminUpdate" access="public" returntype="void" output="false"
-				hint="Updates a pt_users record.">
+				hint="Updates a users record.">
 		<cfargument name="userID" type="string" required="true">
 		<cfargument name="firstName" type="string" required="true">
 		<cfargument name="lastName" type="string" required="true">
@@ -321,7 +321,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 	</cffunction>
 	
 	<cffunction name="acctUpdate" access="public" returntype="void" output="false"
-				hint="Updates a pt_users record.">
+				hint="Updates a users record.">
 		<cfargument name="userID" type="string" required="true">
 		<cfargument name="username" type="string" required="true">
 		<cfargument name="password" type="string" required="true">
@@ -360,7 +360,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 	</cffunction>		
 	
 	<cffunction name="delete" access="public" returntype="void" output="false"
-				hint="Deletes a pt_users record.">
+				hint="Deletes a users record.">
 		<cfargument name="userID" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
 			DELETE FROM #variables.tableprefix#users WHERE 0=0
