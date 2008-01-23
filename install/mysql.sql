@@ -10,10 +10,10 @@ Server version : 5.0.24a-community-nt
 
 CREATE TABLE `pt_activity` (
   `activityID` char(35) NOT NULL,
-  `projectID` char(35) default NOT NULL,
-  `userID` char(35) default NOT NULL,
+  `projectID` char(35) NOT NULL,
+  `userID` char(35) NOT NULL,
   `type` varchar(12) default NULL,
-  `id` char(35) default NULL,
+  `id` char(35) NOT NULL,
   `name` varchar(100) default NULL,
   `activity` varchar(50) default NULL,
   `stamp` datetime default NULL,
@@ -37,10 +37,10 @@ CREATE TABLE `pt_carriers` (
 
 CREATE TABLE `pt_comments` (
   `commentID` char(35) NOT NULL,
-  `projectID` char(35) default NULL,
+  `projectID` char(35) NOT NULL,
   `messageID` varchar(35) default NULL,
   `issueID` varchar(35) default NULL,
-  `userID` char(35) default NULL,
+  `userID` char(35) NOT NULL,
   `comment` text default NULL,
   `stamp` datetime default NULL,
   PRIMARY KEY  (`commentID`)
@@ -50,7 +50,7 @@ CREATE TABLE `pt_comments` (
 
 CREATE TABLE `pt_files` (
   `fileID` char(35) NOT NULL,
-  `projectID` char(35) default NULL,
+  `projectID` char(35) NOT NULL,
   `title` varchar(200) default NULL,
   `description` text default NULL,
   `category` varchar(50) default NULL,
@@ -59,7 +59,7 @@ CREATE TABLE `pt_files` (
   `filetype` varchar(4) default NULL,
   `filesize` int(9) default NULL,
   `uploaded` datetime default NULL,
-  `uploadedBy` char(35) default NULL,
+  `uploadedBy` char(35) NOT NULL,
   PRIMARY KEY  (`fileID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -67,7 +67,8 @@ CREATE TABLE `pt_files` (
 
 CREATE TABLE `pt_issues` (
   `issueID` char(35) NOT NULL,
-  `projectID` char(35) default NULL,
+  `projectID` char(35) NOT NULL,
+  `milestoneID` varchar(35) default NULL,
   `shortID` varchar(7) default NULL,
   `issue` varchar(120) default NULL,
   `detail` text default NULL,
@@ -76,7 +77,7 @@ CREATE TABLE `pt_issues` (
   `status` varchar(6) default NULL,
   `relevantURL` varchar(255) default NULL,
   `created` datetime default NULL,
-  `createdBy` char(35) default NULL,
+  `createdBy` char(35) NOT NULL,
   `assignedTo` varchar(35) default NULL,
   `updated` datetime default NULL,
   `updatedBy` varchar(35) default NULL,
@@ -104,9 +105,9 @@ CREATE TABLE `pt_message_notify` (
 
 CREATE TABLE `pt_messages` (
   `messageID` char(35) NOT NULL,
-  `projectID` char(35) default NULL,
+  `projectID` char(35) NOT NULL,
   `milestoneID` varchar(35) default NULL,
-  `userID` char(35) default NULL,
+  `userID` char(35) NOT NULL,
   `title` varchar(120) default NULL,
   `message` text default NULL,
   `category` varchar(50) default NULL,
@@ -119,8 +120,8 @@ CREATE TABLE `pt_messages` (
 
 CREATE TABLE `pt_milestones` (
   `milestoneID` char(35) NOT NULL,
-  `projectID` char(35) default NULL,
-  `userID` char(35) default NULL,
+  `projectID` char(35) NOT NULL,
+  `userID` char(35) NOT NULL,
   `forID` varchar(35) default NULL,
   `name` varchar(50) default NULL,
   `description` text default NULL,
@@ -142,12 +143,13 @@ CREATE TABLE `pt_project_users` (
 
 CREATE TABLE `pt_projects` (
   `projectID` char(35) NOT NULL,
+  `clientID` varchar(35) NULL,
   `name` varchar(50) default NULL,
   `description` text default NULL,
   `display` bit(1) default NULL,
   `ticketPrefix` varchar(2) default NULL,
   `added` datetime default NULL,
-  `addedBy` char(35) default NULL,
+  `addedBy` char(35) NOT NULL,
   `status` varchar(8) default NULL,
   `svnurl` varchar(100) default NULL,
   `svnuser` varchar(20) default NULL,
@@ -168,11 +170,11 @@ CREATE TABLE `pt_settings` (
 
 CREATE TABLE `pt_todolists` (
   `todolistID` char(35) NOT NULL,
-  `projectID` char(35) default NULL,
+  `projectID` char(35) NOT NULL,
   `title` varchar(100) default NULL,
   `description` text default NULL,
   `milestoneID` varchar(35) default NULL,
-  `userID` char(35) default NULL,
+  `userID` char(35) NOT NULL,
   `added` datetime default NULL,
   `rank` tinyint(3) default NULL,
   PRIMARY KEY  (`todolistID`)
@@ -182,9 +184,9 @@ CREATE TABLE `pt_todolists` (
 
 CREATE TABLE `pt_todos` (
   `todoID` char(35) NOT NULL,
-  `todolistID` char(35) default NULL,
-  `projectID` char(35) default NULL,
-  `userID` char(35) default NULL,
+  `todolistID` char(35) NOT NULL,
+  `projectID` char(35) NOT NULL,
+  `userID` char(35) NOT NULL,
   `task` text default NULL,
   `rank` int(3) default NULL,
   `added` datetime default NULL,
@@ -224,8 +226,8 @@ CREATE TABLE `pt_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Add admin & guest users */
-INSERT INTO `pt_users` (userID,firstName,lastName,username,password,style,email_todos,mobile_todos,email_mstones,mobile_mstones,email_issues,mobile_issues,avatar,admin,active) values('FCDCF4CD-16E6-58DE-13EDC6A2B362B22C','Admin','User','admin','admin','blue',0,0,0,0,0,0,0,1,1);
-INSERT INTO `pt_users` (userID,firstName,lastName,username,password,style,email_todos,mobile_todos,email_mstones,mobile_mstones,email_issues,mobile_issues,avatar,admin,active) values('7F16CA08-1372-7975-6F7F9DA33EBD6A09','Guest','User','guest','guest','blue',0,0,0,0,0,0,0,0,1);
+INSERT INTO `pt_users` (userID,firstName,lastName,username,password,style,email_files,mobile_files,email_issues,mobile_issues,email_msgs,mobile_msgs,email_mstones,mobile_mstones,email_todos,mobile_todos,avatar,admin,active) values('FCDCF4CD-16E6-58DE-13EDC6A2B362B22C','Admin','User','admin','admin','blue',1,1,1,1,1,1,1,1,1,1,0,1,1);
+INSERT INTO `pt_users` (userID,firstName,lastName,username,password,style,email_files,mobile_files,email_issues,mobile_issues,email_msgs,mobile_msgs,email_mstones,mobile_mstones,email_todos,mobile_todos,avatar,admin,active) values('7F16CA08-1372-7975-6F7F9DA33EBD6A09','Guest','User','guest','guest','blue',1,1,1,1,1,1,1,1,1,1,0,0,1);
 
 /*Add default settings */
 INSERT INTO `pt_settings` values ('FC3D187C-16E6-58DE-133C5098C58225D3','app_title','TICC Project Tracker');

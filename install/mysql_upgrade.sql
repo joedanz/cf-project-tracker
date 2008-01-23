@@ -4,14 +4,14 @@ ALTER TABLE `pt_project_users` MODIFY `role` varchar(9) default NULL;
 
 /* UPGRADE FROM 1.0 */
 /* pt_activity */
-ALTER TABLE `pt_activity` MODIFY `activityID` char(35) default NOT NULL;
-ALTER TABLE `pt_activity` MODIFY `projectID` char(35) default NOT NULL;
-ALTER TABLE `pt_activity` MODIFY `userID` char(35) default NOT NULL;
-ALTER TABLE `pt_activity` MODIFY `id` char(35) default NOT NULL;
+ALTER TABLE `pt_activity` MODIFY `activityID` char(35) NOT NULL;
+ALTER TABLE `pt_activity` MODIFY `projectID` char(35) NOT NULL;
+ALTER TABLE `pt_activity` MODIFY `userID` char(35) NOT NULL;
+ALTER TABLE `pt_activity` MODIFY `id` char(35) NOT NULL;
 
 /* pt_carriers */
 CREATE TABLE `pt_carriers` (
-  `carrierID` varchar(35) NOT NULL,
+  `carrierID` char(35) NOT NULL,
   `carrier` varchar(20) default NULL,
   `countryCode` varchar(2) default NULL,
   `country` varchar(20) default NULL,
@@ -41,21 +41,22 @@ INSERT INTO `pt_carriers` values('84677BCF-1372-7975-6F89C8D24436A08A','Virgin C
 INSERT INTO `pt_carriers` values('8467A2B0-1372-7975-6FEB7589919DC435','O2','UK','United Kingdom','1','@mmail.co.uk',1);
 
 /* pt_comments */
-ALTER TABLE `pt_comments` MODIFY `commentID` char(35) default NOT NULL;
-ALTER TABLE `pt_comments` MODIFY `projectID` char(35) default NOT NULL;
-ALTER TABLE `pt_comments` MODIFY `userID` char(35) default NOT NULL;
+ALTER TABLE `pt_comments` MODIFY `commentID` char(35) NOT NULL;
+ALTER TABLE `pt_comments` MODIFY `projectID` char(35) NOT NULL;
+ALTER TABLE `pt_comments` MODIFY `userID` char(35) NOT NULL;
 ALTER TABLE `pt_comments` MODIFY `comment` text default NULL;
 
 /* pt_files */
-ALTER TABLE `pt_files` MODIFY `fileID` char(35) default NOT NULL;
-ALTER TABLE `pt_files` MODIFY `projectID` char(35) default NOT NULL;
-ALTER TABLE `pt_files` MODIFY `uploadedBy` char(35) default NOT NULL;
+ALTER TABLE `pt_files` MODIFY `fileID` char(35) NOT NULL;
+ALTER TABLE `pt_files` MODIFY `projectID` char(35) NOT NULL;
+ALTER TABLE `pt_files` MODIFY `uploadedBy` char(35) NOT NULL;
 ALTER TABLE `pt_files` MODIFY `description` text default NULL;
 
 /* pt_issues */
-ALTER TABLE `pt_issues` MODIFY `issueID` char(35) default NOT NULL;
-ALTER TABLE `pt_issues` MODIFY `projectID` char(35) default NOT NULL;
-ALTER TABLE `pt_issues` MODIFY `createdBy` char(35) default NOT NULL;
+ALTER TABLE `pt_issues` MODIFY `issueID` char(35) NOT NULL;
+ALTER TABLE `pt_issues` MODIFY `projectID` char(35) NOT NULL;
+ALTER TABLE `pt_issues` ADD `milestoneID` varchar(35) default NULL;
+ALTER TABLE `pt_issues` MODIFY `createdBy` char(35) NOT NULL;
 ALTER TABLE `pt_issues` MODIFY `detail` text default NULL;
 
 /* pt_message_files */
@@ -66,49 +67,50 @@ CREATE TABLE `pt_message_files` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /* pt_message_notify */
-ALTER TABLE `pt_message_notify` MODIFY `messageID` char(35) default NOT NULL;
-ALTER TABLE `pt_message_notify` MODIFY `projectID` char(35) default NOT NULL;
-ALTER TABLE `pt_message_notify` MODIFY `userID` char(35) default NOT NULL;
+ALTER TABLE `pt_message_notify` MODIFY `messageID` char(35) NOT NULL;
+ALTER TABLE `pt_message_notify` MODIFY `projectID` char(35) NOT NULL;
+ALTER TABLE `pt_message_notify` MODIFY `userID` char(35) NOT NULL;
 
 /* pt_messages */
-ALTER TABLE `pt_messages` MODIFY `messageID` char(35) default NOT NULL;
-ALTER TABLE `pt_messages` MODIFY `projectID` char(35) default NOT NULL;
-ALTER TABLE `pt_messages` MODIFY `userID` char(35) default NOT NULL;
+ALTER TABLE `pt_messages` MODIFY `messageID` char(35) NOT NULL;
+ALTER TABLE `pt_messages` MODIFY `projectID` char(35) NOT NULL;
+ALTER TABLE `pt_messages` MODIFY `userID` char(35) NOT NULL;
 ALTER TABLE `pt_messages` MODIFY `message` text default NULL;
 
 /* pt_milestones */
-ALTER TABLE `pt_milestones` MODIFY `milestoneID` char(35) default NOT NULL;
-ALTER TABLE `pt_milestones` MODIFY `projectID` char(35) default NOT NULL;
-ALTER TABLE `pt_milestones` MODIFY `userID` char(35) default NOT NULL;
+ALTER TABLE `pt_milestones` MODIFY `milestoneID` char(35) NOT NULL;
+ALTER TABLE `pt_milestones` MODIFY `projectID` char(35) NOT NULL;
+ALTER TABLE `pt_milestones` MODIFY `userID` char(35) NOT NULL;
 ALTER TABLE `pt_milestones` MODIFY `description` text default NULL;
 
 /* pt_project_users */
-ALTER TABLE `pt_project_users` MODIFY `userID` char(35) default NOT NULL;
-ALTER TABLE `pt_project_users` MODIFY `projectID` char(35) default NOT NULL;
+ALTER TABLE `pt_project_users` MODIFY `userID` char(35) NOT NULL;
+ALTER TABLE `pt_project_users` MODIFY `projectID` char(35) NOT NULL;
 
 /* pt_projects */
-ALTER TABLE `pt_projects` MODIFY `projectID` char(35) default NOT NULL;
-ALTER TABLE `pt_projects` MODIFY `addedBy` char(35) default NOT NULL;
+ALTER TABLE `pt_projects` MODIFY `projectID` char(35) NOT NULL;
+ALTER TABLE `pt_projects` ADD `clientID` varchar(35) default NULL;
+ALTER TABLE `pt_projects` MODIFY `addedBy` char(35) NOT NULL;
 ALTER TABLE `pt_projects` MODIFY `description` text default NULL;
 
 /* pt_settings */
-ALTER TABLE `pt_settings` MODIFY `settingID` char(35) default NOT NULL;
+ALTER TABLE `pt_settings` MODIFY `settingID` char(35) NOT NULL;
 
 /* pt_todolists */
-ALTER TABLE `pt_todolists` MODIFY `todolistID` char(35) default NOT NULL;
-ALTER TABLE `pt_todolists` MODIFY `projectID` char(35) default NOT NULL;
-ALTER TABLE `pt_todolists` MODIFY `userID` char(35) default NOT NULL;
+ALTER TABLE `pt_todolists` MODIFY `todolistID` char(35) NOT NULL;
+ALTER TABLE `pt_todolists` MODIFY `projectID` char(35) NOT NULL;
+ALTER TABLE `pt_todolists` MODIFY `userID` char(35) NOT NULL;
 ALTER TABLE `pt_todolists` MODIFY `description` text default NULL;
 
 /* pt_todos */
-ALTER TABLE `pt_todos` MODIFY `todoID` char(35) default NOT NULL;
-ALTER TABLE `pt_todos` MODIFY `todolistID` char(35) default NOT NULL;
-ALTER TABLE `pt_todos` MODIFY `projectID` char(35) default NOT NULL;
-ALTER TABLE `pt_todos` MODIFY `userID` char(35) default NOT NULL;
+ALTER TABLE `pt_todos` MODIFY `todoID` char(35) NOT NULL;
+ALTER TABLE `pt_todos` MODIFY `todolistID` char(35) NOT NULL;
+ALTER TABLE `pt_todos` MODIFY `projectID` char(35) NOT NULL;
+ALTER TABLE `pt_todos` MODIFY `userID` char(35) NOT NULL;
 ALTER TABLE `pt_todos` MODIFY `task` text default NULL;
 
 /* pt_users */
-ALTER TABLE `pt_users` MODIFY `userID` char(35) default NOT NULL;
+ALTER TABLE `pt_users` MODIFY `userID` char(35) NOT NULL;
 ALTER TABLE `pt_users` ADD `mobile` varchar(15) default NULL;
 ALTER TABLE `pt_users` ADD `carrierID` varchar(35) default NULL;
 ALTER TABLE `pt_users` ADD `email_files` tinyint(1) default NULL;
@@ -132,4 +134,4 @@ update `pt_users`
 		`mobile_mstones` = 1 ,
 		`email_todos` = 1 ,
 		`mobile_todos` = 1;
-INSERT INTO `pt_users` (userID,firstName,lastName,username,password,style,email_todos,mobile_todos,email_mstones,mobile_mstones,email_issues,mobile_issues,avatar,admin,active) values('7F16CA08-1372-7975-6F7F9DA33EBD6A09','Guest','User','guest','guest','blue',0,0,0,0,0,0,0,0,1);
+INSERT INTO `pt_users` (userID,firstName,lastName,username,password,style,email_issues,mobile_issues,email_mstones,mobile_mstones,email_todos,mobile_todos,avatar,admin,active) values('7F16CA08-1372-7975-6F7F9DA33EBD6A09','Guest','User','guest','guest','blue',1,1,1,1,1,1,1,1,1,1,0,0,1);
