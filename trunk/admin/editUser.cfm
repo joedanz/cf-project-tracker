@@ -2,6 +2,11 @@
 
 <cfset variables.errors = "">
 
+<cfparam name="form.from" default="admin">
+<cfif StructKeyExists(url,"from")>
+	<cfset form.from = url.from>
+</cfif>
+
 <cfif StructKeyExists(form,"submit")>
 	<cfparam name="form.email_files" default="0">
 	<cfparam name="form.mobile_files" default="0">
@@ -13,7 +18,6 @@
 	<cfparam name="form.mobile_mstones" default="0">
 	<cfparam name="form.email_todos" default="0">
 	<cfparam name="form.mobile_todos" default="0">
-
 	<cfparam name="form.admin" default="0">
 	<cfparam name="form.active" default="0">
 	
@@ -35,7 +39,11 @@
 				<cfif not qCheckUser.recordCount>
 					<cfset newID = createUUID()>
 					<cfset application.user.adminCreate(newID,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.email_files,form.mobile_files,form.email_issues,form.mobile_issues,form.email_msgs,form.mobile_msgs,form.email_mstones,form.mobile_mstones,form.email_todos,form.mobile_todos,form.admin,form.active)>
-					<cflocation url="users.cfm" addtoken="false">
+					<cfif not compare(form.from,'admin')>
+						<cflocation url="users.cfm" addtoken="false">
+					<cfelse>
+						<cflocation url="../people.cfm?p=#url.p#" addtoken="false">
+					</cfif>
 				<cfelse>
 					<cfset variables.errors = "Username already exists!">
 				</cfif>
@@ -49,7 +57,11 @@
 				<cfloop list="#form.projectid#" index="i">
 					<cfset application.role.add(i,form.userid,ListGetAt(form.role,listFind(form.all_proj_ids,i)))>
 				</cfloop>
-				<cflocation url="users.cfm" addtoken="false">
+				<cfif not compare(form.from,'admin')>
+					<cflocation url="users.cfm" addtoken="false">
+				<cfelse>
+					<cflocation url="../people.cfm?p=#url.p#" addtoken="false">
+				</cfif>
 			</cfif>
 		</cfcase>
 	</cfswitch>
@@ -142,7 +154,7 @@
 					</div>
 				 	</cfif>
 				 	
-				 	<form action="#cgi.script_name#" method="post" class="frm">
+				 	<form action="#cgi.script_name#?#cgi.query_string#" method="post" class="frm">
 					 	<fieldset class="mb15">
 						 	<legend>User Information</legend>
 						<p>
@@ -266,11 +278,12 @@
 						
 						<p>
 						<input type="submit" name="submit" value="<cfif StructKeyExists(url,"u")>Update<cfelse>Add</cfif> User" class="button shorter" />
-						or <a href="users.cfm">Cancel</a>
+						or <a href="<cfif not compare(form.from,'admin')>users.cfm<cfelse>../people.cfm?p=#url.p#</cfif>">Cancel</a>
 						</p>
 						<cfif StructKeyExists(url,"u")>
 							<input type="hidden" name="userid" value="#url.u#" />
 						</cfif>
+						<input type="hidden" name="from" value="#form.from#" />						
 						</fieldset>
 					</form>
 				 	

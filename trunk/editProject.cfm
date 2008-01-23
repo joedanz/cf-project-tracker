@@ -14,6 +14,11 @@
 
 <cfparam name="form.display" default="0">
 <cfparam name="form.from" default="">
+
+<cfif StructKeyExists(url,"from")>
+	<cfset form.from = url.from>
+</cfif>
+
 <cfif StructKeyExists(form,"projectID")> <!--- update project --->
 	<cfset application.project.update(form.projectid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'edited')>
@@ -188,9 +193,7 @@
 						<cfelse>
 							<input type="submit" class="button" name="submit" id="submit" value="Add Project" />
 						</cfif>
-						<cfif StructKeyExists(url,"from")>
-							<input type="hidden" name="from" value="#url.from#" />
-						</cfif>
+						<input type="hidden" name="from" value="#form.from#" />
 						<input type="button" class="button" name="cancel" value="Cancel" onclick="history.back();" />
 					</form>				 	
 
