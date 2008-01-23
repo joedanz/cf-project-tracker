@@ -71,12 +71,10 @@
 								<td class="label">Severity:</td>
 								<td>#issue.severity#</td>
 							</tr>
-							<cfif compare(issue.milestoneID,'')>
 							<tr>
 								<td class="label">Milestone:</td>
-								<td><a href="milestone.cfm?p=#url.p#&m=#issue.milestoneID#">#issue.milestone#</a></td>
-							</tr>
-							</cfif>							
+								<td><cfif compare(issue.milestoneID,'')><a href="milestone.cfm?p=#url.p#&m=#issue.milestoneID#">#issue.milestone#</a><cfelse>&lt;none&gt;</cfif></td>
+							</tr>							
 						</table>
 						</div>
 						
