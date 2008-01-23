@@ -15,7 +15,7 @@
 <cfparam name="form.display" default="0">
 <cfparam name="form.from" default="">
 <cfif StructKeyExists(form,"projectID")> <!--- update project --->
-	<cfset application.project.update(form.projectid,form.name,form.description,form.display,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass)>
+	<cfset application.project.update(form.projectid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'edited')>
 	<cfif not compare(form.from,'admin')>
 		<cflocation url="./admin/projects.cfm" addtoken="false">
@@ -24,7 +24,7 @@
 	</cfif>
 <cfelseif StructKeyExists(form,"submit")> <!--- add project --->
 	<cfset newID = createUUID()>
-	<cfset application.project.add(newID,form.name,form.description,form.display,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,session.user.userid)>
+	<cfset application.project.add(newID,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,session.user.userid)>
 	<cfset application.role.add(newID,session.user.userid,'Owner')>
 	<cfset application.activity.add(createUUID(),newID,session.user.userid,'Project',newID,form.name,'added')>
 	<cfset session.user.projects = application.project.get(session.user.userid)>
@@ -40,30 +40,35 @@
 </cfif>
 
 <cfparam name="projID" default="">
-<cfparam name="name" default="">
-<cfparam name="description" default="">
-<cfparam name="variables.display" default="1">
-<cfparam name="status" default="">
-<cfparam name="ticketPrefix" default="">
-<cfparam name="svnurl" default="">
-<cfparam name="svnuser" default="">
-<cfparam name="svnpass" default="">
+<cfparam name="form.name" default="">
+<cfparam name="form.description" default="">
+<cfparam name="form.form.display" default="1">
+<cfparam name="form.clientID" default="">
+<cfparam name="form.clientName" default="&lt;none&gt;">
+<cfparam name="form.status" default="">
+<cfparam name="form.ticketPrefix" default="">
+<cfparam name="form.svnurl" default="">
+<cfparam name="form.svnuser" default="">
+<cfparam name="form.svnpass" default="">
 <cfparam name="title_action" default="Add">
-<cfparam name="from" default="">
 
 <cfif StructKeyExists(url,"p")>
 	<cfset projID = url.p>
 	<cfset thisProject = application.project.getDistinct(url.p)>
-	<cfset name = thisProject.name>
-	<cfset description = thisProject.description>
-	<cfset variables.display = thisProject.display>
-	<cfset status = thisProject.status>
-	<cfset ticketPrefix = thisProject.ticketPrefix>
-	<cfset svnurl = thisProject.svnurl>
-	<cfset svnuser = thisProject.svnuser>
-	<cfset svnpass = thisProject.svnpass>
+	<cfset form.name = thisProject.name>
+	<cfset form.description = thisProject.description>
+	<cfset form.display = thisProject.display>
+	<cfset form.clientID = thisProject.clientID>
+	<cfset form.clientName = thisProject.clientName>
+	<cfset form.status = thisProject.status>
+	<cfset form.ticketPrefix = thisProject.ticketPrefix>
+	<cfset form.svnurl = thisProject.svnurl>
+	<cfset form.svnuser = thisProject.svnuser>
+	<cfset form.svnpass = thisProject.svnpass>
 	<cfset title_action = "Edit">
 </cfif>
+
+<cfset clients = application.client.get()>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; #title_action# Project" project="#name#" projectid="#projID#" svnurl="#svnurl#">
@@ -115,7 +120,7 @@
 					<form action="#cgi.script_name#" method="post" name="edit" id="edit" class="frm" onsubmit="return confirmSubmit();">
 						<p>
 						<label for="name" class="req">Name:</label>
-						<input type="text" name="name" id="name" value="#HTMLEditFormat(name)#" maxlength="120" />
+						<input type="text" name="name" id="name" value="#HTMLEditFormat(form.name)#" maxlength="120" />
 						</p>					
 						<p>
 						<label for="description">Description:</label> 
@@ -123,7 +128,7 @@
 							basePath = 'includes/fckeditor/';
 							fckEditor = createObject("component", "#basePath#fckeditor");
 							fckEditor.instanceName	= "description";
-							fckEditor.value			= '#description#';
+							fckEditor.value			= '#form.description#';
 							fckEditor.basePath		= basePath;
 							fckEditor.width			= 460;
 							fckEditor.height		= 220;
@@ -133,35 +138,46 @@
 						</p>
 						<p style="font-size:.8em;">
 						<label for="display">&nbsp;</label>
-						<input type="checkbox" name="display" id="display" value="1" class="checkbox"<cfif variables.display> checked="checked"</cfif> />Display description on overview page
+						<input type="checkbox" name="display" id="display" value="1" class="checkbox"<cfif form.display> checked="checked"</cfif> />Display description on overview page
 						</p>
+						
+						<p>
+						<label for="client">Client:</label>
+						<select name="clientID" id="client">
+							<option value=""></option>
+							<cfloop query="clients">
+							<option value="#clientID#"<cfif not compare(form.clientID,clientID)> selected="selected"</cfif>>#name#</option>
+							</cfloop>
+						</select>
+						</p>
+						
 						<p>
 						<label for="status" class="req">Status:</label>
 						<select name="status" id="status">
-							<option value="Active"<cfif not compare(status,'Active')> selected="selected"</cfif>>Active</option>
-							<option value="On-Hold"<cfif not compare(status,'On-Hold')> selected="selected"</cfif>>On-Hold</option>
-							<option value="Archived"<cfif not compare(status,'Archived')> selected="selected"</cfif>>Archived</option>
+							<option value="Active"<cfif not compare(form.status,'Active')> selected="selected"</cfif>>Active</option>
+							<option value="On-Hold"<cfif not compare(form.status,'On-Hold')> selected="selected"</cfif>>On-Hold</option>
+							<option value="Archived"<cfif not compare(form.status,'Archived')> selected="selected"</cfif>>Archived</option>
 						</select>
 						</p>
 						<p>
 						<label for="ticketPrefix" class="req">Ticket Prefix:</label>
-						<input type="text" name="ticketPrefix" id="ticketPrefix" value="#HTMLEditFormat(ticketPrefix)#" maxlength="2" style="width:50px" />
+						<input type="text" name="ticketPrefix" id="ticketPrefix" value="#HTMLEditFormat(form.ticketPrefix)#" maxlength="2" style="width:50px" />
 						<span style="font-size:.8em">(two-letter prefix used when generating trouble tickets)</span>
 						</p>
 						<fieldset style="border:0;border-top:2px solid ##d9eaf5;margin:0 0 0 50px;">
-						<legend style="padding:0 3px;font-size:.9em;"><a href="##" onclick="svn_toggle();" class="<cfif not compare(svnurl,'')>collapsed<cfelse>expanded</cfif>" id="svnlink"> SVN Details</a></legend>
-						<div id="svninfo"<cfif not compare(svnurl,'')> style="display:none"</cfif>>
+						<legend style="padding:0 3px;font-size:.9em;"><a href="##" onclick="svn_toggle();" class="<cfif not compare(form.svnurl,'')>collapsed<cfelse>expanded</cfif>" id="svnlink"> SVN Details</a></legend>
+						<div id="svninfo"<cfif not compare(form.svnurl,'')> style="display:none"</cfif>>
 						<p>
 						<label for="svnurl">SVN URL:</label>
-						<input type="text" name="svnurl" id="svnurl" value="#HTMLEditFormat(svnurl)#" maxlength="100" class="short" />
+						<input type="text" name="svnurl" id="svnurl" value="#HTMLEditFormat(form.svnurl)#" maxlength="100" class="short" />
 						</p>						
 						<p>
 						<label for="svnuser">SVN Username:</label>
-						<input type="text" name="svnuser" id="svnuser" value="#HTMLEditFormat(svnuser)#" maxlength="20" class="short" />
+						<input type="text" name="svnuser" id="svnuser" value="#HTMLEditFormat(form.svnuser)#" maxlength="20" class="short" />
 						</p>						
 						<p>
 						<label for="svnpass">SVN Password:</label>
-						<input type="text" name="svnpass" id="svnpass" value="#HTMLEditFormat(svnpass)#" maxlength="20" class="short" />
+						<input type="text" name="svnpass" id="svnpass" value="#HTMLEditFormat(form.svnpass)#" maxlength="20" class="short" />
 						</p>
 						</div>
 						</fieldset>

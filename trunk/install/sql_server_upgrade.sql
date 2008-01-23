@@ -73,6 +73,31 @@ INSERT INTO [dbo].[pt_carriers](carrierID,carrier,countryCode,country,prefix,suf
 GO
 
 
+/* pt_clients */
+CREATE TABLE [dbo].[pt_clients] (
+	[clientID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[name] [nvarchar] (150) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[address] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[city] [nvarchar] (150) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[locality] [nvarchar] (200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[country] [nvarchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[postal] [nvarchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[phone] [nvarchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[fax] [nvarchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[contactName] [nvarchar] (60) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[contactPhone] [nvarchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[notes] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[active] [tinyint] NULL 
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[pt_clients] WITH NOCHECK ADD 
+	CONSTRAINT [PK_pt_clients] PRIMARY KEY  CLUSTERED 
+	(
+		[clientID]
+	)  ON [PRIMARY] 
+GO
+
+
 /* pt_comments */
 ALTER TABLE [dbo].[pt_comments] ALTER COLUMN [commentID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 GO

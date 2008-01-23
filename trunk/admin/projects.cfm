@@ -24,6 +24,7 @@
 					 	<tr>
 							<th class="tac">##</th>
 							<th>Project Name</th>
+							<th>Client</th>
 							<th class="tac">Status</th>
 							<th class="tac">Edit</th>
 						</tr>
@@ -31,6 +32,7 @@
 						<tr>
 							<td class="tac b">#currentRow#)</td>
 							<td>#name#</td>
+							<td>#clientName#</td>
 							<td class="tac">#status#</td>
 							<td class="tac"><a href="../editProject.cfm?from=admin&p=#projectid#">edit</a></td>
 						</tr>					

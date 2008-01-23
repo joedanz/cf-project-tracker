@@ -19,10 +19,11 @@
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
-			SELECT p.projectID, p.name, p.description, p.display, p.added, p.addedBy, p.status, 
-				p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, pu.role
+			SELECT p.projectID, p.clientID, p.name, p.description, p.display, p.added, p.addedBy, 
+				p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, pu.role, c.name as clientName
 			FROM #variables.tableprefix#projects p INNER JOIN #variables.tableprefix#project_users pu
 			 ON p.projectID = pu.projectID
+			 LEFT JOIN #variables.tableprefix#clients c on p.clientID = c.clientID 
 			WHERE 0=0
 			  <cfif compare(ARGUMENTS.projectID,'')>
 				  AND p.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
@@ -30,7 +31,7 @@
 			  <cfif compare(ARGUMENTS.userID,'')>
 				  AND pu.userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
 			  </cfif>
-				ORDER BY name
+				ORDER BY p.name
 		</cfquery>		
 		<cfreturn qRecords>
 	</cffunction>
@@ -40,24 +41,26 @@
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
-			SELECT projectID, name, description, display, added, addedBy, status, 
-				ticketPrefix, svnurl, svnuser, svnpass
-			FROM #variables.tableprefix#projects
+			SELECT p.projectID, p.clientID, p.name, p.description, p.display, p.added, p.addedBy, p.status, 
+				p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, c.name as clientName
+			FROM #variables.tableprefix#projects p
+				LEFT JOIN #variables.tableprefix#clients c on p.clientID = c.clientID 
 			WHERE 0=0
 			  <cfif compare(ARGUMENTS.projectID,'')>
 				  AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			  </cfif>
-			ORDER BY name
+			ORDER BY p.name
 		</cfquery>		
 		<cfreturn qRecords>
 	</cffunction>	
 	
 	<cffunction name="add" access="public" returnType="boolean" output="false"
 				hint="Adds a project.">
-		<cfargument name="projectID" type="uuid" required="true">		
+		<cfargument name="projectID" type="uuid" required="true">	
 		<cfargument name="name" type="string" required="true">
 		<cfargument name="description" type="string" required="true">
 		<cfargument name="display" type="numeric" required="true">
+		<cfargument name="clientID" type="string" required="true">
 		<cfargument name="status" type="string" required="true">
 		<cfargument name="ticketPrefix" type="string" required="true">
 		<cfargument name="svnurl" type="string" required="true">
@@ -65,12 +68,13 @@
 		<cfargument name="svnpass" type="string" required="true">
 		<cfargument name="addedBy" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#projects (projectID,name,description,display,added,addedBy,status,ticketPrefix,svnurl,svnuser,svnpass)
+			INSERT INTO #variables.tableprefix#projects (projectID,name,description,display,added,addedBy,clientID,status,ticketPrefix,svnurl,svnuser,svnpass)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
 					<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.display#">,
 					#Now()#, <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.addedBy#" maxlength="35">,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.clientID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="8">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.ticketPrefix#" maxlength="2">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnurl#" maxlength="100">,
@@ -86,6 +90,7 @@
 		<cfargument name="name" type="string" required="true">
 		<cfargument name="description" type="string" required="true">
 		<cfargument name="display" type="numeric" required="true">
+		<cfargument name="clientID" type="string" required="true">
 		<cfargument name="status" type="string" required="true">
 		<cfargument name="ticketPrefix" type="string" required="true">
 		<cfargument name="svnurl" type="string" required="true">
@@ -96,6 +101,7 @@
 				SET name = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
 					description = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">,
 					display = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.display#">,
+					clientID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.clientID#" maxlength="35">,
 					status = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="8">,
 					ticketPrefix = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.ticketPrefix#" maxlength="2">,
 					svnurl = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnurl#" maxlength="100">,

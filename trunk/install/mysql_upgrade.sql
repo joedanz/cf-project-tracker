@@ -40,6 +40,24 @@ INSERT INTO `pt_carriers` values('84675A6C-1372-7975-6F496C2375ED2815','TELUS','
 INSERT INTO `pt_carriers` values('84677BCF-1372-7975-6F89C8D24436A08A','Virgin Canada','CA','Canada','1','@vmobile.ca',1);
 INSERT INTO `pt_carriers` values('8467A2B0-1372-7975-6FEB7589919DC435','O2','UK','United Kingdom','1','@mmail.co.uk',1);
 
+/*Table structure for table `pt_clients` */
+CREATE TABLE `pt_clients` (
+  `clientID` char(35) NOT NULL,
+  `name` varchar(150) default NULL,
+  `address` text default NULL,
+  `city` varchar(150) default NULL,
+  `locality` varchar(200) default NULL,
+  `country` varchar(35) default NULL,
+  `postal` varchar(40) default NULL,
+  `phone` varchar(40) default NULL,
+  `fax` varchar(40) default NULL,
+  `contactName` varchar(60) default NULL,
+  `contactPhone` varchar(40) default NULL,
+  `notes` text default NULL,
+  `active` tinyint(1) default NULL,
+  PRIMARY KEY  (`clientID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /* pt_comments */
 ALTER TABLE `pt_comments` MODIFY `commentID` char(35) NOT NULL;
 ALTER TABLE `pt_comments` MODIFY `projectID` char(35) NOT NULL;
