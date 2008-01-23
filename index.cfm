@@ -261,7 +261,9 @@ $(document).ready(function(){
 	<!--- right column --->
 	<div class="right">
 
+		<cfif session.user.admin>
 		<h3><a href="editProject.cfm" class="add">Create a new project</a></h3><br />
+		</cfif>
 
 		<cfif active_projects.recordCount>
 		<div class="header"><h3>Your projects</h3></div>
