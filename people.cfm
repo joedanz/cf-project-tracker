@@ -120,7 +120,7 @@
 						<div class="user<cfif currentRow neq recordCount> listitem</cfif>" id="#userID#">
 		 		
 					 		<h4 class="b">#firstName# #lastName#&nbsp;
-								<span style="font-weight:normal;font-size:.9em;">(<cfif compare(role,'')>#role#<cfelse>User</cfif>)</span>
+								<span style="font-weight:normal;font-size:.9em;">(<cfif compare(role,'')>#role#<cfelse>User</cfif>)<cfif session.user.admin>&nbsp; [<a href="./admin/editUser.cfm?from=people&p=#url.p#&u=#userid#">edit</a>]</cfif></span>
 							</h4>
 					 		<cfif compare(email,'')><a href="mailto:#email#">#email#</a><br /></cfif>
 					 		<cfif compare(phone,'')>#request.udf.phoneFormat(phone,"(xxx) xxx-xxxx")#
