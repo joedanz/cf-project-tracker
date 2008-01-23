@@ -1,7 +1,18 @@
 <cfsetting enablecfoutputonly="true">
 
+<cfset variables.errors = "">
+
 <cfif StructKeyExists(form,"submit")>
 	<cfparam name="form.active" default="0">
+	
+	<cfif not compare(trim(form.carrier),'')>
+		<cfset variables.errors = variables.errors & "<li>You must enter the carrier name.</li>">
+	</cfif>	
+	<cfif not compare(trim(form.suffix),'')>
+		<cfset variables.errors = variables.errors & "<li>You must enter the email suffix.</li>">
+	</cfif>	
+	
+	<cfif not compare(variables.errors,'')>
 	<cfswitch expression="#form.submit#">
 		<cfcase value="Add Carrier">
 			<cfset application.carrier.add(form.carrier,form.countryCode,form.country,form.prefix,form.suffix,form.active)>
@@ -12,6 +23,7 @@
 	</cfswitch>
 	<cfset application.carriers = application.carrier.get('','true')>
 	<cflocation url="carriers.cfm" addtoken="false">
+	</cfif>
 </cfif>
 
 <cfparam name="form.carrier" default="">
@@ -51,15 +63,18 @@
 				 	
 				 	<h3 class="mb10"><cfif StructKeyExists(url,"c")>Edit<cfelse>Add New</cfif> Carrier</h3>
 
-				 	<cfif StructKeyExists(variables,'error')>
-				 	<h4 class="alert b r i mb15">#variables.error#</h4>
+				 	<cfif compare(variables.errors,'')>
+				 	<div class="error">
+					 	<h4 class="alert b r">An Error Has Occurred</h3>
+					 	<ul>#variables.errors#</ul>
+					</div>
 				 	</cfif>
 				 	
 				 	<form action="#cgi.script_name#" method="post" class="frm">
 					 	<fieldset class="mb15">
-						 	<legend>User Information</legend>
+						 	<legend>Carrier Information</legend>
 						<p>
-						<label for="carrier">Carrier:</label> 
+						<label for="carrier" class="req">Carrier:</label> 
 						<input type="text" name="carrier" id="carrier" value="#HTMLEditFormat(form.carrier)#" maxlength="20" class="shorter" />
 						</p>
 						<p>
@@ -71,11 +86,11 @@
 						<input type="text" name="country" id="country" value="#HTMLEditFormat(form.country)#" size="20" maxlength="20" class="shorter" />
 						</p>						
 						<p>
-						<label for="prefix">Prefix:</label> 
+						<label for="prefix">Number Prefix:</label> 
 						<input type="text" name="prefix" id="prefix" value="#HTMLEditFormat(form.prefix)#" maxlength="3" class="shorter" />
 						</p>
 						<p>
-						<label for="suffix">Suffix:</label> 
+						<label for="suffix" class="req">Email Suffix:</label> 
 						<input type="text" name="suffix" id="suffix" value="#HTMLEditFormat(form.suffix)#" maxlength="40" class="shorter" />
 						</p>
 						<p>
