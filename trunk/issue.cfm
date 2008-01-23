@@ -49,12 +49,12 @@
 							</tr>
 							<tr>
 								<td class="label">Updated:</td>
-								<td><cfif isDate(issue.updated)>#DateFormat(issue.updated,"mmm d")# @ #TimeFormat(issue.updated,"h:mmtt")# by #issue.updatedFirstName# #issue.updatedLastName#<cfelse>N/A</cfif></td>
+								<td><cfif isDate(issue.updated)>#DateFormat(issue.updated,"mmm d")# @ #TimeFormat(issue.updated,"h:mmtt")# by #issue.updatedFirstName# #issue.updatedLastName#<cfelse><span class="g">&lt;none&gt;</span></cfif></td>
 							</tr>
 							
 							<tr>
 								<td class="label">Assigned To:</td>
-								<td><cfif compare(issue.assignedLastName,'')>#issue.assignedFirstName# #issue.assignedLastName#<cfelse>Unassigned</cfif></td>
+								<td><cfif compare(issue.assignedLastName,'')>#issue.assignedFirstName# #issue.assignedLastName#<cfelse><span class="g">&lt;none&gt;</span></cfif></td>
 							</tr>
 						</table>
 					
@@ -73,7 +73,7 @@
 							</tr>
 							<tr>
 								<td class="label">Milestone:</td>
-								<td><cfif compare(issue.milestoneID,'')><a href="milestone.cfm?p=#url.p#&m=#issue.milestoneID#">#issue.milestone#</a><cfelse>&lt;none&gt;</cfif></td>
+								<td><cfif compare(issue.milestoneID,'')><a href="milestone.cfm?p=#url.p#&m=#issue.milestoneID#">#issue.milestone#</a><cfelse><span class="g">&lt;none&gt;</span></cfif></td>
 							</tr>							
 						</table>
 						</div>
