@@ -1,8 +1,8 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfset userRole = application.role.get(session.user.userid,url.p)>
-<cfif not listFind('Owner,Admin',userRole.role) and not session.user.admin>
-	<cfoutput><h2>Project Owner or Admin Access Only!!!</h2></cfoutput>
+<cfif not userRole.admin and not session.user.admin>
+	<cfoutput><h2>Admin Access Only!!!</h2></cfoutput>
 	<cfabort>
 </cfif>
 
@@ -171,14 +171,14 @@
 			</ul>
 		</div>
 
-		<cfset proj_admins = application.project.projectUsers(url.p,'Admin')>
+		<cfset proj_admins = application.project.projectUsers(url.p,'1')>
 		<div id="proj_admins">
 		<cfif proj_admins.recordCount>
 		<div class="header"><h3>Project Admin<cfif proj_admins.recordCount gt 1>s</cfif></h3></div>
 		<div class="content">
 			<ul>
 				<cfloop query="proj_admins">
-					<li>#firstName# #lastName#<cfif listFind('Owner,Admin',userRole.role)> <span style="font-size:.8em;">(<a href="#cgi.script_name#?p=#url.p#&makeOwner=#userID#">make owner</a>)</span></cfif></li>
+					<li>#firstName# #lastName#<cfif userRole.admin> <span style="font-size:.8em;">(<a href="#cgi.script_name#?p=#url.p#&makeOwner=#userID#">make owner</a>)</span></cfif></li>
 				</cfloop>
 			</ul>
 		</div>

@@ -2,7 +2,7 @@
 
 <cfparam name="url.p" default="">
 <cfset project = application.project.get(session.user.userid,url.p)>
-<cfset projectUsers = application.project.projectUsers(url.p,'','lastLogin desc')>
+<cfset projectUsers = application.project.projectUsers(url.p,'0','lastLogin desc')>
 <cfset milestones_overdue = application.milestone.get(url.p,'','overdue')>
 <cfset milestones_upcoming = application.milestone.get(url.p,'','upcoming','1')>
 <cfset issues = application.issue.get(url.p,'','Open')>
@@ -247,11 +247,19 @@ $(document).ready(function(){
 
 	<!--- right column --->
 	<div class="right">
+	
+		<div class="header"><h3>Project Owner</h3></div>
+		<div class="content">
+			<ul>
+				<li>#project.ownerFirstName# #project.ownerLastName#</li>
+			</ul>
+		</div>	
+	
 		<div class="header"><h3>People on this project</h3></div>
 		<div class="content">
 			<ul class="people">
 				<cfloop query="projectUsers">
-				<li><div class="b">#firstName# #lastName#<cfif not compare(userID,project.ownerID)> (owner)</cfif></div>
+				<li><div class="b">#firstName# #lastName#<cfif admin> (admin)</cfif></div>
 				<div style="font-weight:normal;font-size:.9em;color:##666;"><cfif compare(userID,session.user.userID)><cfif isDate(lastLogin)>Last login 
 					<cfif DateDiff("n",lastLogin,Now()) lt 60>
 						#DateDiff("n",lastLogin,Now())# minutes
