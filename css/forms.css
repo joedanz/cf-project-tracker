@@ -58,6 +58,15 @@ form.frm p textarea {
 	height:250px;
 }
 
+form.frm p textarea.short {
+	height:125px;
+}
+
+form.frm p textarea.address {
+	height:50px;
+	width:390px;
+}
+
 form.frm p input.title {
 	padding:4px;
 	font-weight:bold;
