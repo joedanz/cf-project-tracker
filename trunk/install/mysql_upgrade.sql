@@ -104,6 +104,7 @@ ALTER TABLE `pt_milestones` MODIFY `description` text default NULL;
 /* pt_project_users */
 ALTER TABLE `pt_project_users` MODIFY `userID` char(35) NOT NULL;
 ALTER TABLE `pt_project_users` MODIFY `projectID` char(35) NOT NULL;
+ALTER TABLE `pt_project_users` ADD `admin` tinyint(1) default NULL;
 ALTER TABLE `pt_project_users` ADD `files` tinyint(1) default NULL;
 ALTER TABLE `pt_project_users` ADD `issues` tinyint(1) default NULL;
 ALTER TABLE `pt_project_users` ADD `msgs` tinyint(1) default NULL;
