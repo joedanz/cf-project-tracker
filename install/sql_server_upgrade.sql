@@ -223,6 +223,23 @@ ALTER TABLE [dbo].[pt_project_users] ALTER COLUMN [projectID] [char] (35) COLLAT
 GO
 ALTER TABLE [dbo].[pt_project_users] ALTER COLUMN [role] [nvarchar] (9) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 GO
+ALTER TABLE [dbo].[pt_project_users] ADD [files] [tinyint] 1
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [issues] [tinyint] 1
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [msgs] [tinyint] 1
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [mstones] [tinyint] 1
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [todos] [tinyint] 1
+GO
+UPDATE [dbo].[pt_project_users]
+	SET [files] = 1 ,
+		[issues] = 1 ,
+		[msgs] = 1 ,
+		[mstones] = 1 ,
+		[todos] = 1
+GO
 ALTER TABLE [dbo].[pt_project_users] WITH NOCHECK ADD 
 	CONSTRAINT [PK_pt_project_users] PRIMARY KEY  CLUSTERED 
 	(
@@ -300,29 +317,29 @@ ALTER TABLE [dbo].[pt_users] ADD [carrierID] [nvarchar] (35) COLLATE SQL_Latin1_
 GO
 ALTER TABLE [dbo].[pt_users] ALTER COLUMN [avatar] [tinyint] NULL
 GO
-ALTER TABLE [dbo].[pt_users] ADD [email_files] [tinyint] NULL
+ALTER TABLE [dbo].[pt_users] ADD [email_files] [tinyint] 1
 GO
-ALTER TABLE [dbo].[pt_users] ADD [mobile_files] [tinyint] NULL
+ALTER TABLE [dbo].[pt_users] ADD [mobile_files] [tinyint] 1
 GO
-ALTER TABLE [dbo].[pt_users] ADD [email_issues] [tinyint] NULL
+ALTER TABLE [dbo].[pt_users] ADD [email_issues] [tinyint] 1
 GO
-ALTER TABLE [dbo].[pt_users] ADD [mobile_issues] [tinyint] NULL
+ALTER TABLE [dbo].[pt_users] ADD [mobile_issues] [tinyint] 1
 GO
-ALTER TABLE [dbo].[pt_users] ADD [email_msgs] [tinyint] NULL
+ALTER TABLE [dbo].[pt_users] ADD [email_msgs] [tinyint] 1
 GO
-ALTER TABLE [dbo].[pt_users] ADD [mobile_msgs] [tinyint] NULL
+ALTER TABLE [dbo].[pt_users] ADD [mobile_msgs] [tinyint] 1
 GO
-ALTER TABLE [dbo].[pt_users] ADD [email_mstones] [tinyint] NULL
+ALTER TABLE [dbo].[pt_users] ADD [email_mstones] [tinyint] 1
 GO
-ALTER TABLE [dbo].[pt_users] ADD [mobile_mstones] [tinyint] NULL
+ALTER TABLE [dbo].[pt_users] ADD [mobile_mstones] [tinyint] 1
 GO
-ALTER TABLE [dbo].[pt_users] ADD [email_todos] [tinyint] NULL
+ALTER TABLE [dbo].[pt_users] ADD [email_todos] [tinyint] 1
 GO
-ALTER TABLE [dbo].[pt_users] ADD [mobile_todos] [tinyint] NULL
+ALTER TABLE [dbo].[pt_users] ADD [mobile_todos] [tinyint] 1
 GO
-ALTER TABLE [dbo].[pt_users] ALTER COLUMN [admin] [tinyint] NULL
+ALTER TABLE [dbo].[pt_users] ALTER COLUMN [admin] [tinyint] 1
 GO
-ALTER TABLE [dbo].[pt_users] ALTER COLUMN [active] [tinyint] NULL
+ALTER TABLE [dbo].[pt_users] ALTER COLUMN [active] [tinyint] 1
 GO
 UPDATE [dbo].[pt_users] 
 	SET [email_files] = 1 ,

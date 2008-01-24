@@ -155,6 +155,11 @@ CREATE TABLE `pt_project_users` (
   `userID` char(35) NOT NULL,
   `projectID` char(35) NOT NULL,
   `role` varchar(9) default NULL,
+  `files` bit(1) default NULL,
+  `issues` bit(1) default NULL,
+  `msgs` bit(1) default NULL,
+  `mstones` bit(1) default NULL,
+  `todos` bit(1) default NULL,
   PRIMARY KEY  (`userID`,`projectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
