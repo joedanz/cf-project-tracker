@@ -154,7 +154,6 @@ CREATE TABLE `pt_milestones` (
 CREATE TABLE `pt_project_users` (
   `userID` char(35) NOT NULL,
   `projectID` char(35) NOT NULL,
-  `role` varchar(9) default NULL,
   `admin` bit(1) default NULL,
   `files` bit(1) default NULL,
   `issues` bit(1) default NULL,
