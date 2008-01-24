@@ -20,7 +20,7 @@
 </cfif>
 
 <cfif StructKeyExists(form,"projectID")> <!--- update project --->
-	<cfset application.project.update(form.projectid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass)>
+	<cfset application.project.update(form.projectid,form.ownerID,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'edited')>
 	<cfif not compare(form.from,'admin')>
 		<cflocation url="./admin/projects.cfm" addtoken="false">
@@ -29,7 +29,7 @@
 	</cfif>
 <cfelseif StructKeyExists(form,"submit")> <!--- add project --->
 	<cfset newID = createUUID()>
-	<cfset application.project.add(newID,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,session.user.userid)>
+	<cfset application.project.add(newID,session.user.userid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,session.user.userid)>
 	<cfset application.role.add(newID,session.user.userid,'Owner')>
 	<cfset application.activity.add(createUUID(),newID,session.user.userid,'Project',newID,form.name,'added')>
 	<cfset session.user.projects = application.project.get(session.user.userid)>
@@ -60,6 +60,7 @@
 <cfif StructKeyExists(url,"p")>
 	<cfset projID = url.p>
 	<cfset thisProject = application.project.getDistinct(url.p)>
+	<cfset form.ownerID = thisProject.ownerID>
 	<cfset form.name = thisProject.name>
 	<cfset form.description = thisProject.description>
 	<cfset form.display = thisProject.display>
@@ -71,6 +72,7 @@
 	<cfset form.svnuser = thisProject.svnuser>
 	<cfset form.svnpass = thisProject.svnpass>
 	<cfset title_action = "Edit">
+	<cfset projectUsers = application.project.projectUsers(url.p)>
 </cfif>
 
 <cfset clients = application.client.get()>
@@ -145,6 +147,17 @@
 						<label for="display">&nbsp;</label>
 						<input type="checkbox" name="display" id="display" value="1" class="checkbox"<cfif form.display> checked="checked"</cfif> />Display description on overview page
 						</p>
+						
+						<cfif StructKeyExists(url,"p")>
+						<p>
+						<label for="owner">Owner:</label>
+						<select name="ownerID" id="owner">
+							<cfloop query="projectUsers">
+							<option value="#userID#"<cfif not compare(form.ownerID,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>
+							</cfloop>
+						</select>
+						</p>
+						</cfif>
 						
 						<p>
 						<label for="client">Client:</label>

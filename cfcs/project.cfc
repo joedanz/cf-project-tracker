@@ -19,11 +19,13 @@
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
-			SELECT p.projectID, p.clientID, p.name, p.description, p.display, p.added, p.addedBy, 
-				p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, pu.role, c.name as clientName
-			FROM #variables.tableprefix#projects p INNER JOIN #variables.tableprefix#project_users pu
-			 ON p.projectID = pu.projectID
-			 LEFT JOIN #variables.tableprefix#clients c on p.clientID = c.clientID 
+			SELECT p.projectID, p.ownerID, p.clientID, p.name, p.description, p.display, p.added, p.addedBy, 
+				p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, pu.role, c.name as clientName,
+				u.firstName as ownerFirstName, u.lastName as ownerLastName
+			FROM #variables.tableprefix#projects p 
+				INNER JOIN #variables.tableprefix#project_users pu ON p.projectID = pu.projectID
+				INNER JOIN #variables.tableprefix#users u ON p.ownerID = u.userID
+				LEFT JOIN #variables.tableprefix#clients c on p.clientID = c.clientID 
 			WHERE 0=0
 			  <cfif compare(ARGUMENTS.projectID,'')>
 				  AND p.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
@@ -41,9 +43,11 @@
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
-			SELECT p.projectID, p.clientID, p.name, p.description, p.display, p.added, p.addedBy, p.status, 
-				p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, c.name as clientName
+			SELECT p.projectID, p.ownerID, p.clientID, p.name, p.description, p.display, p.added, 
+				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, c.name as clientName,
+				u.firstName as ownerFirstName, u.lastName as ownerLastName
 			FROM #variables.tableprefix#projects p
+				INNER JOIN #variables.tableprefix#users u ON p.ownerID = u.userID
 				LEFT JOIN #variables.tableprefix#clients c on p.clientID = c.clientID 
 			WHERE 0=0
 			  <cfif compare(ARGUMENTS.projectID,'')>
@@ -56,7 +60,8 @@
 	
 	<cffunction name="add" access="public" returnType="boolean" output="false"
 				hint="Adds a project.">
-		<cfargument name="projectID" type="uuid" required="true">	
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="ownerID" type="uuid" required="true">
 		<cfargument name="name" type="string" required="true">
 		<cfargument name="description" type="string" required="true">
 		<cfargument name="display" type="numeric" required="true">
@@ -68,8 +73,9 @@
 		<cfargument name="svnpass" type="string" required="true">
 		<cfargument name="addedBy" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#projects (projectID,name,description,display,added,addedBy,clientID,status,ticketPrefix,svnurl,svnuser,svnpass)
+			INSERT INTO #variables.tableprefix#projects (projectID,ownerID,name,description,display,added,addedBy,clientID,status,ticketPrefix,svnurl,svnuser,svnpass)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
+					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.ownerID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
 					<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.display#">,
@@ -86,7 +92,8 @@
 	
 	<cffunction name="update" access="public" returnType="boolean" output="false"
 				hint="Updates a project.">
-		<cfargument name="projectID" type="uuid" required="true">		
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="ownerID" type="uuid" required="true">		
 		<cfargument name="name" type="string" required="true">
 		<cfargument name="description" type="string" required="true">
 		<cfargument name="display" type="numeric" required="true">
@@ -99,6 +106,7 @@
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#projects 
 				SET name = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
+					ownerID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.ownerID#" maxlength="35">,
 					description = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">,
 					display = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.display#">,
 					clientID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.clientID#" maxlength="35">,
@@ -149,7 +157,8 @@
 			SELECT distinct u.userID, u.firstName, u.lastName, u.username, u.email, u.phone, u.mobile,
 				u.lastLogin, u.email_files, u.mobile_files, u.email_issues, u.mobile_issues, 
 				u.email_msgs, u.mobile_msgs, u.email_mstones, u.mobile_mstones, 
-				u.email_todos, u.mobile_todos, u.avatar, u.admin, pu.role
+				u.email_todos, u.mobile_todos, u.avatar, u.admin, pu.role, 
+				pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos
 			FROM #variables.tableprefix#users u 
 				INNER JOIN #variables.tableprefix#project_users pu ON u.userID = pu.userID
 			WHERE u.active = 1
