@@ -167,6 +167,7 @@ CREATE TABLE `pt_project_users` (
 
 CREATE TABLE `pt_projects` (
   `projectID` char(35) NOT NULL,
+  `ownerID` char(35) NULL,
   `clientID` varchar(35) NULL,
   `name` varchar(50) default NULL,
   `description` text default NULL,
