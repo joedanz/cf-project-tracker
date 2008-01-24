@@ -223,6 +223,8 @@ ALTER TABLE [dbo].[pt_project_users] ALTER COLUMN [projectID] [char] (35) COLLAT
 GO
 ALTER TABLE [dbo].[pt_project_users] ALTER COLUMN [role] [nvarchar] (9) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 GO
+ALTER TABLE [dbo].[pt_project_users] ADD [admin] [tinyint] NULL
+GO
 ALTER TABLE [dbo].[pt_project_users] ADD [files] [tinyint] NULL
 GO
 ALTER TABLE [dbo].[pt_project_users] ADD [issues] [tinyint] NULL
