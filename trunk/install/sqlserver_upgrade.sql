@@ -251,6 +251,8 @@ GO
 /* pt_projects */
 ALTER TABLE [dbo].[pt_projects] ALTER COLUMN [projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 GO
+ALTER TABLE [dbo].[pt_projects] ADD [ownerID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
 ALTER TABLE [dbo].[pt_projects] ADD [clientID] [varchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 GO
 ALTER TABLE [dbo].[pt_projects] ALTER COLUMN [addedBy] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL

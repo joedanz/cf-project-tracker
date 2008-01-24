@@ -118,6 +118,7 @@ update `pt_project_users`
 
 /* pt_projects */
 ALTER TABLE `pt_projects` MODIFY `projectID` char(35) NOT NULL;
+ALTER TABLE `pt_projects` ADD `ownerID` char(35) default NULL;
 ALTER TABLE `pt_projects` ADD `clientID` varchar(35) default NULL;
 ALTER TABLE `pt_projects` MODIFY `addedBy` char(35) NOT NULL;
 ALTER TABLE `pt_projects` MODIFY `description` text default NULL;
