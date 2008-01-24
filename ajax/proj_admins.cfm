@@ -1,6 +1,6 @@
 <cfsetting enablecfoutputonly="true" showdebugoutput="false">
 
-<cfset proj_admins = application.project.projectUsers(url.p,'Admin')>
+<cfset proj_admins = application.project.projectUsers(url.p,'1')>
 
 <cfoutput>
 <cfif proj_admins.recordCount>

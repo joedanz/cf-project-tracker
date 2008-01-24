@@ -149,7 +149,7 @@
 	<cffunction name="projectUsers" access="public" returntype="query" output="false"
 				hint="Returns project users.">				
 		<cfargument name="projectID" type="string" required="false" default="">
-		<cfargument name="role" type="string" required="false" default="">
+		<cfargument name="admin" type="numeric" required="false" default="0">
 		<cfargument name="order_by" type="string" required="false" default="lastName, firstName">
 		<cfargument name="projectIDlist" type="string" required="false" default="">
 		
@@ -158,7 +158,7 @@
 			SELECT distinct u.userID, u.firstName, u.lastName, u.username, u.email, u.phone, u.mobile,
 				u.lastLogin, u.email_files, u.mobile_files, u.email_issues, u.mobile_issues, 
 				u.email_msgs, u.mobile_msgs, u.email_mstones, u.mobile_mstones, 
-				u.email_todos, u.mobile_todos, u.avatar, u.admin, pu.role, 
+				u.email_todos, u.mobile_todos, u.avatar, u.admin, pu.admin, 
 				pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos
 			FROM #variables.tableprefix#users u 
 				INNER JOIN #variables.tableprefix#project_users pu ON u.userID = pu.userID
@@ -169,7 +169,7 @@
 			<cfif compare(arguments.projectIDlist,'')>
 				AND projectID IN ('#replace(arguments.projectIDlist,",","','","ALL")#')
 			</cfif>
-			<cfif compare(arguments.role,'')>AND pu.role = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role#" maxlength="5"></cfif>
+			<cfif arguments.admin>AND pu.admin = 1</cfif>
 			ORDER BY #arguments.order_by#
 		</cfquery>		
 		<cfreturn qRecords>

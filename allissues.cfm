@@ -20,7 +20,7 @@
 	<cfset QueryAddRow(projects)>
 	<cfset QuerySetCell(projects, "projectID", "0")>
 </cfif>
-<cfset projectUsers = application.project.projectUsers('','','lastName, firstName',valueList(projects.projectID))>
+<cfset projectUsers = application.project.projectUsers('','0','lastName, firstName',valueList(projects.projectID))>
 <cfset issues = application.issue.get(form.projectIDfilter,'',form.status,valueList(projects.projectID),form.type,form.severity,form.assignedTo)>
 
 <!--- Loads header/footer --->
