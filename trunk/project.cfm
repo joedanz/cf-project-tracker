@@ -251,7 +251,8 @@ $(document).ready(function(){
 		<div class="content">
 			<ul class="people">
 				<cfloop query="projectUsers">
-				<li><div class="b">#firstName# #lastName#</div><div style="font-weight:normal;font-size:.9em;color:##666;"><cfif compare(userID,session.user.userID)><cfif isDate(lastLogin)>Last login 
+				<li><div class="b">#firstName# #lastName#<cfif not compare(userID,project.ownerID)> (owner)</cfif></div>
+				<div style="font-weight:normal;font-size:.9em;color:##666;"><cfif compare(userID,session.user.userID)><cfif isDate(lastLogin)>Last login 
 					<cfif DateDiff("n",lastLogin,Now()) lt 60>
 						#DateDiff("n",lastLogin,Now())# minutes
 					<cfelseif DateDiff("h",lastLogin,Now()) lt 24>

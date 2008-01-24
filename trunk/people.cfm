@@ -164,13 +164,10 @@
 	<!--- right column --->
 	<div class="right">
 
-		<cfquery name="proj_owner" dbtype="query">
-			select * from projectUsers where role = 'Owner'
-		</cfquery>
 		<div class="header"><h3>Project Owner</h3></div>
 		<div class="content">
 			<ul>
-				<li>#proj_owner.firstName# #proj_owner.lastName#</li>
+				<li>#project.ownerFirstName# #project.ownerLastName#</li>
 			</ul>
 		</div>
 
