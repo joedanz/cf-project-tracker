@@ -378,37 +378,6 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfreturn true>
 	</cffunction>	
 	
-	<cffunction name="makeOwner" access="public" returnType="boolean" output="false"
-				hint="Makes user owner of a project.">
-		<cfargument name="projectid" type="uuid" required="true">
-		<cfargument name="userid" type="uuid" required="true">
-		<cfquery datasource="#variables.dsn#">
-			UPDATE #variables.tableprefix#project_users SET role = 'Admin'
-				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
-					AND role = 'Owner'
-		</cfquery>
-		<cfquery datasource="#variables.dsn#">
-			UPDATE #variables.tableprefix#project_users SET role = 'Owner'
-				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
-					AND userid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
-		</cfquery>
-		<cfreturn true>
-	</cffunction>
-	
-	<cffunction name="changeRole" access="public" returnType="boolean" output="false"
-				hint="Makes user owner of a project.">
-		<cfargument name="projectid" type="uuid" required="true">
-		<cfargument name="userid" type="uuid" required="true">
-		<cfargument name="role" type="string" required="true">
-		<cfquery datasource="#variables.dsn#">
-			UPDATE #variables.tableprefix#project_users 
-			SET role = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.role#" maxlength="9">
-				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
-					AND userid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
-		</cfquery>
-		<cfreturn true>
-	</cffunction>		
-	
 	<cffunction name="findUsername" access="public" returntype="query" output="false"
 				hint="Returns username for an email.">				
 		<cfargument name="email" type="string" required="false" default="">

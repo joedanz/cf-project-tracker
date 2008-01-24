@@ -20,6 +20,8 @@
 	<cfparam name="form.mobile_todos" default="0">
 	<cfparam name="form.admin" default="0">
 	<cfparam name="form.active" default="0">
+	<cfparam name="form.projectids" default="">
+	<cfparam name="form.adminids" default="">
 	
 	<cfif not compare(trim(form.username),'')>
 		<cfset variables.errors = variables.errors & '<li>You must enter a username.</li>'>
@@ -39,6 +41,14 @@
 				<cfif not qCheckUser.recordCount>
 					<cfset newID = createUUID()>
 					<cfset application.user.adminCreate(newID,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.email_files,form.mobile_files,form.email_issues,form.mobile_issues,form.email_msgs,form.mobile_msgs,form.email_mstones,form.mobile_mstones,form.email_todos,form.mobile_todos,form.admin,form.active)>
+					<cfloop list="#form.projectids#" index="i">
+						<cfif listFind(form.adminids,i)>
+							<cfset project_admin = 1>
+						<cfelse>	
+							<cfset project_admin = 0>	
+						</cfif>
+						<cfset application.role.add(i,form.userid,project_admin,ListGetAt(form.files,listFind(form.all_proj_ids,i)),ListGetAt(form.issues,listFind(form.all_proj_ids,i)),ListGetAt(form.msgs,listFind(form.all_proj_ids,i)),ListGetAt(form.mstones,listFind(form.all_proj_ids,i)),ListGetAt(form.todos,listFind(form.all_proj_ids,i)))>
+					</cfloop>					
 					<cfif not compare(form.from,'admin')>
 						<cflocation url="users.cfm" addtoken="false">
 					<cfelse>
@@ -53,9 +63,13 @@
 			<cfif not compare(errors,'')>
 				<cfset application.user.adminUpdate(form.userid,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.email_files,form.mobile_files,form.email_issues,form.mobile_issues,form.email_msgs,form.mobile_msgs,form.email_mstones,form.mobile_mstones,form.email_todos,form.mobile_todos,form.admin,form.active)>
 				<cfset application.role.remove('',form.userid)>
-				<cfparam name="form.projectid" default="">
-				<cfloop list="#form.projectid#" index="i">
-					<cfset application.role.add(i,form.userid,ListGetAt(form.role,listFind(form.all_proj_ids,i)))>
+				<cfloop list="#form.projectids#" index="i">
+					<cfif listFind(form.adminids,i)>
+						<cfset project_admin = 1>
+					<cfelse>	
+						<cfset project_admin = 0>	
+					</cfif>
+					<cfset application.role.add(i,form.userid,project_admin,ListGetAt(form.files,listFind(form.all_proj_ids,i)),ListGetAt(form.issues,listFind(form.all_proj_ids,i)),ListGetAt(form.msgs,listFind(form.all_proj_ids,i)),ListGetAt(form.mstones,listFind(form.all_proj_ids,i)),ListGetAt(form.todos,listFind(form.all_proj_ids,i)))>
 				</cfloop>
 				<cfif not compare(form.from,'admin')>
 					<cflocation url="users.cfm" addtoken="false">
@@ -75,6 +89,8 @@
 <cfparam name="form.phone" default="">
 <cfparam name="form.mobile" default="">
 <cfparam name="form.carrierID" default="">
+<cfparam name="form.admin" default="0">
+<cfparam name="form.active" default="0">
 <cfparam name="form.email_files" default="0">
 <cfparam name="form.mobile_files" default="0">
 <cfparam name="form.email_issues" default="0">
@@ -85,8 +101,8 @@
 <cfparam name="form.mobile_mstones" default="0">
 <cfparam name="form.email_todos" default="0">
 <cfparam name="form.mobile_todos" default="0">
-<cfparam name="form.admin" default="0">
-<cfparam name="form.active" default="0">
+
+<cfset projects = application.project.getDistinct()>
 
 <cfif StructKeyExists(url,"u")>
 	<cfset user = application.user.get(url.u)>
@@ -97,6 +113,8 @@
 	<cfset form.phone = user.phone>
 	<cfset form.mobile = user.mobile>
 	<cfset form.carrierID = user.carrierID>
+	<cfset form.admin = user.admin>
+	<cfset form.active = user.active>
 	<cfset form.email_files = user.email_files>
 	<cfset form.mobile_files = user.mobile_files>
 	<cfset form.email_issues = user.email_issues>
@@ -107,25 +125,57 @@
 	<cfset form.mobile_mstones = user.mobile_mstones>
 	<cfset form.email_todos = user.email_todos>
 	<cfset form.mobile_todos = user.mobile_todos>
-	<cfset form.admin = user.admin>
-	<cfset form.active = user.active>
 	<cfset user_projects = application.project.get(url.u)>
-<cfelse>
+	<cfquery name="admin_projects" dbtype="query">
+		select * from user_projects where admin = 1
+	</cfquery>
+	<cfset form.all_proj_ids = "">
+	<cfset form.files = "">
+	<cfset form.issues = "">
+	<cfset form.msgs = "">
+	<cfset form.mstones = "">
+	<cfset form.todos = "">
+	<cfloop query="projects">
+		<cfset form.all_proj_ids = listAppend(form.all_proj_ids,projectid)>
+		<cfif listFind(valueList(user_projects.projectid),projectid)>
+			<cfset projectid_loc = listFind(valueList(user_projects.projectid),projectid)>
+			<cfset form.files = listAppend(form.files,listGetAt(valueList(user_projects.files),projectid_loc))>
+			<cfset form.issues = listAppend(form.issues,listGetAt(valueList(user_projects.issues),projectid_loc))>
+			<cfset form.msgs = listAppend(form.msgs,listGetAt(valueList(user_projects.msgs),projectid_loc))>
+			<cfset form.mstones = listAppend(form.mstones,listGetAt(valueList(user_projects.mstones),projectid_loc))>
+			<cfset form.todos = listAppend(form.todos,listGetAt(valueList(user_projects.todos),projectid_loc))>
+		<cfelse>
+			<cfset form.files = listAppend(form.files,'0')>
+			<cfset form.issues = listAppend(form.issues,'0')>
+			<cfset form.msgs = listAppend(form.msgs,'0')>
+			<cfset form.mstones = listAppend(form.mstones,'0')>
+			<cfset form.todos = listAppend(form.todos,'0')>
+		</cfif>
+	</cfloop>
+<cfelse> <!--- new user --->
 	<cfset user_projects = QueryNew('projectID')>
-	<cfparam name="form.projectid" default="">
-	<cfloop list="#form.projectid#" index="i">
+	<cfparam name="form.projectids" default="">
+	<cfloop list="#form.projectids#" index="i">
 		<cfset QueryAddRow(user_projects)>
 		<cfset QuerySetCell(user_projects, 'projectid', i)>		
 	</cfloop>
+	<cfset admin_projects = QueryNew('projectID')>
+	<cfparam name="form.adminids" default="">
+	<cfloop list="#form.adminids#" index="i">
+		<cfset QueryAddRow(admin_projects)>
+		<cfset QuerySetCell(admin_projects, 'projectid', i)>		
+	</cfloop>
+	<cfset default_roles = "">
+	<cfloop query="projects">
+		<cfset default_roles = listAppend(default_roles,'2')>
+	</cfloop>
+	<cfparam name="form.all_proj_ids" default="#valueList(projects.projectid)#">
+	<cfparam name="form.files" default="#default_roles#">
+	<cfparam name="form.issues" default="#default_roles#">
+	<cfparam name="form.msgs" default="#default_roles#">
+	<cfparam name="form.mstones" default="#default_roles#">
+	<cfparam name="form.todos" default="#default_roles#">	
 </cfif>
-
-<cfset projects = application.project.getDistinct()>
-<cfparam name="form.all_proj_ids" default="#valueList(projects.projectid)#">
-<cfset default_roles = "">
-<cfloop query="projects">
-	<cfset default_roles = listAppend(default_roles,'0')>
-</cfloop>
-<cfparam name="form.role" default="#default_roles#">
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Admin">
@@ -170,7 +220,7 @@
 						<input type="text" name="username" id="username" value="#HTMLEditFormat(form.username)#" maxlength="30" class="shorter" />
 						</p>
 						<p>
-						<label for="password" class="req">Password:</label> 
+						<label for="password"<cfif not StructKeyExists(url,"u")> class="req"</cfif>>Password:</label> 
 						<input type="text" name="password" id="password"<cfif not StructKeyExists(url,"u")> value="#HTMLEditFormat(form.password)#"</cfif> maxlength="20" class="shorter" />
 						</p>
 						<p>
@@ -202,7 +252,7 @@
 							</select> <span style="font-size:85%;" class="i">(used for SMS notifications)
 						</p>				
 						<p>
-						<label for="admin">Admin?</label>
+						<label for="admin">Global Admin?</label>
 						<input type="checkbox" name="admin" id="admin" value="1" class="checkbox"<cfif form.admin> checked="checked"</cfif> />
 						</p>
 						<p>
@@ -248,27 +298,56 @@
 						<fieldset class="mb20">
 							<legend>Projects</legend>
 							
-							<table class="admin half mb15">
-							<tr><th>Project</th><th class="tac">Active</th><th class="tac">Role</th></tr>
+							<table class="admin full mb15 permissions">
+							<tr>
+								<th>Project</th>
+								<th class="tac">Active</th>
+								<th class="tac">Admin</th>
+								<th class="tac">Files</th>
+								<th class="tac">Issues</th>
+								<th class="tac">Messages</th>
+								<th class="tac">Milestones</th>
+								<th class="tac">To-Dos</th>
+							</tr>
 							<cfloop query="projects">
 							<tr>
 								<td><label for="p_#replace(projectid,'-','','ALL')#" class="cb">#name#</label></td>
-								<td class="tac"><input type="checkbox" name="projectid" value="#projectid#" id="p_#replace(projectid,'-','','ALL')#" class="cb"<cfif listFind(valueList(user_projects.projectid),projectid)> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="projectids" value="#projectid#" id="p_#replace(projectid,'-','','ALL')#" class="cb"<cfif listFind(valueList(user_projects.projectid),projectid)> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="adminids" value="#projectid#" class="cb"<cfif listFind(valueList(admin_projects.projectid),projectid)> checked="checked"</cfif> /></td>
 							<td class="tac">
-							<cfif StructKeyExists(url,"u")> <!--- update --->
-								<cfset thisProjectRole = application.role.get(url.u,projectid)>
-								<select name="role">
-									<option value="User"<cfif not compare(thisProjectRole.role,'User')> selected="selected"</cfif>>User</option>
-									<option value="Admin"<cfif not compare(thisProjectRole.role,'Admin')> selected="selected"</cfif>>Admin</option>
-									<option value="Read-Only"<cfif not compare(thisProjectRole.role,'Read-Only')> selected="selected"</cfif>>Read-Only</option>
-								</select>	
-							<cfelse> <!--- new user --->
-								<select name="role">
-									<option value="User"<cfif not compare(ListGetAt(form.role,listFind(form.all_proj_ids,projectid)),'User')> selected="selected"</cfif>>User</option>
-									<option value="Admin"<cfif not compare(ListGetAt(form.role,listFind(form.all_proj_ids,projectid)),'Admin')> selected="selected"</cfif>>Admin</option>
-									<option value="Read-Only"<cfif not compare(ListGetAt(form.role,listFind(form.all_proj_ids,projectid)),'Read-Only')> selected="selected"</cfif>>Read-Only</option>
-								</select>	
-							</cfif>
+								<select name="files">
+									<option value="2"<cfif ListGetAt(form.files,listFind(form.all_proj_ids,projectid)) eq 2> selected="selected"</cfif>>Full Access</option>
+									<option value="1"<cfif ListGetAt(form.files,listFind(form.all_proj_ids,projectid)) eq 1> selected="selected"</cfif>>Read-Only</option>
+									<option value="0"<cfif ListGetAt(form.files,listFind(form.all_proj_ids,projectid)) eq 0> selected="selected"</cfif>>None</option>
+								</select>
+							</td>
+							<td class="tac">
+								<select name="issues">
+									<option value="2"<cfif ListGetAt(form.issues,listFind(form.all_proj_ids,projectid)) eq 2> selected="selected"</cfif>>Full Access</option>
+									<option value="1"<cfif ListGetAt(form.issues,listFind(form.all_proj_ids,projectid)) eq 1> selected="selected"</cfif>>Read-Only</option>
+									<option value="0"<cfif ListGetAt(form.issues,listFind(form.all_proj_ids,projectid)) eq 0> selected="selected"</cfif>>None</option>
+								</select>							
+							</td>
+							<td class="tac">
+								<select name="msgs">
+									<option value="2"<cfif ListGetAt(form.msgs,listFind(form.all_proj_ids,projectid)) eq 2> selected="selected"</cfif>>Full Access</option>
+									<option value="1"<cfif ListGetAt(form.msgs,listFind(form.all_proj_ids,projectid)) eq 1> selected="selected"</cfif>>Read-Only</option>
+									<option value="0"<cfif ListGetAt(form.msgs,listFind(form.all_proj_ids,projectid)) eq 0> selected="selected"</cfif>>None</option>
+								</select>							
+							</td>
+							<td class="tac">
+								<select name="mstones">
+									<option value="2"<cfif ListGetAt(form.mstones,listFind(form.all_proj_ids,projectid)) eq 2> selected="selected"</cfif>>Full Access</option>
+									<option value="1"<cfif ListGetAt(form.mstones,listFind(form.all_proj_ids,projectid)) eq 1> selected="selected"</cfif>>Read-Only</option>
+									<option value="0"<cfif ListGetAt(form.mstones,listFind(form.all_proj_ids,projectid)) eq 0> selected="selected"</cfif>>None</option>
+								</select>							
+							</td>
+							<td class="tac">
+								<select name="todos">
+									<option value="2"<cfif ListGetAt(form.todos,listFind(form.all_proj_ids,projectid)) eq 2> selected="selected"</cfif>>Full Access</option>
+									<option value="1"<cfif ListGetAt(form.todos,listFind(form.all_proj_ids,projectid)) eq 1> selected="selected"</cfif>>Read-Only</option>
+									<option value="0"<cfif ListGetAt(form.todos,listFind(form.all_proj_ids,projectid)) eq 0> selected="selected"</cfif>>None</option>
+								</select>							
 							</td>
 							<input type="hidden" name="all_proj_ids" value="#projectid#" />
 							</cfloop>

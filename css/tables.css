@@ -31,6 +31,13 @@ table.bug tr td.label { font-weight:bold; text-align:right; width:100px; padding
 table.bug tr td { padding:3px; }
 table.bug tr td > p { margin:0;padding:0; }
 
+table.permissions tr th, table.permissions tr td {
+	font-size:.80em; border:1px solid #ccc; padding:3px;
+}
+table.permissions tr th {
+	background-color:#eee;
+}
+
 table#milestone_cal { background:#e0e0e0; border-collapse:separate;	border-spacing:1px; }
 table#milestone_cal tr th, table#milestone_cal tr td { font-family:Verdana, Arial, sans-serif; font-size:80%; }
 table#milestone_cal tr th {	background-color:#e0e0e0; color:#666; font-weight:bold;	border-bottom:none; }
