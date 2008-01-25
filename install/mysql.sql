@@ -256,7 +256,7 @@ INSERT INTO `pt_users` (userID,firstName,lastName,username,password,style,email_
 INSERT INTO `pt_users` (userID,firstName,lastName,username,password,style,email_files,mobile_files,email_issues,mobile_issues,email_msgs,mobile_msgs,email_mstones,mobile_mstones,email_todos,mobile_todos,avatar,admin,active) values('7F16CA08-1372-7975-6F7F9DA33EBD6A09','Guest','User','guest','guest','blue',1,1,1,1,1,1,1,1,1,1,0,0,1);
 
 /*Add default settings */
-INSERT INTO `pt_settings` values ('FC3D187C-16E6-58DE-133C5098C58225D3','app_title','TICC Project Tracker');
+INSERT INTO `pt_settings` values ('FC3D187C-16E6-58DE-133C5098C58225D3','app_title','Project Tracker');
 INSERT INTO `pt_settings` values ('FC3D861A-16E6-58DE-1346E4E01F578F52','default_style','blue');
 
 /*Add carriers */
