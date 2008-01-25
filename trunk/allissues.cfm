@@ -20,8 +20,14 @@
 	<cfset QueryAddRow(projects)>
 	<cfset QuerySetCell(projects, "projectID", "0")>
 </cfif>
-<cfset projectUsers = application.project.projectUsers('','0','lastName, firstName',valueList(projects.projectID))>
-<cfset issues = application.issue.get(form.projectIDfilter,'',form.status,valueList(projects.projectID),form.type,form.severity,form.assignedTo)>
+<cfset visible_project_list = "">
+<cfloop query="projects">
+	<cfif issues gt 0>
+		<cfset visible_project_list = listAppend(visible_project_list,projectID)>
+	</cfif>
+</cfloop>
+<cfset projectUsers = application.project.projectUsers('','0','lastName, firstName',visible_project_list)>
+<cfset issues = application.issue.get(form.projectIDfilter,'',form.status,visible_project_list,form.type,form.severity,form.assignedTo)>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Issues">

@@ -14,8 +14,14 @@
 	<cfset QueryAddRow(projects)>
 	<cfset QuerySetCell(projects, "projectID", "0")>
 </cfif>
-<cfset milestones_overdue = application.milestone.get('','','overdue','',valueList(projects.projectID))>
-<cfset milestones_upcoming = application.milestone.get('','','upcoming','',valueList(projects.projectID))>
+<cfset visible_project_list = "">
+<cfloop query="projects">
+	<cfif mstones gt 0>
+		<cfset visible_project_list = listAppend(visible_project_list,projectID)>
+	</cfif>
+</cfloop>
+<cfset milestones_overdue = application.milestone.get('','','overdue','',visible_project_list)>
+<cfset milestones_upcoming = application.milestone.get('','','upcoming','',visible_project_list)>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Milestones">

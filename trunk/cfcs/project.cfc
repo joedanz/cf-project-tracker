@@ -158,8 +158,10 @@
 			SELECT distinct u.userID, u.firstName, u.lastName, u.username, u.email, u.phone, u.mobile,
 				u.lastLogin, u.email_files, u.mobile_files, u.email_issues, u.mobile_issues, 
 				u.email_msgs, u.mobile_msgs, u.email_mstones, u.mobile_mstones, 
-				u.email_todos, u.mobile_todos, u.avatar, u.admin, pu.admin, 
-				pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos
+				u.email_todos, u.mobile_todos, u.avatar, u.admin
+				<cfif not compare(arguments.projectIDlist,'')>
+					, pu.admin,	pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos
+				</cfif>
 			FROM #variables.tableprefix#users u 
 				INNER JOIN #variables.tableprefix#project_users pu ON u.userID = pu.userID
 			WHERE u.active = 1
