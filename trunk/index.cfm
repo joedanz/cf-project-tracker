@@ -18,10 +18,22 @@
 	<cfset QueryAddRow(projects)>
 	<cfset QuerySetCell(projects, "projectID", "0")>
 </cfif>
+<cfset visible_project_list_mstones = "">
+<cfset visible_project_list_issues = "">
+<cfloop query="projects">
+	<cfif mstones gt 0>
+		<cfset visible_project_list_mstones = listAppend(visible_project_list_mstones,projectID)>
+	</cfif>
+</cfloop>
+<cfloop query="projects">
+	<cfif issues gt 0>
+		<cfset visible_project_list_issues = listAppend(visible_project_list_issues,projectID)>
+	</cfif>
+</cfloop>
 <cfset activity = application.activity.get('',valueList(projects.projectID),'true')>
-<cfset milestones_overdue = application.milestone.get('','','overdue','',valueList(projects.projectID))>
-<cfset milestones_upcoming = application.milestone.get('','','upcoming','1',valueList(projects.projectID))>
-<cfset issues = application.issue.get('','','Open',valueList(projects.projectID))>
+<cfset milestones_overdue = application.milestone.get('','','overdue','',visible_project_list_mstones)>
+<cfset milestones_upcoming = application.milestone.get('','','upcoming','1',visible_project_list_mstones)>
+<cfset issues = application.issue.get('','','Open',visible_project_list_issues)>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Home">
@@ -212,33 +224,35 @@ $(document).ready(function(){
 						</thead>
 						<tbody>
 						<cfloop query="activity">
-						<tr>
-							<td><a href="project.cfm?p=#projectID#" title="#projectName#">#projectName#</a></td>
-							<td><div class="catbox
-							<cfswitch expression="#type#">
-								<cfcase value="Issue">issue">Issue</cfcase>		
-								<cfcase value="Message">message">Message</cfcase>
-								<cfcase value="Milestone">milestone">Milestone</cfcase>
-								<cfcase value="To-Do List">todolist">To-Do List</cfcase>
-								<cfcase value="File">file">File</cfcase>
-								<cfcase value="Project">project">Project</cfcase>
-								<cfdefaultcase>">#type#</cfdefaultcase>
-							</cfswitch>	
-						</div></td>
-						<td>#DateFormat(stamp,"d mmm")#</td>
-						<td><cfswitch expression="#type#">
-								<cfcase value="Issue"><a href="issue.cfm?p=#projectID#&i=#id#">#name#</a></cfcase>		
-								<cfcase value="Message"><a href="message.cfm?p=#projectID#&m=#id#">#name#</a></cfcase>
-								<cfcase value="Milestone"><a href="milestones.cfm?p=#projectID#&m=#id#">#name#</a></cfcase>
-								<cfcase value="To-Do List"><a href="todos.cfm?p=#projectID#&t=#id#">#name#</a></cfcase>
-								<cfcase value="File"><a href="files.cfm?p=#projectID#&f=#id#">#name#</a></cfcase>
-								<cfcase value="Project"><a href="project.cfm?p=#projectID#">#name#</a></cfcase>
-								<cfdefaultcase>#name#</cfdefaultcase>
-							</cfswitch>
-							</td>
-						<td class="g">#activity# by</td>
-						<td>#firstName# #lastName#</td>
-						</tr>
+							<cfif not ((not compareNoCase(type,'issue') and issues eq 0) or (not compareNoCase(type,'message') and msgs eq 0) or (not compareNoCase(type,'milestone') and mstones eq 0) or (not compareNoCase(type,'to-do list') and todos eq 0) or (not compareNoCase(type,'file') and files eq 0))>
+							<tr>
+								<td><a href="project.cfm?p=#projectID#" title="#projectName#">#projectName#</a></td>
+								<td><div class="catbox
+								<cfswitch expression="#type#">
+									<cfcase value="Issue">issue">Issue</cfcase>		
+									<cfcase value="Message">message">Message</cfcase>
+									<cfcase value="Milestone">milestone">Milestone</cfcase>
+									<cfcase value="To-Do List">todolist">To-Do List</cfcase>
+									<cfcase value="File">file">File</cfcase>
+									<cfcase value="Project">project">Project</cfcase>
+									<cfdefaultcase>">#type#</cfdefaultcase>
+								</cfswitch>	
+							</div></td>
+							<td>#DateFormat(stamp,"d mmm")#</td>
+							<td><cfswitch expression="#type#">
+									<cfcase value="Issue"><a href="issue.cfm?p=#projectID#&i=#id#">#name#</a></cfcase>		
+									<cfcase value="Message"><a href="message.cfm?p=#projectID#&m=#id#">#name#</a></cfcase>
+									<cfcase value="Milestone"><a href="milestones.cfm?p=#projectID#&m=#id#">#name#</a></cfcase>
+									<cfcase value="To-Do List"><a href="todos.cfm?p=#projectID#&t=#id#">#name#</a></cfcase>
+									<cfcase value="File"><a href="files.cfm?p=#projectID#&f=#id#">#name#</a></cfcase>
+									<cfcase value="Project"><a href="project.cfm?p=#projectID#">#name#</a></cfcase>
+									<cfdefaultcase>#name#</cfdefaultcase>
+								</cfswitch>
+								</td>
+							<td class="g">#activity# by</td>
+							<td>#firstName# #lastName#</td>
+							</tr>
+							</cfif>
 						</cfloop>
 						</tbody>
 					</table>
