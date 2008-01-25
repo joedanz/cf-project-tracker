@@ -19,7 +19,7 @@
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
-			SELECT admin,files,issues,msgs,mstones,todos
+			SELECT admin,files,issues,msgs,mstones,todos,svn
 			FROM #variables.tableprefix#project_users
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				AND userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
@@ -37,15 +37,17 @@
 		<cfargument name="msgs" type="numeric" required="true">
 		<cfargument name="mstones" type="numeric" required="true">
 		<cfargument name="todos" type="numeric" required="true">
+		<cfargument name="svn" type="numeric" required="true">
 		<cfif arguments.admin>
 			<cfset arguments.files = 2>
 			<cfset arguments.issues = 2>
 			<cfset arguments.msgs = 2>
 			<cfset arguments.mstones = 2>
 			<cfset arguments.todos = 2>
+			<cfset arguments.svn = 1>
 		</cfif>
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#project_users (projectID,userID,admin,files,issues,msgs,mstones,todos)
+			INSERT INTO #variables.tableprefix#project_users (projectID,userID,admin,files,issues,msgs,mstones,todos,svn)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.admin#">,
@@ -53,7 +55,8 @@
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.issues#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.msgs#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mstones#">,
-					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.todos#">)
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.todos#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.svn#">)
 		</cfquery>
 		<cfreturn true>
 	</cffunction>

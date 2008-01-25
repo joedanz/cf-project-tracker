@@ -235,13 +235,16 @@ ALTER TABLE [dbo].[pt_project_users] ADD [mstones] [tinyint] NULL
 GO
 ALTER TABLE [dbo].[pt_project_users] ADD [todos] [tinyint] NULL
 GO
+ALTER TABLE [dbo].[pt_project_users] ADD [svn] [tinyint] NULL
+GO
 UPDATE [dbo].[pt_project_users]
 	SET [admin] = 0 ,
-		[files] = 1 ,
-		[issues] = 1 ,
-		[msgs] = 1 ,
-		[mstones] = 1 ,
-		[todos] = 1
+		[files] = 2 ,
+		[issues] = 2 ,
+		[msgs] = 2 ,
+		[mstones] = 2 ,
+		[todos] = 2 ,
+		[svn] = 1
 GO
 ALTER TABLE [dbo].[pt_project_users] WITH NOCHECK ADD 
 	CONSTRAINT [PK_pt_project_users] PRIMARY KEY  CLUSTERED 

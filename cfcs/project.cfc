@@ -19,9 +19,9 @@
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
-			SELECT p.projectID, p.ownerID, p.clientID, p.name, p.description, p.display, p.added, p.addedBy, 
-				p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, pu.admin, 
-				pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos, c.name as clientName,
+			SELECT p.projectID, p.ownerID, p.clientID, p.name, p.description, p.display, p.added, 
+				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, pu.admin, 
+				pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos, pu.svn, c.name as clientName,
 				u.firstName as ownerFirstName, u.lastName as ownerLastName
 			FROM #variables.tableprefix#projects p 
 				INNER JOIN #variables.tableprefix#project_users pu ON p.projectID = pu.projectID
