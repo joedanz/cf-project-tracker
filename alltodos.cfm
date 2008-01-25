@@ -14,8 +14,14 @@
 	<cfset QueryAddRow(projects)>
 	<cfset QuerySetCell(projects, "projectID", "0")>
 </cfif>
-<cfset todolists = application.todolist.get('','',valueList(projects.projectID))>
-<cfset todos = application.todo.get('','','','rank,added','',valueList(projects.projectID))>
+<cfset visible_project_list = "">
+<cfloop query="projects">
+	<cfif todos gt 0>
+		<cfset visible_project_list = listAppend(visible_project_list,projectID)>
+	</cfif>
+</cfloop>
+<cfset todolists = application.todolist.get('','',visible_project_list)>
+<cfset todos = application.todo.get('','','','rank,added','',visible_project_list)>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; To-Dos">
