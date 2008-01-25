@@ -16,6 +16,11 @@
 <cfset project = application.project.get(session.user.userid,url.p)>
 <cfset projectUsers = application.project.projectUsers(url.p)>
 
+<cfif project.mstones lt 2 and not session.user.admin>
+	<cfoutput><h2>You do not have permission to <cfif StructKeyExists(url,"m")>edit<cfelse>add</cfif> milestones!!!</h2></cfoutput>
+	<cfabort>
+</cfif>
+
 <cfparam name="thisDay" default="#Day(Now())#">
 <cfparam name="thisMonth" default="#Month(Now())#">
 <cfparam name="thisYear" default="#Month(Now())#">

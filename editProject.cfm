@@ -6,8 +6,8 @@
 	<cfelse>
 		<cfset userRole = application.role.get(session.user.userid,form.projectid)>
 	</cfif>
-	<cfif not listFind('Owner,Admin',userRole.role) and not session.user.admin>
-		<cfoutput><h2>Project Owner or Admin Access Only!!!</h2></cfoutput>
+	<cfif not userRole.admin and not session.user.admin>
+		<cfoutput><h2>Admin Access Only!!!</h2></cfoutput>
 		<cfabort>
 	</cfif>
 </cfif>

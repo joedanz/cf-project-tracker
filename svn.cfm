@@ -2,6 +2,12 @@
 
 <cfset svnTimeout = 60>
 
+<cfset project = application.project.get(session.user.userid,url.p)>
+<cfif project.svn eq 0 and not session.user.admin>
+	<cfoutput><h2>You do not have permission to access the repository!!!</h2></cfoutput>
+	<cfabort>
+</cfif>
+
 <cfscript>
 /**
  * Convert a date in ISO 8601 format to an ODBC datetime.

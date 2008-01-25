@@ -15,6 +15,11 @@
 <cfset talkList = listAppend(valueList(comments.userID),message.userID)>
 <cfset usersTalking = application.user.get('',talkList)>
 
+<cfif project.msgs eq 0 and not session.user.admin>
+	<cfoutput><h2>You do not have permission to access messages!!!</h2></cfoutput>
+	<cfabort>
+</cfif>
+
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; #project.name#" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
 

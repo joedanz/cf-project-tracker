@@ -11,10 +11,10 @@
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Issue',newID,form.issue,'added')>
 	<cfset projectUsers = application.project.projectUsers(form.projectID)>
 	<cfloop query="projectUsers">
-		<cfif email_issues>
+		<cfif email_issues and compare(session.user.email,'')>
 		
 		</cfif>
-		<cfif mobile_issues and isNumeric(mobile)>
+		<cfif mobile_issues and isNumeric(session.user.mobile)>
 		
 		</cfif>
 	</cfloop>

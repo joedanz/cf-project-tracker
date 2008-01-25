@@ -3,6 +3,11 @@
 <cfparam name="url.p" default="">
 <cfset project = application.project.get(session.user.userid,url.p)>
 
+<cfif project.msgs eq 0 and not session.user.admin>
+	<cfoutput><h2>You do not have permission to access messages!!!</h2></cfoutput>
+	<cfabort>
+</cfif>
+
 <cfif StructKeyExists(url,"dm") and not compare(hash(url.dm),url.dmh)>
 	<cfset application.message.delete(url.p,url.dm)>
 <cfelseif StructKeyExists(url,"v")>
@@ -74,7 +79,7 @@
 					<cfif compare(name,'')><div class="ms">Milestone: #name#</div></cfif>
 					<div class="byline<cfif currentRow neq recordCount> listitem</cfif>">
 						Posted by #firstName# #lastName# in <a href="#cgi.script_name#?p=#url.p#&c=#urlEncodedFormat(category)#">#category#</a>
-						<cfif userID eq session.user.userID or session.user.admin> | <a href="editMessage.cfm?p=#url.p#&m=#messageID#&mh=#hash(messageID)#" class="edit">Edit</a>
+						<cfif project.msgs gt 1 or userID eq session.user.userID or session.user.admin> | <a href="editMessage.cfm?p=#url.p#&m=#messageID#&mh=#hash(messageID)#" class="edit">Edit</a>
 						 | <a href="messages.cfm?p=#url.p#&dm=#messageID#&dmh=#hash(messageID)#" class="delete" onclick="return confirm('Are you sure you wish to delete this message and all associated comments?')">Delete</a></cfif>
 						<cfif allowComments> | <a href="message.cfm?p=#url.p#&m=#messageID###comments" class="comment">Post <cfif not commentCount>the first<cfelse>another</cfif> comment</a></cfif>
 						<cfif attachcount gt 0> | <a href="message.cfm?p=#url.p#&m=#messageID###attach" class="attach">#attachcount# file<cfif attachcount gt 1>s</cfif> attached</a></cfif>
@@ -136,7 +141,9 @@
 	<!--- right column --->
 	<div class="right">
 		
+		<cfif project.msgs gt 1>
 		<h3><a href="editMessage.cfm?p=#url.p#" class="add">Post a new message</a></h3><br />
+		</cfif>
 		
 		<cfif categories.recordCount>
 		<div class="header"><h3>Categories</h3></div>

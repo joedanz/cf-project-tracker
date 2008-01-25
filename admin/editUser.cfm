@@ -329,43 +329,43 @@
 							<tr>
 								<td><label for="p_#replace(projectid,'-','','ALL')#" class="cb">#name#</label></td>
 								<td class="tac"><input type="checkbox" name="projectids" value="#projectid#" id="p_#replace(projectid,'-','','ALL')#" class="cb"<cfif listFind(valueList(user_projects.projectid),projectid)> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="adminids" value="#projectid#" class="cb"<cfif listFind(valueList(admin_projects.projectid),projectid)> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="adminids" value="#projectid#" id="a_#replace(projectid,'-','','ALL')#" class="cb"<cfif listFind(valueList(admin_projects.projectid),projectid)> checked="checked"</cfif> /></td>
 							<td class="tac">
-								<select name="files">
+								<select name="files" onchange="if (this.selectedIndex > 0) $('##a_#replace(projectid,'-','','ALL')#').attr('checked','');">
 									<option value="2"<cfif ListGetAt(form.files,listFind(form.all_proj_ids,projectid)) eq 2> selected="selected"</cfif>>Full Access</option>
 									<option value="1"<cfif ListGetAt(form.files,listFind(form.all_proj_ids,projectid)) eq 1> selected="selected"</cfif>>Read-Only</option>
 									<option value="0"<cfif ListGetAt(form.files,listFind(form.all_proj_ids,projectid)) eq 0> selected="selected"</cfif>>None</option>
 								</select>
 							</td>
 							<td class="tac">
-								<select name="issues">
+								<select name="issues" onchange="if (this.selectedIndex > 0) $('##a_#replace(projectid,'-','','ALL')#').attr('checked','');">
 									<option value="2"<cfif ListGetAt(form.issues,listFind(form.all_proj_ids,projectid)) eq 2> selected="selected"</cfif>>Full Access</option>
 									<option value="1"<cfif ListGetAt(form.issues,listFind(form.all_proj_ids,projectid)) eq 1> selected="selected"</cfif>>Read-Only</option>
 									<option value="0"<cfif ListGetAt(form.issues,listFind(form.all_proj_ids,projectid)) eq 0> selected="selected"</cfif>>None</option>
 								</select>							
 							</td>
 							<td class="tac">
-								<select name="msgs">
+								<select name="msgs" onchange="if (this.selectedIndex > 0) $('##a_#replace(projectid,'-','','ALL')#').attr('checked','');">
 									<option value="2"<cfif ListGetAt(form.msgs,listFind(form.all_proj_ids,projectid)) eq 2> selected="selected"</cfif>>Full Access</option>
 									<option value="1"<cfif ListGetAt(form.msgs,listFind(form.all_proj_ids,projectid)) eq 1> selected="selected"</cfif>>Read-Only</option>
 									<option value="0"<cfif ListGetAt(form.msgs,listFind(form.all_proj_ids,projectid)) eq 0> selected="selected"</cfif>>None</option>
 								</select>							
 							</td>
 							<td class="tac">
-								<select name="mstones">
+								<select name="mstones" onchange="if (this.selectedIndex > 0) $('##a_#replace(projectid,'-','','ALL')#').attr('checked','');">
 									<option value="2"<cfif ListGetAt(form.mstones,listFind(form.all_proj_ids,projectid)) eq 2> selected="selected"</cfif>>Full Access</option>
 									<option value="1"<cfif ListGetAt(form.mstones,listFind(form.all_proj_ids,projectid)) eq 1> selected="selected"</cfif>>Read-Only</option>
 									<option value="0"<cfif ListGetAt(form.mstones,listFind(form.all_proj_ids,projectid)) eq 0> selected="selected"</cfif>>None</option>
 								</select>							
 							</td>
 							<td class="tac">
-								<select name="todos">
+								<select name="todos" onchange="if (this.selectedIndex > 0) $('##a_#replace(projectid,'-','','ALL')#').attr('checked','');">
 									<option value="2"<cfif ListGetAt(form.todos,listFind(form.all_proj_ids,projectid)) eq 2> selected="selected"</cfif>>Full Access</option>
 									<option value="1"<cfif ListGetAt(form.todos,listFind(form.all_proj_ids,projectid)) eq 1> selected="selected"</cfif>>Read-Only</option>
 									<option value="0"<cfif ListGetAt(form.todos,listFind(form.all_proj_ids,projectid)) eq 0> selected="selected"</cfif>>None</option>
 								</select>							
 							</td>
-							<td class="tac"><input type="checkbox" name="svnids" value="#projectid#" id="p_#replace(projectid,'-','','ALL')#" class="cb"<cfif ListGetAt(form.svn,listFind(form.all_proj_ids,projectid)) eq 1> checked="checked"</cfif> /></td>
+							<td class="tac"><input type="checkbox" name="svnids" value="#projectid#" id="p_#replace(projectid,'-','','ALL')#" class="cb" onchange="if (this.checked == false) $('##a_#replace(projectid,'-','','ALL')#').attr('checked','');"<cfif ListGetAt(form.svn,listFind(form.all_proj_ids,projectid)) eq 1> checked="checked"</cfif> /></td>
 							<input type="hidden" name="all_proj_ids" value="#projectid#" />
 							</cfloop>
 							</table>
