@@ -77,6 +77,11 @@ be able to logout and log back in as a different user.  You must still
 mofify the settings for the guest account to determine which projects are
 accessible.
 
+THANKS:
+To Ray Camden for his great RSS.cfc used to create RSS activity feeds
+To Mark Mandel for getting the SVNKit and JavaLoader stuff working
+To Jeffry Houser and Jeff Coughlin for their many suggestions
+
 FEEDBACK?
 Please email joe@ajaxcf.com with any suggestions or other feedback.
 My wishlist, should you be inclined, is located at:
