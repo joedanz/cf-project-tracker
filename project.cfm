@@ -217,7 +217,7 @@ $(document).ready(function(){
 					<cfset thisRow = 1>
 					
 					<cfloop query="activity">						
-						<cfif not ((not compareNoCase(type,'issue') and project.issues eq 0) and not (not compareNoCase(type,'message') and project.msgs eq 0) and not (not compareNoCase(type,'milestone') and project.mstones eq 0) or (not compareNoCase(type,'to-do list') and project.todos eq 0) and not (not compareNoCase(type,'file') and project.files eq 0))>
+						<cfif not ((not compareNoCase(type,'issue') and project.issues eq 0) or (not compareNoCase(type,'message') and project.msgs eq 0) or (not compareNoCase(type,'milestone') and project.mstones eq 0) or (not compareNoCase(type,'to-do list') and project.todos eq 0) or (not compareNoCase(type,'file') and project.files eq 0))>
 						<tr class="<cfif thisRow mod 2>even<cfelse>odd</cfif>"><td><div class="catbox
 							<cfswitch expression="#type#">
 								<cfcase value="Issue">issue">Issue</cfcase>		

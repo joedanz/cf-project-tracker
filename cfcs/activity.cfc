@@ -22,9 +22,16 @@
 		<cfquery name="qGetActivity" datasource="#variables.dsn#">
 			SELECT a.activityID,a.projectID,a.type,a.id,a.name,a.activity,a.stamp,
 				u.userid,u.firstName,u.lastName,p.projectID,p.name as projectName, 'red' as thiscolor
+				<cfif compare(arguments.projectIDlist,'')>
+					, pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos
+				</cfif>
 			FROM #variables.tableprefix#activity a 
-				LEFT JOIN #variables.tableprefix#projects p	ON a.projectID = p.projectID
-			INNER JOIN #variables.tableprefix#users u ON a.userID = u.userID
+				INNER JOIN #variables.tableprefix#projects p ON a.projectID = p.projectID
+				INNER JOIN #variables.tableprefix#users u ON a.userID = u.userID
+				<cfif compare(arguments.projectIDlist,'')>
+					INNER JOIN #variables.tableprefix#project_users pu ON u.userID = pu.userID
+						AND pu.projectID = p.projectID
+				</cfif>
 			WHERE 0=0
 			<cfif compare(arguments.projectID,'')>AND a.projectID = 
 				<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
