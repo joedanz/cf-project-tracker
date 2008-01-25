@@ -111,13 +111,15 @@ ALTER TABLE `pt_project_users` ADD `issues` tinyint(1) default NULL;
 ALTER TABLE `pt_project_users` ADD `msgs` tinyint(1) default NULL;
 ALTER TABLE `pt_project_users` ADD `mstones` tinyint(1) default NULL;
 ALTER TABLE `pt_project_users` ADD `todos` tinyint(1) default NULL;
+ALTER TABLE `pt_project_users` ADD `svn` tinyint(1) default NULL;
 update `pt_project_users` 
 	set `admin` = 0 ,
-		`files` = 1 ,
-		`issues` = 1 ,
-		`msgs` = 1 ,
-		`mstones` = 1,
-		`todos` = 1;
+		`files` = 2 ,
+		`issues` = 2 ,
+		`msgs` = 2 ,
+		`mstones` = 2,
+		`todos` = 2,
+		`svn` = 1;
 
 /* pt_projects */
 ALTER TABLE `pt_projects` MODIFY `projectID` char(35) NOT NULL;

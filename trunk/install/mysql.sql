@@ -160,6 +160,7 @@ CREATE TABLE `pt_project_users` (
   `msgs` bit(1) default NULL,
   `mstones` bit(1) default NULL,
   `todos` bit(1) default NULL,
+  `svn` bit(1) default NULL,
   PRIMARY KEY  (`userID`,`projectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
