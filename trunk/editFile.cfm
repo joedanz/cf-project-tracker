@@ -20,6 +20,11 @@
 <cfset project = application.project.get(session.user.userid,url.p)>
 <cfset categories = application.file.categories(url.p)>
 
+<cfif project.files lt 2 and not session.user.admin>
+	<cfoutput><h2>You do not have permission to <cfif StructKeyExists(url,"f")>edit<cfelse>add</cfif> files!!!</h2></cfoutput>
+	<cfabort>
+</cfif>
+
 <cfparam name="fileupload" default="">
 <cfparam name="title" default="">
 <cfparam name="cat" default="">

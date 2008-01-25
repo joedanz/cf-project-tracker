@@ -19,6 +19,11 @@
 <cfset files = application.file.get(url.p,'',url.c)>
 <cfset categories = application.file.categories(url.p)>
 
+<cfif project.files eq 0 and not session.user.admin>
+	<cfoutput><h2>You do not have permission to access files!!!</h2></cfoutput>
+	<cfabort>
+</cfif>
+
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#project.name# &raquo; Files" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
 
@@ -30,7 +35,7 @@
 		<div class="main">
 
 				<div class="header">
-					<cfif compare(project.role,'Read-Only')>
+					<cfif project.files gt 1>
 					<span class="rightmenu">
 						<a href="editFile.cfm?p=#url.p#" class="add">Upload a file</a>
 					</span>

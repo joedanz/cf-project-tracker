@@ -21,6 +21,11 @@
 <cfset milestones = application.milestone.get(url.p)>
 <cfset files = application.file.get(url.p)>
 
+<cfif project.msgs lt 2 and not session.user.admin>
+	<cfoutput><h2>You do not have permission to <cfif StructKeyExists(url,"m")>edit<cfelse>add</cfif> messages!!!</h2></cfoutput>
+	<cfabort>
+</cfif>
+
 <cfparam name="title" default="">
 <cfparam name="cat" default="">
 <cfparam name="message" default="">

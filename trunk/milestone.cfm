@@ -3,6 +3,11 @@
 <cfparam name="url.p" default="">
 <cfset project = application.project.get(session.user.userid,url.p)>
 
+<cfif project.mstones eq 0 and not session.user.admin>
+	<cfoutput><h2>You do not have permission to access milestones!!!</h2></cfoutput>
+	<cfabort>
+</cfif>
+
 <cfif StructKeyExists(url,"c")> <!--- mark completed --->
 	<cfset application.milestone.markCompleted(url.m,url.p)>
 	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Milestone',url.m,url.ms,'marked completed')>

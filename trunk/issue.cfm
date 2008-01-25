@@ -12,6 +12,11 @@
 <cfset issue = application.issue.get(url.p,url.i)>
 <cfset comments = application.comment.get(url.p,'',url.i)>
 
+<cfif project.issues eq 0 and not session.user.admin>
+	<cfoutput><h2>You do not have permission to access issues!!!</h2></cfoutput>
+	<cfabort>
+</cfif>
+
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#project.name# &raquo; Issue Detail" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
 

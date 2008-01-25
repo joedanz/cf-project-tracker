@@ -12,6 +12,11 @@
 <cfset issues = application.issue.get(url.p,'',form.status,'',form.type,form.severity,form.assignedTo,form.milestone)>
 <cfset milestones = application.milestone.get(url.p)>
 
+<cfif project.issues eq 0 and not session.user.admin>
+	<cfoutput><h2>You do not have permission to access issues!!!</h2></cfoutput>
+	<cfabort>
+</cfif>
+
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#project.name# &raquo; Issues" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
 
@@ -141,7 +146,7 @@ $(document).ready(function(){
 	<!--- right column --->
 	<div class="right">
 		
-		<cfif compare(project.role,'Read-Only') and compare(project.ticketPrefix,'')>
+		<cfif project.mstones gt 1 and compare(project.ticketPrefix,'')>
 		<h3><a href="editIssue.cfm?p=#url.p#" class="add">Submit new issue</a></h3><br />
 		</cfif>
 		

@@ -15,6 +15,11 @@
 <cfset project = application.project.get(session.user.userid,url.p)>
 <cfset milestones = application.milestone.get(url.p)>
 
+<cfif project.todos lt 2 and not session.user.admin>
+	<cfoutput><h2>You do not have permission to <cfif StructKeyExists(url,"t")>edit<cfelse>add</cfif> to-do lists!!!</h2></cfoutput>
+	<cfabort>
+</cfif>
+
 <cfparam name="title" default="">
 <cfparam name="description" default="">
 <cfparam name="msID" default="">

@@ -3,6 +3,11 @@
 <cfparam name="url.p" default="">
 <cfset project = application.project.get(session.user.userid,url.p)>
 
+<cfif project.mstones eq 0 and not session.user.admin>
+	<cfoutput><h2>You do not have permission to access milestones!!!</h2></cfoutput>
+	<cfabort>
+</cfif>
+
 <cfif StructKeyExists(url,"c")> <!--- mark completed --->
 	<cfset application.milestone.markCompleted(url.c,url.p)>
 	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Milestone',url.c,url.ms,'marked completed')>
@@ -31,7 +36,7 @@
 		<div class="main">
 
 				<div class="header">
-					<cfif compare(project.role,'Read-Only')>
+					<cfif project.mstones gt 1>
 					<span class="rightmenu">
 						<a href="editMilestone.cfm?p=#url.p#" class="add">Add New Milestone</a>
 					</span>
@@ -51,10 +56,10 @@
 							<div class="milestone">
 							<div class="date late"><span class="b"><cfif daysago eq 0>Today<cfelseif daysago eq 1>Yesterday<cfelse>#daysago# days ago</cfif></span> (#DateFormat(dueDate,"dddd, d mmmm, yyyy")#)<cfif userid neq 0><span style="color:##666;"> - For #firstName# #lastName#</span></cfif></div>
 							<div id="m#milestoneid#" style="display:none;" class="markcomplete">Moving to Completed - just a second...</div>
-							<cfif not compare(project.role,'Read-Only')>
-								<h3>#name#</h3>
-							<cfelse>
+							<cfif project.mstones eq 2>
 								<h3><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&c=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;" /> <a href="milestone.cfm?p=#url.p#&m=#milestoneid#">#name#</a> <span style="font-size:.65em;font-weight:normal;">[<a href="editMilestone.cfm?p=#url.p#&m=#milestoneid#">edit</a>]</span></h3>
+							<cfelse>
+								<h3>#name#</h3>
 							</cfif>
 							<cfif compare(description,'')><div class="desc">#description#</div></cfif>
 							

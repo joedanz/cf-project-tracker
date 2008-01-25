@@ -3,9 +3,13 @@
 <cfparam name="url.p" default="">
 <cfset project = application.project.get(session.user.userid,url.p)>
 <cfset projectUsers = application.project.projectUsers(url.p,'0','lastLogin desc')>
-<cfset milestones_overdue = application.milestone.get(url.p,'','overdue')>
-<cfset milestones_upcoming = application.milestone.get(url.p,'','upcoming','1')>
-<cfset issues = application.issue.get(url.p,'','Open')>
+<cfif project.mstones gt 0>
+	<cfset milestones_overdue = application.milestone.get(url.p,'','overdue')>
+	<cfset milestones_upcoming = application.milestone.get(url.p,'','upcoming','1')>
+</cfif>
+<cfif project.issues gt 0>
+	<cfset issues = application.issue.get(url.p,'','Open')>
+</cfif>
 <cfset activity = application.activity.get(url.p,'','true')>
 
 <!--- Loads header/footer --->
@@ -15,7 +19,7 @@
 <cfoutput>
 <script type='text/javascript'>
 $(document).ready(function(){
-	<cfif issues.recordCount>
+	<cfif project.issues gt 0 and issues.recordCount>
 	$('##issues').tableSorter({
 			sortColumn: 'ID',		// Integer or String of the name of the column to sort by
 			sortClassAsc: 'headerSortUp',		// Class name for ascending sorting action to header
@@ -49,10 +53,18 @@ $(document).ready(function(){
 
 			<div class="header">
 				<span class="rightmenu">
-					<a href="editMessage.cfm?p=#url.p#" class="add">Message</a> |
-					<a href="editTodolist.cfm?p=#url.p#" class="add">To-do list</a> |
-					<a href="editMilestone.cfm?p=#url.p#" class="add">Milestone</a> |
-					<a href="editIssue.cfm?p=#url.p#" class="add">Issue</a>
+					<cfif project.msgs gt 1>
+					<a href="editMessage.cfm?p=#url.p#" class="add">Message</a>
+					</cfif>
+					<cfif project.todos gt 1>
+						| <a href="editTodolist.cfm?p=#url.p#" class="add">To-do list</a>
+					</cfif>
+					<cfif project.mstones gt 1>
+						| <a href="editMilestone.cfm?p=#url.p#" class="add">Milestone</a>
+					</cfif>
+					<cfif project.issues gt 1>
+						| <a href="editIssue.cfm?p=#url.p#" class="add">Issue</a>
+					</cfif>
 				</span>					
 				
 				<h2 class="overview">Project overview</h2>
@@ -65,97 +77,99 @@ $(document).ready(function(){
 				</cfif>
 				
 				<cfif project.display><div class="fs12 mb20">#project.description#</div></cfif>
-
-				<cfif milestones_overdue.recordCount>
-				<div class="overdue">
-				<div class="mb5 b" style="color:##f00;border-bottom:1px solid ##f00;">Late Milestones</div>
-				<ul class="nobullet">
-					<cfloop query="milestones_overdue">
-					<cfset daysDiff = DateDiff("d",dueDate,Now())>
-					<li><span class="b" style="color:##f00;"><cfif daysDiff eq 0>Today<cfelseif daysDiff eq 1>Yesterday<cfelse>#daysDiff# days ago</cfif>:</span> 
-					<a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a>
-					<cfif compare(lastName,'')><span style="font-size:.9em;">(#firstName# #lastName# is responsible)</span></cfif>
-					</li>
-					</cfloop>
-				</ul>
-				</div><br />
-				</cfif>
-
-				<!--- due in next 14 days calendar --->
-				<cfquery name="ms_next_14" dbtype="query">
-					select * from milestones_upcoming where dueDate <= #CreateODBCDate(DateAdd("d",13,Now()))#
-				</cfquery>
-				<cfif ms_next_14.recordCount>
-				<div class="mb5 b" style="border-bottom:1px solid ##000;">Due in the next 14 days</div>
-				<cfset theDay = dayOfWeek(now())>
-				<table border="0" cellpadding="0" cellspacing="1" width="100%" id="milestone_cal">
-					<tr>
-					<cfloop index="i" from="0" to="6">
-						<th>#Left(dayOfWeekAsString(theDay),3)#</th>
-						<cfset theDay = theDay + 1>
-						<cfif theDay eq 8>
-							<cfset theDay = 1>
-						</cfif>
-					</cfloop>
-					</tr>
-					<tr>
-					<cfloop index="i" from="0" to="6">
-						<cfquery name="todays_ms" dbtype="query">
-							select name from milestones_upcoming where dueDate = #CreateODBCDate(DateAdd("d",i,Now()))#
-						</cfquery>
-						<cfif i eq 0>
-							<td class="today"><span class="b">TODAY</span>
-						<cfelse>
-							<td<cfif todays_ms.recordCount> class="active"</cfif>><cfif i eq 1>#Left(MonthAsString(Month(Now())),3)#</cfif>
-							#DateFormat(DateAdd("d",i,Now()),"d")#
-						</cfif>
-						<cfif todays_ms.recordCount>
-							<ul class="cal_ms">
-							<cfloop query="todays_ms">
-								<li>#name#</li>
-							</cfloop>
-							</ul>
-						</cfif>
-						</td>
-					</cfloop>	
-					</tr>
-					<tr>
-					<cfloop index="i" from="7" to="13">
-						<cfquery name="todays_ms" dbtype="query">
-							select name from milestones_upcoming where dueDate = #CreateODBCDate(DateAdd("d",i,Now()))#
-						</cfquery>
-						<td<cfif todays_ms.recordCount> class="active"</cfif>><cfif i eq 1>#Left(MonthAsString(Month(Now())),3)#</cfif>
-							#DateFormat(DateAdd("d",i,Now()),"d")#
-						<cfif todays_ms.recordCount>
-							<ul class="cal_ms">
-							<cfloop query="todays_ms">
-								<li>#name#</li>
-							</cfloop>
-							</ul>
-						</cfif>
-						</td>
-					</cfloop>	
-					</tr>
-				</table>
-				<br />
-				</cfif>
-					
-				<cfif milestones_upcoming.recordCount>
-				<div class="mb5 b" style="border-bottom:1px solid ##000;">
-					<span style="float:right;font-size:.75em;"><a href="##" onclick="upcoming_milestones('#url.p#','1');$(this).addClass('subactive');$('##threem').removeClass('subactive');$('##all').removeClass('subactive');" class="sublink subactive" id="onem">1 month</a> | <a href="##" onclick="upcoming_milestones('#url.p#','3');$('##onem').removeClass('subactive');$(this).addClass('subactive');$('##all').removeClass('subactive');" class="sublink" id="threem">3 months</a> | <a href="##" onclick="upcoming_milestones('#url.p#','');$('##onem').removeClass('subactive');$('##threem').removeClass('subactive');$(this).addClass('subactive');" class="sublink" id="all">All</a></span>
-					Upcoming Milestones</div>	
-				<ul class="nobullet" id="upcoming_milestones">
-					<cfloop query="milestones_upcoming">
-						<cfset daysDiff = DateDiff("d",CreateDate(year(Now()),month(Now()),day(Now())),dueDate)>
-					<li><span class="b"><cfif daysDiff eq 0>Today<cfelseif daysDiff eq 1>Tomorrow<cfelse>#daysDiff# days away</cfif>:</span> 
+				
+				<cfif project.mstones gt 0>
+					<cfif milestones_overdue.recordCount>
+					<div class="overdue">
+					<div class="mb5 b" style="color:##f00;border-bottom:1px solid ##f00;">Late Milestones</div>
+					<ul class="nobullet">
+						<cfloop query="milestones_overdue">
+						<cfset daysDiff = DateDiff("d",dueDate,Now())>
+						<li><span class="b" style="color:##f00;"><cfif daysDiff eq 0>Today<cfelseif daysDiff eq 1>Yesterday<cfelse>#daysDiff# days ago</cfif>:</span> 
 						<a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a>
 						<cfif compare(lastName,'')><span style="font-size:.9em;">(#firstName# #lastName# is responsible)</span></cfif>
-					</li>
-					</cfloop>
-				</ul><br />
+						</li>
+						</cfloop>
+					</ul>
+					</div><br />
+					</cfif>
+	
+					<!--- due in next 14 days calendar --->
+					<cfquery name="ms_next_14" dbtype="query">
+						select * from milestones_upcoming where dueDate <= #CreateODBCDate(DateAdd("d",13,Now()))#
+					</cfquery>
+					<cfif ms_next_14.recordCount>
+					<div class="mb5 b" style="border-bottom:1px solid ##000;">Due in the next 14 days</div>
+					<cfset theDay = dayOfWeek(now())>
+					<table border="0" cellpadding="0" cellspacing="1" width="100%" id="milestone_cal">
+						<tr>
+						<cfloop index="i" from="0" to="6">
+							<th>#Left(dayOfWeekAsString(theDay),3)#</th>
+							<cfset theDay = theDay + 1>
+							<cfif theDay eq 8>
+								<cfset theDay = 1>
+							</cfif>
+						</cfloop>
+						</tr>
+						<tr>
+						<cfloop index="i" from="0" to="6">
+							<cfquery name="todays_ms" dbtype="query">
+								select name from milestones_upcoming where dueDate = #CreateODBCDate(DateAdd("d",i,Now()))#
+							</cfquery>
+							<cfif i eq 0>
+								<td class="today"><span class="b">TODAY</span>
+							<cfelse>
+								<td<cfif todays_ms.recordCount> class="active"</cfif>><cfif i eq 1>#Left(MonthAsString(Month(Now())),3)#</cfif>
+								#DateFormat(DateAdd("d",i,Now()),"d")#
+							</cfif>
+							<cfif todays_ms.recordCount>
+								<ul class="cal_ms">
+								<cfloop query="todays_ms">
+									<li>#name#</li>
+								</cfloop>
+								</ul>
+							</cfif>
+							</td>
+						</cfloop>	
+						</tr>
+						<tr>
+						<cfloop index="i" from="7" to="13">
+							<cfquery name="todays_ms" dbtype="query">
+								select name from milestones_upcoming where dueDate = #CreateODBCDate(DateAdd("d",i,Now()))#
+							</cfquery>
+							<td<cfif todays_ms.recordCount> class="active"</cfif>><cfif i eq 1>#Left(MonthAsString(Month(Now())),3)#</cfif>
+								#DateFormat(DateAdd("d",i,Now()),"d")#
+							<cfif todays_ms.recordCount>
+								<ul class="cal_ms">
+								<cfloop query="todays_ms">
+									<li>#name#</li>
+								</cfloop>
+								</ul>
+							</cfif>
+							</td>
+						</cfloop>	
+						</tr>
+					</table>
+					<br />
+					</cfif>
+						
+					<cfif milestones_upcoming.recordCount>
+					<div class="mb5 b" style="border-bottom:1px solid ##000;">
+						<span style="float:right;font-size:.75em;"><a href="##" onclick="upcoming_milestones('#url.p#','1');$(this).addClass('subactive');$('##threem').removeClass('subactive');$('##all').removeClass('subactive');" class="sublink subactive" id="onem">1 month</a> | <a href="##" onclick="upcoming_milestones('#url.p#','3');$('##onem').removeClass('subactive');$(this).addClass('subactive');$('##all').removeClass('subactive');" class="sublink" id="threem">3 months</a> | <a href="##" onclick="upcoming_milestones('#url.p#','');$('##onem').removeClass('subactive');$('##threem').removeClass('subactive');$(this).addClass('subactive');" class="sublink" id="all">All</a></span>
+						Upcoming Milestones</div>	
+					<ul class="nobullet" id="upcoming_milestones">
+						<cfloop query="milestones_upcoming">
+							<cfset daysDiff = DateDiff("d",CreateDate(year(Now()),month(Now()),day(Now())),dueDate)>
+						<li><span class="b"><cfif daysDiff eq 0>Today<cfelseif daysDiff eq 1>Tomorrow<cfelse>#daysDiff# days away</cfif>:</span> 
+							<a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a>
+							<cfif compare(lastName,'')><span style="font-size:.9em;">(#firstName# #lastName# is responsible)</span></cfif>
+						</li>
+						</cfloop>
+					</ul><br />
+					</cfif>
 				</cfif>
 				
-				<cfif issues.recordCount>
+				<cfif project.issues gt 0 and issues.recordCount>
 					<table class="svn mb20" id="issues">
 					<caption class="plain">Open Issues</caption>
 					<thead>
@@ -200,32 +214,38 @@ $(document).ready(function(){
 						</tr>
 					</thead>
 					<tbody>
-					<cfloop query="activity">
-					<tr class="<cfif currentRow mod 2>even<cfelse>odd</cfif>"><td><div class="catbox
-						<cfswitch expression="#type#">
-							<cfcase value="Issue">issue">Issue</cfcase>		
-							<cfcase value="Message">message">Message</cfcase>
-							<cfcase value="Milestone">milestone">Milestone</cfcase>
-							<cfcase value="To-Do List">todolist">To-Do List</cfcase>
-							<cfcase value="File">file">File</cfcase>
-							<cfcase value="Project">project">Project</cfcase>			
-							<cfdefaultcase>>#type#</cfdefaultcase>
-						</cfswitch>	
-					</div></td>
-					<td>#DateFormat(stamp,"d mmm")#</td>
-					<td><cfswitch expression="#type#">
-							<cfcase value="Issue"><a href="issue.cfm?p=#url.p#&i=#id#">#name#</a></cfcase>		
-							<cfcase value="Message"><a href="message.cfm?p=#url.p#&m=#id#">#name#</a></cfcase>
-							<cfcase value="Milestone"><a href="milestones.cfm?p=#url.p#&m=#id#">#name#</a></cfcase>
-							<cfcase value="To-Do List"><a href="todos.cfm?p=#url.p#&t=#id#">#name#</a></cfcase>
-							<cfcase value="File"><a href="files.cfm?p=#url.p#&f=#id#">#name#</a></cfcase>
-							<cfcase value="Project"><a href="project.cfm?p=#url.p#">#name#</a></cfcase>
-							<cfdefaultcase>#name#</cfdefaultcase>
-						</cfswitch>
-						</td>
-					<td class="g">#activity# by</td>
-					<td>#firstName# #lastName#</td>
-					</tr>
+					<cfset thisRow = 1>
+					
+					<cfloop query="activity">						
+						<cfif not ((not compareNoCase(type,'issue') and project.issues eq 0) and not (not compareNoCase(type,'message') and project.msgs eq 0) and not (not compareNoCase(type,'milestone') and project.mstones eq 0) or (not compareNoCase(type,'to-do list') and project.todos eq 0) and not (not compareNoCase(type,'file') and project.files eq 0))>
+						<tr class="<cfif thisRow mod 2>even<cfelse>odd</cfif>"><td><div class="catbox
+							<cfswitch expression="#type#">
+								<cfcase value="Issue">issue">Issue</cfcase>		
+								<cfcase value="Message">message">Message</cfcase>
+								<cfcase value="Milestone">milestone">Milestone</cfcase>
+								<cfcase value="To-Do List">todolist">To-Do List</cfcase>
+								<cfcase value="File">file">File</cfcase>
+								<cfcase value="Project">project">Project</cfcase>			
+								<cfdefaultcase>>#type#</cfdefaultcase>
+							</cfswitch>	
+						</div></td>
+						<td>#DateFormat(stamp,"d mmm")#</td>
+						<td><cfswitch expression="#type#">
+								<cfcase value="Issue"><a href="issue.cfm?p=#url.p#&i=#id#">#name#</a></cfcase>		
+								<cfcase value="Message"><a href="message.cfm?p=#url.p#&m=#id#">#name#</a></cfcase>
+								<cfcase value="Milestone"><a href="milestones.cfm?p=#url.p#&m=#id#">#name#</a></cfcase>
+								<cfcase value="To-Do List"><a href="todos.cfm?p=#url.p#&t=#id#">#name#</a></cfcase>
+								<cfcase value="File"><a href="files.cfm?p=#url.p#&f=#id#">#name#</a></cfcase>
+								<cfcase value="Project"><a href="project.cfm?p=#url.p#">#name#</a></cfcase>
+								<cfdefaultcase>#name#</cfdefaultcase>
+							</cfswitch>
+							</td>
+						<td class="g">#activity# by</td>
+						<td>#firstName# #lastName#</td>
+						</tr>
+						</cfif>
+						
+						<cfset thisRow = thisRow + 1>
 					</cfloop>
 					</tbody>
 				</table>
