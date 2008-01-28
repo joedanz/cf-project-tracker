@@ -30,7 +30,7 @@
 <cfelseif StructKeyExists(form,"submit")> <!--- add project --->
 	<cfset newID = createUUID()>
 	<cfset application.project.add(newID,session.user.userid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,session.user.userid)>
-	<cfset application.role.add(newID,session.user.userid,'Owner')>
+	<cfset application.role.add(newID,session.user.userid,'1','2','2','2','2','2','1')>
 	<cfset application.activity.add(createUUID(),newID,session.user.userid,'Project',newID,form.name,'added')>
 	<cfset session.user.projects = application.project.get(session.user.userid)>
 	<cfif not compare(form.from,'admin')>
