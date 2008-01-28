@@ -130,7 +130,7 @@ CREATE TABLE `pt_messages` (
   `title` varchar(120) default NULL,
   `message` text default NULL,
   `category` varchar(50) default NULL,
-  `allowcomments` bit(1) default NULL,
+  `allowcomments` tinyint(1) default NULL,
   `stamp` datetime default NULL,
   PRIMARY KEY  (`messageID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -154,13 +154,13 @@ CREATE TABLE `pt_milestones` (
 CREATE TABLE `pt_project_users` (
   `userID` char(35) NOT NULL,
   `projectID` char(35) NOT NULL,
-  `admin` bit(1) default NULL,
-  `files` bit(1) default NULL,
-  `issues` bit(1) default NULL,
-  `msgs` bit(1) default NULL,
-  `mstones` bit(1) default NULL,
-  `todos` bit(1) default NULL,
-  `svn` bit(1) default NULL,
+  `admin` tinyint(1) default NULL,
+  `files` tinyint(1) default NULL,
+  `issues` tinyint(1) default NULL,
+  `msgs` tinyint(1) default NULL,
+  `mstones` tinyint(1) default NULL,
+  `todos` tinyint(1) default NULL,
+  `svn` tinyint(1) default NULL,
   PRIMARY KEY  (`userID`,`projectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -172,7 +172,7 @@ CREATE TABLE `pt_projects` (
   `clientID` varchar(35) NULL,
   `name` varchar(50) default NULL,
   `description` text default NULL,
-  `display` bit(1) default NULL,
+  `display` tinyint(1) default NULL,
   `ticketPrefix` varchar(2) default NULL,
   `added` datetime default NULL,
   `addedBy` char(35) NOT NULL,
