@@ -1,12 +1,16 @@
 <cfsetting enablecfoutputonly="true">
 
-<cfset svnTimeout = 60>
-
 <cfset project = application.project.get(session.user.userid,url.p)>
 <cfif project.svn eq 0 and not session.user.admin>
 	<cfoutput><h2>You do not have permission to access the repository!!!</h2></cfoutput>
 	<cfabort>
 </cfif>
+
+<cfparam name="url.act" default="browse">
+<cfparam name="numrevisions" default="20">
+<cfparam name="url.p" default="">
+<cfparam name="url.wd" default="">
+<cfset project = application.project.get(session.user.userid,url.p)>
 
 <cfscript>
 /**
@@ -59,10 +63,15 @@ function RFind(substr,str) {
 }
 </cfscript>
 
-<cfparam name="url.act" default="browse">
-<cfparam name="numrevisions" default="20">
-<cfparam name="url.p" default="">
-<cfset project = application.project.get(session.user.userid,url.p)>
+<cffunction name="_dump">
+	<cfargument name="s">
+	<cfargument name="abort" default="true">
+	<cfset var g = "">
+		<cfdump var="#arguments.s#">
+		<cfif arguments.abort>
+		<cfabort>
+		</cfif>
+</cffunction>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; #project.name#" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
@@ -84,9 +93,89 @@ function RFind(substr,str) {
 			</div>
 			<div class="content">
 			 	<div class="wrapper">
-				 	
+	
 <cfif not compareNoCase(url.act,'browse')>
 	<!--- browse repository --->
+
+	<cftry>
+		<cfset svn = createObject("component", "cfcs.SVNBrowser").init(project.svnurl & url.wd)>
+		<cfset list = svn.list('/')>
+
+	<table class="svn">
+	<caption>#project.svnurl##url.wd#</caption>
+	<thead><tr><th>Name</th><th>Size</th><th>Date Modified</th><th>Commit Revision</th><th>Author</th></tr></thead>
+
+	<tbody>
+	<cfset thisrow = 0>
+	<cfif compare(url.wd,'')>
+		<cfset lastdirmarker = RFind('/',url.wd)>
+		<cfif lastdirmarker lte 1><cfset pd = ""><cfelse><cfset pd = left(url.wd,lastdirmarker-1)></cfif>
+		<tr class="even">
+			<td>
+			<img src="images/folder.gif" height="16" width="16" border="0" alt="Directory" />
+			<a href="#cgi.script_name#?p=#url.p#&act=browse&wd=#URLEncodedFormat(pd)#">..</a></td>
+			<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+		</tr>
+	<cfset thisrow = thisrow + 1>			
+	</cfif>
+	<cfloop query="list">
+
+		<cfif not compareNoCase(kind,'Dir')>
+		<tr class="<cfif thisRow mod 2 eq 1>odd<cfelse>even</cfif>">
+			<td>
+			<a href="#cgi.script_name#?p=#url.p#&act=browse&wd=#URLEncodedFormat(url.wd & url)#">
+			<img src="images/folder.gif" height="16" width="16" border="0" alt="Directory" />
+			#url#</a></td>
+			<td>-----</td>
+			<!---<cfset dt = DateConvertISO8601(list.date,-getTimeZoneInfo().utcHourOffset)>--->
+			<td>#DateFormat(date,"ddd mmm d 'yy")# @ #TimeFormat(date,"h:mmtt")#</td>
+			<td>#revision#</td>
+			<td>#author#</td>
+		</tr>
+		<cfset thisrow = thisrow + 1>
+		
+		</cfif>
+	</cfloop>
+	<cfloop query="list">
+		<cfif not compareNoCase(kind,'File')>
+		
+		<tr class="<cfif thisRow mod 2 eq 1>odd<cfelse>even</cfif>">
+			<td>
+			<cfif listFindNoCase('.cfm,.cfc',right(url,4))>
+				<a href="viewcode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(url)#"><img src="images/file_cf.gif" height="16" width="16" border="0" alt="ColdFusion File" />
+			<cfelseif listFindNoCase('.htm,html',right(dirEntries[i].name,4))>
+				<a href="viewcode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(url)#"><img src="images/file_htm.gif" height="16" width="16" border="0" alt="HTML File" />
+			<cfelseif not compareNoCase(right(dirEntries[i].name,3),'.js')>
+				<a href="viewcode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(url)#"><img src="images/file.gif" height="16" width="16" border="0" alt="Javascript File" />
+			<cfelseif not compareNoCase(right(dirEntries[i].name,4),'.css')>
+				<a href="viewcode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(url)#"><img src="images/file.gif" height="16" width="16" border="0" alt="CSS File" />
+			<cfelse>
+				<a href="#cgi.script_name#?p=#url.p#&br=&f=#URLEncodedFormat(url)#"><img src="images/file.gif" height="16" width="16" border="0" alt="File" />
+			</cfif>
+			#url#</a></td>
+			<td><!---#dirEntries[i].size#--->size n/a</td>
+			<!---<cfset dt = DateConvertISO8601(date,-getTimeZoneInfo().utcHourOffset)>--->
+			<td>#DateFormat(date,"ddd mmm d 'yy")# @ #TimeFormat(date,"h:mmtt")#</td>
+			<td>#revision#</td>
+			<td>#author#</td>
+		
+		</tr>
+		<cfset thisrow = thisrow + 1>
+		</cfif>
+	
+	</cfloop>	
+	</tbody>
+	</table>
+	<cfdump var="#list#">
+		
+		<cfcatch>
+			<div class="alert">There was a problem accessing the Subversion repository at #project.svnurl#</div>
+			<div class="fs80 g" style="margin-left:20px;">If your repository requires authentication, please ensure that your username and password are correct.</div>
+		</cfcatch>
+	</cftry>
+				
+
+	<!---
 	<cftry>
 	<!--- process subversion action --->
 	<cfparam name="url.wd" default="">
@@ -176,8 +265,10 @@ function RFind(substr,str) {
 	</cfoutput>
 	<cfcatch><cfoutput><div class="alert">There was a problem accessing the Subversion repository at #project.svnurl#</div><div class="fs80 g" style="margin-left:20px;">If your repository requires authentication, please ensure that your username and password are correct.</div></cfoutput></cfcatch>
 	</cftry>
+	--->
 <cfelseif not compareNoCase(url.act,'lastrevs')>
 	<!--- show last N revisions --->
+	<!---
 	<cftry>
 	<!--- process subversion action --->
 	<cfset svnargs = "log -v #project.svnurl# --xml">
@@ -241,7 +332,8 @@ function RFind(substr,str) {
 	</table>
 	</cfoutput>
 	<cfcatch><cfoutput><div class="alert">There was a problem accessing the Subversion repository at #project.svnurl#</div></cfoutput></cfcatch>
-	</cftry>	
+	</cftry>
+	--->	
 </cfif>				 	
 				 	
 			 	</div>
