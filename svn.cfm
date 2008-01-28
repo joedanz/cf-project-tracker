@@ -175,113 +175,47 @@ function RFind(substr,str) {
 	
 <cfelseif not compareNoCase(url.act,'lastrevs')>
 	<!--- show last N revisions --->
-	<cfset svn = createObject("component", "cfcs.SVNBrowser").init(project.svnurl,project.svnuser,project.svnpass)>
-	<cfset log = svn.getLog()>
-
-	<table class="svn">
-	<caption>#project.svnurl# - Last 20 Revisions</caption>
-	<thead><tr><th>Rev</th><th>Message</th><th>Timestamp</th><th>Author</th><th>Files</th></tr></thead>
-	<tbody>
-	<cfloop query="log">
-		<tr class="<cfif currentRow mod 2 eq 1>odd<cfelse>even</cfif>"<!---<cfif StructKeyExists(url,"r") and url.r is revision> style="background-color:##ffc;"</cfif>--->>
-			
-			<td>#revision#</td>
-			<td><div id="r#revision#view">&nbsp;#message#</div></td>
-			<!---<cfset dt = DateConvertISO8601(logEntries[i].date,-getTimeZoneInfo().utcHourOffset)>--->
-			<td>#DateFormat(date,"ddd mmm d 'yy")# @ #TimeFormat(date,"h:mmtt")#</td>
-			<td>#author#</td>
-			
-			<td><a href="##" onclick="$('##files#currentRow#').toggle();return false;">files</a></td>
-		</tr>
-		<!---
-		<tr class="files" style="display:none;" id="files#i#"><td colspan="5" style="padding-left:50px;background-color:##ffc;">
-			<cfloop from="1" to="#arrayLen(logEntries[i].files)#" index="j">
-			<cfset filebreaker = RFind('/',logEntries[i].files[j])>
-			#j#: <cfif filebreaker gt 1 and find('.',logEntries[i].files[j])><a href="viewcode.cfm?p=#url.p#&wd=#URLEncodedFormat(left(logEntries[i].files[j],filebreaker-1))#&f=#right(logEntries[i].files[j],len(logEntries[i].files[j])-filebreaker)#">#logEntries[i].files[j]#</a><cfelse>#logEntries[i].files[j]#</cfif><br />
-			</cfloop>
-		</td></tr>--->
-	</cfloop>
-	</tbody>
-	</table>	
-	
-	<!---
 	<cftry>
+		<cfset svn = createObject("component", "cfcs.SVNBrowser").init(project.svnurl,project.svnuser,project.svnpass)>
+		<cfset log = svn.getLog()>
+		<cfdump var="#log#">
+		<table class="svn">
+		<caption>#project.svnurl# - Last 20 Revisions</caption>
+		<thead><tr><th>Rev</th><th>Message</th><th>Timestamp</th><th>Author</th><th>Files</th></tr></thead>
+		<tbody>
+		<cfloop query="log">
+			<tr class="<cfif currentRow mod 2 eq 1>odd<cfelse>even</cfif>"<!---<cfif StructKeyExists(url,"r") and url.r is revision> style="background-color:##ffc;"</cfif>--->>
+				
+				<td>#revision#</td>
+				<td><div id="r#revision#view">&nbsp;#message#</div></td>
+				<!---<cfset dt = DateConvertISO8601(logEntries[i].date,-getTimeZoneInfo().utcHourOffset)>--->
+				<td>#DateFormat(date,"ddd mmm d 'yy")# @ #TimeFormat(date,"h:mmtt")#</td>
+				<td>#author#</td>
+				
+				<td><a href="##" onclick="$('##files#currentRow#').toggle();return false;">files</a></td>
+			</tr>
+			
+			<tr class="files" style="display:none;" id="files#currentRow#"><td colspan="5" style="padding-left:50px;background-color:##ffc;">
+			<cfset thisRow = 1>
+			<cfloop collection="#path#" item="resource">
+			<cfset filebreaker = RFind('/',resource)>
+				#thisRow#: <cfif filebreaker gt 1 and find('.',resource)><a href="viewcode.cfm?p=#url.p#&wd=#URLEncodedFormat(left(resource,filebreaker-1))#&f=#right(resource,len(resource)-filebreaker)#">#resource#</a><cfelse>#resource#</cfif><br />
+				<cfset thisRow = thisRow + 1>
+			</cfloop>
+			</td></tr>
+		</cfloop>
+		</tbody>
+		</table>	
 
 		<cfcatch>
 			<div class="alert">There was a problem accessing the Subversion repository at #project.svnurl#</div>
 			<div class="fs80 g" style="margin-left:20px;">If your repository requires authentication, please ensure that your username and password are correct.</div>
 		</cfcatch>
-	</cftry>	
-	--->
-	
-	<!---
-	<cftry>
-	<!--- process subversion action --->
-	<cfset svnargs = "log -v #project.svnurl# --xml">
-	<cfif not compareNoCase(url.act,'lastrevs')>
-		<cfset svnargs = svnargs & ' --limit #numrevisions#'>
-	</cfif>
-	<cfif compare(project.svnuser,'')>
-		<cfset svnargs = svnargs & ' --username #project.svnuser# --password #project.svnpass#'>
-	</cfif>	
-	<cfexecute name="#application.settings.svnBinary#" arguments="#svnargs#" timeout="#svnTimeout#" variable="result"></cfexecute>
-	<!--- parse to xml --->
-	<cfset data = xmlparse(result)>
-	<!--- get entries --->
-	<cfset entries = xmlSearch(data, "//logentry")>
-	<cfset logEntries = arrayNew(1)>
-	<cfloop index="x" from="1" to="#arrayLen(entries)#">
-	   <cfset entry = entries[x]>
-	   <cfset logEntry = structNew()>
-	   <cfset logEntry.revision = entry.xmlAttributes.revision>
-	   <cfset logEntry.files = arrayNew(1)>
-	   <cfloop index="y" from="1" to="#arrayLen(entry.xmlChildren)#">
-	      <cfset xmlChild = entry.xmlChildren[y]>
-	      <cfswitch expression="#xmlChild.xmlName#">
-	         <cfcase value="author,msg,date">
-	            <cfset logEntry[xmlChild.xmlName] = xmlChild.xmlText>
-	         </cfcase>
-	         <cfcase value="paths">
-	            <cfloop index="z" from="1" to="#arrayLen(xmlChild.xmlChildren)#">
-	               <cfset thisFile = xmlChild.xmlChildren[z].xmlText>
-	               <cfset arrayAppend(logEntry.files, thisFile)>
-	            </cfloop>
-	         </cfcase>
-	      </cfswitch>
-	   </cfloop>
-	   <cfset arrayAppend(logEntries, logEntry)>   
-	</cfloop>
-
-	<!--- display subversion output --->
-	<cfoutput>
-	<table class="svn">
-	<caption>#project.svnurl# - Last 20 Revisions</caption>
-	<thead><tr><th>Rev</th><th>Message</th><th>Timestamp</th><th>Author</th><th>Files</th></tr></thead>
-	<tbody>
-	<cfloop from="1" to="#arrayLen(logEntries)#" index="i">
-		<tr class="<cfif i mod 2 eq 1>odd<cfelse>even</cfif>"<cfif StructKeyExists(url,"r") and url.r eq logEntries[i].revision> style="background-color:##ffc;"</cfif>>
-			<td>#logEntries[i].revision#<br /></td>
-			<td><div id="r#logEntries[i].revision#view">&nbsp;#logEntries[i].msg#</div></td>
-			<cfset dt = DateConvertISO8601(logEntries[i].date,-getTimeZoneInfo().utcHourOffset)>
-			<td>#DateFormat(dt,"ddd mmm d 'yy")# @ #TimeFormat(dt,"h:mmtt")#</td>
-			<td>#logEntries[i].author#</td>
-			<td><a href="##" onclick="$('##files#i#').toggle();">#arrayLen(logEntries[i].files)#</a></td>
-		</tr>
-		<tr class="files" style="display:none;" id="files#i#"><td colspan="5" style="padding-left:50px;background-color:##ffc;">
-			<cfloop from="1" to="#arrayLen(logEntries[i].files)#" index="j">
-			<cfset filebreaker = RFind('/',logEntries[i].files[j])>
-			#j#: <cfif filebreaker gt 1 and find('.',logEntries[i].files[j])><a href="viewcode.cfm?p=#url.p#&wd=#URLEncodedFormat(left(logEntries[i].files[j],filebreaker-1))#&f=#right(logEntries[i].files[j],len(logEntries[i].files[j])-filebreaker)#">#logEntries[i].files[j]#</a><cfelse>#logEntries[i].files[j]#</cfif><br />
-			</cfloop>
-		</td></tr>
-	</cfloop>
-	</tbody>
-	</table>
-	</cfoutput>
-	<cfcatch><cfoutput><div class="alert">There was a problem accessing the Subversion repository at #project.svnurl#</div></cfoutput></cfcatch>
 	</cftry>
-	--->	
-</cfif>				 	
-				 	
+		
+</cfif>
+
+			 	
 			 	</div>
 			</div>
 			
