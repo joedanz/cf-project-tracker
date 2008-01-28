@@ -7,7 +7,7 @@
 </cfif>
 
 <cfparam name="url.act" default="browse">
-<cfparam name="numrevisions" default="20">
+<cfparam name="numRevisions" default="20">
 <cfparam name="url.p" default="">
 <cfparam name="url.wd" default="">
 <cfset project = application.project.get(session.user.userid,url.p)>
@@ -62,16 +62,6 @@ function RFind(substr,str) {
   return len(str)-rcnt-len(substr)+2;
 }
 </cfscript>
-
-<cffunction name="_dump">
-	<cfargument name="s">
-	<cfargument name="abort" default="true">
-	<cfset var g = "">
-		<cfdump var="#arguments.s#">
-		<cfif arguments.abort>
-		<cfabort>
-		</cfif>
-</cffunction>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; #project.name#" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
@@ -177,11 +167,11 @@ function RFind(substr,str) {
 	<!--- show last N revisions --->
 	<cftry>
 		<cfset svn = createObject("component", "cfcs.SVNBrowser").init(project.svnurl,project.svnuser,project.svnpass)>
-		<cfset log = svn.getLog()>
-		<cfdump var="#log#">
+		<cfset log = svn.getLog(numEntries=numRevisions)>
+		
 		<table class="svn">
 		<caption>#project.svnurl# - Last 20 Revisions</caption>
-		<thead><tr><th>Rev</th><th>Message</th><th>Timestamp</th><th>Author</th><th>Files</th></tr></thead>
+		<thead><tr><th>Rev</th><th>Message</th><th>Timestamp</th><th>Author</th><th>Changed</th></tr></thead>
 		<tbody>
 		<cfloop query="log">
 			<tr class="<cfif currentRow mod 2 eq 1>odd<cfelse>even</cfif>"<!---<cfif StructKeyExists(url,"r") and url.r is revision> style="background-color:##ffc;"</cfif>--->>
@@ -192,7 +182,7 @@ function RFind(substr,str) {
 				<td>#DateFormat(date,"ddd mmm d 'yy")# @ #TimeFormat(date,"h:mmtt")#</td>
 				<td>#author#</td>
 				
-				<td><a href="##" onclick="$('##files#currentRow#').toggle();return false;">files</a></td>
+				<td><a href="##" onclick="$('##files#currentRow#').toggle();return false;">#StructCount(path)# files</a></td>
 			</tr>
 			
 			<tr class="files" style="display:none;" id="files#currentRow#"><td colspan="5" style="padding-left:50px;background-color:##ffc;">

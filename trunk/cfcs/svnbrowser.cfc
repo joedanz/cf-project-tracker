@@ -169,6 +169,7 @@
 
 	<cffunction name="getLog" output="true" description="Fetch a history of a given resource" returntype="query">
 		<cfargument name="Resource" type="string" required="false">
+		<cfargument name="numEntries" type="numeric" required="false" default="20">
 		<cfset var Q = QueryNew("Name,Author,Message,Date,Kind,Path,Revision,Size,URL,Content")>
 		<cfset var ent = CreateObject("java","java.util.LinkedHashSet").init(16)>
 		<cfset var i = "">
@@ -196,12 +197,12 @@
 				<cfset Q.Date[Q.RecordCount]=f.getDate()>
 				<cfset Q.Author[Q.RecordCount]=f.getAuthor()>
 				<cfset Q.Revision[Q.RecordCount]=f.getRevision()>
-				<!--- <cfset Q.Path[Q.RecordCount]=f.getChangedPaths()> --->
+				<cfset Q.Path[Q.RecordCount]=f.getChangedPaths()>
 				<!--- <cfset Q.Name[Q.RecordCount]=ListLast(Arguments.Resource,"/")> --->
 				<!--- <cfset Q.Kind[Q.RecordCount]=f.getClass()> --->
 			</cfloop>
 			
-			<cfquery dbtype="query" name="Q" maxrows="20">
+			<cfquery dbtype="query" name="Q" maxrows="#arguments.numEntries#">
 			SELECT *
 			FROM Q
 			ORDER BY Revision DESC
