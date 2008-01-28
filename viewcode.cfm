@@ -57,19 +57,26 @@ function RFind(substr,str) {
 <cfset project = application.project.get(session.user.userid,url.p)>
 
 <cfif StructKeyExists(url,"dl") and project.recordCount>
-	<cfset svnargs = "cat #project.svnurl##url.wd#/#url.f#">
-	<cfif compare(project.svnuser,'')>
-		<cfset svnargs = svnargs & ' --username #project.svnuser# --password #srssion.project.svnpass#'>
-	</cfif>		
-	<cfexecute name="#application.settings.svnBinary#" arguments="#svnargs#" timeout="#svnTimeout#" variable="result"></cfexecute>
-	<cffile action="write" file="#expandpath('./')##url.f#" output="#result#">
-	<cfheader name="content-disposition" value="attachment; filename=#url.f#">
-	<cfcontent file="#expandpath('./')##url.f#" deletefile="yes" type="application/unknown">
-	<cfabort>
+	<cftry>
+		<cfparam name="filetype" type="string" default="string">
+		<cfif listFindNoCase('png,gif,jpg,doc,rtf,xls,ppt,mdb,pdf,exe',right(url.f,3))>
+			<cfset filetype = 'binary'>
+		</cfif>
+		<cfset svn = createObject("component", "cfcs.SVNBrowser").init(project.svnurl,project.svnuser,project.svnpass)>
+		<cfset fileQ = svn.FileVersion('#url.wd#/#url.f#',url.r,filetype)>	
+		<cffile action="write" file="#expandpath('./')##url.f#" output="#fileQ.content#">
+		<cfheader name="content-disposition" value="attachment; filename=#url.f#">
+		<cfcontent file="#expandpath('./')##url.f#" deletefile="yes" type="application/unknown">
+		<cfabort>
+		<cfcatch>
+			<div class="alert">There was a problem accessing the Subversion repository at #project.svnurl#</div>
+			<div class="fs80 g" style="margin-left:20px;">If your repository requires authentication, please ensure that your username and password are correct.</div>
+		</cfcatch>
+	</cftry>
 </cfif>
 
 <!--- Loads header/footer --->
-<cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; #project.name#" project="#project.name#" projectid="#url.p#">
+<cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; #project.name#" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
 
 <cfhtmlhead text='<link rel="stylesheet" href="./css/svn.css" media="screen,projection" type="text/css" />'>
 
@@ -81,46 +88,49 @@ function RFind(substr,str) {
 		<div class="main">
 
 			<div class="header">
-				<span class="rightmenu"><a href="javascript:history.back();" class="back">Back to source browser</a></span>
+				<span class="rightmenu"><a href="javascript:history.back();" class="back">Back to Repository Browsing</a></span>
 				
 				<h2 class="svn">Subversion source browsing</h2>
 			</div>
 			<div class="content">
 			 	<div class="wrapper">
-			
-<!--- process subversion actions --->
-<cfset svnargs = "log -v #project.svnurl##url.wd#/#url.f# --xml">
-<cfif compare(project.svnuser,'')>
-	<cfset svnargs = svnargs & ' --username #project.svnuser# --password #project.svnpass#'>
-</cfif>
-<cfexecute name="#application.settings.svnBinary#" arguments="#svnargs#" timeout="#svnTimeout#" variable="history"></cfexecute>	
-<!--- parse to xml --->
-<cfset data = xmlparse(history)>
-<!--- get entries --->
-<cfset entries = xmlSearch(data, "//logentry")>
-<cfset logEntries = arrayNew(1)>
-<cfloop index="x" from="1" to="#arrayLen(entries)#">
-   <cfset entry = entries[x]>
-   <cfset logEntry = structNew()>
-   <cfset logEntry.revision = entry.xmlAttributes.revision>
-   <cfset logEntry.files = arrayNew(1)>
-   <cfloop index="y" from="1" to="#arrayLen(entry.xmlChildren)#">
-      <cfset xmlChild = entry.xmlChildren[y]>
-      <cfset logEntry[xmlChild.xmlName] = xmlChild.xmlText>
-   </cfloop>
-   <cfset arrayAppend(logEntries, logEntry)>   
-</cfloop>
-	
-<cfset svnargs = "cat #project.svnurl##url.wd#/#url.f#">
-<cfif compare(project.svnuser,'')>
-	<cfset svnargs = svnargs & ' --username #project.svnuser# --password #project.svnpass#'>
-</cfif>
-<cfexecute name="#application.settings.svnBinary#" arguments="#svnargs#" timeout="#svnTimeout#" variable="result"></cfexecute>
 
-<pre name="code" class="html">
-#HTMLCodeFormat(result)#
-</pre>
-			
+				<cftry>
+					<cfset svn = createObject("component", "cfcs.SVNBrowser").init(project.svnurl,project.svnuser,project.svnpass)>
+					<cfset fileQ = svn.FileVersion('#url.wd#/#url.f#',url.r)>	
+					<table class="svn">
+					<caption>#project.svnurl##url.wd#</caption>
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Size</th>
+							<th>Timestamp</th>
+							<th>Revision</th>
+							<th>Author</th>
+							<th>Download</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>#fileQ.name#</td>
+							<td>#NumberFormat(fileQ.size)#</td>
+							<!---<cfset dt = DateConvertISO8601(logEntries[i].date,-getTimeZoneInfo().utcHourOffset)>--->
+							<td>#DateFormat(fileQ.date,"ddd mmm d 'yy")# @ #TimeFormat(fileQ.date,"h:mmtt")#</td>
+							<td>#fileQ.revision#</td>
+							<td>#fileQ.author#</td>
+							<td><a href="#cgi.script_name#?p=#url.p#&wd=#url.wd#&f=#url.f#&r=#url.r#&dl=1">download file</a></td>
+						</tr>
+					</table>
+
+					<pre name="code" class="html">
+						#HTMLCodeFormat(fileQ.content)#
+					</pre>
+					<cfcatch>
+						<div class="alert">There was a problem accessing the Subversion repository at #project.svnurl#</div>
+						<div class="fs80 g" style="margin-left:20px;">If your repository requires authentication, please ensure that your username and password are correct.</div>
+					</cfcatch>
+				</cftry>			
+
 			 	</div>
 			</div>
 			

@@ -24,6 +24,7 @@
 		--->
 		<cfset initJavaLoader() />
 
+		<cfset this.svn=getJavaLoader().create("org.tmatesoft.svn.core.internal.io.svn.SVNRepositoryFactoryImpl").setup()>
 		<cfset this.drf=getJavaLoader().create("org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory").setup()>
 		<cfset this.srf = getJavaLoader().create("org.tmatesoft.svn.core.io.SVNRepositoryFactory")>
 		<cfset this.URL=Arguments.RepositoryURL>
@@ -199,13 +200,13 @@
 				<!--- <cfset Q.Name[Q.RecordCount]=ListLast(Arguments.Resource,"/")> --->
 				<!--- <cfset Q.Kind[Q.RecordCount]=f.getClass()> --->
 			</cfloop>
-
-
-			<cfquery dbtype="query" name="Q">
+			
+			<cfquery dbtype="query" name="Q" maxrows="20">
 			SELECT *
 			FROM Q
-			ORDER BY Date DESC
-			</cfquery>
+			ORDER BY Revision DESC
+			</cfquery>		
+			
 		<!--- </cfif> --->
 		<cfreturn Q>
 	</cffunction>
