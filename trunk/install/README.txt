@@ -78,9 +78,10 @@ mofify the settings for the guest account to determine which projects are
 accessible.
 
 THANKS:
-To Ray Camden for his great RSS.cfc used to create RSS activity feeds
-To Mark Mandel for getting the SVNKit and JavaLoader stuff working
-To Jeffry Houser and Jeff Coughlin for their many suggestions
+To Rick Osborne for the SVNBrowser and CFDiff functionality.
+To Ray Camden for the RSS.cfc used to create RSS activity feeds.
+To Mark Mandel for getting the SVNKit and JavaLoader stuff working.
+To Jeffry Houser and Jeff Coughlin for their many suggestions.
 
 FEEDBACK?
 Please email joe@ajaxcf.com with any suggestions or other feedback.
