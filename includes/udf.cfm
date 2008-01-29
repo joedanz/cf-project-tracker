@@ -59,6 +59,57 @@ arguments.str) AND len(listGetAt(arguments.str, 1, "@")) LTE 64 AND
 len(listGetAt(arguments.str, 2, "@")) LTE 255) IS 1;
 }
 request.udf.isEmail = isEmail;
+
+/**
+ * Convert a date in ISO 8601 format to an ODBC datetime.
+ * 
+ * @param ISO8601dateString 	 The ISO8601 date string. (Required)
+ * @param targetZoneOffset 	 The timezone offset. (Required)
+ * @return Returns a datetime. 
+ * @author David Satz (david_satz@hyperion.com) 
+ * @version 1, September 28, 2004 
+ */
+function DateConvertISO8601(ISO8601dateString, targetZoneOffset) {
+	var rawDatetime = left(ISO8601dateString,10) & " " & mid(ISO8601dateString,12,8);
+	
+	// adjust offset based on offset given in date string
+	if (uCase(mid(ISO8601dateString,20,1)) neq "Z")
+		targetZoneOffset = targetZoneOffset -  val(mid(ISO8601dateString,20,3)) ;
+	
+	return DateAdd("h", targetZoneOffset, CreateODBCDateTime(rawDatetime));
+
+}
+request.udf.DateConvertISO8601 = DateConvertISO8601;
+
+/**
+ * Returns the last index of an occurrence of a substring in a string from a specified starting position.
+ * Big update by Shawn Seley (shawnse@aol.com) -
+ * UDF was not accepting third arg for start pos 
+ * and was returning results off by one.
+ * Modified by RCamden, added var, fixed bug where if no match it return len of str
+ * 
+ * @param Substr 	 Substring to look for. 
+ * @param String 	 String to search. 
+ * @param SPos 	 Starting position. 
+ * @return Returns the last position where a match is found, or 0 if no match is found. 
+ * @author Charles Naumer (cmn@v-works.com) 
+ * @version 2, February 14, 2002 
+ */
+function RFind(substr,str) {
+  var rsubstr  = reverse(substr);
+  var rstr     = "";
+  var i        = len(str);
+  var rcnt     = 0;
+
+  if(arrayLen(arguments) gt 2 and arguments[3] gt 0 and arguments[3] lte len(str)) i = len(str) - arguments[3] + 1;
+
+  rstr = reverse(Right(str, i));
+  rcnt = find(rsubstr, rstr);
+
+  if(not rcnt) return 0;
+  return len(str)-rcnt-len(substr)+2;
+}
+request.udf.RFind = RFind;
 </cfscript>
 
 <cfsetting enablecfoutputonly=false>

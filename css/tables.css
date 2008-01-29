@@ -1,33 +1,40 @@
 /* LAYOUT */
-table.svn > caption { width:100%; padding:5px; }
-table.svn > thead th, table.svn > tbody td { padding:4px; }
 table.full { width:100%; }
 table.half { width:65%; margin-right:auto; margin-left:auto; }
 table.activity tbody td { padding:4px; text-align:left; }
-table.admin tr th, table.admin tr td { padding:4px 0; }
+table.admin tr th, table.admin tr td, table.svn tr th, table.svn tr td { padding:4px 0; }
+table.svn tr th:first-child, table.svn tr td:first-child { padding:4px 0 4px 5px; }
 table#milestone_cal tr th, table#milestone_cal tr td { padding:3px; vertical-align:top; }
 table#milestone_cal tr td ul.cal_ms li { padding-top:4px; }
 
 /* STYLE */
-table.admin caption { font-size:1.1em; font-weight: bold; margin-bottom:20px; }
-table.svn caption.plain { background:#eee; font-size:1.2em; color:#000; border:none; text-transform:none; }		  
-table.svn thead th { background:#F5F5F5; color:#666; text-transform:uppercase; font-weight:bold; }
-table.svn tr th, table.svn tr td { font-size:.9em; border:1px solid #ddd; padding:3px; }
-table.svn tfoot tr td { padding:3px 5px; background-color:#ddd; }
-table.svn tbody tr.even { background-color:#FFF; }
-table.admin tbody tr.odd { background: #f9f9f9;	border-top:1px solid #FFF; }
-table.svn a { text-decoration:none; }
+table.svn caption { font-size:1.2em; font-weight: bold; margin-bottom:10px; background-color:#ddd; padding:5px; }
+table.admin tfoot tr td, table.svn tfoot tr td { padding:3px 5px; background-color:#ddd; }
+table.admin tbody tr.odd, table.svn tbody tr.odd { background: #f9f9f9;	border-top:1px solid #FFF; }
+table.admin tr, table.svn tr { border-bottom:1px solid #ccc; }
+table.admin tr th, table.svn tr th { font-weight:bold; }
 table.activity caption { font-size:1.2em; font-weight:bold; background-color:#eee; padding:4px; }
 table.activity thead th { 
 	padding-right:4px; padding-top:4px;	padding-bottom:4px;
 	text-align:left; font-weight:bold; background-color:#f5f5f5; 
 }
-table.admin tr { border-bottom:1px solid #ccc; }
-table.admin tr th { font-weight:bold; }
-
 table.bug tr td.label { font-weight:bold; text-align:right; width:100px; padding-right:10px; }
 table.bug tr td { padding:3px; }
 table.bug tr td > p { margin:0;padding:0; }
+
+/* diff stuff */
+table.diff td, .diff th { vertical-align: top; padding:3px; }
+table.diff .linenum { font-size: 0.9em; background-color: #eee; border-left: 1px solid #ddd; border-right: 1px solid #ddd; text-align: right; color: #999; }
+table.diff th { background-color: #eee; border: 1px solid #ddd; border-left: none; }
+table.diff .top td, .diff .whole td { border-top: 2px solid #999; margin-top: 1em; }
+table.diff .bot td, .diff .whole td { border-bottom: 2px solid #999; margin-bottom: 1em; }
+table.diff .only td { border-top: none; border-bottom: none; margin-top: auto; margin-bottom: auto; }
+table.diff .ins { background-color: #dfd; }
+table.diff .del { background-color: #fdd; }
+table.diff .upd { background-color: #ddf; }
+table.diff .code { width: 50%; }
+table.diff .code div { overflow: hidden; }
+table.diff { font-family: 'Bitstream Vera Sans Mono', 'Bitstream Vera Mono', 'Vera Mono', 'Vera Sans Mono', 'Lucida Console', 'Lucida Typewriter', monospace, fixed-width, fixed; font-size: 0.85em; }
 
 table.permissions tr th, table.permissions tr td {
 	font-size:.80em; border:1px solid #ccc; padding:3px;
