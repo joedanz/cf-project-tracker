@@ -79,7 +79,7 @@
 					</div>
 					</cfloop>
 					
-					<cfif compare(project.role,'Read-Only')>
+					<cfif project.msgs eq 2>
 					<form action="#cgi.script_name#?p=#url.p#&m=#url.m#" method="post" name="add" id="add" class="frm" onsubmit="return confirm_comment();">
 					<div class="b">Post a new comment...</div>
 					<cfscript>
