@@ -1,5 +1,4 @@
 /* LAYOUT */
-table.svn { width:100%; }
 table.svn > caption { width:100%; padding:5px; }
 table.svn > thead th, table.svn > tbody td { padding:4px; }
 table.full { width:100%; }
@@ -10,14 +9,13 @@ table#milestone_cal tr th, table#milestone_cal tr td { padding:3px; vertical-ali
 table#milestone_cal tr td ul.cal_ms li { padding-top:4px; }
 
 /* STYLE */
-table.svn caption { background: #50ADEA url(../images/corner.gif) no-repeat right top;
-		  font-size:1.1em; font-weight: bold; border-bottom:2px solid #1975d7; 
-		  text-transform:uppercase; color:#fff; padding:5px; }
+table.admin caption { font-size:1.1em; font-weight: bold; margin-bottom:20px; }
 table.svn caption.plain { background:#eee; font-size:1.2em; color:#000; border:none; text-transform:none; }		  
 table.svn thead th { background:#F5F5F5; color:#666; text-transform:uppercase; font-weight:bold; }
-table.svn thead tr th, table.svn tbody tr td { font-size:.9em; border:1px solid #ddd; padding:3px; }
+table.svn tr th, table.svn tr td { font-size:.9em; border:1px solid #ddd; padding:3px; }
+table.svn tfoot tr td { padding:3px 5px; background-color:#ddd; }
 table.svn tbody tr.even { background-color:#FFF; }
-table.svn tbody tr.odd { background: #f9f9f9;	border-top:1px solid #FFF; }
+table.admin tbody tr.odd { background: #f9f9f9;	border-top:1px solid #FFF; }
 table.svn a { text-decoration:none; }
 table.activity caption { font-size:1.2em; font-weight:bold; background-color:#eee; padding:4px; }
 table.activity thead th { 

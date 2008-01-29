@@ -10,6 +10,9 @@
 <cfparam name="numRevisions" default="20">
 <cfparam name="url.p" default="">
 <cfparam name="url.wd" default="">
+<cfset numDirs = 0>
+<cfset numFiles = 0>
+<cfset totalFileSize = 0>
 <cfset project = application.project.get(session.user.userid,url.p)>
 
 <cfscript>
@@ -90,19 +93,19 @@ function RFind(substr,str) {
 		<cfset svn = createObject("component", "cfcs.SVNBrowser").init(project.svnurl,project.svnuser,project.svnpass)>
 		<cfset list = svn.list('/' & url.wd)>
 	
-		<table class="svn">
-		<caption>#project.svnurl##url.wd#</caption>
-		<thead><tr><th>Name</th><th>Size</th><th>Date Modified</th><th>Commit Revision</th><th>Author</th></tr></thead>
+		<table class="admin full">
+		<caption>#project.name#: <a href="#cgi.script_name#?p=#url.p#">root</a>&nbsp;<a href="#cgi.script_name#?p=#url.p#&wd=#url.wd#">#url.wd#</a></caption>
+		<thead><tr><th>Name</th><th>Size</th><th>Date Modified</th><th class="tac">Revision</th><th>Author</th></tr></thead>
 	
 		<tbody>
 		<cfset thisrow = 0>
 		<cfif compare(url.wd,'')>
 			<cfset lastdirmarker = RFind('/',url.wd)>
 			<cfif lastdirmarker lte 1><cfset pd = ""><cfelse><cfset pd = left(url.wd,lastdirmarker-1)></cfif>
-			<tr class="even">
+			<tr class="odd">
 				<td>
 				<img src="images/folder.gif" height="16" width="16" border="0" alt="Directory" />
-				<a href="#cgi.script_name#?p=#url.p#&act=browse&wd=#URLEncodedFormat(pd)#">..</a></td>
+				<a href="#cgi.script_name#?p=#url.p#&act=browse&wd=#URLEncodedFormat(pd)#" class="nounder">..</a></td>
 				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 		<cfset thisrow = thisrow + 1>			
@@ -110,51 +113,54 @@ function RFind(substr,str) {
 		<cfloop query="list">
 	
 			<cfif not compareNoCase(kind,'Dir')>
-			<tr class="<cfif thisRow mod 2 eq 1>odd<cfelse>even</cfif>">
+			<tr class="<cfif thisRow mod 2 eq 0>odd<cfelse>even</cfif>">
 				<td>
-				<a href="#cgi.script_name#?p=#url.p#&act=browse&wd=#URLEncodedFormat(url.wd & '/' & name)#">
+				<a href="#cgi.script_name#?p=#url.p#&act=browse&wd=#URLEncodedFormat(url.wd & '/' & name)#" class="nounder">
 				<img src="images/folder.gif" height="16" width="16" border="0" alt="Directory" />
 				#name#</a></td>
 				<td>-----</td>
 				<!---<cfset dt = DateConvertISO8601(list.date,-getTimeZoneInfo().utcHourOffset)>--->
-				<td>#DateFormat(date,"ddd mmm d 'yy")# @ #TimeFormat(date,"h:mmtt")#</td>
-				<td>#NumberFormat(revision)#</td>
+				<td>#DateFormat(date,"mm-dd-yyyy")# @ #TimeFormat(date,"HH:mm:ss")#</td>
+				<td class="tac">#NumberFormat(revision)#</td>
 				<td>#author#</td>
 			</tr>
 			<cfset thisrow = thisrow + 1>
-			
+			<cfset numDirs = numDirs + 1>
 			</cfif>
 		</cfloop>
 		<cfloop query="list">
 			<cfif not compareNoCase(kind,'File')>
 			
-			<tr class="<cfif thisRow mod 2 eq 1>odd<cfelse>even</cfif>">
+			<tr class="<cfif thisRow mod 2 eq 0>odd<cfelse>even</cfif>">
 				<td>
 				<cfif listFindNoCase('.cfm,.cfc',right(name,4))>
-					<a href="viewcode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(name)#&r=#revision#"><img src="images/file_cf.gif" height="16" width="16" border="0" alt="ColdFusion File" />
+					<a href="viewcode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(name)#&r=#revision#" class="nounder"><img src="images/file_cf.gif" height="16" width="16" border="0" alt="ColdFusion File" />
 				<cfelseif listFindNoCase('.htm,html',right(name,4))>
-					<a href="viewcode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(name)#&r=#revision#"><img src="images/file_htm.gif" height="16" width="16" border="0" alt="HTML File" />
+					<a href="viewcode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(name)#&r=#revision#" class="nounder"><img src="images/file_htm.gif" height="16" width="16" border="0" alt="HTML File" />
 				<cfelseif not compareNoCase(right(name,3),'.js')>
-					<a href="viewcode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(name)#&r=#revision#"><img src="images/file.gif" height="16" width="16" border="0" alt="Javascript File" />
+					<a href="viewcode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(name)#&r=#revision#" class="nounder"><img src="images/file.gif" height="16" width="16" border="0" alt="Javascript File" />
 				<cfelseif not compareNoCase(right(name,4),'.css')>
-					<a href="viewcode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(name)#&r=#revision#"><img src="images/file.gif" height="16" width="16" border="0" alt="CSS File" />
+					<a href="viewcode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(name)#&r=#revision#" class="nounder"><img src="images/file.gif" height="16" width="16" border="0" alt="CSS File" />
 				<cfelseif listFindNoCase('png,jpg,gif,exe,pdf,doc,rtf,xls,ppt',right(name,3))>
-					<a href="viewcode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(name)#&r=#revision#&dl=1"><img src="images/file.gif" height="16" width="16" border="0" alt="File" />
+					<a href="viewcode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(name)#&r=#revision#&dl=1" class="nounder"><img src="images/file.gif" height="16" width="16" border="0" alt="File" />
 				<cfelse>
-					<a href="viewcode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(name)#&r=#revision#"><img src="images/file.gif" height="16" width="16" border="0" alt="File" />
+					<a href="viewcode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(name)#&r=#revision#" class="nounder"><img src="images/file.gif" height="16" width="16" border="0" alt="File" />
 				</cfif>
 				#name#</a></td>
-				<td>#NumberFormat(size)#</td>
+				<td>#NumberFormat(size)# bytes</td>
 				<!---<cfset dt = DateConvertISO8601(date,-getTimeZoneInfo().utcHourOffset)>--->
-				<td>#DateFormat(date,"ddd mmm d 'yy")# @ #TimeFormat(date,"h:mmtt")#</td>
-				<td>#NumberFormat(revision)#</td>
+				<td>#DateFormat(date,"mm-dd-yyyy")# @ #TimeFormat(date,"hh:mm:ss")#</td>
+				<td class="tac">#NumberFormat(revision)#</td>
 				<td>#author#</td>
 			</tr>
 			<cfset thisrow = thisrow + 1>
+			<cfset numFiles = numFiles + 1>
+			<cfset totalFileSize = totalFileSize + size>
 			</cfif>
 		
 		</cfloop>	
 		</tbody>
+		<tfoot><tr><td colspan="5">#NumberFormat(totalFileSize)# bytes in <cfif numFiles gt 0>#numFiles# files</cfif><cfif numFiles gt 0 and numDirs gt 0> and </cfif><cfif numDirs gt 0> #numDirs# directories</cfif>.</tr></tfoot>
 		</table>
 	
 		<cfcatch>

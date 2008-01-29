@@ -44,7 +44,7 @@ fieldset { border:1px solid #666; }
 #notify, #files { background-color:#f5f5f5; }
 .notifybg { background-color:#f5f5f5; }
 
-a.sublink { text-decoration:none; }
+a.sublink, a.nounder { text-decoration:none; }
 a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 
 .error { background-color:#ffebe8; border:1px solid #96523b; }
