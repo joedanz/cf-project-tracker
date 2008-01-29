@@ -34,7 +34,7 @@
 		<div class="main">
 
 				<div class="header">
-					<cfif compare(project.role,'Read-Only')>
+					<cfif project.mstones eq 2>
 					<span class="rightmenu">
 						<a href="editMilestone.cfm?p=#url.p#&m=#url.m#" class="edit">Edit Milestone</a>
 					</span>
@@ -53,7 +53,7 @@
 							<div class="milestone">
 							<div class="date <cfif isDate(milestone.completed)>completed<cfelseif daysago gte 1>late<cfelse>upcoming</cfif>"><span class="b"><cfif daysago eq 0>Today<cfelseif daysago eq 1>Yesterday<cfelseif daysAgo gt 1>#daysago# days ago<cfelseif daysAgo eq -1>Tomorrow<cfelse>#Abs(daysago)# days away</cfif></span> (#DateFormat(dueDate,"dddd, d mmmm, yyyy")#)<cfif userid neq 0><span style="color:##666;"> - For #firstName# #lastName#</span></cfif></div>
 							<div id="m#milestoneid#" style="display:none;" class="markcomplete">Moving to <cfif not isDate(milestone.completed)>Completed<cfelseif DateDiff("d",dueDate,Now())>Late<cfelse>Upcoming</cfif> - just a second...</div>
-							<cfif not compare(project.role,'Read-Only')>
+							<cfif project.mstones eq 1>
 								<h3>#name#</h3>
 							<cfelse>
 								<h3><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&<cfif isDate(milestone.completed)>a<cfelse>c</cfif>=1&m=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;"<cfif isDate(milestone.completed)> checked="checked"</cfif> /> #name#</h3>

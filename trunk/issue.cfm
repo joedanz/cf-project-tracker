@@ -31,7 +31,7 @@
 		<div class="main">
 
 				<div class="header">
-				<cfif compare(project.role,'Read-Only')>
+				<cfif project.issues eq 2>
 				<span class="rightmenu">
 					<a href="editIssue.cfm?p=#url.p#&i=#url.i#" class="edit">Edit</a>
 					<cfif compare(issue.status,'Closed')>
@@ -137,7 +137,7 @@
 						</div>
 						</cfloop>						
 						
-						<cfif compare(project.role,'Read-Only')>
+						<cfif project.issues eq 2>
 						<form action="#cgi.script_name#?p=#url.p#&i=#url.i#" method="post" name="add" id="add" class="frm" onsubmit="return confirm_comment();">
 						<div class="b">Post a new comment...</div>
 						<cfscript>
