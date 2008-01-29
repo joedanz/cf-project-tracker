@@ -74,7 +74,7 @@
 				</cfif>
 			</cfif>
 			<cfif session.user.admin>
-			<li><a href="#application.settings.mapping#/admin/settings.cfm" title="Admin"<cfif find('/admin/',cgi.script_name)> class="current"</cfif>>Admin</a></li>
+			<li><a href="#application.settings.mapping#/admin/users.cfm" title="Admin"<cfif find('/admin/',cgi.script_name)> class="current"</cfif>>Admin</a></li>
 			</cfif>			
 		</ul>
 
@@ -97,7 +97,7 @@
 				<li><a href="#application.settings.mapping#/files.cfm?p=#attributes.projectid#" title="Files"<cfif find('/files.cfm',cgi.script_name)> class="current"</cfif>>Files</a></li>
 			</cfif>
 			<cfif userRole.svn gt 0 and compare(attributes.svnurl,'')>
-			<li><a href="#application.settings.mapping#/svn.cfm?p=#attributes.projectid#" title="SVN"<cfif find('/svn.cfm',cgi.script_name) or find('/viewcode.cfm',cgi.script_name)> class="current"</cfif>>SVN</a></li>
+			<li><a href="#application.settings.mapping#/svnBrowse.cfm?p=#attributes.projectid#" title="SVN"<cfif find('/svn',cgi.script_name)> class="current"</cfif>>SVN</a></li>
 			</cfif>
 			<cfelse>
 			<li><a href="#application.settings.mapping#/index.cfm" title="Dashboard across all your projects"<cfif find('#application.settings.mapping#/index.cfm',cgi.script_name)> class="current"</cfif>>Dashboard</a></li>
