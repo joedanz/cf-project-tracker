@@ -49,8 +49,13 @@
 		<cfargument name="messageID" type="string" required="false" default="">
 		<cfset var qGetNotifyList = "">
 		<cfquery name="qGetNotifyList" datasource="#variables.dsn#">
-			SELECT u.userID,u.firstName,u.lastName,u.email FROM #variables.tableprefix#message_notify m
+			SELECT u.userID,u.firstName,u.lastName,u.email,u.mobile,
+				u.email_files, u.mobile_files, u.email_issues, u.mobile_issues, u.email_msgs,
+				u.mobile_msgs, u.email_mstones, u.mobile_mstones, u.email_todos, u.mobile_todos,
+				c.carrier,c.prefix,c.suffix
+			FROM #variables.tableprefix#message_notify m
 				LEFT JOIN #variables.tableprefix#users u ON m.userID = u.userID
+				LEFT JOIN #variables.tableprefix#carriers c ON u.carrierID = c.carrierID
 			WHERE m.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				AND m.messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
 		</cfquery>

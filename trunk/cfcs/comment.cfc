@@ -49,9 +49,6 @@
 		<cfargument name="issueID" type="string" required="true">
 		<cfargument name="userID" type="uuid" required="true">
 		<cfargument name="comment" type="string" required="true">
-		<cfset var qProject = application.project.get(arguments.projectID)>
-		<cfset var qMessage = application.message.get(arguments.projectID,arguments.messageID)>
-		<cfset var qNotifyList = application.message.getNotifyList(arguments.projectID,arguments.messageID)>
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#comments (commentID,projectID,messageID,issueID,userID,comment,stamp)
 				VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.commentID#" maxlength="35">,
@@ -62,16 +59,7 @@
 						<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.comment#">,
 						#Now()#)
 		</cfquery>
-		<cfloop query="qNotifyList">
-			<cfmail from="#session.user.email#" to="#email#" subject="New #qProject.name# Comment on #qMessage.title#">A new #qProject.name# message has been posted on the message in #qMessage.category# entitled:
-#qMessage.title#
-
-#arguments.comment#
-
-To view the full message and leave comments, visit this link:
-#application.settings.rootURL##application.settings.mapping#/message.cfm?p=#arguments.projectID#&m=#arguments.messageID#
-				</cfmail>		
-		</cfloop>		
+		<cfset application.notify.messageComment(arguments.projectID,arguments.messageID,arguments.comment)>		
 		<cfreturn true>
 	</cffunction>		
 	

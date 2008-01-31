@@ -53,7 +53,7 @@
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT userID, firstName, lastName, username, email, phone, mobile, carrierID, lastLogin, 
-				avatar, style,  email_files, mobile_files, email_issues, mobile_issues, email_msgs,
+				avatar, style, email_files, mobile_files, email_issues, mobile_issues, email_msgs,
 				mobile_msgs, email_mstones, mobile_mstones,	email_todos, mobile_todos, admin, active
 			FROM #variables.tableprefix#users
 			WHERE 0=0

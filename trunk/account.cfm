@@ -14,44 +14,6 @@
 	<cfset session.user.email = form.email>
 	<cfset session.user.phone = form.phone>
 	<cfset session.user.mobile = form.mobile>
-<cfelseif StructKeyExists(form,"submit2")>
-	<cfif not compareNoCase(form.pass1,form.pass2)>
-		<cfset newPass = form.pass1>
-	<cfelse>		
-		<cfset newPass = "">
-	</cfif>
-	<cfset application.user.acctUpdate(session.user.userID,form.username,newPass)>
-	<cfset session.user.username = form.username>
-	<cfset whichTab = 2>
-<cfelseif StructKeyExists(form,"submitimage")>
-	<cfif application.isCF8> <!--- include prevents invalid tag error from on earlier versions --->
-		<cfinclude template="img_proc_acct_cf8.cfm">
-	<cfelseif application.isBD>
-		<cfinclude template="img_proc_acct_bd.cfm">
-	</cfif>
-	<cfset whichTab = 3>
-<cfelseif StructKeyExists(url,"rmvimg")>
-	<cftry>
-	<cffile action="delete" file="#ExpandPath('./images/avatars')#/#session.user.userid#_72.jpg">
-	<cffile action="delete" file="#ExpandPath('./images/avatars')#/#session.user.userid#_48.jpg">
-	<cffile action="delete" file="#ExpandPath('./images/avatars')#/#session.user.userid#_24.jpg">
-	<cffile action="delete" file="#ExpandPath('./images/avatars')#/#session.user.userid#_16.jpg">
-	<cfcatch></cfcatch>
-	</cftry>
-	<cfset application.user.setImage(session.user.userID,0)>
-	<cfset whichTab = 3>
-<cfelseif StructKeyExists(form,"style")>
-	<cfset session.style = form.style>
-	<cfset application.user.setStyle(session.user.userID,form.style)>
-	<cfset whichTab = 4>
-	<cfif not application.isCF8 and not application.isBD>
-		<cfset whichTab = whichTab - 1>
-	</cfif>
-<cfelseif StructKeyExists(url,"editStyle")>
-	<cfset whichTab = 4>
-	<cfif not application.isCF8 and not application.isBD>
-		<cfset whichTab = whichTab - 1>
-	</cfif>
 <cfelseif StructKeyExists(form,"notifysub")>
 	<cfparam name="form.email_files" default="0">
 	<cfparam name="form.mobile_files" default="0">
@@ -64,10 +26,48 @@
 	<cfparam name="form.email_todos" default="0">
 	<cfparam name="form.mobile_todos" default="0">
 	<cfset application.user.notifyUpdate(session.user.userid,form.email_files,form.mobile_files,form.email_issues,form.mobile_issues,form.email_msgs,form.mobile_msgs,form.email_mstones,form.mobile_mstones,form.email_todos,form.mobile_todos)>
+	<cfset whichTab = 2>	
+<cfelseif StructKeyExists(form,"submit2")>
+	<cfif not compareNoCase(form.pass1,form.pass2)>
+		<cfset newPass = form.pass1>
+	<cfelse>		
+		<cfset newPass = "">
+	</cfif>
+	<cfset application.user.acctUpdate(session.user.userID,form.username,newPass)>
+	<cfset session.user.username = form.username>
+	<cfset whichTab = 3>
+<cfelseif StructKeyExists(form,"submitimage")>
+	<cfif application.isCF8> <!--- include prevents invalid tag error from on earlier versions --->
+		<cfinclude template="img_proc_acct_cf8.cfm">
+	<cfelseif application.isBD>
+		<cfinclude template="img_proc_acct_bd.cfm">
+	</cfif>
+	<cfset whichTab = 4>
+<cfelseif StructKeyExists(url,"rmvimg")>
+	<cftry>
+	<cffile action="delete" file="#ExpandPath('./images/avatars')#/#session.user.userid#_72.jpg">
+	<cffile action="delete" file="#ExpandPath('./images/avatars')#/#session.user.userid#_48.jpg">
+	<cffile action="delete" file="#ExpandPath('./images/avatars')#/#session.user.userid#_24.jpg">
+	<cffile action="delete" file="#ExpandPath('./images/avatars')#/#session.user.userid#_16.jpg">
+	<cfcatch></cfcatch>
+	</cftry>
+	<cfset application.user.setImage(session.user.userID,0)>
+	<cfset whichTab = 4>
+	<cfif not application.isCF8 and not application.isBD>
+		<cfset whichTab = whichTab - 1>
+	</cfif>		
+<cfelseif StructKeyExists(form,"style")>
+	<cfset session.style = form.style>
+	<cfset application.user.setStyle(session.user.userID,form.style)>
 	<cfset whichTab = 5>
 	<cfif not application.isCF8 and not application.isBD>
 		<cfset whichTab = whichTab - 1>
-	</cfif>	
+	</cfif>
+<cfelseif StructKeyExists(url,"editStyle")>
+	<cfset whichTab = 5>
+	<cfif not application.isCF8 and not application.isBD>
+		<cfset whichTab = whichTab - 1>
+	</cfif>
 </cfif>
 
 <cfset user = application.user.get(session.user.userid)>
@@ -133,12 +133,12 @@
 		        <div id="container1">
 		            <ul>
 		                <li><a href="##user"><span>General Info</span></a></li>
+		                <li><a href="##notifications"><span>Notifications</span></a></li>
 						<li><a href="##account"><span>Account Info</span></a></li>
 		                <cfif application.isCF8 or application.isBD>
 							<li><a href="##avatar"><span>Avatar</span></a></li>
 						</cfif>
 		                <li><a href="##skin"><span>Style</span></a></li>
-		                <li><a href="##notifications"><span>Notifications</span></a></li>
 		            </ul>
 		            <div id="user">   
 						<form action="#cgi.script_name#" method="post" name="edit" class="frm">
@@ -180,6 +180,45 @@
 							<input type="submit" class="button" name="submit1" id="submit1" value="Update Account" onclick="return confirmSubmit1();" />				
 						</form>								
 		            </div>
+		            <div id="notifications">
+						<form action="#cgi.script_name#" method="post" name="edit" class="frm tac">
+							<table class="admin half mb15">
+							<tr><th>Action</th><th class="tac">Email</th><th class="tac">Mobile</th></tr>
+							<tr>
+								<td class="tal">New Files</td>
+								<td class="tac"><input type="checkbox" name="email_files" value="1"<cfif user.email_files> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_files" value="1"<cfif user.mobile_files> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
+							</tr>
+							<tr>
+								<td class="tal">New Issues</td>
+								<td class="tac"><input type="checkbox" name="email_issues" value="1"<cfif user.email_issues> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_issues" value="1"<cfif user.mobile_issues> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
+							</tr>
+							<tr>
+								<td class="tal">New Messages</td>
+								<td class="tac"><input type="checkbox" name="email_msgs" value="1"<cfif user.email_msgs> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_msgs" value="1"<cfif user.mobile_msgs> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
+							</tr>
+							<tr>
+								<td class="tal">New Milestones</td>
+								<td class="tac"><input type="checkbox" name="email_mstones" value="1"<cfif user.email_mstones> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_mstones" value="1"<cfif user.mobile_mstones> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
+							</tr>
+							<tr>
+								<td class="tal">New To-Dos</td>
+								<td class="tac"><input type="checkbox" name="email_todos" value="1"<cfif user.email_todos> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_todos" value="1"<cfif user.mobile_todos> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
+							</tr>
+							</table>
+												
+							<input type="submit" class="button" name="notifysub" id="submit5" value="Update Notifications" />
+							
+							<cfif not isNumeric(user.mobile)>
+								<h6 class="b r i mt20">Note: You must have a valid mobile number to enable Mobile Notifications.</h6>
+							</cfif>
+
+						</form>
+					</div>		            
 		            <div id="account">            
 						<form action="#cgi.script_name#" method="post" name="editacct" class="frm">
 							<p>
@@ -234,45 +273,6 @@
 							<input type="submit" class="button" name="skinsub" id="submit4" value="Set Style" />				
 						</form>
 		            </div>
-		            <div id="notifications">
-						<form action="#cgi.script_name#" method="post" name="edit" class="frm tac">
-							<table class="admin half mb15">
-							<tr><th>Action</th><th class="tac">Email</th><th class="tac">Mobile</th></tr>
-							<tr>
-								<td class="tal">New Files</td>
-								<td class="tac"><input type="checkbox" name="email_files" value="1"<cfif user.email_files> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_files" value="1"<cfif user.mobile_files> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
-							</tr>
-							<tr>
-								<td class="tal">New Issues</td>
-								<td class="tac"><input type="checkbox" name="email_issues" value="1"<cfif user.email_issues> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_issues" value="1"<cfif user.mobile_issues> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
-							</tr>
-							<tr>
-								<td class="tal">New Messages</td>
-								<td class="tac"><input type="checkbox" name="email_msgs" value="1"<cfif user.email_msgs> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_msgs" value="1"<cfif user.mobile_msgs> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
-							</tr>
-							<tr>
-								<td class="tal">New Milestones</td>
-								<td class="tac"><input type="checkbox" name="email_mstones" value="1"<cfif user.email_mstones> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_mstones" value="1"<cfif user.mobile_mstones> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
-							</tr>
-							<tr>
-								<td class="tal">New To-Dos</td>
-								<td class="tac"><input type="checkbox" name="email_todos" value="1"<cfif user.email_todos> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_todos" value="1"<cfif user.mobile_todos> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
-							</tr>
-							</table>
-												
-							<input type="submit" class="button" name="notifysub" id="submit5" value="Update Notifications" />
-							
-							<cfif not isNumeric(user.mobile)>
-								<h6 class="b r i mt20">Note: You must have a valid mobile number to enable Mobile Notifications.</h6>
-							</cfif>
-
-						</form>
-					</div>
 		        </div>							
 
 			</div>
