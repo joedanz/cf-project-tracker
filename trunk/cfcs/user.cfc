@@ -2,50 +2,7 @@
 
 	<cfset variables.dsn = "">
 	<cfset variables.tableprefix = "">
-	
-	<cfscript>
-	/**
-	 * Generates an 8-character random password free of annoying similar-looking characters such as 1 or l.
-	 * 
-	 * @return Returns a string. 
-	 * @author Alan McCollough (amccollough@anmc.org) 
-	 * @version 1, December 18, 2001 
-	 */
-	function MakePassword()
-	{      
-	  var valid_password = 0;
-	  var loopindex = 0;
-	  var this_char = "";
-	  var seed = "";
-	  var new_password = "";
-	  var new_password_seed = "";
-	  while (valid_password eq 0){
-	    new_password = "";
-	    new_password_seed = CreateUUID();
-	    for(loopindex=20; loopindex LT 35; loopindex = loopindex + 2){
-	      this_char = inputbasen(mid(new_password_seed, loopindex,2),16);
-	      seed = int(inputbasen(mid(new_password_seed,loopindex/2-9,1),16) mod 3)+1;
-	      switch(seed){
-	        case "1": {
-	          new_password = new_password & chr(int((this_char mod 9) + 48));
-	          break;
-	        }
-		case "2": {
-	          new_password = new_password & chr(int((this_char mod 26) + 65));
-	          break;
-	        }
-	        case "3": {
-	          new_password = new_password & chr(int((this_char mod 26) + 97));
-	          break;
-	        }
-	      } //end switch
-	    }
-	    valid_password = iif(refind("(O|o|0|i|l|1|I|5|S)",new_password) gt 0,0,1);	
-	  }
-	  return new_password;
-	}
-	</cfscript>
-	
+
 	<cffunction name="init" access="public" returntype="user" output="false"
 				hint="Returns an instance of the CFC initialized with the correct DSN & table prefix.">
 		<cfargument name="settings" type="struct" required="true" hint="Settings">
@@ -121,6 +78,8 @@
 		<cfargument name="lastName" type="string" required="true">
 		<cfargument name="email" type="string" required="true">
 		<cfargument name="phone" type="string" required="true">
+		<cfargument name="username" type="string" required="true">
+		<cfargument name="password" type="string" required="true">
 		<cfargument name="admin" type="numeric" required="true">
 		<cfargument name="active" type="numeric" required="false" default="1">
 		<cfset var newUsername = left(lcase(ARGUMENTS.firstName),1) & lcase(ARGUMENTS.lastName)>
@@ -138,15 +97,16 @@
 			</cfif>
 		</cfloop>
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, avatar, style, email_todos, mobile_todos, email_mstones, mobile_mstones, email_issues, mobile_issues, admin, active)
+			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, avatar, style, email_files, mobile_files, email_issues, mobile_issues, email_msgs, mobile_msgs, email_mstones, mobile_mstones, email_todos, mobile_todos, admin, active)
 				VALUES(<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.firstName#" maxlength="12">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.lastName#" maxlength="20">, 
-						'#newUsername#', '#newPass#',
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#" maxlength="30">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.password#" maxlength="20">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" maxlength="120">, 
 						0,
 						'#application.settings.default_style#',
-						0,0,0,0,0,0,
+						1,1,1,1,1,1,1,1,1,1,
 						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.admin#">, 
 						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.active#">		
 						)

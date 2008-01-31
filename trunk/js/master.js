@@ -99,7 +99,7 @@ function add_new(pid) {
     $.ajax({
 		type: 'post',
 		url: './ajax/proj_users.cfm',
-		data: 'addnew=1&p=' + pid + '&f=' + $('#fname').val() + '&l=' + $('#lname').val() + '&p=' + $('#phone').val() + '&adm=' + $('#admin').val() + '&e=' + $('#email').val() + '&a=' + $('#a_new:checked').val() + '&f=' + $('#f_new').val() + '&i=' + $('#i_new').val() + '&m=' + $('#m_new').val() + '&ms=' + $('#ms_new').val() + '&t=' + $('#t_new').val() + '&s=' + $('#s_new:checked').val(),
+		data: 'addnew=1&p=' + pid + '&fn=' + $('#fname').val() + '&ln=' + $('#lname').val() + '&ph=' + $('#phone').val() + '&un=' + $('#username').val() + '&pw=' + $('#password').val() + '&adm=' + $('#admin').val() + '&e=' + $('#email').val() + '&a=' + $('#a_new:checked').val() + '&f=' + $('#f_new').val() + '&i=' + $('#i_new').val() + '&m=' + $('#m_new').val() + '&ms=' + $('#ms_new').val() + '&t=' + $('#t_new').val() + '&s=' + $('#s_new:checked').val(),
 		success: function(txt){
 	     $('#replace').html(txt);
 		}
