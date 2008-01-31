@@ -152,6 +152,26 @@ function MakePassword()
   return new_password;
 }
 request.udf.MakePassword = MakePassword;
+
+/**
+ * Returns the last index of an occurrence of a substring in a string from a specified starting position.
+ * Big update by Shawn Seley (shawnse@aol.com) -
+ * UDF was not accepting third arg for start pos 
+ * and was returning results off by one.
+ * Modified by RCamden, added var, fixed bug where if no match it return len of str
+ * 
+ * @param Substr 	 Substring to look for. 
+ * @param String 	 String to search. 
+ * @param SPos 	 Starting position. 
+ * @return Returns the last position where a match is found, or 0 if no match is found. 
+ * @author Charles Naumer (cmn@v-works.com) 
+ * @version 2, February 14, 2002 
+ */
+function CleanText(str) {
+  var cleaned = replace(ReReplace(str, "<[^>]*>", "", "all"), "&nbsp;", " ", "all");
+  return cleaned;
+}
+request.udf.CleanText = CleanText;
 </cfscript>
 
 <cfsetting enablecfoutputonly=false>
