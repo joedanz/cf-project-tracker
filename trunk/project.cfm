@@ -186,7 +186,7 @@ $(document).ready(function(){
 					<tbody>
 						<cfset thisRow = 1>
 						<cfloop query="issues">
-						<tr class="<cfif thisRow mod 2>even<cfelse>odd</cfif>">
+						<tr class="<cfif thisRow mod 2 eq 0>even<cfelse>odd</cfif>">
 							<td><a href="issue.cfm?p=#url.p#&i=#issueID#">#shortID#</a></td>
 							<td>#type#</td>
 							<td>#severity#</td>

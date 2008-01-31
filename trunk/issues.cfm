@@ -3,7 +3,7 @@
 <cfparam name="url.p" default="">
 <cfparam name="form.type" default="">
 <cfparam name="form.severity" default="">
-<cfparam name="form.status" default="">
+<cfparam name="form.status" default="Open">
 <cfparam name="form.assignedTo" default="">
 <cfparam name="form.milestone" default="">
 
@@ -101,7 +101,9 @@ $(document).ready(function(){
 						 </cfif>
 						 
 						<cfif issues.recordCount>
-					 	<table class="svn" id="issues">
+					 	<div style="border:1px solid ##ddd;" class="mb20">
+					 	<table class="activity full" id="issues">
+						<caption class="plain">#form.status# Issues</caption>
 						<thead>
 							<tr>
 								<th>ID</th>
@@ -115,8 +117,9 @@ $(document).ready(function(){
 							</tr>
 						</thead>
 						<tbody>
+						<cfset thisRow = 1>
 						<cfloop query="issues">
-						<tr>
+						<tr class="<cfif thisRow mod 2 eq 0>even<cfelse>odd</cfif>">
 							<td><a href="issue.cfm?p=#url.p#&i=#issueID#">#shortID#</a></td>
 							<td>#issue#</td>
 							<td>#type#</td>
@@ -126,9 +129,11 @@ $(document).ready(function(){
 							<td>#DateFormat(created,"mmm d")#</td>
 							<td>#DateFormat(updated,"mmm d")#</td>
 						</tr>
+						<cfset thisRow = thisRow + 1>
 						</cfloop>
 						</tbody>
 						</table>
+						</div>
 						<cfelse>
 							<div class="warn">No issues <cfif compare(form.type,'') or compare(form.severity,'') or compare(form.status,'') or compare(form.assignedTo,'') or compare(form.milestone,'')>match your query<cfelse>have been submitted</cfif>.</div>
 						</cfif>
