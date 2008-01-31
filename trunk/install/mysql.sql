@@ -216,6 +216,7 @@ CREATE TABLE `pt_todos` (
   `task` text default NULL,
   `rank` int(3) default NULL,
   `added` datetime default NULL,
+  `due` datetime default NULL,
   `completed` datetime default NULL,
   `svnrevision` int(6) default NULL,
   PRIMARY KEY  (`todoID`)
