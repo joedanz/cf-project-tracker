@@ -63,7 +63,6 @@
 						#Now()#)
 		</cfquery>
 		<cfloop query="qNotifyList">
-			<cfset application.notify.messageComment()>
 			<cfmail from="#session.user.email#" to="#email#" subject="New #qProject.name# Comment on #qMessage.title#">A new #qProject.name# message has been posted on the message in #qMessage.category# entitled:
 #qMessage.title#
 
