@@ -308,6 +308,8 @@ ALTER TABLE [dbo].[pt_todos] ALTER COLUMN [userID] [char] (35) COLLATE SQL_Latin
 GO
 ALTER TABLE [dbo].[pt_todos] ALTER COLUMN [task] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 GO
+ALTER TABLE [dbo].[pt_todos] ADD [due] [datetime] NULL
+GO
 ALTER TABLE [dbo].[pt_todos] WITH NOCHECK ADD 
 	CONSTRAINT [PK_pt_todos] PRIMARY KEY  CLUSTERED 
 	(

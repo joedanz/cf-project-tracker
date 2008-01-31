@@ -143,6 +143,7 @@ ALTER TABLE `pt_todos` MODIFY `todolistID` char(35) NOT NULL;
 ALTER TABLE `pt_todos` MODIFY `projectID` char(35) NOT NULL;
 ALTER TABLE `pt_todos` MODIFY `userID` char(35) NOT NULL;
 ALTER TABLE `pt_todos` MODIFY `task` text default NULL;
+ALTER TABLE `pt_todos` ADD `due` datetime default NULL;
 
 /* pt_users */
 ALTER TABLE `pt_users` MODIFY `userID` char(35) NOT NULL;
