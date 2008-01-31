@@ -171,7 +171,7 @@ $(document).ready(function(){
 				
 				<cfif project.issues gt 0 and issues.recordCount>
 					<div style="border:1px solid ##ddd;" class="mb20">
-					<table class="svn full" id="issues">
+					<table class="activity full" id="issues">
 					<caption class="plain">Open Issues</caption>
 					<thead>
 						<tr>
@@ -184,15 +184,17 @@ $(document).ready(function(){
 						</tr>
 					</thead>
 					<tbody>
+						<cfset thisRow = 1>
 						<cfloop query="issues">
-						<tr>
-							<td><a href="issue.cfm?p=#url.p#&i=#issueID#" class="nounder">#shortID#</a></td>
+						<tr class="<cfif thisRow mod 2>even<cfelse>odd</cfif>">
+							<td><a href="issue.cfm?p=#url.p#&i=#issueID#">#shortID#</a></td>
 							<td>#type#</td>
 							<td>#severity#</td>
 							<td>#issue#</td>
 							<td>#assignedFirstName# #assignedLastName#</td>
 							<td>#DateFormat(created,"d mmm")#</td>			
 						</tr>
+						<cfset thisRow = thisRow + 1>
 						</cfloop>
 					</tbody>
 					</table>

@@ -1,11 +1,3 @@
-/* STYLE */
-table.svn caption.plain { background:#eee; font-size:1.2em; color:#000; border:none; text-transform:none; }		  
-table.svn thead th { background:#F5F5F5; color:#666; text-transform:uppercase; font-weight:bold; }
-table.svn tr th, table.svn tr td { font-size:.9em; border:1px solid #ddd; padding:3px; }
-table.svn tfoot tr td { padding:3px 5px; background-color:#ddd; }
-table tbody tr.even { background-color:#fff; }
-table tbody tr.odd { background-color:#fafafa; }
-
 /* LAYOUT */
 table.full { width:100%; }
 table.half { width:65%; margin-right:auto; margin-left:auto; }
@@ -16,6 +8,9 @@ table#milestone_cal tr th, table#milestone_cal tr td { padding:3px; vertical-ali
 table#milestone_cal tr td ul.cal_ms li { padding-top:4px; }
 
 /* STYLE */
+table tbody tr.even { background-color:#fff; }
+table tbody tr.odd { background-color:#fafafa; }
+table caption.plain { background:#eee; font-size:1.2em; font-weight:bold; color:#000; border:none; text-transform:none; }
 table.svn caption { font-size:1.2em; font-weight: bold; margin-bottom:10px; background-color:#ddd; padding:5px; }
 table.admin tfoot tr td, table.svn tfoot tr td { padding:3px 5px; background-color:#ddd; }
 table.admin tbody tr.odd, table.svn tbody tr.odd { background: #f9f9f9;	border-top:1px solid #FFF; }

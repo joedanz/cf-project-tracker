@@ -173,7 +173,7 @@ $(document).ready(function(){
 
 				 	<cfif issues.recordCount>
 					<div style="border:1px solid ##ddd;" class="mb20">
-				 	<table class="svn full" id="issues">
+				 	<table class="activity full" id="issues">
 					<caption class="plain">Open Issues</caption>	 	
 					<thead>
 						<tr>
@@ -188,8 +188,9 @@ $(document).ready(function(){
 						</tr>
 					</thead>
 					<tbody>
+					<cfset thisRow = 1>
 					<cfloop query="issues">
-					<tr>
+					<tr class="<cfif thisRow mod 2>even<cfelse>odd</cfif>">
 						<td><a href="issue.cfm?p=#projectID#&i=#issueID#">#shortID#</a></td>
 						<td>#name#</td>
 						<td>#issue#</td>
@@ -199,6 +200,7 @@ $(document).ready(function(){
 						<td>#DateFormat(created,"d mmm")#</td>
 						<td>#DateFormat(updated,"d mmm")#</td>
 					</tr>
+					<cfset thisRow = thisRow + 1>
 					</cfloop>
 					</tbody>
 					</table>
@@ -213,7 +215,7 @@ $(document).ready(function(){
 					</div>
 					<table class="activity full" id="activity">
 						<thead>
-							<tr class="<cfif thisRow mod 2>even<cfelse>odd</cfif>">
+							<tr>
 								<th>Project</th>
 								<th>Type</th>
 								<th>Date</th>
@@ -227,7 +229,7 @@ $(document).ready(function(){
 						<cfset thisRow = 1>
 						<cfloop query="activity">
 							<cfif not ((not compareNoCase(type,'issue') and issues eq 0) or (not compareNoCase(type,'message') and msgs eq 0) or (not compareNoCase(type,'milestone') and mstones eq 0) or (not compareNoCase(type,'to-do list') and todos eq 0) or (not compareNoCase(type,'file') and files eq 0))>
-							<tr>
+							<tr class="<cfif thisRow mod 2>even<cfelse>odd</cfif>">
 								<td><a href="project.cfm?p=#projectID#" title="#projectName#">#projectName#</a></td>
 								<td><div class="catbox
 								<cfswitch expression="#type#">
