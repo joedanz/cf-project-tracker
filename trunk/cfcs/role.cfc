@@ -31,14 +31,14 @@
 				hint="Sets user role.">
 		<cfargument name="projectID" type="uuid" required="true">		
 		<cfargument name="userID" type="uuid" required="true">
-		<cfargument name="admin" type="numeric" required="true">
+		<cfargument name="admin" type="string" required="true">
 		<cfargument name="files" type="numeric" required="true">
 		<cfargument name="issues" type="numeric" required="true">
 		<cfargument name="msgs" type="numeric" required="true">
 		<cfargument name="mstones" type="numeric" required="true">
 		<cfargument name="todos" type="numeric" required="true">
-		<cfargument name="svn" type="numeric" required="true">
-		<cfif arguments.admin>
+		<cfargument name="svn" type="string" required="true">
+		<cfif isNumeric(arguments.admin) and arguments.admin>
 			<cfset arguments.files = 2>
 			<cfset arguments.issues = 2>
 			<cfset arguments.msgs = 2>
@@ -50,13 +50,13 @@
 			INSERT INTO #variables.tableprefix#project_users (projectID,userID,admin,files,issues,msgs,mstones,todos,svn)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
-					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.admin#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#IIF(isNumeric(arguments.admin),arguments.admin,'0')#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.files#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.issues#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.msgs#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mstones#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.todos#">,
-					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.svn#">)
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#IIF(isNumeric(arguments.svn),arguments.svn,'0')#">)
 		</cfquery>
 		<cfreturn true>
 	</cffunction>
