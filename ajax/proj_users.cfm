@@ -5,11 +5,16 @@
 	<cfset thread = CreateObject("java", "java.lang.Thread")>
 	<cfset thread.sleep(250)>	
 <cfelseif StructKeyExists(form,"addnew")>
-	<cfset newID = createUUID()>
-	<cfset application.user.create(newID,form.f,form.l,form.e,form.p,form.adm)>
-	<cfset application.role.add(form.p,newID,form.a,form.f,form.i,form.m,form.ms,form.t,form.s)>
-	<cfset thread = CreateObject("java", "java.lang.Thread")>
-	<cfset thread.sleep(250)>
+	<cfset userExists = application.user.get('','',form.un)>
+	<cfif userExists.recordCount>
+		<cfset error = "Username already exists!">
+	<cfelse>
+		<cfset newID = createUUID()>
+		<cfset application.user.create(newID,form.fn,form.ln,form.e,form.ph,form.un,form.pw,form.adm)>
+		<cfset application.role.add(form.p,newID,form.a,form.f,form.i,form.m,form.ms,form.t,form.s)>
+		<cfset thread = CreateObject("java", "java.lang.Thread")>
+		<cfset thread.sleep(250)>
+	</cfif>
 	<cfset url.p = form.p>
 <cfelseif StructKeyExists(url,"d")>
 	<cfset application.role.remove(url.p,url.d)>
@@ -22,6 +27,11 @@
 <cfset userRole = application.role.get(session.user.userid,url.p)>
 
 <cfoutput>
+	<cfif StructKeyExists(variables,"error")>
+		<script type="text/javascript">
+			alert('Username already exists - please try another!');
+		</script>
+	</cfif>
 	<cfloop query="projectUsers">
 	<div class="user<cfif currentRow neq recordCount> listitem</cfif>" id="#userID#">
 
