@@ -1,3 +1,11 @@
+/* STYLE */
+table.svn caption.plain { background:#eee; font-size:1.2em; color:#000; border:none; text-transform:none; }		  
+table.svn thead th { background:#F5F5F5; color:#666; text-transform:uppercase; font-weight:bold; }
+table.svn tr th, table.svn tr td { font-size:.9em; border:1px solid #ddd; padding:3px; }
+table.svn tfoot tr td { padding:3px 5px; background-color:#ddd; }
+table tbody tr.even { background-color:#fff; }
+table tbody tr.odd { background-color:#fafafa; }
+
 /* LAYOUT */
 table.full { width:100%; }
 table.half { width:65%; margin-right:auto; margin-left:auto; }

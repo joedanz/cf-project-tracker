@@ -173,7 +173,7 @@ $(document).ready(function(){
 
 				 	<cfif issues.recordCount>
 					<div style="border:1px solid ##ddd;" class="mb20">
-				 	<table class="svn" id="issues">
+				 	<table class="svn full" id="issues">
 					<caption class="plain">Open Issues</caption>	 	
 					<thead>
 						<tr>
@@ -213,7 +213,7 @@ $(document).ready(function(){
 					</div>
 					<table class="activity full" id="activity">
 						<thead>
-							<tr>
+							<tr class="<cfif thisRow mod 2>even<cfelse>odd</cfif>">
 								<th>Project</th>
 								<th>Type</th>
 								<th>Date</th>
@@ -223,6 +223,8 @@ $(document).ready(function(){
 							</tr>
 						</thead>
 						<tbody>
+							
+						<cfset thisRow = 1>
 						<cfloop query="activity">
 							<cfif not ((not compareNoCase(type,'issue') and issues eq 0) or (not compareNoCase(type,'message') and msgs eq 0) or (not compareNoCase(type,'milestone') and mstones eq 0) or (not compareNoCase(type,'to-do list') and todos eq 0) or (not compareNoCase(type,'file') and files eq 0))>
 							<tr>
@@ -252,6 +254,7 @@ $(document).ready(function(){
 							<td class="g">#activity# by</td>
 							<td>#firstName# #lastName#</td>
 							</tr>
+							<cfset thisRow = thisRow + 1>
 							</cfif>
 						</cfloop>
 						</tbody>

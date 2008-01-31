@@ -170,7 +170,8 @@ $(document).ready(function(){
 				</cfif>
 				
 				<cfif project.issues gt 0 and issues.recordCount>
-					<table class="svn mb20" id="issues">
+					<div style="border:1px solid ##ddd;" class="mb20">
+					<table class="svn full" id="issues">
 					<caption class="plain">Open Issues</caption>
 					<thead>
 						<tr>
@@ -185,7 +186,7 @@ $(document).ready(function(){
 					<tbody>
 						<cfloop query="issues">
 						<tr>
-							<td><a href="issue.cfm?p=#url.p#&i=#issueID#">#shortID#</a></td>
+							<td><a href="issue.cfm?p=#url.p#&i=#issueID#" class="nounder">#shortID#</a></td>
 							<td>#type#</td>
 							<td>#severity#</td>
 							<td>#issue#</td>
@@ -195,6 +196,7 @@ $(document).ready(function(){
 						</cfloop>
 					</tbody>
 					</table>
+					</div>
 				</cfif>
 				
 				<cfif activity.recordCount>
@@ -243,9 +245,9 @@ $(document).ready(function(){
 						<td class="g">#activity# by</td>
 						<td>#firstName# #lastName#</td>
 						</tr>
+						<cfset thisRow = thisRow + 1>
 						</cfif>
 						
-						<cfset thisRow = thisRow + 1>
 					</cfloop>
 					</tbody>
 				</table>
