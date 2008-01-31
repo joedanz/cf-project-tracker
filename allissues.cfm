@@ -3,7 +3,7 @@
 <cfparam name="form.projectIDfilter" default="">
 <cfparam name="form.type" default="">
 <cfparam name="form.severity" default="">
-<cfparam name="form.status" default="">
+<cfparam name="form.status" default="Open">
 <cfparam name="form.assignedTo" default="">
 
 <cfset projects = application.project.get(session.user.userid)>
@@ -94,7 +94,9 @@
 						 </div>	
 
 					 	<cfif issues.recordCount>
-					 	<table class="svn">
+					 	<div style="border:1px solid ##ddd;" class="mb20">
+					 	<table class="activity full" id="issues">
+						<caption class="plain">#form.status# Issues</caption>
 						<thead>
 							<tr>
 								<th>ID</th>
@@ -108,8 +110,9 @@
 							</tr>
 						</thead>
 						<tbody>
+						<cfset thisRow = 1>
 						<cfloop query="issues">
-						<tr>
+						<tr class="<cfif thisRow mod 2 eq 0>even<cfelse>odd</cfif>">
 							<td><a href="issue.cfm?p=#projectID#&i=#issueID#">#shortID#</a></td>
 							<td><a href="project.cfm?p=#projectID#">#name#</a></td>
 							<td>#issue#</td>
@@ -119,9 +122,11 @@
 							<td>#DateFormat(created,"d mmm")#</td>
 							<td>#DateFormat(updated,"d mmm")#</td>
 						</tr>
+						<cfset thisRow = thisRow + 1>
 						</cfloop>
 						</tbody>
 						</table>
+						</div>
 						<cfelse>
 							<div class="warn">No issues have been submitted.</div>
 						</cfif>					 	
