@@ -39,9 +39,8 @@ table.diff { font-family: 'Bitstream Vera Sans Mono', 'Bitstream Vera Mono', 'Ve
 table.permissions tr th, table.permissions tr td {
 	font-size:.80em; border:1px solid #ccc; padding:3px;
 }
-table.permissions tr th {
-	background-color:#eee;
-}
+table.permissions tr th { background-color:#eee; text-align:center; }
+table.permissions tr td { background-color:#fff; text-align:center; }
 
 table#milestone_cal { background:#e0e0e0; border-collapse:separate;	border-spacing:1px; }
 table#milestone_cal tr th, table#milestone_cal tr td { font-family:Verdana, Arial, sans-serif; font-size:80%; }

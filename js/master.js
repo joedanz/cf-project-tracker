@@ -86,7 +86,7 @@ function add_existing(pid) {
     $.ajax({
 		type: 'get',
 		url: './ajax/proj_users.cfm',
-		data: 'p=' + pid + '&a=' + $('#userID').val() + '&r=' + $('#role').val(),
+		data: 'p=' + pid + '&e=' + $('#userID').val() + '&a=' + $('#a_existing:checked').val() + '&f=' + $('#f_existing').val() + '&i=' + $('#i_existing').val() + '&m=' + $('#m_existing').val() + '&ms=' + $('#ms_existing').val() + '&t=' + $('#t_existing').val() + '&s=' + $('#s_existing:checked').val(),
 		success: function(txt){
 	     $('#replace').html(txt);
 		}
@@ -99,7 +99,7 @@ function add_new(pid) {
     $.ajax({
 		type: 'post',
 		url: './ajax/proj_users.cfm',
-		data: 'addnew=1&p=' + pid + '&f=' + $('#fname').val() + '&l=' + $('#lname').val() + '&e=' + $('#email').val() + '&r=' + $('#newrole').val() + '&admin=' + $('#admin').val(),
+		data: 'addnew=1&p=' + pid + '&f=' + $('#fname').val() + '&l=' + $('#lname').val() + '&p=' + $('#phone').val() + '&adm=' + $('#admin').val() + '&e=' + $('#email').val() + '&a=' + $('#a_new:checked').val() + '&f=' + $('#f_new').val() + '&i=' + $('#i_new').val() + '&m=' + $('#m_new').val() + '&ms=' + $('#ms_new').val() + '&t=' + $('#t_new').val() + '&s=' + $('#s_new:checked').val(),
 		success: function(txt){
 	     $('#replace').html(txt);
 		}

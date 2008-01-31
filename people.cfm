@@ -44,70 +44,154 @@
 
 				<div id="existing"<cfif not people.recordCount> style="display:none;"</cfif>>
 				<fieldset>
-					<legend class="b">Add an existing person:</legend>
+					<legend class="b">Add an existing person to this project:</legend>
 				<select name="userID" id="userID">
 				<cfloop query="people">
 					<option value="#userID#"><cfif compare(lastName,'')>#lastName#, </cfif>#firstName#</option>
 				</cfloop>
 				</select>
-				with a project role of
-				<select name="role" id="role">
-					<option value="User">User</option>
-					<option value="Admin">Admin</option>
-					<option value="Read-Only">Read-Only</option>
-				</select>
-				<input type="button" class="button2" name="add" value="Add Person" onclick="add_existing('#url.p#');return false;" /> or 
-				<a href="##" onclick="$('##slidediv').slideUp(1000);return false;">cancel</a><br />
+				with the following permissions:
+				<table class="full mt5 permissions">
+				<tr>
+					<th>Admin</th>
+					<th>Files</th>
+					<th>Issues</th>
+					<th>Messages</th>
+					<th>Milestones</th>
+					<th>To-Dos</th>
+					<th>SVN</th>
+					<th rowspan="2"><input type="button" value="Add" class="button" onclick="add_existing('#url.p#');return false;" /> or <a href="##" onclick="$('##slidediv').slideUp(1000);return false;">cancel</a></th>
+				</tr>
+				<tr>
+					<td><input type="checkbox" name="admin" id="a_existing" value="1" class="cb" /></td>
+					<td>
+						<select name="files" onchange="if (this.selectedIndex > 0) $('##a_existing').attr('checked','');" id="f_existing">
+							<option value="2">Full Access</option>
+							<option value="1">Read-Only</option>
+							<option value="0">None</option>
+						</select>
+					</td>
+					<td>
+						<select name="issues" onchange="if (this.selectedIndex > 0) $('##a_existing').attr('checked','');" id="i_existing">
+							<option value="2">Full Access</option>
+							<option value="1">Read-Only</option>
+							<option value="0">None</option>
+						</select>							
+					</td>
+					<td>
+						<select name="msgs" onchange="if (this.selectedIndex > 0) $('##a_existing').attr('checked','');" id="m_existing">
+							<option value="2">Full Access</option>
+							<option value="1">Read-Only</option>
+							<option value="0">None</option>
+						</select>							
+					</td>
+					<td>
+						<select name="mstones" onchange="if (this.selectedIndex > 0) $('##a_existing').attr('checked','');" id="ms_existing">
+							<option value="2">Full Access</option>
+							<option value="1">Read-Only</option>
+							<option value="0">None</option>
+						</select>							
+					</td>
+					<td>
+						<select name="todos" onchange="if (this.selectedIndex > 0) $('##a_existing').attr('checked','');" id="t_existing">
+							<option value="2">Full Access</option>
+							<option value="1">Read-Only</option>
+							<option value="0">None</option>
+						</select>							
+					</td>
+					<td><input type="checkbox" name="svn" id="s_existing" value="1" class="cb" onchange="if (this.checked == false) $('##a_existing').attr('checked','');" checked="checked" /></td>
+				</tr>
+				</table>
 				</fieldset>
 				</div>
 				
 				<cfif session.user.admin>
 				<br /><div>
 				<fieldset class="addnew">
-					<legend class="b">Add a new person:</legend>
-					
-					<div>
-					<label for="fname">First Name
+					<legend class="b">Add a new person to this project:</legend>
+
+					<label for="fname">First
 						<input type="text" name="firstName" id="fname" size="7" />
 					</label>
-					</div>
-					<div>
-					<label for="lname">Last Name
+					
+					<label for="lname">Last
 						<input type="text" name="lastName" id="lname" size="10" />
 					</label>
-					</div>
-					<div>
+					
 					<label for="email">Email
 						<input type="text" name="email" id="email" size="22" />
 					</label>
-					</div>
-					<div>
-					<label>Project Role
-						<select name="newrole" id="newrole">
-							<option value="User">User</option>
-							<option value="Admin">Admin</option>
-							<option value="Read-Only">Read-Only</option>
-						</select>
+										
+					<label for="phone">Phone
+						<input type="text" name="phone" id="phone" size="7" />
 					</label>
-					</div>
+					
 					<cfif session.user.admin>
-					<div>
-					<label>System Admin?
-						<select name="admin" id="admin">
-							<option value="0">No</option>
-							<option value="1">Yes</option>
-						</select>
-					</label>
-					</div>
+						<label for="globaladmin">Global Admin?
+							<select name="admin" id="admin" class="block">
+								<option value="0">No
+								<option value="1">Yes
+							</select>
+						</label>
 					<cfelse>
 						<input type="hidden" name="admin" id="admin" value="0" />
 					</cfif>
-					<div style="float:left;">
-					<input type="button" class="button2" name="add" value="Add" onclick="add_new('#url.p#');return false;" /> 
-					</div>
-					<div>
-					or <a href="##" onclick="$('##slidediv').slideUp(1000);return false;">cancel</a>
-					</div>
+					
+					<br style="clear:both;" />
+					
+					with the following permissions:
+					<table class="full mt5 permissions">
+					<tr>
+						<th>Admin</th>
+						<th>Files</th>
+						<th>Issues</th>
+						<th>Messages</th>
+						<th>Milestones</th>
+						<th>To-Dos</th>
+						<th>SVN</th>
+						<th rowspan="2"><input type="button" value="Add" class="button" onclick="add_new('#url.p#');return false;" /> or <a href="##" onclick="$('##slidediv').slideUp(1000);return false;">cancel</a></th>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="admin" id="a_new" value="1" class="cb" /></td>
+						<td>
+							<select name="files" onchange="if (this.selectedIndex > 0) $('##a_new').attr('checked','');" id="f_new">
+								<option value="2">Full Access</option>
+								<option value="1">Read-Only</option>
+								<option value="0">None</option>
+							</select>
+						</td>
+						<td>
+							<select name="issues" onchange="if (this.selectedIndex > 0) $('##a_new').attr('checked','');" id="i_new">
+								<option value="2">Full Access</option>
+								<option value="1">Read-Only</option>
+								<option value="0">None</option>
+							</select>							
+						</td>
+						<td>
+							<select name="msgs" onchange="if (this.selectedIndex > 0) $('##a_new').attr('checked','');" id="m_new">
+								<option value="2">Full Access</option>
+								<option value="1">Read-Only</option>
+								<option value="0">None</option>
+							</select>							
+						</td>
+						<td>
+							<select name="mstones" onchange="if (this.selectedIndex > 0) $('##a_new').attr('checked','');" id="ms_new">
+								<option value="2">Full Access</option>
+								<option value="1">Read-Only</option>
+								<option value="0">None</option>
+							</select>							
+						</td>
+						<td>
+							<select name="todos" onchange="if (this.selectedIndex > 0) $('##a_new').attr('checked','');" id="t_new">
+								<option value="2">Full Access</option>
+								<option value="1">Read-Only</option>
+								<option value="0">None</option>
+							</select>							
+						</td>
+						<td><input type="checkbox" name="svn" id="s_new" value="1" class="cb" onchange="if (this.checked == false) $('##a_new').attr('checked','');" checked="checked" /></td>
+					</tr>
+					</table>
+
 				</fieldset>
 				</div>
 				</cfif>
@@ -138,7 +222,7 @@
 							 	]</div>
 					 		</cfif>
 					 		
-							<table class="admin full mt5 permissions" style="display:none;" id="up_#replace(userid,'-','','ALL')#">
+							<table class="full mt5 permissions" style="display:none;" id="up_#replace(userid,'-','','ALL')#">
 							<tr>
 								<th class="tac">Admin</th>
 								<th class="tac">Files</th>
@@ -151,43 +235,44 @@
 							</tr>
 							<tr>
 								<td class="tac"><input type="checkbox" name="admin" id="a_#replace(userid,'-','','ALL')#" value="1" class="cb"<cfif admin> checked="checked"</cfif> /></td>
-							<td class="tac">
-								<select name="files" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="f_#replace(userid,'-','','ALL')#">
-									<option value="2"<cfif files eq 2> selected="selected"</cfif>>Full Access</option>
-									<option value="1"<cfif files eq 1> selected="selected"</cfif>>Read-Only</option>
-									<option value="0"<cfif files eq 0> selected="selected"</cfif>>None</option>
-								</select>
-							</td>
-							<td class="tac">
-								<select name="issues" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="i_#replace(userid,'-','','ALL')#">
-									<option value="2"<cfif issues eq 2> selected="selected"</cfif>>Full Access</option>
-									<option value="1"<cfif issues eq 1> selected="selected"</cfif>>Read-Only</option>
-									<option value="0"<cfif issues eq 0> selected="selected"</cfif>>None</option>
-								</select>							
-							</td>
-							<td class="tac">
-								<select name="msgs" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="m_#replace(userid,'-','','ALL')#">
-									<option value="2"<cfif msgs eq 2> selected="selected"</cfif>>Full Access</option>
-									<option value="1"<cfif msgs eq 1> selected="selected"</cfif>>Read-Only</option>
-									<option value="0"<cfif msgs eq 0> selected="selected"</cfif>>None</option>
-								</select>							
-							</td>
-							<td class="tac">
-								<select name="mstones" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="ms_#replace(userid,'-','','ALL')#">
-									<option value="2"<cfif mstones eq 2> selected="selected"</cfif>>Full Access</option>
-									<option value="1"<cfif mstones eq 1> selected="selected"</cfif>>Read-Only</option>
-									<option value="0"<cfif mstones eq 0> selected="selected"</cfif>>None</option>
-								</select>							
-							</td>
-							<td class="tac">
-								<select name="todos" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="t_#replace(userid,'-','','ALL')#">
-									<option value="2"<cfif todos eq 2> selected="selected"</cfif>>Full Access</option>
-									<option value="1"<cfif todos eq 1> selected="selected"</cfif>>Read-Only</option>
-									<option value="0"<cfif todos eq 0> selected="selected"</cfif>>None</option>
-								</select>							
-							</td>
-							<td class="tac"><input type="checkbox" name="svn" id="s_#replace(userid,'-','','ALL')#" value="1" id="p_#replace(url.p,'-','','ALL')#" class="cb" onchange="if (this.checked == false) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');"<cfif svn> checked="checked"</cfif> /></td>
-							</table>									 		
+								<td class="tac">
+									<select name="files" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="f_#replace(userid,'-','','ALL')#">
+										<option value="2"<cfif files eq 2> selected="selected"</cfif>>Full Access</option>
+										<option value="1"<cfif files eq 1> selected="selected"</cfif>>Read-Only</option>
+										<option value="0"<cfif files eq 0> selected="selected"</cfif>>None</option>
+									</select>
+								</td>
+								<td class="tac">
+									<select name="issues" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="i_#replace(userid,'-','','ALL')#">
+										<option value="2"<cfif issues eq 2> selected="selected"</cfif>>Full Access</option>
+										<option value="1"<cfif issues eq 1> selected="selected"</cfif>>Read-Only</option>
+										<option value="0"<cfif issues eq 0> selected="selected"</cfif>>None</option>
+									</select>							
+								</td>
+								<td class="tac">
+									<select name="msgs" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="m_#replace(userid,'-','','ALL')#">
+										<option value="2"<cfif msgs eq 2> selected="selected"</cfif>>Full Access</option>
+										<option value="1"<cfif msgs eq 1> selected="selected"</cfif>>Read-Only</option>
+										<option value="0"<cfif msgs eq 0> selected="selected"</cfif>>None</option>
+									</select>							
+								</td>
+								<td class="tac">
+									<select name="mstones" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="ms_#replace(userid,'-','','ALL')#">
+										<option value="2"<cfif mstones eq 2> selected="selected"</cfif>>Full Access</option>
+										<option value="1"<cfif mstones eq 1> selected="selected"</cfif>>Read-Only</option>
+										<option value="0"<cfif mstones eq 0> selected="selected"</cfif>>None</option>
+									</select>							
+								</td>
+								<td class="tac">
+									<select name="todos" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="t_#replace(userid,'-','','ALL')#">
+										<option value="2"<cfif todos eq 2> selected="selected"</cfif>>Full Access</option>
+										<option value="1"<cfif todos eq 1> selected="selected"</cfif>>Read-Only</option>
+										<option value="0"<cfif todos eq 0> selected="selected"</cfif>>None</option>
+									</select>							
+								</td>
+								<td class="tac"><input type="checkbox" name="svn" id="s_#replace(userid,'-','','ALL')#" value="1" id="p_#replace(url.p,'-','','ALL')#" class="cb" onchange="if (this.checked == false) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');"<cfif svn> checked="checked"</cfif> /></td>
+							</tr>
+							</table>								 		
 					 		
 					 		
 					 	</div>

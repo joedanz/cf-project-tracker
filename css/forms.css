@@ -114,7 +114,7 @@ textarea.addtask:focus {
 }
 
 fieldset.addnew label { text-align:left;width:auto;display:block; }
-fieldset.addnew input, fieldset.addnew select { margin-right:5px;display:block; }
+fieldset.addnew label > input,fieldset.addnew select.block { display:block; }
 
 form#login label { font-weight:bold; font-size:1.2em; }
 form#login input {
