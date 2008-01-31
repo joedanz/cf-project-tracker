@@ -158,9 +158,9 @@
 			SELECT distinct u.userID, u.firstName, u.lastName, u.username, u.email, u.phone, u.mobile,
 				u.lastLogin, u.email_files, u.mobile_files, u.email_issues, u.mobile_issues, 
 				u.email_msgs, u.mobile_msgs, u.email_mstones, u.mobile_mstones, 
-				u.email_todos, u.mobile_todos, u.avatar, u.admin
+				u.email_todos, u.mobile_todos, u.avatar
 				<cfif not compare(arguments.projectIDlist,'')>
-					, pu.admin,	pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos
+					, pu.admin,	pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos, pu.svn
 				</cfif>
 			FROM #variables.tableprefix#users u 
 				INNER JOIN #variables.tableprefix#project_users pu ON u.userID = pu.userID
@@ -193,5 +193,42 @@
 		</cfquery>		
 		<cfreturn qRecords>
 	</cffunction>		
+	
+	<cffunction name="makeOwner" access="public" returntype="void" output="false"
+				hint="Makes user the owner of a project.">
+		<cfargument name="projectID" type="string" required="true">
+		<cfargument name="userID" type="string" required="true">
+		
+		<cfquery datasource="#variables.dsn#">
+			UPDATE #variables.tableprefix#projects
+			SET ownerID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
+			WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+		</cfquery>
+	</cffunction>
+
+	<cffunction name="setUserPermissions" access="public" returntype="void" output="false"
+				hint="Sets permissions for a project user.">
+		<cfargument name="projectID" type="string" required="true">
+		<cfargument name="userID" type="string" required="true">
+		<cfargument name="admin" type="string" required="true">
+		<cfargument name="files" type="numeric" required="true">
+		<cfargument name="issues" type="numeric" required="true">
+		<cfargument name="msgs" type="numeric" required="true">
+		<cfargument name="mstones" type="numeric" required="true">
+		<cfargument name="todos" type="numeric" required="true">
+		<cfargument name="svn" type="string" required="true">
+		
+		<cfquery datasource="#variables.dsn#">
+			UPDATE #variables.tableprefix#project_users
+			SET admin = <cfif isNumeric(arguments.admin)>1<cfelse>0</cfif>,
+				files = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.files#" maxlength="1">,
+				issues = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.issues#" maxlength="1">,
+				msgs = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.msgs#" maxlength="1">,
+				mstones = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mstones#" maxlength="1">,
+				todos = <cfif isNumeric(arguments.todos)>1<cfelse>0</cfif>
+			WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				AND userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35"> 
+		</cfquery>
+	</cffunction>
 	
 </CFCOMPONENT>

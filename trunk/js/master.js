@@ -116,6 +116,18 @@ function remove_user(pid,uid,lname,fname) {
 	if (document.getElementById("userID").length >= 1) $('#existing').show();
 	proj_admins(pid);
 }
+function save_permissions(pid,uid,strippedid) {
+    $.ajax({
+		type: 'get',
+		url: './ajax/user_permissions.cfm',
+		data: 'p=' + pid + '&u=' + uid + '&a=' + $('#a_'+strippedid+':checked').val() + '&f=' + $('#f_'+strippedid).val() + '&i=' + $('#i_'+strippedid).val() + '&m=' + $('#m_'+strippedid).val() + '&ms=' + $('#ms_'+strippedid).val() + '&t=' + $('#t_'+strippedid).val() + '&s=' + $('#s_'+strippedid+':checked').val(),
+		success: function(txt){
+	     $('#up_'+strippedid).slideUp();
+		 if ($('#a_'+strippedid+':checked').val() == 1) {$('#ut_'+strippedid).html('Admin')} else {$('#ut_'+strippedid).html('User')};
+		 proj_admins(pid);
+	  }
+	});
+}
 
 // *** TO-DOS ***
 function redraw_incomplete(projectid,todolistid,todoid,type) {
