@@ -22,6 +22,7 @@
 	<cfset application.carrier = createObject("component","cfcs.carrier").init(settings)>
 	<cfset application.client = createObject("component","cfcs.client").init(settings)>
 	<cfset application.comment = createObject("component","cfcs.comment").init(settings)>
+	<cfset application.config = createObject("component","cfcs.config").init(settings)>
 	<cfset application.diff = createObject("component","cfcs.diff").init()>
 	<cfset application.file = createObject("component","cfcs.file").init(settings)>
 	<cfset application.issue = createObject("component","cfcs.issue").init(settings)>
