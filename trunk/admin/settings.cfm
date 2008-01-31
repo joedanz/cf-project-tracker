@@ -1,11 +1,7 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfif StructKeyExists(form,"submit")>
-	<cfinvoke component="config.settings" method="setSettings">
-		<cfinvokeargument name="dsn" value="#application.settings.dsn#">
-		<cfinvokeargument name="app_title" value="#form.app_title#">
-		<cfinvokeargument name="default_style" value="#form.default_style#">
-	</cfinvoke>
+	<cfset application.config.save(form.app_title,form.default_style)>
 	<cfset application.settings.app_title = form.app_title>
 	<cfset application.settings.default_style = form.default_style>
 </cfif>
