@@ -24,27 +24,19 @@
 		<cfset var qNotifyList = application.message.getNotifyList(arguments.projectID,arguments.messageID)>
 		<cfset var email_subject = "">
 		<cfset var mobile_subject = "">
-		<!--- email subject --->
-		<cfset email_subject = "New ">
-		<cfif compare(qProject.name,'')><cfset email_subject = email_subject & "#qProject.name# "></cfif>
-		<cfset email_subject = email_subject & "Comment on #qMessage.title#">
-		<!--- mobile subject --->
-		<cfset mobile_subject = "New ">
-		<cfif compare(qProject.name,'')><cfset mobile_subject = mobile_subject & "#qProject.name# "></cfif>
-		<cfset mobile_subject = mobile_subject & "Msg Comment">
 		<cfloop query="qNotifyList">		
 			<cfif email_msgs and request.udf.isEmail(email)>
-				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#email_subject#">A new #qProject.name# message has been posted on the message in #qMessage.category# entitled:
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="New #IIF(compare(qProject.name,''),'#qProject.name# ','')#Comment on #qMessage.title#">A new #qProject.name# message has been posted on the message in #qMessage.category# entitled:
 #qMessage.title#
 
-#request.udf.CleanText(arguments.comment)#
+#arguments.comment#
 
 To view the full message and leave comments, visit this link:
 #application.settings.rootURL##application.settings.mapping#/message.cfm?p=#arguments.projectID#&m=#arguments.messageID#
 				</cfmail>
 			</cfif>
 			<cfif mobile_msgs and isNumeric(mobile)>
-				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#mobile_subject#">New comment on: #qMessage.title#
+				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="New #IIF(compare(qProject.name,''),'#qProject.name# ','')#Msg Comment">New comment on: #qMessage.title#
 
 #Left(request.udf.CleanText(arguments.comment),100)#<cfif len(request.udf.CleanText(arguments.comment)) gt 100>...</cfif>
 				</cfmail>			
