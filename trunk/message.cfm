@@ -1,7 +1,7 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfif StructKeyExists(form,"submit")>
-	<cfset application.comment.add(createUUID(),url.p,url.m,'',session.user.userid,form.comment)>
+	<cfset application.comment.add(createUUID(),url.p,url.m,'',session.user.userid,request.udf.CleanText(form.comment))>
 <cfelseif StructKeyExists(url,"rn")>
 	<cfset application.message.removeNotify(url.p,url.m,url.rn)>
 </cfif>
