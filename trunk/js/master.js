@@ -171,32 +171,34 @@ function mark_incomplete(projectid,todolistid,todoid) {
 function add_item(projectid,todolistid) {
 	var newitem = $('#ta' + todolistid).val();
 	var forwho = $('#forwho' + todolistid).val();
-	add_todo_ajax(projectid,todolistid,newitem,forwho);
+	var due = $('#due' + todolistid).val();
+	add_todo_ajax(projectid,todolistid,newitem,forwho,due);
 	redraw_incomplete(projectid,todolistid,'','add');
 	$('#ta' + todolistid).val(''); $('#ta' + todolistid).focus();
 }
-function add_todo_ajax(projectid,todolistid,newitem,forwho) {
+function add_todo_ajax(projectid,todolistid,newitem,forwho,due) {
     $.ajax({
 		type: 'post',
 		url: './ajax/todo.cfm?action=add',
-		data: 'action=add&p=' + projectid + '&l=' + todolistid + '&t=' + escape(newitem) + '&fw=' + forwho
+		data: 'action=add&p=' + projectid + '&l=' + todolistid + '&t=' + escape(newitem) + '&fw=' + forwho + '&d=' + due
 	});	
 }
 function update_item(projectid,todolistid,todoid,completed) {
 	var newitem = $('#ta' + todoid).val();
 	var forwho = $('#forwho' + todoid).val();
-	update_todo_ajax(projectid,todolistid,todoid,newitem,forwho);
+	var due = $('#due' + todoid).val();
+	update_todo_ajax(projectid,todolistid,todoid,newitem,forwho,due);
 	if (completed == 'incomplete') {
 		redraw_incomplete(projectid,todolistid,todoid,'update');	
 	} else if (completed == 'complete') {
 		redraw_completed(projectid,todolistid,todoid,'update');
 	}
 }
-function update_todo_ajax(projectid,todolistid,todoid,newitem,forwho) {
+function update_todo_ajax(projectid,todolistid,todoid,newitem,forwho,due) {
     $.ajax({
 		type: 'post',
 		url: './ajax/todo.cfm?action=update',
-		data: 'action=add&p=' + projectid + '&l=' + todolistid + '&t=' + escape(newitem) + '&i=' + todoid + '&fw=' + forwho
+		data: 'action=add&p=' + projectid + '&l=' + todolistid + '&t=' + escape(newitem) + '&i=' + todoid + '&fw=' + forwho + '&d=' + due
 	});	
 }
 function delete_li(projectid,todolistid,todoid) {
@@ -212,15 +214,6 @@ function delete_todo_ajax(projectid,todolistid,todoid) {
 		url: './ajax/todo.cfm',
 		data: 'action=delete&p=' + projectid + '&l=' + todolistid + '&t=' + todoid
 	});
-}
-function limitText(limitField) {
-	var charLimit = 300;
-	if ($('#'+limitField).val().length > charLimit) {
-		$('#'+limitField).val($('#'+limitField).val().substring(0, charLimit));
-	} else {
-		charsLeft = charLimit - $('#'+limitField).val().length;
-		$('.addtask').prev().prev(".remaining").html("(" + charsLeft + " characters remaining)");
-	}
 }
 
 // REORDER TO-DO LISTS
