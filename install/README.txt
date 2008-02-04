@@ -74,3 +74,4 @@ INCLUDED CODE:
 RSS feeds created using rss.cfc by Ray Camden (www.coldfusionjedi.com)
 SVNBrowser and CFDiff CFCs by Rick Osborne (http://rickosborne.org/)
 JavaLoader by Mark Mandel used for SVNKit (http://www.compoundtheory.com/)
+API help from BasecampCFC by Terrence Ryan (http://www.numtopia.com/terry/)

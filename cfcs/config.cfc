@@ -29,4 +29,36 @@
 		<cfreturn true>
 	</cffunction>
 	
+	<cffunction name="saveAPI" access="public" returnType="boolean" output="false"
+				hint="Sets application API settings.">
+		<cfargument name="enable_api" type="string" required="true">
+		<cfargument name="api_key" type="string" required="true">
+		
+		<cfquery datasource="#variables.dsn#">
+			UPDATE #application.settings.tableprefix#settings
+				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.enable_api#" maxlength="1">
+					WHERE setting = 'enable_api'
+		</cfquery>
+		<cfquery datasource="#variables.dsn#">
+			UPDATE #application.settings.tableprefix#settings
+				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.api_key#" maxlength="35">
+					WHERE setting = 'api_key'
+		</cfquery>
+		
+		<cfreturn true>
+	</cffunction>
+	
+	<cffunction name="saveAPIKey" access="public" returnType="boolean" output="false"
+				hint="Sets application API settings.">
+		<cfargument name="api_key" type="string" required="true">
+		
+		<cfquery datasource="#variables.dsn#">
+			UPDATE #application.settings.tableprefix#settings
+				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.api_key#" maxlength="35">
+					WHERE setting = 'api_key'
+		</cfquery>
+
+		<cfreturn true>
+	</cffunction>	
+	
 </cfcomponent>
