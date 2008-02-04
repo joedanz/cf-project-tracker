@@ -13,7 +13,37 @@
 		<cfreturn this>
 	</cffunction>
 
-	
+	<cffunction name="issueNew" access="public" returnType="void" output="false"
+				hint="Notification of new issue.">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="issueID" type="uuid" required="true">
+		<cfset var qProject = application.project.get('',arguments.projectID)>
+		<cfset var qIssue = application.issue.get(arguments.projectID,arguments.issueID)>
+		<cfset var qProjectUsers = application.project.projectUsers(arguments.projectID)>
+		<cfloop query="qProjectUsers">		
+			<cfif email_msgs and request.udf.isEmail(email)>
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="New #IIF(compare(qProject.name,''),'#qProject.name# ','')#Issue">A new issue has been added to #qProject.name# entitled:
+#qIssue.issue#
+
+#qIssue.detail#
+
+<cfif compare(qIssue.milestone)>Milestone: #qIssue.milestone#
+
+</cfif><cfif compare(qIssue.milestone)>Assigned To: #qIssue.assignedFirstName# #qIssue.assignedLastName#
+
+</cfif>To view the full issue, visit this link:
+#application.settings.rootURL##application.settings.mapping#/issue.cfm?p=#arguments.projectID#&i=#arguments.issueID#
+				</cfmail>
+			</cfif>
+			<cfif mobile_msgs and isNumeric(mobile)>
+				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="New #IIF(compare(qProject.name,''),'#qProject.name# ','')#Issue">New #qProject.name# issue:
+
+#Left(request.udf.CleanText(qIssue.issue),100)#<cfif len(request.udf.CleanText(qIssue.issue)) gt 100>...</cfif>
+				</cfmail>			
+			</cfif>
+		</cfloop>
+	</cffunction>
+
 	<cffunction name="messageComment" access="public" returnType="void" output="false"
 				hint="Notification of new comment.">
 		<cfargument name="projectID" type="uuid" required="true">
@@ -22,8 +52,6 @@
 		<cfset var qProject = application.project.get('',arguments.projectID)>
 		<cfset var qMessage = application.message.get(arguments.projectID,arguments.messageID)>
 		<cfset var qNotifyList = application.message.getNotifyList(arguments.projectID,arguments.messageID)>
-		<cfset var email_subject = "">
-		<cfset var mobile_subject = "">
 		<cfloop query="qNotifyList">		
 			<cfif email_msgs and request.udf.isEmail(email)>
 				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="New #IIF(compare(qProject.name,''),'#qProject.name# ','')#Comment on #qMessage.title#">A new #qProject.name# message has been posted on the message in #qMessage.category# entitled:
@@ -42,6 +70,6 @@ To view the full message and leave comments, visit this link:
 				</cfmail>			
 			</cfif>
 		</cfloop>
-	</cffunction>	
+	</cffunction>
 	
 </cfcomponent>

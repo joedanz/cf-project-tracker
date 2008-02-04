@@ -9,15 +9,7 @@
 	<cfset newID = createUUID()>
 	<cfset application.issue.add(newID,form.projectID,form.ticketPrefix,form.issue,request.udf.CleanText(form.detail),form.type,form.severity,form.status,form.assignedTo,form.milestone,form.relevantURL,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Issue',newID,form.issue,'added')>
-	<cfset projectUsers = application.project.projectUsers(form.projectID)>
-	<cfloop query="projectUsers">
-		<cfif email_issues and compare(session.user.email,'')>
-		
-		</cfif>
-		<cfif mobile_issues and isNumeric(session.user.mobile)>
-		
-		</cfif>
-	</cfloop>
+	<cfset application.notify.issue(form.projectid,newID)>
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#newID#" addtoken="false">
 <cfelseif StructKeyExists(url,"del") and hash(url.p) eq url.ph> <!--- delete issue --->
 	<cfset application.project.delete(url.p)>
