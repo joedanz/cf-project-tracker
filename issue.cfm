@@ -46,7 +46,7 @@
 				 	<div class="wrapper">
 					 	
 					 	
-						<div style="padding:5px;background-color:##fff6bf;border:3px solid ##ffd324;">
+						<div style="padding:5px;background-color:##fff6bf;border:3px solid ##ffd324;" class="mb10">
 					 	<table class="bug" style="float:right;margin-right:20px;">
 							<tr>
 								<td class="label">Created:</td>

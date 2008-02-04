@@ -6,6 +6,7 @@ table.admin tr th, table.admin tr td, table.svn tr th, table.svn tr td { padding
 table.svn tr th:first-child, table.svn tr td:first-child { padding:4px 0 4px 5px; }
 table#milestone_cal tr th, table#milestone_cal tr td { padding:3px; vertical-align:top; }
 table#milestone_cal tr td ul.cal_ms li { padding-top:4px; }
+table.todo td.pad { padding-left:12px; }
 
 /* STYLE */
 table tbody tr.even { background-color:#fff; }

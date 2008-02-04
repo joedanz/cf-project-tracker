@@ -54,14 +54,20 @@
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="task" type="string" required="true">
 		<cfargument name="userID" type="uuid" required="true">
+		<cfargument name="due" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#todos (todoID,todolistID,projectID,task,userid,rank,added)
+			INSERT INTO #variables.tableprefix#todos (todoID,todolistID,projectID,task,userid,rank,added,due)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#createUUID()#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.task#">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
-					999,#Now()#)
+					999,#Now()#,
+					<cfif isDate(arguments.due)>
+						<cfqueryparam cfsqltype="cf_sql_date" value="#arguments.due#">
+					<cfelse>
+						NULL
+					</cfif>)
 		</cfquery>
 		<cfreturn true>
 	</cffunction>
@@ -73,11 +79,18 @@
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="task" type="string" required="true">
 		<cfargument name="userID" type="uuid" required="true">
+		<cfargument name="due" type="string" required="true">
 		<cfargument name="svnRevision" type="numeric" required="false" default="0">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#todos
 				SET task = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.task#">,
 					userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
+					due = 
+						<cfif isDate(arguments.due)>
+							<cfqueryparam cfsqltype="cf_sql_date" value="#arguments.due#">
+						<cfelse>
+							NULL
+						</cfif>,
 					svnRevision = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.svnRevision#">
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 					AND todolistID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">

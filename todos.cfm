@@ -16,6 +16,13 @@
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; #project.name#" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
 
+<cfhtmlhead text='<script type="text/javascript">
+	$(document).ready(function(){
+		$(''.date-pick'').attachDatepicker(); 
+	});
+</script>
+'>
+
 <cfoutput>
 <a name="top"></a>
 <div id="container">
@@ -45,27 +52,37 @@
 					
 					<h3 class="padtop padbottom list">#title#<cfif project.todos gt 1> <span class="itemedit">[<a href="editTodolist.cfm?p=#url.p#&t=#todolistid#">edit</a> / <a href="#cgi.script_name#?p=#url.p#&del=#todolistid#" onclick="return confirm('Are you sure you wish to delete this to-do list?');">del</a>]</span></cfif></h3>
 						<div class="tododetail">
-						<cfif compare(description,'')><div style="font-style:italic;">#description#</div></cfif>
+						<cfif compare(description,'')><div class="i mb10">#description#</div></cfif>
 						<cfquery name="todos_notcompleted" dbtype="query">
 							select * from todos where todolistID = '#todolistID#' and completed IS NULL
 						</cfquery>
 						<ul class="nobullet" id="todoitems#todolistID#">
 						<cfloop query="todos_notcompleted">
-						<li class="li#todolistID#" id="#todoID#"><cfif project.todos gt 1><input type="checkbox" name="todoID" value="#todoID#" class="cb#todolistID#" onclick="mark_complete('#url.p#','#todolistID#','#todoID#');" /> </cfif>#task#<cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)</span></cfif><cfif project.todos gt 1> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="$('###todoID#').hide();$('##edititemform#todoID#').show();$('##ta#todoID#').focus();return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#url.p#','#todolistID#','#todoID#');return false;" /></span></cfif></li>
+						<li class="li#todolistID#" id="#todoID#"><cfif project.todos gt 1><input type="checkbox" name="todoID" value="#todoID#" class="cb#todolistID#" onclick="mark_complete('#url.p#','#todolistID#','#todoID#');" /> </cfif>#task#<cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)<cfif isDate(due)> - due on #DateFormat(due,"mmm d, yyyy")#</cfif></span></cfif><cfif project.todos gt 1> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="$('###todoID#').hide();$('##edititemform#todoID#').show();$('##ta#todoID#').focus();return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#url.p#','#todolistID#','#todoID#');return false;" /></span></cfif></li>
 						<li><div id="edititemform#todoID#" style="display:none;background-color:##ddd;padding:5px;">
-						<div style="float:left;margin-right:15px;clear:both">	
-						<form>					
-						Edit to-do item: <span class="remaining g">(#300-len(task)# characters remaining)</span><br />
-						<textarea class="addtask" id="ta#todoID#" onkeyup="limitText('ta#todoID#');">#task#</textarea><br />
-						</div>
-						Who's responsible?<br />
-						<select name="forID" id="forwho#todoID#">
-						<cfset thisUserID = userID>
-							<cfloop query="projectUsers">
-							<option value="#userID#"<cfif not compare(thisUserID,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>
-							</cfloop>
-						</select><br /><br />
-						<input type="button" class="button2" value="Update item" onclick="update_item('#url.p#','#todolistID#','#todoID#','incomplete');return false;" /> or <a href="##" onclick="$('###todoID#').show();$('##edititemform#todoID#').hide();return false;">cancel edit</a>
+						<form>
+						<table class="todo">
+						<tr>
+							<td rowspan="2">Edit to-do item:<br />
+								<textarea class="addtask" id="ta#todoID#">#task#</textarea></td>
+							<td class="pad">Who's responsible?<br />
+								<select name="forID" id="forwho#todoID#">
+									<cfset thisUserID = userID>
+									<cfloop query="projectUsers">
+									<option value="#userID#"<cfif not compare(thisUserID,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>
+									</cfloop>
+								</select>
+							</td>
+							<td class="pad">Due Date:<br />
+								<input type="text" name="due" id="due#todoID#" value="#DateFormat(due,"mm/dd/yyyy")#" size="8" class="date-pick" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" class="pad">
+								<input type="button" class="button2" value="Update item" onclick="update_item('#url.p#','#todolistID#','#todoID#','incomplete');return false;" /> or <a href="##" onclick="$('###todoID#').show();$('##edititemform#todoID#').hide();return false;">cancel edit</a>
+							</td>
+						</tr>
+						</table>
 						</form>
 						</div>
 						</li>
@@ -84,17 +101,27 @@
 						</div>
 						<div id="additemform#currentRow#" style="display:none;">
 						<form>
-						<div style="float:left;margin-right:15px;clear:both">						
-						Enter a to-do item: <span class="remaining g">(300 characters remaining)</span><br />
-						<textarea class="addtask" id="ta#todolistID#" onkeyup="limitText('ta#todolistID#');"></textarea>
-						</div>
-						Who's responsible?<br />
-						<select name="forID" id="forwho#todolistID#">
-							<cfloop query="projectUsers">
-							<option value="#userID#"<cfif not compare(session.user.userid,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>
-							</cfloop>
-						</select><br /><br />
-						<input type="button" class="button2" value="Add this item" onclick="add_item('#url.p#','#todolistID#');return false;" /> or <a href="##" onclick="$('##listmenu#todolistID#').show();$('##additemform#currentRow#').hide();return false;">finished adding items</a>
+						<table class="todo">
+						<tr>
+							<td rowspan="2">Enter a to-do item:<br />
+								<textarea class="addtask" id="ta#todolistID#"></textarea></td>
+							<td class="pad">Who's responsible?<br />
+								<select name="forID" id="forwho#todolistID#">
+									<cfloop query="projectUsers">
+									<option value="#userID#"<cfif not compare(session.user.userid,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>
+									</cfloop>
+								</select>
+							</td>
+							<td class="pad">Due Date:<br />
+								<input type="text" name="due" id="due#todolistID#" size="8" class="date-pick" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" class="pad">
+								<input type="button" class="button2" value="Add this item" onclick="add_item('#url.p#','#todolistID#');return false;" /> or <a href="##" onclick="$('##listmenu#todolistID#').show();$('##additemform#currentRow#').hide();return false;">finished adding items</a>
+							</td>
+						</tr>
+						</table>
 						</form>
 						</div>
 						</div>
@@ -107,20 +134,30 @@
 						<cfloop query="todos_completed">
 						<li class="g" id="#todoID#"><cfif project.todos gt 1><input type="checkbox" name="todoID" value="#todoID#" checked="checked" onclick="mark_incomplete('#url.p#','#todolistID#','#todoID#');" /> </cfif><strike>#task#</strike><cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)</span></cfif> - <span class="g">completed on #DateFormat(completed,"mmm d, yyyy")#</span> <cfif project.todos gt 1><span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="$('###todoID#').hide();$('##edititemform#todoID#').show();$('##ta#todoID#').focus();return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#url.p#','#todolistID#','#todoID#');return false;" /></span></cfif></li>
 						
-						<li><div id="edititemform#todoID#" style="display:none;background-color:##ddd;padding:5px;">
+						<li><div id="edititemform#todoID#" style="display:none;background-color:##ddd;padding:5px;">	
 						<form>
-						<div style="float:left;margin-right:15px;clear:both">						
-						Edit to-do item: <span class="remaining g">(#300-len(task)# characters remaining)</span><br />
-						<textarea class="addtask" id="ta#todoID#" onkeyup="limitText('ta#todoID#');">#task#</textarea><br />
-						</div>
-						Who's responsible?<br />
-						<select name="forID" id="forwho#todoID#">
-							<cfset thisUserID = userID>
-							<cfloop query="projectUsers">
-							<option value="#userID#"<cfif not compare(thisUserID,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>
-							</cfloop>
-						</select><br /><br />
-						<input type="button" class="button2" value="Update item" onclick="update_item('#url.p#','#todolistID#','#todoID#','complete');return false;" /> or <a href="##" onclick="$('###todoID#').show();$('##edititemform#todoID#').hide();return false;">cancel edit</a>
+						<table class="todo">
+						<tr>
+							<td rowspan="2">Edit to-do item:<br />
+								<textarea class="addtask" id="ta#todoID#">#task#</textarea></td>
+							<td class="pad">Who's responsible?<br />
+								<select name="forID" id="forwho#todoID#">
+									<cfset thisUserID = userID>
+									<cfloop query="projectUsers">
+									<option value="#userID#"<cfif not compare(thisUserID,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>
+									</cfloop>
+								</select>
+							</td>
+							<td class="pad">Due Date:<br />
+								<input type="text" name="due" id="due#todoID#" value="#DateFormat(due,"mm/dd/yyyy")#" size="8" class="date-pick" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" class="pad">
+								<input type="button" class="button2" value="Update item" onclick="update_item('#url.p#','#todolistID#','#todoID#','complete');return false;" /> or <a href="##" onclick="$('###todoID#').show();$('##edititemform#todoID#').hide();return false;">cancel edit</a>
+							</td>
+						</tr>
+						</table>
 						</form>
 						</div>
 						</li>								
