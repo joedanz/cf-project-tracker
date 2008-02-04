@@ -22,7 +22,7 @@
 		<cfset var qProjectUsers = application.project.projectUsers(arguments.projectID)>
 		<cfloop query="qProjectUsers">		
 			<cfif email_msgs and request.udf.isEmail(email)>
-				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="New #IIF(compare(qProject.name,''),'#qProject.name# ','')#Issue">A new issue has been added to #qProject.name# entitled:
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="New #IIF(compare(qProject.name,''),'#qProject.name# ','')#Issue">A new #qProject.name# issue has been added:
 #qIssue.issue#
 
 #qIssue.detail#
@@ -43,6 +43,37 @@
 			</cfif>
 		</cfloop>
 	</cffunction>
+	
+	<cffunction name="issueUpdate" access="public" returnType="void" output="false"
+				hint="Notification of new issue.">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="issueID" type="uuid" required="true">
+		<cfset var qProject = application.project.get('',arguments.projectID)>
+		<cfset var qIssue = application.issue.get(arguments.projectID,arguments.issueID)>
+		<cfset var qProjectUsers = application.project.projectUsers(arguments.projectID)>
+		<cfloop query="qProjectUsers">		
+			<cfif email_msgs and request.udf.isEmail(email)>
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="New #IIF(compare(qProject.name,''),'#qProject.name# ','')#Issue">The following #qProject.name# issue has been updated:
+#qIssue.issue#
+
+#qIssue.detail#
+
+<cfif compare(qIssue.milestone)>Milestone: #qIssue.milestone#
+
+</cfif><cfif compare(qIssue.milestone)>Assigned To: #qIssue.assignedFirstName# #qIssue.assignedLastName#
+
+</cfif>To view the full issue, visit this link:
+#application.settings.rootURL##application.settings.mapping#/issue.cfm?p=#arguments.projectID#&i=#arguments.issueID#
+				</cfmail>
+			</cfif>
+			<cfif mobile_msgs and isNumeric(mobile)>
+				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="New #IIF(compare(qProject.name,''),'#qProject.name# ','')#Issue">Updated #qProject.name# issue:
+
+#Left(request.udf.CleanText(qIssue.issue),100)#<cfif len(request.udf.CleanText(qIssue.issue)) gt 100>...</cfif>
+				</cfmail>			
+			</cfif>
+		</cfloop>
+	</cffunction>	
 
 	<cffunction name="messageComment" access="public" returnType="void" output="false"
 				hint="Notification of new comment.">
