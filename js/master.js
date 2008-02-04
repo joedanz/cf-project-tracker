@@ -222,7 +222,7 @@ function reorder_lists() {
 	$(".listItem").removeClass("todolist"); $(".list").addClass("drag"); 
 	$('#sorting_done').show();
 	$('#reorder_menu').html('<a href="#" onclick="done_reordering();" class="reorder">Done Reordering</a>');
-	$('.listWrapper').sortable(
+	$('.listWrapper').Sortable(
 		{
 			accept : 'listItem',
 			axis : 'vertically',
@@ -239,7 +239,7 @@ function done_reordering() {
 	$('.itemedit').show(); $('.tododetail').show(); $('.top').show(); 
 	$(".list").removeClass("drag"); $(".listItem").addClass("todolist"); 
 	save_order();
-	$('.listWrapper').sortableDestroy(); 
+	$('.listWrapper').SortableDestroy(); 
 	$('#sorting_done').hide();
 	$('#reorder_menu').html('<a href="#" onclick="reorder_lists();" class="reorder">Reorder lists</a>');
 }

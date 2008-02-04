@@ -46,8 +46,8 @@
 					
 					<div class="listWrapper" id="lw">
 					<cfloop query="todolists">
-					<a name="#replace(todolistID,'-','','ALL')#" />
-					<div class="listItem todolist" id="#replace(todolistID,'-','','ALL')#" style="margin-bottom:20px;">
+					<a name="#todolistID#" />
+					<div class="listItem todolist" id="#todolistID#" style="margin-bottom:20px;">
 					<div class="top"><a href="##top"><img src="./images/top.gif" height="12" width="31" border="0" alt="Top" /></a></div>
 					
 					<h3 class="padtop padbottom list">#title#<cfif project.todos gt 1> <span class="itemedit">[<a href="editTodolist.cfm?p=#url.p#&t=#todolistid#">edit</a> / <a href="#cgi.script_name#?p=#url.p#&del=#todolistid#" onclick="return confirm('Are you sure you wish to delete this to-do list?');">del</a>]</span></cfif></h3>
@@ -177,7 +177,7 @@
 					</div>
 					<div id="sorting_done" style="display:none;margin-top:15px;">
 					<form class="frm" style="margin:0;padding:0;">
-						<input type="button" class="button" value="Done Sorting" onclick="done_reordering();return false;" />
+						<input type="button" class="button" value="Done Reordering" onclick="done_reordering();return false;" />
 						<input type="hidden" name="listsort" id="listsort" value="" />
 						<input type="hidden" name="projectID" id="projectID" value="#url.p#" />
 					</form>
