@@ -27,9 +27,9 @@
 
 #qIssue.detail#
 
-<cfif compare(qIssue.milestone)>Milestone: #qIssue.milestone#
+<cfif compare(qIssue.milestone,'')>Milestone: #qIssue.milestone#
 
-</cfif><cfif compare(qIssue.milestone)>Assigned To: #qIssue.assignedFirstName# #qIssue.assignedLastName#
+</cfif><cfif compare(qIssue.assignedLastName,'')>Assigned To: #qIssue.assignedFirstName# #qIssue.assignedLastName#
 
 </cfif>To view the full issue, visit this link:
 #application.settings.rootURL##application.settings.mapping#/issue.cfm?p=#arguments.projectID#&i=#arguments.issueID#
@@ -58,9 +58,9 @@
 
 #qIssue.detail#
 
-<cfif compare(qIssue.milestone)>Milestone: #qIssue.milestone#
+<cfif compare(qIssue.milestone,'')>Milestone: #qIssue.milestone#
 
-</cfif><cfif compare(qIssue.milestone)>Assigned To: #qIssue.assignedFirstName# #qIssue.assignedLastName#
+</cfif><cfif compare(qIssue.assignedLastName,'')>Assigned To: #qIssue.assignedFirstName# #qIssue.assignedLastName#
 
 </cfif>To view the full issue, visit this link:
 #application.settings.rootURL##application.settings.mapping#/issue.cfm?p=#arguments.projectID#&i=#arguments.issueID#
