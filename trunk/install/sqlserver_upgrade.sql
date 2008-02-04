@@ -278,7 +278,10 @@ GO
 /* pt_settings */
 ALTER TABLE [dbo].[pt_settings] ALTER COLUMN [settingID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 GO
-
+INSERT INTO [dbo].[pt_settings](settingID,setting,settingValue) values('E59DED9F-1372-7975-6FCD9DFAE904B617','enable_api','0')
+GO
+INSERT INTO [dbo].[pt_settings](settingID,setting,settingValue) values('E5A50225-1372-7975-6F9777FB42FD45E6','api_key','')
+GO
 
 /* pt_todolists */
 ALTER TABLE [dbo].[pt_todolists] ALTER COLUMN [todolistID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL

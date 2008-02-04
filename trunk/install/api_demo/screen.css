@@ -1,0 +1,195 @@
+body {
+
+font-family:"Lucida Grande",verdana,arial,helvetica,sans-serif;
+text-align:left;
+}
+
+legend{
+	font-size:14px;
+	padding: 0 10px;
+	
+}
+
+label{
+	padding-top: 5px;
+	font-weight: bold;
+	font-size: 13px;
+	display:block;
+	width: 80px;
+	float: left;
+	
+}
+
+input.text{
+	width: 350px;
+	margin-top: 5px;
+	
+}
+
+form.login{
+	width: 450px;
+	
+}
+
+form.login fieldset{
+	width: 450px;
+	background:#E9E9E9  none repeat scroll 0%;
+	
+}
+
+h2 {
+color:#333333;
+font-family:"Lucida Grande",arial,sans-serif;
+font-size:14px;
+margin:20px 0pt 5px 0px;
+padding:0pt;
+}
+
+table{
+	margin:13px 30px 13px 24px;
+	border: 1px solid #E9E9E9;
+}
+
+thead{
+	background:#E9E9E9  none repeat scroll 0%;
+	
+}
+th{
+	margin: 0;
+	padding: 3px 20px 3px 2px;	
+}
+
+div.Comments {
+padding:5px 30px 5px 24px;
+}
+
+td{
+	padding: 3px 20px 3px 2px;
+}
+
+div.Comments h2 {
+background-color:#333333;
+color:#FFFFFF;
+font-size:12px;
+margin:0pt 0pt 10px;
+padding:4px;
+}
+
+.Comments div.Post {
+border-top:1px solid #EFEFEF;
+clear:left;
+color:#333333;
+margin:0pt 0pt 5px;
+padding:5px;
+}
+
+.Comments .Post h3 {
+margin-top:0pt;
+}
+.Post h3 {
+color:#333333;
+font-size:12px;
+font-weight:normal;
+line-height:1.3em;
+margin:10px 0pt 5px;
+padding:0pt;
+}
+
+.alt{
+	background:#EDF3FE none repeat scroll 0%;
+}
+
+p, td {
+font-size:12px;
+line-height:16px;
+}
+
+div.page_header p {
+margin:5px 0pt 0pt;
+}
+
+
+h1 {
+border-bottom:0pt none;
+color:#333333;
+font-family:"Lucida Grande",arial,sans-serif;
+font-size:16px;
+font-weight:bold;
+margin:0pt;
+padding:0pt;
+}
+
+
+div.page_header, div.page_footer {
+	background:#EDF3FE none repeat scroll 0%;
+	margin:0pt 0pt 5px;
+	padding:13px 30px 13px 24px;
+}
+
+div.page_header h1 span {
+	color:#000000;
+	font-size:18px;
+	font-weight:bold;
+	}
+
+div.page_footer {
+	padding:8px 30px 8px 24px;
+	margin-top: 20px;
+}
+.page_footer p{
+	font-size: 9px;
+	
+}
+	
+.post_body{
+	padding:5px 30px 5px 24px;
+}
+
+
+#title{
+	text-align: center;
+	
+}	
+
+#title h1{
+	padding-top: 48px;
+	font-size: 48px;	
+	
+}	
+
+#title h2{
+	font-size: 40px;	
+	
+}	
+
+.section_header h2{
+	font-size: 35px;
+	text-align: center;
+	padding: 150px 10px;	
+	
+}	
+
+.error{
+	color: #FF0000;
+	background-color: #FFFFCC;
+	border: 1px solid #E9E9E9;
+	font-weight: bold;
+	
+}
+
+.late{
+	background-color: #F9ECED;
+}
+.stilllate{
+	background-color: #DE99A0;
+}
+
+.completed{
+	text-decoration: line-through;
+	color: #999999;
+}
+
+.completed td{
+	text-decoration: line-through;
+	color: #999999;
+}

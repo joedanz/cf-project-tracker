@@ -130,6 +130,8 @@ ALTER TABLE `pt_projects` MODIFY `description` text default NULL;
 
 /* pt_settings */
 ALTER TABLE `pt_settings` MODIFY `settingID` char(35) NOT NULL;
+INSERT INTO `pt_settings` values ('E59DED9F-1372-7975-6FCD9DFAE904B617','enable_api','0');
+INSERT INTO `pt_settings` values ('E5A50225-1372-7975-6F9777FB42FD45E6','api_key','');
 
 /* pt_todolists */
 ALTER TABLE `pt_todolists` MODIFY `todolistID` char(35) NOT NULL;

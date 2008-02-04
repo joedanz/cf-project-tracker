@@ -259,6 +259,8 @@ INSERT INTO `pt_users` (userID,firstName,lastName,username,password,style,email_
 /*Add default settings */
 INSERT INTO `pt_settings` values ('FC3D187C-16E6-58DE-133C5098C58225D3','app_title','Project Tracker');
 INSERT INTO `pt_settings` values ('FC3D861A-16E6-58DE-1346E4E01F578F52','default_style','blue');
+INSERT INTO `pt_settings` values ('E59DED9F-1372-7975-6FCD9DFAE904B617','enable_api','0');
+INSERT INTO `pt_settings` values ('E5A50225-1372-7975-6F9777FB42FD45E6','api_key','');
 
 /*Add carriers */
 INSERT INTO `pt_carriers` values('8464AB28-1372-7975-6F2E9747CA6E4693','AT&T','US','United States','1','@txt.att.net',1);

@@ -23,7 +23,7 @@
 		<cfargument name="projectIDlist" type="string" required="false" default="">
 		<cfset var qGetTodos = "">
 		<cfquery name="qGetTodos" datasource="#variables.dsn#">
-			SELECT t.todoID,t.todolistID,t.projectID,t.task,t.userID,t.completed,t.svnrevision,
+			SELECT t.todoID,t.todolistID,t.projectID,t.task,t.userID,t.rank,t.due,t.completed,t.svnrevision,
 					u.firstName,u.lastName 
 				FROM #variables.tableprefix#todos t LEFT JOIN #variables.tableprefix#users u
 					ON t.userID = u.userID

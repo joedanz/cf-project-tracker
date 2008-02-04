@@ -21,8 +21,10 @@
 		<cfargument name="milestoneID" type="string" required="false" default="">
 		<cfset var qGetTodoLists = "">
 		<cfquery name="qGetTodoLists" datasource="#variables.dsn#">
-			SELECT u.firstName,u.lastName,tl.todolistID,tl.projectID,tl.title,tl.description,
-				tl.added,ms.milestoneid,ms.name,p.projectID,p.name as projName 
+			SELECT u.firstName, u.lastName, tl.todolistID, tl.projectID, tl.title, tl.description, tl.added, 
+				(select count(*) from #variables.tableprefix#todos t where tl.todolistID = t.todolistID and completed is not NULL) as completed_count, 
+				(select count(*) from #variables.tableprefix#todos t where tl.todolistID = t.todolistID and completed is NULL) as uncompleted_count,
+				ms.milestoneid, ms.name, p.projectID, p.name as projName 
 			FROM #variables.tableprefix#todolists tl
 				LEFT JOIN #variables.tableprefix#users u ON u.userID = tl.userID 
 				LEFT JOIN #variables.tableprefix#milestones ms ON tl.milestoneid = ms.milestoneid
