@@ -156,14 +156,15 @@
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT distinct u.userID, u.firstName, u.lastName, u.username, u.email, u.phone, u.mobile,
-				u.lastLogin, u.email_files, u.mobile_files, u.email_issues, u.mobile_issues, 
-				u.email_msgs, u.mobile_msgs, u.email_mstones, u.mobile_mstones, 
-				u.email_todos, u.mobile_todos, u.avatar
+				u.lastLogin, u.email_files, u.mobile_files, u.email_issues,	u.mobile_issues, 
+				u.email_msgs, u.mobile_msgs, u.email_mstones, u.mobile_mstones,	u.email_todos, 
+				u.mobile_todos, u.avatar, c.prefix, c.suffix	
 				<cfif not compare(arguments.projectIDlist,'')>
 					, pu.admin,	pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos, pu.svn
 				</cfif>
 			FROM #variables.tableprefix#users u 
 				INNER JOIN #variables.tableprefix#project_users pu ON u.userID = pu.userID
+				LEFT JOIN #variables.tableprefix#carriers c on u.carrierID = c.carrierID
 			WHERE u.active = 1
 			<cfif compare(arguments.projectID,'')>
 				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
