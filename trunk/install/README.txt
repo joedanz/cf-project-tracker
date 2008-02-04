@@ -25,38 +25,16 @@ sure to match the settings in the config files.
 
 UPGRADING FROM 1.0 BETA:
 To upgrade, simply copy the latest files over the existing ones.
-You may need to reinitialize you app by adding a "?reinit" on
-the end of a URL.  All of the settings are contained in the 
-config directory and in the database.  You should keep your 
-existing config files and copy them back on top of the newly
-installed ones.  
-Database changes made since the beta:
-  1) pt_comments - "comment" extended to 1000 characters.
-  2) pt_project_users - "role" extended to 9 characters.
-  3) pt_todolists - "description" extended to 1000 characters.
-  4) pt_todos - "task" extended to 300 characters.
-Database changes made since version 1.0:
-  1) pt_users - guest user now added by default.
-  				"mobile" varchar(15) added
-  				"carrierID" varchar(35) added
-  				"email_todos" tinyint(1) added
-  				"mobile_todos" tinyint(1) added
-  				"email_mstones" tinyint(1) added
-  				"mobile_nstones" tinyint(1) added
-  				"email_issues" tinyint(1) added
-  				"mobile_issues" tinyint(1) added
-  2) pt_carriers - new table + data
-
-SUBVERSION NOTES:
-There is a Subversion repository browser and code browser.  This 
-has not undergone extensive testing, but it works on my system.
-You need to install the subversion client tools on the server 
-and then set the path to svn.exe in the settings files.
+You may need to reinitialize you app by adding a "?reinit" on the 
+end of a URL.  All of the settings are contained in the config 
+directory and in the database.  You should keep your existing 
+config files and copy them back on top of the newly installed 
+ones, but you may want to check for any added settings.
 
 DEMO VERSION:
 A demo of this app can currently be found at http://ajaxcf.com/project
-This version if running on ColdFusion MX 7.  You can login with
-username "admin" and password "admin".
+This version if running on ColdFusion MX 7 - so no image stuff.  
+You can login with username "admin" and password "admin".
 
 ABOUT ROLES:
 There are 3 possible roles a user can have.  Admins can make any changes
@@ -78,21 +56,21 @@ mofify the settings for the guest account to determine which projects are
 accessible.
 
 THANKS:
-To Rick Osborne for the SVNBrowser and CFDiff functionality.
-To Ray Camden for the RSS.cfc used to create RSS activity feeds.
 To Mark Mandel for getting the SVNKit and JavaLoader stuff working.
 To Jeffry Houser and Jeff Coughlin for their many suggestions.
 
 FEEDBACK?
 Please email joe@ajaxcf.com with any suggestions or other feedback.
-My wishlist, should you be inclined, is located at:
+My wishlist, should you be so inclined, is located at:
 http://amazon.com/gp/registry/wishlist/1X4EGLWAC43FJ/102-5824999-1765764
 
 PROJECT HOME:
 http://projecttracker.riaforge.com 
 
 SVN REPOSITORY:
-http://svn.riaforge.org/projecttracke
+http://svn.riaforge.org/projecttracker
 
 INCLUDED CODE:
 RSS feeds created using rss.cfc by Ray Camden (www.coldfusionjedi.com)
+SVNBrowser and CFDiff CFCs by Rick Osborne (http://rickosborne.org/)
+JavaLoader by Mark Mandel used for SVNKit (http://www.compoundtheory.com/)

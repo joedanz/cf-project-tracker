@@ -231,11 +231,11 @@
 		</cfloop>
 
 		<cfscript>
-			server[variables.static.javaKey] = createObject("component", "javaloader.JavaLoader").init(paths);
+			server[variables.static.javaKey] = createObject("component", "JavaLoader").init(paths);
 		</cfscript>
 	</cffunction>
 
-	<cffunction name="getJavaLoader" hint="" access="public" returntype="javaloader.JavaLoader" output="false">
+	<cffunction name="getJavaLoader" hint="" access="public" returntype="JavaLoader" output="false">
 		<cfreturn server[variables.static.javaKey] />
 	</cffunction>
 
