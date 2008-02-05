@@ -24,6 +24,7 @@
 <cfset milestones3 = application.milestone.get(url.p,'','completed')>
 <cfset messages = application.message.get(url.p)>
 <cfset todolists = application.todolist.get(url.p)>
+<cfset issues = application.issue.get(url.p)>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#project.name# &raquo; Milestones" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
@@ -76,16 +77,30 @@
 							</cfif>
 							
 							<cfquery name="tl" dbtype="query">
-								select todolistid,title,added,firstName,lastName from todolists where milestoneid = '#milestoneid#'
+								select todolistid,title,added,firstName,lastName,completed_count,uncompleted_count 
+								from todolists where milestoneid = '#milestoneid#'
 							</cfquery>
 							<cfif tl.recordCount>
-							<h5 class="sub">To-Do List:</h5>
+							<h5 class="sub">To-Do Lists:</h5>
 							<ul class="sub">
 							<cfloop query="tl">
-							<li class="sub"><a href="todos.cfm?p=#url.p#&tlid=#todolistid#">#title#</a> - Added #DateFormat(added,"d mmm, yyyy")# for #firstName# #lastName#</li>
+							<li class="sub"><a href="todos.cfm?p=#url.p#&tlid=#todolistid#">#title#</a> - #completed_count# complete / #uncompleted_count# pending - Added #DateFormat(added,"d mmm, yyyy")# for #firstName# #lastName#</li>
 							</cfloop>
 							</ul>	
 							</cfif>
+						
+							<cfquery name="iss" dbtype="query">
+								select issueID, shortID, issue, created, assignedFirstName, assignedLastName
+								from issues where milestoneid = '#milestoneid#'
+							</cfquery>
+							<cfif iss.recordCount>
+							<h5 class="sub">Issues:</h5>
+							<ul class="sub">
+							<cfloop query="iss">
+							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> - Added #DateFormat(created,"d mmm, yyyy")# for #assignedFirstName# #assignedLastName#</li>
+							</cfloop>
+							</ul>	
+							</cfif>						
 						
 							</div>	
 						</cfloop>
