@@ -259,6 +259,17 @@ function serialize_lists(s)
 };
 
 // REORDER TO-DO ITEMS
+function reorder_items_by_due(projectid,todolistid){
+    $.ajax({
+		type: 'get',
+		url: './ajax/sort_list_items.cfm',
+		data: 'type=due&p=' + projectid + '&lid=' + todolistid,
+		success: function(txt){
+		     $('#todoitems' + todolistid).html(txt);
+		}
+	});
+}
+
 function reorder_items(todolistid) {
 	$('.li' + todolistid).addClass('drag');
 	$('.cb' + todolistid).hide(); $('.li_edit').hide();
@@ -292,7 +303,7 @@ function save_item_order(todolistid) {
     $.ajax({
 		type: 'post',
 		url: './ajax/sort_list_items.cfm',
-		data: 'tlid=' + todolistid + '&li=' + $('#listsort').val()
+		data: 'type=manual&tlid=' + todolistid + '&li=' + $('#listsort').val()
 	});		
 }
 function serialize_items(s,todolistid)
