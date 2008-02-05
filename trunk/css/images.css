@@ -162,6 +162,13 @@
 	padding-left:15px;
 }
 
+/* file uploads - large icons */
+.fileLrg { background: url(../images/filetypes/file.gif) no-repeat 20px 0; }
+.docLrg { background: url(../images/filetypes/doc.gif) no-repeat 20px 0; }
+.pdfLrg { background: url(../images/filetypes/pdf.gif) no-repeat 20px 0; }
+.phpLrg { background: url(../images/filetypes/php.gif) no-repeat 20px 0; }
+.xlsLrg { background: url(../images/filetypes/xls.gif) no-repeat 20px 0; }
+
 /* extensions */
 .doc,.rtf {
 	padding: 5px 20px 5px 0;

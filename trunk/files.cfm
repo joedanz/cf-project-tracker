@@ -57,8 +57,7 @@
 						#DateFormat(uploaded,"dddd, d mmmm")#
 						</span>
 						
-						<div class="wrapper itemlist">
-						<img src="./images/filetypes/<cfswitch expression="#filetype#"><cfcase value="DOC,PDF,XLS">#filetype#</cfcase><cfdefaultcase>file</cfdefaultcase></cfswitch>.gif" height="48" width="48" border="0" alt="#filetype#" style="float:left;margin-right:10px;" />
+						<div class="wrapper itemlist fileLrg #filetype#Lrg">
 						<h3 class="padtop">#title#</h3>	
 						<p>#description#</p>
 						<div class="byline<cfif currentRow neq recordCount> listitem</cfif>">
