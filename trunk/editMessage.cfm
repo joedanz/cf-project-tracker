@@ -169,6 +169,16 @@
 							fckEditor.create(); // create the editor.
 						</cfscript>&nbsp;
 						</p>
+				
+						<p>
+						<label for="milestone">Milestone:</label>
+						<select name="milestoneID" id="milestone">
+							<option value="0">None</option>
+							<cfloop query="milestones">
+							<option value="#milestoneID#"<cfif not compare(msID,milestoneID)> selected="selected"</cfif>>#name#</option>
+							</cfloop>
+						</select>
+						</p>				
 						
 						<cfif files.recordCount>
 						<p>
@@ -185,17 +195,7 @@
 						</ul>
 						</span>
 						</p>
-						</cfif>				
-						
-						<p>
-						<label for="milestone">Milestone:</label>
-						<select name="milestoneID" id="milestone">
-							<option value="0">None</option>
-							<cfloop query="milestones">
-							<option value="#milestoneID#"<cfif not compare(msID,milestoneID)> selected="selected"</cfif>>#name#</option>
-							</cfloop>
-						</select>
-						</p>
+						</cfif>
 						
 						<cfif projectUsers.recordCount gt 1>
 						<p>
