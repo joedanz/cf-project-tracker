@@ -35,7 +35,7 @@
 
 
 <cfparam name="failed" type="boolean" default="FALSE" />
-<cfparam name="apiurl" type="string" default="http://127.0.0.1:8500/project/api/" />
+<cfparam name="apiurl" type="string" default="http://127.0.0.1:8500/project/api/0.1/" />
 <cfparam name="apikey" type="string" default="" />
 <cfparam name="apisecret" type="string" default="" />
 
