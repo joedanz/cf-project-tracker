@@ -86,7 +86,6 @@
 						</form>
 						</div>
 						</li>
-												
 						</cfloop>
 						</ul>
 						
@@ -94,7 +93,8 @@
 						<div style="margin:5px 5px 5px 26px;padding:5px;background-color:##ddd;">
 						<div id="listmenu#todolistID#">
 						<a href="##" onclick="$('##listmenu#todolistID#').hide();$('##additemform#currentRow#').show();$('##ta#todolistID#').focus();return false;" class="add">Add an item</a>
-						| <a href="##" onclick="reorder_items('#todolistID#');return false;" class="reorder">Reorder Items</a>
+						| <a href="##" onclick="reorder_items('#todolistID#');return false;" class="reorder">Manually Reorder Items</a>
+						| <a href="##" onclick="reorder_items_by_due('#url.p#','#todolistID#');return false;" class="reorder">Auto-Reorder By Due Date</a>
 						</div>
 						<div id="reorderdone#todolistID#" style="display:none;">
 						<a href="##" onclick="done_reordering_items('#todolistID#');return false;" class="reorder">Done Reordering</a>
