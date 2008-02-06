@@ -71,7 +71,7 @@ To view file details or to download, visit this link:
 				</cfmail>			
 			</cfif>
 		</cfloop>
-	</cffunction>	
+	</cffunction>
 
 	<cffunction name="issueNew" access="public" returnType="void" output="false"
 				hint="Notification of new issue.">
@@ -224,5 +224,69 @@ To view the full message and leave comments, visit this link:
 			</cfif>
 		</cfloop>
 	</cffunction>
+
+	<cffunction name="milestoneNew" access="public" returnType="void" output="false"
+				hint="Notification of new milestone.">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="milestoneID" type="uuid" required="true">
+		<cfset var qProject = application.project.get('',arguments.projectID)>
+		<cfset var qProjectUsers = application.project.projectUsers(arguments.projectID)>
+		<cfset var qMilestone = application.milestone.get(arguments.projectID,arguments.milestoneID)>
+		<cfloop query="qProjectUsers">		
+			<cfif email_msgs and request.udf.isEmail(email)>
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="New #IIF(compare(qProject.name,''),'##qProject.name## ','')#Milestone">A new #qProject.name# milestone has been added:
+#qMilestone.name#
+
+#request.udf.CleanText(qMilestone.description)#
+
+<cfif compare(qMilestone.lastName,'')>Assigned To: #qMilestone.firstName# #qMilestone.lastName#
+
+</cfif>To view file details or to download, visit this link:
+#application.settings.rootURL##application.settings.mapping#/milestones.cfm?p=#arguments.projectID#&m=#arguments.milestoneID#
+				</cfmail>
+			</cfif>
+			<cfif mobile_msgs and isNumeric(mobile)>
+				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="New #IIF(compare(qProject.name,''),'##qProject.name## ','')#Issue">New #qProject.name# file:
+#qMilestone.name#
+
+Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
+
+#Left(request.udf.CleanText(qMilestone.description),100)#<cfif len(request.udf.CleanText(qMilestone.description)) gt 100>...</cfif>
+				</cfmail>			
+			</cfif>
+		</cfloop>
+	</cffunction>
 	
+	<cffunction name="milestoneUpdate" access="public" returnType="void" output="false"
+				hint="Notification of updated milestone.">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="milestoneID" type="uuid" required="true">
+		<cfset var qProject = application.project.get('',arguments.projectID)>
+		<cfset var qProjectUsers = application.project.projectUsers(arguments.projectID)>
+		<cfset var qMilestone = application.milestone.get(arguments.projectID,arguments.milestoneID)>
+		<cfloop query="qProjectUsers">		
+			<cfif email_msgs and request.udf.isEmail(email)>
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="New #IIF(compare(qProject.name,''),'##qProject.name## ','')#Milestone">The following #qProject.name# milestone has been updated:
+#qMilestone.name#
+
+Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
+
+#request.udf.CleanText(qMilestone.description)#
+
+<cfif compare(qMilestone.lastName,'')>Assigned To: #qMilestone.firstName# #qMilestone.lastName#
+
+</cfif>To view file details or to download, visit this link:
+#application.settings.rootURL##application.settings.mapping#/milestones.cfm?p=#arguments.projectID#&m=#arguments.milestoneID#
+				</cfmail>
+			</cfif>
+			<cfif mobile_msgs and isNumeric(mobile)>
+				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="New #IIF(compare(qProject.name,''),'##qProject.name## ','')#Milestone">Updated #qProject.name# milestone:
+#qMilestone.name#
+
+#Left(request.udf.CleanText(qMilestone.description),100)#<cfif len(request.udf.CleanText(qFile.description)) gt 100>...</cfif>
+				</cfmail>			
+			</cfif>
+		</cfloop>
+	</cffunction>
+
 </cfcomponent>
