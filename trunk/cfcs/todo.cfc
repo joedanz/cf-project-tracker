@@ -21,6 +21,7 @@
 		<cfargument name="order_by" type="string" required="false" default="rank,added">
 		<cfargument name="assignedTo" type="string" required="false" default="">
 		<cfargument name="projectIDlist" type="string" required="false" default="">
+		<cfargument name="todoID" type="string" required="false" default="">
 		<cfset var qGetTodos = "">
 		<cfquery name="qGetTodos" datasource="#variables.dsn#">
 			SELECT t.todoID,t.todolistID,t.projectID,t.task,t.userID,t.rank,t.due,t.completed,t.svnrevision,
@@ -33,6 +34,7 @@
 					AND t.projectID IN ('#replace(arguments.projectIDlist,",","','","ALL")#')
 				</cfif>	
 				<cfif compare(arguments.todolistID,'')> AND todolistID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35"></cfif>
+				<cfif compare(arguments.todoID,'')> AND todoID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todoID#" maxlength="35"></cfif>
 				<cfif compare(arguments.completed,'')>
 					<cfif arguments.completed>
 						AND t.completed IS NOT NULL
@@ -50,6 +52,7 @@
 	
 	<cffunction name="add" access="public" returnType="boolean" output="false"
 				hint="Adds a task.">
+		<cfargument name="todoID" type="uuid" required="true">
 		<cfargument name="todolistID" type="uuid" required="true">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="task" type="string" required="true">
@@ -57,7 +60,7 @@
 		<cfargument name="due" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#todos (todoID,todolistID,projectID,task,userid,rank,added,due)
-			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#createUUID()#" maxlength="35">,
+			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todoID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.task#">,

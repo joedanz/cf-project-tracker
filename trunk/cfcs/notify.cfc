@@ -289,4 +289,64 @@ Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
 		</cfloop>
 	</cffunction>
 
+	<cffunction name="todoNew" access="public" returnType="void" output="false"
+				hint="Notification of new todo.">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="todolistID" type="uuid" required="true">
+		<cfargument name="todoID" type="uuid" required="true">
+		<cfset var qProject = application.project.get('',arguments.projectID)>
+		<cfset var qProjectUsers = application.project.projectUsers(arguments.projectID)>
+		<cfset var qTodolist = application.todolist.get(arguments.projectID,arguments.todolistID)>
+		<cfset var qTodo = application.todo.get(projectID=arguments.projectID,todolistID=arguments.todolistID,todoID=arguments.todoID)>
+		<cfloop query="qProjectUsers">		
+			<cfif email_msgs and request.udf.isEmail(email)>
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="New #IIF(compare(qProject.name,''),'##qProject.name## ','')#To-Do">A new #qProject.name# to-do has been added to list #qTodolist.title#:
+#qTodo.task#
+
+<cfif isDate(qTodo.due)>Due Date: #DateFormat(qTodo.due,"ddd, mmmm d, yyyy")#
+
+</cfif>To view file details or to download, visit this link:
+#application.settings.rootURL##application.settings.mapping#/todos.cfm?p=#arguments.projectID#&t=#arguments.todolistID#
+				</cfmail>
+			</cfif>
+			<cfif mobile_msgs and isNumeric(mobile)>
+				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="New #IIF(compare(qProject.name,''),'##qProject.name## ','')#To-Do">New #qProject.name# to-do:
+#qTodo.task#
+
+List: #qTodolist.title#
+				</cfmail>			
+			</cfif>
+		</cfloop>
+	</cffunction>
+	
+	<cffunction name="todoUpdate" access="public" returnType="void" output="false"
+				hint="Notification of updated todo.">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="todolistID" type="uuid" required="true">
+		<cfargument name="todoID" type="uuid" required="true">
+		<cfset var qProject = application.project.get('',arguments.projectID)>
+		<cfset var qProjectUsers = application.project.projectUsers(arguments.projectID)>
+		<cfset var qTodolist = application.todolist.get(arguments.projectID,arguments.todolistID)>
+		<cfset var qTodo = application.todo.get(projectID=arguments.projectID,todolistID=arguments.todolistID,todoID=arguments.todoID)>
+		<cfloop query="qProjectUsers">		
+			<cfif email_msgs and request.udf.isEmail(email)>
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="New #IIF(compare(qProject.name,''),'##qProject.name## ','')#To-Do">The following #qProject.name# to-do has been updated in list #qTodolist.title#:
+#qTodo.task#
+
+<cfif isDate(qTodo.due)>Due Date: #DateFormat(qTodo.due,"ddd, mmmm d, yyyy")#
+
+</cfif>To view file details or to download, visit this link:
+#application.settings.rootURL##application.settings.mapping#/todos.cfm?p=#arguments.projectID#&t=#arguments.todolistID#
+				</cfmail>
+			</cfif>
+			<cfif mobile_msgs and isNumeric(mobile)>
+				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="New #IIF(compare(qProject.name,''),'##qProject.name## ','')#To-Do">Updated #qProject.name# to-do:
+#qTodo.task#
+
+List: #qTodolist.title#
+				</cfmail>			
+			</cfif>
+		</cfloop>
+	</cffunction>
+
 </cfcomponent>
