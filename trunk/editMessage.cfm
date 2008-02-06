@@ -37,7 +37,7 @@
 	<cfif not compare(hash(url.m),url.mh)>
 		<cfset thisMessage = application.message.get(url.p,url.m)>
 		<cfset title = thisMessage.title>
-		<cfset cat = thisMessage.category>
+		<cfset catID = thisMessage.categoryID>
 		<cfset message = thisMessage.message>
 		<cfset msID = thisMessage.milestoneID>
 		<cfset variables.allowComments = thisMessage.allowComments>
@@ -150,7 +150,7 @@
 						<select name="category" id="category" onChange="newMsgCat(this.value);">
 							<option value="">Select Category...</option>
 							<cfloop query="categories">
-							<option value="#category#"<cfif not compare(cat,category)> selected="selected"</cfif>>#category#</option>
+							<option value="#categoryID#"<cfif not compare(catID,categoryID)> selected="selected"</cfif>>#category#</option>
 							</cfloop>
 							<option value="new">--- add new category ---</option>
 						</select>
@@ -205,10 +205,10 @@
 						</span>
 						<span id="notify" style="display:none;">
 						<ul class="nobullet">
-						<li><input type="checkbox" id="everyone" class="checkbox notoggle" onclick="notify_all();" /><label for="everyone" class="list b">Everyone</label></li>
-						<li><input type="checkbox" name="notifylist" class="checkbox" id="#session.user.userID#" value="#session.user.userID#"<cfif StructKeyExists(url,"m") and (listFind(valueList(notifyList.userid),session.user.userID))> checked="checked"</cfif> /><label for="#session.user.userID#" class="list">Myself</label>
+						<li><input type="checkbox" id="everyone" class="checkbox notoggle" onclick="notify_all();"<cfif not StructKeyExists(url,"m")> checked="checked"</cfif> /><label for="everyone" class="list b">Everyone</label></li>
+						<li><input type="checkbox" name="notifylist" class="checkbox" id="#session.user.userID#" value="#session.user.userID#" onchange="if (!$('###session.user.userid#').is(':checked')) $('##everyone').attr('checked','');"<cfif (StructKeyExists(url,"m") and (listFind(valueList(notifyList.userid),session.user.userID))) or not StructKeyExists(url,"m")> checked="checked"</cfif> /><label for="#session.user.userID#" class="list">Myself</label>
 						<cfloop query="projectUsers">
-						<cfif compare(userID,session.user.userID)><li><input type="checkbox" name="notifylist" class="checkbox" id="#userID#" value="#userID#"<cfif not StructKeyExists(url,"m") or (listFind(valueList(notifyList.userid),userID))> checked="checked"</cfif> /><label for="#userID#" class="list">#firstName# #lastName#</label></li></cfif>
+						<cfif compare(userID,session.user.userID)><li><input type="checkbox" name="notifylist" class="checkbox" id="#userID#" value="#userID#" onchange="if (!$('###userid#').is(':checked')) $('##everyone').attr('checked','');"<cfif not StructKeyExists(url,"m") or (listFind(valueList(notifyList.userid),userID))> checked="checked"</cfif> /><label for="#userID#" class="list">#firstName# #lastName#</label></li></cfif>
 						</cfloop>
 						</ul>
 						</span>

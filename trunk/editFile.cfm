@@ -3,6 +3,7 @@
 <cfif StructKeyExists(form,"fileID")> <!--- update file --->
 	<cfset application.file.update(form.fileID,form.projectid,form.title,form.category,form.description)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'File',form.fileID,form.title,'edited')>
+	<cfset application.notify.fileUpdate(form.projectid,form.fileID)>
 	<cflocation url="files.cfm?p=#form.projectID#" addtoken="false">
 <cfelseif StructKeyExists(form,"projectID")> <!--- add/upload file --->
 	<cftry>
@@ -13,6 +14,7 @@
 	<cfset newID = createUUID()>
 	<cfset application.file.add(newID,form.projectID,form.title,form.category,form.description,cffile.ClientFile,cffile.ServerFile,cffile.ClientFileExt,cffile.FileSize,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'File',newID,form.title,'added')>
+	<cfset application.notify.fileNew(form.projectid,newID)>
 	<cflocation url="files.cfm?p=#form.projectID#" addtoken="false">
 </cfif>
 

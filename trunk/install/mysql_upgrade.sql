@@ -77,6 +77,14 @@ ALTER TABLE `pt_issues` ADD `milestoneID` varchar(35) default NULL;
 ALTER TABLE `pt_issues` MODIFY `createdBy` char(35) NOT NULL;
 ALTER TABLE `pt_issues` MODIFY `detail` text default NULL;
 
+/* pt_message_categories */
+CREATE TABLE `pt_message_categories` (
+  `projectID` char(35) NOT NULL,
+  `categoryID` char(35) NOT NULL,
+  `category` varchar(80) default NULL,
+  PRIMARY KEY  (`projectID`,`categoryID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /* pt_message_files */
 CREATE TABLE `pt_message_files` (
   `messageID` char(35) NOT NULL,
@@ -94,6 +102,7 @@ ALTER TABLE `pt_messages` MODIFY `messageID` char(35) NOT NULL;
 ALTER TABLE `pt_messages` MODIFY `projectID` char(35) NOT NULL;
 ALTER TABLE `pt_messages` MODIFY `userID` char(35) NOT NULL;
 ALTER TABLE `pt_messages` MODIFY `message` text default NULL;
+ALTER TABLE `pt_messages` ADD `categoryID` char(35) default NULL;
 
 /* pt_milestones */
 ALTER TABLE `pt_milestones` MODIFY `milestoneID` char(35) NOT NULL;

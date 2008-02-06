@@ -2,13 +2,13 @@
 
 <cfparam name="form.display" default="0">
 <cfif StructKeyExists(form,"issueID")> <!--- update issue --->
-	<cfset application.issue.update(form.issueID,form.projectid,form.issue,request.udf.CleanText(form.detail),form.type,form.severity,form.status,form.assignedTo,form.milestone,form.relevantURL,session.user.userid)>
+	<cfset application.issue.update(form.issueID,form.projectid,form.issue,form.detail,form.type,form.severity,form.status,form.assignedTo,form.milestone,form.relevantURL,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Issue',form.issueID,form.issue,'edited')>
 	<cfset application.notify.issueUpdate(form.projectid,form.issueID)>
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#form.issueID#" addtoken="false">
 <cfelseif StructKeyExists(form,"submit")> <!--- add issue --->
 	<cfset newID = createUUID()>
-	<cfset application.issue.add(newID,form.projectID,form.ticketPrefix,form.issue,request.udf.CleanText(form.detail),form.type,form.severity,form.status,form.assignedTo,form.milestone,form.relevantURL,session.user.userid)>
+	<cfset application.issue.add(newID,form.projectID,form.ticketPrefix,form.issue,form.detail,form.type,form.severity,form.status,form.assignedTo,form.milestone,form.relevantURL,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Issue',newID,form.issue,'added')>
 	<cfset application.notify.issueNew(form.projectid,newID)>
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#newID#" addtoken="false">

@@ -103,6 +103,15 @@ CREATE TABLE `pt_issues` (
   PRIMARY KEY  (`issueID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `pt_message_categories` */
+
+CREATE TABLE `pt_message_categories` (
+  `projectID` char(35) NOT NULL,
+  `categoryID` char(35) NOT NULL,
+  `category` varchar(80) default NULL,
+  PRIMARY KEY  (`projectID`,`categoryID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `pt_message_files` */
 
 CREATE TABLE `pt_message_files` (
@@ -129,6 +138,7 @@ CREATE TABLE `pt_messages` (
   `userID` char(35) NOT NULL,
   `title` varchar(120) default NULL,
   `message` text default NULL,
+  `categoryID` char(35) NOT NULL,
   `category` varchar(50) default NULL,
   `allowcomments` tinyint(1) default NULL,
   `stamp` datetime default NULL,
