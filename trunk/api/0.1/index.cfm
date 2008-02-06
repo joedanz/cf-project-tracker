@@ -35,7 +35,9 @@
 	<cf_getFiles project="#url.p#">
 <cfelseif StructKeyExists(url,'issues')>
 	<cf_getIssues project="#url.p#">
-<cfelseif StructKeyExists(url,'messageArchive')>
+<cfelseif StructKeyExists(url,'messagecats')>
+	<cf_getMessageCategories project="#url.p#">
+<cfelseif StructKeyExists(url,'messages')>
 	<cf_getMessages project="#url.p#">
 <cfelseif StructKeyExists(url,'mstones')>
 	<cf_getMilestones project="#url.p#">

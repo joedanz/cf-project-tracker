@@ -8,8 +8,9 @@
 		<cfset test.projects = ptObj.getProjectList() />
 		<cfif test.projects.recordCount>
 			<cfset test.project = ptObj.getProject(test.projects.id[1]) />
-			<cfset test.messages = ptObj.getMessageArchive(test.projects.id[1]) />
+			<cfset test.messages = ptObj.getMessages(test.projects.id[1]) />
 			<cfif test.messages.recordCount>
+				<cfset test.message_categories = ptObj.getMessageCategories(test.projects.id[1])>
 				<cfset test.message = ptObj.getMessage(test.projects.id[1],test.messages.id[1]) />
 				<cfset test.comments = ptObj.getCommentsByMessage(test.projects.id[1],test.messages.id[1]) />
 			</cfif>
