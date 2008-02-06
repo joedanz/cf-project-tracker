@@ -62,7 +62,7 @@ limitations under the License.
 	<cfargument name="projectID" type="string" required="yes" hint="The projectID for which to get details." />
 	<cfargument name="messageID" type="string" required="yes" hint="The messageID for which to get details." />
 
-	<cfset var messageQuery = getMessageArchive(arguments.projectID) />
+	<cfset var messageQuery = getMessages(arguments.projectID) />
 
 	<cfquery dbtype="query" name="messageQuery">
 		SELECT 	*
@@ -73,10 +73,20 @@ limitations under the License.
 	<cfreturn messageQuery />
 </cffunction>
 
-<cffunction access="public" name="getMessageArchive" output="false" returntype="query" hint="Gets the list of all messages for a project." >
+<cffunction access="public" name="getMessageCategories" output="false" returntype="query" hint="Gets the list of all messages for a project." >
 	<cfargument name="projectID" type="string" required="yes" hint="The projectID for which to get messages." />
 
-	<cfset var UrlToRequest = variables.apiUrl & "?key=#variables.apiKey#&messageArchive=1&p=" & arguments.projectID/>
+	<cfset var UrlToRequest = variables.apiUrl & "?key=#variables.apiKey#&messagecats=1&p=" & arguments.projectID/>
+	<cfset var XMLResults = makeHTTPGetRequest(UrlToRequest) />
+	<cfset var QueryResults = convertXMLToQuery(projecttrackerXML=XMLResults, collection="post-category", root="post-categories") />
+
+	<cfreturn QueryResults />
+</cffunction>
+
+<cffunction access="public" name="getMessages" output="false" returntype="query" hint="Gets the list of all messages for a project." >
+	<cfargument name="projectID" type="string" required="yes" hint="The projectID for which to get messages." />
+
+	<cfset var UrlToRequest = variables.apiUrl & "?key=#variables.apiKey#&messages=1&p=" & arguments.projectID/>
 	<cfset var XMLResults = makeHTTPGetRequest(UrlToRequest) />
 	<cfset var QueryResults = convertXMLToQuery(projecttrackerXML=XMLResults, collection="post", root="posts") />
 
