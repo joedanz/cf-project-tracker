@@ -31,6 +31,8 @@
 
 <cfif StructKeyExists(url,'comments')>
 	<cf_getComments project="#url.p#" message="#url.m#">
+<cfelseif StructKeyExists(url,'filecats')>
+	<cf_getFileCategories project="#url.p#">
 <cfelseif StructKeyExists(url,'files')>
 	<cf_getFiles project="#url.p#">
 <cfelseif StructKeyExists(url,'issues')>

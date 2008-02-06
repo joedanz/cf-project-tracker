@@ -15,6 +15,9 @@
 				<cfset test.comments = ptObj.getCommentsByMessage(test.projects.id[1],test.messages.id[1]) />
 			</cfif>
 			<cfset test.files = ptObj.getFiles(test.projects.id[1]) />
+			<cfif test.files.recordCount>
+				<cfset test.file_categories = ptObj.getFileCategories(test.projects.id[1])>
+			</cfif>
 			<cfset test.issues = ptObj.getIssues(test.projects.id[1]) />
 			<cfset test.milestones = ptObj.getMilestones(test.projects.id[1]) />
 			<cfset test.todolists = ptObj.getToDoLists(test.projects.id[1]) />

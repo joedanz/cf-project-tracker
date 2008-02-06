@@ -29,14 +29,14 @@
 
 <cfparam name="fileupload" default="">
 <cfparam name="title" default="">
-<cfparam name="cat" default="">
+<cfparam name="catID" default="">
 <cfparam name="description" default="">
 <cfparam name="title_action" default="Add">
 
 <cfif StructKeyExists(url,"f")>
 	<cfset thisFile = application.file.get(url.p,url.f)>
 	<cfset title = thisFile.title>
-	<cfset cat = thisFile.category>
+	<cfset catID = thisFile.categoryID>
 	<cfset description = thisFile.description>
 	<cfset title_action = "Edit">
 </cfif>
@@ -102,7 +102,7 @@
 						<select name="category" id="category" onChange="newFileCat(this.value);">
 							<option value="">Select Category...</option>
 							<cfloop query="categories">
-							<option value="#category#"<cfif not compare(cat,category)> selected="selected"</cfif>>#category#</option>
+							<option value="#categoryID#"<cfif not compare(catID,categoryID)> selected="selected"</cfif>>#category#</option>
 							</cfloop>
 							<option value="new">--- add new category ---</option>
 						</select>

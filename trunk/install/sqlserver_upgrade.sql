@@ -73,6 +73,22 @@ INSERT INTO [dbo].[pt_carriers](carrierID,carrier,countryCode,country,prefix,suf
 GO
 
 
+/* pt_categories */
+CREATE TABLE [dbo].[pt_categories] (
+	[projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[categoryID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[type] [nvarchar] (5) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[category] [nvarchar] (80) COLLATE SQL_Latin1_General_CP1_CI_AS NULL 
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[pt_categories] WITH NOCHECK ADD 
+	CONSTRAINT [PK_pt_categories] PRIMARY KEY  CLUSTERED 
+	(
+		[projectID],[categoryID],[type]
+	)  ON [PRIMARY] 
+GO
+
+
 /* pt_clients */
 CREATE TABLE [dbo].[pt_clients] (
 	[clientID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
@@ -124,6 +140,8 @@ ALTER TABLE [dbo].[pt_files] ALTER COLUMN [uploadedBy] [char] (35) COLLATE SQL_L
 GO
 ALTER TABLE [dbo].[pt_files] ALTER COLUMN [description] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 GO
+ALTER TABLE [dbo].[pt_files] ADD [categoryID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
 ALTER TABLE [dbo].[pt_files] WITH NOCHECK ADD 
 	CONSTRAINT [PK_pt_files] PRIMARY KEY  CLUSTERED 
 	(
@@ -147,21 +165,6 @@ ALTER TABLE [dbo].[pt_issues] WITH NOCHECK ADD
 	CONSTRAINT [PK_pt_issues] PRIMARY KEY  CLUSTERED 
 	(
 		[issueID]
-	)  ON [PRIMARY] 
-GO
-
-
-/* pt_message_categories */
-CREATE TABLE [dbo].[pt_message_categories] (
-	[projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-	[categoryID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-	[category] [nvarchar] (80) COLLATE SQL_Latin1_General_CP1_CI_AS NULL 
-) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[pt_message_categories] WITH NOCHECK ADD 
-	CONSTRAINT [PK_pt_message_categories] PRIMARY KEY  CLUSTERED 
-	(
-		[projectID],[categoryID]
 	)  ON [PRIMARY] 
 GO
 

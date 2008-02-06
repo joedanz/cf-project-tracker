@@ -172,6 +172,19 @@ function CleanText(str) {
   return cleaned;
 }
 request.udf.CleanText = CleanText;
+
+/**
+* Returns TRUE if the string is a valid CF UUID.
+* 
+* @param str 	 String to be checked. (Required)
+* @return Returns a boolean. 
+* @author Jason Ellison (jgedev@hotmail.com) 
+* @version 1, November 24, 2003 
+*/
+function IsCFUUID(str) {  	
+ return REFindNoCase("^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{16}$", str);
+}
+request.udf.IsCFUUID = IsCFUUID;
 </cfscript>
 
 <cfsetting enablecfoutputonly=false>

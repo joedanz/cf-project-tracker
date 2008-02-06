@@ -21,20 +21,22 @@
 		<cfargument name="uploadedBy" type="string" required="false" default="">
 		<cfset var qGetFiles = "">
 		<cfquery name="qGetFiles" datasource="#variables.dsn#">
-			SELECT fileID,title,category,description,filename,serverfilename,filetype,
-				filesize,uploaded,uploadedBy,u.firstName, u.lastName
-			FROM #variables.tableprefix#files f LEFT JOIN #variables.tableprefix#users u
-				ON f.uploadedBy = u.userID
-			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+			SELECT f.fileID, f.title, f.categoryID, f.description, f.filename, f.serverfilename, f.filetype,
+				f.filesize,f.uploaded,f.uploadedBy,u.firstName, u.lastName, fc.category
+			FROM #variables.tableprefix#files f 
+				LEFT JOIN #variables.tableprefix#users u ON f.uploadedBy = u.userID
+				LEFT JOIN #variables.tableprefix#categories fc on f.categoryID = fc.categoryID
+			WHERE f.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			<cfif compare(arguments.fileID,'')>
-				AND fileID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">
+				AND f.fileID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.category,'')>
-				AND category = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#" maxlength="50">
+				AND f.categoryID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.categoryID#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.uploadedBy,'')>
-				AND uploadedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.uploadedBy#" maxlength="35">
+				AND f.uploadedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.uploadedBy#" maxlength="35">
 			</cfif>
+			AND fc.type = 'file'
 		</cfquery>
 		<cfreturn qGetFiles>
 	</cffunction>
@@ -44,12 +46,27 @@
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfset var qGetCategories = "">
 		<cfquery name="qGetCategories" datasource="#variables.dsn#">
-			SELECT distinct category FROM #variables.tableprefix#files
+			SELECT distinct categoryID, category FROM #variables.tableprefix#categories
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				AND type = 'file'
 			ORDER BY category
 		</cfquery>
 		<cfreturn qGetCategories>
 	</cffunction>		
+
+	<cffunction name="addCategory" access="public" returnType="string" output="false"
+				hint="Adds a file category.">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="category" type="string" required="true">
+		<cfset var newID = createUUID()>
+		<cfquery datasource="#variables.dsn#">
+			INSERT INTO #variables.tableprefix#categories (projectID,categoryID,type,category)
+			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
+					'#newID#','file',
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#" maxlength="80">)
+		</cfquery>
+		<cfreturn newID>
+	</cffunction>
 
 	<cffunction name="add" access="public" returntype="void" output="false"
 				hint="Inserts a pp_files record.">
@@ -63,12 +80,20 @@
 		<cfargument name="filetype" type="string" required="true">
 		<cfargument name="filesize" type="numeric" required="true">
 		<cfargument name="uploadedBy" type="string" required="true">
+		<cfset var catID = "">
+		<!--- determine if new category --->
+		<cfif request.udf.IsCFUUID(arguments.category)>
+			<cfset catID = arguments.category>
+		<cfelse>
+			<cfset catID = addCategory(arguments.projectID,arguments.category)>
+		</cfif>
+		<!--- insert record --->		
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#files (fileID, projectID, title, category, description, filename, serverfilename, filetype, filesize, uploaded, uploadedBy)
+			INSERT INTO #variables.tableprefix#files (fileID, projectID, title, categoryID, description, filename, serverfilename, filetype, filesize, uploaded, uploadedBy)
 				VALUES(<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="200">, 
-						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#" maxlength="50">, 
+						<cfqueryparam cfsqltype="cf_sql_char" value="#catID#" maxlength="35">, 
 						<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filename#" maxlength="150">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.serverfilename#" maxlength="150">, 

@@ -40,6 +40,15 @@ INSERT INTO `pt_carriers` values('84675A6C-1372-7975-6F496C2375ED2815','TELUS','
 INSERT INTO `pt_carriers` values('84677BCF-1372-7975-6F89C8D24436A08A','Virgin Canada','CA','Canada','1','@vmobile.ca',1);
 INSERT INTO `pt_carriers` values('8467A2B0-1372-7975-6FEB7589919DC435','O2','UK','United Kingdom','1','@mmail.co.uk',1);
 
+/* pt_categories */
+CREATE TABLE `pt_categories` (
+  `projectID` char(35) NOT NULL,
+  `categoryID` char(35) NOT NULL,
+  `type` varchar(5) default NULL,
+  `category` varchar(80) default NULL,
+  PRIMARY KEY  (`projectID`,`categoryID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `pt_clients` */
 CREATE TABLE `pt_clients` (
   `clientID` char(35) NOT NULL,
@@ -69,6 +78,7 @@ ALTER TABLE `pt_files` MODIFY `fileID` char(35) NOT NULL;
 ALTER TABLE `pt_files` MODIFY `projectID` char(35) NOT NULL;
 ALTER TABLE `pt_files` MODIFY `uploadedBy` char(35) NOT NULL;
 ALTER TABLE `pt_files` MODIFY `description` text default NULL;
+ALTER TABLE `pt_files` ADD `categoryID` char(35) default NULL;
 
 /* pt_issues */
 ALTER TABLE `pt_issues` MODIFY `issueID` char(35) NOT NULL;
@@ -76,14 +86,6 @@ ALTER TABLE `pt_issues` MODIFY `projectID` char(35) NOT NULL;
 ALTER TABLE `pt_issues` ADD `milestoneID` varchar(35) default NULL;
 ALTER TABLE `pt_issues` MODIFY `createdBy` char(35) NOT NULL;
 ALTER TABLE `pt_issues` MODIFY `detail` text default NULL;
-
-/* pt_message_categories */
-CREATE TABLE `pt_message_categories` (
-  `projectID` char(35) NOT NULL,
-  `categoryID` char(35) NOT NULL,
-  `category` varchar(80) default NULL,
-  PRIMARY KEY  (`projectID`,`categoryID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /* pt_message_files */
 CREATE TABLE `pt_message_files` (

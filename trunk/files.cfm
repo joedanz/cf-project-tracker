@@ -35,11 +35,9 @@
 		<div class="main">
 
 				<div class="header">
-					<cfif project.files gt 1>
 					<span class="rightmenu">
-						<a href="editFile.cfm?p=#url.p#" class="add">Upload a file</a>
+						
 					</span>
-					</cfif>
 										
 					<h2 class="files">
 					<cfif compare(url.c,'')>
@@ -66,7 +64,7 @@
 						<cfelse>
 						#Int(filesize/1024)#K,
 						</cfif>
-						uploaded to <a href="#cgi.script_name#?p=#url.p#&c=#urlEncodedFormat(category)#">#category#</a> by #firstName# #lastName# | <a href="download.cfm?p=#url.p#&f=#fileID#" class="download">Download file</a>
+						uploaded to <a href="#cgi.script_name#?p=#url.p#&c=#categoryID#">#category#</a> by #firstName# #lastName# | <a href="download.cfm?p=#url.p#&f=#fileID#" class="download">Download file</a>
 						<cfif session.user.userID eq uploadedBy or session.user.admin>
 						| <a href="editFile.cfm?p=#url.p#&f=#fileID#" class="edit">Edit details</a>
 						| <a href="#cgi.script_name#?p=#url.p#&df=#fileID#" class="delete" onclick="return confirm('Are you sure you wish to delete this file?');">Delete File</a>
@@ -89,11 +87,16 @@
 
 	<!--- right column --->
 	<div class="right">
+	
+		<cfif project.files gt 1>
+		<h3><a href="editFile.cfm?p=#url.p#" class="add">Upload a new file</a></h3><br />
+		</cfif>	
+	
 		<div class="header"><h3>Categories</h3></div>
 		<div class="content">
 			<ul>
 				<cfloop query="categories">
-					<li><a href="#cgi.script_name#?p=#url.p#&c=#urlEncodedFormat(category)#">#category#</a></li>
+					<li><a href="#cgi.script_name#?p=#url.p#&c=#categoryID#"<cfif not compareNoCase(url.c,categoryID)> class="b"</cfif>>#category#</a></li>
 				</cfloop>
 			</ul>
 		</div>
