@@ -2,10 +2,13 @@
 
 <cfswitch expression="#url.action#">
 	<cfcase value="add">
-		<cfset application.todo.add(form.l,form.p,form.t,form.fw,form.d)>
+		<cfset newID = createUUID()>
+		<cfset application.todo.add(newID,form.l,form.p,form.t,form.fw,form.d)>
+		<cfset application.notify.todoNew(form.p,form.l,newID)>
 	</cfcase>
 	<cfcase value="update">
 		<cfset application.todo.update(form.i,form.l,form.p,form.t,form.fw,form.d)>
+		<cfset application.notify.todoUpdate(form.p,form.l,form.i)>
 	</cfcase>
 	<cfcase value="delete">
 		<cfset application.todo.delete(url.p,url.l,url.t)>
