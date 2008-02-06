@@ -151,6 +151,21 @@ ALTER TABLE [dbo].[pt_issues] WITH NOCHECK ADD
 GO
 
 
+/* pt_message_categories */
+CREATE TABLE [dbo].[pt_message_categories] (
+	[projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[categoryID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[category] [nvarchar] (80) COLLATE SQL_Latin1_General_CP1_CI_AS NULL 
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[pt_message_categories] WITH NOCHECK ADD 
+	CONSTRAINT [PK_pt_message_categories] PRIMARY KEY  CLUSTERED 
+	(
+		[projectID],[categoryID]
+	)  ON [PRIMARY] 
+GO
+
+
 /* pt_message_files */
 CREATE TABLE [dbo].[pt_message_files] (
 	[messageID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
@@ -190,6 +205,8 @@ GO
 ALTER TABLE [dbo].[pt_messages] ALTER COLUMN [message] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 GO
 ALTER TABLE [dbo].[pt_messages] ALTER COLUMN [allowcomments] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_messages] ADD [categoryID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 GO
 ALTER TABLE [dbo].[pt_messages] WITH NOCHECK ADD 
 	CONSTRAINT [PK_pt_messages] PRIMARY KEY  CLUSTERED 

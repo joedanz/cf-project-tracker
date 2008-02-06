@@ -3,6 +3,20 @@
 	<cfset variables.dsn = "">
 	<cfset variables.tableprefix = "">
 
+	<cfscript>
+		/**
+		* Returns TRUE if the string is a valid CF UUID.
+		* 
+		* @param str 	 String to be checked. (Required)
+		* @return Returns a boolean. 
+		* @author Jason Ellison (jgedev@hotmail.com) 
+		* @version 1, November 24, 2003 
+		*/
+		function IsCFUUID(str) {  	
+		 return REFindNoCase("^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{16}$", str);
+		}
+	</cfscript>
+
 	<cffunction name="init" access="public" returnType="message" output="false"
 				hint="Returns an instance of the CFC initialized with the correct DSN.">
 		<cfargument name="settings" type="struct" required="true" hint="Settings">
@@ -17,24 +31,25 @@
 				hint="Returns messages.">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="messageID" type="string" required="false" default="">
-		<cfargument name="category" type="string" required="false" default="">
+		<cfargument name="categoryID" type="string" required="false" default="">
 		<cfargument name="milestoneID" type="string" required="false" default="">
 		<cfargument name="m" type="numeric" required="false" default="0">
 		<cfargument name="y" type="numeric" required="false" default="0">
 		<cfset var qGetMessages = "">
 		<cfquery name="qGetMessages" datasource="#variables.dsn#">
-			SELECT u.userID,u.firstName,u.lastName,u.avatar,m.messageID,m.milestoneid,m.title,m.message,m.category,
-					m.allowcomments,m.stamp,ms.name,
+			SELECT u.userID,u.firstName,u.lastName,u.avatar,m.messageID,m.categoryID,m.milestoneID,m.title,m.message,
+					m.allowcomments,m.stamp,ms.name,mc.category,
 					(SELECT count(commentID) FROM #variables.tableprefix#comments c where m.messageid = c.messageid) as commentcount,
 					(SELECT count(fileID) FROM #variables.tableprefix#message_files mf where m.messageid = mf.messageid) as attachcount
-			FROM #variables.tableprefix#messages m LEFT JOIN #variables.tableprefix#users u
-				ON u.userID = m.userID LEFT JOIN #variables.tableprefix#milestones ms
-				ON m.milestoneid = ms.milestoneid
+			FROM #variables.tableprefix#messages m 
+				LEFT JOIN #variables.tableprefix#message_categories mc ON m.categoryID = mc.categoryID
+				LEFT JOIN #variables.tableprefix#users u ON u.userID = m.userID 
+				LEFT JOIN #variables.tableprefix#milestones ms ON m.milestoneid = ms.milestoneid
 			WHERE m.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				<cfif compare(arguments.messageid,'')> AND m.messageID = 
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35"></cfif>
-				<cfif compare(arguments.category,'')> AND m.category = 
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#"></cfif>
+				<cfif compare(arguments.categoryID,'')> AND m.categoryID = 
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.categoryID#" maxlength="35"></cfif>
 				<cfif compare(arguments.milestoneID,'')> AND m.milestoneID = 
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35"></cfif>
 				<cfif arguments.m> AND m.stamp between #createdate(arguments.y,arguments.m,'1')# AND #createDateTime(arguments.y,arguments.m,daysInMonth(createdate(arguments.y,arguments.m,'1')),'23','59','59')#</cfif>
@@ -82,7 +97,7 @@
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfset var qGetCategories = "">
 		<cfquery name="qGetCategories" datasource="#variables.dsn#">
-			SELECT distinct category FROM #variables.tableprefix#messages
+			SELECT distinct categoryID, category FROM #variables.tableprefix#message_categories
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			ORDER BY category
 		</cfquery>
@@ -115,6 +130,20 @@
 		<cfreturn qGetDates>
 	</cffunction>		
 
+	<cffunction name="addCategory" access="public" returnType="string" output="false"
+				hint="Adds a message category.">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="category" type="string" required="true">
+		<cfset var newID = createUUID()>
+		<cfquery datasource="#variables.dsn#">
+			INSERT INTO #variables.tableprefix#message_categories (projectID,categoryID,category)
+			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
+					'#newID#',
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#" maxlength="80">)
+		</cfquery>
+		<cfreturn newID>
+	</cffunction>	
+
 	<cffunction name="add" access="public" returnType="boolean" output="false"
 				hint="Adds a message.">
 		<cfargument name="messageID" type="uuid" required="true">					
@@ -130,46 +159,41 @@
 		<cfset var qMailUsers = "">
 		<cfset var qProject = "">
 		<cfset var sText = "">
+		<cfset var cat = "">
+		<!--- determine if new category --->
+		<cfif IsCFUUID(arguments.category)>
+			<cfset cat = arguments.category>
+		<cfelse>
+			<cfset cat = addCategory(arguments.projectID,arguments.category)>
+		</cfif>
+		<!--- insert record --->
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#messages (messageID,projectID,title,message,category,milestoneid,allowcomments,userid,stamp)
+			INSERT INTO #variables.tableprefix#messages (messageID,projectID,title,message,categoryID,milestoneID,allowcomments,userID,stamp)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="120">,
 					<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.message#">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#" maxlength="50">,
+					<cfqueryparam cfsqltype="cf_sql_char" value="#cat#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.allowcomments#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.addedBy#" maxlength="35">,
 					#Now()#)
 		</cfquery>
+		<!--- add attached file --->
 		<cfif listLen(arguments.filesList)>
 			<cfloop list="#arguments.filesList#" index="i">
 				<cfset application.message.addFile(arguments.messageID,i)>
 			</cfloop>
 		</cfif>
-		<cfif listLen(arguments.notifyList)>
-			<cfset qMailUsers = application.user.get('',ListAppend(arguments.notifyList,arguments.addedBy))>
-			<cfset qProject = application.project.get(arguments.projectID)>
-			<cfset sText = htmlCodeFormat(arguments.message)>
-			<cfset sText = reReplace(sText, "<[^>]*>", "", "all")>
-			<cfset sText = replaceNoCase(sText,"&nbsp;","","ALL")>
-			<cfloop query="qMailUsers">
-				<cfset application.message.addNotify(arguments.messageID,arguments.projectID,userID)>
-				<cfif compare(userID,session.user.userID)> <!--- don't send to message creator --->
-					<cfmail from="#session.user.email#" to="#email#" subject="New #qProject.name# Message: #arguments.title#">A new #qProject.name# message has been posted in category #arguments.category# entitled:
-#arguments.title#
-	
-#sText#
-	
-To view the full message and leave comments, visit this link:
-#application.settings.rootURL##application.settings.mapping#/message.cfm?p=#arguments.projectID#&m=#arguments.messageID#
-					</cfmail>
-				</cfif>
-			</cfloop>
-		</cfif>
+		<!--- set notification list --->
 		<cfif not listFind(arguments.notifyList,session.user.userID)>
-			<cfset application.message.addNotify(arguments.projectID,arguments.messageID,session.user.userID)>
+			<cfset arguments.notifyList = ListAppend(arguments.notifyList,session.user.userID)>
 		</cfif>
+		<cfloop list="#arguments.notifyList#" index="i">
+			<cfset application.message.addNotify(arguments.projectID,arguments.messageID,i)>
+		</cfloop>
+		<!--- send notifications --->
+		<cfset application.notify.messageNew(arguments.projectID,arguments.messageID,arguments.notifyList,arguments.addedBy)>
 		<cfreturn true>
 	</cffunction>	
 

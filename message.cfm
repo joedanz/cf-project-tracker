@@ -1,7 +1,7 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfif StructKeyExists(form,"submit")>
-	<cfset application.comment.add(createUUID(),url.p,url.m,'',session.user.userid,request.udf.CleanText(form.comment))>
+	<cfset application.comment.add(createUUID(),url.p,url.m,'',session.user.userid,form.comment)>
 <cfelseif StructKeyExists(url,"rn")>
 	<cfset application.message.removeNotify(url.p,url.m,url.rn)>
 </cfif>
@@ -40,7 +40,7 @@
 				</span>
 				
 				<h2 class="msg">#message.title#</h2>
-				<h4>posted by #message.firstName# #message.lastName# in <a href="messages.cfm?p=#url.p#&c=#URLEncodedFormat(message.category)#">#message.category#</a> on #DateFormat(message.stamp,"ddd, d mmm")# at #TimeFormat(message.stamp,"h:mmtt")#</h4>
+				<h4>posted by #message.firstName# #message.lastName# in <a href="messages.cfm?p=#url.p#&c=#message.categoryID#">#message.category#</a> on #DateFormat(message.stamp,"ddd, d mmm")# at #TimeFormat(message.stamp,"h:mmtt")#</h4>
 				
 			</div>
 			<div class="content">

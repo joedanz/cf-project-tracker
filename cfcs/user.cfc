@@ -52,21 +52,23 @@
 		<cfargument name="username" type="string" required="false" default="">
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
-			SELECT userID, firstName, lastName, username, email, phone, mobile, carrierID, lastLogin, 
-				avatar, style, email_files, mobile_files, email_issues, mobile_issues, email_msgs,
-				mobile_msgs, email_mstones, mobile_mstones,	email_todos, mobile_todos, admin, active
-			FROM #variables.tableprefix#users
+			SELECT u.userID, u.firstName, u.lastName, u.username, u.email, u.phone, u.mobile, u.carrierID, 
+				u.lastLogin, u.avatar, u.style, u.email_files, u.mobile_files, u.email_issues, u.mobile_issues, 
+				u.email_msgs, u.mobile_msgs, u.email_mstones, u.mobile_mstones, u.email_todos, u.mobile_todos, 
+				u.admin, u.active, c.prefix, c.suffix
+			FROM #variables.tableprefix#users u
+				LEFT JOIN #variables.tableprefix#carriers c ON u.carrierID = c.carrierID
 			WHERE 0=0
 			<cfif compare(ARGUMENTS.userID,'')>
-				AND userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
+				AND u.userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
 			</cfif>
 			<cfif compare(ARGUMENTS.userIDlist,'')>
-				AND userID IN ('#replace(arguments.userIDlist,",","','","ALL")#')
+				AND u.userID IN ('#replace(arguments.userIDlist,",","','","ALL")#')
 			</cfif>
 			<cfif compare(ARGUMENTS.username,'')>
-				AND username = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#" maxlength="30">
+				AND u.username = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#" maxlength="30">
 			</cfif>
-			ORDER BY lastName, firstName
+			ORDER BY u.lastName, u.firstName
 		</cfquery>		
 		<cfreturn qRecords>
 	</cffunction>

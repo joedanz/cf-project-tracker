@@ -1,7 +1,7 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfif StructKeyExists(form,"submit")>
-	<cfset application.comment.add(createUUID(),url.p,'',url.i,session.user.userid,request.udf.CleanText(form.comment))>
+	<cfset application.comment.add(createUUID(),url.p,'',url.i,session.user.userid,form.comment)>
 <cfelseif StructKeyExists(url,"close")>
 	<cfset application.issue.markClosed(url.i,url.p)>
 </cfif>
