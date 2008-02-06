@@ -30,7 +30,7 @@ Category: #qFile.category#
 #request.udf.CleanText(qFile.description)#
 
 To view file details or to download, visit this link:
-#application.settings.rootURL##application.settings.mapping#/issue.cfm?p=#arguments.projectID#&i=#arguments.issueID#
+#application.settings.rootURL##application.settings.mapping#/files.cfm?p=#arguments.projectID#&f=#arguments.fileID#
 				</cfmail>
 			</cfif>
 			<cfif mobile_msgs and isNumeric(mobile)>
@@ -60,7 +60,7 @@ Category: #qFile.category#
 #request.udf.CleanText(qFile.description)#
 
 To view file details or to download, visit this link:
-#application.settings.rootURL##application.settings.mapping#/issue.cfm?p=#arguments.projectID#&i=#arguments.issueID#
+#application.settings.rootURL##application.settings.mapping#/files.cfm?p=#arguments.projectID#&f=#arguments.fileID#
 				</cfmail>
 			</cfif>
 			<cfif mobile_msgs and isNumeric(mobile)>

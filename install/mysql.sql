@@ -33,6 +33,16 @@ CREATE TABLE `pt_carriers` (
   PRIMARY KEY  (`carrierID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `pt_categories` */
+
+CREATE TABLE `pt_categories` (
+  `projectID` char(35) NOT NULL,
+  `categoryID` char(35) NOT NULL,
+  `type` varchar(5) default NULL,
+  `category` varchar(80) default NULL,
+  PRIMARY KEY  (`projectID`,`categoryID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `pt_clients` */
 
 CREATE TABLE `pt_clients` (
@@ -72,7 +82,7 @@ CREATE TABLE `pt_files` (
   `projectID` char(35) NOT NULL,
   `title` varchar(200) default NULL,
   `description` text default NULL,
-  `category` varchar(50) default NULL,
+  `categoryID` char(35) NOT NULL,  
   `filename` varchar(150) default NULL,
   `serverfilename` varchar(150) default NULL,
   `filetype` varchar(4) default NULL,
@@ -103,15 +113,6 @@ CREATE TABLE `pt_issues` (
   PRIMARY KEY  (`issueID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `pt_message_categories` */
-
-CREATE TABLE `pt_message_categories` (
-  `projectID` char(35) NOT NULL,
-  `categoryID` char(35) NOT NULL,
-  `category` varchar(80) default NULL,
-  PRIMARY KEY  (`projectID`,`categoryID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `pt_message_files` */
 
 CREATE TABLE `pt_message_files` (
@@ -139,7 +140,6 @@ CREATE TABLE `pt_messages` (
   `title` varchar(120) default NULL,
   `message` text default NULL,
   `categoryID` char(35) NOT NULL,
-  `category` varchar(50) default NULL,
   `allowcomments` tinyint(1) default NULL,
   `stamp` datetime default NULL,
   PRIMARY KEY  (`messageID`)

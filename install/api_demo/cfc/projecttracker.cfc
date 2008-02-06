@@ -38,6 +38,16 @@ limitations under the License.
 	<cfreturn QueryResults />
 </cffunction>
 
+<cffunction access="public" name="getFileCategories" output="false" returntype="query" hint="Gets the list of all file categories for a project." >
+	<cfargument name="projectID" type="string" required="yes" hint="The projectID for which to get categories." />
+
+	<cfset var UrlToRequest = variables.apiUrl & "?key=#variables.apiKey#&filecats=1&p=" & arguments.projectID/>
+	<cfset var XMLResults = makeHTTPGetRequest(UrlToRequest) />
+	<cfset var QueryResults = convertXMLToQuery(projecttrackerXML=XMLResults, collection="file-category", root="file-categories") />
+
+	<cfreturn QueryResults />
+</cffunction>
+
 <cffunction access="public" name="getFiles" output="false" returntype="query" hint="Gets a specific comment." >
 	<cfargument name="projectID" type="string" required="yes" hint="The projectID for which to retrieve files." />
 
@@ -73,8 +83,8 @@ limitations under the License.
 	<cfreturn messageQuery />
 </cffunction>
 
-<cffunction access="public" name="getMessageCategories" output="false" returntype="query" hint="Gets the list of all messages for a project." >
-	<cfargument name="projectID" type="string" required="yes" hint="The projectID for which to get messages." />
+<cffunction access="public" name="getMessageCategories" output="false" returntype="query" hint="Gets the list of all message categories for a project." >
+	<cfargument name="projectID" type="string" required="yes" hint="The projectID for which to get categories." />
 
 	<cfset var UrlToRequest = variables.apiUrl & "?key=#variables.apiKey#&messagecats=1&p=" & arguments.projectID/>
 	<cfset var XMLResults = makeHTTPGetRequest(UrlToRequest) />

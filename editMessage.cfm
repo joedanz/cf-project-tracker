@@ -27,7 +27,7 @@
 </cfif>
 
 <cfparam name="title" default="">
-<cfparam name="cat" default="">
+<cfparam name="catID" default="">
 <cfparam name="message" default="">
 <cfparam name="msID" default="">
 <cfparam name="variables.allowComments" default="1">
