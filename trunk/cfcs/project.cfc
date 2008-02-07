@@ -132,33 +132,35 @@
 		</cfloop>
 		
 		<!--- delete database records --->
-		<cfquery datasource="#variables.dsn#">
-			DELETE FROM #variables.tableprefix#activity WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
-		</cfquery>
-		<cfquery datasource="#variables.dsn#">
-			DELETE FROM #variables.tableprefix#files WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
-		</cfquery>
-		<cfquery datasource="#variables.dsn#">
-			DELETE FROM #variables.tableprefix#issues WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
-		</cfquery>
-		<cfquery datasource="#variables.dsn#">
-			DELETE FROM #variables.tableprefix#messages WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
-		</cfquery>
-		<cfquery datasource="#variables.dsn#">
-			DELETE FROM #variables.tableprefix#milestones WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
-		</cfquery>
-		<cfquery datasource="#variables.dsn#">
-			DELETE FROM #variables.tableprefix#projects WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
-		</cfquery>
-		<cfquery datasource="#variables.dsn#">
-			DELETE FROM #variables.tableprefix#project_users WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
-		</cfquery>
-		<cfquery datasource="#variables.dsn#">
-			DELETE FROM #variables.tableprefix#todolists WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
-		</cfquery>
-		<cfquery datasource="#variables.dsn#">
-			DELETE FROM #variables.tableprefix#todos WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
-		</cfquery>
+		<cftransaction>
+			<cfquery datasource="#variables.dsn#">
+				DELETE FROM #variables.tableprefix#activity WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+			</cfquery>
+			<cfquery datasource="#variables.dsn#">
+				DELETE FROM #variables.tableprefix#files WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+			</cfquery>
+			<cfquery datasource="#variables.dsn#">
+				DELETE FROM #variables.tableprefix#issues WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+			</cfquery>
+			<cfquery datasource="#variables.dsn#">
+				DELETE FROM #variables.tableprefix#messages WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+			</cfquery>
+			<cfquery datasource="#variables.dsn#">
+				DELETE FROM #variables.tableprefix#milestones WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+			</cfquery>
+			<cfquery datasource="#variables.dsn#">
+				DELETE FROM #variables.tableprefix#projects WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+			</cfquery>
+			<cfquery datasource="#variables.dsn#">
+				DELETE FROM #variables.tableprefix#project_users WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+			</cfquery>
+			<cfquery datasource="#variables.dsn#">
+				DELETE FROM #variables.tableprefix#todolists WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+			</cfquery>
+			<cfquery datasource="#variables.dsn#">
+				DELETE FROM #variables.tableprefix#todos WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+			</cfquery>
+		</cftransaction>
 	</cffunction>
 	
 	
