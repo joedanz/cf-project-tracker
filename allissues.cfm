@@ -77,8 +77,8 @@
 						 	
 						 	<select name="status">
 						 		<option value="">Status</option>
-						 		<option value="Open"<cfif not compare(form.status,'Open')> selected="selected"</cfif>>Bug</option>
-						 		<option value="Closed"<cfif not compare(form.status,'Closed')> selected="selected"</cfif>>Enhancement</option>						 		
+						 		<option value="Open"<cfif not compare(form.status,'Open')> selected="selected"</cfif>>Open</option>
+						 		<option value="Closed"<cfif not compare(form.status,'Closed')> selected="selected"</cfif>>Closed</option>						 		
 						 	</select>
 						 	
 						 	<select name="assignedTo">
