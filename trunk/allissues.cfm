@@ -128,7 +128,7 @@
 						</table>
 						</div>
 						<cfelse>
-							<div class="warn">No issues have been submitted.</div>
+							<div class="warn">No issues <cfif compare(form.type,'') or compare(form.severity,'') or compare(form.status,'') or compare(form.assignedTo,'') or compare(form.milestone,'')>match your criteria<cfelse>have been submitted</cfif>.</div>
 						</cfif>					 	
 					 	
 					</div>
