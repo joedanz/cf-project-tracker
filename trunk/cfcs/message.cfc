@@ -74,11 +74,13 @@
 		<cfargument name="messageID" type="uuid" required="true">
 		<cfset var qGetFileList = "">
 		<cfquery name="qGetFileList" datasource="#variables.dsn#">
-			SELECT f.fileID,f.title,f.filetype,f.filename,f.serverfilename,f.filesize,f.category,f.uploaded
+			SELECT f.fileID,f.title,f.filetype,f.filename,f.serverfilename,f.filesize,f.uploaded,c.category
 			FROM #variables.tableprefix#message_files mf
-				LEFT JOIN #variables.tableprefix#files f ON mf.fileID = f.fileID
+				JOIN #variables.tableprefix#files f ON mf.fileID = f.fileID
+				JOIN #variables.tableprefix#categories c on f.categoryID = c.categoryID
 			WHERE f.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				AND mf.messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
+				and c.type = 'file'
 		</cfquery>
 		<cfreturn qGetFileList>
 	</cffunction>	

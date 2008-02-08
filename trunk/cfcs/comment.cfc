@@ -16,8 +16,8 @@
 	<cffunction name="get" access="public" returnType="query" output="false"
 				hint="Returns message comments.">
 		<cfargument name="projectID" type="uuid" required="true">
-		<cfargument name="messageID" type="string" required="false" default="">
-		<cfargument name="issueID" type="string" required="false" default="">		
+		<cfargument name="type" type="string" required="false" default="">
+		<cfargument name="itemID" type="string" required="false" default="">	
 		<cfargument name="lastOnly" type="boolean" required="false" default="false">
 		<cfset var qGetComments = "">
 		<cfset var maxRows = -1>
@@ -30,11 +30,12 @@
 			SELECT c.commentID,c.messageID,c.comment,c.stamp,u.userID,u.firstName,u.lastName,u.avatar
 				FROM #variables.tableprefix#comments c LEFT JOIN #variables.tableprefix#users u	ON c.userid = u.userid
 			WHERE c.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
-			<cfif compare(arguments.messageID,'')> 
-				AND c.messageID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">
-			</cfif>
-			<cfif compare(arguments.issueID,'')> 
-				AND c.issueID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.issueID#" maxlength="35">
+			<cfif not compare(arguments.type,'msg')> 
+				AND c.itemID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.itemID#" maxlength="35">
+				AND c.type = 'msg'
+			<cfelseif not compare(arguments.type,'issue')> 
+				AND c.itemID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.itemID#" maxlength="35">
+				AND c.type = 'issue'
 			</cfif>
 			ORDER BY c.stamp <cfif arguments.lastOnly>desc</cfif>
 		</cfquery>
@@ -45,16 +46,16 @@
 				hint="Add a message comment.">
 		<cfargument name="commentID" type="uuid" required="true">
 		<cfargument name="projectID" type="uuid" required="true">
-		<cfargument name="messageID" type="string" required="true">
-		<cfargument name="issueID" type="string" required="true">
+		<cfargument name="type" type="string" required="true">
+		<cfargument name="itemID" type="string" required="true">
 		<cfargument name="userID" type="uuid" required="true">
 		<cfargument name="comment" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#comments (commentID,projectID,messageID,issueID,userID,comment,stamp)
+			INSERT INTO #variables.tableprefix#comments (commentID,projectID,type,itemID,userID,comment,stamp)
 				VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.commentID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
-						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.messageID#" maxlength="35">,
-						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.issueID#" maxlength="35">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="6">,
+						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.itemID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.comment#">,
 						#Now()#)

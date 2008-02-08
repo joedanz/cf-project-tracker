@@ -67,8 +67,8 @@ CREATE TABLE `pt_clients` (
 CREATE TABLE `pt_comments` (
   `commentID` char(35) NOT NULL,
   `projectID` char(35) NOT NULL,
-  `messageID` varchar(35) default NULL,
-  `issueID` varchar(35) default NULL,
+  `type` varchar(6) default NULL,
+  `itemID` char(35) default NULL,
   `userID` char(35) NOT NULL,
   `comment` text default NULL,
   `stamp` datetime default NULL,

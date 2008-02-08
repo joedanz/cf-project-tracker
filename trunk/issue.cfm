@@ -1,7 +1,7 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfif StructKeyExists(form,"submit")>
-	<cfset application.comment.add(createUUID(),url.p,'',url.i,session.user.userid,form.comment)>
+	<cfset application.comment.add(createUUID(),url.p,'issue',url.i,session.user.userid,form.comment)>
 <cfelseif StructKeyExists(url,"close")>
 	<cfset application.issue.markClosed(url.i,url.p)>
 </cfif>
@@ -10,7 +10,7 @@
 <cfparam name="fileupload" default="">
 <cfset project = application.project.get(session.user.userid,url.p)>
 <cfset issue = application.issue.get(url.p,url.i)>
-<cfset comments = application.comment.get(url.p,'',url.i)>
+<cfset comments = application.comment.get(url.p,'issue',url.i)>
 
 <cfif project.issues eq 0 and not session.user.admin>
 	<cfoutput><h2>You do not have permission to access issues!!!</h2></cfoutput>
