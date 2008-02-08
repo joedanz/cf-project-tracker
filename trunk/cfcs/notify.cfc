@@ -46,7 +46,7 @@ To view file details or to download, visit this link:
 	<cffunction name="fileUpdate" access="public" returnType="void" output="false"
 				hint="Notification of updated file.">
 		<cfargument name="projectID" type="uuid" required="true">
-		<cfargument name="issueID" type="uuid" required="true">
+		<cfargument name="fileID" type="uuid" required="true">
 		<cfset var qProject = application.project.get('',arguments.projectID)>
 		<cfset var qProjectUsers = application.project.projectUsers(arguments.projectID)>
 		<cfset var qFile = application.file.get(arguments.projectID,arguments.fileID)>

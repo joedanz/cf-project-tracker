@@ -115,7 +115,7 @@
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#files SET
 				title = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="200">, 
-				category = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#" maxlength="50">, 
+				categoryid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.categoryid#" maxlength="35">, 
 				description = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				AND fileID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">
