@@ -5,6 +5,36 @@
 
 <cfsetting showdebugoutput="true">
 
+<!--- comment stuff --->
+<cfquery name="getComments" datasource="#application.settings.dsn#">
+	select commentid,messageID,issueID from #application.settings.tableprefix#comments
+</cfquery>
+<cfloop query="getComments">
+	<cfquery datasource="#application.settings.dsn#">
+		update #application.settings.tableprefix#comments set
+	<cfif compare(messageID,'')>
+		type = 'msg', itemID = '#messageID#'
+	<cfelseif compare(issueID,'')>
+		type = 'issue', itemID = '#issueID#'
+	</cfif>
+		where commentid = '#commentid#'
+	</cfquery>
+</cfloop>
+<cftry>
+<cfquery datasource="#application.settings.dsn#">
+	alter table #application.settings.tableprefix#comments
+	drop column issueID
+</cfquery>
+<cfcatch><h2>You should manually remove the column: <b>&quot;issueID&quot;</b> from table: <b>&quot;<cfoutput>#application.settings.tableprefix#</cfoutput>comments&quot;</b></h2><br /><br /></cfcatch>
+</cftry>
+<cftry>
+<cfquery datasource="#application.settings.dsn#">
+	alter table #application.settings.tableprefix#comments
+	drop column messageID
+</cfquery>
+<cfcatch><h2>You should manually remove the column: <b>&quot;messageID&quot;</b> from table: <b>&quot;<cfoutput>#application.settings.tableprefix#</cfoutput>comments&quot;</b></h2><br /><br /></cfcatch>
+</cftry>
+
 <!--- file categories --->
 <cfquery name="getMissingCats" datasource="#application.settings.dsn#">
 	select distinct category,projectid from #application.settings.tableprefix#files

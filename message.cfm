@@ -1,7 +1,7 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfif StructKeyExists(form,"submit")>
-	<cfset application.comment.add(createUUID(),url.p,url.m,'',session.user.userid,form.comment)>
+	<cfset application.comment.add(createUUID(),url.p,'msg',url.m,session.user.userid,form.comment)>
 <cfelseif StructKeyExists(url,"rn")>
 	<cfset application.message.removeNotify(url.p,url.m,url.rn)>
 </cfif>
@@ -9,7 +9,7 @@
 <cfparam name="url.p" default="">
 <cfset project = application.project.get(session.user.userid,url.p)>
 <cfset message = application.message.get(url.p,url.m)>
-<cfset comments = application.comment.get(url.p,url.m)>
+<cfset comments = application.comment.get(url.p,'msg',url.m)>
 <cfset attachments = application.message.getFileList(url.p,url.m)>
 <cfset notifyList = application.message.getNotifyList(url.p,url.m)>
 <cfset talkList = listAppend(valueList(comments.userID),message.userID)>

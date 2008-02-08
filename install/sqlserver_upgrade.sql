@@ -123,6 +123,10 @@ ALTER TABLE [dbo].[pt_comments] ALTER COLUMN [userID] [char] (35) COLLATE SQL_La
 GO
 ALTER TABLE [dbo].[pt_comments] ALTER COLUMN [comment] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 GO
+ALTER TABLE [dbo].[pt_comments] ADD [type] [nvarchar] (6) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
+ALTER TABLE [dbo].[pt_comments] ADD [itemID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
 ALTER TABLE [dbo].[pt_comments] WITH NOCHECK ADD 
 	CONSTRAINT [PK_pt_comments] PRIMARY KEY  CLUSTERED 
 	(

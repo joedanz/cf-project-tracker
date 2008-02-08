@@ -72,6 +72,8 @@ ALTER TABLE `pt_comments` MODIFY `commentID` char(35) NOT NULL;
 ALTER TABLE `pt_comments` MODIFY `projectID` char(35) NOT NULL;
 ALTER TABLE `pt_comments` MODIFY `userID` char(35) NOT NULL;
 ALTER TABLE `pt_comments` MODIFY `comment` text default NULL;
+ALTER TABLE `pt_comments` ADD `type` varchar(6) default NULL;
+ALTER TABLE `pt_comments` ADD `itemID` char(35) default NULL;
 
 /* pt_files */
 ALTER TABLE `pt_files` MODIFY `fileID` char(35) NOT NULL;

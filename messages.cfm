@@ -69,7 +69,7 @@
 					<div class="wrapper itemlist">
 					<h3 class="padtop">#title#</h3>
 					<cfif commentCount>
-						<cfset comment = application.comment.get(url.p,messageID,'','1')>
+						<cfset comment = application.comment.get(url.p,messageID,'','msg','1')>
 						<a class="b" href="message.cfm?p=#url.p#&m=#messageID###comments">#commentCount# comment<cfif commentCount gt 1>s</cfif></a>
 						<span style="color:##666;">
 						&nbsp;Last by #comment.firstName# #comment.lastName# on #DateFormat(comment.stamp,"ddd, mmm d")# at #TimeFormat(comment.stamp,"h:mmtt")#
