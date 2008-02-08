@@ -77,7 +77,7 @@ GO
 CREATE TABLE [dbo].[pt_categories] (
 	[projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[categoryID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-	[type] [nvarchar] (5) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[type] [nvarchar] (5) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[category] [nvarchar] (80) COLLATE SQL_Latin1_General_CP1_CI_AS NULL 
 ) ON [PRIMARY]
 GO
