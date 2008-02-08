@@ -69,7 +69,7 @@
 					<div class="wrapper itemlist">
 					<h3 class="padtop">#title#</h3>
 					<cfif commentCount>
-						<cfset comment = application.comment.get(url.p,messageID,'','msg','1')>
+						<cfset comment = application.comment.get(url.p,'msg',messageID,'1')>
 						<a class="b" href="message.cfm?p=#url.p#&m=#messageID###comments">#commentCount# comment<cfif commentCount gt 1>s</cfif></a>
 						<span style="color:##666;">
 						&nbsp;Last by #comment.firstName# #comment.lastName# on #DateFormat(comment.stamp,"ddd, mmm d")# at #TimeFormat(comment.stamp,"h:mmtt")#
@@ -93,7 +93,7 @@
 					<div style="border-bottom:1px solid ##ccc;padding:10px 5px;">
 					<div style="float:right;width:250px;">
 						<cfif commentCount eq 0><span class="comment g">No comments posted.</span><cfelse>
-						<cfset comment = application.comment.get(url.p,'','1')>
+						<cfset comment = application.comment.get(url.p,'msg',messageID,'1')>
 						<span class="comment g">
 						&nbsp;Last comment by #firstName# #lastName#<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<cfif DateDiff("n",stamp,Now()) lt 60>
