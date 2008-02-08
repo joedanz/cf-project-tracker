@@ -58,7 +58,7 @@
 		var errors = '';
 		var oEditor = FCKeditorAPI.GetInstance('description');
 		if (document.edit.title.value == '') {errors = errors + '   ** You must enter a title.\n';}
-		if (document.edit.category.value == '') {errors = errors + '   ** You must enter a category.\n';}
+		if (document.edit.category.value == '') {errors = errors + '   ** You must select a category.\n';}
 		if (oEditor.GetHTML() == '') {errors = errors + '   ** You must enter a description.\n';}
 		if (errors != '') {
 			alert('Please correct the following errors:\n\n' + errors)
