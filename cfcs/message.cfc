@@ -29,7 +29,7 @@
 		<cfquery name="qGetMessages" datasource="#variables.dsn#">
 			SELECT u.userID,u.firstName,u.lastName,u.avatar,m.messageID,m.categoryID,m.milestoneID,m.title,m.message,
 					m.allowcomments,m.stamp,ms.name,mc.category,
-					(SELECT count(commentID) FROM #variables.tableprefix#comments c where m.messageid = c.messageid) as commentcount,
+					(SELECT count(commentID) FROM #variables.tableprefix#comments c where m.messageid = c.itemid and type = 'msg') as commentcount,
 					(SELECT count(fileID) FROM #variables.tableprefix#message_files mf where m.messageid = mf.messageid) as attachcount
 			FROM #variables.tableprefix#messages m 
 				LEFT JOIN #variables.tableprefix#categories mc ON m.categoryID = mc.categoryID
@@ -214,7 +214,7 @@
 			UPDATE #variables.tableprefix#messages 
 				SET title = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="120">,
 					message = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.message#">,
-					category = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#" maxlength="50">,
+					categoryid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.categoryid#" maxlength="35">,
 					milestoneid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
 					allowcomments = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.allowcomments#" maxlength="1">
 				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
