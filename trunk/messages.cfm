@@ -81,7 +81,7 @@
 						Posted by #firstName# #lastName# in <a href="#cgi.script_name#?p=#url.p#&c=#categoryID#">#category#</a>
 						<cfif project.msgs gt 1 or userID eq session.user.userID or session.user.admin> | <a href="editMessage.cfm?p=#url.p#&m=#messageID#&mh=#hash(messageID)#" class="edit">Edit</a>
 						 | <a href="messages.cfm?p=#url.p#&dm=#messageID#&dmh=#hash(messageID)#" class="delete" onclick="return confirm('Are you sure you wish to delete this message and all associated comments?')">Delete</a></cfif>
-						<cfif allowComments> | <a href="message.cfm?p=#url.p#&m=#messageID###comments" class="comment">Post <cfif not commentCount>the first<cfelse>another</cfif> comment</a></cfif>
+						<cfif allowComments> | <a href="message.cfm?p=#url.p#&m=#messageID###comments" class="comment"><cfif not commentCount>Post the first comment<cfelse>#commentCount# comment<cfif commentCount gt 1>s</cfif> posted</cfif></a></cfif>
 						<cfif attachcount gt 0> | <a href="message.cfm?p=#url.p#&m=#messageID###attach" class="attach">#attachcount# file<cfif attachcount gt 1>s</cfif> attached</a></cfif>
 					</div>
 					</div>
