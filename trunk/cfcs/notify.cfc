@@ -22,7 +22,7 @@
 		<cfset var qFile = application.file.get(arguments.projectID,arguments.fileID)>
 		<cfloop query="qProjectUsers">		
 			<cfif email_msgs and request.udf.isEmail(email)>
-				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="New #IIF(compare(qProject.name,''),'##qProject.name## ','')#Issue">A new #qProject.name# file has been added:
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="New #IIF(compare(qProject.name,''),'##qProject.name## ','')#File">A new #qProject.name# file has been added:
 #qFile.title#
 
 Category: #qFile.category#
@@ -34,7 +34,7 @@ To view file details or to download, visit this link:
 				</cfmail>
 			</cfif>
 			<cfif mobile_msgs and isNumeric(mobile)>
-				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="New #IIF(compare(qProject.name,''),'##qProject.name## ','')#Issue">New #qProject.name# file:
+				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="New #IIF(compare(qProject.name,''),'##qProject.name## ','')#File">New #qProject.name# file:
 #qFile.title#
 
 #Left(request.udf.CleanText(qFile.description),100)#<cfif len(request.udf.CleanText(qFile.description)) gt 100>...</cfif>
@@ -52,7 +52,7 @@ To view file details or to download, visit this link:
 		<cfset var qFile = application.file.get(arguments.projectID,arguments.fileID)>
 		<cfloop query="qProjectUsers">		
 			<cfif email_msgs and request.udf.isEmail(email)>
-				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="New #IIF(compare(qProject.name,''),'##qProject.name## ','')#Issue">The following #qProject.name# issue has been updated:
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="Updated #IIF(compare(qProject.name,''),'##qProject.name## ','')#File">The following #qProject.name# issue has been updated:
 #qFile.title#
 
 Category: #qFile.category#
@@ -64,7 +64,7 @@ To view file details or to download, visit this link:
 				</cfmail>
 			</cfif>
 			<cfif mobile_msgs and isNumeric(mobile)>
-				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="New #IIF(compare(qProject.name,''),'##qProject.name## ','')#Issue">Updated #qProject.name# file:
+				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="New #IIF(compare(qProject.name,''),'##qProject.name## ','')#File">Updated #qProject.name# file:
 #qFile.title#
 
 #Left(request.udf.CleanText(qFile.description),100)#<cfif len(request.udf.CleanText(qFile.description)) gt 100>...</cfif>
