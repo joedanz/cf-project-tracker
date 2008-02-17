@@ -162,7 +162,7 @@
 						<p>
 						<label for="client">Client:</label>
 						<select name="clientID" id="client">
-							<option value=""></option>
+							<option value="" class="i">None</option>
 							<cfloop query="clients">
 							<option value="#clientID#"<cfif not compare(form.clientID,clientID)> selected="selected"</cfif>>#name#</option>
 							</cfloop>
