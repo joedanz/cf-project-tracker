@@ -15,6 +15,7 @@
 	select * from projects where status = 'Archived'
 </cfquery>
 <cfif not projects.recordCount>
+	<cfset newInstall = true>
 	<cfset QueryAddRow(projects)>
 	<cfset QuerySetCell(projects, "projectID", "0")>
 </cfif>
@@ -72,6 +73,24 @@ $(document).ready(function(){
 	<!--- left column --->
 	<div class="left">
 		<div class="main">
+
+			<cfif isDefined("newInstall")>
+			<div class="header">
+				<h2 class="activity full">Welcome to the #application.settings.app_title#!</h2>
+			</div>
+			<div class="content">
+				<div class="wrapper">
+					<h4>It appears that this is your first time running the application.</h4><br />
+					<cfif session.user.admin>
+						<h4>The first thing you'll want to do is to <a href="editProject.cfm">create a new project</a>.</h4><br />
+						<h4>You may want to <a href="./admin/editClient.cfm">add a client</a> first if the project applies to one.</h4>
+					<cfelse>
+						<p>Please have an administrator login to create the first project.</p>
+					</cfif>
+			 	</div>
+			</div>
+
+			<cfelse>
 
 			<div class="header">
 				<h2 class="activity full">Latest activity across all your projects</h2>
@@ -270,6 +289,8 @@ $(document).ready(function(){
 			 	</div>
 			</div>
 			
+			</cfif>
+			
 		</div>
 		<div class="bottom">&nbsp;</div>
 		<div class="footer">
@@ -281,7 +302,10 @@ $(document).ready(function(){
 	<div class="right">
 
 		<cfif session.user.admin>
-		<h3><a href="editProject.cfm" class="add">Create a new project</a></h3><br />
+			<cfif isDefined("newInstall")>
+				<h3><a href="./admin/editClient.cfm" class="add">Add a new client</a></h3><br />
+			</cfif>
+			<h3><a href="editProject.cfm" class="add">Create a new project</a></h3><br />
 		</cfif>
 
 		<cfif active_projects.recordCount>
