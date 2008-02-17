@@ -165,12 +165,12 @@ CREATE TABLE `pt_project_users` (
   `userID` char(35) NOT NULL,
   `projectID` char(35) NOT NULL,
   `admin` tinyint(1) default NULL,
-  `files` tinyint(1) default NULL,
-  `issues` tinyint(1) default NULL,
-  `msgs` tinyint(1) default NULL,
-  `mstones` tinyint(1) default NULL,
-  `todos` tinyint(1) default NULL,
-  `svn` tinyint(1) default NULL,
+  `files` int(1) default NULL,
+  `issues` int(1) default NULL,
+  `msgs` int(1) default NULL,
+  `mstones` int(1) default NULL,
+  `todos` int(1) default NULL,
+  `svn` int(1) default NULL,
   PRIMARY KEY  (`userID`,`projectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

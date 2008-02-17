@@ -119,12 +119,12 @@ ALTER TABLE `pt_project_users` MODIFY `userID` char(35) NOT NULL;
 ALTER TABLE `pt_project_users` MODIFY `projectID` char(35) NOT NULL;
 ALTER TABLE `pt_project_users` DROP `role`;
 ALTER TABLE `pt_project_users` ADD `admin` tinyint(1) default NULL;
-ALTER TABLE `pt_project_users` ADD `files` tinyint(1) default NULL;
-ALTER TABLE `pt_project_users` ADD `issues` tinyint(1) default NULL;
-ALTER TABLE `pt_project_users` ADD `msgs` tinyint(1) default NULL;
-ALTER TABLE `pt_project_users` ADD `mstones` tinyint(1) default NULL;
-ALTER TABLE `pt_project_users` ADD `todos` tinyint(1) default NULL;
-ALTER TABLE `pt_project_users` ADD `svn` tinyint(1) default NULL;
+ALTER TABLE `pt_project_users` ADD `files` int(1) default NULL;
+ALTER TABLE `pt_project_users` ADD `issues` int(1) default NULL;
+ALTER TABLE `pt_project_users` ADD `msgs` int(1) default NULL;
+ALTER TABLE `pt_project_users` ADD `mstones` int(1) default NULL;
+ALTER TABLE `pt_project_users` ADD `todos` int(1) default NULL;
+ALTER TABLE `pt_project_users` ADD `svn` int(1) default NULL;
 update `pt_project_users` 
 	set `admin` = 0 ,
 		`files` = 2 ,
