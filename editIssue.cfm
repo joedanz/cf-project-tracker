@@ -136,7 +136,7 @@
 						<p>
 						<label for="milestone">Milestone:</label>
 						<select name="milestone" id="milestone">
-							<option value=""></option>
+							<option value="" class="i">None</option>
 							<cfloop query="milestones">
 							<option value="#milestoneID#"<cfif not compare(milestone,milestoneID)> selected="selected"</cfif>>#name#</option>
 							</cfloop>
