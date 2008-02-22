@@ -23,6 +23,9 @@ The scripts add an admin and a guest user, plus 2 entries for default
 settings.  You can name your database whatever you'd like but make
 sure to match the settings in the config files.
 
+If you change setting in the config files, you'll need to add 
+"&reinit=1" at the end of any URL to refresh the system settings.
+
 UPGRADING FROM 1.0 BETA:
 To upgrade, simply copy the latest files over the existing ones.
 You may need to reinitialize you app by adding a "?reinit" on the 
