@@ -88,6 +88,7 @@ ALTER TABLE `pt_issues` MODIFY `projectID` char(35) NOT NULL;
 ALTER TABLE `pt_issues` ADD `milestoneID` varchar(35) default NULL;
 ALTER TABLE `pt_issues` MODIFY `createdBy` char(35) NOT NULL;
 ALTER TABLE `pt_issues` MODIFY `detail` text default NULL;
+ALTER TABLE `pt_issues` MODIFY `status` varchar(8) NOT NULL;
 
 /* pt_message_files */
 CREATE TABLE `pt_message_files` (

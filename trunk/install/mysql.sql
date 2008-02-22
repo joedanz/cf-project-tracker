@@ -103,7 +103,7 @@ CREATE TABLE `pt_issues` (
   `detail` text default NULL,
   `type` varchar(11) default NULL,
   `severity` varchar(10) default NULL,
-  `status` varchar(6) default NULL,
+  `status` varchar(8) default NULL,
   `relevantURL` varchar(255) default NULL,
   `created` datetime default NULL,
   `createdBy` char(35) NOT NULL,
