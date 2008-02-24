@@ -110,6 +110,8 @@ CREATE TABLE `pt_issues` (
   `assignedTo` varchar(35) default NULL,
   `updated` datetime default NULL,
   `updatedBy` varchar(35) default NULL,
+  `resolution` varchar(12) default NULL,
+  `resolutionDesc` text default NULL,
   PRIMARY KEY  (`issueID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
