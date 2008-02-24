@@ -183,7 +183,7 @@ CREATE TABLE `pt_projects` (
   `name` varchar(50) default NULL,
   `description` text default NULL,
   `display` tinyint(1) default NULL,
-  `ticketPrefix` varchar(2) default NULL,
+  `ticketPrefix` varchar(20) default NULL,
   `added` datetime default NULL,
   `addedBy` char(35) NOT NULL,
   `status` varchar(8) default NULL,
