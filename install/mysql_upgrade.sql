@@ -141,6 +141,7 @@ ALTER TABLE `pt_projects` ADD `ownerID` char(35) default NULL;
 ALTER TABLE `pt_projects` ADD `clientID` varchar(35) default NULL;
 ALTER TABLE `pt_projects` MODIFY `addedBy` char(35) NOT NULL;
 ALTER TABLE `pt_projects` MODIFY `description` text default NULL;
+ALTER TABLE `pt_projects` MODIFY `ticketPrefix` varchar(20) NULL;
 
 /* pt_settings */
 ALTER TABLE `pt_settings` MODIFY `settingID` char(35) NOT NULL;

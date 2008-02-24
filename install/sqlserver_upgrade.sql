@@ -291,6 +291,8 @@ ALTER TABLE [dbo].[pt_projects] ALTER COLUMN [addedBy] [char] (35) COLLATE SQL_L
 GO
 ALTER TABLE [dbo].[pt_projects] ALTER COLUMN [description] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 GO
+ALTER TABLE [dbo].[pt_projects] ALTER COLUMN [ticketPrefix] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+GO
 ALTER TABLE [dbo].[pt_projects] ALTER COLUMN [display] [tinyint] NULL
 GO
 ALTER TABLE [dbo].[pt_projects] WITH NOCHECK ADD 
