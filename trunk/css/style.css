@@ -223,3 +223,62 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 	list-style-image: url(../images/people16.gif);
 }
 
+/* issue status */
+#issueStatus{clear:both;}
+#issueStatus li{
+	height:36px;
+	list-style:none;
+	float:left;
+	background-color:#EBEBEB;
+	background-image: url(../images/navBtn.gif);
+	background-repeat: no-repeat;
+	background-position: right top;
+}
+
+#issueStatus li.current{
+	background-color:#C36615;
+	background-image: url(../images/navCurrentBtn.gif);
+}
+
+#issueStatus li.lastDone{
+	background-color:#7C8437;
+	background-image: url(../images/navLastDoneBtn.gif);
+}
+
+#issueStatus li.done{
+	background-color:#7C8437;
+	background-image: url(../images/navDoneBtn.gif);
+}
+
+#issueStatus li a, #issueStatus li a:link, #issueStatus li a:visited, #issueStatus li a:hover, #issueStatus li a:active {
+color:#ccc;
+}
+
+#issueStatus li.lastDone a, #issueStatus li.lastDone a:link, #issueStatus li.lastDone a:visited, #issueStatus li.lastDone a:hover, #issueStatus li.lastDone a:active, #issueStatus li.current a, #issueStatus li.current a:link, #issueStatus li.current a:visited, #issueStatus li.current a:hover, #issueStatus li.current a:active, #issueStatus li.done a, #issueStatus li.done a:link, #issueStatus li.done a:visited, #issueStatus li.done a:hover, #issueStatus li.done a:active {
+color:#fff;
+}
+
+#issueStatus li.done a:hover, #issueStatus li.lastDone a:hover  {
+color:#FFFF99;
+cursor:hand;
+}
+
+#issueStatus li a em{
+width:170px;
+display:block;
+margin:6px 0 0 11px;
+font-style:normal;
+font-weight:bold;
+font-size:140%;
+}
+
+#issueStatus li a span{
+width:140px;
+display:block;
+margin-left:10px;
+font-weight:normal;
+}
+
+#issueStatus li.issueStatusNoBg{
+background-image:none;
+}
