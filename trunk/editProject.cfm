@@ -84,7 +84,6 @@
 	function confirmSubmit() {
 		var errors = '';
 		if (document.edit.name.value == '') {errors = errors + '   ** You must enter a name.\n';}
-		if (document.edit.ticketPrefix.value == '') {errors = errors + '   ** You must enter a ticket prefix.\n';}
 		if (errors != '') {
 			alert('Please correct the following errors:\n\n' + errors)
 			return false;
@@ -170,7 +169,7 @@
 						</p>
 						
 						<p>
-						<label for="status" class="req">Status:</label>
+						<label for="status">Status:</label>
 						<select name="status" id="status">
 							<option value="Active"<cfif not compare(form.status,'Active')> selected="selected"</cfif>>Active</option>
 							<option value="On-Hold"<cfif not compare(form.status,'On-Hold')> selected="selected"</cfif>>On-Hold</option>
@@ -178,9 +177,9 @@
 						</select>
 						</p>
 						<p>
-						<label for="ticketPrefix" class="req">Ticket Prefix:</label>
-						<input type="text" name="ticketPrefix" id="ticketPrefix" value="#HTMLEditFormat(form.ticketPrefix)#" maxlength="2" style="width:50px" />
-						<span style="font-size:.8em">(two-letter prefix used when generating trouble tickets)</span>
+						<label for="ticketPrefix">Ticket Prefix:</label>
+						<input type="text" name="ticketPrefix" id="ticketPrefix" value="#HTMLEditFormat(form.ticketPrefix)#" maxlength="2" style="width:80px" />
+						<span style="font-size:.8em">(optional two-letter prefix used when generating trouble tickets)</span>
 						</p>
 						<fieldset style="border:0;border-top:2px solid ##d9eaf5;margin:0 0 0 50px;">
 						<legend style="padding:0 3px;font-size:.9em;"><a href="##" onclick="svn_toggle();" class="<cfif not compare(form.svnurl,'')>collapsed<cfelse>expanded</cfif>" id="svnlink"> SVN Details</a></legend>
