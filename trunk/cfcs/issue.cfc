@@ -27,10 +27,10 @@
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT issueID, i.projectID, i.shortID, i.issue, i.detail, i.type, i.severity, i.status, 
 				i.created, i.createdBy,	i.assignedTo, i.milestoneID, i.relevantURL, i.updated, i.updatedBy, 
-				p.name,	c.firstName as createdFirstName, c.lastName as createdLastName, 
-				u.firstName as updatedFirstName, u.lastName as updatedLastName, 
-				a.firstName as assignedFirstName, a.lastName as assignedLastName,
-				m.name as milestone
+				i.resolution, i.resolutionDesc, p.name, c.firstName as createdFirstName, 
+				c.lastName as createdLastName, u.firstName as updatedFirstName, 
+				u.lastName as updatedLastName, a.firstName as assignedFirstName, 
+				a.lastName as assignedLastName,	m.name as milestone
 			FROM #variables.tableprefix#issues i 
 				LEFT JOIN #variables.tableprefix#projects p ON i.projectID = p.projectID
 				LEFT JOIN #variables.tableprefix#users c ON i.createdBy = c.userID
@@ -48,7 +48,7 @@
 				AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.status,'')>
-				AND i.status = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="6">
+				AND i.status = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="8">
 			</cfif>
 			<cfif compare(arguments.type,'')>
 				AND i.type = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="11">
@@ -83,8 +83,8 @@
 		<cfset var qCountTix = "">
 		<CFTRANSACTION>
 		<CFQUERY NAME="qCountTix" DATASOURCE="#variables.dsn#">
-			SELECT count(*) as numTix FROM #variables.tableprefix#issues 
-				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
+			SELECT 	count(*) as numTix FROM #variables.tableprefix#issues 
+			WHERE 	projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
 		</CFQUERY>
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#issues (issueID, projectID, shortID, issue, detail, type, severity, status, assignedTo, milestoneID, relevantURL, created, createdBy)
@@ -137,15 +137,82 @@
 		</cfquery>		
 	</cffunction>
 	
-	<cffunction name="markClosed" access="public" returntype="void" output="false"
+	<cffunction name="accept" access="public" returntype="void" output="false"
+				HINT="Accept a ticket.">
+		<cfargument name="issueID" type="string" required="true">
+		<cfargument name="projectID" type="string" required="true">
+		<cfargument name="userID" type="string" required="true">
+		<cfquery datasource="#variables.dsn#">
+			UPDATE #variables.tableprefix#issues 
+			SET status = 'Accepted',
+				assignedTo = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">,
+				updated = #CreateODBCDateTime(Now())#, 
+				updatedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
+			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+				AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#">
+		</cfquery>		
+	</cffunction>
+
+	<cffunction name="unaccept" access="public" returntype="void" output="false"
+				HINT="Unaccept a ticket.">
+		<cfargument name="issueID" type="string" required="true">
+		<cfargument name="projectID" type="string" required="true">
+		<cfargument name="userID" type="string" required="true">
+		<cfquery datasource="#variables.dsn#">
+			UPDATE #variables.tableprefix#issues 
+			SET status = 'New', assignedTo = '', updated = #CreateODBCDateTime(Now())#, 
+				updatedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
+			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+				AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#">
+		</cfquery>		
+	</cffunction>
+
+	<cffunction name="resolve" access="public" returntype="void" output="false"
+				HINT="Resolve a ticket.">
+		<cfargument name="issueID" type="string" required="true">
+		<cfargument name="projectID" type="string" required="true">
+		<cfargument name="userID" type="string" required="true">
+		<cfargument name="closealso" type="boolean" required="true">
+		<cfargument name="resolution" type="string" required="true">
+		<cfargument name="resolutionDesc" type="string" required="true">
+		<cfquery datasource="#variables.dsn#">
+			UPDATE #variables.tableprefix#issues 
+			SET status = 'Resolved',
+				resolution = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.resolution#" maxlength="12">,
+				resolutionDesc = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.resolutionDesc#">,
+				updated = #CreateODBCDateTime(Now())#, 
+				updatedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
+			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+				AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#">
+		</cfquery>		
+	</cffunction>
+
+	<cffunction name="close" access="public" returntype="void" output="false"
 				HINT="Marks an issue closed.">
 		<cfargument name="issueID" type="string" required="true">
 		<cfargument name="projectID" type="string" required="true">
+		<cfargument name="userID" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
-			UPDATE #variables.tableprefix#issues SET status = 'Closed'
-				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
-					AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#">
+			UPDATE #variables.tableprefix#issues 
+				SET	status = 'Closed', updated = #CreateODBCDateTime(Now())#, 
+				updatedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
+			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+				AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#">
 		</cfquery>		
-	</cffunction>	
+	</cffunction>
 	
+	<cffunction name="reopen" access="public" returntype="void" output="false"
+				HINT="Re-opens an issue.">
+		<cfargument name="issueID" type="string" required="true">
+		<cfargument name="projectID" type="string" required="true">
+		<cfargument name="userID" type="string" required="true">
+		<cfquery datasource="#variables.dsn#">
+			UPDATE #variables.tableprefix#issues 
+				SET	status = 'Accepted', updated = #CreateODBCDateTime(Now())#, 
+				updatedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
+			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+				AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#">
+		</cfquery>		
+	</cffunction>
+
 </CFCOMPONENT>

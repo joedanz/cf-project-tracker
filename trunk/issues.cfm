@@ -72,7 +72,9 @@ $(document).ready(function(){
 						 	
 						 	<select name="status">
 						 		<option value="">Status</option>
-						 		<option value="Open"<cfif not compare(form.status,'Open')> selected="selected"</cfif>>Open</option>
+						 		<option value="New"<cfif not compare(form.status,'New')> selected="selected"</cfif>>New</option>
+						 		<option value="Accepted"<cfif not compare(form.status,'Accepted')> selected="selected"</cfif>>Accepted</option>
+						 		<option value="Resolved"<cfif not compare(form.status,'Resolved')> selected="selected"</cfif>>Resolved</option>
 						 		<option value="Closed"<cfif not compare(form.status,'Closed')> selected="selected"</cfif>>Closed</option>						 		
 						 	</select>
 						 	
@@ -117,7 +119,7 @@ $(document).ready(function(){
 						<cfloop query="issues">
 						<tr class="<cfif thisRow mod 2 eq 0>even<cfelse>odd</cfif>">
 							<td><a href="issue.cfm?p=#url.p#&i=#issueID#">#shortID#</a></td>
-							<td>#issue#</td>
+							<td><a href="issue.cfm?p=#url.p#&i=#issueID#">#issue#</a></td>
 							<td>#type#</td>
 							<td>#severity#</td>
 							<td>#status#</td>

@@ -224,7 +224,7 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 }
 
 /* issue status */
-#issueStatus{clear:both;}
+#issueStatus{clear:both; margin-top:20px;}
 #issueStatus li{
 	height:36px;
 	list-style:none;
