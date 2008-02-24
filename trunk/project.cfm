@@ -72,10 +72,6 @@ $(document).ready(function(){
 			<div class="content">
 				<div class="wrapper">
 				
-				<cfif not compare(project.ticketPrefix,'')>
-					<div class="warn">A ticket prefix must be set in order to create issues.</div>
-				</cfif>
-				
 				<cfif project.display><div class="fs12 mb20">#project.description#</div></cfif>
 				
 				<cfif project.mstones gt 0>
