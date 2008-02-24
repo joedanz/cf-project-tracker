@@ -3,7 +3,7 @@
 <cfparam name="url.p" default="">
 <cfparam name="form.type" default="">
 <cfparam name="form.severity" default="">
-<cfparam name="form.status" default="Open">
+<cfparam name="form.status" default="New">
 <cfparam name="form.assignedTo" default="">
 <cfparam name="form.milestone" default="">
 
@@ -45,10 +45,6 @@ $(document).ready(function(){
 				</div>
 				<div class="content">
 				 	<div class="wrapper">
-					 	
-						<cfif not compare(project.ticketPrefix,'')>
-							<div class="warn mb10">A ticket prefix must be set in order to create issues.</div>
-						</cfif>					 	
 					 	
 					 	<cfif issues.recordCount or (compare(form.type,'') or compare(form.severity,'') or compare(form.status,'') or compare(form.assignedTo,'') or compare(form.milestone,''))>
 						 	
@@ -151,7 +147,7 @@ $(document).ready(function(){
 	<!--- right column --->
 	<div class="right">
 		
-		<cfif project.mstones gt 1 and compare(project.ticketPrefix,'')>
+		<cfif project.issues gt 1>
 		<h3><a href="editIssue.cfm?p=#url.p#" class="add">Submit new issue</a></h3><br />
 		</cfif>
 		
