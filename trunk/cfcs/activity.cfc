@@ -18,6 +18,8 @@
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfargument name="projectIDlist" type="string" required="false" default="">
 		<cfargument name="recentOnly" type="boolean" required="false" default="false">
+		<cfargument name="type" type="string" required="false" default="">
+		<cfargument name="id" type="string" required="false" default="">
 		<cfset var qGetActivity = "">
 		<cfquery name="qGetActivity" datasource="#variables.dsn#">
 			SELECT a.activityID,a.projectID,a.type,a.id,a.name,a.activity,a.stamp,
@@ -42,6 +44,14 @@
 			<cfif arguments.recentOnly>
 				AND a.stamp > #DateAdd("m",-1,Now())#
 			</cfif>
+			<cfif compare(arguments.type,'')>
+				AND a.type = 
+					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.type#" maxlength="12">
+			</cfif>
+			<cfif compare(arguments.id,'')>
+				AND a.id =
+					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.id#" maxlength="35">			
+			</cfif>			
 			ORDER BY stamp desc
 		</cfquery>
 		<cfreturn qGetActivity>
