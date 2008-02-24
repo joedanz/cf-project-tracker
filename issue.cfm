@@ -2,8 +2,31 @@
 
 <cfif StructKeyExists(form,"submit")>
 	<cfset application.comment.add(createUUID(),url.p,'issue',url.i,session.user.userid,form.comment)>
+<cfelseif StructKeyExists(url,"acc")>
+	<cfset application.issue.accept(url.i,url.p,session.user.userid)>
+	<cfset issue = application.issue.get(url.p,url.i)>
+	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Issue',url.i,issue.issue,'accepted')>
+<cfelseif StructKeyExists(url,"unacc")>
+	<cfset application.issue.unaccept(url.i,url.p,session.user.userid)>
+	<cfset issue = application.issue.get(url.p,url.i)>
+	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Issue',url.i,issue.issue,'unaccepted')>
+<cfelseif StructKeyExists(form,"resolve")>
+	<cfparam name="form.closealso" default="false">
+	<cfset application.issue.resolve(url.i,url.p,session.user.userid,form.closealso,form.resolution,form.res_desc)>
+	<cfset issue = application.issue.get(url.p,url.i)>
+	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Issue',url.i,issue.issue,'resolved')>
+	<cfif form.closealso>
+		<cfset application.issue.close(url.i,url.p,session.user.userid)>
+		<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Issue',url.i,issue.issue,'closed')>
+	</cfif>
 <cfelseif StructKeyExists(url,"close")>
-	<cfset application.issue.markClosed(url.i,url.p)>
+	<cfset application.issue.close(url.i,url.p,session.user.userid)>
+	<cfset issue = application.issue.get(url.p,url.i)>
+	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Issue',url.i,issue.issue,'closed')>
+<cfelseif StructKeyExists(url,"reopen")>
+	<cfset application.issue.reopen(url.i,url.p,session.user.userid)>
+	<cfset issue = application.issue.get(url.p,url.i)>
+	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Issue',url.i,issue.issue,'re-opened')>
 </cfif>
 
 <cfparam name="url.p" default="">
@@ -11,6 +34,7 @@
 <cfset project = application.project.get(session.user.userid,url.p)>
 <cfset issue = application.issue.get(url.p,url.i)>
 <cfset comments = application.comment.get(url.p,'issue',url.i)>
+<cfset activity = application.activity.get(type='Issue',id=url.i)>
 
 <cfif project.issues eq 0 and not session.user.admin>
 	<cfoutput><h2>You do not have permission to access issues!!!</h2></cfoutput>
@@ -30,18 +54,52 @@
 	<div class="left">
 		<div class="main">
 
-				<div class="header">
+				<div class="header" style="margin-bottom:0;">
 				<cfif project.issues eq 2>
 				<span class="rightmenu">
-					<a href="editIssue.cfm?p=#url.p#&i=#url.i#" class="edit">Edit</a>
-					<cfif compare(issue.status,'Closed')>
-					| <a href="#cgi.script_name#?p=#url.p#&i=#url.i#&close=1" class="close">Close Ticket</a>
+					<a href="editIssue.cfm?p=#url.p#&i=#url.i#" class="edit">Edit</a> 
+					<cfif not compare(issue.assignedTo,'')>
+						| <a href="#cgi.script_name#?p=#url.p#&i=#url.i#&acc=1" class="accept">Accept Ticket</a>
+					<cfelseif compare(issue.status,'Closed')>
+						| <a href="#cgi.script_name#?p=#url.p#&i=#url.i#&unacc=1" class="cancel">Unaccept Ticket</a>
+					</cfif>
+					<cfif not compare(issue.status,'Accepted')>
+						| <a href="##" onclick="$('##resolve').slideToggle(300);;return false;" class="close">Resolve Ticket</a>
+					<cfelseif not compare(issue.status,'Resolved')>
+						| <a href="#cgi.script_name#?p=#url.p#&i=#url.i#&close=1" class="close">Close Ticket</a>
+					<cfelseif not compare(issue.status,'Closed')>
+						| <a href="#cgi.script_name#?p=#url.p#&i=#url.i#&reopen=1" class="close">Reopen Ticket</a>
 					</cfif>
 				</span>
 				</cfif>
 					
-					<h2 class="issues"><cfif isNumeric(issue.shortID)>##</cfif>#issue.shortID# - #issue.issue#</h2>
+					<h2 class="issues">Ticket <cfif isNumeric(issue.shortID)>##</cfif>#issue.shortID# - #issue.issue#</h2>
 				</div>
+				
+				<div id="resolve" style="padding:10px 20px;display:none;background-color:##f5f5f5;">
+					<form action="#cgi.script_name#?#cgi.query_string#" method="post">
+					<span style="float:left;margin-right:30px;">
+					<label for="res" class="b">Resolution:</label><br />
+					<select name="resolution" id="res">
+						<option value="Fixed">Fixed</option>
+						<option value="Works for me">Works for me</option>
+						<option value="Postponed">Postponed</option>
+						<option value="Duplicate">Duplicate</option>
+						<option value="Will not fix">Will not fix</option>
+						<option value="Invalid">Invalid</option>
+					</select><br /><br />
+					<input type="checkbox" name="closealso" value="true" id="closealso">
+					<label for="closealso">Close Ticket Simultaneously</label>
+					</span>
+					
+					<label for="res_desc" class="b">Description of Resolution:</label><br />
+					<textarea name="res_desc" id="res_desc"></textarea><br />
+					<input type="submit" value="Resolve Ticket" name="resolve" />
+					or <a href="##" onclick="$('##resolve').slideToggle(300);;return false;">Cancel</a>
+					</form>
+				</div>
+				
+				
 				<div class="content">
 				 	<div class="wrapper">
 					 	
@@ -60,13 +118,17 @@
 								<td>#DateFormat(issue.created,"mmm d")# @ #TimeFormat(issue.created,"h:mmtt")# by #issue.createdFirstName# #issue.createdLastName#</td>
 							</tr>
 							<tr>
-								<td class="label">Updated:</td>
+								<td class="label"><cfif not compare(issue.status,'Closed')>Closed<cfelse>Updated</cfif>:</td>
 								<td><cfif isDate(issue.updated)>#DateFormat(issue.updated,"mmm d")# @ #TimeFormat(issue.updated,"h:mmtt")# by #issue.updatedFirstName# #issue.updatedLastName#<cfelse><span class="g">&lt;none&gt;</span></cfif></td>
 							</tr>
 							
 							<tr>
 								<td class="label">Assigned To:</td>
 								<td><cfif compare(issue.assignedLastName,'')>#issue.assignedFirstName# #issue.assignedLastName#<cfelse><span class="g">&lt;none&gt;</span></cfif></td>
+							</tr>
+							<tr>
+								<td class="label">Resolution:</td>
+								<td><cfif compare(issue.resolution,'')>#issue.resolution#<cfelse><span class="g">&lt;none&gt;</span></cfif></td>
 							</tr>
 						</table>
 					
@@ -102,6 +164,20 @@
 							</tr>
 							</cfif>
 						</table>	
+						
+					 	<table class="bug">
+							<tr>
+								<td class="label">Resolution:</td>
+								<td>#issue.resolution#</td>
+							</tr>
+							<cfif compare(issue.resolutionDesc,'')>
+							<tr>
+								<td class="label">Description:</td>
+								<td>#issue.resolutionDesc#</td>
+							</tr>
+							</cfif>
+						</table>	
+						
 						
 						<!---
 						<table class="svn mb10" id="issues">
@@ -170,6 +246,15 @@
 						</form>
 						</cfif>			
 						
+						
+						<div class="commentbar">Audit Trail</div>
+						<ul class="nobullet">
+						<cfloop query="activity">
+							<li class="collapsed"><span class="b">Ticket #activity#</span> by #firstName# #lastName# #request.udf.relativeTime(stamp)#</li> 
+						</cfloop>
+						</ul>
+											
+						
 					</div>
 				</div>
 			
@@ -182,8 +267,7 @@
 
 	<!--- right column --->
 	<div class="right">
-		
-		
+				
 	</div>
 <cfelse>
 	<div class="alert">Issue Not Found.</div>

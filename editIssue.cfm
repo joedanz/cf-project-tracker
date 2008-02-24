@@ -9,7 +9,7 @@
 <cfelseif StructKeyExists(form,"submit")> <!--- add issue --->
 	<cfset newID = createUUID()>
 	<cfset application.issue.add(newID,form.projectID,form.ticketPrefix,form.issue,form.detail,form.type,form.severity,form.status,form.assignedTo,form.milestone,form.relevantURL,session.user.userid)>
-	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Issue',newID,form.issue,'added')>
+	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Issue',newID,form.issue,'created')>
 	<cfset application.notify.issueNew(form.projectid,newID)>
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#newID#" addtoken="false">
 <cfelseif StructKeyExists(url,"del") and hash(url.p) eq url.ph> <!--- delete issue --->
@@ -101,14 +101,14 @@
 						</cfscript>&nbsp;
 						</p>
 						<p>
-						<label for="type" class="req">Type:</label>
+						<label for="type">Type:</label>
 						<select name="type" id="type">
 							<option value="Bug"<cfif not compare(type,'Bug')> selected="selected"</cfif>>Bug</option>
 							<option value="Enhancement"<cfif not compare(type,'Enhancement')> selected="selected"</cfif>>Enhancement</option>
 						</select>
 						</p>						
 						<p>
-						<label for="severity" class="req">Severity:</label>
+						<label for="severity">Severity:</label>
 						<select name="severity" id="severity">
 							<option value="Critical"<cfif not compare(severity,'Critical')> selected="selected"</cfif>>Critical</option>
 							<option value="Major"<cfif not compare(severity,'Major')> selected="selected"</cfif>>Major</option>
@@ -117,13 +117,20 @@
 							<option value="Trivial"<cfif not compare(severity,'Trivial')> selected="selected"</cfif>>Trivial</option>
 						</select>						
 						</p>
+						<cfif StructKeyExists(url,"i")>
 						<p>
-						<label for="status" class="req">Status:</label>
+						<label for="status">Status:</label>
 						<select name="status" id="status">
-							<option value="Open"<cfif not compare(status,'Open')> selected="selected"</cfif>>Open</option>
+							<option value="New"<cfif not compare(status,'New')> selected="selected"</cfif>>New</option>
+							<option value="Accepted"<cfif not compare(status,'Open') or not compare(status,'Accepted')> selected="selected"</cfif>>Accepted</option>
+							<option value="Resolved"<cfif not compare(status,'Resolved')> selected="selected"</cfif>>Resolved</option>					
 							<option value="Closed"<cfif not compare(status,'Closed')> selected="selected"</cfif>>Closed</option>
 						</select>
 						</p>
+						<cfelse>
+							<input type="hidden" name="status" value="New">
+						</cfif>
+						<cfif StructKeyExists(url,"i")>
 						<p>
 						<label for="forwho">Assign To:</label>
 						<select name="assignedTo" id="forwho">
@@ -133,6 +140,9 @@
 							</cfloop>
 						</select>
 						</p>
+						<cfelse>
+							<input type="hidden" name="assignedTo" value="">
+						</cfif>
 						<p>
 						<label for="milestone">Milestone:</label>
 						<select name="milestone" id="milestone">
