@@ -40,11 +40,18 @@
 				</span>
 				</cfif>
 					
-					<h2 class="issues">#issue.shortID# - #issue.issue#</h2>
+					<h2 class="issues"><cfif isNumeric(issue.shortID)>##</cfif>#issue.shortID# - #issue.issue#</h2>
 				</div>
 				<div class="content">
 				 	<div class="wrapper">
 					 	
+					    <ul id="issueStatus">
+					      <li class="<cfif not compare(issue.status,'New')>current<cfelseif not compare(issue.status,'Accepted')>lastDone<cfelse>done</cfif>"><a title=""><em>New</em></a></li>
+					      <li<cfif not compare(issue.status,'Accepted') or not compare(issue.status,'Open')> class="current"<cfelseif not compare(issue.status,'Resolved')> class="lastDone"<cfelseif compare(issue.status,'New')> class="done"</cfif>><a title=""><em>Accepted</em></a></li>
+					      <li<cfif not compare(issue.status,'Resolved')> class="current"<cfelseif not compare(issue.status,'Closed')> class="lastDone"</cfif>><a title=""><em>Resolved</em></a></li>
+						  <li class="issueStatusNoBg<cfif not compare(issue.status,'Closed')> current</cfif>"><a title=""><em>Closed</em></a></li>
+					    </ul>
+					    <div class="clear mb15">&nbsp;</div>
 					 	
 						<div style="padding:5px;background-color:##fff6bf;border:3px solid ##ffd324;" class="mb10">
 					 	<table class="bug" style="float:right;margin-right:20px;">
