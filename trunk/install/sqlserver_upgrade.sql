@@ -167,6 +167,10 @@ ALTER TABLE [dbo].[pt_issues] ALTER COLUMN [detail] [ntext] COLLATE SQL_Latin1_G
 GO
 ALTER TABLE [dbo].[pt_issues] ALTER COLUMN [status] [nvarchar] (8) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 GO
+ALTER TABLE [dbo].[pt_issues] ADD [resolution] [nvarchar] (12) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
+ALTER TABLE [dbo].[pt_issues] ADD [resolutionDesc] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
 ALTER TABLE [dbo].[pt_issues] WITH NOCHECK ADD 
 	CONSTRAINT [PK_pt_issues] PRIMARY KEY  CLUSTERED 
 	(
