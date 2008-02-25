@@ -3,7 +3,7 @@
 <cfparam name="url.p" default="">
 <cfparam name="form.type" default="">
 <cfparam name="form.severity" default="">
-<cfparam name="form.status" default="New">
+<cfparam name="form.status" default="New|Accepted">
 <cfparam name="form.assignedTo" default="">
 <cfparam name="form.milestone" default="">
 
@@ -51,6 +51,7 @@ $(document).ready(function(){
 						 <div class="mb10" style="background-color:##ffc;padding:8px;border:1px solid ##ccc;">
 
 						 	<form action="#cgi.script_name#?p=#url.p#" method="post" style="float:right;">
+							 	<input type="hidden" name="status" value="" />
 						 		<input type="submit" value="Show All" />
 						 	</form>
 							
@@ -101,7 +102,7 @@ $(document).ready(function(){
 						<cfif issues.recordCount>
 					 	<div style="border:1px solid ##ddd;" class="mb20">
 					 	<table class="activity full" id="issues">
-						<caption class="plain">#form.status# Issues</caption>
+						<caption class="plain">#replace(form.status,'|',' &amp; ')# Issues</caption>
 						<thead>
 							<tr>
 								<th>ID</th>
