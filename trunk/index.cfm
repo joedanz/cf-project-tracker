@@ -34,7 +34,7 @@
 <cfset activity = application.activity.get('',valueList(projects.projectID),'true')>
 <cfset milestones_overdue = application.milestone.get('','','overdue','',visible_project_list_mstones)>
 <cfset milestones_upcoming = application.milestone.get('','','upcoming','1',visible_project_list_mstones)>
-<cfset issues = application.issue.get('','','Open',visible_project_list_issues)>
+<cfset issues = application.issue.get('','','New|Accepted',visible_project_list_issues)>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Home">
