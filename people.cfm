@@ -111,7 +111,7 @@
 					<legend class="b">Add a new person to this project:</legend>
 
 					<label for="fname">First
-						<input type="text" name="firstName" id="fname" size="6" />
+						<input type="text" name="firstName" id="fname" size="5" />
 					</label>
 					
 					<label for="lname">Last
@@ -119,7 +119,7 @@
 					</label>
 					
 					<label for="email">Email
-						<input type="text" name="email" id="email" size="22" />
+						<input type="text" name="email" id="email" size="20" />
 					</label>
 										
 					<label for="phone">Phone
@@ -127,11 +127,11 @@
 					</label>
 
 					<label for="username">Username
-						<input type="text" name="username" id="username" size="8" />
+						<input type="text" name="username" id="username" size="7" />
 					</label>
 					
 					<label for="password">Password
-						<input type="text" name="password" id="password" value="#lcase(left(request.udf.MakePassword(),4))#" size="6" />
+						<input type="text" name="password" id="password" value="#lcase(left(request.udf.MakePassword(),4))#" size="4" />
 					</label>
 					
 					<cfif session.user.admin>
