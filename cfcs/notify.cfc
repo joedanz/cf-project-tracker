@@ -22,7 +22,7 @@
 		<cfset var qFile = application.file.get(arguments.projectID,arguments.fileID)>
 		<cfloop query="qProjectUsers">		
 			<cfif email_msgs and request.udf.isEmail(email)>
-				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#New #IIF(compare(qProject.name,''),'##qProject.name## ','')#File">A new #qProject.name# file has been added:
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#[New] File in '#qFile.category#'#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">A new #qProject.name# file has been added:
 #qFile.title#
 
 Category: #qFile.category#
@@ -34,7 +34,7 @@ To view file details or to download, visit this link:
 				</cfmail>
 			</cfif>
 			<cfif mobile_msgs and isNumeric(mobile)>
-				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#New #IIF(compare(qProject.name,''),'##qProject.name## ','')#File">New #qProject.name# file:
+				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#[New] File#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">New #qProject.name# file:
 #qFile.title#
 
 #Left(request.udf.CleanText(qFile.description),100)#<cfif len(request.udf.CleanText(qFile.description)) gt 100>...</cfif>
@@ -52,7 +52,7 @@ To view file details or to download, visit this link:
 		<cfset var qFile = application.file.get(arguments.projectID,arguments.fileID)>
 		<cfloop query="qProjectUsers">		
 			<cfif email_msgs and request.udf.isEmail(email)>
-				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#Updated #IIF(compare(qProject.name,''),'##qProject.name## ','')#File">The following #qProject.name# issue has been updated:
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#[Updated] File in '#qFile.category#'#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">The following #qProject.name# issue has been updated:
 #qFile.title#
 
 Category: #qFile.category#
@@ -64,7 +64,7 @@ To view file details or to download, visit this link:
 				</cfmail>
 			</cfif>
 			<cfif mobile_msgs and isNumeric(mobile)>
-				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#New #IIF(compare(qProject.name,''),'##qProject.name## ','')#File">Updated #qProject.name# file:
+				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#[Updated] File#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">Updated #qProject.name# file:
 #qFile.title#
 
 #Left(request.udf.CleanText(qFile.description),100)#<cfif len(request.udf.CleanText(qFile.description)) gt 100>...</cfif>
@@ -82,7 +82,7 @@ To view file details or to download, visit this link:
 		<cfset var qIssue = application.issue.get(arguments.projectID,arguments.issueID)>
 		<cfloop query="qProjectUsers">		
 			<cfif email_msgs and request.udf.isEmail(email)>
-				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#New #IIF(compare(qProject.name,''),'##qProject.name## ','')#Issue">A new #qProject.name# issue has been added:
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#[New] Issue (#qIssue.type#)#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">A new #qProject.name# issue has been added:
 #qIssue.issue#
 
 #request.udf.CleanText(qIssue.detail)#
@@ -96,7 +96,7 @@ To view file details or to download, visit this link:
 				</cfmail>
 			</cfif>
 			<cfif mobile_msgs and isNumeric(mobile)>
-				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#New #IIF(compare(qProject.name,''),'##qProject.name## ','')#Issue">New #qProject.name# issue:
+				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#[New] Issue#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">New #qProject.name# issue:
 
 #Left(request.udf.CleanText(qIssue.issue),100)#<cfif len(request.udf.CleanText(qIssue.issue)) gt 100>...</cfif>
 				</cfmail>			
@@ -113,8 +113,10 @@ To view file details or to download, visit this link:
 		<cfset var qIssue = application.issue.get(arguments.projectID,arguments.issueID)>
 		<cfloop query="qProjectUsers">		
 			<cfif email_msgs and request.udf.isEmail(email)>
-				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#New #IIF(compare(qProject.name,''),'##qProject.name## ','')#Issue">The following #qProject.name# issue has been updated:
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#[Updated] Issue (#qIssue.type#)#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">The following #qProject.name# issue has been updated:
 #qIssue.issue#
+
+Status: #qIssue.status#
 
 #request.udf.CleanText(qIssue.detail)#
 
@@ -127,7 +129,7 @@ To view file details or to download, visit this link:
 				</cfmail>
 			</cfif>
 			<cfif mobile_msgs and isNumeric(mobile)>
-				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#New #IIF(compare(qProject.name,''),'##qProject.name## ','')#Issue">Updated #qProject.name# issue:
+				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#[Updated] Issue#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">Updated #qProject.name# issue:
 
 #Left(qIssue.issue,100)#<cfif len(qIssue.issue) gt 100>...</cfif>
 				</cfmail>			
@@ -146,7 +148,7 @@ To view file details or to download, visit this link:
 		<cfset var qMailNotifyUsers = application.user.get('',arguments.notifyList)>
 		<cfloop query="qMailNotifyUsers">
 			<cfif email_msgs and request.udf.isEmail(email)>
-				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#New #IIF(compare(qProject.name,''),'##qProject.name## ','')#Message"><cfif compare(userID,arguments.addedBy)>A new #qProject.name# message has been posted<cfelse>You have posted a new #qProject.name# message</cfif>:
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#[New] Message in '#qFile.category#'#IIF(compare(qProject.name,''),' (##qProject.name##)','')#"><cfif compare(userID,arguments.addedBy)>A new #qProject.name# message has been posted<cfelse>You have posted a new #qProject.name# message</cfif>:
 #qMessage.title#
 	
 #request.udf.CleanText(qMessage.message)#
@@ -159,7 +161,7 @@ Use the following link to view or edit the message and to make comments:</cfif>
 					</cfmail>
 			</cfif>
 			<cfif mobile_msgs and isNumeric(mobile)>
-				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#New #IIF(compare(qProject.name,''),'##qProject.name## ','')#Message">New #qProject.name# message:
+				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#[New] Message#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">New #qProject.name# message:
 #qMessage.title#
 	
 #Left(request.udf.CleanText(qMessage.message),100)#<cfif len(request.udf.CleanText(qMessage.message)) gt 100>...</cfif>
@@ -177,7 +179,7 @@ Use the following link to view or edit the message and to make comments:</cfif>
 		<cfset var qMessage = application.message.get(arguments.projectID,arguments.messageID)>
 		<cfloop query="qProjectUsers">		
 			<cfif email_msgs and request.udf.isEmail(email)>
-				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#Updated #IIF(compare(qProject.name,''),'##qProject.name## ','')#Message">The following #qProject.name# message has been updated:
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#[Updated] Message in '#qFile.category#'#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">The following #qProject.name# message has been updated:
 #qMessage.title#
 
 #request.udf.CleanText(qMessage.message)#
@@ -189,7 +191,7 @@ Use the following link to view or edit the message and to make comments:</cfif>
 				</cfmail>
 			</cfif>
 			<cfif mobile_msgs and isNumeric(mobile)>
-				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#Updated #IIF(compare(qProject.name,''),'##qProject.name## ','')#Message">Updated #qProject.name# message:
+				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#[Updated] Message#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">Updated #qProject.name# message:
 
 #Left(request.udf.CleanText(qMessage.message),100)#<cfif len(request.udf.CleanText(qMessage.message)) gt 100>...</cfif>
 				</cfmail>			
@@ -207,7 +209,7 @@ Use the following link to view or edit the message and to make comments:</cfif>
 		<cfset var qNotifyList = application.message.getNotifyList(arguments.projectID,arguments.messageID)>
 		<cfloop query="qNotifyList">		
 			<cfif email_msgs and request.udf.isEmail(email)>
-				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#New #IIF(compare(qProject.name,''),'##qProject.name## ','')#Comment on #qMessage.title#">A new #qProject.name# message has been posted on the message in #qMessage.category# entitled:
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#[New] Comment on '#qMessage.title#'#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">A new #qProject.name# message has been posted on the message in #qMessage.category# entitled:
 #qMessage.title#
 
 #request.udf.CleanText(arguments.comment)#
@@ -217,7 +219,7 @@ To view the full message and leave comments, visit this link:
 				</cfmail>
 			</cfif>
 			<cfif mobile_msgs and isNumeric(mobile)>
-				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#New #IIF(compare(qProject.name,''),'##qProject.name## ','')#Msg Comment">New comment on: #qMessage.title#
+				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#[New] Msg Comment#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">New comment on: #qMessage.title#
 
 #Left(request.udf.CleanText(arguments.comment),100)#<cfif len(request.udf.CleanText(arguments.comment)) gt 100>...</cfif>
 				</cfmail>			
@@ -234,7 +236,7 @@ To view the full message and leave comments, visit this link:
 		<cfset var qMilestone = application.milestone.get(arguments.projectID,arguments.milestoneID)>
 		<cfloop query="qProjectUsers">		
 			<cfif email_msgs and request.udf.isEmail(email)>
-				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#New #IIF(compare(qProject.name,''),'##qProject.name## ','')#Milestone">A new #qProject.name# milestone has been added:
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#[New] Milestone#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">A new #qProject.name# milestone has been added:
 #qMilestone.name#
 
 #request.udf.CleanText(qMilestone.description)#
@@ -246,7 +248,7 @@ To view the full message and leave comments, visit this link:
 				</cfmail>
 			</cfif>
 			<cfif mobile_msgs and isNumeric(mobile)>
-				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#New #IIF(compare(qProject.name,''),'##qProject.name## ','')#Issue">New #qProject.name# file:
+				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#[New] Milestone#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">New #qProject.name# file:
 #qMilestone.name#
 
 Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
@@ -266,7 +268,7 @@ Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
 		<cfset var qMilestone = application.milestone.get(arguments.projectID,arguments.milestoneID)>
 		<cfloop query="qProjectUsers">		
 			<cfif email_msgs and request.udf.isEmail(email)>
-				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#New #IIF(compare(qProject.name,''),'##qProject.name## ','')#Milestone">The following #qProject.name# milestone has been updated:
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#[Updated] Milestone#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">The following #qProject.name# milestone has been updated:
 #qMilestone.name#
 
 Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
@@ -280,7 +282,7 @@ Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
 				</cfmail>
 			</cfif>
 			<cfif mobile_msgs and isNumeric(mobile)>
-				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#New #IIF(compare(qProject.name,''),'##qProject.name## ','')#Milestone">Updated #qProject.name# milestone:
+				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#[Updated] Milestone#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">Updated #qProject.name# milestone:
 #qMilestone.name#
 
 #Left(request.udf.CleanText(qMilestone.description),100)#<cfif len(request.udf.CleanText(qFile.description)) gt 100>...</cfif>
@@ -300,7 +302,7 @@ Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
 		<cfset var qTodo = application.todo.get(projectID=arguments.projectID,todolistID=arguments.todolistID,todoID=arguments.todoID)>
 		<cfloop query="qProjectUsers">		
 			<cfif email_msgs and request.udf.isEmail(email)>
-				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#New #IIF(compare(qProject.name,''),'##qProject.name## ','')#To-Do">A new #qProject.name# to-do has been added to list #qTodolist.title#:
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#[New] To-Do in '#qTodolist.title#'#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">A new #qProject.name# to-do has been added to list #qTodolist.title#:
 #qTodo.task#
 
 <cfif isDate(qTodo.due)>Due Date: #DateFormat(qTodo.due,"ddd, mmmm d, yyyy")#
@@ -310,7 +312,7 @@ Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
 				</cfmail>
 			</cfif>
 			<cfif mobile_msgs and isNumeric(mobile)>
-				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#New #IIF(compare(qProject.name,''),'##qProject.name## ','')#To-Do">New #qProject.name# to-do:
+				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#[New] To-Do#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">New #qProject.name# to-do:
 #qTodo.task#
 
 List: #qTodolist.title#
@@ -330,7 +332,7 @@ List: #qTodolist.title#
 		<cfset var qTodo = application.todo.get(projectID=arguments.projectID,todolistID=arguments.todolistID,todoID=arguments.todoID)>
 		<cfloop query="qProjectUsers">		
 			<cfif email_msgs and request.udf.isEmail(email)>
-				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#New #IIF(compare(qProject.name,''),'##qProject.name## ','')#To-Do">The following #qProject.name# to-do has been updated in list #qTodolist.title#:
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#[Updated] To-Do in '#qTodolist.title#'#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">The following #qProject.name# to-do has been updated in list #qTodolist.title#:
 #qTodo.task#
 
 <cfif isDate(qTodo.due)>Due Date: #DateFormat(qTodo.due,"ddd, mmmm d, yyyy")#
@@ -340,7 +342,7 @@ List: #qTodolist.title#
 				</cfmail>
 			</cfif>
 			<cfif mobile_msgs and isNumeric(mobile)>
-				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#New #IIF(compare(qProject.name,''),'##qProject.name## ','')#To-Do">Updated #qProject.name# to-do:
+				<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#[Updated] To-Do#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">Updated #qProject.name# to-do:
 #qTodo.task#
 
 List: #qTodolist.title#
