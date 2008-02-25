@@ -114,7 +114,6 @@
 		<cfargument name="detail" type="string" required="true">
 		<cfargument name="type" type="string" required="true">
 		<cfargument name="severity" type="string" required="true">
-		<cfargument name="status" type="string" required="true">
 		<cfargument name="assignedTo" type="string" required="true">
 		<cfargument name="milestoneID" type="string" required="true">
 		<cfargument name="relevantURL" type="string" required="true">
@@ -126,7 +125,6 @@
 				detail = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.detail#">, 
 				type = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="11">, 
 				severity = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.severity#" maxlength="10">, 
-				status = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" maxlength="8">, 
 				assignedTo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.assignedTo#" maxlength="35">,
 				milestoneID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
 				relevantURL = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.relevantURL#" maxlength="255">, 

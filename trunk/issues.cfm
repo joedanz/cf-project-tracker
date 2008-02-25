@@ -48,7 +48,7 @@ $(document).ready(function(){
 					 	
 					 	<cfif issues.recordCount or (compare(form.type,'') or compare(form.severity,'') or compare(form.status,'') or compare(form.assignedTo,'') or compare(form.milestone,''))>
 						 	
-						 <div class="mb10" style="background-color:##ffc;padding:8px;border:1px solid ##ccc;">
+						 <div class="mb10" id="issuefilter">
 
 						 	<form action="#cgi.script_name#?p=#url.p#" method="post" style="float:right;">
 							 	<input type="hidden" name="status" value="" />

@@ -2,7 +2,7 @@
 
 <cfparam name="form.display" default="0">
 <cfif StructKeyExists(form,"issueID")> <!--- update issue --->
-	<cfset application.issue.update(form.issueID,form.projectid,form.issue,form.detail,form.type,form.severity,form.status,form.assignedTo,form.milestone,form.relevantURL,session.user.userid)>
+	<cfset application.issue.update(form.issueID,form.projectid,form.issue,form.detail,form.type,form.severity,form.assignedTo,form.milestone,form.relevantURL,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Issue',form.issueID,form.issue,'edited')>
 	<cfset application.notify.issueUpdate(form.projectid,form.issueID)>
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#form.issueID#" addtoken="false">
@@ -117,19 +117,6 @@
 							<option value="Trivial"<cfif not compare(severity,'Trivial')> selected="selected"</cfif>>Trivial</option>
 						</select>						
 						</p>
-						<cfif StructKeyExists(url,"i")>
-						<p>
-						<label for="status">Status:</label>
-						<select name="status" id="status">
-							<option value="New"<cfif not compare(status,'New')> selected="selected"</cfif>>New</option>
-							<option value="Accepted"<cfif not compare(status,'Open') or not compare(status,'Accepted')> selected="selected"</cfif>>Accepted</option>
-							<option value="Resolved"<cfif not compare(status,'Resolved')> selected="selected"</cfif>>Resolved</option>					
-							<option value="Closed"<cfif not compare(status,'Closed')> selected="selected"</cfif>>Closed</option>
-						</select>
-						</p>
-						<cfelse>
-							<input type="hidden" name="status" value="New">
-						</cfif>
 						<cfif StructKeyExists(url,"i")>
 						<p>
 						<label for="forwho">Assign To:</label>

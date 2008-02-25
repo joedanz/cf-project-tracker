@@ -251,34 +251,38 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 }
 
 #issueStatus li a, #issueStatus li a:link, #issueStatus li a:visited, #issueStatus li a:hover, #issueStatus li a:active {
-color:#ccc;
+	color:#ccc;
 }
 
 #issueStatus li.lastDone a, #issueStatus li.lastDone a:link, #issueStatus li.lastDone a:visited, #issueStatus li.lastDone a:hover, #issueStatus li.lastDone a:active, #issueStatus li.current a, #issueStatus li.current a:link, #issueStatus li.current a:visited, #issueStatus li.current a:hover, #issueStatus li.current a:active, #issueStatus li.done a, #issueStatus li.done a:link, #issueStatus li.done a:visited, #issueStatus li.done a:hover, #issueStatus li.done a:active {
-color:#fff;
+	color:#fff;
 }
 
 #issueStatus li.done a:hover, #issueStatus li.lastDone a:hover  {
-color:#FFFF99;
-cursor:hand;
+	color:#FFFF99; cursor:hand;
 }
 
 #issueStatus li a em{
-width:167px;
-display:block;
-margin:6px 0 0 11px;
-font-style:normal;
-font-weight:bold;
-font-size:140%;
+	width:167px;
+	display:block;
+	margin:6px 0 0 11px;
+	font-style:normal;
+	font-weight:bold;
+	font-size:140%;
 }
 
 #issueStatus li a span{
-width:140px;
-display:block;
-margin-left:10px;
-font-weight:normal;
+	width:140px;
+	display:block;
+	margin-left:10px;
+	font-weight:normal;
 }
 
 #issueStatus li.issueStatusNoBg{
-background-image:none;
+	background-image:none;
+}
+
+#issuefilter {
+	background-color:#ffc;
+	border:1px solid #ccc;
 }

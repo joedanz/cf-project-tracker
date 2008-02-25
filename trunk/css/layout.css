@@ -238,5 +238,7 @@ table.activity td {
 	padding-left:20px;
 }
 
+#issuefilter { padding:8px; }
+
 /* make room for files icons */
 .fileLrg > h3, .fileLrg > p { padding-left:53px; }
