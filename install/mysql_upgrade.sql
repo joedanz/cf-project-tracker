@@ -149,6 +149,8 @@ ALTER TABLE `pt_projects` MODIFY `ticketPrefix` varchar(20) NULL;
 ALTER TABLE `pt_settings` MODIFY `settingID` char(35) NOT NULL;
 INSERT INTO `pt_settings` values ('E59DED9F-1372-7975-6FCD9DFAE904B617','enable_api','0');
 INSERT INTO `pt_settings` values ('E5A50225-1372-7975-6F9777FB42FD45E6','api_key','');
+INSERT INTO `pt_settings` values ('50ED062A-16E6-58DE-13EF9FEB2312EE8C','email_subject_prefix','');
+INSERT INTO `pt_settings` values ('50ED2D69-16E6-58DE-130067F4C29ABF35','sms_subject_prefix','');
 
 /* pt_todolists */
 ALTER TABLE `pt_todolists` MODIFY `todolistID` char(35) NOT NULL;
