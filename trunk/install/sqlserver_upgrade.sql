@@ -314,6 +314,11 @@ INSERT INTO [dbo].[pt_settings](settingID,setting,settingValue) values('E59DED9F
 GO
 INSERT INTO [dbo].[pt_settings](settingID,setting,settingValue) values('E5A50225-1372-7975-6F9777FB42FD45E6','api_key','')
 GO
+INSERT INTO [dbo].[pt_settings](settingID,setting,settingValue) values('50ED062A-16E6-58DE-13EF9FEB2312EE8C','email_subject_prefix','')
+GO
+INSERT INTO [dbo].[pt_settings](settingID,setting,settingValue) values('50ED2D69-16E6-58DE-130067F4C29ABF35','sms_subject_prefix','')
+GO
+
 
 /* pt_todolists */
 ALTER TABLE [dbo].[pt_todolists] ALTER COLUMN [todolistID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
