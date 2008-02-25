@@ -28,6 +28,25 @@
 		
 		<cfreturn true>
 	</cffunction>
+
+	<cffunction name="saveNotification" access="public" returnType="boolean" output="false"
+				hint="Sets application settings.">
+		<cfargument name="email_subject_prefix" type="string" required="true">
+		<cfargument name="sms_subject_prefix" type="string" required="true">
+		
+		<cfquery datasource="#variables.dsn#">
+			UPDATE #application.settings.tableprefix#settings
+				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email_subject_prefix#" maxlength="250">
+					WHERE setting = 'email_subject_prefix'
+		</cfquery>
+		<cfquery datasource="#variables.dsn#">
+			UPDATE #application.settings.tableprefix#settings
+				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.sms_subject_prefix#" maxlength="250">
+					WHERE setting = 'sms_subject_prefix'
+		</cfquery>
+		
+		<cfreturn true>
+	</cffunction>
 	
 	<cffunction name="saveAPI" access="public" returnType="boolean" output="false"
 				hint="Sets application API settings.">
