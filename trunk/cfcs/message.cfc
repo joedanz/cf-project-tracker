@@ -193,7 +193,7 @@
 		<cfargument name="messageID" type="uuid" required="true">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="title" type="string" required="true">
-		<cfargument name="category" type="string" required="true">
+		<cfargument name="categoryid" type="string" required="true">
 		<cfargument name="message" type="string" required="true">
 		<cfargument name="milestoneID" type="string" required="true">
 		<cfargument name="allowcomments" type="numeric" required="true">
