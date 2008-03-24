@@ -88,7 +88,6 @@
 		<cfset var validUsername = false>
 		<cfset var qCheckUser = "">
 		<cfset var startRec = 1>
-		<cfset var newPass = left(MakePassword(),4)>
 		<cfloop condition="validUsername is false">
 			<cfset qCheckUser = application.user.get('','',newUsername)>
 			<cfif not qCheckUser.recordCount>
