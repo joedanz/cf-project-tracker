@@ -193,13 +193,15 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfargument name="email" type="string" required="true">
 		<cfargument name="phone" type="string" required="true">
 		<cfargument name="mobile" type="string" required="true">
+		<cfargument name="carrierID" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#users SET
 				firstName = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.firstName#" maxlength="12">, 
 				lastName = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.lastName#" maxlength="20">, 
 				email = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" maxlength="120">,
 				phone = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.phone#" maxlength="15">,
-				mobile = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.mobile#" maxlength="15">
+				mobile = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.mobile#" maxlength="15">,
+				carrierID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.carrierID#" maxlength="35">
 			WHERE userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">			
 		</cfquery>		
 	</cffunction>
