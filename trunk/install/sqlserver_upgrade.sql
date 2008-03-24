@@ -403,6 +403,10 @@ UPDATE [dbo].[pt_users]
 		[email_todos] = 1 ,
 		[mobile_todos] = 1
 GO
+UPDATE [dbo].[pt_users] 
+	SET [avatar] = 0
+	WHERE [avatar] IS NULL
+GO
 ALTER TABLE [dbo].[pt_users] WITH NOCHECK ADD 
 	CONSTRAINT [PK_pt_users] PRIMARY KEY  CLUSTERED 
 	(
