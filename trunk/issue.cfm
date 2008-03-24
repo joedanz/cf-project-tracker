@@ -2,16 +2,6 @@
 
 <cfif StructKeyExists(form,"submit")>
 	<cfset application.comment.add(createUUID(),url.p,'issue',url.i,session.user.userid,form.comment)>
-<cfelseif StructKeyExists(url,"acc")>
-	<cfset application.issue.accept(url.i,url.p,session.user.userid)>
-	<cfset issue = application.issue.get(url.p,url.i)>
-	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Issue',url.i,issue.issue,'accepted')>
-	<cfset application.notify.issueUpdate(url.p,url.i)>
-<cfelseif StructKeyExists(url,"unacc")>
-	<cfset application.issue.unaccept(url.i,url.p,session.user.userid)>
-	<cfset issue = application.issue.get(url.p,url.i)>
-	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Issue',url.i,issue.issue,'unaccepted')>
-	<cfset application.notify.issueUpdate(url.p,url.i)>
 <cfelseif StructKeyExists(form,"resolve")>
 	<cfparam name="form.closealso" default="false">
 	<cfset application.issue.resolve(url.i,url.p,session.user.userid,form.closealso,form.resolution,form.res_desc)>
@@ -29,6 +19,16 @@
 	<cfset application.issue.close(url.i,url.p,session.user.userid)>
 	<cfset issue = application.issue.get(url.p,url.i)>
 	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Issue',url.i,issue.issue,'closed')>
+	<cfset application.notify.issueUpdate(url.p,url.i)>
+<cfelseif StructKeyExists(url,"acc")>
+	<cfset application.issue.accept(url.i,url.p,session.user.userid)>
+	<cfset issue = application.issue.get(url.p,url.i)>
+	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Issue',url.i,issue.issue,'accepted')>
+	<cfset application.notify.issueUpdate(url.p,url.i)>
+<cfelseif StructKeyExists(url,"unacc")>
+	<cfset application.issue.unaccept(url.i,url.p,session.user.userid)>
+	<cfset issue = application.issue.get(url.p,url.i)>
+	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Issue',url.i,issue.issue,'unaccepted')>
 	<cfset application.notify.issueUpdate(url.p,url.i)>
 <cfelseif StructKeyExists(url,"reopen")>
 	<cfset application.issue.reopen(url.i,url.p,session.user.userid)>
