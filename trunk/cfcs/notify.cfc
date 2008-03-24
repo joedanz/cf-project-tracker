@@ -157,7 +157,7 @@ Status: #qIssue.status#
 
 </cfif><cfif compare(userID,arguments.addedBy)>To view the full message and leave comments, visit this link:<cfelse>You have 15 minutes from the time of posting to edit the message.
 Use the following link to view or edit the message and to make comments:</cfif>
-#application.settings.rootURL##application.settings.mapping#/issue.cfm?p=#arguments.projectID#&m=#arguments.messageID#
+#application.settings.rootURL##application.settings.mapping#/message.cfm?p=#arguments.projectID#&m=#arguments.messageID#
 					</cfmail>
 			</cfif>
 			<cfif mobile_msgs and isNumeric(mobile)>
@@ -187,7 +187,7 @@ Use the following link to view or edit the message and to make comments:</cfif>
 <cfif compare(qMessage.name,'')>Milestone: #qMessage.name#
 
 </cfif>To view the full issue, visit this link:
-#application.settings.rootURL##application.settings.mapping#/issue.cfm?p=#arguments.projectID#&m=#arguments.messageID#
+#application.settings.rootURL##application.settings.mapping#/message.cfm?p=#arguments.projectID#&m=#arguments.messageID#
 				</cfmail>
 			</cfif>
 			<cfif mobile_msgs and isNumeric(mobile)>
