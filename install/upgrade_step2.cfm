@@ -60,6 +60,14 @@
 <cfcatch><h2>You should manually remove the column: <b>&quot;category&quot;</b> from table: <b>&quot;<cfoutput>#application.settings.tableprefix#</cfoutput>files&quot;</b></h2><br /><br /></cfcatch>
 </cftry>
 
+<!--- issue stuff --->
+<cfquery datasource="#application.settings.dsn#">
+	update pt_issues set status = 'New' where status = 'open'
+</cfquery>
+<cfquery datasource="#application.settings.dsn#">
+	update pt_issues set ownerID = addedBy
+</cfquery>
+
 <!--- message categories --->
 <cfquery name="getMissingCats" datasource="#application.settings.dsn#">
 	select distinct category,projectid from #application.settings.tableprefix#messages
