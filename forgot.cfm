@@ -3,26 +3,6 @@
 <cfparam name="form.username" default="">
 <cfparam name="form.email" default="">
 
-<cfscript>
-/**
- * Tests passed value to see if it is a valid e-mail address (supports subdomain nesting and new top-level domains).
- * Update by David Kearns to support '
- * SBrown@xacting.com pointing out regex still wasn't accepting ' correctly.
- * More TLDs
- * Version 4 by P Farrel, supports limits on u/h
- * 
- * @param str 	 The string to check. (Required)
- * @return Returns a boolean. 
- * @author Jeff Guillaume (SBrown@xacting.comjeff@kazoomis.com) 
- * @version 4, December 30, 2005 
- */
-function isEmail(str) {
-    return (REFindNoCase("^['_a-z0-9-]+(\.['_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*\.(([a-z]{2,3})|(aero|coop|info|museum|name|jobs|travel))$",
-arguments.str) AND len(listGetAt(arguments.str, 1, "@")) LTE 64 AND
-len(listGetAt(arguments.str, 2, "@")) LTE 255) IS 1;
-}
-</cfscript>
-
 <cfif StructKeyExists(form,"subpass")> <!--- forgot password --->
 	<cfset findPassword = application.user.findPassword(form.username)>
 	<cfif findPassword.recordCount eq 1>
@@ -46,7 +26,7 @@ You can login at:
 		<cfset error = "User name not found.">
 	</cfif>	
 <cfelseif StructKeyExists(form,"subuser")> <!--- forgot username --->
-	<cfif isEmail(form.email)>
+	<cfif request.udf.isEmail(form.email)>
 		<cfset findUsername = application.user.findUsername(form.email)>
 		<cfif findUsername.recordCount eq 1>
 			<cfset success = "The username for #findUsername.firstName# #findUsername.lastName# has been emailed to #form.email#">
