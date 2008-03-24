@@ -8,7 +8,7 @@
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#form.issueID#" addtoken="false">
 <cfelseif StructKeyExists(form,"submit")> <!--- add issue --->
 	<cfset newID = createUUID()>
-	<cfset application.issue.add(newID,form.projectID,form.ticketPrefix,form.issue,form.detail,form.type,form.severity,form.status,form.assignedTo,form.milestone,form.relevantURL,session.user.userid)>
+	<cfset application.issue.add(newID,form.projectID,form.ticketPrefix,form.issue,form.detail,form.type,form.severity,form.assignedTo,form.milestone,form.relevantURL,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Issue',newID,form.issue,'created')>
 	<cfset application.notify.issueNew(form.projectid,newID)>
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#newID#" addtoken="false">
@@ -26,7 +26,6 @@
 <cfparam name="detail" default="">
 <cfparam name="type" default="Bug">
 <cfparam name="severity" default="Normal">
-<cfparam name="status" default="Open">
 <cfparam name="assignedTo" default="#session.user.userID#">
 <cfparam name="milestone" default="">
 <cfparam name="relevantURL" default="">
@@ -39,7 +38,6 @@
 	<cfset detail = thisIssue.detail>
 	<cfset type = thisIssue.type>
 	<cfset severity = thisIssue.severity>
-	<cfset status = thisIssue.status>
 	<cfset assignedTo = thisIssue.assignedTo>
 	<cfset milestone = thisIssue.milestoneID>
 	<cfset relevantURL = thisIssue.relevantURL>
