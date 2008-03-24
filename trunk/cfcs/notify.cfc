@@ -148,7 +148,7 @@ Status: #qIssue.status#
 		<cfset var qMailNotifyUsers = application.user.get('',arguments.notifyList)>
 		<cfloop query="qMailNotifyUsers">
 			<cfif email_msgs and request.udf.isEmail(email)>
-				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#[New] Message in '#qFile.category#'#IIF(compare(qProject.name,''),' (##qProject.name##)','')#"><cfif compare(userID,arguments.addedBy)>A new #qProject.name# message has been posted<cfelse>You have posted a new #qProject.name# message</cfif>:
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#[New] Message in '#qMessage.category#'#IIF(compare(qProject.name,''),' (##qProject.name##)','')#"><cfif compare(userID,arguments.addedBy)>A new #qProject.name# message has been posted<cfelse>You have posted a new #qProject.name# message</cfif>:
 #qMessage.title#
 	
 #request.udf.CleanText(qMessage.message)#
@@ -179,7 +179,7 @@ Use the following link to view or edit the message and to make comments:</cfif>
 		<cfset var qMessage = application.message.get(arguments.projectID,arguments.messageID)>
 		<cfloop query="qProjectUsers">		
 			<cfif email_msgs and request.udf.isEmail(email)>
-				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#[Updated] Message in '#qFile.category#'#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">The following #qProject.name# message has been updated:
+				<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#[Updated] Message in '#qMessage.category#'#IIF(compare(qProject.name,''),' (##qProject.name##)','')#">The following #qProject.name# message has been updated:
 #qMessage.title#
 
 #request.udf.CleanText(qMessage.message)#
