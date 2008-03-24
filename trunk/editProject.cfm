@@ -126,7 +126,7 @@
 					<form action="#cgi.script_name#" method="post" name="edit" id="edit" class="frm" onsubmit="return confirmSubmit();">
 						<p>
 						<label for="name" class="req">Name:</label>
-						<input type="text" name="name" id="name" value="#HTMLEditFormat(form.name)#" maxlength="120" />
+						<input type="text" name="name" id="name" value="#HTMLEditFormat(form.name)#" maxlength="50" />
 						</p>					
 						<p>
 						<label for="description">Description:</label> 
