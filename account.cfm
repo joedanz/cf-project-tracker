@@ -7,13 +7,14 @@
 	<cfif compare(trim(form.email),'') and not request.udf.isEmail(trim(form.email))>
 		<cfset variables.errors = variables.errors & '<li>The email address you entered was invalid.</li>'>
 	<cfelse>
-		<cfset application.user.userUpdate(session.user.userID,form.firstname,form.lastname,form.email,request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile))>
+		<cfset application.user.userUpdate(session.user.userID,form.firstname,form.lastname,form.email,request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID)>
 	</cfif>
 	<cfset session.user.firstName = form.firstname>
 	<cfset session.user.lastName = form.lastname>
 	<cfset session.user.email = form.email>
 	<cfset session.user.phone = form.phone>
 	<cfset session.user.mobile = form.mobile>
+	<cfset session.user.carrierID = form.carrierID>
 <cfelseif StructKeyExists(form,"notifysub")>
 	<cfparam name="form.email_files" default="0">
 	<cfparam name="form.mobile_files" default="0">
