@@ -193,7 +193,7 @@
 		<cfargument name="messageID" type="uuid" required="true">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="title" type="string" required="true">
-		<cfargument name="categoryid" type="string" required="true">
+		<cfargument name="categoryID" type="string" required="true">
 		<cfargument name="message" type="string" required="true">
 		<cfargument name="milestoneID" type="string" required="true">
 		<cfargument name="allowcomments" type="numeric" required="true">
@@ -214,7 +214,7 @@
 			UPDATE #variables.tableprefix#messages 
 				SET title = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="120">,
 					message = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.message#">,
-					categoryid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.categoryid#" maxlength="35">,
+					categoryid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.categoryID#" maxlength="35">,
 					milestoneid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
 					allowcomments = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.allowcomments#" maxlength="1">
 				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
