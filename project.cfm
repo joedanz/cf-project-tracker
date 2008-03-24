@@ -92,7 +92,8 @@ $(document).ready(function(){
 	
 					<!--- due in next 14 days calendar --->
 					<cfquery name="ms_next_14" dbtype="query">
-						select * from milestones_upcoming where dueDate <= #CreateODBCDate(DateAdd("d",13,Now()))#
+						select * from milestones_upcoming where dueDate <= 
+						<cfqueryparam value="#CreateODBCDate(DateAdd("d",13,Now()))#" cfsqltype="CF_SQL_TIMESTAMP" />
 					</cfquery>
 					<cfif ms_next_14.recordCount>
 					<div class="mb5 b" style="border-bottom:1px solid ##000;">Due in the next 14 days</div>
@@ -110,7 +111,8 @@ $(document).ready(function(){
 						<tr>
 						<cfloop index="i" from="0" to="6">
 							<cfquery name="todays_ms" dbtype="query">
-								select name from milestones_upcoming where dueDate = #CreateODBCDate(DateAdd("d",i,Now()))#
+								select name from milestones_upcoming where dueDate = 
+								<cfqueryparam value="#CreateODBCDate(DateAdd("d",i,Now()))#" cfsqltype="CF_SQL_TIMESTAMP" />
 							</cfquery>
 							<cfif i eq 0>
 								<td class="today"><span class="b">TODAY</span>
@@ -131,7 +133,8 @@ $(document).ready(function(){
 						<tr>
 						<cfloop index="i" from="7" to="13">
 							<cfquery name="todays_ms" dbtype="query">
-								select name from milestones_upcoming where dueDate = #CreateODBCDate(DateAdd("d",i,Now()))#
+								select name from milestones_upcoming where dueDate = 
+								<cfqueryparam value="#CreateODBCDate(DateAdd("d",i,Now()))#" cfsqltype="CF_SQL_TIMESTAMP" />
 							</cfquery>
 							<td<cfif todays_ms.recordCount> class="active"</cfif>><cfif i eq 1>#Left(MonthAsString(Month(Now())),3)#</cfif>
 								#DateFormat(DateAdd("d",i,Now()),"d")#
