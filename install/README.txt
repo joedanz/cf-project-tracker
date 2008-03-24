@@ -32,7 +32,8 @@ You may need to reinitialize you app by adding a "?reinit" on the
 end of a URL.  All of the settings are contained in the config 
 directory and in the database.  You should keep your existing 
 config files and copy them back on top of the newly installed 
-ones, but you may want to check for any added settings.
+ones, but you may want to check for any added settings.  There
+are also 2 database upgrade scripts to be run. 
 
 DEMO VERSION:
 A demo of this app can currently be found at http://ajaxcf.com/project
