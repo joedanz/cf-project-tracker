@@ -140,7 +140,7 @@ $(document).ready(function(){
 							<cfif i eq 0>
 								<td class="today"><span class="b">TODAY</span>
 							<cfelse>
-								<td<cfif todays_ms.recordCount> class="active"</cfif>><cfif i eq 1>#Left(MonthAsString(Month(Now())),3)#</cfif>
+								<td<cfif todays_ms.recordCount> class="active"</cfif>><cfif i eq 1>#Left(MonthAsString(Month(DateAdd("d",i,Now()))),3)#</cfif>
 								#DateFormat(DateAdd("d",i,Now()),"d")#
 							</cfif>
 							<cfif todays_ms.recordCount>
@@ -159,7 +159,7 @@ $(document).ready(function(){
 								select name,projName from milestones_upcoming where dueDate = 
 								<cfqueryparam value="#CreateODBCDate(DateAdd("d",i,Now()))#" cfsqltype="CF_SQL_TIMESTAMP" />
 							</cfquery>
-							<td<cfif todays_ms.recordCount> class="active"</cfif>><cfif i eq 1>#Left(MonthAsString(Month(Now())),3)#</cfif>
+							<td<cfif todays_ms.recordCount> class="active"</cfif>><cfif i eq 1>#Left(MonthAsString(Month(DateAdd("d",i,Now()))),3)#</cfif>
 								#DateFormat(DateAdd("d",i,Now()),"d")#
 							<cfif todays_ms.recordCount>
 								<ul class="cal_ms">
