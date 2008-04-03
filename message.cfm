@@ -74,7 +74,7 @@
 					</cfif>
 					<div class="commentbody">
 					<span class="b">#firstName# #lastName#</span> said on #DateFormat(stamp,"ddd, mmm d")# at #TimeFormat(stamp,"h:mmtt")#<br />
-					#comment#
+					#commentText#
 					</div>
 					</div>
 					</cfloop>
