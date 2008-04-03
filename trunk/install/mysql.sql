@@ -70,7 +70,7 @@ CREATE TABLE `pt_comments` (
   `type` varchar(6) default NULL,
   `itemID` char(35) default NULL,
   `userID` char(35) NOT NULL,
-  `comment` text default NULL,
+  `commentText` text default NULL,
   `stamp` datetime default NULL,
   PRIMARY KEY  (`commentID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

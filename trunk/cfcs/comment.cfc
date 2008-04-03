@@ -27,7 +27,7 @@
 		</cfif>
 		
 		<cfquery name="qGetComments" datasource="#variables.dsn#" maxrows="#maxRows#">
-			SELECT c.commentID,c.itemID,c.comment,c.stamp,u.userID,u.firstName,u.lastName,u.avatar
+			SELECT c.commentID,c.itemID,c.commentText,c.stamp,u.userID,u.firstName,u.lastName,u.avatar
 				FROM #variables.tableprefix#comments c LEFT JOIN #variables.tableprefix#users u	ON c.userid = u.userid
 			WHERE c.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			<cfif not compare(arguments.type,'msg')> 
@@ -51,7 +51,7 @@
 		<cfargument name="userID" type="uuid" required="true">
 		<cfargument name="comment" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#comments (commentID,projectID,type,itemID,userID,comment,stamp)
+			INSERT INTO #variables.tableprefix#comments (commentID,projectID,type,itemID,userID,commentText,stamp)
 				VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.commentID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="6">,
