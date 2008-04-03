@@ -52,7 +52,7 @@ CREATE TABLE  "PT_COMMENTS"
 	"TYPE" VARCHAR2(6), 
 	"ITEMID" CHAR(35), 
 	"USERID" CHAR(35) NOT NULL ENABLE, 
-	"COMMENT" CLOB, 
+	"COMMENTTEXT" CLOB, 
 	"STAMP" DATE, 
 	 CONSTRAINT "PK_PT_COMMENTS" PRIMARY KEY ("COMMENTID") ENABLE
    )
@@ -224,7 +224,7 @@ CREATE TABLE  "PT_USERS"
 /
 
 INSERT INTO pt_carriers (carrierid,carrier,countrycode,country,prefix,suffix,active)  
-values('8464AB28-1372-7975-6F2E9747CA6E4693','AT&T','US','United States','1','@txt.att.net',1);
+values('8464AB28-1372-7975-6F2E9747CA6E4693','ATT','US','United States','1','@txt.att.net',1);
 
 INSERT INTO pt_carriers (carrierid,carrier,countrycode,country,prefix,suffix,active)  
 values('8464DE00-1372-7975-6FE886FCD149E667','Boost','US','United States','1','@myboostmobile.com',1);
