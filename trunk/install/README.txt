@@ -1,8 +1,8 @@
-Project Tracker v2.0
+Project Tracker v2.1
 by Joe Danziger (joe@ajaxcf.com)
 
 Initial Release: June 5, 2007
-Current Release: February 25, 2008
+Current Release: April 3, 2008
 
 This application was inspired by Basecamp (http://www.basecamphq.com) 
 put out by the 37signals crew.  Not too much documentation but 
@@ -33,7 +33,15 @@ end of a URL.  All of the settings are contained in the config
 directory and in the database.  You should keep your existing 
 config files and copy them back on top of the newly installed 
 ones, but you may want to check for any added settings.  There
-are also 2 database upgrade scripts to be run. 
+are also 2 database upgrade scripts to be run.
+** Note: if you receive upgrade errors, it may be from ntext
+   fields that cannot be altered automatically.  You may need
+   to change these manually if you run into a problem.
+   
+UPGRADING FROM 2.0:
+The only change was to the pt_comments table, renaming the field
+"comments" to "commentsText" to allow for Oracle compatibility.
+There is an upgrade script included for mySQL and SQL Server. 
 
 DEMO VERSION:
 A demo of this app can currently be found at http://ajaxcf.com/project
@@ -49,7 +57,7 @@ assigned to (by an admin or project owner).
 REQUIREMENTS:
 ColdFusion or BlueDragon
 CF8/BD7 required for avatars
-mySQL or SQL Server
+mySQL, SQL Server, or Oracle
 
 AUTO-LOGIN MODIFICATION:
 To launch the application in an already logged in state as the guest user
@@ -62,6 +70,7 @@ accessible.
 THANKS:
 To Mark Mandel for getting the SVNKit and JavaLoader stuff working.
 To Jeffry Houser and Jeff Coughlin for their many suggestions.
+To Jason Dean for getting things going on Oracle.
 
 FEEDBACK?
 Please email joe@ajaxcf.com with any suggestions or other feedback.
