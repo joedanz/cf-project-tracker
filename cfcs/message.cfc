@@ -151,6 +151,7 @@
 		<cfargument name="notifyList" type="string" required="true">
 		<cfargument name="filesList" type="string" required="true">
 		<cfset var catID = "">
+		<cfset var i = "">
 		<!--- determine if new category --->
 		<cfif request.udf.IsCFUUID(arguments.category)>
 			<cfset catID = arguments.category>
@@ -201,6 +202,7 @@
 		<cfargument name="filesList" type="string" required="true">
 		<cfset var qProject = application.project.get(arguments.projectID)>
 		<cfset var qMailUsers = "">
+		<cfset var i = "">
 		
 		<!--- clear and repopulate message notify list --->
 		<cfset application.message.removeNotify(arguments.projectID,arguments.messageID)>

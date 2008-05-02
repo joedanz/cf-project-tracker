@@ -10,6 +10,8 @@
 		<cfset var iniData = getProfileSections(settingsFile)>
 		<cfset var r = structNew()>
 		<cfset var key = "">
+		<cfset var dsn = "">
+		<cfset var getSettings = "">
 		
 		<cfloop index="key" list="#iniData.settings#">
 			<cfset r[key] = getProfileString(settingsFile,"settings",key)>

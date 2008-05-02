@@ -95,7 +95,7 @@
 		<cfargument name="description" type="string" required="true">
 		<cfargument name="forID" type="uuid" required="true">
 		<cfargument name="completed" type="boolean" required="true">
-		<cfset original = application.milestone.get(arguments.projectID,arguments.milestoneID)>		
+		<cfset var original = application.milestone.get(arguments.projectID,arguments.milestoneID)>		
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#milestones 
 				SET name = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
