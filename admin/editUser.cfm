@@ -53,7 +53,7 @@
 						<cfelse>	
 							<cfset svn = 0>	
 						</cfif>
-						<cfset application.role.add(i,form.userid,project_admin,ListGetAt(form.files,listFind(form.all_proj_ids,i)),ListGetAt(form.issues,listFind(form.all_proj_ids,i)),ListGetAt(form.msgs,listFind(form.all_proj_ids,i)),ListGetAt(form.mstones,listFind(form.all_proj_ids,i)),ListGetAt(form.todos,listFind(form.all_proj_ids,i)),svn)>
+						<cfset application.role.add(i,newID,project_admin,ListGetAt(form.files,listFind(form.all_proj_ids,i)),ListGetAt(form.issues,listFind(form.all_proj_ids,i)),ListGetAt(form.msgs,listFind(form.all_proj_ids,i)),ListGetAt(form.mstones,listFind(form.all_proj_ids,i)),ListGetAt(form.todos,listFind(form.all_proj_ids,i)),svn)>
 					</cfloop>					
 					<cfif not compare(form.from,'admin')>
 						<cflocation url="users.cfm" addtoken="false">
