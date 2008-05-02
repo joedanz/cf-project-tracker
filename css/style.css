@@ -192,7 +192,6 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 }
 
 #container .left .main .content .listWrapper .todolist {
-	border-left:5px solid #666;
 	background-color:#f7f7f7;
 }
 
