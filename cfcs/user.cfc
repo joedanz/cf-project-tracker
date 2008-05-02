@@ -88,6 +88,7 @@
 		<cfset var validUsername = false>
 		<cfset var qCheckUser = "">
 		<cfset var startRec = 1>
+		<cfset var emailFrom = 1>
 		<cfloop condition="validUsername is false">
 			<cfset qCheckUser = application.user.get('','',newUsername)>
 			<cfif not qCheckUser.recordCount>
@@ -113,13 +114,18 @@
 						)
 		</cfquery>
 		<cfif request.udf.isEmail(arguments.email)>
-		<cfmail to="#arguments.email#" from="#session.user.email#" subject="New #application.settings.app_title# Account">An account has been setup for you to use the #application.settings.app_title#.
+			<cfif request.udf.isEmail(session.user.email)>
+				<cfset emailFrom = session.user.email>
+			<cfelse>
+				<cfset emailFrom = application.settings.adminEmail>
+			</cfif>
+			<cfmail to="#arguments.email#" from="#emailFrom#" subject="New #application.settings.app_title# Account">An account has been setup for you to use the #application.settings.app_title#.
 
 You can login at #application.settings.rootURL##application.settings.mapping#
 
      Username: #arguments.username#
      Password: #arguments.password#
-		</cfmail>
+			</cfmail>
 		</cfif>
 	</cffunction>
 
@@ -146,6 +152,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfargument name="mobile_todos" type="numeric" required="true">
 		<cfargument name="admin" type="numeric" required="true">
 		<cfargument name="active" type="numeric" required="false" default="1">
+		<cfset var emailFrom = "">
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, phone, mobile, carrierID, avatar, style, email_files, mobile_files, email_issues, mobile_issues, email_msgs, mobile_msgs, email_mstones, mobile_mstones, email_todos, mobile_todos, admin, active)
 				VALUES(<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
@@ -174,7 +181,12 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 						)
 		</cfquery>
 		<cfif request.udf.isEmail(arguments.email)>
-			<cfmail to="#arguments.email#" from="#session.user.email#" subject="New #application.settings.app_title# Account">An account has been setup for you to use the #application.settings.app_title#.
+			<cfif request.udf.isEmail(session.user.email)>
+				<cfset emailFrom = session.user.email>
+			<cfelse>
+				<cfset emailFrom = application.settings.adminEmail>
+			</cfif>			
+			<cfmail to="#arguments.email#" from="#emailFrom#" subject="New #application.settings.app_title# Account">An account has been setup for you to use the #application.settings.app_title#.
 	
 You can login at #application.settings.rootURL##application.settings.mapping#
 	
