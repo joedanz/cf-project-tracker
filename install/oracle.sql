@@ -310,4 +310,13 @@ INSERT INTO pt_users
 values('7F16CA08-1372-7975-6F7F9DA33EBD6A09','Guest','User','guest','guest','blue',1,1,1,1,1,1,1,1,1,1,0,0,1
 );
 
+create or replace function month(v_date in date) return varchar2 is
+begin
+return(to_char(v_date, 'mm'));
+end month;
+create or replace function year(v_date in date) return varchar2 is
+begin
+return(to_char(v_date, 'yyyy'));
+end year;	
+
 /
