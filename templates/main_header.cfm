@@ -59,7 +59,7 @@
 		<cfloop query="session.user.projects">
 			<li onclick="window.location='#application.settings.mapping#/project.cfm?p=#projectID#';" onmouseover="$(this).addClass('menuhover')" onmouseout="$(this).removeClass('menuhover')"><a href="#application.settings.mapping#/project.cfm?p=#projectID#">#name#</a></li>
 		</cfloop>
-		<li onmouseover="$(this).addClass('menuhover')" onmouseout="$(this).removeClass('menuhover')" onclick="togglemenu();"><a href="##" class="cancel">Close</a></li>	
+		<li onmouseover="$(this).addClass('menuhover')" onmouseout="$(this).removeClass('menuhover')" onclick="togglemenu();"><a href="##" class="cancel">Close</a></li>
 	</ul>
 	</div>
 	</cfif>
