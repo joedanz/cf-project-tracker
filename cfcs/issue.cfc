@@ -48,7 +48,7 @@
 				AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.status,'')>
-				AND i.status IN (<cfif find('|',arguments.status)>'#replace(arguments.status,'|',''',''','ALL')#'<cfelse><cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#"></cfif>)
+				AND i.status IN (<cfif find('|',arguments.status)>'#replace(arguments.status,"|","','","ALL")#'<cfelse><cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#"></cfif>)
 			</cfif>
 			<cfif compare(arguments.type,'')>
 				AND i.type = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="11">
