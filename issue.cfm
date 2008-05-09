@@ -162,7 +162,7 @@
 						
 					 	<table class="bug">
 							<tr>
-								<td class="label">Detail:</td>
+								<td class="label"><p>Detail:</p></td>
 								<td>#issue.detail#</td>
 							</tr>
 							<cfif compare(issue.relevantURL,'')>
