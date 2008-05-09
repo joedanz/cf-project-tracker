@@ -24,7 +24,7 @@ table.activity thead th {
 }
 table.bug tr td.label { font-weight:bold; text-align:right; width:100px; padding-right:10px; vertical-align:top; }
 table.bug tr td { padding:3px; }
-table.bug tr td p { margin:0; padding:0; }
+table.bug tr td > p { margin:0; padding:0; }
 
 /* diff stuff */
 table.diff td, .diff th { vertical-align: top; padding:3px; }
