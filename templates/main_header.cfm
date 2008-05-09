@@ -32,7 +32,7 @@
 <div id="header">
 
 	<cfif StructKeyExists(session,"loggedin") and session.loggedin>
-	
+
 	<div id="loggedin">
 		<img src="#application.settings.mapping#/images/<cfif session.user.avatar>avatars/#session.user.userid#_16.jpg<cfelse>user.gif</cfif>" style="vertical-align:middle;"> #session.user.firstName# #session.user.lastName#
 		<cfif compareNoCase(session.user.username,'guest')>
@@ -52,7 +52,7 @@
 	<cfelse>
 		<h1>#application.settings.app_title#</h1>
 	</cfif>
-	
+
 	<cfif session.user.projects.recordCount gt 1>
 	<div id="projectmenu" style="display:none;">
 	<ul>
@@ -63,7 +63,7 @@
 	</ul>
 	</div>
 	</cfif>
-	
+
 	<div id="tabs">
 
 		<ul id="admintabs">
@@ -76,7 +76,7 @@
 			</cfif>
 			<cfif session.user.admin>
 			<li><a href="#application.settings.mapping#/admin/users.cfm" title="Admin"<cfif find('/admin/',cgi.script_name)> class="current"</cfif>>Admin</a></li>
-			</cfif>			
+			</cfif>
 		</ul>
 
 		<ul id="maintabs">
