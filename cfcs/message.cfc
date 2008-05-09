@@ -104,6 +104,16 @@
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfset var qGetDates = "">
 		<cfquery name="qGetDates" datasource="#variables.dsn#">
+			<cfif application.settings.dbtype is 'oracle'>
+				create or replace function month(v_date in date) return varchar2 is
+				begin
+				return(to_char(v_date, 'mm'));
+				end month;
+				create or replace function year(v_date in date) return varchar2 is
+				begin
+				return(to_char(v_date, 'yyyy'));
+				end year;			
+			</cfif>
 			SELECT distinct month(stamp) as m, year(stamp) as y
 			FROM #variables.tableprefix#messages
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
