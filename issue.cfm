@@ -174,10 +174,12 @@
 						</table>	
 						
 					 	<table class="bug">
+						 	<cfif compare(issue.resolution,'')>
 							<tr>
 								<td class="label">Resolution:</td>
 								<td>#issue.resolution#</td>
 							</tr>
+							</cfif>
 							<cfif compare(issue.resolutionDesc,'')>
 							<tr>
 								<td class="label">Description:</td>
