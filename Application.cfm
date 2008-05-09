@@ -3,62 +3,67 @@
 <cfset applicationName = "project_tracker">
 <cfapplication name="#applicationName#" sessionManagement="true" loginstorage="session">
 
+<!--- double check lock, so we don't do this twice --->
 <cfif not StructKeyExists(application,"init") or StructKeyExists(url,"reinit")>
+	<cflock name="init.#applicationName#" timeout="120">
+		<cfif not StructKeyExists(application,"init") or StructKeyExists(url,"reinit")>
 
-	<!--- Get application settings depending on which server --->
-	<cfif not compare(cgi.server_name,'127.0.0.1')>
-		<cfset serverSettings = "settings.local.cfm">
-	<cfelse>
-		<cfset serverSettings = "settings.ini.cfm">
-	</cfif>
+			<!--- Get application settings depending on which server --->
+			<cfif not compare(cgi.server_name,'127.0.0.1')>
+				<cfset serverSettings = "settings.local.cfm">
+			<cfelse>
+				<cfset serverSettings = "settings.ini.cfm">
+			</cfif>
 
-	<cfinvoke component="config.settings" method="getSettings" iniFile="#serverSettings#" returnVariable="settings">
-	<cfset application.settings = settings>
-	
-	<cfset application.userFilesPath = ExpandPath('./userfiles/')>
-	
-	<!--- application CFCs --->	
-	<cfset application.activity = createObject("component","cfcs.activity").init(settings)>
-	<cfset application.carrier = createObject("component","cfcs.carrier").init(settings)>
-	<cfset application.client = createObject("component","cfcs.client").init(settings)>
-	<cfset application.comment = createObject("component","cfcs.comment").init(settings)>
-	<cfset application.config = createObject("component","cfcs.config").init(settings)>
-	<cfset application.diff = createObject("component","cfcs.diff").init()>
-	<cfset application.file = createObject("component","cfcs.file").init(settings)>
-	<cfset application.issue = createObject("component","cfcs.issue").init(settings)>
-	<cfset application.message = createObject("component","cfcs.message").init(settings)>
-	<cfset application.milestone = createObject("component","cfcs.milestone").init(settings)>
-	<cfset application.notify = createObject("component","cfcs.notify").init(settings)>
-	<cfset application.project = createObject("component","cfcs.project").init(settings)>
-	<cfset application.role = createObject("component","cfcs.role").init(settings)>
-	<cfset application.todo = createObject("component","cfcs.todo").init(settings)>
-	<cfset application.todolist = createObject("component","cfcs.todolist").init(settings)>	
-	<cfset application.user = createObject("component","cfcs.user").init(settings)>
+			<cfinvoke component="config.settings" method="getSettings" iniFile="#serverSettings#" returnVariable="settings">
+			<cfset application.settings = settings>
 
-	<!--- stored queries --->
-	<cfset application.carriers = application.carrier.get('','true')>
+			<cfset application.userFilesPath = ExpandPath('./userfiles/')>
 
-	<!--- check for CF8 Scorpio --->
-	<cfset majorVersion = listFirst(server.coldfusion.productversion)>
-	<cfset minorVersion = listGetAt(server.coldfusion.productversion,2)>
-	<cfset cfversion = majorVersion & "." & minorVersion>
-	<cfset application.isCF8 = server.coldfusion.productname is "ColdFusion Server" and cfversion gte 8>
-	<!--- check for Blue Dragon --->
-	<cfset application.isBD = StructKeyExists(server,"bluedragon")>
-	
-	<!--- create all_styles.css --->
-	<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#reset.css" variable="reset">
-	<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#layout.css" variable="layout">
-	<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#style.css" variable="style">
-	<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#header.css" variable="header">
-	<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#images.css" variable="images">
-	<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#forms.css" variable="forms">
-	<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#tables.css" variable="tables">
-	<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#ui.datepicker.css" variable="datepicker">
-	<cffile action="write" file="#ExpandPath(settings.mapping & '/css/')#all_styles.css" output="/* THIS FILE IS GENERATED AUTOMATICALLY - EDIT INDIVIDUAL CSS FILES & REINIT TO MODIFY STYLES */#chr(10)##chr(13)#/* RESET.CSS */#chr(10)##chr(13)##reset##chr(10)##chr(13)#/* LAYOUT.CSS */#chr(10)##chr(13)##layout##chr(10)##chr(13)#/* STYLE.CSS */#chr(10)##chr(13)##style##chr(10)##chr(13)#/* HEADER.CSS */#chr(10)##chr(13)##header##chr(10)##chr(13)#/* IMAGES.CSS */#chr(10)##chr(13)##images##chr(10)##chr(13)#/* FORMS.CSS */#chr(10)##chr(13)##forms##chr(10)##chr(13)#/* TABLES.CSS */#chr(10)##chr(13)##tables#/* UI.DATEPICKER.CSS */#chr(10)##chr(13)##datepicker#">
-	
-	<cfset application.init = true>
-	
+			<!--- application CFCs --->
+			<cfset application.activity = createObject("component","cfcs.activity").init(settings)>
+			<cfset application.carrier = createObject("component","cfcs.carrier").init(settings)>
+			<cfset application.client = createObject("component","cfcs.client").init(settings)>
+			<cfset application.comment = createObject("component","cfcs.comment").init(settings)>
+			<cfset application.config = createObject("component","cfcs.config").init(settings)>
+			<cfset application.diff = createObject("component","cfcs.diff").init()>
+			<cfset application.file = createObject("component","cfcs.file").init(settings)>
+			<cfset application.issue = createObject("component","cfcs.issue").init(settings)>
+			<cfset application.message = createObject("component","cfcs.message").init(settings)>
+			<cfset application.milestone = createObject("component","cfcs.milestone").init(settings)>
+			<cfset application.notify = createObject("component","cfcs.notify").init(settings)>
+			<cfset application.project = createObject("component","cfcs.project").init(settings)>
+			<cfset application.role = createObject("component","cfcs.role").init(settings)>
+			<cfset application.todo = createObject("component","cfcs.todo").init(settings)>
+			<cfset application.todolist = createObject("component","cfcs.todolist").init(settings)>
+			<cfset application.user = createObject("component","cfcs.user").init(settings)>
+
+			<!--- stored queries --->
+			<cfset application.carriers = application.carrier.get('','true')>
+
+			<!--- check for CF8 Scorpio --->
+			<cfset majorVersion = listFirst(server.coldfusion.productversion)>
+			<cfset minorVersion = listGetAt(server.coldfusion.productversion,2)>
+			<cfset cfversion = majorVersion & "." & minorVersion>
+			<cfset application.isCF8 = server.coldfusion.productname is "ColdFusion Server" and cfversion gte 8>
+			<!--- check for Blue Dragon --->
+			<cfset application.isBD = StructKeyExists(server,"bluedragon")>
+
+			<!--- create all_styles.css --->
+			<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#reset.css" variable="reset">
+			<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#layout.css" variable="layout">
+			<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#style.css" variable="style">
+			<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#header.css" variable="header">
+			<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#images.css" variable="images">
+			<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#forms.css" variable="forms">
+			<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#tables.css" variable="tables">
+			<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#ui.datepicker.css" variable="datepicker">
+			<cffile action="write" file="#ExpandPath(settings.mapping & '/css/')#all_styles.css" output="/* THIS FILE IS GENERATED AUTOMATICALLY - EDIT INDIVIDUAL CSS FILES & REINIT TO MODIFY STYLES */#chr(10)##chr(13)#/* RESET.CSS */#chr(10)##chr(13)##reset##chr(10)##chr(13)#/* LAYOUT.CSS */#chr(10)##chr(13)##layout##chr(10)##chr(13)#/* STYLE.CSS */#chr(10)##chr(13)##style##chr(10)##chr(13)#/* HEADER.CSS */#chr(10)##chr(13)##header##chr(10)##chr(13)#/* IMAGES.CSS */#chr(10)##chr(13)##images##chr(10)##chr(13)#/* FORMS.CSS */#chr(10)##chr(13)##forms##chr(10)##chr(13)#/* TABLES.CSS */#chr(10)##chr(13)##tables#/* UI.DATEPICKER.CSS */#chr(10)##chr(13)##datepicker#">
+
+			<cfset application.init = true>
+
+		</cfif>
+	</cflock>
 </cfif>
 
 <!--- include UDFs --->
@@ -75,9 +80,15 @@
 
 <!--- handle security --->
 <cfif not findNoCase('/rss.cfm',cgi.script_name) and not findNoCase('/forgot.cfm',cgi.script_name) and not findNoCase('/api/',cgi.script_name)>
+
+<!--- check for auto login --->
+<cfif application.settings.guestUserAutoLogin AND NOT StructKeyExists(url,'logout')>
+	<cfset url.guest = 1>
+</cfif>
+
 <cflogin>
 
-	<cfif StructKeyExists(url,'guest')>
+	<cfif StructKeyExists(url,'guest') and application.settings.guestUserAutoLogin>
 		<cfset form.username = "guest">
 		<cfset form.password = "guest">
 	</cfif>
@@ -85,7 +96,7 @@
 	<cfif NOT StructKeyExists(form,"username")>
 		<cfinclude template="login.cfm">
 		<cfabort>
-	<cfelse>	
+	<cfelse>
 		<!--- are we trying to logon? --->
 		<cfif not compare(trim(form.username),'') or not compare(trim(form.password),'')>
 			<cfset variables.error="Your must enter your login info to continue!">
@@ -107,9 +118,9 @@
 				<!--- set last login stamp --->
 				<cfset application.user.setLastLogin(session.user.userid)>
 			</cfif>
-		</cfif>			
+		</cfif>
 	</cfif>
-	
+
 </cflogin>
 </cfif>
 

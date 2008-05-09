@@ -34,11 +34,13 @@
 	<cfif StructKeyExists(session,"loggedin") and session.loggedin>
 
 	<div id="loggedin">
-		<img src="#application.settings.mapping#/images/<cfif session.user.avatar>avatars/#session.user.userid#_16.jpg<cfelse>user.gif</cfif>" style="vertical-align:middle;"> #session.user.firstName# #session.user.lastName#
 		<cfif compareNoCase(session.user.username,'guest')>
-		| <a href="#application.settings.mapping#/account.cfm" title="My Account"<cfif find('/account.cfm',cgi.script_name)> class="current"</cfif>>My Account</a>
+			<img src="#application.settings.mapping#/images/<cfif session.user.avatar>avatars/#session.user.userid#_16.jpg<cfelse>user.gif</cfif>" style="vertical-align:middle;"> #session.user.firstName# #session.user.lastName#
+			| <a href="#application.settings.mapping#/account.cfm" title="My Account"<cfif find('/account.cfm',cgi.script_name)> class="current"</cfif>>My Account</a>
+			| <a href="#application.settings.mapping#/index.cfm?logout" title="Logout">Logout</a>
+		<cfelse>
+			<a href="#application.settings.mapping#/index.cfm?logout" title="Logout">Login</a>
 		</cfif>
-		| <a href="#application.settings.mapping#/index.cfm?logout" title="Logout">Logout</a>
 	</div>
 
 	<cfif compare(attributes.project,'')>
