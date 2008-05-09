@@ -79,7 +79,7 @@
 			</cfif>			
 		</ul>
 
-		<ul id="maintabs">		
+		<ul id="maintabs">
 			<cfif compare(attributes.projectid,'')>
 			<li><a href="#application.settings.mapping#/project.cfm?p=#attributes.projectid#" title="Overview"<cfif find('/project.cfm',cgi.script_name)> class="current"</cfif>>Overview</a></li>
 			<cfif userRole.msgs gt 0>
@@ -90,7 +90,7 @@
 			</cfif>
 			<cfif userRole.mstones gt 0>
 				<li><a href="#application.settings.mapping#/milestones.cfm?p=#attributes.projectid#" title="Milestones"<cfif find('/milestone',cgi.script_name) or find('/editMilestone.cfm',cgi.script_name)> class="current"</cfif>>Milestones</a></li>
-			</cfif>			
+			</cfif>
 			<cfif userRole.issues gt 0>
 				<li><a href="#application.settings.mapping#/issues.cfm?p=#attributes.projectid#" title="Issues"<cfif find('/issue',cgi.script_name) or find('/editIssue.cfm',cgi.script_name)> class="current"</cfif>>Issues</a></li>
 			</cfif>
