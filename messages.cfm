@@ -45,7 +45,8 @@
 					
 					<h2 class="msg">
 					<cfif compare(url.c,'')>
-						Messages in category: #url.c#
+						<cfset category = application.message.categories(url.p,url.c)>
+						Messages in category: #category.category#
 					<cfelseif compare(url.ms,'')>
 						Messages for milestone: #messages.name#
 					<cfelseif compare(url.m,'0')>

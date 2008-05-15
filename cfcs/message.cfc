@@ -114,11 +114,15 @@
 	<cffunction name="categories" access="public" returnType="query" output="false"
 				hint="Returns message categories.">
 		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="categoryID" type="string" required="false" default="">
 		<cfset var qGetCategories = "">
 		<cfquery name="qGetCategories" datasource="#variables.dsn#">
 			SELECT distinct categoryID, category FROM #variables.tableprefix#categories
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				AND type = 'msg'
+				<cfif compare(ARGUMENTS.categoryID,'')>
+					AND categoryID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.categoryID#" maxlength="35">
+				</cfif>
 			ORDER BY category
 		</cfquery>
 		<cfreturn qGetCategories>
