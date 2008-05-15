@@ -1,4 +1,4 @@
-<cfsetting enablecfoutputonly="true" showdebugoutput="true">
+<cfsetting enablecfoutputonly="true" showdebugoutput="false">
 
 <cfparam name="url.p" default="">
 <cfparam name="form.type" default="">
