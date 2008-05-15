@@ -17,7 +17,7 @@
 				hint="Returns projects.">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="fileID" type="string" required="false" default="">
-		<cfargument name="category" type="string" required="false" default="">
+		<cfargument name="categoryID" type="string" required="false" default="">
 		<cfargument name="uploadedBy" type="string" required="false" default="">
 		<cfset var qGetFiles = "">
 		<cfquery name="qGetFiles" datasource="#variables.dsn#">
@@ -30,7 +30,7 @@
 			<cfif compare(arguments.fileID,'')>
 				AND f.fileID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">
 			</cfif>
-			<cfif compare(arguments.category,'')>
+			<cfif compare(arguments.categoryID,'')>
 				AND f.categoryID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.categoryID#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.uploadedBy,'')>
@@ -44,10 +44,14 @@
 	<cffunction name="categories" access="public" returnType="query" output="false"
 				hint="Returns message categories.">
 		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="categoryID" type="string" required="false" default="">
 		<cfset var qGetCategories = "">
 		<cfquery name="qGetCategories" datasource="#variables.dsn#">
 			SELECT distinct categoryID, category FROM #variables.tableprefix#categories
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				<cfif compare(ARGUMENTS.categoryID,'')> AND categoryID = 
+					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.categoryID#" maxlength="35">
+				</cfif>
 				AND type = 'file'
 			ORDER BY category
 		</cfquery>
