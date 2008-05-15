@@ -41,7 +41,8 @@
 										
 					<h2 class="files">
 					<cfif compare(url.c,'')>
-						Files in category: #url.c#
+						<cfset category = application.file.categories(url.p,url.c)>
+						Files in category: #category.category#
 					<cfelse>
 						All files
 					</cfif>					
