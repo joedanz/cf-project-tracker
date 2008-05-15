@@ -18,3 +18,6 @@ update `pt_projects`
 		`reg_mstones` = 1,
 		`reg_todos` = 1,
 		`reg_svn` = 1;
+
+update `pt_carriers` 
+	set `prefix` = '';

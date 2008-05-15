@@ -27,3 +27,7 @@ UPDATE [dbo].[pt_projects]
 		[reg_todos] = 1 ,
 		[reg_svn] = 1
 GO
+
+UPDATE [dbo].[pt_carriers]
+	SET [prefix] = ''
+GO
