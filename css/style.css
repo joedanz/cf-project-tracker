@@ -40,6 +40,21 @@ fieldset { border:1px solid #666; }
 	cursor:pointer;
 	cursor:hand;
 }
+.alertbox {
+	background:#ffebeb url(../images/delete.gif) no-repeat;
+	background-position:7px 7px;
+	border:1px solid #f5c1c2;
+	font-weight:700;
+	color:#9e0b0f;
+}
+
+.successbox {
+	background:#e5f7e3 url(../images/close.gif) no-repeat;
+	background-position:7px 7px;
+	border:1px solid #c5e1c8;
+	font-weight:700;
+	color:#005e20;
+}
 
 #notify, #files { background-color:#f5f5f5; }
 .notifybg { background-color:#f5f5f5; }

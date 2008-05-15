@@ -14,13 +14,21 @@
 
 <cfparam name="form.display" default="0">
 <cfparam name="form.from" default="">
+<cfparam name="form.allow_reg" default="0">
+<cfparam name="form.reg_active" default="0">
+<cfparam name="form.reg_files" default="0">
+<cfparam name="form.reg_issues" default="0">
+<cfparam name="form.reg_msgs" default="0">
+<cfparam name="form.reg_mstones" default="0">
+<cfparam name="form.reg_todos" default="0">
+<cfparam name="form.reg_svn" default="0">
 
 <cfif StructKeyExists(url,"from")>
 	<cfset form.from = url.from>
 </cfif>
 
 <cfif StructKeyExists(form,"projectID")> <!--- update project --->
-	<cfset application.project.update(form.projectid,form.ownerID,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass)>
+	<cfset application.project.update(form.projectid,form.ownerID,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_svn)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'edited')>
 	<cfif not compare(form.from,'admin')>
 		<cflocation url="./admin/projects.cfm" addtoken="false">
@@ -29,7 +37,7 @@
 	</cfif>
 <cfelseif StructKeyExists(form,"submit")> <!--- add project --->
 	<cfset newID = createUUID()>
-	<cfset application.project.add(newID,session.user.userid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,session.user.userid)>
+	<cfset application.project.add(newID,session.user.userid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_svn,session.user.userid)>
 	<cfset application.role.add(newID,session.user.userid,'1','2','2','2','2','2','1')>
 	<cfset application.activity.add(createUUID(),newID,session.user.userid,'Project',newID,form.name,'added')>
 	<cfset session.user.projects = application.project.get(session.user.userid)>
@@ -71,6 +79,14 @@
 	<cfset form.svnurl = thisProject.svnurl>
 	<cfset form.svnuser = thisProject.svnuser>
 	<cfset form.svnpass = thisProject.svnpass>
+	<cfset form.allow_reg = thisProject.allow_reg>
+	<cfset form.reg_active = thisProject.reg_active>
+	<cfset form.reg_files = thisProject.reg_files>
+	<cfset form.reg_issues = thisProject.reg_issues>
+	<cfset form.reg_msgs = thisProject.reg_msgs>
+	<cfset form.reg_mstones = thisProject.reg_mstones>
+	<cfset form.reg_todos = thisProject.reg_todos>
+	<cfset form.reg_svn = thisProject.reg_svn>
 	<cfset title_action = "Edit">
 	<cfset projectUsers = application.project.projectUsers(url.p)>
 </cfif>
@@ -101,8 +117,20 @@
 			$('##svnlink').removeClass('expanded');
 			$('##svnlink').addClass('collapsed');
 		}
-		return false;	
 	}
+	function gr_toggle() {
+		var targetContent = $('##grinfo');
+		if (targetContent.css('display') == 'none') {
+			targetContent.slideDown(300);
+			$('##grlink').removeClass('collapsed');
+			$('##grlink').addClass('expanded');
+			$('##grurl').focus();
+		} else {
+			targetContent.slideUp(300);
+			$('##grlink').removeClass('expanded');
+			$('##grlink').addClass('collapsed');
+		}
+	}	
 	$(document).ready(function(){
 	  	$('##name').focus();
 	});
@@ -181,8 +209,9 @@
 						<input type="text" name="ticketPrefix" id="ticketPrefix" value="#HTMLEditFormat(form.ticketPrefix)#" maxlength="2" style="width:80px" />
 						<span style="font-size:.8em">(optional two-letter prefix used when generating trouble tickets)</span>
 						</p>
+						
 						<fieldset style="border:0;border-top:2px solid ##d9eaf5;margin:0 0 0 50px;">
-						<legend style="padding:0 3px;font-size:.9em;"><a href="##" onclick="svn_toggle();" class="<cfif not compare(form.svnurl,'')>collapsed<cfelse>expanded</cfif>" id="svnlink"> SVN Details</a></legend>
+						<legend style="padding:0 3px;font-size:.9em;"><a href="##" onclick="svn_toggle();return false;" class="<cfif not compare(form.svnurl,'')>collapsed<cfelse>expanded</cfif>" id="svnlink"> SVN Details</a></legend>
 						<div id="svninfo"<cfif not compare(form.svnurl,'')> style="display:none"</cfif>>
 						<p>
 						<label for="svnurl">SVN URL:</label>
@@ -198,7 +227,73 @@
 						</p>
 						</div>
 						</fieldset>
-						<label for="submit">&nbsp;</label>
+
+						<cfif application.settings.allowRegister>
+						<fieldset style="border:0;border-top:2px solid ##d9eaf5;margin:0 0 0 50px;">
+						<legend style="padding:0 3px;font-size:.9em;"><a href="##" onclick="gr_toggle();return false;" class="expanded" id="grlink"> Self Registrations</a></legend>
+						<div id="grinfo">
+							<p>
+							<label for="allowreg" class="full">Allow users to self-register for this project?</label>
+							<input type="checkbox" name="allow_reg" id="allowreg" class="checkbox" value="1"<cfif form.allow_reg eq 1> checked="checked"</cfif> />
+							</p>
+
+							<table class="admin full mb15 permissions">
+							<tr>
+								<th>&nbsp;</th>
+								<th>Active</th>
+								<th>Files</th>
+								<th>Issues</th>
+								<th>Messages</th>
+								<th>Milestones</th>
+								<th>To-Dos</th>
+								<th>SVN</th>
+							</tr>
+							<tr>
+								<td class="b">Default Permissions</td>
+								<td><input type="checkbox" name="reg_active" value="1" id="p_#replace(url.p,'-','','ALL')#" class="cb"<cfif form.reg_active eq 1> checked="checked"</cfif> /></td>
+								<td>
+									<select name="reg_files" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');">
+										<option value="2"<cfif form.reg_files eq 2> selected="selected"</cfif>>Full Access</option>
+										<option value="1"<cfif form.reg_files eq 1> selected="selected"</cfif>>Read-Only</option>
+										<option value="0"<cfif form.reg_files eq 0> selected="selected"</cfif>>None</option>
+									</select>
+								</td>
+								<td>
+									<select name="reg_issues" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');">
+										<option value="2"<cfif form.reg_issues eq 2> selected="selected"</cfif>>Full Access</option>
+										<option value="1"<cfif form.reg_issues eq 1> selected="selected"</cfif>>Read-Only</option>
+										<option value="0"<cfif form.reg_issues eq 0> selected="selected"</cfif>>None</option>
+									</select>							
+								</td>
+								<td>
+									<select name="reg_msgs" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');">
+										<option value="2"<cfif form.reg_msgs eq 2> selected="selected"</cfif>>Full Access</option>
+										<option value="1"<cfif form.reg_msgs eq 1> selected="selected"</cfif>>Read-Only</option>
+										<option value="0"<cfif form.reg_msgs eq 0> selected="selected"</cfif>>None</option>
+									</select>							
+								</td>
+								<td>
+									<select name="reg_mstones" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');">
+										<option value="2"<cfif form.reg_mstones eq 2> selected="selected"</cfif>>Full Access</option>
+										<option value="1"<cfif form.reg_mstones eq 1> selected="selected"</cfif>>Read-Only</option>
+										<option value="0"<cfif form.reg_mstones eq 0> selected="selected"</cfif>>None</option>
+									</select>							
+								</td>
+								<td>
+									<select name="reg_todos" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');">
+										<option value="2"<cfif form.reg_todos eq 2> selected="selected"</cfif>>Full Access</option>
+										<option value="1"<cfif form.reg_todos eq 1> selected="selected"</cfif>>Read-Only</option>
+										<option value="0"<cfif form.reg_todos eq 0> selected="selected"</cfif>>None</option>
+									</select>							
+								</td>
+								<td><input type="checkbox" name="reg_svn" value="1" id="p_#replace(url.p,'-','','ALL')#" class="cb" onchange="if (this.checked == false) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');"<cfif form.reg_svn eq 1> checked="checked"</cfif> /></td>
+							</tr>
+							</table>
+						</div>
+						</fieldset>						
+						</cfif>				
+						
+						<label for="submit" class="none">&nbsp;</label>
 						<cfif StructKeyExists(url,"p")>
 							<input type="submit" class="button" name="submit" id="submit" value="Update Project" />
 							<input type="hidden" name="projectID" value="#url.p#" />

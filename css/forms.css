@@ -10,11 +10,24 @@ form.frm label {
 	float:left;
 }
 
+form.frm label.none {
+	width: 50px;
+	margin-right:6px;
+	text-align: right;
+	float:left;
+}
+
 form.frm label.cb {
 	width: 160px;
 	margin-right:6px;
 	text-align: left;
 	float:none;
+}
+
+form.frm label.full {
+	width: 320px;
+	margin-right:6px;
+	float:left;
 }
 
 form.frm p input.cb {
@@ -70,6 +83,24 @@ form.frm p textarea.address {
 form.frm p input.title {
 	padding:4px;
 	font-weight:bold;
+}
+
+form.frm ul.projects, ul.errors {
+	list-style:none;
+	padding:15px;
+}
+
+ul.errors li { margin-bottom:5px; }
+
+form.frm ul.projects li input.checkbox {
+	float:left;
+	margin-right:4px;
+}
+
+form.frm ul.projects li label {
+	width:auto;
+	text-align:left;
+	margin-right:30px;
 }
 
 /* buttons */

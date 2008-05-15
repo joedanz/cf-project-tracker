@@ -20,9 +20,9 @@
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT p.projectID, p.ownerID, p.clientID, p.name, p.description, p.display, p.added, 
-				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, pu.admin, 
-				pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos, pu.svn, c.name as clientName,
-				u.firstName as ownerFirstName, u.lastName as ownerLastName
+				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, 
+				pu.admin, pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos, pu.svn, 
+				c.name as clientName, u.firstName as ownerFirstName, u.lastName as ownerLastName
 			FROM #variables.tableprefix#projects p 
 				INNER JOIN #variables.tableprefix#project_users pu ON p.projectID = pu.projectID
 				INNER JOIN #variables.tableprefix#users u ON p.ownerID = u.userID
@@ -42,10 +42,13 @@
 	<cffunction name="getDistinct" access="public" returntype="query" output="false"
 				hint="Returns project records.">				
 		<cfargument name="projectID" type="string" required="false" default="">
+		<cfargument name="allowReg" type="boolean" required="false" default="false">
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT p.projectID, p.ownerID, p.clientID, p.name, p.description, p.display, p.added, 
-				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, c.name as clientName,
+				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, p.allow_reg, 
+				p.reg_active, p.reg_files, p.reg_issues, p.reg_msgs, p.reg_mstones, p.reg_todos, 
+				p.reg_svn, c.name as clientName, 
 				u.firstName as ownerFirstName, u.lastName as ownerLastName
 			FROM #variables.tableprefix#projects p
 				INNER JOIN #variables.tableprefix#users u ON p.ownerID = u.userID
@@ -53,6 +56,9 @@
 			WHERE 0=0
 			  <cfif compare(ARGUMENTS.projectID,'')>
 				  AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+			  </cfif>
+			  <cfif ARGUMENTS.allowReg>
+				  AND allow_reg = 1
 			  </cfif>
 			ORDER BY p.name
 		</cfquery>		
@@ -72,9 +78,17 @@
 		<cfargument name="svnurl" type="string" required="true">
 		<cfargument name="svnuser" type="string" required="true">
 		<cfargument name="svnpass" type="string" required="true">
+		<cfargument name="allow_reg" type="numeric" required="true">
+		<cfargument name="reg_active" type="numeric" required="true">
+		<cfargument name="reg_files" type="numeric" required="true">
+		<cfargument name="reg_issues" type="numeric" required="true">
+		<cfargument name="reg_msgs" type="numeric" required="true">
+		<cfargument name="reg_mstones" type="numeric" required="true">
+		<cfargument name="reg_todos" type="numeric" required="true">
+		<cfargument name="reg_svn" type="numeric" required="true">		
 		<cfargument name="addedBy" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#projects (projectID,ownerID,name,description,display,added,addedBy,clientID,status,ticketPrefix,svnurl,svnuser,svnpass)
+			INSERT INTO #variables.tableprefix#projects (projectID,ownerID,name,description,display,added,addedBy,clientID,status,ticketPrefix,svnurl,svnuser,svnpass,allow_reg,reg_active,reg_files,reg_issues,reg_msgs,reg_mstones,reg_todos,reg_svn)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.ownerID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
@@ -86,7 +100,15 @@
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.ticketPrefix#" maxlength="2">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnurl#" maxlength="100">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnuser#" maxlength="20">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnpass#" maxlength="20">)
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnpass#" maxlength="20">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.allow_reg#" maxlength="1">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_active#" maxlength="1">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_files#" maxlength="1">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_issues#" maxlength="1">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_msgs#" maxlength="1">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_mstones#" maxlength="1">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_todos#" maxlength="1">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_svn#" maxlength="1">)
 		</cfquery>
 		<cfreturn true>
 	</cffunction>	
@@ -104,6 +126,14 @@
 		<cfargument name="svnurl" type="string" required="true">
 		<cfargument name="svnuser" type="string" required="true">
 		<cfargument name="svnpass" type="string" required="true">
+		<cfargument name="allow_reg" type="numeric" required="true">
+		<cfargument name="reg_active" type="numeric" required="true">
+		<cfargument name="reg_files" type="numeric" required="true">
+		<cfargument name="reg_issues" type="numeric" required="true">
+		<cfargument name="reg_msgs" type="numeric" required="true">
+		<cfargument name="reg_mstones" type="numeric" required="true">
+		<cfargument name="reg_todos" type="numeric" required="true">
+		<cfargument name="reg_svn" type="numeric" required="true">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#projects 
 				SET name = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
@@ -115,7 +145,15 @@
 					ticketPrefix = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.ticketPrefix#" maxlength="2">,
 					svnurl = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnurl#" maxlength="100">,
 					svnuser = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnuser#" maxlength="20">,
-					svnpass = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnpass#" maxlength="20">
+					svnpass = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnpass#" maxlength="20">,
+					allow_reg = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.allow_reg#" maxlength="1">,
+					reg_active = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_active#" maxlength="1">,
+					reg_files = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_files#" maxlength="1">,
+					reg_issues = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_issues#" maxlength="1">,
+					reg_msgs = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_msgs#" maxlength="1">,
+					reg_mstones = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_mstones#" maxlength="1">,
+					reg_todos = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_todos#" maxlength="1">,
+					reg_svn = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_svn#" maxlength="1">
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>

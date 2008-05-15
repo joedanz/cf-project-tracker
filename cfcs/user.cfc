@@ -196,6 +196,53 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		</cfif>
 	</cffunction>
 
+	<cffunction name="selfRegister" access="public" returntype="void" output="false"
+				hint="Inserts a users record.">
+		<cfargument name="userID" type="string" required="true">
+		<cfargument name="firstName" type="string" required="true">
+		<cfargument name="lastName" type="string" required="true">
+		<cfargument name="username" type="string" required="true">
+		<cfargument name="password" type="string" required="true">
+		<cfargument name="email" type="string" required="true">
+		<cfquery datasource="#variables.dsn#">
+			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, avatar, style, email_files, mobile_files, email_issues, mobile_issues, email_msgs, mobile_msgs, email_mstones, mobile_mstones, email_todos, mobile_todos, admin, active)
+				VALUES(<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.firstName#" maxlength="12">, 
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.lastName#" maxlength="20">, 
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#" maxlength="30">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.password#" maxlength="20">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" maxlength="120">, 
+						0,'#application.settings.default_style#',0,0,0,0,0,0,0,0,0,0,0,0		
+						)
+		</cfquery>
+
+		<cfmail to="#arguments.email#" from="#application.settings.adminEmail#" subject="New #application.settings.app_title# Account">An account has been setup for you to use the #application.settings.app_title#.
+
+You must confirm this account before using it by clicking here:
+#application.settings.rootURL##application.settings.mapping#/confirm.cfm?u=#arguments.userID#
+		</cfmail>
+
+	</cffunction>
+
+	<cffunction name="confirm" access="public" returntype="boolean" output="false"
+				hint="Inserts a users record.">
+		<cfargument name="userID" type="string" required="true">
+		<cfset var checkUserID = "">
+		<cfquery datasource="#variables.dsn#">
+			UPDATE #variables.tableprefix#users
+			SET active = 1
+			WHERE userID = 
+				<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
+		</cfquery>
+		<cfquery name="checkUserID" datasource="#variables.dsn#">
+			SELECT userID FROM #variables.tableprefix#users
+			WHERE userID = 
+				<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
+			AND active = 1
+		</cfquery>
+		<cfreturn checkUserID.recordCount>
+	</cffunction>
+
 	<cffunction name="userUpdate" access="public" returntype="void" output="false"
 				hint="Updates a users record.">
 		<cfargument name="userID" type="string" required="true">

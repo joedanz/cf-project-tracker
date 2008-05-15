@@ -79,49 +79,49 @@
 </cfif>
 
 <!--- handle security --->
-<cfif not findNoCase('/rss.cfm',cgi.script_name) and not findNoCase('/forgot.cfm',cgi.script_name) and not findNoCase('/api/',cgi.script_name)>
+<cfif not findNoCase('/rss.cfm',cgi.script_name) and not findNoCase('/register.cfm',cgi.script_name) and not findNoCase('/confirm.cfm',cgi.script_name) and not findNoCase('/forgot.cfm',cgi.script_name) and not findNoCase('/api/',cgi.script_name)>
 
-<!--- check for auto login --->
-<cfif application.settings.guestUserAutoLogin AND NOT StructKeyExists(url,'logout')>
-	<cfset url.guest = 1>
-</cfif>
-
-<cflogin>
-
-	<cfif StructKeyExists(url,'guest') and application.settings.guestUserAutoLogin>
-		<cfset form.username = "guest">
-		<cfset form.password = "guest">
+	<!--- check for auto login --->
+	<cfif application.settings.guestUserAutoLogin AND NOT StructKeyExists(url,'logout')>
+		<cfset url.guest = 1>
 	</cfif>
-
-	<cfif NOT StructKeyExists(form,"username")>
-		<cfinclude template="login.cfm">
-		<cfabort>
-	<cfelse>
-		<!--- are we trying to logon? --->
-		<cfif not compare(trim(form.username),'') or not compare(trim(form.password),'')>
-			<cfset variables.error="Your must enter your login info to continue!">
+	
+	<cflogin>
+	
+		<cfif StructKeyExists(url,'guest') and application.settings.guestUserAutoLogin>
+			<cfset form.username = "guest">
+			<cfset form.password = "guest">
+		</cfif>
+	
+		<cfif NOT StructKeyExists(form,"username")>
 			<cfinclude template="login.cfm">
 			<cfabort>
 		<cfelse>
-			<!--- check user account against database table --->
-			<cfset thisUser = application.user.login(trim(form.username),trim(form.password))>
-			<cfif not structKeyExists(thisUser,"userid") or not compare(thisUser.userid,'')>
-				<cfset variables.error="Your login was not accepted. Please try again!">
+			<!--- are we trying to logon? --->
+			<cfif not compare(trim(form.username),'') or not compare(trim(form.password),'')>
+				<cfset variables.error="Your must enter your login info to continue!">
 				<cfinclude template="login.cfm">
 				<cfabort>
 			<cfelse>
-				<!--- log user into application --->
-				<cfloginuser name="#trim(form.username)#" password="#trim(form.password)#" roles="user">
-				<cfset session.user = thisUser>
-				<cfset session.style = thisUser.style>
-				<cfset session.loggedin = true>
-				<!--- set last login stamp --->
-				<cfset application.user.setLastLogin(session.user.userid)>
+				<!--- check user account against database table --->
+				<cfset thisUser = application.user.login(trim(form.username),trim(form.password))>
+				<cfif not structKeyExists(thisUser,"userid") or not compare(thisUser.userid,'')>
+					<cfset variables.error="Your login was not accepted. Please try again!">
+					<cfinclude template="login.cfm">
+					<cfabort>
+				<cfelse>
+					<!--- log user into application --->
+					<cfloginuser name="#trim(form.username)#" password="#trim(form.password)#" roles="user">
+					<cfset session.user = thisUser>
+					<cfset session.style = thisUser.style>
+					<cfset session.loggedin = true>
+					<!--- set last login stamp --->
+					<cfset application.user.setLastLogin(session.user.userid)>
+				</cfif>
 			</cfif>
 		</cfif>
-	</cfif>
-
-</cflogin>
+	
+	</cflogin>
 </cfif>
 
 <cfsetting enablecfoutputonly="false">

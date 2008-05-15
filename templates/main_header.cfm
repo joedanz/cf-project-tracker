@@ -39,7 +39,10 @@
 			| <a href="#application.settings.mapping#/account.cfm" title="My Account"<cfif find('/account.cfm',cgi.script_name)> class="current"</cfif>>My Account</a>
 			| <a href="#application.settings.mapping#/index.cfm?logout" title="Logout">Logout</a>
 		<cfelse>
-			<a href="#application.settings.mapping#/index.cfm?logout" title="Logout">Login</a>
+			<a href="#application.settings.mapping#/index.cfm?logout" title="Login">Login</a>
+			<cfif application.settings.allowRegister>
+				| <a href="#application.settings.mapping#/register.cfm" title="Logout">Register</a>
+			</cfif>
 		</cfif>
 	</div>
 

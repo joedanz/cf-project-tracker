@@ -15,6 +15,7 @@ ul.nobullet li { margin-bottom:5px; }
 .mb15 { margin-bottom:15px; }
 .mb20 { margin-bottom:20px; }
 .mt5 { margin-top:5px; }
+.mr5 { margin-right:5px; }
 .mt20 { margin-top:20px; }
 .pl5 { padding-left:5px; }
 .tac { text-align:center; }
@@ -44,6 +45,11 @@ table.activity td {
 .catbox { width:60px;padding:0 2px; }
 
 #login { margin-bottom:20px; }
+
+.alertbox, .successbox {
+	padding:10px 0 10px 30px;
+	margin-bottom:15px;
+}
 
 /* LEFT COLUMN */
 #container {

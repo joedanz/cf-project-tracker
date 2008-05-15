@@ -5,3 +5,4 @@ mapping=/project
 rootURL=http://127.0.0.1
 adminEmail=admin@localhost
 guestUserAutoLogin=0
+allowRegister=0
