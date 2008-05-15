@@ -247,7 +247,7 @@ To view the full message and leave comments, visit this link:
 		</cfquery>
 		<cfquery datasource="#variables.dsn#">
 			DELETE FROM #variables.tableprefix#comments
-			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
+			WHERE itemID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
 				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
 		<cfquery datasource="#variables.dsn#">
