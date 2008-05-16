@@ -271,12 +271,21 @@ $(document).ready(function(){
 	<!--- right column --->
 	<div class="right">
 	
+		<cfif compare(project.clientID,'')>
+			<div class="header"><h3>Client</h3></div>
+			<div class="content">
+				<ul>
+					<li>#project.clientName#</li>
+				</ul>
+			</div>
+		</cfif>
+	
 		<div class="header"><h3>Project Owner</h3></div>
 		<div class="content">
 			<ul>
 				<li>#project.ownerFirstName# #project.ownerLastName#</li>
 			</ul>
-		</div>	
+		</div>
 	
 		<div class="header"><h3>People on this project</h3></div>
 		<div class="content">
