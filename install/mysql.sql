@@ -241,7 +241,7 @@ CREATE TABLE `pt_users` (
   `firstName` varchar(12) default NULL,
   `lastName` varchar(20) default NULL,
   `username` varchar(50) default NULL,
-  `password` varchar(20) default NULL,
+  `password` char(32) default NULL,
   `email` varchar(120) default NULL,
   `phone` varchar(15) default NULL,
   `mobile` varchar(15) default NULL,
