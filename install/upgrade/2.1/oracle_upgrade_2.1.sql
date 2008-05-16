@@ -26,3 +26,10 @@ update pt_projects
 
 update pt_carriers
 	set prefix = 1;
+	
+alter table 
+	pt_users 
+modify 
+	(
+	password char(32) NULL
+	);

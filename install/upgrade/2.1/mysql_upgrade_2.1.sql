@@ -9,8 +9,8 @@ ALTER TABLE `pt_projects` ADD `reg_mstones` int(1) default NULL;
 ALTER TABLE `pt_projects` ADD `reg_todos` int(1) default NULL;
 ALTER TABLE `pt_projects` ADD `reg_svn` int(1) default NULL;
 
-update `pt_projects` 
-	set `allow_reg` = 0 ,
+UPDATE `pt_projects` 
+	SET `allow_reg` = 0 ,
 		`reg_active` = 1 ,
 		`reg_files` = 1 ,
 		`reg_issues` = 1 ,
@@ -19,5 +19,6 @@ update `pt_projects`
 		`reg_todos` = 1,
 		`reg_svn` = 1;
 
-update `pt_carriers` 
-	set `prefix` = '';
+UPDATE `pt_carriers` SET `prefix` = '';
+	
+ALTER TABLE `pt_users` MODIFY `password` char(32) NULL;

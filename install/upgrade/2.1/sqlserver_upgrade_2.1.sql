@@ -31,3 +31,6 @@ GO
 UPDATE [dbo].[pt_carriers]
 	SET [prefix] = ''
 GO
+
+ALTER TABLE [dbo].[pt_users] ALTER COLUMN [password] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
