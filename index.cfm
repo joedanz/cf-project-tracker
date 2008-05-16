@@ -1,6 +1,14 @@
 <cfsetting enablecfoutputonly="true">
 
+<cfif StructKeyExists(url,"reg")>
+	<cfset project = application.project.getDistinct(url.p)>
+	<cfif project.allow_reg>
+		<cfset application.role.add(url.p,session.user.userid,'0',project.reg_files,project.reg_issues,project.reg_msgs,project.reg_mstones,project.reg_todos,project.reg_svn)>
+	</cfif>
+</cfif>
+
 <cfset projects = application.project.get(session.user.userid)>
+<cfset projects_reg = application.project.getDistinct(allowReg=true)>
 <cfif projects.recordCount eq 1>
 	<cflocation url="project.cfm?p=#projects.projectid#" addtoken="false">
 	<cfabort>
@@ -13,6 +21,9 @@
 </cfquery>
 <cfquery name="arch_projects" dbtype="query">
 	select * from projects where status = 'Archived'
+</cfquery>
+<cfquery name="allow_reg_projects" dbtype="query">
+	select * from projects_reg where projectid not in (#QuotedValueList(active_projects.projectid)#)
 </cfquery>
 <cfif not projects.recordCount>
 	<cfset newInstall = true>
@@ -339,6 +350,18 @@ $(document).ready(function(){
 			<ul>
 				<cfloop query="arch_projects">
 					<li><a href="project.cfm?p=#projectID#">#name#</a></li>
+				</cfloop>
+			</ul>
+		</div>
+		</cfif>		
+		
+		
+		<cfif allow_reg_projects.recordCount>
+		<div class="header"><h3>Projects you can join</h3></div>
+		<div class="content">
+			<ul>
+				<cfloop query="allow_reg_projects">
+					<li><a href="#cgi.script_name#?p=#projectID#&reg=1">#name#</a></li>
 				</cfloop>
 			</ul>
 		</div>
