@@ -12,7 +12,7 @@
 <cfloop query="getUsers">
 	<cfquery datasource="#application.settings.dsn#">
 		update #application.settings.tableprefix#users 
-		set password = <cfqueryparam cfsqltype="cf_sql_varchar" value="#hash(password)#" maxlength="32">
+		set password = <cfqueryparam cfsqltype="cf_sql_varchar" value="#hash(trim(password))#" maxlength="32">
 		where userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#userID#" maxlength="35">
 	</cfquery>
 </cfloop>
