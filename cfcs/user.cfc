@@ -419,11 +419,23 @@ You must confirm this account before using it by clicking here:
 		<cfargument name="username" type="string" required="false" default="">
 		<cfset var qFindPassword = "">
 		<cfquery name="qFindPassword" datasource="#variables.dsn#">
-			SELECT password,email,firstName
+			SELECT userid,email,firstName
 			FROM #variables.tableprefix#users
 			WHERE username = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#">
 		</cfquery>		
 		<cfreturn qFindPassword>
 	</cffunction>
+	
+	<cffunction name="setPassword" access="public" returntype="void" output="false"
+				hint="Sets password for a username.">				
+		<cfargument name="userid" type="uuid" required="true">
+		<cfargument name="password" type="string" required="true">
+		<cfset var qFindPassword = "">
+		<cfquery name="qFindPassword" datasource="#variables.dsn#">
+			UPDATE #variables.tableprefix#users
+			SET password = <cfqueryparam cfsqltype="cf_sql_varchar" value="#hash(arguments.password)#" maxlength="32">
+			WHERE userid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userid#" maxlength="35">
+		</cfquery>		
+	</cffunction>	
 		
 </cfcomponent>

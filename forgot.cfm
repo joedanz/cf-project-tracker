@@ -6,20 +6,11 @@
 <cfif StructKeyExists(form,"subpass")> <!--- forgot password --->
 	<cfset findPassword = application.user.findPassword(form.username)>
 	<cfif findPassword.recordCount eq 1>
-		<cfset success = "Your password has been emailed to #findPassword.email#">
+		<cfset success = "Your password has been emailed to <em>#findPassword.email#</em>">
 		<cfmail to="#findPassword.email#" from="#application.settings.adminEmail#" subject="#application.settings.app_title# | Your Password">Hi #findPassword.firstName#,
 
-You requested recovery of your #application.settings.app_title# password. 
-
-Your password is:
-
-  #findPassword.password#
-
-Please keep your username and password safe to prevent unauthorized access.
-
-You can login at:
-#application.settings.rootURL##application.settings.mapping#	
-		
+Please visit the following link to reset your #application.settings.app_title# password: 
+#application.settings.rootURL##application.settings.mapping#/reset.cfm?u=#findPassword.userid#&h=#hash(findPassword.userid)#
 		</cfmail>
 		<cfset form.username = ''>
 	<cfelse>
@@ -87,12 +78,12 @@ You can login at:
 
 <form action="#cgi.script_name#?#cgi.query_string#" method="post" name="loginform" class="forgot">
 <h3>Forgot your password?</h3>
-<p>Enter your username below, and we'll email your password to the email address we have on file.</p>
+<p>Enter your username below, and we'll email you a link to reset your password.</p>
 <cfif StructKeyExists(form,"subpass")>
 	<cfif StructKeyExists(variables,"error")>
-		<div class="alert b r i">#error#</div>
+		<div class="alertbox">#error#</div>
 	<cfelseif StructKeyExists(variables,"success")>
-		<div class="success b i g">#success#</div>		
+		<div class="successbox">#success#</div>		
 	</cfif><br />
 </cfif>
 <label for="username">Username:</label>
