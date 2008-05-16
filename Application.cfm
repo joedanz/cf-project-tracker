@@ -111,7 +111,7 @@
 					<cfabort>
 				<cfelse>
 					<!--- log user into application --->
-					<cfloginuser name="#trim(form.username)#" password="#trim(form.password)#" roles="user">
+					<cfloginuser name="#trim(form.username)#" password="#trim(hash(form.password))#" roles="user">
 					<cfset session.user = thisUser>
 					<cfset session.style = thisUser.style>
 					<cfset session.loggedin = true>
