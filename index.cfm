@@ -361,7 +361,7 @@ $(document).ready(function(){
 		<div class="content">
 			<ul>
 				<cfloop query="allow_reg_projects">
-					<li><a href="#cgi.script_name#?p=#projectID#&reg=1">#name#</a></li>
+					<li><a href="#cgi.script_name#?reg=1&p=#projectID#">#name#</a></li>
 				</cfloop>
 			</ul>
 		</div>

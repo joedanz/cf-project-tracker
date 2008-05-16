@@ -228,7 +228,6 @@
 						</div>
 						</fieldset>
 
-						<cfif application.settings.allowRegister>
 						<fieldset style="border:0;border-top:2px solid ##d9eaf5;margin:0 0 0 50px;">
 						<legend style="padding:0 3px;font-size:.9em;"><a href="##" onclick="gr_toggle();return false;" class="expanded" id="grlink"> Self Registrations</a></legend>
 						<div id="grinfo">
@@ -290,8 +289,7 @@
 							</tr>
 							</table>
 						</div>
-						</fieldset>						
-						</cfif>				
+						</fieldset>		
 						
 						<label for="submit" class="none">&nbsp;</label>
 						<cfif StructKeyExists(url,"p")>

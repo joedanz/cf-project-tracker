@@ -69,9 +69,12 @@
 	<cfif not application.isCF8 and not application.isBD>
 		<cfset whichTab = whichTab - 1>
 	</cfif>
+<cfelseif StructKeyExists(url,"rp")>
+	<cfset application.role.remove(url.rp,session.user.userid)>
 </cfif>
 
 <cfset user = application.user.get(session.user.userid)>
+<cfset projects = application.project.get(session.user.userid)>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; My Account">
@@ -134,6 +137,7 @@
 		        <div id="container1">
 		            <ul>
 		                <li><a href="##user"><span>General Info</span></a></li>
+		                <li><a href="##projects"><span>Projects</span></a></li>
 		                <li><a href="##notifications"><span>Notifications</span></a></li>
 						<li><a href="##account"><span>Account Info</span></a></li>
 		                <cfif application.isCF8 or application.isBD>
@@ -181,6 +185,36 @@
 							<input type="submit" class="button" name="submit1" id="submit1" value="Update Account" onclick="return confirmSubmit1();" />				
 						</form>								
 		            </div>
+		            <div id="projects">
+							<table class="admin full mb10">
+							<tr>
+								<th>Project</th>
+								<th class="tac">Owner</th>
+								<th class="tac">Admin</th>
+								<th class="tac">Files</th>
+								<th class="tac">Issues</th>
+								<th class="tac">Messages</th>
+								<th class="tac">Milestones</th>
+								<th class="tac">To-Dos</th>
+								<th class="tac">SVN</th>
+								<th class="tac">Remove</th>
+							</tr>
+							<cfloop query="projects">
+							<tr>
+								<td>#name#</td>
+								<td class="tac"><img src="./images/<cfif not compareNoCase(session.user.userid,ownerid)>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(compareNoCase(session.user.userid,ownerid))#" /></td>
+								<td class="tac"><img src="./images/<cfif admin eq 1>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(admin)#" /></td>
+								<td class="tac"><cfif files eq 2>Full Access<cfelseif files eq 1>Read-Only<cfelseif files eq 0>None</cfif></td>
+								<td class="tac"><cfif issues eq 2>Full Access<cfelseif issues eq 1>Read-Only<cfelseif issues eq 0>None</cfif></td>
+								<td class="tac"><cfif msgs eq 2>Full Access<cfelseif msgs eq 1>Read-Only<cfelseif msgs eq 0>None</cfif></td>
+								<td class="tac"><cfif mstones eq 2>Full Access<cfelseif mstones eq 1>Read-Only<cfelseif mstones eq 0>None</cfif></td>
+								<td class="tac"><cfif todos eq 2>Full Access<cfelseif todos eq 1>Read-Only<cfelseif todos eq 0>None</cfif></td>
+								<td class="tac"><img src="./images/<cfif svn eq 1>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(svn)#" /></td>
+								<td class="tac">[<a href="#cgi.script_name#?rp=#projectid###projects" onclick="return confirm('Are you sure you wish to remove access to this project?')">remove</a>]</td>
+							</tr>
+							</cfloop>
+							</table>					
+					</div>
 		            <div id="notifications">
 						<form action="#cgi.script_name#" method="post" name="edit" class="frm tac">
 							<table class="admin half mb15">
