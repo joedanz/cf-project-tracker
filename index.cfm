@@ -23,7 +23,8 @@
 	select * from projects where status = 'Archived'
 </cfquery>
 <cfquery name="allow_reg_projects" dbtype="query">
-	select * from projects_reg where projectid not in (#QuotedValueList(active_projects.projectid)#)
+	select * from projects_reg where projectid not in (
+	<cfif active_projects.recordCount>#QuotedValueList(active_projects.projectid)#<cfelse>''</cfif>)
 </cfquery>
 <cfif not projects.recordCount>
 	<cfset newInstall = true>
