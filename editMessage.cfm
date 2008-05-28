@@ -57,67 +57,6 @@
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#project.name# &raquo; #title_action# Message" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
 
 <cfhtmlhead text="<script type='text/javascript'>
-
-	function newMsgCat(id) {
-		if (id == 'new') {
-			var newcat = prompt('Enter the new category name:','');
-			var opt = new Option(newcat, newcat);
-	  		var sel = document.edit.category;
-	  		sel.options[sel.options.length] = opt;
-			sel.selectedIndex = sel.options.length-1;		
-		}	
-	}
-	function showFiles() {
-		var targetContent = $('##files');
-		if (targetContent.css('display') == 'none') {
-			targetContent.slideDown(300);
-			$('##fileslinkbg').removeClass('collapsed');
-			$('##fileslinkbg').addClass('expanded');
-			$('##fileslink').addClass('notifybg');
-		} else {
-			targetContent.slideUp(300);
-			$('##fileslinkbg').removeClass('expanded');
-			$('##fileslink').removeClass('notifybg');
-			$('##fileslinkbg').addClass('collapsed');
-		}
-		return false;	
-	}
-	function files_all() {
-		if ($('##allfiles').attr('checked')==true) {
-			$('##files').checkCheckboxes(':not(.notoggle)');		
-		} else $('##files').unCheckCheckboxes(':not(.notoggle)');
-	}	
-	function showNotify() {
-		var targetContent = $('##notify');
-		if (targetContent.css('display') == 'none') {
-			targetContent.slideDown(300);
-			$('##notifylinkbg').removeClass('collapsed');
-			$('##notifylinkbg').addClass('expanded');
-			$('##notifylink').addClass('notifybg');
-		} else {
-			targetContent.slideUp(300);
-			$('##notifylinkbg').removeClass('expanded');
-			$('##notifylink').removeClass('notifybg');
-			$('##notifylinkbg').addClass('collapsed');
-		}
-		return false;	
-	}
-	function notify_all() {
-		if ($('##everyone').attr('checked')==true) {
-			$('##notify').checkCheckboxes(':not(.notoggle)');		
-		} else $('##notify').unCheckCheckboxes(':not(.notoggle)');
-	}
-	function confirmSubmit() {
-		var errors = '';
-		var oEditor = FCKeditorAPI.GetInstance('message');
-		if (document.edit.title.value == '') {errors = errors + '   ** You must enter a title.\n';}
-		if (document.edit.category.value == '') {errors = errors + '   ** You must enter a category.\n';}
-		if (oEditor.GetHTML() == '') {errors = errors + '   ** You must enter the message body.\n';}
-		if (errors != '') {
-			alert('Please correct the following errors:\n\n' + errors)
-			return false;
-		} else return true;
-	}
 	$(document).ready(function(){
 	  	$('##title').focus();
 	});	

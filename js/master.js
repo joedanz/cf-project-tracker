@@ -49,6 +49,48 @@ function delete_comment_ajax(cid) {
 	});
 }
 
+// *** MESSAGES ***
+function newMsgCat(id) {
+	if (id == 'new') {
+		var newcat = prompt('Enter the new category name:','');
+		var opt = new Option(newcat, newcat);
+  		var sel = document.edit.category;
+  		sel.options[sel.options.length] = opt;
+		sel.selectedIndex = sel.options.length-1;		
+	}	
+}
+function showNotify() {
+	var targetContent = $('#notify');
+	if (targetContent.css('display') == 'none') {
+		targetContent.slideDown(300);
+		$('#notifylinkbg').removeClass('collapsed');
+		$('#notifylinkbg').addClass('expanded');
+		$('#notifylink').addClass('notifybg');
+	} else {
+		targetContent.slideUp(300);
+		$('#notifylinkbg').removeClass('expanded');
+		$('#notifylink').removeClass('notifybg');
+		$('#notifylinkbg').addClass('collapsed');
+	}
+	return false;	
+}
+function notify_all() {
+	if ($('#everyone').attr('checked')==true) {
+		$('#notify').checkCheckboxes(':not(.notoggle)');		
+	} else $('#notify').unCheckCheckboxes(':not(.notoggle)');
+}
+function confirmSubmit() {
+	var errors = '';
+	var oEditor = FCKeditorAPI.GetInstance('message');
+	if (document.edit.title.value == '') {errors = errors + '   ** You must enter a title.\n';}
+	if (document.edit.category.value == '') {errors = errors + '   ** You must enter a category.\n';}
+	if (oEditor.GetHTML() == '') {errors = errors + '   ** You must enter the message body.\n';}
+	if (errors != '') {
+		alert('Please correct the following errors:\n\n' + errors)
+		return false;
+	} else return true;
+}
+
 // *** MILESTONES ***
 function upcoming_milestones(pid,limit) {
     $.ajax({
@@ -312,7 +354,29 @@ function serialize_items(s,todolistid)
 	return serial.hash.replace(/todoitems.{35}\[\]=/g,'').replace(/&/g,'|');
 };
 
-// tablesorter parsers
+// FILE ATTACHMENTS
+function showFiles() {
+	var targetContent = $('#files');
+	if (targetContent.css('display') == 'none') {
+		targetContent.slideDown(300);
+		$('#fileslinkbg').removeClass('collapsed');
+		$('#fileslinkbg').addClass('expanded');
+		$('#fileslink').addClass('notifybg');
+	} else {
+		targetContent.slideUp(300);
+		$('#fileslinkbg').removeClass('expanded');
+		$('#fileslink').removeClass('notifybg');
+		$('#fileslinkbg').addClass('collapsed');
+	}
+	return false;	
+}
+function files_all() {
+	if ($('#allfiles').attr('checked')==true) {
+		$('#files').checkCheckboxes(':not(.notoggle)');		
+	} else $('#files').unCheckCheckboxes(':not(.notoggle)');
+}
+
+// TABLESORTER PARSERS
 $.tablesorter.addParser({
 	id: 'usMonthOnlyDate',
 	is: function(s) {

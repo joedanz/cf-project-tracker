@@ -21,6 +21,7 @@
 <cfset project = application.project.get(session.user.userid,url.p)>
 <cfset projectUsers = application.project.projectUsers(url.p)>
 <cfset milestones = application.milestone.get(url.p,'','incomplete')>
+<cfset files = application.file.get(url.p)>
 
 <cfparam name="issue" default="">
 <cfparam name="detail" default="">
@@ -136,7 +137,25 @@
 							<option value="#milestoneID#"<cfif not compare(milestone,milestoneID)> selected="selected"</cfif>>#name#</option>
 							</cfloop>
 						</select>
-						</p>						
+						</p>
+						
+						<cfif files.recordCount>
+						<p>
+						<span id="fileslinkbg" class="collapsed">
+						<label for="notifylink">Files:</label>
+						<a href="##" onclick="showFiles();return false;" id="fileslink"> Associate files with this message</a>
+						</span>
+						<span id="files" style="display:none;">
+						<ul class="nobullet">
+						<li><input type="checkbox" id="allfiles" class="checkbox filestoggle" onclick="files_all();" /><label for="allfiles" class="list b">All Files</label></li>
+						<cfloop query="files">
+							<li><input type="checkbox" name="fileslist" class="checkbox" id="#fileID#" value="#fileID#"<cfif StructKeyExists(url,"m") and listFind(valueList(fileList.fileid),fileID)> checked="checked"</cfif> /><label for="#fileID#" class="list">#title#</label></li>
+						</cfloop>
+						</ul>
+						</span>
+						</p>
+						</cfif>						
+											
 						<p>
 						<label for="issue">Relevant URL:</label>
 						<input type="text" name="relevantURL" id="relevantURL" value="#HTMLEditFormat(relevantURL)#" maxlength="255" />
