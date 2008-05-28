@@ -244,41 +244,41 @@
 							<tr>
 								<td class="tac"><input type="checkbox" name="admin" id="a_#replace(userid,'-','','ALL')#" value="1" class="cb"<cfif admin> checked="checked"</cfif> /></td>
 								<td class="tac">
-									<select name="files" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="f_#replace(userid,'-','','ALL')#">
+									<select name="files" onchange="if (this.selectedIndex > 0) $('##a_#replace(userid,'-','','ALL')#').attr('checked','');" id="f_#replace(userid,'-','','ALL')#">
 										<option value="2"<cfif files eq 2> selected="selected"</cfif>>Full Access</option>
 										<option value="1"<cfif files eq 1> selected="selected"</cfif>>Read-Only</option>
 										<option value="0"<cfif files eq 0> selected="selected"</cfif>>None</option>
 									</select>
 								</td>
 								<td class="tac">
-									<select name="issues" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="i_#replace(userid,'-','','ALL')#">
+									<select name="issues" onchange="if (this.selectedIndex > 0) $('##a_#replace(userid,'-','','ALL')#').attr('checked','');" id="i_#replace(userid,'-','','ALL')#">
 										<option value="2"<cfif issues eq 2> selected="selected"</cfif>>Full Access</option>
 										<option value="1"<cfif issues eq 1> selected="selected"</cfif>>Read-Only</option>
 										<option value="0"<cfif issues eq 0> selected="selected"</cfif>>None</option>
 									</select>							
 								</td>
 								<td class="tac">
-									<select name="msgs" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="m_#replace(userid,'-','','ALL')#">
+									<select name="msgs" onchange="if (this.selectedIndex > 0) $('##a_#replace(userid,'-','','ALL')#').attr('checked','');" id="m_#replace(userid,'-','','ALL')#">
 										<option value="2"<cfif msgs eq 2> selected="selected"</cfif>>Full Access</option>
 										<option value="1"<cfif msgs eq 1> selected="selected"</cfif>>Read-Only</option>
 										<option value="0"<cfif msgs eq 0> selected="selected"</cfif>>None</option>
 									</select>							
 								</td>
 								<td class="tac">
-									<select name="mstones" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="ms_#replace(userid,'-','','ALL')#">
+									<select name="mstones" onchange="if (this.selectedIndex > 0) $('##a_#replace(userid,'-','','ALL')#').attr('checked','');" id="ms_#replace(userid,'-','','ALL')#">
 										<option value="2"<cfif mstones eq 2> selected="selected"</cfif>>Full Access</option>
 										<option value="1"<cfif mstones eq 1> selected="selected"</cfif>>Read-Only</option>
 										<option value="0"<cfif mstones eq 0> selected="selected"</cfif>>None</option>
 									</select>							
 								</td>
 								<td class="tac">
-									<select name="todos" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="t_#replace(userid,'-','','ALL')#">
+									<select name="todos" onchange="if (this.selectedIndex > 0) $('##a_#replace(userid,'-','','ALL')#').attr('checked','');" id="t_#replace(userid,'-','','ALL')#">
 										<option value="2"<cfif todos eq 2> selected="selected"</cfif>>Full Access</option>
 										<option value="1"<cfif todos eq 1> selected="selected"</cfif>>Read-Only</option>
 										<option value="0"<cfif todos eq 0> selected="selected"</cfif>>None</option>
 									</select>							
 								</td>
-								<td class="tac"><input type="checkbox" name="svn" id="s_#replace(userid,'-','','ALL')#" value="1" id="p_#replace(url.p,'-','','ALL')#" class="cb" onchange="if (this.checked == false) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');"<cfif svn> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="svn" id="s_#replace(userid,'-','','ALL')#" value="1" class="cb" onchange="if (this.checked == false) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');"<cfif svn> checked="checked"</cfif> /></td>
 							</tr>
 							</table>								 		
 					 		
