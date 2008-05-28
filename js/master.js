@@ -311,3 +311,26 @@ function serialize_items(s,todolistid)
 	serial = $.SortSerialize(s);
 	return serial.hash.replace(/todoitems.{35}\[\]=/g,'').replace(/&/g,'|');
 };
+
+// tablesorter parsers
+$.tablesorter.addParser({
+	id: 'usMonthOnlyDate',
+	is: function(s) {
+		return s.match(new RegExp(/^[A-Za-z]{3,10}\.? [0-9]{1,2}$/));
+	},
+	format: function(s) {
+		s += ', ' + new Date().getYear();
+		return $.tablesorter.formatFloat((new Date(s)).getTime());;
+	}, 
+    type: 'numeric' 
+});
+$.tablesorter.addParser({ 
+    id: 'statuses', 
+    is: function(s) {  
+        return false; // return false so this parser is not auto detected
+    }, 
+    format: function(s) { 
+        return s.toLowerCase().replace(/trivial/,4).replace(/minor/,3).replace(/normal/,2).replace(/major/,1).replace(/critical/,0); 
+    }, 
+    type: 'numeric'
+});
