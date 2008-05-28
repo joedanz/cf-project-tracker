@@ -1,11 +1,3 @@
-/*
-SQLyog Enterprise v4.06 RC1
-Host - 5.0.24a-community-nt : Database - project
-*********************************************************************
-Server version : 5.0.24a-community-nt
-*/
-
-
 /*Table structure for table `pt_activity` */
 
 CREATE TABLE `pt_activity` (
@@ -92,6 +84,15 @@ CREATE TABLE `pt_files` (
   PRIMARY KEY  (`fileID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `pt_file_attach` */
+
+CREATE TABLE `pt_file_attach` (
+  `itemID` char(35) NOT NULL,
+  `fileID` char(35) NOT NULL,
+  `type` varchar(6) default NOT NULL,
+  PRIMARY KEY  (`itemID`,`fileID`,`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `pt_issues` */
 
 CREATE TABLE `pt_issues` (
@@ -113,14 +114,6 @@ CREATE TABLE `pt_issues` (
   `resolution` varchar(12) default NULL,
   `resolutionDesc` text default NULL,
   PRIMARY KEY  (`issueID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `pt_message_files` */
-
-CREATE TABLE `pt_message_files` (
-  `messageID` char(35) NOT NULL,
-  `fileID` char(35) NOT NULL,
-  PRIMARY KEY  (`messageID`,`fileID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `pt_message_notify` */
