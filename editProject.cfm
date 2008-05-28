@@ -249,43 +249,43 @@
 							</tr>
 							<tr>
 								<td class="b">Default Permissions</td>
-								<td><input type="checkbox" name="reg_active" value="1" id="p_#replace(url.p,'-','','ALL')#" class="cb"<cfif form.reg_active eq 1> checked="checked"</cfif> /></td>
+								<td><input type="checkbox" name="reg_active" value="1" class="cb"<cfif form.reg_active eq 1> checked="checked"</cfif> /></td>
 								<td>
-									<select name="reg_files" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');">
+									<select name="reg_files">
 										<option value="2"<cfif form.reg_files eq 2> selected="selected"</cfif>>Full Access</option>
 										<option value="1"<cfif form.reg_files eq 1> selected="selected"</cfif>>Read-Only</option>
 										<option value="0"<cfif form.reg_files eq 0> selected="selected"</cfif>>None</option>
 									</select>
 								</td>
 								<td>
-									<select name="reg_issues" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');">
+									<select name="reg_issues">
 										<option value="2"<cfif form.reg_issues eq 2> selected="selected"</cfif>>Full Access</option>
 										<option value="1"<cfif form.reg_issues eq 1> selected="selected"</cfif>>Read-Only</option>
 										<option value="0"<cfif form.reg_issues eq 0> selected="selected"</cfif>>None</option>
 									</select>							
 								</td>
 								<td>
-									<select name="reg_msgs" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');">
+									<select name="reg_msgs">
 										<option value="2"<cfif form.reg_msgs eq 2> selected="selected"</cfif>>Full Access</option>
 										<option value="1"<cfif form.reg_msgs eq 1> selected="selected"</cfif>>Read-Only</option>
 										<option value="0"<cfif form.reg_msgs eq 0> selected="selected"</cfif>>None</option>
 									</select>							
 								</td>
 								<td>
-									<select name="reg_mstones" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');">
+									<select name="reg_mstones">
 										<option value="2"<cfif form.reg_mstones eq 2> selected="selected"</cfif>>Full Access</option>
 										<option value="1"<cfif form.reg_mstones eq 1> selected="selected"</cfif>>Read-Only</option>
 										<option value="0"<cfif form.reg_mstones eq 0> selected="selected"</cfif>>None</option>
 									</select>							
 								</td>
 								<td>
-									<select name="reg_todos" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');">
+									<select name="reg_todos">
 										<option value="2"<cfif form.reg_todos eq 2> selected="selected"</cfif>>Full Access</option>
 										<option value="1"<cfif form.reg_todos eq 1> selected="selected"</cfif>>Read-Only</option>
 										<option value="0"<cfif form.reg_todos eq 0> selected="selected"</cfif>>None</option>
 									</select>							
 								</td>
-								<td><input type="checkbox" name="reg_svn" value="1" id="p_#replace(url.p,'-','','ALL')#" class="cb" onchange="if (this.checked == false) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');"<cfif form.reg_svn eq 1> checked="checked"</cfif> /></td>
+								<td><input type="checkbox" name="reg_svn" value="1" class="cb"<cfif form.reg_svn eq 1> checked="checked"</cfif> /></td>
 							</tr>
 							</table>
 						</div>
