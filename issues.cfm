@@ -22,12 +22,32 @@
 
 <cfhtmlhead text="<script type='text/javascript'>
 $(document).ready(function(){
-	$('##issues').tableSorter({
-			sortColumn: 'ID',		// Integer or String of the name of the column to sort by
-			sortClassAsc: 'headerSortUp',		// Class name for ascending sorting action to header
-			sortClassDesc: 'headerSortDown',	// Class name for descending sorting action to header
-			highlightClass: 'highlight', 		// class name for sort column highlighting
-			headerClass: 'theader'
+    $.tablesorter.addParser({ 
+        id: 'statuses', 
+        is: function(s) {  
+            return false; // return false so this parser is not auto detected
+        }, 
+        format: function(s) { 
+            return s.toLowerCase().replace(/trivial/,4).replace(/minor/,3).replace(/normal/,2).replace(/major/,1).replace(/critical/,0); 
+        }, 
+        type: 'numeric' 
+    });
+    $.tablesorter.addParser({
+		id: 'usMonthOnlyDate',
+		is: function(s) {
+			return s.match(new RegExp(/^[A-Za-z]{3,10}\.? [0-9]{1,2}$/));
+		},
+		format: function(s) {
+			s += ', ' + new Date().getYear();
+			return $.tablesorter.formatFloat((new Date(s)).getTime());;
+		}, 
+        type: 'numeric' 
+	});
+	$('##issues').tablesorter({
+			cssHeader: 'theader',
+			sortList: [[0,0]],
+			headers: { 3: { sorter:'statuses' }, 6: { sorter:'usMonthOnlyDate' }, 7: { sorter:'usMonthOnlyDate' } },
+			widgets: ['zebra']  
 	});
 });
 </script>
@@ -40,7 +60,7 @@ $(document).ready(function(){
 	<div class="left">
 		<div class="main">
 
-				<div class="header">
+				<div class="mainheader">
 					<h2 class="issues">All issues</h2>
 				</div>
 				<div class="content">
@@ -101,14 +121,14 @@ $(document).ready(function(){
 						 
 						<cfif issues.recordCount>
 					 	<div style="border:1px solid ##ddd;" class="mb20">
-					 	<table class="activity full" id="issues">
+					 	<table class="activity full tablesorter" id="issues">
 						<caption class="plain">#replace(form.status,'|',' &amp; ')# Issues</caption>
 						<thead>
 							<tr>
 								<th>ID</th>
-								<th>Issue</th>
 								<th>Type</th>
 								<th>Severity</th>
+								<th>Issue</th>
 								<th>Status</th>
 								<th>Assigned To</th>
 								<th>Reported</th>
@@ -118,11 +138,11 @@ $(document).ready(function(){
 						<tbody>
 						<cfset thisRow = 1>
 						<cfloop query="issues">
-						<tr class="<cfif thisRow mod 2 eq 0>even<cfelse>odd</cfif>">
+						<tr>
 							<td><a href="issue.cfm?p=#url.p#&i=#issueID#">#shortID#</a></td>
-							<td><a href="issue.cfm?p=#url.p#&i=#issueID#">#issue#</a></td>
 							<td>#type#</td>
 							<td>#severity#</td>
+							<td><a href="issue.cfm?p=#url.p#&i=#issueID#">#issue#</a></td>
 							<td>#status#</td>
 							<td>#assignedFirstName# #assignedLastName#</td>
 							<td>#DateFormat(created,"mmm d")#</td>
@@ -152,17 +172,6 @@ $(document).ready(function(){
 		
 		<cfif project.issues gt 1>
 		<h3><a href="editIssue.cfm?p=#url.p#" class="add">Submit new issue</a></h3><br />
-		</cfif>
-		
-		<cfif issues.recordCount>
-			<!---
-		<div class="header"><h3>Severity</h3></div>
-		<div class="content">
-			<ul>
-
-			</ul>
-		</div>
-			--->
 		</cfif>
 		
 	</div>

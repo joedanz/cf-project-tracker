@@ -20,20 +20,19 @@
 <script type='text/javascript'>
 $(document).ready(function(){
 	<cfif project.issues gt 0 and issues.recordCount>
-	$('##issues').tableSorter({
-			sortColumn: 'ID',		// Integer or String of the name of the column to sort by
-			sortClassAsc: 'headerSortUp',		// Class name for ascending sorting action to header
-			sortClassDesc: 'headerSortDown',	// Class name for descending sorting action to header
-			highlightClass: 'highlight', 		// class name for sort column highlighting
-			headerClass: 'theader'
+	$('##issues').tablesorter({
+			cssHeader: 'theader',
+			sortList: [[0,0]],
+			headers: { 3: { sorter:'statuses' }, 6: { sorter:'usMonthOnlyDate' }, 7: { sorter:'usMonthOnlyDate' } },
+			widgets: ['zebra']  
 	});
 	</cfif>
 	<cfif activity.recordCount>
-	$('##activity').tableSorter({
-			sortClassAsc: 'headerSortUp',	
-			sortClassDesc: 'headerSortDown',
-			highlightClass: 'highlight', 
-			headerClass: 'theader'
+	$('##activity').tablesorter({
+			cssHeader: 'theader',
+			sortList: [[4,1]],
+			headers: { 4: { sorter:'usLongDate' } },
+			widgets: ['zebra']
 	});
 	$('table##activity').Scrollable(250,'');
 	</cfif>
@@ -170,7 +169,7 @@ $(document).ready(function(){
 				
 				<cfif project.issues gt 0 and issues.recordCount>
 					<div style="border:1px solid ##ddd;" class="mb20">
-					<table class="activity full" id="issues">
+					<table class="activity full tablesorter" id="issues">
 					<caption class="plain">Open Issues</caption>
 					<thead>
 						<tr>
@@ -178,20 +177,24 @@ $(document).ready(function(){
 							<th>Type</th>
 							<th>Severity</th>
 							<th>Issue</th>
+							<th>Status</th>
 							<th>Assigned To</th>
 							<th>Reported</th>
+							<th>Updated</th>
 						</tr>
 					</thead>
 					<tbody>
 						<cfset thisRow = 1>
 						<cfloop query="issues">
-						<tr class="<cfif thisRow mod 2 eq 0>even<cfelse>odd</cfif>">
+						<tr>
 							<td><a href="issue.cfm?p=#url.p#&i=#issueID#">#shortID#</a></td>
 							<td>#type#</td>
 							<td>#severity#</td>
-							<td>#issue#</td>
+							<td><a href="issue.cfm?p=#url.p#&i=#issueID#">#issue#</a></td>
+							<td>#status#</td>
 							<td>#assignedFirstName# #assignedLastName#</td>
-							<td>#DateFormat(created,"d mmm")#</td>			
+							<td>#DateFormat(created,"mmm d")#</td>
+							<td>#DateFormat(updated,"mmm d")#</td>	
 						</tr>
 						<cfset thisRow = thisRow + 1>
 						</cfloop>
@@ -202,18 +205,18 @@ $(document).ready(function(){
 				
 				<cfif activity.recordCount>
 				<div style="border:1px solid ##ddd;">
-				<div style="background-color:##eee;font-weight:bold;font-size:1.2em;padding:5px;">
+				<div style="background-color:##eee;font-weight:bold;font-size:1.2em;padding:5px;margin-bottom:1px;">
 				<span class="feedlink"><a href="rss.cfm?u=#session.user.userID#&p=#url.p#&type=act" class="feed">RSS Feed</a></span>Recent Activity
 				</div>
 				
-				<table class="activity full" id="activity">
+				<table class="activity full tablesorter" id="activity">
 					<thead>
 						<tr>
 							<th>Type</th>
-							<th>Date</th>
 							<th>Title</th>
 							<th>Action</th>
 							<th>User</th>
+							<th>Timestamp</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -221,7 +224,7 @@ $(document).ready(function(){
 					
 					<cfloop query="activity">						
 						<cfif not ((not compareNoCase(type,'issue') and project.issues eq 0) or (not compareNoCase(type,'message') and project.msgs eq 0) or (not compareNoCase(type,'milestone') and project.mstones eq 0) or (not compareNoCase(type,'to-do list') and project.todos eq 0) or (not compareNoCase(type,'file') and project.files eq 0))>
-						<tr class="<cfif thisRow mod 2>even<cfelse>odd</cfif>"><td><div class="catbox
+						<tr><td><div class="catbox
 							<cfswitch expression="#type#">
 								<cfcase value="Issue">issue">Issue</cfcase>		
 								<cfcase value="Message">message">Message</cfcase>
@@ -232,7 +235,6 @@ $(document).ready(function(){
 								<cfdefaultcase>>#type#</cfdefaultcase>
 							</cfswitch>	
 						</div></td>
-						<td>#DateFormat(stamp,"d mmm")#</td>
 						<td><cfswitch expression="#type#">
 								<cfcase value="Issue"><a href="issue.cfm?p=#url.p#&i=#id#">#name#</a></cfcase>		
 								<cfcase value="Message"><a href="message.cfm?p=#url.p#&m=#id#">#name#</a></cfcase>
@@ -245,6 +247,7 @@ $(document).ready(function(){
 							</td>
 						<td class="g">#activity# by</td>
 						<td>#firstName# #lastName#</td>
+						<td>#DateFormat(stamp,"mmm d, yyyy")# #TimeFormat(stamp,"h:mm tt")#</td>
 						</tr>
 						<cfset thisRow = thisRow + 1>
 						</cfif>
