@@ -59,7 +59,6 @@ table#milestone_cal tr td ul.cal_ms li { list-style-type:none; }
 table.tablesorter {
 	background-color: #CDCDCD;
 	margin:0;
-	width: 100%;
 }
 table.tablesorter thead tr th, table.tablesorter tfoot tr th {
 	background-color: #e6EEEE;
