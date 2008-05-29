@@ -188,6 +188,23 @@ CREATE TABLE `pt_projects` (
   PRIMARY KEY  (`projectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `pt_screenshots` */
+
+CREATE TABLE `pt_screenshots` (
+  `fileID` char(35) NOT NULL,
+  `issueID` char(35) NOT NULL,
+  `title` varchar(200) default NULL,
+  `description` text default NULL,
+  `categoryID` char(35) NOT NULL,  
+  `filename` varchar(150) default NULL,
+  `serverfilename` varchar(150) default NULL,
+  `filetype` varchar(4) default NULL,
+  `filesize` int(9) default NULL,
+  `uploaded` datetime default NULL,
+  `uploadedBy` char(35) NOT NULL,
+  PRIMARY KEY  (`fileID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `pt_settings` */
 
 CREATE TABLE `pt_settings` (
