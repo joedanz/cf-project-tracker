@@ -104,7 +104,7 @@ form.frm ul.projects li label {
 }
 
 /* buttons */
-input.button {
+.button {
 	border: 3px double #999;
 	border-top-color: #CCC;
 	border-left-color: #CCC;
@@ -117,7 +117,7 @@ input.button {
 	font-weight: bold;
 	font-family: Verdana, Helvetica, Arial, sans-serif;
 }
-input.button2 {
+.button2 {
 	border: 3px double #999;
 	border-top-color: #CCC;
 	border-left-color: #CCC;
@@ -130,7 +130,7 @@ input.button2 {
 	font-weight: bold;
 	font-family: Verdana, Helvetica, Arial, sans-serif;
 }
-input.button:active,input.button2:active {
+.button:active,input.button2:active {
 	border: 3px double #CCC;
 	border-top-color: #999;
 	border-left-color: #999;
