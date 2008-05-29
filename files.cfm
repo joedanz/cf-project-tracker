@@ -17,7 +17,7 @@
 <cfparam name="url.c" default="">
 <cfset project = application.project.get(session.user.userid,url.p)>
 <cfset files = application.file.get(url.p,'',url.c)>
-<cfset categories = application.file.categories(url.p)>
+<cfset categories = application.file.categories(url.p,'file')>
 
 <cfif project.files eq 0 and not session.user.admin>
 	<cfoutput><h2>You do not have permission to access files!!!</h2></cfoutput>
@@ -41,7 +41,7 @@
 										
 					<h2 class="files">
 					<cfif compare(url.c,'')>
-						<cfset category = application.file.categories(url.p,url.c)>
+						<cfset category = application.file.categories(url.p,'file',url.c)>
 						Files in category: #category.category#
 					<cfelse>
 						All files
