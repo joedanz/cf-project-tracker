@@ -136,7 +136,68 @@
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 					AND fileID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">
 					AND uploadedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.uploadedBy#" maxlength="35">
-		</cfquery>		
+		</cfquery>
+		<cfquery datasource="#variables.dsn#">
+			DELETE FROM #variables.tableprefix#file_attach 
+				WHERE fileID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">
+		</cfquery>				
+	</cffunction>
+
+	<cffunction name="getFileList" access="public" returnType="query" output="false"
+				hint="Returns files associated with a message or issue.">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="itemID" type="uuid" required="true">
+		<cfargument name="type" type="string" required="false">
+		<cfset var qGetFileList = "">
+		<cfquery name="qGetFileList" datasource="#variables.dsn#">
+			SELECT f.fileID,f.title,f.filetype,f.filename,f.serverfilename,f.filesize,f.uploaded,c.category
+			FROM #variables.tableprefix#file_attach fa
+				JOIN #variables.tableprefix#files f ON fa.fileID = f.fileID
+				JOIN #variables.tableprefix#categories c on f.categoryID = c.categoryID
+			WHERE f.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				AND fa.itemID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.itemID#" maxlength="35">
+				AND fa.type = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.type#" maxlength="6">
+				AND c.type = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.type#" maxlength="6">
+		</cfquery>
+		<cfreturn qGetFileList>
+	</cffunction>
+
+	<cffunction name="attachFile" access="public" returnType="boolean" output="false"
+				hint="Add file attachment to message or issue.">
+		<cfargument name="itemID" type="uuid" required="true">
+		<cfargument name="fileID" type="uuid" required="true">
+		<cfargument name="type" type="string" required="true">		
+		<cfquery datasource="#variables.dsn#">
+			INSERT INTO #variables.tableprefix#file_attach (itemID,fileID,type)
+				VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.itemID#" maxlength="35">,
+						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">,
+						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.type#" maxlength="6">)
+		</cfquery>
+		<cfreturn true>
+	</cffunction>
+
+	<cffunction name="removeAttachments" access="public" returnType="boolean" output="false"
+				hint="Remove file attachment from message or issue.">
+		<cfargument name="itemID" type="uuid" required="true">
+		<cfargument name="type" type="string" required="true">		
+		<cfquery datasource="#variables.dsn#">
+			DELETE FROM #variables.tableprefix#file_attach
+			WHERE itemID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.itemID#" maxlength="35">
+				AND type = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.type#" maxlength="6">
+		</cfquery>
+		<cfreturn true>
+	</cffunction>
+
+	<cffunction name="checkFile" access="public" returnType="query" output="false"
+				hint="Returns files associated with a message.">
+		<cfargument name="fileID" type="uuid" required="true">
+		<cfset var qCheckFile = "">
+		<cfquery name="qCheckFile" datasource="#variables.dsn#">
+			SELECT type
+			FROM #variables.tableprefix#file_attach
+			WHERE fileID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">
+		</cfquery>
+		<cfreturn qCheckFile>
 	</cffunction>
 
 </cfcomponent>

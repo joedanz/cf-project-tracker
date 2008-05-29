@@ -1,14 +1,15 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfparam name="form.display" default="0">
+<cfparam name="form.fileslist" default="">
 <cfif StructKeyExists(form,"issueID")> <!--- update issue --->
-	<cfset application.issue.update(form.issueID,form.projectid,form.issue,form.detail,form.type,form.severity,form.assignedTo,form.milestone,form.relevantURL,session.user.userid)>
+	<cfset application.issue.update(form.issueID,form.projectid,form.issue,form.detail,form.type,form.severity,form.assignedTo,form.milestone,form.relevantURL,session.user.userid,form.fileslist)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Issue',form.issueID,form.issue,'edited')>
 	<cfset application.notify.issueUpdate(form.projectid,form.issueID)>
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#form.issueID#" addtoken="false">
 <cfelseif StructKeyExists(form,"submit")> <!--- add issue --->
 	<cfset newID = createUUID()>
-	<cfset application.issue.add(newID,form.projectID,form.ticketPrefix,form.issue,form.detail,form.type,form.severity,form.assignedTo,form.milestone,form.relevantURL,session.user.userid)>
+	<cfset application.issue.add(newID,form.projectID,form.ticketPrefix,form.issue,form.detail,form.type,form.severity,form.assignedTo,form.milestone,form.relevantURL,session.user.userid,form.fileslist)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Issue',newID,form.issue,'created')>
 	<cfset application.notify.issueNew(form.projectid,newID)>
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#newID#" addtoken="false">
@@ -43,22 +44,13 @@
 	<cfset milestone = thisIssue.milestoneID>
 	<cfset relevantURL = thisIssue.relevantURL>
 	<cfset title_action = "Edit">
+	<cfset fileList = application.file.getFileList(url.p,url.i,'issue')>
 </cfif>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#project.name# &raquo; #title_action# Issue" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
 
 <cfhtmlhead text="<script type='text/javascript'>
-	function confirmSubmit() {
-		var errors = '';
-		var oEditor = FCKeditorAPI.GetInstance('detail');
-		if (document.edit.issue.value == '') {errors = errors + '   ** You must enter an issue.\n';}
-		if (oEditor.GetHTML() == '') {errors = errors + '   ** You must enter the issue detail.\n';}
-		if (errors != '') {
-			alert('Please correct the following errors:\n\n' + errors)
-			return false;
-		} else return true;
-	}
 	$(document).ready(function(){
 	  	$('##name').focus();
 	});
@@ -80,7 +72,7 @@
 				</div>
 				<div class="content">
 				 	
-					<form action="#cgi.script_name#" method="post" name="edit" id="edit" class="frm" onsubmit="return confirmSubmit();">
+					<form action="#cgi.script_name#" method="post" name="edit" id="edit" class="frm" onsubmit="return confirmSubmitIssue();">
 						<p>
 						<label for="issue" class="req">Issue:</label>
 						<input type="text" name="issue" id="issue" value="#HTMLEditFormat(issue)#" maxlength="120" />
@@ -141,15 +133,15 @@
 						
 						<cfif files.recordCount>
 						<p>
-						<span id="fileslinkbg" class="collapsed">
+						<span id="fileslinkbg" class="<cfif StructKeyExists(url,"i") and fileList.recordCount gt 0>expanded<cfelse>collapsed</cfif>">
 						<label for="notifylink">Files:</label>
-						<a href="##" onclick="showFiles();return false;" id="fileslink"> Associate files with this message</a>
+						<a href="##" onclick="showFiles();return false;" id="fileslink"<cfif StructKeyExists(url,"i") and fileList.recordCount gt 0> class="notifybg"</cfif>> Associate files with this message</a>
 						</span>
-						<span id="files" style="display:none;">
+						<span id="files"<cfif StructKeyExists(url,"i") and fileList.recordCount gt 0> style="display:block;"</cfif>>
 						<ul class="nobullet">
 						<li><input type="checkbox" id="allfiles" class="checkbox filestoggle" onclick="files_all();" /><label for="allfiles" class="list b">All Files</label></li>
 						<cfloop query="files">
-							<li><input type="checkbox" name="fileslist" class="checkbox" id="#fileID#" value="#fileID#"<cfif StructKeyExists(url,"m") and listFind(valueList(fileList.fileid),fileID)> checked="checked"</cfif> /><label for="#fileID#" class="list">#title#</label></li>
+							<li><input type="checkbox" name="fileslist" class="checkbox" id="#fileID#" value="#fileID#"<cfif StructKeyExists(url,"i") and listFind(valueList(fileList.fileid),fileID)> checked="checked"</cfif> /><label for="#fileID#" class="list">#title#</label></li>
 						</cfloop>
 						</ul>
 						</span>

@@ -3,10 +3,6 @@
 	<cfset variables.dsn = "">
 	<cfset variables.tableprefix = "">
 
-	<cfscript>
-
-	</cfscript>
-
 	<cffunction name="init" access="public" returnType="message" output="false"
 				hint="Returns an instance of the CFC initialized with the correct DSN.">
 		<cfargument name="settings" type="struct" required="true" hint="Settings">
@@ -30,7 +26,7 @@
 			SELECT u.userID,u.firstName,u.lastName,u.avatar,m.messageID,m.categoryID,m.milestoneID,m.title,m.message,
 					m.allowcomments,m.stamp,ms.name,mc.category,
 					(SELECT count(commentID) FROM #variables.tableprefix#comments c where m.messageid = c.itemid and type = 'msg') as commentcount,
-					(SELECT count(fileID) FROM #variables.tableprefix#message_files mf where m.messageid = mf.messageid) as attachcount
+					(SELECT count(fileID) FROM #variables.tableprefix#file_attach fa where m.messageid = fa.itemid and fa.type = 'msg') as attachcount
 			FROM #variables.tableprefix#messages m 
 				LEFT JOIN #variables.tableprefix#categories mc ON m.categoryID = mc.categoryID
 				LEFT JOIN #variables.tableprefix#users u ON u.userID = m.userID 
@@ -67,23 +63,6 @@
 		</cfquery>
 		<cfreturn qGetNotifyList>
 	</cffunction>
-	
-	<cffunction name="getFileList" access="public" returnType="query" output="false"
-				hint="Returns files associated with a message.">
-		<cfargument name="projectID" type="uuid" required="true">
-		<cfargument name="messageID" type="uuid" required="true">
-		<cfset var qGetFileList = "">
-		<cfquery name="qGetFileList" datasource="#variables.dsn#">
-			SELECT f.fileID,f.title,f.filetype,f.filename,f.serverfilename,f.filesize,f.uploaded,c.category
-			FROM #variables.tableprefix#message_files mf
-				JOIN #variables.tableprefix#files f ON mf.fileID = f.fileID
-				JOIN #variables.tableprefix#categories c on f.categoryID = c.categoryID
-			WHERE f.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
-				AND mf.messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
-				and c.type = 'file'
-		</cfquery>
-		<cfreturn qGetFileList>
-	</cffunction>	
 	
 	<cffunction name="milestones" access="public" returnType="query" output="false"
 				hint="Returns message milestones.">
@@ -178,7 +157,7 @@
 		<!--- add attached file --->
 		<cfif listLen(arguments.filesList)>
 			<cfloop list="#arguments.filesList#" index="i">
-				<cfset application.message.addFile(arguments.messageID,i)>
+				<cfset application.file.attachFile(arguments.messageID,i,'msg')>
 			</cfloop>
 		</cfif>
 		<!--- set notification list --->
@@ -213,6 +192,14 @@
 		<cfif listLen(arguments.notifyList)>
 			<cfloop list="#arguments.notifyList#" index="i">
 				<cfset application.message.addNotify(arguments.projectID,arguments.messageID,i)>
+			</cfloop>
+		</cfif>
+
+		<!--- clear and repopulate file attach list --->
+		<cfset application.file.removeAttachments(arguments.messageID,'msg')>
+		<cfif listLen(arguments.filesList)>
+			<cfloop list="#arguments.filesList#" index="i">
+				<cfset application.file.attachFile(arguments.messageID,i,'msg')>
 			</cfloop>
 		</cfif>
 		
@@ -260,8 +247,9 @@ To view the full message and leave comments, visit this link:
 				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
 		<cfquery datasource="#variables.dsn#">
-			DELETE FROM #variables.tableprefix#message_files
-			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
+			DELETE FROM #variables.tableprefix#file_attach
+			WHERE itemID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
+				AND type = 'msg'
 		</cfquery>
 		<cfset application.activity.delete(arguments.projectID,'Message',arguments.messageID)>		
 		<cfreturn true>
@@ -280,18 +268,6 @@ To view the full message and leave comments, visit this link:
 		</cfquery>
 		<cfreturn true>
 	</cffunction>
-	
-	<cffunction name="addFile" access="public" returnType="boolean" output="false"
-				hint="Adds message notification for a user.">
-		<cfargument name="messageID" type="uuid" required="true">
-		<cfargument name="fileID" type="uuid" required="true">
-		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#message_files (messageID,fileID)
-				VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">,
-						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">)
-		</cfquery>
-		<cfreturn true>
-	</cffunction>	
 
 	<cffunction name="getNotify" access="public" returnType="query" output="false"
 				hint="Gets users for message notification.">

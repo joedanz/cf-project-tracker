@@ -10,7 +10,7 @@
 <cfset project = application.project.get(session.user.userid,url.p)>
 <cfset message = application.message.get(url.p,url.m)>
 <cfset comments = application.comment.get(url.p,'msg',url.m)>
-<cfset attachments = application.message.getFileList(url.p,url.m)>
+<cfset attachments = application.file.getFileList(url.p,url.m,'msg')>
 <cfset notifyList = application.message.getNotifyList(url.p,url.m)>
 <cfset talkList = listAppend(valueList(comments.userID),message.userID)>
 <cfset usersTalking = application.user.get('',talkList)>
@@ -53,7 +53,7 @@
 					
 					<cfif attachments.recordCount>
 					<a name="attach"></a>
-					<div class="commentbar">#attachments.recordCount# file<cfif attachments.recordCount neq 1>s</cfif> associated with this message</div>
+					<div class="commentbar">#attachments.recordCount# file<cfif attachments.recordCount neq 1>s<cfelse> is</cfif> associated with this message</div>
 					<ul class="filelist">
 						<cfloop query="attachments">
 						<li><a href="./userfiles/#url.p#/#serverfilename#" class="#lcase(filetype)#">#filename#</a> <span class="g i">(#ceiling(filesize/1024)#K - #dateFormat(uploaded,"medium")#)</span></li>

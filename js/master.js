@@ -49,6 +49,18 @@ function delete_comment_ajax(cid) {
 	});
 }
 
+// *** ISSUES ***
+function confirmSubmitIssue() {
+	var errors = '';
+	var oEditor = FCKeditorAPI.GetInstance('detail');
+	if (document.edit.issue.value == '') {errors = errors + '   ** You must enter an issue.\n';}
+	if (oEditor.GetHTML() == '') {errors = errors + '   ** You must enter the issue detail.\n';}
+	if (errors != '') {
+		alert('Please correct the following errors:\n\n' + errors)
+		return false;
+	} else return true;
+}
+
 // *** MESSAGES ***
 function newMsgCat(id) {
 	if (id == 'new') {
@@ -79,7 +91,7 @@ function notify_all() {
 		$('#notify').checkCheckboxes(':not(.notoggle)');		
 	} else $('#notify').unCheckCheckboxes(':not(.notoggle)');
 }
-function confirmSubmit() {
+function confirmSubmitMsg() {
 	var errors = '';
 	var oEditor = FCKeditorAPI.GetInstance('message');
 	if (document.edit.title.value == '') {errors = errors + '   ** You must enter a title.\n';}

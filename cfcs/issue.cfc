@@ -65,7 +65,7 @@
 		</cfquery>		
 		<cfreturn qRecords>
 	</cffunction>
-	
+
 	<cffunction name="add" access="public" returntype="void" output="false"
 				HINT="Inserts a pp_issues record.">
 		<cfargument name="issueID" type="uuid" required="true">
@@ -79,6 +79,7 @@
 		<cfargument name="milestoneID" type="string" required="true">
 		<cfargument name="relevantURL" type="string" required="true">
 		<cfargument name="createdBy" type="string" required="true">
+		<cfargument name="filesList" type="string" required="true">
 		<cfset var qCountTix = "">
 		<CFTRANSACTION>
 		<CFQUERY NAME="qCountTix" DATASOURCE="#variables.dsn#">
@@ -102,6 +103,12 @@
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.createdBy#" maxlength="35">
 						)
 		</CFQUERY>
+		<!--- add attached file --->
+		<cfif listLen(arguments.filesList)>
+			<cfloop list="#arguments.filesList#" index="i">
+				<cfset application.file.attachFile(arguments.issueID,i,'issue')>
+			</cfloop>
+		</cfif>		
 		</CFTRANSACTION>
 	</cffunction>
 	
@@ -117,6 +124,16 @@
 		<cfargument name="milestoneID" type="string" required="true">
 		<cfargument name="relevantURL" type="string" required="true">
 		<cfargument name="updatedBy" type="string" required="true">
+		<cfargument name="filesList" type="string" required="true">
+
+		<!--- clear and repopulate file attach list --->
+		<cfset application.file.removeAttachments(arguments.issueID,'issue')>
+		<cfif listLen(arguments.filesList)>
+			<cfloop list="#arguments.filesList#" index="i">
+				<cfset application.file.attachFile(arguments.issueID,i,'issue')>
+			</cfloop>
+		</cfif>
+		
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#issues SET
 				projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">, 
@@ -131,7 +148,8 @@
 				updatedBy = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.updatedBy#" maxlength="35">
 			WHERE 0=0
 				AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#">			
-		</cfquery>		
+		</cfquery>
+		
 	</cffunction>
 	
 	<cffunction name="accept" access="public" returntype="void" output="false"

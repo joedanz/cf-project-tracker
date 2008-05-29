@@ -43,7 +43,7 @@
 		<cfset variables.allowComments = thisMessage.allowComments>
 		<cfset title_action = "Edit">
 		<cfset notifyList = application.message.getNotifyList(url.p,url.m)>
-		<cfset fileList = application.message.getFileList(url.p,url.m)>
+		<cfset fileList = application.file.getFileList(url.p,url.m,'msg')>
 	<cfelse>
 		<cfoutput>
 			<h1>Security Alert!</h1>
@@ -60,8 +60,7 @@
 	$(document).ready(function(){
 	  	$('##title').focus();
 	});	
-</script>
-<script type='text/javascript' src='./js/jquery.checkboxes.js'></script>">
+</script>">
 
 <cfoutput>
 <div id="container">
@@ -79,7 +78,7 @@
 				</div>
 				<div class="content">
 				 	
-					<form action="#cgi.script_name#" method="post" name="edit" id="edit" class="frm" onsubmit="return confirmSubmit();">
+					<form action="#cgi.script_name#" method="post" name="edit" id="edit" class="frm" onsubmit="return confirmSubmitMsg();">
 						<p>
 						<label for="title" class="req">Title:</label>
 						<input type="text" name="title" id="title" value="#HTMLEditFormat(title)#" maxlength="120" />
@@ -121,11 +120,11 @@
 						
 						<cfif files.recordCount>
 						<p>
-						<span id="fileslinkbg" class="collapsed">
+						<span id="fileslinkbg" class="<cfif StructKeyExists(url,"m") and fileList.recordCount gt 0>expanded<cfelse>collapsed</cfif>">
 						<label for="notifylink">Files:</label>
-						<a href="##" onclick="showFiles();return false;" id="fileslink"> Associate files with this message</a>
+						<a href="##" onclick="showFiles();return false;" id="fileslink"<cfif StructKeyExists(url,"m") and fileList.recordCount gt 0> class="notifybg"</cfif>> Associate files with this message</a>
 						</span>
-						<span id="files" style="display:none;">
+						<span id="files"<cfif StructKeyExists(url,"m") and fileList.recordCount gt 0> style="display:block;"</cfif>>
 						<ul class="nobullet">
 						<li><input type="checkbox" id="allfiles" class="checkbox filestoggle" onclick="files_all();" /><label for="allfiles" class="list b">All Files</label></li>
 						<cfloop query="files">
@@ -161,7 +160,7 @@
 						
 						<label for="submit">&nbsp;</label>
 						<cfif StructKeyExists(url,"m")>
-							<input type="submit" class="button" name="submit" id="submit" value="Update Message" onclick="return confirmSubmit();" />
+							<input type="submit" class="button" name="submit" id="submit" value="Update Message" />
 							<input type="hidden" name="messageID" value="#url.m#" />
 						<cfelse>
 							<input type="submit" class="button" name="submit" id="submit" value="Add Message" />

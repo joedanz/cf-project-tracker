@@ -42,6 +42,7 @@
 <cfset project = application.project.get(session.user.userid,url.p)>
 <cfset issue = application.issue.get(url.p,url.i)>
 <cfset comments = application.comment.get(url.p,'issue',url.i)>
+<cfset attachments = application.file.getFileList(url.p,url.i,'issue')>
 <cfset activity = application.activity.get(type='Issue',id=url.i)>
 
 <cfif project.issues eq 0 and not session.user.admin>
@@ -188,7 +189,16 @@
 							</cfif>
 						</table>	
 						
-						
+					
+						<cfif attachments.recordCount>
+						<a name="attach"></a>
+						<div class="commentbar">#attachments.recordCount# file<cfif attachments.recordCount neq 1>s<cfelse> is</cfif> associated with this message</div>
+						<ul class="filelist">
+							<cfloop query="attachments">
+							<li><a href="./userfiles/#url.p#/#serverfilename#" class="#lcase(filetype)#">#filename#</a> <span class="g i">(#ceiling(filesize/1024)#K - #dateFormat(uploaded,"medium")#)</span></li>
+							</cfloop>
+						</ul>
+						</cfif>						
 						<!---
 						<table class="svn mb10" id="issues">
 							<caption class="plain">Attachments</caption>

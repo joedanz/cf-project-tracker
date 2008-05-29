@@ -52,26 +52,33 @@
 						
 					<cfif files.recordCount>						
 						<cfloop query="files">
-						<span class="stamp">
-						#DateFormat(uploaded,"dddd, d mmmm")#
-						</span>
-						
-						<div class="wrapper itemlist fileLrg #filetype#Lrg">
-						<h3 class="padtop">#title#</h3>	
-						<p>#description#</p>
-						<div class="byline<cfif currentRow neq recordCount> listitem</cfif>">
-						<cfif Int(filesize/1024000) gte 1>
-						#NumberFormat(filesize/1024000,"0.00")#MB,
-						<cfelse>
-						#Int(filesize/1024)#K,
-						</cfif>
-						uploaded to <a href="#cgi.script_name#?p=#url.p#&c=#categoryID#">#category#</a> by #firstName# #lastName# | <a href="download.cfm?p=#url.p#&f=#fileID#" class="download">Download file</a>
-						<cfif session.user.userID eq uploadedBy or session.user.admin>
-						| <a href="editFile.cfm?p=#url.p#&f=#fileID#" class="edit">Edit details</a>
-						| <a href="#cgi.script_name#?p=#url.p#&df=#fileID#" class="delete" onclick="return confirm('Are you sure you wish to delete this file?');">Delete File</a>
-						</cfif>
-						</div>
-						</div>
+							<cfset attached = application.file.checkFile(fileID)>
+							<cfif listFind(ValueList(attached.type),'msg')>
+								<cfset msgAttached = true>
+							</cfif>
+							<cfif listFind(ValueList(attached.type),'issue')>
+								<cfset issueAttached = true>
+							</cfif>
+							<span class="stamp">
+							#DateFormat(uploaded,"dddd, d mmmm")#
+							</span>
+							
+							<div class="wrapper itemlist fileLrg #filetype#Lrg">
+							<h3 class="padtop">#title#</h3>	
+							<p>#description#</p>
+							<div class="byline<cfif currentRow neq recordCount> listitem</cfif>">
+							<cfif Int(filesize/1024000) gte 1>
+							#NumberFormat(filesize/1024000,"0.00")#MB,
+							<cfelse>
+							#Int(filesize/1024)#K,
+							</cfif>
+							uploaded to <a href="#cgi.script_name#?p=#url.p#&c=#categoryID#">#category#</a> by #firstName# #lastName# | <a href="download.cfm?p=#url.p#&f=#fileID#" class="download">Download file</a>
+							<cfif session.user.userID eq uploadedBy or session.user.admin>
+							| <a href="editFile.cfm?p=#url.p#&f=#fileID#" class="edit">Edit details</a>
+							| <a href="#cgi.script_name#?p=#url.p#&df=#fileID#" class="delete" onclick="return confirm('<cfif attached.recordCount>This file is currently attached to <cfif isDefined("msgAttached") and isDefined("issueAttached")> a message and issue<cfelseif isDefined("msgAttached")>a message<cfelseif isDefined("issueAttached")>an issue</cfif>.\n</cfif>Are you sure you wish to delete this file?');">Delete File</a>
+							</cfif>
+							</div>
+							</div>
 						</cfloop>
 					<cfelse>
 					<div class="wrapper"><div class="warn">No files have been uploaded.</div></div>
