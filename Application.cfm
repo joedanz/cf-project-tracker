@@ -23,6 +23,7 @@
 			<!--- application CFCs --->
 			<cfset application.activity = createObject("component","cfcs.activity").init(settings)>
 			<cfset application.carrier = createObject("component","cfcs.carrier").init(settings)>
+			<cfset application.category = createObject("component","cfcs.category").init(settings)>
 			<cfset application.client = createObject("component","cfcs.client").init(settings)>
 			<cfset application.comment = createObject("component","cfcs.comment").init(settings)>
 			<cfset application.config = createObject("component","cfcs.config").init(settings)>
