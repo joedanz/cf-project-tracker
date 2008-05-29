@@ -176,7 +176,7 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 #container .left .main .content .wrapper .milestones .milestone .completed { color:#660; }
 #container .left .main .content .wrapper > .completed { border-left:1px solid #660; }
 
-#container .left .main .content .wrapper .commentbar {
+#container .left .main .content .wrapper .commentbar, #container .left .main .content .wrapper .attachbar {
 	background-color:#555; font-size:1em; font-weight:bold; color:#fff;
 }
 
