@@ -56,7 +56,7 @@
 					<div class="commentbar">#attachments.recordCount# file<cfif attachments.recordCount neq 1>s<cfelse> is</cfif> associated with this message</div>
 					<ul class="filelist">
 						<cfloop query="attachments">
-						<li><a href="./userfiles/#url.p#/#serverfilename#" class="#lcase(filetype)#">#filename#</a> <span class="g i">(#ceiling(filesize/1024)#K - #dateFormat(uploaded,"medium")#)</span></li>
+						<li><a href="download.cfm?p=#url.p#&f=#fileID#" class="#lcase(filetype)#">#filename#</a> <span class="g i">(#ceiling(filesize/1024)#K - #dateFormat(uploaded,"medium")#)</span></li>
 						</cfloop>
 					</ul>
 					</cfif>
