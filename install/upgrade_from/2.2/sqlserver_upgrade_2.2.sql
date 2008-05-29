@@ -29,7 +29,6 @@ CREATE TABLE [dbo].[pt_screenshots] (
 	[issueID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[title] [nvarchar] (200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
 	[description] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
-	[categoryID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[filename] [nvarchar] (150) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
 	[serverfilename] [nvarchar] (150) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
 	[filetype] [nvarchar] (4) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,

@@ -17,7 +17,6 @@ CREATE TABLE `pt_screenshots` (
   `issueID` char(35) NOT NULL,
   `title` varchar(200) default NULL,
   `description` text default NULL,
-  `categoryID` char(35) NOT NULL,  
   `filename` varchar(150) default NULL,
   `serverfilename` varchar(150) default NULL,
   `filetype` varchar(4) default NULL,
