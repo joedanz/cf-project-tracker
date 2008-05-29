@@ -1,6 +1,6 @@
 <cfsetting enablecfoutputonly="true" showdebugoutput="false">
 
-<cfset message_categories = application.message.categories(attributes.project)>
+<cfset message_categories = application.category.get(attributes.project,'msg')>
 
 <cfcontent type="application/xml" reset="true">
 <cfoutput><?xml version="1.0" encoding="UTF-8" ?>

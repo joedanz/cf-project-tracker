@@ -17,7 +17,7 @@
 <cfparam name="url.p" default="">
 <cfset project = application.project.get(session.user.userid,url.p)>
 <cfset projectUsers = application.project.projectUsers(url.p)>
-<cfset categories = application.message.categories(url.p)>
+<cfset categories = application.category.get(url.p,'msg')>
 <cfset milestones = application.milestone.get(url.p)>
 <cfset files = application.file.get(url.p)>
 

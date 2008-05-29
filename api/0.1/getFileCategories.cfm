@@ -1,6 +1,6 @@
 <cfsetting enablecfoutputonly="true" showdebugoutput="false">
 
-<cfset file_categories = application.file.categories(attributes.project,'file')>
+<cfset file_categories = application.category.get(attributes.project,'file')>
 
 <cfcontent type="application/xml" reset="true">
 <cfoutput><?xml version="1.0" encoding="UTF-8" ?>
