@@ -89,37 +89,6 @@
 		</cfquery>
 		<cfreturn qGetDates>
 	</cffunction>			
-	
-	<cffunction name="categories" access="public" returnType="query" output="false"
-				hint="Returns message categories.">
-		<cfargument name="projectID" type="uuid" required="true">
-		<cfargument name="categoryID" type="string" required="false" default="">
-		<cfset var qGetCategories = "">
-		<cfquery name="qGetCategories" datasource="#variables.dsn#">
-			SELECT distinct categoryID, category FROM #variables.tableprefix#categories
-			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
-				AND type = 'msg'
-				<cfif compare(ARGUMENTS.categoryID,'')>
-					AND categoryID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.categoryID#" maxlength="35">
-				</cfif>
-			ORDER BY category
-		</cfquery>
-		<cfreturn qGetCategories>
-	</cffunction>	
-
-	<cffunction name="addCategory" access="public" returnType="string" output="false"
-				hint="Adds a message category.">
-		<cfargument name="projectID" type="uuid" required="true">
-		<cfargument name="category" type="string" required="true">
-		<cfset var newID = createUUID()>
-		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#categories (projectID,categoryID,type,category)
-			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
-					'#newID#','msg',
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#" maxlength="80">)
-		</cfquery>
-		<cfreturn newID>
-	</cffunction>
 
 	<cffunction name="add" access="public" returnType="boolean" output="false"
 				hint="Adds a message.">
@@ -139,7 +108,7 @@
 		<cfif request.udf.IsCFUUID(arguments.category)>
 			<cfset catID = arguments.category>
 		<cfelse>
-			<cfset catID = addCategory(arguments.projectID,arguments.category)>
+			<cfset catID = application.category.add(arguments.projectID,arguments.category,'msg')>
 		</cfif>
 		<!--- insert record --->
 		<cfquery datasource="#variables.dsn#">
