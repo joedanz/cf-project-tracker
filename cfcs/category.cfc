@@ -3,7 +3,7 @@
 	<cfset variables.dsn = "">
 	<cfset variables.tableprefix = "">
 
-	<cffunction name="init" access="public" returnType="file" output="false"
+	<cffunction name="init" access="public" returnType="category" output="false"
 				hint="Returns an instance of the CFC initialized with the correct DSN.">
 		<cfargument name="settings" type="struct" required="true" hint="Settings">
 
