@@ -35,6 +35,7 @@
 			<cfset application.notify = createObject("component","cfcs.notify").init(settings)>
 			<cfset application.project = createObject("component","cfcs.project").init(settings)>
 			<cfset application.role = createObject("component","cfcs.role").init(settings)>
+			<cfset application.screenshot = createObject("component","cfcs.screenshot").init(settings)>
 			<cfset application.todo = createObject("component","cfcs.todo").init(settings)>
 			<cfset application.todolist = createObject("component","cfcs.todolist").init(settings)>
 			<cfset application.user = createObject("component","cfcs.user").init(settings)>
