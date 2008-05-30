@@ -2,7 +2,7 @@
 
 <cfif StructKeyExists(form,"fileID")> <!--- update file --->
 	<cfset application.screenshot.update(form.fileID,form.projectid,form.title,form.description)>
-	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Screenshot',form.fileID,form.title,'edited')>
+	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Screenshot',url.i,form.title,'edited')>
 	<cfset application.notify.fileUpdate(form.projectid,form.fileID)>
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#url.i#" addtoken="false">
 <cfelseif StructKeyExists(form,"projectID")> <!--- add/upload file --->
@@ -13,7 +13,7 @@
 	<cffile action="upload" filefield="fileupload" destination = "#ExpandPath('./userfiles/')##form.projectID#" nameConflict = "MakeUnique">
 	<cfset newID = createUUID()>
 	<cfset application.screenshot.add(newID,url.i,form.title,form.description,cffile.ClientFile,cffile.ServerFile,cffile.ClientFileExt,cffile.FileSize,session.user.userid)>
-	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Screenshot',newID,form.title,'added')>
+	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Screenshot',url.i,form.title,'added')>
 	<cfset application.notify.fileNew(form.projectid,newID)>
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#url.i#" addtoken="false">
 </cfif>
