@@ -135,7 +135,7 @@
 						<p>
 						<span id="fileslinkbg" class="<cfif StructKeyExists(url,"i") and fileList.recordCount gt 0>expanded<cfelse>collapsed</cfif>">
 						<label for="notifylink">Files:</label>
-						<a href="##" onclick="showFiles();return false;" id="fileslink"<cfif StructKeyExists(url,"i") and fileList.recordCount gt 0> class="notifybg"</cfif>> Associate files with this message</a>
+						<a href="##" onclick="showFiles();return false;" id="fileslink"<cfif StructKeyExists(url,"i") and fileList.recordCount gt 0> class="notifybg"</cfif>> Associate project files with this issue</a>
 						</span>
 						<span id="files"<cfif StructKeyExists(url,"i") and fileList.recordCount gt 0> style="display:block;"</cfif>>
 						<ul class="nobullet">

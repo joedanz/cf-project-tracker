@@ -21,7 +21,7 @@
 <cfparam name="url.y" default="0">
 
 <cfset messages = application.message.get(url.p,'',url.c,url.ms,url.m,url.y)>
-<cfset categories = application.message.categories(url.p)>
+<cfset categories = application.category.get(url.p,'msg')>
 <cfset milestones = application.message.milestones(url.p)>
 <cfset dates = application.message.dates(url.p)>
 
@@ -45,7 +45,7 @@
 					
 					<h2 class="msg">
 					<cfif compare(url.c,'')>
-						<cfset category = application.message.categories(url.p,url.c)>
+						<cfset category = application.category.get(url.p,'msg',url.c)>
 						Messages in category: #category.category#
 					<cfelseif compare(url.ms,'')>
 						Messages for milestone: #messages.name#

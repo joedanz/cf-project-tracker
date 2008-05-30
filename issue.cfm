@@ -43,6 +43,7 @@
 <cfset issue = application.issue.get(url.p,url.i)>
 <cfset comments = application.comment.get(url.p,'issue',url.i)>
 <cfset attachments = application.file.getFileList(url.p,url.i,'issue')>
+<cfset screenshots = application.screenshot.get(url.i)>
 <cfset activity = application.activity.get(type='Issue',id=url.i)>
 
 <cfif project.issues eq 0 and not session.user.admin>
@@ -189,38 +190,65 @@
 							</cfif>
 						</table>	
 						
-					
-						<cfif attachments.recordCount>
-						<a name="attach"></a>
-						<div class="commentbar">#attachments.recordCount# file<cfif attachments.recordCount neq 1>s<cfelse> is</cfif> associated with this message</div>
-						<ul class="filelist">
-							<cfloop query="attachments">
-							<li><a href="./userfiles/#url.p#/#serverfilename#" class="#lcase(filetype)#">#filename#</a> <span class="g i">(#ceiling(filesize/1024)#K - #dateFormat(uploaded,"medium")#)</span></li>
-							</cfloop>
-						</ul>
-						</cfif>						
-						<!---
-						<table class="svn mb10" id="issues">
-							<caption class="plain">Attachments</caption>
+						<div class="attachbar">
+							<cfif project.issues eq 2><span style="float:right;margin-top:2px;"><a href="editScreen.cfm?p=#url.p#&i=#url.i#" class="button2 nounder">Upload Screenshot</a></span></cfif>
+							#screenshots.recordCount# screenshot<cfif screenshots.recordCount neq 1>s are<cfelse> is</cfif> associated with this issue
+						</div>						
+						<cfif screenshots.recordCount>
+						<table class="svn full" id="issues">
 							<thead>
 								<tr>
+									<th>Title</th>
 									<th>Name</th>
 									<th>Size</th>
-									<th>Type</th>
+									<th>Uploaded</th>
+									<th>Edit</th>
+									<th>Delete</th>
+								</tr>
+							</thead>
+							<tbody>
+								<cfloop query="screenshots">
+									<tr>
+										<td>#title#</td>
+										<td><a href="download.cfm?p=#url.p#&i=#url.i#&f=#fileID#" class="#lcase(filetype)#">#filename#</a></td>
+										<td>#ceiling(filesize/1024)#K</td>
+										<td>#dateFormat(uploaded,"medium")#</td>
+										<cfif session.user.userID eq uploadedBy or session.user.admin>
+											<td><a href="editFile.cfm?p=#url.p#&f=#fileID#" class="edit">Edit</a></td>
+											<td><a href="#cgi.script_name#?p=#url.p#&df=#fileID#" class="delete" onclick="return confirm('Are you sure you wish to delete this screenshot?');">Delete</a></td>										
+										</cfif>
+									</tr>
+								</cfloop>
+							</tbody>
+						</table>
+						</cfif>
+											
+						<cfif attachments.recordCount>
+						<a name="attach"></a>
+						<div class="attachbar">#attachments.recordCount# project file<cfif attachments.recordCount neq 1>s are<cfelse> is</cfif> associated with this issue</div>
+						<table class="svn full" id="issues">
+							<thead>
+								<tr>
+									<th>Title</th>
+									<th>Name</th>
+									<th>Category</th>
+									<th>Size</th>
 									<th>Uploaded</th>
 								</tr>
 							</thead>
 							<tbody>
-
+								<cfloop query="attachments">
+									<tr>
+										<td>#title#</td>
+										<td><a href="download.cfm?p=#url.p#&f=#fileID#" class="#lcase(filetype)#">#filename#</a></td>
+										<td>#category#</td>
+										<td>#ceiling(filesize/1024)#K</td>
+										<td>#dateFormat(uploaded,"medium")#</td>
+									</tr>
+								</cfloop>
 							</tbody>
-						</table>	
-						<form action="#cgi.script_name#" method="post" name="edit" id="edit" class="frm" enctype="multipart/form-data" onsubmit="return confirmSubmit();">
-						<p>
-						<label for="fileupload" class="req">File:</label>
-						<input type="file" name="fileupload" id="fileupload" value="#fileupload#" />
-						</p>
-						</form>		
-						--->			
+						</table>									
+						</cfif>
 						
 						<a name="comments" />
 						<div class="commentbar"><span id="cnum">#comments.recordCount#</span> comment<cfif comments.recordCount neq 1>s</cfif> so far</div>
