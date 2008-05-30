@@ -73,6 +73,7 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 .todolist { background-color:#f90; }
 .file { background-color:#ffc; }
 .project { background-color:#fc0; }
+.screenshot { background:#39f; color:#fff; }
 
 /* LEFT COLUMN */
 #container .left .main {
