@@ -195,6 +195,7 @@
 							#screenshots.recordCount# screenshot<cfif screenshots.recordCount neq 1>s are<cfelse> is</cfif> associated with this issue
 						</div>						
 						<cfif screenshots.recordCount>
+						<a name="screen"></a>
 						<table class="svn full" id="issues">
 							<thead>
 								<tr>
