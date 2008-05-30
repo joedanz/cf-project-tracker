@@ -95,7 +95,7 @@
 						<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.detail#">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="11">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.severity#" maxlength="10">, 
-						'New', 
+						'<cfif not compare(arguments.assignedTo,'')>New<cfelse>Accepted</cfif>', 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.assignedTo#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.relevantURL#" maxlength="255">,
@@ -126,6 +126,8 @@
 		<cfargument name="updatedBy" type="string" required="true">
 		<cfargument name="filesList" type="string" required="true">
 
+		<cfset var previous = get(arguments.projectID,arguments.issueID)>
+
 		<!--- clear and repopulate file attach list --->
 		<cfset application.file.removeAttachments(arguments.issueID,'issue')>
 		<cfif listLen(arguments.filesList)>
@@ -142,6 +144,11 @@
 				type = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="11">, 
 				severity = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.severity#" maxlength="10">, 
 				assignedTo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.assignedTo#" maxlength="35">,
+				<cfif not compare(previous.assignedTo,'') and compare(arguments.assignedTo,'')>
+					status = 'Accepted',
+				<cfelseif compare(previous.assignedTo,'') and not compare(arguments.assignedTo,'')>
+					status = 'New',
+				</cfif>
 				milestoneID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
 				relevantURL = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.relevantURL#" maxlength="255">, 
 				updated = #Now()#, 
