@@ -1,8 +1,8 @@
-Project Tracker v2.1.1
+Project Tracker v2.3
 by Joe Danziger (joe@ajaxcf.com)
 
 Initial Release: June 5, 2007
-Current Release: April 4, 2008
+Current Release: May 30, 2008
 
 This application was inspired by Basecamp (http://www.basecamphq.com) 
 put out by the 37signals crew.  Not too much documentation but 
@@ -38,10 +38,9 @@ are also 2 database upgrade scripts to be run.
    fields that cannot be altered automatically.  You may need
    to change these manually if you run into a problem.
    
-UPGRADING FROM 2.0:
-The only change was to the pt_comments table, renaming the field
-"comments" to "commentsText" to allow for Oracle compatibility.
-There is an upgrade script included for mySQL and SQL Server. 
+UPGRADING:
+There are upgrade scripts included in the install directory for the
+various versions.  Please run the necessary DB and/or CF scripts. 
 
 DEMO VERSION:
 A demo of this app can currently be found at http://ajaxcf.com/project
