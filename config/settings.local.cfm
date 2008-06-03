@@ -6,4 +6,4 @@ rootURL=http://127.0.0.1
 adminEmail=admin@localhost
 guestUserAutoLogin=0
 allowRegister=0
-version=2.2
+version=2.3.1
