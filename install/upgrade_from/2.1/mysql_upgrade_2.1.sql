@@ -22,3 +22,6 @@ UPDATE `pt_projects`
 UPDATE `pt_carriers` SET `prefix` = '';
 	
 ALTER TABLE `pt_users` MODIFY `password` char(32) NULL;
+
+UPDATE `pt_users` SET `password` = '21232F297A57A5A743894A0E4A801FC3' WHERE `username` = 'admin';
+UPDATE `pt_users` SET `password` = '084E0343A0486FF05530DF6C705C8BB4' WHERE `username` = 'guest';

@@ -146,6 +146,14 @@ CREATE TABLE  "PT_PROJECTS"
 	"SVNURL" VARCHAR2(100), 
 	"SVNUSER" VARCHAR2(20), 
 	"SVNPASS" VARCHAR2(20), 
+	"ALLOW_REG" tinyint(1) NULL,
+	"REG_ACTIVE" tinyint(1) NULL, 
+	"REG_FILES" tinyint(1) NULL, 
+	"REG_ISSUES" tinyint(1) NULL, 
+	"REG_MSGS" tinyint(1) NULL, 
+	"REG_MSTONES" tinyint(1) NULL, 
+	"REG_TODOS" tinyint(1) NULL,             
+	"REG_SVN" tinyint(1) NULL,
 	 CONSTRAINT "PK_PT_PROJECTS" PRIMARY KEY ("PROJECTID") ENABLE
    )
 /
@@ -317,12 +325,12 @@ INSERT INTO pt_settings (settingid,setting,settingvalue) values
 
 INSERT INTO pt_users
 (userID,firstName,lastName,username,password,style,email_files,mobile_files,email_issues,mobile_issues,email_msgs,mobile_msgs,email_mstones,mobile_mstones,email_todos,mobile_todos,avatar,admin,active) 
-values('FCDCF4CD-16E6-58DE-13EDC6A2B362B22C','Admin','User','admin','admin','blue',1,1,1,1,1,1,1,1,1,1,0,1,1
+values('FCDCF4CD-16E6-58DE-13EDC6A2B362B22C','Admin','User','admin','21232F297A57A5A743894A0E4A801FC3','blue',1,1,1,1,1,1,1,1,1,1,0,1,1
 );
 
 INSERT INTO pt_users
 (userID,firstName,lastName,username,password,style,email_files,mobile_files,email_issues,mobile_issues,email_msgs,mobile_msgs,email_mstones,mobile_mstones,email_todos,mobile_todos,avatar,admin,active) 
-values('7F16CA08-1372-7975-6F7F9DA33EBD6A09','Guest','User','guest','guest','blue',1,1,1,1,1,1,1,1,1,1,0,0,1
+values('7F16CA08-1372-7975-6F7F9DA33EBD6A09','Guest','User','guest','084E0343A0486FF05530DF6C705C8BB4','blue',1,1,1,1,1,1,1,1,1,1,0,0,1
 );
 
 create or replace function month(v_date in date) return varchar2 is

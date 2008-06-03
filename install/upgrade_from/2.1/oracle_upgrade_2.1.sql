@@ -33,3 +33,7 @@ modify
 	(
 	password char(32) NULL
 	);
+	
+update pt_users	set password = '21232F297A57A5A743894A0E4A801FC3' where username = 'admin';
+update pt_users	set password = '084E0343A0486FF05530DF6C705C8BB4' where username = 'guest';
+	

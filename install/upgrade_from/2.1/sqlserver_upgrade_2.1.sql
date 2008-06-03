@@ -32,5 +32,11 @@ UPDATE [dbo].[pt_carriers]
 	SET [prefix] = ''
 GO
 
-ALTER TABLE [dbo].[pt_users] ALTER COLUMN [password] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+ALTER TABLE [dbo].[pt_users] ALTER COLUMN [password] [char] (32) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
+
+UPDATE TABLE [dbo].[pt_users] SET [password] = '21232F297A57A5A743894A0E4A801FC3' WHERE [username] = 'admin'
+GO
+
+UPDATE TABLE [dbo].[pt_users] SET [password] = '084E0343A0486FF05530DF6C705C8BB4' WHERE [username] = 'guest'
 GO
