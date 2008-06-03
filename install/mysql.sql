@@ -89,7 +89,7 @@ CREATE TABLE `pt_files` (
 CREATE TABLE `pt_file_attach` (
   `itemID` char(35) NOT NULL,
   `fileID` char(35) NOT NULL,
-  `type` varchar(6) default NOT NULL,
+  `type` varchar(6) NOT NULL,
   PRIMARY KEY  (`itemID`,`fileID`,`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
