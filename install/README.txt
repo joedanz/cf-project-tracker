@@ -1,8 +1,8 @@
-Project Tracker v2.3
+Project Tracker v2.3.2
 by Joe Danziger (joe@ajaxcf.com)
 
 Initial Release: June 5, 2007
-Current Release: May 30, 2008
+Current Release: June 17, 2008
 
 This application was inspired by Basecamp (http://www.basecamphq.com) 
 put out by the 37signals crew.  Not too much documentation but 
