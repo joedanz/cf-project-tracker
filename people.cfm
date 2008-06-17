@@ -1,7 +1,7 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfset userRole = application.role.get(session.user.userid,url.p)>
-<cfif not userRole.admin and not session.user.admin>
+<cfif not session.user.admin and not userRole.admin>
 	<cfoutput><h2>Admin Access Only!!!</h2></cfoutput>
 	<cfabort>
 </cfif>
@@ -13,7 +13,11 @@
 </cfif>
 
 <cfparam name="url.p" default="">
-<cfset project = application.project.get(session.user.userid,url.p)>
+<cfif session.user.admin>
+	<cfset project = application.project.get(projectID=url.p)>
+<cfelse>
+	<cfset project = application.project.get(session.user.userid,url.p)>
+</cfif>
 <cfset projectUsers = application.project.projectUsers(url.p)>
 <cfset userRole = application.role.get(session.user.userid,url.p)>
 <cfset people = application.project.nonProjectUsers(url.p)>

@@ -1,9 +1,13 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfparam name="url.p" default="">
-<cfset project = application.project.get(session.user.userid,url.p)>
+<cfif session.user.admin>
+	<cfset project = application.project.get(projectID=url.p)>
+<cfelse>
+	<cfset project = application.project.get(session.user.userid,url.p)>
+</cfif>
 
-<cfif project.mstones eq 0 and not session.user.admin>
+<cfif not session.user.admin and project.mstones eq 0>
 	<cfoutput><h2>You do not have permission to access milestones!!!</h2></cfoutput>
 	<cfabort>
 </cfif>

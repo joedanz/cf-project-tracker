@@ -1,6 +1,10 @@
 <cfsetting enablecfoutputonly="true" showdebugoutput="false">
 
-<cfset project = application.project.get(session.user.userid,url.p)>
+<cfif session.user.admin>
+	<cfset project = application.project.get(projectID=url.p)>
+<cfelse>
+	<cfset project = application.project.get(session.user.userid,url.p)>
+</cfif>
 <cfset proj_admins = application.project.projectUsers(url.p,'1')>
 
 <cfoutput>

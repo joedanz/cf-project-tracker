@@ -1,7 +1,11 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfparam name="url.p" default="">
-<cfset project = application.project.get(session.user.userid,url.p)>
+<cfif session.user.admin>
+	<cfset project = application.project.get(projectID=url.p)>
+<cfelse>
+	<cfset project = application.project.get(session.user.userid,url.p)>
+</cfif>
 <cfset projectUsers = application.project.projectUsers(url.p,'0','lastLogin desc')>
 <cfif project.mstones gt 0>
 	<cfset milestones_overdue = application.milestone.get(url.p,'','overdue')>

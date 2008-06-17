@@ -75,7 +75,7 @@
 		<ul id="admintabs">
 			<cfif compare(attributes.projectid,'')>
 				<cfset userRole = application.role.get(session.user.userid,attributes.projectid)>
-				<cfif userRole.admin or session.user.admin>
+				<cfif session.user.admin or userRole.admin>
 					<li><a href="#application.settings.mapping#/editProject.cfm?p=#attributes.projectid#" title="Settings"<cfif find('/editProject.cfm',cgi.script_name) and StructKeyExists(url,"p")> class="current"</cfif>>Settings</a></li>
 					<li><a href="#application.settings.mapping#/people.cfm?p=#attributes.projectid#" title="People"<cfif find('/people.cfm',cgi.script_name)> class="current"</cfif>>People</a></li>
 				</cfif>

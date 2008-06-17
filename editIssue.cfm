@@ -19,7 +19,11 @@
 </cfif>
 
 <cfparam name="url.p" default="">
-<cfset project = application.project.get(session.user.userid,url.p)>
+<cfif session.user.admin>
+	<cfset project = application.project.get(projectID=url.p)>
+<cfelse>
+	<cfset project = application.project.get(session.user.userid,url.p)>
+</cfif>
 <cfset projectUsers = application.project.projectUsers(url.p)>
 <cfset milestones = application.milestone.get(url.p,'','incomplete')>
 <cfset files = application.file.get(url.p)>

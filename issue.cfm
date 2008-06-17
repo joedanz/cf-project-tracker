@@ -39,7 +39,11 @@
 
 <cfparam name="url.p" default="">
 <cfparam name="fileupload" default="">
-<cfset project = application.project.get(session.user.userid,url.p)>
+<cfif session.user.admin>
+	<cfset project = application.project.get(projectID=url.p)>
+<cfelse>
+	<cfset project = application.project.get(session.user.userid,url.p)>
+</cfif>
 <cfset issue = application.issue.get(url.p,url.i)>
 <cfset comments = application.comment.get(url.p,'issue',url.i)>
 <cfset attachments = application.file.getFileList(url.p,url.i,'issue')>

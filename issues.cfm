@@ -7,7 +7,11 @@
 <cfparam name="form.assignedTo" default="">
 <cfparam name="form.milestone" default="">
 
-<cfset project = application.project.get(session.user.userid,url.p)>
+<cfif session.user.admin>
+	<cfset project = application.project.get(projectID=url.p)>
+<cfelse>
+	<cfset project = application.project.get(session.user.userid,url.p)>
+</cfif>
 <cfset projectUsers = application.project.projectUsers(url.p)>
 <cfset issues = application.issue.get(url.p,'',form.status,'',form.type,form.severity,form.assignedTo,form.milestone)>
 <cfset milestones = application.milestone.get(url.p)>

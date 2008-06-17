@@ -1,7 +1,11 @@
 <cfsetting enablecfoutputonly="true">
 
-<cfset project = application.project.get(session.user.userid,url.p)>
-<cfif project.svn eq 0 and not session.user.admin>
+<cfif session.user.admin>
+	<cfset project = application.project.get(projectID=url.p)>
+<cfelse>
+	<cfset project = application.project.get(session.user.userid,url.p)>
+</cfif>
+<cfif not session.user.admin and project.svn eq 0>
 	<cfoutput><h2>You do not have permission to access the repository!!!</h2></cfoutput>
 	<cfabort>
 </cfif>

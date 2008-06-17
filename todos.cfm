@@ -8,7 +8,11 @@
 <cfparam name="url.p" default="">
 <cfparam name="url.t" default="">
 <cfparam name="form.assignedTo" default="">
-<cfset project = application.project.get(session.user.userid,url.p)>
+<cfif session.user.admin>
+	<cfset project = application.project.get(projectID=url.p)>
+<cfelse>
+	<cfset project = application.project.get(session.user.userid,url.p)>
+</cfif>
 <cfset projectUsers = application.project.projectUsers(url.p)>
 <cfset todolists = application.todolist.get(url.p,url.t)>
 <cfset todos = application.todo.get(url.p,url.t,'','rank,added',form.assignedTo)>

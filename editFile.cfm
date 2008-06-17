@@ -19,10 +19,14 @@
 </cfif>
 
 <cfparam name="url.p" default="">
-<cfset project = application.project.get(session.user.userid,url.p)>
+<cfif session.user.admin>
+	<cfset project = application.project.get(projectID=url.p)>
+<cfelse>
+	<cfset project = application.project.get(session.user.userid,url.p)>
+</cfif>
 <cfset categories = application.category.get(url.p,'file')>
 
-<cfif project.files lt 2 and not session.user.admin>
+<cfif not session.user.admin and project.files lt 2>
 	<cfoutput><h2>You do not have permission to <cfif StructKeyExists(url,"f")>edit<cfelse>add</cfif> files!!!</h2></cfoutput>
 	<cfabort>
 </cfif>

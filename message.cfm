@@ -7,7 +7,11 @@
 </cfif>
 
 <cfparam name="url.p" default="">
-<cfset project = application.project.get(session.user.userid,url.p)>
+<cfif session.user.admin>
+	<cfset project = application.project.get(projectID=url.p)>
+<cfelse>
+	<cfset project = application.project.get(session.user.userid,url.p)>
+</cfif>
 <cfset message = application.message.get(url.p,url.m)>
 <cfset comments = application.comment.get(url.p,'msg',url.m)>
 <cfset attachments = application.file.getFileList(url.p,url.m,'msg')>
@@ -15,7 +19,7 @@
 <cfset talkList = listAppend(valueList(comments.userID),message.userID)>
 <cfset usersTalking = application.user.get('',talkList)>
 
-<cfif project.msgs eq 0 and not session.user.admin>
+<cfif not session.user.admin and project.msgs eq 0>
 	<cfoutput><h2>You do not have permission to access messages!!!</h2></cfoutput>
 	<cfabort>
 </cfif>

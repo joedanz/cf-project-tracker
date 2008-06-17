@@ -15,10 +15,14 @@
 </cfif>
 
 <cfparam name="url.p" default="">
-<cfset project = application.project.get(session.user.userid,url.p)>
+<cfif session.user.admin>
+	<cfset project = application.project.get(projectID=url.p)>
+<cfelse>
+	<cfset project = application.project.get(session.user.userid,url.p)>
+</cfif>
 <cfset projectUsers = application.project.projectUsers(url.p)>
 
-<cfif project.mstones lt 2 and not session.user.admin>
+<cfif not session.user.admin and project.mstones lt 2>
 	<cfoutput><h2>You do not have permission to <cfif StructKeyExists(url,"m")>edit<cfelse>add</cfif> milestones!!!</h2></cfoutput>
 	<cfabort>
 </cfif>

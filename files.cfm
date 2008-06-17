@@ -15,11 +15,15 @@
 
 <cfparam name="url.p" default="">
 <cfparam name="url.c" default="">
-<cfset project = application.project.get(session.user.userid,url.p)>
+<cfif session.user.admin>
+	<cfset project = application.project.get(projectID=url.p)>
+<cfelse>
+	<cfset project = application.project.get(session.user.userid,url.p)>
+</cfif>
 <cfset files = application.file.get(url.p,'',url.c)>
 <cfset categories = application.category.get(url.p,'file')>
 
-<cfif project.files eq 0 and not session.user.admin>
+<cfif not session.user.admin and project.files eq 0>
 	<cfoutput><h2>You do not have permission to access files!!!</h2></cfoutput>
 	<cfabort>
 </cfif>

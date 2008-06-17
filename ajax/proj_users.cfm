@@ -22,7 +22,11 @@
 	<cfset thread.sleep(250)>	
 </cfif>
 
-<cfset project = application.project.get(session.user.userid,url.p)>
+<cfif session.user.admin>
+	<cfset project = application.project.get(projectID=url.p)>
+<cfelse>
+	<cfset project = application.project.get(session.user.userid,url.p)>
+</cfif>
 <cfset projectUsers = application.project.projectUsers(url.p)>
 <cfset userRole = application.role.get(session.user.userid,url.p)>
 

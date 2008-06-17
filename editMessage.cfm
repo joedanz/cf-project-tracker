@@ -15,13 +15,17 @@
 </cfif>
 
 <cfparam name="url.p" default="">
-<cfset project = application.project.get(session.user.userid,url.p)>
+<cfif session.user.admin>
+	<cfset project = application.project.get(projectID=url.p)>
+<cfelse>
+	<cfset project = application.project.get(session.user.userid,url.p)>
+</cfif>
 <cfset projectUsers = application.project.projectUsers(url.p)>
 <cfset categories = application.category.get(url.p,'msg')>
 <cfset milestones = application.milestone.get(url.p)>
 <cfset files = application.file.get(url.p)>
 
-<cfif project.msgs lt 2 and not session.user.admin>
+<cfif not session.user.admin and project.msgs lt 2>
 	<cfoutput><h2>You do not have permission to <cfif StructKeyExists(url,"m")>edit<cfelse>add</cfif> messages!!!</h2></cfoutput>
 	<cfabort>
 </cfif>
