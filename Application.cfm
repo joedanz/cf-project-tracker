@@ -81,7 +81,7 @@
 </cfif>
 
 <!--- handle security --->
-<cfif not findNoCase('/rss.cfm',cgi.script_name) and not findNoCase('/register.cfm',cgi.script_name) and not findNoCase('/confirm.cfm',cgi.script_name) and not findNoCase('/forgot.cfm',cgi.script_name) and not findNoCase('/reset.cfm',cgi.script_name) and not findNoCase('/api/',cgi.script_name)>
+<cfif not findNoCase('/rss.cfm',cgi.script_name) and not findNoCase('/register.cfm',cgi.script_name) and not findNoCase('/confirm.cfm',cgi.script_name) and not findNoCase('/forgot.cfm',cgi.script_name) and not findNoCase('/reset.cfm',cgi.script_name) and not findNoCase('/api/',cgi.script_name) and not findNoCase('/upgrade_from/',cgi.script_name)>
 
 	<!--- check for auto login --->
 	<cfif application.settings.guestUserAutoLogin AND NOT StructKeyExists(url,'logout')>
