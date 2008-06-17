@@ -53,13 +53,12 @@
 		<cfargument name="filetype" type="string" required="true">
 		<cfargument name="filesize" type="numeric" required="true">
 		<cfargument name="uploadedBy" type="string" required="true">
-		<cfargument name="type" type="string" required="true">
 		<cfset var catID = "">
 		<!--- determine if new category --->
 		<cfif request.udf.IsCFUUID(arguments.category)>
 			<cfset catID = arguments.category>
 		<cfelse>
-			<cfset catID = application.category.add(arguments.projectID,arguments.category,arguments.type)>
+			<cfset catID = application.category.add(arguments.projectID,arguments.category,'file')>
 		</cfif>
 		<!--- insert record --->		
 		<cfquery datasource="#variables.dsn#">
