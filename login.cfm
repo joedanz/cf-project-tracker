@@ -33,6 +33,9 @@ a:link, a:visited {color:##00f;}</style>
 <input type="password" id="pass" name="password" size="20" class="login" onfocus="$(this).addClass('loginactive');" onblur="$(this).removeClass('loginactive');" /><br />
 <input type="submit" value="Login" class="sub">
 <input type="hidden" name="logon" value="true">
+<cfloop item="field" collection="#form#">
+	<input type="hidden" name="#field#" value="#form[field]#" />
+</cfloop>
 </form>
 </div>	
 <a href="forgot.cfm">Lost your username or password?</a>

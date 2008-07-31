@@ -151,7 +151,7 @@
 				</div>
 				<div class="content">
 				 	
-					<form action="#cgi.script_name#" method="post" name="edit" id="edit" class="frm" onsubmit="return confirmSubmit();">
+					<form action="#cgi.script_name#?#cgi.query_string#" method="post" name="edit" id="edit" class="frm" onsubmit="return confirmSubmit();">
 						<p>
 						<label for="name" class="req">Name:</label>
 						<input type="text" name="name" id="name" value="#HTMLEditFormat(form.name)#" maxlength="50" />

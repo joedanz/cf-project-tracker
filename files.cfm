@@ -103,7 +103,15 @@
 		<cfif project.files gt 1>
 		<h3><a href="editFile.cfm?p=#url.p#" class="add">Upload a new file</a></h3><br />
 		</cfif>	
-	
+		
+		<div class="header"><h3>Sort by</h3></div>
+		<div class="content">
+			<ul class="nobullet">
+				<li><input type="radio" name="sort" value="date" /> Date and time</li>
+				<li><input type="radio" name="sort" value="alph" /> A-Z</li>
+			</ul>		
+		</div>
+		
 		<div class="header"><h3>Categories</h3></div>
 		<div class="content">
 			<ul>

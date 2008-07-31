@@ -53,8 +53,8 @@
 
 			<!--- create all_styles.css --->
 			<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#reset.css" variable="reset">
-			<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#layout.css" variable="layout">
 			<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#style.css" variable="style">
+			<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#layout.css" variable="layout">
 			<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#header.css" variable="header">
 			<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#images.css" variable="images">
 			<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#forms.css" variable="forms">
@@ -84,7 +84,7 @@
 <cfif not findNoCase('/rss.cfm',cgi.script_name) and not findNoCase('/register.cfm',cgi.script_name) and not findNoCase('/confirm.cfm',cgi.script_name) and not findNoCase('/forgot.cfm',cgi.script_name) and not findNoCase('/reset.cfm',cgi.script_name) and not findNoCase('/api/',cgi.script_name) and not findNoCase('/upgrade_from/',cgi.script_name)>
 
 	<!--- check for auto login --->
-	<cfif application.settings.guestUserAutoLogin AND NOT StructKeyExists(url,'logout')>
+	<cfif application.settings.guestUserAutoLogin AND NOT StructKeyExists(url,'logout') and not find('edit',cgi.script_name)>
 		<cfset url.guest = 1>
 	</cfif>
 	
