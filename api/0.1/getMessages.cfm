@@ -7,8 +7,8 @@
 <posts><cfloop query="messages">
 	<post>
 		<id>#messageid#</id>	
-		<title>#title#</title>
-		<category>#category#</category>
+		<title>#xmlFormat(title)#</title>
+		<category>#xmlFormat(category)#</category>
 		<posted>#DateFormat(stamp,"yyyy-mm-dd")#T#TimeFormat(stamp,"HH:mm:ss")#Z</posted>
 		<comments>#commentcount#</comments>
 		<attachments>#attachcount#</attachments>

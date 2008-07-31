@@ -7,8 +7,8 @@
 <todo-lists><cfloop query="todolists">
 	<todo-list>
 		<id>#todolistid#</id>
-		<title>#title#</title>
-		<description>#description#</description>
+		<title>#xmlFormat(title)#</title>
+		<description>#xmlFormat(description)#</description>
 		<completed_count>#NumberFormat(completed_count)#</completed_count>
 		<uncompleted_count>#NumberFormat(uncompleted_count)#</uncompleted_count>
 	</todo-list></cfloop>

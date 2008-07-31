@@ -7,11 +7,11 @@
 <files><cfloop query="files">
 	<file>
 		<id>#fileid#</id>
-		<title>#title#</title>
-		<category>#category#</category>
-		<description>#description#</description>
+		<title>#xmlFormat(title)#</title>
+		<category>#xmlFormat(category)#</category>
+		<description>#xmlFormat(description)#</description>
 		<filesize>#filesize#</filesize>
-		<filename>#filename#</filename>
+		<filename>#xmlFormat(filename)#</filename>
 		<server-filename>#serverfilename#</server-filename>
 		<uploaded>#DateFormat(uploaded,"yyyy-mm-dd")#T#TimeFormat(uploaded,"HH:mm:ss")#Z</uploaded>
 	</file></cfloop>

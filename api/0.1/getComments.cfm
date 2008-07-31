@@ -8,7 +8,7 @@
 	<comment>
 		<id>#commentid#</id>	
 		<author_id>#userid#</author_id>
-		<body>#comment#</body>
+		<body>#xmlFormat(comment)#</body>
 		<posted>#DateFormat(stamp,"yyyy-mm-dd")#T#TimeFormat(stamp,"HH:mm:ss")#Z</posted>
 	</comment></cfloop>
 </comments>

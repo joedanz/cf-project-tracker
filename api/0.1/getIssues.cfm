@@ -8,11 +8,11 @@
 	<issue>
 		<id>#issueid#</id>	
 		<created>#DateFormat(created,"yyyy-mm-dd")#T#TimeFormat(created,"HH:mm:ss")#Z</created>
-		<severity>#severity#</severity>
-		<status>#status#</status>
-		<type>#type#</type>
-		<issue>#issue#</issue>
-		<detail>#detail#</detail>
+		<severity>#xmlFormat(severity)#</severity>
+		<status>#xmlFormat(status)#</status>
+		<type>#xmlFormat(type)#</type>
+		<issue>#xmlFormat(issue)#</issue>
+		<detail>#xmlFormat(detail)#</detail>
 	</issue></cfloop>
 </issues>
 </cfoutput>

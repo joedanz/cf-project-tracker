@@ -7,7 +7,7 @@
 <post-categories><cfloop query="message_categories">
 	<post-category>
 		<id>#categoryid#</id>	
-		<category>#category#</category>
+		<category>#xmlFormat(category)#</category>
 	</post-category></cfloop>
 </post-categories>
 </cfoutput>

@@ -7,7 +7,7 @@
 <file-categories><cfloop query="file_categories">
 	<file-category>
 		<id>#categoryid#</id>	
-		<category>#category#</category>
+		<category>#xmlFormat(category)#</category>
 	</file-category></cfloop>
 </file-categories>
 </cfoutput>

@@ -7,7 +7,7 @@
 <todos><cfloop query="todos">
 	<todo>
 		<id>#todoid#</id>
-		<task>#task#</task>
+		<task>#xmlFormat(task)#</task>
 		<position>#rank#</position>
 		<completed><cfif isDate(completed)>#DateFormat(completed,"yyyy-mm-dd")#T#TimeFormat(completed,"HH:mm:ss")#Z</cfif></completed>
 		<due><cfif isDate(due)>#DateFormat(due,"yyyy-mm-dd")#T#TimeFormat(due,"HH:mm:ss")#Z</cfif></due>

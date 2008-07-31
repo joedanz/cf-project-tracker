@@ -7,8 +7,8 @@
 <projects><cfloop query="projects">
 	<project>
 		<id>#projectid#</id>	
-		<name>#name#</name>
-		<status>#status#</status>
+		<name>#xmlFormat(name)#</name>
+		<status>#xmlFormat(status)#</status>
 	</project></cfloop>
 </projects>
 </cfoutput>

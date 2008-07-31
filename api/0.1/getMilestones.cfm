@@ -7,8 +7,8 @@
 <milestones><cfloop query="mstones">
 	<milestone>
 		<id>#milestoneid#</id>	
-		<name>#name#</name>
-		<description>#description#</description>
+		<name>#xmlFormat(name)#</name>
+		<description>#xmlFormat(description)#</description>
 		<dueDate>#DateFormat(dueDate,"yyyy-mm-dd")#T#TimeFormat(dueDate,"HH:mm:ss")#Z</dueDate>
 	</milestone></cfloop>
 </milestones>
