@@ -76,7 +76,7 @@
 					</table>
 
 					<pre name="code" class="html">
-						#HTMLCodeFormat(fileQ.content)#
+						#replace(fileQ.content,'<','&lt;','all')#
 					</pre>
 					<cfcatch>
 						<div class="alert">There was a problem accessing the Subversion repository at #project.svnurl#</div>
