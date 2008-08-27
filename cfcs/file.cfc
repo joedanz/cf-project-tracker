@@ -19,7 +19,11 @@
 		<cfargument name="fileID" type="string" required="false" default="">
 		<cfargument name="categoryID" type="string" required="false" default="">
 		<cfargument name="uploadedBy" type="string" required="false" default="">
+		<cfargument name="orderBy" type="string" required="false" default="date">
 		<cfset var qGetFiles = "">
+		<cfset var datesOnly = arrayNew(1)>
+	    <cfset var leftChar = arrayNew(1)>
+
 		<cfquery name="qGetFiles" datasource="#variables.dsn#">
 			SELECT f.fileID, f.title, f.categoryID, f.description, f.filename, f.serverfilename, f.filetype,
 				f.filesize,f.uploaded,f.uploadedBy,u.firstName, u.lastName, fc.category
@@ -37,7 +41,19 @@
 				AND f.uploadedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.uploadedBy#" maxlength="35">
 			</cfif>
 			AND fc.type = 'file'
-		</cfquery>
+			ORDER BY <cfswitch expression="#arguments.orderBy#">
+						<cfcase value="alpha">f.title asc</cfcase>
+						<cfcase value="date">f.uploaded desc</cfcase>
+					</cfswitch>
+		  </cfquery>
+		  
+		  <cfloop query="qGetFiles">
+			  <cfset datesOnly[currentRow] = DateFormat(uploaded)>
+			  <cfset leftChar[currentRow] = left(title,1)>
+		  </cfloop>
+		  <cfset queryAddColumn(qGetFiles,"uploadDate",datesOnly)>
+		  <cfset queryAddColumn(qGetFiles,"leftChar",leftChar)>
+		  
 		<cfreturn qGetFiles>
 	</cffunction>
 

@@ -118,7 +118,7 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 }
 
 #container .left .main .content .stamp {
-	border-bottom: 1px solid #666;
+	border-bottom: 1px solid #aaa;
 	text-transform: uppercase;
 	color:#666;
 	font-size:.85em;
@@ -196,6 +196,7 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 
 #container .left .main .content .byline {
 	background-color:#f5f5f5;
+	color:#666;
 }
 
 #container .left .bottom {
@@ -208,7 +209,8 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 }
 
 #container .left .main .content .listWrapper .todolist {
-	background-color:#f7f7f7;
+	background-color:#f7f7f7;	
+	list-style:none;
 }
 
 #container .left .footer {
@@ -232,6 +234,10 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 
 #container .right .content ul {
 	list-style-image: url(../images/bullet.gif);
+}
+
+#container .right .content ul.nobullet {
+	list-style-image: none;
 }
 
 #container .right .content ul.people {

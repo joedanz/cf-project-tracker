@@ -13,14 +13,19 @@
 	</cfif>
 </cfif>
 
+<cfif StructKeyExists(url,"o")>
+	<cfset session.user.fileorder = url.o>
+</cfif>
+
 <cfparam name="url.p" default="">
 <cfparam name="url.c" default="">
+<cfparam name="session.user.fileorder" default="date">
 <cfif session.user.admin>
 	<cfset project = application.project.get(projectID=url.p)>
 <cfelse>
 	<cfset project = application.project.get(session.user.userid,url.p)>
 </cfif>
-<cfset files = application.file.get(url.p,'',url.c)>
+<cfset files = application.file.get(projectID=url.p,categoryID=url.c,orderBy=session.user.fileorder)>
 <cfset categories = application.category.get(url.p,'file')>
 
 <cfif not session.user.admin and project.files eq 0>
@@ -33,7 +38,10 @@
 
 <cfoutput>
 <div id="container">
+</cfoutput>
+
 <cfif project.recordCount>
+	<cfoutput>
 	<!--- left column --->
 	<div class="left">
 		<div class="main">
@@ -53,9 +61,26 @@
 					</h2>
 				</div>
 				<div class="content">
+				</cfoutput>
+				
+					<cfif files.recordCount>
+					
+						<cfif not compareNoCase(session.user.fileorder,'date')>
+							<cfset sortField = "uploadDate">
+						<cfelseif not compareNoCase(session.user.fileorder,'alpha')>
+							<cfset sortField = "leftChar">
+						</cfif>
 						
-					<cfif files.recordCount>						
-						<cfloop query="files">
+						<cfoutput query="files" group="#sortfield#">
+							<div class="stamp">
+							<cfif not compareNoCase(session.user.fileorder,'date')>
+								#DateFormat(uploaddate,"dddd, d mmmm")#
+							<cfelseif not compareNoCase(session.user.fileorder,'alpha')>
+								#leftChar#
+							</cfif>
+							</div>
+						
+							<cfoutput>
 							<cfset attached = application.file.checkFile(fileID)>
 							<cfif listFind(ValueList(attached.type),'msg')>
 								<cfset msgAttached = true>
@@ -63,9 +88,7 @@
 							<cfif listFind(ValueList(attached.type),'issue')>
 								<cfset issueAttached = true>
 							</cfif>
-							<span class="stamp">
-							#DateFormat(uploaded,"dddd, d mmmm")#
-							</span>
+							
 							
 							<div class="wrapper itemlist fileLrg #filetype#Lrg">
 							<h3 class="padtop">#title#</h3>	
@@ -76,18 +99,20 @@
 							<cfelse>
 							#Int(filesize/1024)#K,
 							</cfif>
-							uploaded to <a href="#cgi.script_name#?p=#url.p#&c=#categoryID#">#category#</a> by #firstName# #lastName# | <a href="download.cfm?p=#url.p#&f=#fileID#" class="download">Download file</a>
+							uploaded to <a href="#cgi.script_name#?p=#url.p#&c=#categoryID#">#category#</a> by #firstName# #lastName# on #DateFormat(uploaded,"mmm d")# @ #TimeFormat(uploaded,"h:mmtt")# | <a href="download.cfm?p=#url.p#&f=#fileID#" class="download">Download file</a>
 							<cfif session.user.userID eq uploadedBy or session.user.admin>
 							| <a href="editFile.cfm?p=#url.p#&f=#fileID#" class="edit">Edit details</a>
 							| <a href="#cgi.script_name#?p=#url.p#&df=#fileID#" class="delete" onclick="return confirm('<cfif attached.recordCount>This file is currently attached to <cfif isDefined("msgAttached") and isDefined("issueAttached")> a message and issue<cfelseif isDefined("msgAttached")>a message<cfelseif isDefined("issueAttached")>an issue</cfif>.\n</cfif>Are you sure you wish to delete this file?');">Delete File</a>
 							</cfif>
 							</div>
 							</div>
-						</cfloop>
+							</cfoutput>
+						</cfoutput>
 					<cfelse>
-					<div class="wrapper"><div class="warn">No files have been uploaded.</div></div>
+						<cfoutput><div class="wrapper"><div class="warn">No files have been uploaded.</div></div></cfoutput>
 					</cfif>
-						
+					
+				<cfoutput>		
 				</div>
 			
 		</div>
@@ -107,8 +132,8 @@
 		<div class="header"><h3>Sort by</h3></div>
 		<div class="content">
 			<ul class="nobullet">
-				<li><input type="radio" name="sort" value="date" /> Date and time</li>
-				<li><input type="radio" name="sort" value="alph" /> A-Z</li>
+				<li><input type="radio" name="sort" value="date"<cfif not compare(session.user.fileorder,'date')> checked="checked"</cfif> onclick="window.location='#cgi.script_name#?p=#url.p#&c=#url.c#&o=date'" /> Date and time</li>
+				<li><input type="radio" name="sort" value="alpha"<cfif not compare(session.user.fileorder,'alpha')> checked="checked"</cfif> onclick="window.location='#cgi.script_name#?p=#url.p#&c=#url.c#&o=alpha'" /> A-Z</li>
 			</ul>		
 		</div>
 		
@@ -121,9 +146,12 @@
 			</ul>
 		</div>
 	</div>
+	</cfoutput>
 <cfelse>
-	<div class="alert">Project Not Found.</div>
+	<cfoutput><div class="alert">Project Not Found.</div></cfoutput>
 </cfif>
+
+<cfoutput>
 </div>
 </cfoutput>
 

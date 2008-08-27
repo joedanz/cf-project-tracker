@@ -103,8 +103,7 @@ table.activity td {
 }
 
 #container .left .main .content .stamp {
-	padding-left:20px;
-	padding-right:5px;
+	margin:0 20px;
 }
 
 #container .left .main .content .wrapper {
@@ -199,6 +198,7 @@ table.activity td {
 
 #container .left .main .content .byline {
 	padding:8px;
+	margin-left:60px;
 }
 
 #container .left .main .content .listItem .top {
@@ -233,6 +233,10 @@ table.activity td {
 
 #container .right .content ul {
 	padding-left:20px;
+}
+
+#container .right .content ul.nobullet {
+	padding-left:0; margin-left:0;
 }
 
 #container .right .content ul li {
