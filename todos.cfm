@@ -22,7 +22,7 @@
 
 <cfhtmlhead text='<script type="text/javascript">
 	$(document).ready(function(){
-		$(''.date-pick'').attachDatepicker(); 
+		$(''.date-pick'').datepicker(); 
 	});
 </script>
 '>
@@ -48,10 +48,9 @@
 				<div class="content">
 				 	<div class="wrapper">
 					
-					<div class="listWrapper" id="lw">
+					<ul class="listWrapper" id="lw">
 					<cfloop query="todolists">
-					<a name="#todolistID#" />
-					<div class="listItem todolist" id="#todolistID#" style="margin-bottom:20px;">
+					<li class="listItem todolist" id="id_#replace(todolistID,'-','','all')#" style="margin-bottom:20px;">
 					<div class="top"><a href="##top"><img src="./images/top.gif" height="12" width="31" border="0" alt="Top" /></a></div>
 					
 					<h3 class="padtop padbottom list">#title#<cfif project.todos gt 1> <span class="itemedit">[<a href="editTodolist.cfm?p=#url.p#&t=#todolistid#">edit</a> / <a href="#cgi.script_name#?p=#url.p#&del=#todolistid#" onclick="return confirm('Are you sure you wish to delete this to-do list?');">del</a>]</span></cfif></h3>
@@ -62,7 +61,7 @@
 						</cfquery>
 						<ul class="nobullet" id="todoitems#todolistID#">
 						<cfloop query="todos_notcompleted">
-						<li class="li#todolistID#" id="#todoID#"><cfif project.todos gt 1><input type="checkbox" name="todoID" value="#todoID#" class="cb#todolistID#" onclick="mark_complete('#url.p#','#todolistID#','#todoID#');" /> </cfif>#task#<cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)<cfif isDate(due)> - due on #DateFormat(due,"mmm d, yyyy")#</cfif></span></cfif><cfif project.todos gt 1> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="$('###todoID#').hide();$('##edititemform#todoID#').show();$('##ta#todoID#').focus();return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#url.p#','#todolistID#','#todoID#');return false;" /></span></cfif></li>
+						<li class="li#todolistID#" id="id_#replace(todoID,'-','','all')#"><cfif project.todos gt 1><input type="checkbox" name="todoID" value="#todoID#" class="cb#todolistID#" onclick="mark_complete('#url.p#','#todolistID#','#todoID#');" /> </cfif>#task#<cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)<cfif isDate(due)> - due on #DateFormat(due,"mmm d, yyyy")#</cfif></span></cfif><cfif project.todos gt 1> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="$('###todoID#').hide();$('##edititemform#todoID#').show();$('##ta#todoID#').focus();return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#url.p#','#todolistID#','#todoID#');return false;" /></span></cfif></li>					
 						<li><div id="edititemform#todoID#" style="display:none;background-color:##ddd;padding:5px;">
 						<form>
 						<table class="todo">
@@ -176,9 +175,9 @@
 <div class="posted">Posted by #firstName# #lastName# on #DateFormat(added,"dddd, mmmm d, yyyy")# (<cfif daysago eq 0>Today<cfelse>#daysago# Day<cfif daysago neq 1>s</cfif> Ago</cfif>)</div>
 						</div>
 						
-					</div>
+					</li>
 					</cfloop>
-					</div>
+					</ul>
 					<div id="sorting_done" style="display:none;margin-top:15px;">
 					<form class="frm" style="margin:0;padding:0;">
 						<input type="button" class="button" value="Done Reordering" onclick="done_reordering();return false;" />
@@ -218,7 +217,7 @@
 		<div class="content">
 			<ul>
 				<cfloop query="todolists">
-				<li><a href="###replace(todolistID,'-','','ALL')#">#title#</a></li>
+				<li><a href="##id_#replace(todolistID,'-','','ALL')#">#title#</a></li>
 				</cfloop>
 			</ul>
 		</div>

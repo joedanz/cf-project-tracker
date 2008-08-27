@@ -7,7 +7,7 @@
 		<cfset counter = 0>
 		<cfloop index="i" list="#FORM.li#" delimiters="|">
 			<cfset counter = counter+1>
-			<cfset application.todo.updateRank('#FORM.tlid#',i,counter)>
+			<cfset application.todo.updateRank('#FORM.tlid#',left(i,8)&'-'&mid(i,9,4)&'-'&mid(i,13,4)&'-'&right(i,16),counter)>
 		</cfloop>
 	
 	</cfcase>
