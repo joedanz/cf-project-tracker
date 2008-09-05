@@ -101,10 +101,18 @@
 		<cfargument name="title" type="string" required="true">
 		<cfargument name="category" type="string" required="true">
 		<cfargument name="description" type="string" required="true">
+		<cfset var catID = "">
+		<!--- determine if new category --->
+		<cfif request.udf.IsCFUUID(arguments.category)>
+			<cfset catID = arguments.category>
+		<cfelse>
+			<cfset catID = application.category.add(arguments.projectID,arguments.category,'file')>
+		</cfif>
+		<!--- update record --->
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#files SET
 				title = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="200">, 
-				categoryid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.categoryid#" maxlength="35">, 
+				categoryid = <cfqueryparam cfsqltype="cf_sql_char" value="#catID#" maxlength="35">, 
 				description = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				AND fileID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">
