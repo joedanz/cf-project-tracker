@@ -44,7 +44,7 @@
 					<div class="listWrapper" id="lw">
 					<cfloop query="todolists">
 					<div class="listItem todolist" id="#todolistID#" style="margin-bottom:20px;">
-					<div class="top"><a href="##" onclick="$('##todoitems#todolistID#').toggle();$('##todocomplete#todolistID#').toggle();">show/hide</a></div>
+					<div class="top"><a href="##" onclick="$('##todoitems#todolistID#').toggle();$('##todocomplete#todolistID#').toggle();return false;">show/hide</a></div>
 					
 					<h3 class="padtop padbottom list"><a href="project.cfm?p=#projectID#">#projName#</a> : <a href="todos.cfm?p=#projectID#&t=#todolistID#">#title#</a></h3>
 						<div class="tododetail">
@@ -69,7 +69,7 @@
 						</cfquery>
 						<ul class="nobullet" id="todocomplete#todolistID#" style="display:none;">
 						<cfloop query="todos_completed">
-						<li class="g" id="#todoID#"><input type="checkbox" name="todoID" value="#todoID#" checked="checked" onclick="mark_incomplete('#projectID#','#todolistID#','#todoID#');" /> <strike>#task#</strike> - <span class="g">#DateFormat(completed,"mmm d")#</span> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="$('###todoID#').hide();$('##edititemform#todoID#').show();$('##ta#todoID#').focus();" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#projectID#','#todolistID#','#todoID#')" /></span></li>
+						<li class="g" id="#todoID#"><input type="checkbox" name="todoID" value="#todoID#" checked="checked" onclick="mark_incomplete('#projectID#','#todolistID#','#todoID#');" /> <strike>#task#</strike> - <span class="g">#DateFormat(completed,"mmm d")#</span> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="$('###todoID#').hide();$('##edititemform#todoID#').show();$('##ta#todoID#').focus();return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#projectID#','#todolistID#','#todoID#')" /></span></li>
 						
 						<li><div id="edititemform#todoID#" style="display:none;background-color:##ddd;padding:5px;">
 						</div>
