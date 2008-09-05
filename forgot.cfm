@@ -7,11 +7,22 @@
 	<cfset findPassword = application.user.findPassword(form.username)>
 	<cfif findPassword.recordCount eq 1>
 		<cfset success = "Your password has been emailed to <em>#findPassword.email#</em>">
-		<cfmail to="#findPassword.email#" from="#application.settings.adminEmail#" subject="#application.settings.app_title# | Your Password">Hi #findPassword.firstName#,
+		
+		<cfsavecontent variable="theMessage">
+		<cfoutput>Hi #findPassword.firstName#,
 
 Please visit the following link to reset your #application.settings.app_title# password: 
 #application.settings.rootURL##application.settings.mapping#/reset.cfm?u=#findPassword.userid#&h=#hash(findPassword.userid)#
-		</cfmail>
+		</cfoutput>
+		</cfsavecontent>
+		
+		<cfif not compare(application.settings.mailServer,'')>
+			<cfmail to="#findPassword.email#" from="#application.settings.adminEmail#" subject="#application.settings.app_title# | Your Password">#theMessage#</cfmail>
+		<cfelse>
+			<cfmail to="#findPassword.email#" from="#application.settings.adminEmail#" subject="#application.settings.app_title# | Your Password"
+				server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
+		</cfif>
+		
 		<cfset form.username = ''>
 	<cfelse>
 		<cfset error = "User name not found.">
@@ -21,7 +32,9 @@ Please visit the following link to reset your #application.settings.app_title# p
 		<cfset findUsername = application.user.findUsername(form.email)>
 		<cfif findUsername.recordCount eq 1>
 			<cfset success = "The username for #findUsername.firstName# #findUsername.lastName# has been emailed to #form.email#">
-			<cfmail to="#form.email#" from="#application.settings.adminEmail#" subject="#application.settings.app_title# | Your Username">Hi #findUsername.firstName#,
+			
+			<cfsavecontent variable="theMessage">
+			<cfoutput>Hi #findUsername.firstName#,
 
 You requested recovery of your #application.settings.app_title# username. 
 
@@ -32,8 +45,17 @@ Your username is:
 Please keep your username and password safe to prevent unauthorized access.
 
 You can login at:
-#application.settings.rootURL##application.settings.mapping#	
-			</cfmail>
+#application.settings.rootURL##application.settings.mapping#
+			</cfoutput>
+			</cfsavecontent>
+			
+			<cfif not compare(application.settings.mailServer,'')>
+				<cfmail to="#form.email#" from="#application.settings.adminEmail#" subject="#application.settings.app_title# | Your Username">#theMessage#</cfmail>
+			<cfelse>
+				<cfmail to="#form.email#" from="#application.settings.adminEmail#" subject="#application.settings.app_title# | Your Username"
+					server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
+			</cfif>	
+				
 			<cfset form.email = ''>
 		<cfelse>
 			<cfset error = "Email address not found.">

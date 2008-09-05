@@ -155,6 +155,7 @@
 		<cfset var qProject = application.project.get(arguments.projectID)>
 		<cfset var qMailUsers = "">
 		<cfset var i = "">
+		<cfset var mailMessage = "">
 		
 		<!--- clear and repopulate message notify list --->
 		<cfset application.message.removeNotify(arguments.projectID,arguments.messageID)>
@@ -184,13 +185,24 @@
 		</cfquery>
 
 		<cfset qMailUsers = application.message.getNotify(arguments.projectID,arguments.messageID)>
-		<cfloop query="qMailUsers">
-			<cfif compare(userID,session.user.userID)> <!--- don't notify message updater --->
-				<cfmail from="#session.user.email#" to="#email#" subject="#qProject.name# Message Updated">The message entitled #arguments.title# has been updated:
+		
+		<cfsavecontent variable="theMessage">
+		<cfoutput>The message entitled #arguments.title# has been updated:
 
 To view the full message and leave comments, visit this link:
-#application.settings.rootURL##application.settings.mapping#/message.cfm?p=#arguments.projectID#&m=#arguments.messageID#
-				</cfmail>
+#application.settings.rootURL##application.settings.mapping#/message.cfm?p=#arguments.projectID#&m=#arguments.messageID#		
+		</cfoutput>
+		</cfsavecontent>
+		
+		<cfloop query="qMailUsers">
+			<cfif compare(userID,session.user.userID)> <!--- don't notify message updater --->
+				<cfif not compare(application.settings.mailServer,'')>
+					<cfmail from="#session.user.email#" to="#email#" subject="#qProject.name# Message Updated">#theMessage#</cfmail>
+				<cfelse>
+					<cfmail from="#session.user.email#" to="#email#" subject="#qProject.name# Message Updated"
+						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" 
+						password="#application.settings.mailPassword#">#theMessage#</cfmail>
+				</cfif>
 			</cfif>
 		</cfloop>
 		<cfreturn true>

@@ -89,6 +89,7 @@
 		<cfset var qCheckUser = "">
 		<cfset var startRec = 1>
 		<cfset var emailFrom = 1>
+		<cfset var theMessage = "">
 		<cfloop condition="validUsername is false">
 			<cfset qCheckUser = application.user.get('','',newUsername)>
 			<cfif not qCheckUser.recordCount>
@@ -120,13 +121,24 @@
 			<cfelse>
 				<cfset emailFrom = application.settings.adminEmail>
 			</cfif>
-			<cfmail to="#arguments.email#" from="#emailFrom#" subject="New #application.settings.app_title# Account">An account has been setup for you to use the #application.settings.app_title#.
+			
+			<cfsavecontent variable="theMessage">
+			<cfoutput>An account has been setup for you to use the #application.settings.app_title#.
 
 You can login at #application.settings.rootURL##application.settings.mapping#
 
      Username: #arguments.username#
-     Password: #arguments.password#
-			</cfmail>
+     Password: #arguments.password#			
+			</cfoutput>
+			</cfsavecontent>
+			
+			<cfif not compare(application.settings.mailServer,'')>
+				<cfmail to="#arguments.email#" from="#emailFrom#" subject="New #application.settings.app_title# Account">#theMessage#</cfmail>
+			<cfelse>
+				<cfmail to="#arguments.email#" from="#emailFrom#" subject="New #application.settings.app_title# Account"
+					server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
+			</cfif>	
+				
 		</cfif>
 	</cffunction>
 
@@ -154,6 +166,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfargument name="admin" type="numeric" required="true">
 		<cfargument name="active" type="numeric" required="false" default="1">
 		<cfset var emailFrom = "">
+		<cfset var theMessage = "">
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, phone, mobile, carrierID, avatar, style, email_files, mobile_files, email_issues, mobile_issues, email_msgs, mobile_msgs, email_mstones, mobile_mstones, email_todos, mobile_todos, admin, active)
 				VALUES(<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
@@ -187,13 +200,24 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 			<cfelse>
 				<cfset emailFrom = application.settings.adminEmail>
 			</cfif>			
-			<cfmail to="#arguments.email#" from="#emailFrom#" subject="New #application.settings.app_title# Account">An account has been setup for you to use the #application.settings.app_title#.
+
+			<cfsavecontent variable="theMessage">
+			<cfoutput>An account has been setup for you to use the #application.settings.app_title#.
 	
 You can login at #application.settings.rootURL##application.settings.mapping#
 	
      Username: #arguments.username#
-     Password: #arguments.password#
-			</cfmail>
+     Password: #arguments.password#		
+			</cfoutput>
+			</cfsavecontent>
+
+			<cfif not compare(application.settings.mailServer,'')>
+				<cfmail to="#arguments.email#" from="#emailFrom#" subject="New #application.settings.app_title# Account">#theMessage#</cfmail>
+			<cfelse>
+				<cfmail to="#arguments.email#" from="#emailFrom#" subject="New #application.settings.app_title# Account"
+					server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
+			</cfif>
+				
 		</cfif>
 	</cffunction>
 
@@ -205,6 +229,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfargument name="username" type="string" required="true">
 		<cfargument name="password" type="string" required="true">
 		<cfargument name="email" type="string" required="true">
+		<cfset var theMessage = "">
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, avatar, style, email_files, mobile_files, email_issues, mobile_issues, email_msgs, mobile_msgs, email_mstones, mobile_mstones, email_todos, mobile_todos, admin, active)
 				VALUES(<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
@@ -217,11 +242,20 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 						)
 		</cfquery>
 
-		<cfmail to="#arguments.email#" from="#application.settings.adminEmail#" subject="New #application.settings.app_title# Account">An account has been setup for you to use the #application.settings.app_title#.
+		<cfsavecontent variable="theMessage">
+		<cfoutput>An account has been setup for you to use the #application.settings.app_title#.
 
 You must confirm this account before using it by clicking here:
 #application.settings.rootURL##application.settings.mapping#/confirm.cfm?u=#arguments.userID#
-		</cfmail>
+		</cfoutput>
+		</cfsavecontent>
+
+		<cfif not compare(application.settings.mailServer,'')>
+			<cfmail to="#arguments.email#" from="#application.settings.adminEmail#" subject="New #application.settings.app_title# Account">#theMessage#</cfmail>
+		<cfelse>
+			<cfmail to="#arguments.email#" from="#application.settings.adminEmail#" subject="New #application.settings.app_title# Account"
+				server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
+		</cfif>
 
 	</cffunction>
 
