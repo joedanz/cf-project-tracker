@@ -223,7 +223,7 @@
 						</p>						
 						<p>
 						<label for="svnpass">SVN Password:</label>
-						<input type="text" name="svnpass" id="svnpass" value="#HTMLEditFormat(form.svnpass)#" maxlength="20" class="short" />
+						<input type="password" name="svnpass" id="svnpass" value="#HTMLEditFormat(form.svnpass)#" maxlength="20" class="short" />
 						</p>
 						</div>
 						</fieldset>
