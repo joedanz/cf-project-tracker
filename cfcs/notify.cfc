@@ -467,7 +467,7 @@ Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
 				<cfoutput>Updated #qProject.name# milestone:
 #qMilestone.name#
 
-#Left(request.udf.CleanText(qMilestone.description),100)#<cfif len(request.udf.CleanText(qFile.description)) gt 100>...</cfif>
+#Left(request.udf.CleanText(qMilestone.description),100)#<cfif len(request.udf.CleanText(qMilestone.description)) gt 100>...</cfif>
 				</cfoutput>
 				</cfsavecontent>
 			
