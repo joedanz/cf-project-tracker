@@ -145,7 +145,7 @@ $(document).ready(function(){
 						<tr>
 						<cfloop index="i" from="0" to="6">
 							<cfquery name="todays_ms" dbtype="query">
-								select name,projName from milestones_upcoming where dueDate = 
+								select milestoneid,name,projectid,projName from milestones_upcoming where dueDate = 
 								<cfqueryparam value="#CreateODBCDate(DateAdd("d",i,Now()))#" cfsqltype="CF_SQL_DATE" />
 							</cfquery>
 							<cfif i eq 0>
@@ -157,7 +157,7 @@ $(document).ready(function(){
 							<cfif todays_ms.recordCount>
 								<ul class="cal_ms">
 								<cfloop query="todays_ms">
-									<li>#name# (#projName#)</li>
+									<li><a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a> (<a href="project.cfm?p=#projectID#">#projName#</a>)</li>
 								</cfloop>
 								</ul>
 							</cfif>
@@ -167,7 +167,7 @@ $(document).ready(function(){
 						<tr>
 						<cfloop index="i" from="7" to="13">
 							<cfquery name="todays_ms" dbtype="query">
-								select name,projName from milestones_upcoming where dueDate = 
+								select milestoneid,name,projectid,projName from milestones_upcoming where dueDate = 
 								<cfqueryparam value="#CreateODBCDate(DateAdd("d",i,Now()))#" cfsqltype="CF_SQL_DATE" />
 							</cfquery>
 							<td<cfif todays_ms.recordCount> class="active"</cfif>><cfif i eq 1>#Left(MonthAsString(Month(DateAdd("d",i,Now()))),3)#</cfif>
@@ -175,7 +175,7 @@ $(document).ready(function(){
 							<cfif todays_ms.recordCount>
 								<ul class="cal_ms">
 								<cfloop query="todays_ms">
-									<li>#name# (#projName#)</li>
+									<li><a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a> (<a href="project.cfm?p=#projectID#">#projName#</a>)</li>
 								</cfloop>
 								</ul>
 							</cfif>
