@@ -1,8 +1,8 @@
-Project Tracker v2.3.2
+Project Tracker v2.3.3
 by Joe Danziger (joe@ajaxcf.com)
 
 Initial Release: June 5, 2007
-Current Release: June 17, 2008
+Current Release: September 9, 2008
 
 This application was inspired by Basecamp (http://www.basecamphq.com) 
 put out by the 37signals crew.  Not too much documentation but 
@@ -38,7 +38,7 @@ are also 2 database upgrade scripts to be run.
    fields that cannot be altered automatically.  You may need
    to change these manually if you run into a problem.
    
-UPGRADING:
+UPGRADING FROM OTHER VERSIONS:
 There are upgrade scripts included in the install directory for the
 various versions.  Please run the necessary DB and/or CF scripts. 
 
