@@ -62,7 +62,11 @@
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#project.name# &raquo; Issue Detail" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
 
 <cfhtmlhead text='<script type="text/javascript" src="./js/comments.js"></script>
-'>
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		$("a[rel^=''prettyPhoto'']").prettyPhoto();
+	});
+</script>'>
 
 <cfoutput>
 <div id="container">
@@ -218,7 +222,7 @@
 								<cfloop query="screenshots">
 									<tr>
 										<td>#title#</td>
-										<td><a href="download.cfm?p=#url.p#&i=#url.i#&f=#fileID#" class="#lcase(filetype)#">#filename#</a></td>
+										<td><a href="#application.settings.mapping#/userfiles/#url.p#/#filename#" class="#lcase(filetype)#" rel="prettyPhoto" title="#title#">#filename#</a></td>
 										<td>#ceiling(filesize/1024)#K</td>
 										<td>#dateFormat(uploaded,"medium")#</td>
 										<cfif session.user.userID eq uploadedBy or session.user.admin>
