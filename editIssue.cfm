@@ -12,6 +12,15 @@
 	<cfset application.issue.add(newID,form.projectID,form.ticketPrefix,form.issue,form.detail,form.type,form.severity,form.assignedTo,form.milestone,form.relevantURL,session.user.userid,form.fileslist)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Issue',newID,form.issue,'created')>
 	<cfset application.notify.issueNew(form.projectid,newID)>
+	<cfif compare(trim(form.fileupload),'')>
+		<cftry>
+			<cfdirectory action="create" directory="#ExpandPath('./userfiles/')##form.projectID#">
+			<cfcatch></cfcatch>
+		</cftry>
+		<cffile action="upload" filefield="fileupload" destination = "#ExpandPath('./userfiles/')##form.projectID#" nameConflict = "MakeUnique">
+		<cfset newID2 = createUUID()>
+		<cfset application.screenshot.add(newID2,newID,form.title,'',cffile.ClientFile,cffile.ServerFile,cffile.ClientFileExt,cffile.FileSize,session.user.userid)>
+	</cfif>
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#newID#" addtoken="false">
 <cfelseif StructKeyExists(url,"del") and hash(url.p) eq url.ph> <!--- delete issue --->
 	<cfset application.project.delete(url.p)>
@@ -36,6 +45,9 @@
 <cfparam name="milestone" default="">
 <cfparam name="relevantURL" default="">
 <cfparam name="title_action" default="Add">
+<!--- screenshot --->
+<cfparam name="fileupload" default="">
+<cfparam name="title" default="">
 
 <cfif StructKeyExists(url,"i")>
 	<cfset issueID = url.i>
@@ -76,7 +88,7 @@
 				</div>
 				<div class="content">
 				 	
-					<form action="#cgi.script_name#?#cgi.query_string#" method="post" name="edit" id="edit" class="frm" onsubmit="return confirmSubmitIssue();">
+					<form action="#cgi.script_name#?#cgi.query_string#" method="post" name="edit" id="edit" class="frm" enctype="multipart/form-data" onsubmit="return confirmSubmitIssue();">
 						<p>
 						<label for="issue" class="req">Issue:</label>
 						<input type="text" name="issue" id="issue" value="#HTMLEditFormat(issue)#" maxlength="120" />
@@ -155,7 +167,20 @@
 						<p>
 						<label for="issue">Relevant URL:</label>
 						<input type="text" name="relevantURL" id="relevantURL" value="#HTMLEditFormat(relevantURL)#" maxlength="255" />
-						</p>					
+						</p>
+						
+						<cfif not StructKeyExists(url,"i")>
+						<p>
+						<label for="fileupload">Screenshot File:</label>
+						<input type="file" name="fileupload" id="fileupload" value="#fileupload#" />
+						</p>
+						<p>
+						<label for="title">Screenshot Title:</label>
+						<input type="text" name="title" id="title" value="#HTMLEditFormat(title)#" maxlength="120" />
+						</p>
+						<br />
+						</cfif>
+						
 						<label for="submit">&nbsp;</label>
 						<cfif StructKeyExists(url,"i")>
 							<input type="submit" class="button" name="submit" id="submit" value="Update Issue" />
