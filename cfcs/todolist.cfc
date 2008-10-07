@@ -14,7 +14,7 @@
 	</cffunction>
 
 	<cffunction name="get" access="public" returnType="query" output="false"
-				hint="Returns projects.">
+				hint="Returns task list.">
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfargument name="todolistID" type="string" required="false" default="">
 		<cfargument name="projectIDlist" type="string" required="false" default="">
