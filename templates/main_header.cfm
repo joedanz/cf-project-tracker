@@ -80,6 +80,7 @@
 					<li><a href="#application.settings.mapping#/people.cfm?p=#attributes.projectid#" title="People"<cfif find('/people.cfm',cgi.script_name)> class="current"</cfif>>People</a></li>
 				</cfif>
 			</cfif>
+			<li><a href="#application.settings.mapping#/search.cfm<cfif StructKeyExists(url,"p")>?p=#url.p#</cfif>" title="Search"<cfif find('/search.cfm',cgi.script_name)> class="current"</cfif>>Search</a></li>
 			<cfif session.user.admin>
 			<li><a href="#application.settings.mapping#/admin/users.cfm" title="Admin"<cfif find('/admin/',cgi.script_name)> class="current"</cfif>>Admin</a></li>
 			</cfif>
