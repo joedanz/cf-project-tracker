@@ -14,7 +14,7 @@
 	</cffunction>
 
 	<cffunction name="get" access="public" returnType="query" output="false"
-				hint="Returns projects.">
+				hint="Returns milestones.">
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfargument name="milestoneID" type="string" required="false" default="">
 		<cfargument name="type" type="string" required="false" default="">
