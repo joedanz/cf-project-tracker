@@ -13,7 +13,12 @@
 </cfif>
 
 <cfif compare(form.search,'')>
+	<cfset comments = application.search.comments(form.search)>
+	<cfset files = application.search.files(form.search)>
+	<cfset issues = application.search.issues(form.search)>
 	<cfset messages = application.search.messages(form.search)>
+	<cfset mstones = application.search.milestones(form.search)>
+	<cfset todos = application.search.todos(form.search)>
 </cfif>
 
 <!--- Loads header/footer --->
@@ -47,24 +52,23 @@ $(document).ready(function(){
 					<div class="wrapper">
 
 						<cfif compare(form.search,'')>
-						Show <a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#">All Matches</a> or filter by 
+						Show <a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#">All Matches (#comments.recordCount+files.recordCount+issues.recordCount+messages.recordCount+mstones.recordCount+todos.recordCount#)</a> or filter by 
 							<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&f=msgs">Messages (#messages.recordCount#)</a>, 
-							<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&f=comments">Comments</a>, 
-							<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&f=todos">To-Dos</a>, 
-							<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&f=files">Files</a>, 
-							<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&f=mstones">Milestones</a>, 
-							<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&f=issues">Issues</a>
-
-						</cfif>
-
-						<p class="g">
-						<cfif compare(url.p,'')>
-							Enter your search term above to search the &quot;#project.name#&quot; project.<br />
-							You might also want to <a href="#cgi.script_name#">search all projects</a>.
+							<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&f=comments">Comments (#comments.recordCount#)</a>, 
+							<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&f=todos">To-Dos (#todos.recordCount#)</a>, 
+							<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&f=files">Files (#files.recordCount#)</a>, 
+							<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&f=mstones">Milestones (#mstones.recordCount#)</a>, 
+							<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&f=issues">Issues (#issues.recordCount#)</a>
 						<cfelse>
-							Enter your search term above to search across all projects.
+							<p class="g">
+							<cfif compare(url.p,'')>
+								Enter your search term above to search the &quot;#project.name#&quot; project.<br />
+								You might also want to <a href="#cgi.script_name#">search all projects</a>.
+							<cfelse>
+								Enter your search term above to search across all projects.
+							</cfif>
+							</p>
 						</cfif>
-						</p>
 
 				 	</div>
 				</div>
