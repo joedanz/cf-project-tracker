@@ -27,7 +27,7 @@
 	<cfparam name="form.email_todos" default="0">
 	<cfparam name="form.mobile_todos" default="0">
 	<cfset application.user.notifyUpdate(session.user.userid,form.email_files,form.mobile_files,form.email_issues,form.mobile_issues,form.email_msgs,form.mobile_msgs,form.email_mstones,form.mobile_mstones,form.email_todos,form.mobile_todos)>
-	<cfset whichTab = 2>	
+	<cfset whichTab = 3>	
 <cfelseif StructKeyExists(form,"submit2")>
 	<cfif not compareNoCase(form.pass1,form.pass2)>
 		<cfset newPass = form.pass1>
@@ -36,14 +36,14 @@
 	</cfif>
 	<cfset application.user.acctUpdate(session.user.userID,form.username,newPass)>
 	<cfset session.user.username = form.username>
-	<cfset whichTab = 3>
+	<cfset whichTab = 4>
 <cfelseif StructKeyExists(form,"submitimage")>
 	<cfif application.isCF8> <!--- include prevents invalid tag error from on earlier versions --->
 		<cfinclude template="img_proc_acct_cf8.cfm">
 	<cfelseif application.isBD>
 		<cfinclude template="img_proc_acct_bd.cfm">
 	</cfif>
-	<cfset whichTab = 4>
+	<cfset whichTab = 5>
 <cfelseif StructKeyExists(url,"rmvimg")>
 	<cftry>
 	<cffile action="delete" file="#ExpandPath('./images/avatars')#/#session.user.userid#_72.jpg">
@@ -53,19 +53,16 @@
 	<cfcatch></cfcatch>
 	</cftry>
 	<cfset application.user.setImage(session.user.userID,0)>
-	<cfset whichTab = 4>
-	<cfif not application.isCF8 and not application.isBD>
-		<cfset whichTab = whichTab - 1>
-	</cfif>		
+	<cfset whichTab = 5>
 <cfelseif StructKeyExists(form,"style")>
 	<cfset session.style = form.style>
 	<cfset application.user.setStyle(session.user.userID,form.style)>
-	<cfset whichTab = 5>
+	<cfset whichTab = 6>
 	<cfif not application.isCF8 and not application.isBD>
 		<cfset whichTab = whichTab - 1>
 	</cfif>
 <cfelseif StructKeyExists(url,"editStyle")>
-	<cfset whichTab = 5>
+	<cfset whichTab = 6>
 	<cfif not application.isCF8 and not application.isBD>
 		<cfset whichTab = whichTab - 1>
 	</cfif>
