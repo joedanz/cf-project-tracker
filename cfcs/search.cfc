@@ -19,8 +19,10 @@
 		<cfset var qComments = "">
 		
 		<cfquery name="qComments" datasource="#variables.dsn#">
-			SELECT c.commentID,c.itemID,c.commentText,c.stamp,u.userID,u.firstName,u.lastName,u.avatar
-				FROM #variables.tableprefix#comments c LEFT JOIN #variables.tableprefix#users u	ON c.userid = u.userid
+			SELECT c.commentID,c.itemID,c.commentText,c.stamp,m.title,u.userID,u.firstName,u.lastName,u.avatar
+				FROM #variables.tableprefix#comments c 
+					LEFT JOIN #variables.tableprefix#messages m	ON c.messageID = m.messageID  
+					LEFT JOIN #variables.tableprefix#users u ON c.userid = u.userid
 			WHERE c.commentText like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
 			ORDER BY c.stamp desc
 		</cfquery>
@@ -113,6 +115,42 @@
 				OR m.description like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">)
 		</cfquery>
 		<cfreturn qMilestones>
+	</cffunction>
+
+	<cffunction name="projects" access="public" returntype="query" output="false"
+				hint="Returns project records.">				
+		<cfargument name="searchText" type="string" required="true">
+		<cfset var qProjects = "">
+		<cfquery name="qProjects" datasource="#variables.dsn#">
+			SELECT p.projectID, p.ownerID, p.clientID, p.name, p.description, p.display, p.added, 
+				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, 
+				pu.admin, pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos, pu.svn, 
+				c.name as clientName, u.firstName as ownerFirstName, u.lastName as ownerLastName
+			FROM #variables.tableprefix#projects p 
+				INNER JOIN #variables.tableprefix#project_users pu ON p.projectID = pu.projectID
+				INNER JOIN #variables.tableprefix#users u ON p.ownerID = u.userID
+				LEFT JOIN #variables.tableprefix#clients c on p.clientID = c.clientID 
+			WHERE (p.name like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
+				OR p.description like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">)
+				ORDER BY p.name
+		</cfquery>		
+		<cfreturn qProjects>
+	</cffunction>
+
+	<cffunction name="screenshots" access="public" returnType="query" output="false"
+				hint="Returns projects.">
+		<cfargument name="searchText" type="string" required="true">
+		<cfset var qScreenshots = "">
+		<cfquery name="qScreenshots" datasource="#variables.dsn#">
+			SELECT s.fileID, s.title, s.description, s.filename, s.serverfilename, s.filetype,
+				s.filesize,s.uploaded,s.uploadedBy,u.firstName, u.lastName
+			FROM #variables.tableprefix#screenshots s 
+				LEFT JOIN #variables.tableprefix#users u ON s.uploadedBy = u.userID
+			WHERE (s.title like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
+				OR s.filename like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
+				OR s.description like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">)
+		</cfquery>
+		<cfreturn qScreenshots>
 	</cffunction>
 
 	<cffunction name="todos" access="public" returnType="query" output="false"
