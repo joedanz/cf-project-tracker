@@ -34,7 +34,9 @@ a:link, a:visited {color:##00f;}</style>
 <input type="submit" value="Login" class="sub">
 <input type="hidden" name="logon" value="true">
 <cfloop item="field" collection="#form#">
-	<input type="hidden" name="#field#" value="#form[field]#" />
+	<cfif compareNoCase(field,'username') and compareNoCase(field,'password')>
+		<input type="hidden" name="#field#" value="#form[field]#" />
+	</cfif>
 </cfloop>
 </form>
 </div>	
