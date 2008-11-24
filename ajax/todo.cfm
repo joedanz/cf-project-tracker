@@ -54,7 +54,7 @@
 		</div>
 		</li>
 		<script type="text/javascript">
-			$('.date-pick').attachDatepicker();
+			$('.date-pick').datepicker();
 		</script>
 		<cfif not compareNoCase(url.i,todoID)>
 			<script type="text/javascript">
