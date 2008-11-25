@@ -83,7 +83,7 @@
 					</div>
 					</cfloop>
 					
-					<cfif project.msgs eq 2>
+					<cfif project.msgs eq 2 or session.user.admin>
 					<form action="#cgi.script_name#?p=#url.p#&m=#url.m#" method="post" name="add" id="add" class="frm" onsubmit="return confirm_comment();">
 					<div class="b">Post a new comment...</div>
 					<cfscript>
