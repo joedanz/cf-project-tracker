@@ -67,13 +67,14 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 
 /* CATEGORIES */
 .catbox { font-size:.85em;border:1px solid #555;text-align:center;text-transform:uppercase; }
+.comm { background-color:#3ff; }
 .issue { background-color:#c00; color:#fff; }
 .message { background-color:#00f; color:#fff; }
 .milestone { background-color:#ff0; }
 .todolist { background-color:#f90; }
 .file { background-color:#ffc; }
-.project { background-color:#fc0; }
-.screenshot { background:#39f; color:#fff; }
+.project { background-color:#9c3; }
+.screenshot { background:#033; color:#fff; }
 
 /* LEFT COLUMN */
 #container .left .main {
@@ -307,3 +308,7 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 	background-color:#ffc;
 	border:1px solid #ccc;
 }
+
+.searchresult { border:2px dotted #eee; background-color:#fafafa; }
+.searchresult+.odd { background-color:#f5f5f5; }
+.searchresult h4 { font-weight:bold; }

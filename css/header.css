@@ -92,4 +92,6 @@
 	border-bottom:none;
 }
 
+.subheader { padding:10px 20px; margin-bottom:15px; border-bottom:1px solid #ccc; border-top:1px solid #ccc; background:#ade1e7 url(../images/grad.png) repeat-x; }
+
 .menuhover { background-color:#fc0; cursor:pointer; }
