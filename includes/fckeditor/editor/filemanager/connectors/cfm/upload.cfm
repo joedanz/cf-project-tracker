@@ -1,7 +1,7 @@
-<?php
-/*
+<cfsetting enablecfoutputonly="Yes">
+<!---
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2007 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2008 Frederico Caldeira Knabben
  *
  * == BEGIN LICENSE ==
  *
@@ -19,15 +19,13 @@
  *
  * == END LICENSE ==
  *
- * This is the integration file for PHP (All versions).
+ * This is the "File Uploader" for ColdFusion (all versions).
  *
- * It loads the correct integration file based on the PHP version (avoinding
- * strict error messages with PHP 5).
- */
+--->
 
-if ( version_compare( phpversion(), '5', '<' ) )
-	include_once( 'fckeditor_php4.php' ) ;
-else
-	include_once( 'fckeditor_php5.php' ) ;
-
-?>
+<cfset REQUEST.CFVersion = Left( SERVER.COLDFUSION.PRODUCTVERSION, Find( ",", SERVER.COLDFUSION.PRODUCTVERSION ) - 1 )>
+<cfif REQUEST.CFVersion lte 5>
+	<cfinclude template="cf5_upload.cfm">
+<cfelse>
+	<cfinclude template="cf_upload.cfm">
+</cfif>

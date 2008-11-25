@@ -1,6 +1,6 @@
 ﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2007 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2008 Frederico Caldeira Knabben
  *
  * == BEGIN LICENSE ==
  *
@@ -44,7 +44,9 @@ RemoveFormat		: "Прибрати форматування",
 InsertLinkLbl		: "Посилання",
 InsertLink			: "Вставити/Редагувати посилання",
 RemoveLink			: "Знищити посилання",
+VisitLink			: "Open Link",	//MISSING
 Anchor				: "Вставити/Редагувати якір",
+AnchorDelete		: "Remove Anchor",	//MISSING
 InsertImageLbl		: "Зображення",
 InsertImage			: "Вставити/Редагувати зображення",
 InsertFlashLbl		: "Flash",
@@ -70,6 +72,10 @@ RightJustify		: "По правому краю",
 BlockJustify		: "По ширині",
 DecreaseIndent		: "Зменшити відступ",
 IncreaseIndent		: "Збільшити відступ",
+Blockquote			: "Blockquote",	//MISSING
+CreateDiv			: "Create Div Container",	//MISSING
+EditDiv				: "Edit Div Container",	//MISSING
+DeleteDiv			: "Remove Div Container",	//MISSING
 Undo				: "Повернути",
 Redo				: "Повторити",
 NumberedListLbl		: "Нумерований список",
@@ -103,20 +109,27 @@ SelectionField	: "Список",
 ImageButton		: "Кнопка із зображенням",
 
 FitWindow		: "Розвернути вікно редактора",
+ShowBlocks		: "Show Blocks",	//MISSING
 
 // Context Menu
 EditLink			: "Вставити посилання",
 CellCM				: "Осередок",
 RowCM				: "Рядок",
 ColumnCM			: "Колонка",
-InsertRow			: "Вставити строку",
+InsertRowAfter		: "Insert Row After",	//MISSING
+InsertRowBefore		: "Insert Row Before",	//MISSING
 DeleteRows			: "Видалити строки",
-InsertColumn		: "Вставити колонку",
+InsertColumnAfter	: "Insert Column After",	//MISSING
+InsertColumnBefore	: "Insert Column Before",	//MISSING
 DeleteColumns		: "Видалити колонки",
-InsertCell			: "Вставити комірку",
+InsertCellAfter		: "Insert Cell After",	//MISSING
+InsertCellBefore	: "Insert Cell Before",	//MISSING
 DeleteCells			: "Видалити комірки",
 MergeCells			: "Об'єднати комірки",
-SplitCell			: "Роз'єднати комірку",
+MergeRight			: "Merge Right",	//MISSING
+MergeDown			: "Merge Down",	//MISSING
+HorizontalSplitCell	: "Split Cell Horizontally",	//MISSING
+VerticalSplitCell	: "Split Cell Vertically",	//MISSING
 TableDelete			: "Видалити таблицю",
 CellProperties		: "Властивості комірки",
 TableProperties		: "Властивості таблиці",
@@ -134,7 +147,7 @@ SelectionFieldProp	: "Властивості списку",
 TextareaProp		: "Властивості текстової області",
 FormProp			: "Властивості форми",
 
-FontFormats			: "Нормальний;Форматований;Адреса;Заголовок 1;Заголовок 2;Заголовок 3;Заголовок 4;Заголовок 5;Заголовок 6",		//REVIEW : Check _getfontformat.html
+FontFormats			: "Нормальний;Форматований;Адреса;Заголовок 1;Заголовок 2;Заголовок 3;Заголовок 4;Заголовок 5;Заголовок 6;Нормальний (DIV)",
 
 // Alerts and Messages
 ProcessingXHTML		: "Обробка XHTML. Зачекайте, будь ласка...",
@@ -148,6 +161,7 @@ UnknownToolbarSet	: "Панель інструментів \"%1\" не існу�
 NoActiveX			: "Настройки безпеки вашого браузера можуть обмежувати деякі властивості редактора. Ви повинні включити опцію \"Запускати елементи управління ACTIVEX і плугіни\". Ви можете бачити помилки і помічати відсутність можливостей.",
 BrowseServerBlocked : "Ресурси браузера не можуть бути відкриті. Перевірте що блокування спливаючих вікон вимкнені.",
 DialogBlocked		: "Не можливо відкрити вікно діалогу. Перевірте що блокування спливаючих вікон вимкнені.",
+VisitLinkBlocked	: "It was not possible to open a new window. Make sure all popup blockers are disabled.",	//MISSING
 
 // Dialogs
 DlgBtnOK			: "ОК",
@@ -229,7 +243,7 @@ DlgLnkURL			: "URL",
 DlgLnkAnchorSel		: "Оберіть якір",
 DlgLnkAnchorByName	: "За ім'ям якоря",
 DlgLnkAnchorById	: "За ідентифікатором елемента",
-DlgLnkNoAnchors		: "<Немає якорів доступних в цьому документі>",		//REVIEW : Change < and > with ( and )
+DlgLnkNoAnchors		: "(Немає якорів доступних в цьому документі)",
 DlgLnkEMail			: "Адреса ел. пошти",
 DlgLnkEMailSubject	: "Тема листа",
 DlgLnkEMailBody		: "Тіло повідомлення",
@@ -322,6 +336,9 @@ DlgCellBackColor	: "Колір фона",
 DlgCellBorderColor	: "Колір бордюра",
 DlgCellBtnSelect	: "Оберіть...",
 
+// Find and Replace Dialog
+DlgFindAndReplaceTitle	: "Find and Replace",	//MISSING
+
 // Find Dialog
 DlgFindTitle		: "Пошук",
 DlgFindFindBtn		: "Пошук",
@@ -344,10 +361,9 @@ PasteAsText		: "Вставити тільки текст",
 PasteFromWord	: "Вставити з Word",
 
 DlgPasteMsg2	: "Будь-ласка, вставте з буфера обміну в цю область, користуючись комбінацією клавіш (<STRONG>Ctrl+V</STRONG>) та натисніть <STRONG>OK</STRONG>.",
-DlgPasteSec		: "Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.",	//MISSING
+DlgPasteSec		: "Редактор не може отримати прямий доступ до буферу обміну у зв'язку з налаштуваннями вашого браузера. Вам потрібно вставити інформацію повторно в це вікно.",
 DlgPasteIgnoreFont		: "Ігнорувати налаштування шрифтів",
 DlgPasteRemoveStyles	: "Видалити налаштування стилів",
-DlgPasteCleanBox		: "Очистити область",
 
 // Color Picker
 ColorAutomatic	: "Автоматичний",
@@ -500,5 +516,11 @@ DlgAboutAboutTab	: "Про програму",
 DlgAboutBrowserInfoTab	: "Інформація браузера",
 DlgAboutLicenseTab	: "Ліцензія",
 DlgAboutVersion		: "Версія",
-DlgAboutInfo		: "Додаткову інформацію дивіться на "
+DlgAboutInfo		: "Додаткову інформацію дивіться на ",
+
+// Div Dialog
+DlgDivGeneralTab	: "General",	//MISSING
+DlgDivAdvancedTab	: "Advanced",	//MISSING
+DlgDivStyle		: "Style",	//MISSING
+DlgDivInlineStyle	: "Inline Style"	//MISSING
 };

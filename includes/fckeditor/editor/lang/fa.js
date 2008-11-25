@@ -1,6 +1,6 @@
 ﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2007 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2008 Frederico Caldeira Knabben
  *
  * == BEGIN LICENSE ==
  *
@@ -44,7 +44,9 @@ RemoveFormat		: "برداشتن فرمت",
 InsertLinkLbl		: "پیوند",
 InsertLink			: "گنجاندن/ویرایش ِپیوند",
 RemoveLink			: "برداشتن پیوند",
+VisitLink			: "باز کردن پیوند",
 Anchor				: "گنجاندن/ویرایش ِلنگر",
+AnchorDelete		: "برداشتن لنگر",
 InsertImageLbl		: "تصویر",
 InsertImage			: "گنجاندن/ویرایش ِتصویر",
 InsertFlashLbl		: "Flash",
@@ -70,6 +72,10 @@ RightJustify		: "راست‌چین",
 BlockJustify		: "بلوک‌چین",
 DecreaseIndent		: "کاهش تورفتگی",
 IncreaseIndent		: "افزایش تورفتگی",
+Blockquote			: "بلوک نقل قول",
+CreateDiv			: "Create Div Container",	//MISSING
+EditDiv				: "Edit Div Container",	//MISSING
+DeleteDiv			: "Remove Div Container",	//MISSING
 Undo				: "واچیدن",
 Redo				: "بازچیدن",
 NumberedListLbl		: "فهرست شماره‌دار",
@@ -103,20 +109,27 @@ SelectionField	: "فیلد چندگزینه‌ای",
 ImageButton		: "دکمهٴ تصویری",
 
 FitWindow		: "بیشینه‌سازی ِاندازهٴ ویرایشگر",
+ShowBlocks		: "نمایش بلوک‌ها",
 
 // Context Menu
 EditLink			: "ویرایش پیوند",
 CellCM				: "سلول",
 RowCM				: "سطر",
 ColumnCM			: "ستون",
-InsertRow			: "گنجاندن سطر",
+InsertRowAfter		: "افزودن سطر بعد از",
+InsertRowBefore		: "افزودن سطر قبل از",
 DeleteRows			: "حذف سطرها",
-InsertColumn		: "گنجاندن ستون",
+InsertColumnAfter	: "افزودن ستون بعد از",
+InsertColumnBefore	: "افزودن ستون قبل از",
 DeleteColumns		: "حذف ستونها",
-InsertCell			: "گنجاندن سلول",
+InsertCellAfter		: "افزودن سلول بعد از",
+InsertCellBefore	: "افزودن سلول قبل از",
 DeleteCells			: "حذف سلولها",
 MergeCells			: "ادغام سلولها",
-SplitCell			: "جداسازی سلول",
+MergeRight			: "ادغام به راست",
+MergeDown			: "ادغام به پایین",
+HorizontalSplitCell	: "جدا کردن افقی سلول",
+VerticalSplitCell	: "جدا کردن عمودی سلول",
 TableDelete			: "پاک‌کردن جدول",
 CellProperties		: "ویژگیهای سلول",
 TableProperties		: "ویژگیهای جدول",
@@ -134,12 +147,12 @@ SelectionFieldProp	: "ویژگیهای فیلد چندگزینه‌ای",
 TextareaProp		: "ویژگیهای ناحیهٴ متنی",
 FormProp			: "ویژگیهای فرم",
 
-FontFormats			: "نرمال;فرمت‌شده;آدرس;سرنویس 1;سرنویس 2;سرنویس 3;سرنویس 4;سرنویس 5;سرنویس 6;بند;(DIV)",		//REVIEW : Check _getfontformat.html
+FontFormats			: "نرمال;فرمت‌شده;آدرس;سرنویس 1;سرنویس 2;سرنویس 3;سرنویس 4;سرنویس 5;سرنویس 6;بند;(DIV)",
 
 // Alerts and Messages
 ProcessingXHTML		: "پردازش XHTML. لطفا صبر کنید...",
 Done				: "انجام شد",
-PasteWordConfirm	: "کپی شده است. آیا می‌خواهید قبل از چسباندن آن را پاک‌سازی کنید؟ Word متنی که می‌خواهید بچسبانید به نظر می‌رسد از",
+PasteWordConfirm	: "متنی که می‌خواهید بچسبانید به نظر می‌رسد از Word کپی شده است. آیا می‌خواهید قبل از چسباندن آن را پاک‌سازی کنید؟",
 NotCompatiblePaste	: "این فرمان برای مرورگر Internet Explorer از نگارش 5.5 یا بالاتر در دسترس است. آیا می‌خواهید بدون پاک‌سازی، متن را بچسبانید؟",
 UnknownToolbarItem	: "فقرهٴ نوارابزار ناشناخته \"%1\"",
 UnknownCommand		: "نام دستور ناشناخته \"%1\"",
@@ -148,6 +161,7 @@ UnknownToolbarSet	: "مجموعهٴ نوارابزار \"%1\" وجود ندار�
 NoActiveX			: "تنظیمات امنیتی مرورگر شما ممکن است در بعضی از ویژگیهای مرورگر محدودیت ایجاد کند. شما باید گزینهٴ \"Run ActiveX controls and plug-ins\" را فعال کنید. ممکن است شما با خطاهایی روبرو باشید و متوجه کمبود ویژگیهایی شوید.",
 BrowseServerBlocked : "توانایی بازگشایی مرورگر منابع فراهم نیست. اطمینان حاصل کنید که تمامی برنامه‌های پیشگیری از نمایش popup را از کار بازداشته‌اید.",
 DialogBlocked		: "توانایی بازگشایی پنجرهٴ کوچک ِگفتگو فراهم نیست. اطمینان حاصل کنید که تمامی برنامه‌های پیشگیری از نمایش popup را از کار بازداشته‌اید.",
+VisitLinkBlocked	: "امکان بازکردن یک پنجره جدید نیست. اطمینان حاصل کنید که تمامی برنامه‌های پیشگیری از نمایش popup را از کار بازداشته‌اید.",
 
 // Dialogs
 DlgBtnOK			: "پذیرش",
@@ -229,7 +243,7 @@ DlgLnkURL			: "URL",
 DlgLnkAnchorSel		: "یک لنگر برگزینید",
 DlgLnkAnchorByName	: "با نام لنگر",
 DlgLnkAnchorById	: "با شناسهٴ المان",
-DlgLnkNoAnchors		: "<در این سند لنگری دردسترس نیست>",		//REVIEW : Change < and > with ( and )
+DlgLnkNoAnchors		: "(در این سند لنگری دردسترس نیست)",
 DlgLnkEMail			: "نشانی پست الکترونیکی",
 DlgLnkEMailSubject	: "موضوع پیام",
 DlgLnkEMailBody		: "متن پیام",
@@ -246,7 +260,7 @@ DlgLnkTargetTop		: "بالاترین پنجره (_top)",
 DlgLnkTargetFrameName	: "نام فریم مقصد",
 DlgLnkPopWinName	: "نام پنجرهٴ پاپاپ",
 DlgLnkPopWinFeat	: "ویژگیهای پنجرهٴ پاپاپ",
-DlgLnkPopResize		: "قابل تغیر اندازه",
+DlgLnkPopResize		: "قابل تغییر اندازه",
 DlgLnkPopLocation	: "نوار موقعیت",
 DlgLnkPopMenu		: "نوار منو",
 DlgLnkPopScroll		: "میله‌های پیمایش",
@@ -322,6 +336,9 @@ DlgCellBackColor	: "رنگ پس‌زمینه",
 DlgCellBorderColor	: "رنگ لبه",
 DlgCellBtnSelect	: "برگزینید...",
 
+// Find and Replace Dialog
+DlgFindAndReplaceTitle	: "جستجو و جایگزینی",
+
 // Find Dialog
 DlgFindTitle		: "یافتن",
 DlgFindFindBtn		: "یافتن",
@@ -344,10 +361,9 @@ PasteAsText		: "چسباندن به عنوان متن ِساده",
 PasteFromWord	: "چسباندن از Word",
 
 DlgPasteMsg2	: "لطفا متن را با کلیدهای (<STRONG>Ctrl+V</STRONG>) در این جعبهٴ متنی بچسبانید و <STRONG>پذیرش</STRONG> را بزنید.",
-DlgPasteSec		: "Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.",	//MISSING
+DlgPasteSec		: "به خاطر تنظیمات امنیتی مرورگر شما، ویرایشگر نمی‌تواند دسترسی مستقیم به داده‌های clipboard داشته باشد. شما باید دوباره آنرا در این پنجره بچسبانید.",
 DlgPasteIgnoreFont		: "چشم‌پوشی از تعاریف نوع قلم",
 DlgPasteRemoveStyles	: "چشم‌پوشی از تعاریف سبک (style)",
-DlgPasteCleanBox		: "پاک‌کردن ناحیه",
 
 // Color Picker
 ColorAutomatic	: "خودکار",
@@ -362,8 +378,8 @@ DlgAnchorName		: "نام لنگر",
 DlgAnchorErrorName	: "لطفا نام لنگر را بنویسید",
 
 // Speller Pages Dialog
-DlgSpellNotInDic		: "در واژه‌نامه موجود نیست",
-DlgSpellChangeTo		: "تغیر به",
+DlgSpellNotInDic		: "در واژه‌نامه یافت نشد",
+DlgSpellChangeTo		: "تغییر به",
 DlgSpellBtnIgnore		: "چشم‌پوشی",
 DlgSpellBtnIgnoreAll	: "چشم‌پوشی همه",
 DlgSpellBtnReplace		: "جایگزینی",
@@ -372,9 +388,9 @@ DlgSpellBtnUndo			: "واچینش",
 DlgSpellNoSuggestions	: "- پیشنهادی نیست -",
 DlgSpellProgress		: "بررسی املا در حال انجام...",
 DlgSpellNoMispell		: "بررسی املا انجام شد. هیچ غلط‌املائی یافت نشد",
-DlgSpellNoChanges		: "بررسی املا انجام شد. هیچ واژه‌ای تغیر نیافت",
-DlgSpellOneChange		: "بررسی املا انجام شد. یک واژه تغیر یافت",
-DlgSpellManyChanges		: "بررسی املا انجام شد. %1 واژه تغیر یافت",
+DlgSpellNoChanges		: "بررسی املا انجام شد. هیچ واژه‌ای تغییر نیافت",
+DlgSpellOneChange		: "بررسی املا انجام شد. یک واژه تغییر یافت",
+DlgSpellManyChanges		: "بررسی املا انجام شد. %1 واژه تغییر یافت",
 
 IeSpellDownload			: "بررسی‌کنندهٴ املا نصب نشده است. آیا می‌خواهید آن را هم‌اکنون دریافت کنید؟",
 
@@ -392,7 +408,7 @@ DlgCheckboxSelected	: "برگزیده",
 
 // Form Dialog
 DlgFormName		: "نام",
-DlgFormAction	: "اقدام",
+DlgFormAction	: "رویداد",
 DlgFormMethod	: "متد",
 
 // Select Field Dialog
@@ -401,15 +417,15 @@ DlgSelectValue		: "مقدار",
 DlgSelectSize		: "اندازه",
 DlgSelectLines		: "خطوط",
 DlgSelectChkMulti	: "گزینش چندگانه فراهم باشد",
-DlgSelectOpAvail	: "گزینه‌های موجود",
+DlgSelectOpAvail	: "گزینه‌های دردسترس",
 DlgSelectOpText		: "متن",
 DlgSelectOpValue	: "مقدار",
-DlgSelectBtnAdd		: "اضافه",
+DlgSelectBtnAdd		: "افزودن",
 DlgSelectBtnModify	: "ویرایش",
 DlgSelectBtnUp		: "بالا",
 DlgSelectBtnDown	: "پائین",
 DlgSelectBtnSetValue : "تنظیم به عنوان مقدار ِبرگزیده",
-DlgSelectBtnDelete	: "حذف",
+DlgSelectBtnDelete	: "پاک‌کردن",
 
 // Textarea Dialog
 DlgTextareaName	: "نام",
@@ -500,5 +516,11 @@ DlgAboutAboutTab	: "درباره",
 DlgAboutBrowserInfoTab	: "اطلاعات مرورگر",
 DlgAboutLicenseTab	: "گواهینامه",
 DlgAboutVersion		: "نگارش",
-DlgAboutInfo		: "برای آگاهی بیشتر به این نشانی بروید"
+DlgAboutInfo		: "برای آگاهی بیشتر به این نشانی بروید",
+
+// Div Dialog
+DlgDivGeneralTab	: "General",	//MISSING
+DlgDivAdvancedTab	: "Advanced",	//MISSING
+DlgDivStyle		: "Style",	//MISSING
+DlgDivInlineStyle	: "Inline Style"	//MISSING
 };

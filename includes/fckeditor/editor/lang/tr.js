@@ -1,6 +1,6 @@
 ﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2007 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2008 Frederico Caldeira Knabben
  *
  * == BEGIN LICENSE ==
  *
@@ -44,7 +44,9 @@ RemoveFormat		: "Biçimi Kaldır",
 InsertLinkLbl		: "Köprü",
 InsertLink			: "Köprü Ekle/Düzenle",
 RemoveLink			: "Köprü Kaldır",
+VisitLink			: "Open Link",	//MISSING
 Anchor				: "Çapa Ekle/Düzenle",
+AnchorDelete		: "Remove Anchor",	//MISSING
 InsertImageLbl		: "Resim",
 InsertImage			: "Resim Ekle/Düzenle",
 InsertFlashLbl		: "Flash",
@@ -70,6 +72,10 @@ RightJustify		: "Sağa Dayalı",
 BlockJustify		: "İki Kenara Yaslanmış",
 DecreaseIndent		: "Sekme Azalt",
 IncreaseIndent		: "Sekme Arttır",
+Blockquote			: "Blockquote",	//MISSING
+CreateDiv			: "Create Div Container",	//MISSING
+EditDiv				: "Edit Div Container",	//MISSING
+DeleteDiv			: "Remove Div Container",	//MISSING
 Undo				: "Geri Al",
 Redo				: "Tekrarla",
 NumberedListLbl		: "Numaralı Liste",
@@ -103,20 +109,27 @@ SelectionField	: "Seçim Menüsü",
 ImageButton		: "Resimli Düğme",
 
 FitWindow		: "Düzenleyici boyutunu büyüt",
+ShowBlocks		: "Show Blocks",	//MISSING
 
 // Context Menu
 EditLink			: "Köprü Düzenle",
 CellCM				: "Hücre",
 RowCM				: "Satır",
 ColumnCM			: "Sütun",
-InsertRow			: "Satır Ekle",
+InsertRowAfter		: "Insert Row After",	//MISSING
+InsertRowBefore		: "Insert Row Before",	//MISSING
 DeleteRows			: "Satır Sil",
-InsertColumn		: "Sütun Ekle",
+InsertColumnAfter	: "Insert Column After",	//MISSING
+InsertColumnBefore	: "Insert Column Before",	//MISSING
 DeleteColumns		: "Sütun Sil",
-InsertCell			: "Hücre Ekle",
+InsertCellAfter		: "Insert Cell After",	//MISSING
+InsertCellBefore	: "Insert Cell Before",	//MISSING
 DeleteCells			: "Hücre Sil",
 MergeCells			: "Hücreleri Birleştir",
-SplitCell			: "Hücre Böl",
+MergeRight			: "Merge Right",	//MISSING
+MergeDown			: "Merge Down",	//MISSING
+HorizontalSplitCell	: "Split Cell Horizontally",	//MISSING
+VerticalSplitCell	: "Split Cell Vertically",	//MISSING
 TableDelete			: "Tabloyu Sil",
 CellProperties		: "Hücre Özellikleri",
 TableProperties		: "Tablo Özellikleri",
@@ -134,7 +147,7 @@ SelectionFieldProp	: "Seçim Menüsü Özellikleri",
 TextareaProp		: "Çok Satırlı Metin Özellikleri",
 FormProp			: "Form Özellikleri",
 
-FontFormats			: "Normal;Biçimli;Adres;Başlık 1;Başlık 2;Başlık 3;Başlık 4;Başlık 5;Başlık 6;Paragraf (DIV)",		//REVIEW : Check _getfontformat.html
+FontFormats			: "Normal;Biçimli;Adres;Başlık 1;Başlık 2;Başlık 3;Başlık 4;Başlık 5;Başlık 6;Paragraf (DIV)",
 
 // Alerts and Messages
 ProcessingXHTML		: "XHTML işleniyor. Lütfen bekleyin...",
@@ -148,6 +161,7 @@ UnknownToolbarSet	: "\"%1\" araç çubuğu öğesi mevcut değil",
 NoActiveX			: "Kullandığınız tarayıcının güvenlik ayarları bazı özelliklerin kullanılmasını engelliyor. Bu özelliklerin çalışması için \"Run ActiveX controls and plug-ins (Activex ve eklentileri çalıştır)\" seçeneğinin aktif yapılması gerekiyor. Kullanılamayan eklentiler ve hatalar konusunda daha fazla bilgi sahibi olun.",
 BrowseServerBlocked : "Kaynak tarayıcısı açılamadı. Tüm \"popup blocker\" programlarının devre dışı olduğundan emin olun. (Yahoo toolbar, Msn toolbar, Google toolbar gibi)",
 DialogBlocked		: "Diyalog açmak mümkün olmadı. Tüm \"Popup Blocker\" programlarının devre dışı olduğundan emin olun.",
+VisitLinkBlocked	: "It was not possible to open a new window. Make sure all popup blockers are disabled.",	//MISSING
 
 // Dialogs
 DlgBtnOK			: "Tamam",
@@ -229,7 +243,7 @@ DlgLnkURL			: "URL",
 DlgLnkAnchorSel		: "Çapa Seç",
 DlgLnkAnchorByName	: "Çapa Adı ile",
 DlgLnkAnchorById	: "Eleman Kimlik Numarası ile",
-DlgLnkNoAnchors		: "<Bu belgede hiç çapa yok>",		//REVIEW : Change < and > with ( and )
+DlgLnkNoAnchors		: "(Bu belgede hiç çapa yok)",
 DlgLnkEMail			: "E-Posta Adresi",
 DlgLnkEMailSubject	: "İleti Konusu",
 DlgLnkEMailBody		: "İleti Gövdesi",
@@ -322,6 +336,9 @@ DlgCellBackColor	: "Arka Plan Rengi",
 DlgCellBorderColor	: "Kenar Rengi",
 DlgCellBtnSelect	: "Seç...",
 
+// Find and Replace Dialog
+DlgFindAndReplaceTitle	: "Find and Replace",	//MISSING
+
 // Find Dialog
 DlgFindTitle		: "Bul",
 DlgFindFindBtn		: "Bul",
@@ -347,7 +364,6 @@ DlgPasteMsg2	: "Lütfen aşağıdaki kutunun içine yapıştırın. (<STRONG>Ctr
 DlgPasteSec		: "Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.",	//MISSING
 DlgPasteIgnoreFont		: "Yazı Tipi tanımlarını yoksay",
 DlgPasteRemoveStyles	: "Biçem Tanımlarını çıkar",
-DlgPasteCleanBox		: "Temizlik Kutusu",
 
 // Color Picker
 ColorAutomatic	: "Otomatik",
@@ -500,5 +516,11 @@ DlgAboutAboutTab	: "Hakkında",
 DlgAboutBrowserInfoTab	: "Gezgin Bilgisi",
 DlgAboutLicenseTab	: "Lisans",
 DlgAboutVersion		: "sürüm",
-DlgAboutInfo		: "Daha fazla bilgi için:"
+DlgAboutInfo		: "Daha fazla bilgi için:",
+
+// Div Dialog
+DlgDivGeneralTab	: "General",	//MISSING
+DlgDivAdvancedTab	: "Advanced",	//MISSING
+DlgDivStyle		: "Style",	//MISSING
+DlgDivInlineStyle	: "Inline Style"	//MISSING
 };

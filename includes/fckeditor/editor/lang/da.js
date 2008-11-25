@@ -1,6 +1,6 @@
 ﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2007 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2008 Frederico Caldeira Knabben
  *
  * == BEGIN LICENSE ==
  *
@@ -44,7 +44,9 @@ RemoveFormat		: "Fjern formatering",
 InsertLinkLbl		: "Hyperlink",
 InsertLink			: "Indsæt/rediger hyperlink",
 RemoveLink			: "Fjern hyperlink",
+VisitLink			: "Open Link",	//MISSING
 Anchor				: "Indsæt/rediger bogmærke",
+AnchorDelete		: "Remove Anchor",	//MISSING
 InsertImageLbl		: "Indsæt billede",
 InsertImage			: "Indsæt/rediger billede",
 InsertFlashLbl		: "Flash",
@@ -70,6 +72,10 @@ RightJustify		: "Højrestillet",
 BlockJustify		: "Lige margener",
 DecreaseIndent		: "Formindsk indrykning",
 IncreaseIndent		: "Forøg indrykning",
+Blockquote			: "Blockquote",	//MISSING
+CreateDiv			: "Create Div Container",	//MISSING
+EditDiv				: "Edit Div Container",	//MISSING
+DeleteDiv			: "Remove Div Container",	//MISSING
 Undo				: "Fortryd",
 Redo				: "Annuller fortryd",
 NumberedListLbl		: "Talopstilling",
@@ -103,20 +109,27 @@ SelectionField	: "Indsæt liste",
 ImageButton		: "Indsæt billedknap",
 
 FitWindow		: "Maksimer editor vinduet",
+ShowBlocks		: "Show Blocks",	//MISSING
 
 // Context Menu
 EditLink			: "Rediger hyperlink",
 CellCM				: "Celle",
 RowCM				: "Række",
 ColumnCM			: "Kolonne",
-InsertRow			: "Indsæt række",
+InsertRowAfter		: "Insert Row After",	//MISSING
+InsertRowBefore		: "Insert Row Before",	//MISSING
 DeleteRows			: "Slet række",
-InsertColumn		: "Indsæt kolonne",
+InsertColumnAfter	: "Insert Column After",	//MISSING
+InsertColumnBefore	: "Insert Column Before",	//MISSING
 DeleteColumns		: "Slet kolonne",
-InsertCell			: "Indsæt celle",
+InsertCellAfter		: "Insert Cell After",	//MISSING
+InsertCellBefore	: "Insert Cell Before",	//MISSING
 DeleteCells			: "Slet celle",
 MergeCells			: "Flet celler",
-SplitCell			: "Opdel celle",
+MergeRight			: "Merge Right",	//MISSING
+MergeDown			: "Merge Down",	//MISSING
+HorizontalSplitCell	: "Split Cell Horizontally",	//MISSING
+VerticalSplitCell	: "Split Cell Vertically",	//MISSING
 TableDelete			: "Slet tabel",
 CellProperties		: "Egenskaber for celle",
 TableProperties		: "Egenskaber for tabel",
@@ -134,7 +147,7 @@ SelectionFieldProp	: "Egenskaber for liste",
 TextareaProp		: "Egenskaber for tekstboks",
 FormProp			: "Egenskaber for formular",
 
-FontFormats			: "Normal;Formateret;Adresse;Overskrift 1;Overskrift 2;Overskrift 3;Overskrift 4;Overskrift 5;Overskrift 6;Normal (DIV)",		//REVIEW : Check _getfontformat.html
+FontFormats			: "Normal;Formateret;Adresse;Overskrift 1;Overskrift 2;Overskrift 3;Overskrift 4;Overskrift 5;Overskrift 6;Normal (DIV)",
 
 // Alerts and Messages
 ProcessingXHTML		: "Behandler XHTML...",
@@ -148,6 +161,7 @@ UnknownToolbarSet	: "Værktøjslinjen \"%1\" eksisterer ikke!",
 NoActiveX			: "Din browsers sikkerhedsindstillinger begrænser nogle af editorens muligheder.<br>Slå \"Kør ActiveX-objekter og plug-ins\" til, ellers vil du opleve fejl og manglende muligheder.",
 BrowseServerBlocked : "Browseren kunne ikke åbne de nødvendige ressourcer!<br>Slå pop-up blokering fra.",
 DialogBlocked		: "Dialogvinduet kunne ikke åbnes!<br>Slå pop-up blokering fra.",
+VisitLinkBlocked	: "It was not possible to open a new window. Make sure all popup blockers are disabled.",	//MISSING
 
 // Dialogs
 DlgBtnOK			: "OK",
@@ -229,7 +243,7 @@ DlgLnkURL			: "URL",
 DlgLnkAnchorSel		: "Vælg et anker",
 DlgLnkAnchorByName	: "Efter anker navn",
 DlgLnkAnchorById	: "Efter element Id",
-DlgLnkNoAnchors		: "<Ingen bogmærker dokumentet>",		//REVIEW : Change < and > with ( and )
+DlgLnkNoAnchors		: "(Ingen bogmærker dokumentet)",
 DlgLnkEMail			: "E-mailadresse",
 DlgLnkEMailSubject	: "Emne",
 DlgLnkEMailBody		: "Brødtekst",
@@ -322,6 +336,9 @@ DlgCellBackColor	: "Baggrundsfarve",
 DlgCellBorderColor	: "Rammefarve",
 DlgCellBtnSelect	: "Vælg...",
 
+// Find and Replace Dialog
+DlgFindAndReplaceTitle	: "Find and Replace",	//MISSING
+
 // Find Dialog
 DlgFindTitle		: "Find",
 DlgFindFindBtn		: "Find",
@@ -347,7 +364,6 @@ DlgPasteMsg2	: "Indsæt i feltet herunder (<STRONG>Ctrl+V</STRONG>) og klik <STR
 DlgPasteSec		: "Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.",	//MISSING
 DlgPasteIgnoreFont		: "Ignorer font definitioner",
 DlgPasteRemoveStyles	: "Ignorer typografi",
-DlgPasteCleanBox		: "Slet indhold",
 
 // Color Picker
 ColorAutomatic	: "Automatisk",
@@ -500,5 +516,11 @@ DlgAboutAboutTab	: "Om",
 DlgAboutBrowserInfoTab	: "Generelt",
 DlgAboutLicenseTab	: "Licens",
 DlgAboutVersion		: "version",
-DlgAboutInfo		: "For yderlig information gå til"
+DlgAboutInfo		: "For yderlig information gå til",
+
+// Div Dialog
+DlgDivGeneralTab	: "General",	//MISSING
+DlgDivAdvancedTab	: "Advanced",	//MISSING
+DlgDivStyle		: "Style",	//MISSING
+DlgDivInlineStyle	: "Inline Style"	//MISSING
 };
