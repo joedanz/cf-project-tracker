@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	$('input:not($('#searchbox')), textarea, select').focus(function(){ $(this).css('background-color', '#ffc'); });
+	$('input:not($("#searchbox")), textarea, select').focus(function(){ $(this).css('background-color', '#ffc'); });
 	$('input, textarea, select').blur(function(){ $(this).css('background-color', '#fff'); });
 });
 
