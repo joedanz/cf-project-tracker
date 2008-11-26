@@ -9,4 +9,4 @@ allowRegister=0
 mailServer=
 mailUsername=
 mailPassword=
-version=2.3.3
+version=2.3.4
