@@ -20,12 +20,15 @@
 			</cfif>
 		</cfloop>
 		
-		<cfquery name="getSettings" datasource="#dsn#">
-			SELECT setting,settingValue FROM #r['tableprefix']#settings
-		</cfquery>
-		<cfloop query="getSettings">
-			<cfset r['#setting#'] = settingValue>
-		</cfloop>
+		<cftry>
+			<cfquery name="getSettings" datasource="#dsn#">
+				SELECT setting,settingValue FROM #r['tableprefix']#settings
+			</cfquery>
+			<cfloop query="getSettings">
+				<cfset r['#setting#'] = settingValue>
+			</cfloop>
+			<cfcatch></cfcatch>
+		</cftry>
 		
 		<cfreturn r>
 		

@@ -32,7 +32,7 @@
 <body>
 <div id="header">
 
-	<cfif StructKeyExists(session,"loggedin") and session.loggedin>
+<cfif StructKeyExists(session,"loggedin") and session.loggedin>
 
 	<div id="loggedin">
 		<cfif compareNoCase(session.user.username,'guest')>
@@ -117,6 +117,7 @@
 		<br />
 	</div>
 <cfelse>
+	<cfparam name="application.settings.app_title" default="Project Tracker">
 	<h1 style="padding-bottom:10px;">#application.settings.app_title#</h1>
 </cfif>
 </div>

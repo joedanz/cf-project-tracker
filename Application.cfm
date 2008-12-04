@@ -42,7 +42,10 @@
 			<cfset application.user = createObject("component","cfcs.user").init(settings)>
 
 			<!--- stored queries --->
-			<cfset application.carriers = application.carrier.get('','true')>
+			<cftry>
+				<cfset application.carriers = application.carrier.get('','true')>
+				<cfcatch></cfcatch>
+			</cftry>
 
 			<!--- check for CF8 Scorpio --->
 			<cfset majorVersion = listFirst(server.coldfusion.productversion)>
@@ -73,7 +76,12 @@
 <!--- include UDFs --->
 <cfinclude template="#application.settings.mapping#/includes/udf.cfm">
 
-<cfparam name="session.style" default="#application.settings.default_style#">
+<cftry>
+	<cfparam name="session.style" default="#application.settings.default_style#">
+	<cfcatch>
+		<cfparam name="session.style" default="blue">
+	</cfcatch>
+</cftry>
 
 <!--- check for logout --->
 <cfif StructKeyExists(url,"logout")>
