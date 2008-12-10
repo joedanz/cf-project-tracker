@@ -92,14 +92,14 @@
 							</cfif>
 						
 							<cfquery name="iss" dbtype="query">
-								select issueID, shortID, issue, created, assignedFirstName, assignedLastName
+								select issueID, shortID, issue, status, created, assignedFirstName, assignedLastName
 								from issues where milestoneid = '#milestoneid#'
 							</cfquery>
 							<cfif iss.recordCount>
 							<h5 class="sub">Issues:</h5>
 							<ul class="sub">
 							<cfloop query="iss">
-							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> - Added #DateFormat(created,"d mmm, yyyy")# for #assignedFirstName# #assignedLastName#</li>
+							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> (#status#) - Added #DateFormat(created,"d mmm, yyyy")# for #assignedFirstName# #assignedLastName#</li>
 							</cfloop>
 							</ul>	
 							</cfif>						
