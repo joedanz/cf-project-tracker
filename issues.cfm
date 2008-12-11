@@ -64,7 +64,7 @@ $(document).ready(function(){
 	<div class="left">
 		<div class="main">
 
-				<div class="mainheader">
+				<div class="header">
 					<h2 class="issues">All issues</h2>
 				</div>
 				<div class="content">
