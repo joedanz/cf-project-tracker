@@ -1,7 +1,10 @@
-<cfsetting enablecfoutputonly="true" showdebugoutput="false">
+<cfsetting enablecfoutputonly="true">
 
 <cfset applicationName = "project_tracker">
 <cfapplication name="#applicationName#" sessionManagement="true" loginstorage="session">
+
+<cfparam name="application.settings.showDebug" default="false">
+<cfsetting showdebugoutput="#application.settings.showDebug#">
 
 <!--- double check lock, so we don't do this twice --->
 <cfif not StructKeyExists(application,"init") or StructKeyExists(url,"reinit")>
@@ -73,8 +76,15 @@
 	</cflock>
 </cfif>
 
+<!--- error page --->
+<cfif application.settings.errorPage>
+	<cferror type="exception" template="#application.settings.mapping#/error.cfm">
+</cfif>
+
 <!--- include UDFs --->
-<cfinclude template="#application.settings.mapping#/includes/udf.cfm">
+<cfif application.settings.errorPage>
+	<cfinclude template="#application.settings.mapping#/includes/udf.cfm">
+</cfif>
 
 <cftry>
 	<cfparam name="session.style" default="#application.settings.default_style#">
