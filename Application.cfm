@@ -82,9 +82,7 @@
 </cfif>
 
 <!--- include UDFs --->
-<cfif application.settings.errorPage>
-	<cfinclude template="#application.settings.mapping#/includes/udf.cfm">
-</cfif>
+<cfinclude template="#application.settings.mapping#/includes/udf.cfm">
 
 <cftry>
 	<cfparam name="session.style" default="#application.settings.default_style#">
