@@ -229,7 +229,7 @@
 					 		<cfif admin or session.user.admin>
 						 		<div style="font-size:.9em;margin-top:3px;">[
 							 		<a href="##" onclick="$('##up_#replace(userid,'-','','ALL')#').slideToggle(300);return false;">edit permissions</a> /
-							 		<a href="##" onclick="remove_user('#url.p#','#userID#','#lastName#','#firstName#');$('###userID#').fadeOut(500);return false;">remove from project</a>	
+							 		<cfif userid neq project.ownerid><a href="##" onclick="remove_user('#url.p#','#userID#','#lastName#','#firstName#');$('###userID#').fadeOut(500);return false;">remove from project</a><cfelse><span class="b">project owner</span></cfif>	
 							 	<cfif userid neq project.ownerid> / <a href="#cgi.script_name#?p=#url.p#&mo=#userID#">make owner</a></cfif>
 							 	]</div>
 					 		</cfif>
