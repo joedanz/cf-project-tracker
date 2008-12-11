@@ -92,6 +92,7 @@
 </cfif>
 
 <cfset clients = application.client.get()>
+<cfset categories = application.message.getCatMsgs(url.p)>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; #title_action# Project" project="#name#" projectid="#projID#" svnurl="#svnurl#">
@@ -105,32 +106,19 @@
 			return false;
 		} else return true;
 	}
-	function svn_toggle() {
-		var targetContent = $('##svninfo');
+	function section_toggle(section) {
+		var targetContent = $('##' + section + 'info');
 		if (targetContent.css('display') == 'none') {
 			targetContent.slideDown(300);
-			$('##svnlink').removeClass('collapsed');
-			$('##svnlink').addClass('expanded');
-			$('##svnurl').focus();
+			$('##' + section + 'link').removeClass('collapsed');
+			$('##' + section + 'link').addClass('expanded');
+			$('##' + section + 'url').focus();
 		} else {
 			targetContent.slideUp(300);
-			$('##svnlink').removeClass('expanded');
-			$('##svnlink').addClass('collapsed');
+			$('##' + section + 'link').removeClass('expanded');
+			$('##' + section + 'link').addClass('collapsed');
 		}
 	}
-	function gr_toggle() {
-		var targetContent = $('##grinfo');
-		if (targetContent.css('display') == 'none') {
-			targetContent.slideDown(300);
-			$('##grlink').removeClass('collapsed');
-			$('##grlink').addClass('expanded');
-			$('##grurl').focus();
-		} else {
-			targetContent.slideUp(300);
-			$('##grlink').removeClass('expanded');
-			$('##grlink').addClass('collapsed');
-		}
-	}	
 	$(document).ready(function(){
 	  	$('##name').focus();
 	});
@@ -204,15 +192,44 @@
 							<option value="Archived"<cfif not compare(form.status,'Archived')> selected="selected"</cfif>>Archived</option>
 						</select>
 						</p>
+
+						<fieldset class="settings">
+						<legend><a href="##" onclick="section_toggle('issue');return false;" class="collapsed" id="issuelink"> Issue Details</a></legend>
+						<div id="issueinfo" style="display:none;">
 						<p>
 						<label for="ticketPrefix">Ticket Prefix:</label>
 						<input type="text" name="ticketPrefix" id="ticketPrefix" value="#HTMLEditFormat(form.ticketPrefix)#" maxlength="2" style="width:80px" />
 						<span style="font-size:.8em">(optional two-letter prefix used when generating trouble tickets)</span>
 						</p>
-						
-						<fieldset style="border:0;border-top:2px solid ##d9eaf5;margin:0 0 0 50px;">
-						<legend style="padding:0 3px;font-size:.9em;"><a href="##" onclick="svn_toggle();return false;" class="<cfif not compare(form.svnurl,'')>collapsed<cfelse>expanded</cfif>" id="svnlink"> SVN Details</a></legend>
-						<div id="svninfo"<cfif not compare(form.svnurl,'')> style="display:none"</cfif>>
+						</div>
+						</fieldset>
+
+						<fieldset class="settings">
+						<legend><a href="##" onclick="section_toggle('msg');return false;" class="collapsed" id="msglink"> Message Categories</a></legend>
+						<div id="msginfo" style="display:none;">
+							<ul id="msgcats">
+								<cfloop query="categories">
+									<li id="r#currentRow#">#currentRow#) #category# &nbsp; <a href="##" onclick="$('##r#currentRow#').hide();$('##edit_r#currentRow#').show();$('##cat#currentRow#').focus();return false;">Edit</a> &nbsp;<cfif numMsgs><span class="g i">(#numMsgs# msgs)</span><cfelse><a href="" onclick="confirm_delete('#url.p#','#categoryID#','#category#');return false;" class="delete"></a></cfif></li>
+									<li id="edit_r#currentRow#" style="display:none;">
+										<input type="text" id="cat#currentRow#" value="#category#" class="short" />
+										<input type="button" value="Save" onclick="edit_msgcat('#url.p#','#categoryID#','#currentRow#'); return false;" /> or <a href="##" onclick="$('##r#currentRow#').show();$('##edit_r#currentRow#').hide();return false;">Cancel</a>
+									</li>
+								</cfloop>
+							</ul>
+							<ul id="newcat">
+								<li id="addnew">-- <a href="##" onclick="$('##addnew').hide();$('##newrow').show();$('##msgCat').focus();return false;">New Category...</a></li>
+								<li id="newrow" style="display:none;">
+									<input type="text" id="msgCat" class="short" />
+									<input type="button" value="Add" onclick="add_msgcat('#url.p#'); return false;" /> or <a href="##" onclick="$('##addnew').show();$('##newrow').hide();return false;">Cancel</a>
+								</li>
+							</ul>
+					
+						</div>
+						</fieldset>
+					
+						<fieldset class="settings">
+						<legend><a href="##" onclick="section_toggle('svn');return false;" class="collapsed" id="svnlink"> SVN Details</a></legend>
+						<div id="svninfo" style="display:none;">
 						<p>
 						<label for="svnurl">SVN URL:</label>
 						<input type="text" name="svnurl" id="svnurl" value="#HTMLEditFormat(form.svnurl)#" maxlength="100" class="short" />
@@ -228,9 +245,9 @@
 						</div>
 						</fieldset>
 
-						<fieldset style="border:0;border-top:2px solid ##d9eaf5;margin:0 0 0 50px;">
-						<legend style="padding:0 3px;font-size:.9em;"><a href="##" onclick="gr_toggle();return false;" class="expanded" id="grlink"> Self Registrations</a></legend>
-						<div id="grinfo">
+						<fieldset class="settings">
+						<legend><a href="##" onclick="section_toggle('gr');return false;" class="collapsed" id="grlink"> Self Registrations</a></legend>
+						<div id="grinfo" style="display:none;">
 							<p>
 							<label for="allowreg" class="full">Allow users to self-register for this project?</label>
 							<input type="checkbox" name="allow_reg" id="allowreg" class="checkbox" value="1"<cfif form.allow_reg eq 1> checked="checked"</cfif> />

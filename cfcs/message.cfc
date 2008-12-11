@@ -280,4 +280,20 @@ To view the full message and leave comments, visit this link:
 		<cfreturn true>
 	</cffunction>		
 
+	<cffunction name="getCatMsgs" access="public" returnType="query" output="false"
+				hint="Returns file categories.">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfset var qGetCategories = "">
+		<cfquery name="qGetCategories" datasource="#variables.dsn#">
+			SELECT c.categoryID, c.category, count(m.messageID) as numMsgs
+			FROM #variables.tableprefix#categories c left join #variables.tableprefix#messages m
+				ON c.categoryID = m.categoryID
+			WHERE c.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				AND c.type = 'msg'
+			GROUP BY c.categoryID, c.category
+			ORDER BY c.category
+		</cfquery>
+		<cfreturn qGetCategories>
+	</cffunction>	
+
 </CFCOMPONENT>

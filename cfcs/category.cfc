@@ -14,7 +14,7 @@
 	</cffunction>
 
 	<cffunction name="get" access="public" returnType="query" output="false"
-				hint="Returns file categories.">
+				hint="Returns categories.">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="type" type="string" required="true">
 		<cfargument name="categoryID" type="string" required="false" default="">
@@ -32,7 +32,7 @@
 	</cffunction>		
 
 	<cffunction name="add" access="public" returnType="string" output="false"
-				hint="Adds a file category.">
+				hint="Adds a category.">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="category" type="string" required="true">
 		<cfargument name="type" type="string" required="true">
@@ -47,4 +47,26 @@
 		<cfreturn newID>
 	</cffunction>
 
+	<cffunction name="update" access="public" returnType="boolean" output="false"
+				hint="Updates a category.">
+		<cfargument name="categoryID" type="string" required="true">
+		<cfargument name="category" type="string" required="true">
+		<cfquery datasource="#variables.dsn#">
+			UPDATE #variables.tableprefix#categories
+			SET	category = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#" maxlength="80">
+			WHERE categoryID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.categoryID#" maxlength="35">  
+		</cfquery>
+		<cfreturn true>
+	</cffunction>
+
+	<cffunction name="delete" access="public" returnType="boolean" output="false"
+				hint="Deletes a category.">
+		<cfargument name="categoryID" type="string" required="true">
+		<cfquery datasource="#variables.dsn#">
+			DELETE FROM #variables.tableprefix#categories
+			WHERE categoryID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.categoryID#" maxlength="35">
+		</cfquery>
+		<cfreturn true>
+	</cffunction>
+	
 </cfcomponent>

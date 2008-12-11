@@ -183,6 +183,46 @@ function save_permissions(pid,uid,strippedid) {
 	});
 }
 
+// *** SETTINGS ***
+function add_msgcat(projectid,newcat) {
+    $.ajax({
+		type: 'get',
+		url: './ajax/msg_cat.cfm',
+		data: 'action=add&p=' + projectid + '&c=' + $('#msgCat').val(),
+		success: function(txt){
+		     $('#msgcats').html(txt);
+			 $('#addnew').hide();
+			 $('#newrow').show();
+			 $('#msgCat').val('');
+		}
+	});	
+}
+function edit_msgcat(projectid,categoryid,row) {
+    $.ajax({
+		type: 'get',
+		url: './ajax/msg_cat.cfm',
+		data: 'action=update&p=' + projectid + '&cid=' + categoryid + '&c=' + $('#cat' + row).val(),
+		success: function(txt){
+		     $('#msgcats').html(txt);
+			 $('#edit_r' + row).hide();
+			 $('#r' + row).show();
+		}
+	});	
+}
+function confirm_delete(projectid,categoryid,category) {
+	var answer = confirm('Are you sure you wish to remove the category \"' + category + '\"?')
+	if (answer) {
+	    $.ajax({
+			type: 'get',
+			url: './ajax/msg_cat.cfm',
+			data: 'action=delete&p=' + projectid + '&c=' + categoryid,
+			success: function(txt){
+			     $('#msgcats').html(txt);
+			}
+		});
+	}
+}
+
 // *** TO-DOS ***
 function redraw_incomplete(projectid,todolistid,todoid,type) {
     $.ajax({

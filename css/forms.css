@@ -192,3 +192,20 @@ input#searchbox {
 	margin:5px 0;
 }
 #search .button { height:27px; }
+
+fieldset.settings {
+	border:0;
+	border-top:2px solid #d9eaf5;
+	margin:0 0 0 50px;
+	font-size:.9em;
+}
+fieldset.settings legend {
+	padding:0 3px;
+}
+fieldset.settings ul {
+	list-style:none;
+	margin-left:40px;
+}
+fieldset.settings ul li {
+	margin-bottom:3px;
+}
