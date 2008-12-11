@@ -98,6 +98,12 @@
 				<field ColumnName="reg_mstones" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="reg_todos" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="reg_svn" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="tab_files" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="tab_issues" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="tab_msgs" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="tab_mstones" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="tab_todos" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="tab_svn" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 			</table>
 			<table name="#arguments.tablePrefix#comments">
 				<field ColumnName="commentID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />

@@ -22,13 +22,19 @@
 <cfparam name="form.reg_mstones" default="0">
 <cfparam name="form.reg_todos" default="0">
 <cfparam name="form.reg_svn" default="0">
+<cfparam name="form.tab_files" default="0">
+<cfparam name="form.tab_issues" default="0">
+<cfparam name="form.tab_msgs" default="0">
+<cfparam name="form.tab_mstones" default="0">
+<cfparam name="form.tab_todos" default="0">
+<cfparam name="form.tab_svn" default="0">
 
 <cfif StructKeyExists(url,"from")>
 	<cfset form.from = url.from>
 </cfif>
 
 <cfif StructKeyExists(form,"projectID")> <!--- update project --->
-	<cfset application.project.update(form.projectid,form.ownerID,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_svn)>
+	<cfset application.project.update(form.projectid,form.ownerID,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_svn)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'edited')>
 	<cfif not compare(form.from,'admin')>
 		<cflocation url="./admin/projects.cfm" addtoken="false">
@@ -37,7 +43,7 @@
 	</cfif>
 <cfelseif StructKeyExists(form,"submit")> <!--- add project --->
 	<cfset newID = createUUID()>
-	<cfset application.project.add(newID,session.user.userid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_svn,session.user.userid)>
+	<cfset application.project.add(newID,session.user.userid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_svn,session.user.userid)>
 	<cfset application.role.add(newID,session.user.userid,'1','2','2','2','2','2','1')>
 	<cfset application.activity.add(createUUID(),newID,session.user.userid,'Project',newID,form.name,'added')>
 	<cfset session.user.projects = application.project.get(session.user.userid)>
@@ -87,6 +93,12 @@
 	<cfset form.reg_mstones = thisProject.reg_mstones>
 	<cfset form.reg_todos = thisProject.reg_todos>
 	<cfset form.reg_svn = thisProject.reg_svn>
+	<cfset form.tab_files = thisProject.tab_files>
+	<cfset form.tab_issues = thisProject.tab_issues>
+	<cfset form.tab_msgs = thisProject.tab_msgs>
+	<cfset form.tab_mstones = thisProject.tab_mstones>
+	<cfset form.tab_todos = thisProject.tab_todos>
+	<cfset form.tab_svn = thisProject.tab_svn>
 	<cfset title_action = "Edit">
 	<cfset projectUsers = application.project.projectUsers(url.p)>
 </cfif>
@@ -307,6 +319,32 @@
 							</table>
 						</div>
 						</fieldset>		
+
+						<fieldset class="settings">
+						<legend><a href="##" onclick="section_toggle('tab');return false;" class="collapsed" id="tablink"> Activate Features</a></legend>
+						<div id="tabinfo" style="display:none;">
+						<table class="admin full mb15 permissions">
+							<tr>
+								<th width="28%">&nbsp;</th>
+								<th width="12%">Files</th>
+								<th width="12%">Issues</th>
+								<th width="12%">Messages</th>
+								<th width="12%">Milestones</th>
+								<th width="12%">To-Dos</th>
+								<th width="12%">SVN</th>
+							</tr>
+							<tr>
+								<td class="b">Features Enabled</td>
+								<td><input type="checkbox" name="tab_files" value="1" class="cb"<cfif form.tab_files eq 1> checked="checked"</cfif> /></td>
+								<td><input type="checkbox" name="tab_issues" value="1" class="cb"<cfif form.tab_issues eq 1> checked="checked"</cfif> /></td>
+								<td><input type="checkbox" name="tab_msgs" value="1" class="cb"<cfif form.tab_msgs eq 1> checked="checked"</cfif> /></td>
+								<td><input type="checkbox" name="tab_mstones" value="1" class="cb"<cfif form.tab_mstones eq 1> checked="checked"</cfif> /></td>
+								<td><input type="checkbox" name="tab_todos" value="1" class="cb"<cfif form.tab_todos eq 1> checked="checked"</cfif> /></td>
+								<td><input type="checkbox" name="tab_svn" value="1" class="cb"<cfif form.tab_svn eq 1> checked="checked"</cfif> /></td>
+							</tr>
+						</table>
+						</div>
+						</fieldset>
 						
 						<label for="submit" class="none">&nbsp;</label>
 						<cfif StructKeyExists(url,"p")>

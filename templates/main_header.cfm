@@ -88,30 +88,31 @@
 
 		<ul id="maintabs">
 			<cfif compare(attributes.projectid,'')>
-			<li><a href="#application.settings.mapping#/project.cfm?p=#attributes.projectid#" title="Overview"<cfif find('/project.cfm',cgi.script_name)> class="current"</cfif>>Overview</a></li>
-			<cfif userRole.msgs gt 0>
-				<li><a href="#application.settings.mapping#/messages.cfm?p=#attributes.projectid#" title="Messages"<cfif find('/messages.cfm',cgi.script_name) or find('/editMessage.cfm',cgi.script_name) or find('/message.cfm',cgi.script_name)> class="current"</cfif>>Messages</a></li>
-			</cfif>
-			<cfif userRole.todos gt 0>
-				<li><a href="#application.settings.mapping#/todos.cfm?p=#attributes.projectid#" title="To-Dos"<cfif find('/todos.cfm',cgi.script_name) or find('/editTodolist.cfm',cgi.script_name)> class="current"</cfif>>To-Do</a></li>
-			</cfif>
-			<cfif userRole.mstones gt 0>
-				<li><a href="#application.settings.mapping#/milestones.cfm?p=#attributes.projectid#" title="Milestones"<cfif find('/milestone',cgi.script_name) or find('/editMilestone.cfm',cgi.script_name)> class="current"</cfif>>Milestones</a></li>
-			</cfif>
-			<cfif userRole.issues gt 0>
-				<li><a href="#application.settings.mapping#/issues.cfm?p=#attributes.projectid#" title="Issues"<cfif find('/issue',cgi.script_name) or find('/editIssue.cfm',cgi.script_name)> class="current"</cfif>>Issues</a></li>
-			</cfif>
-			<cfif userRole.files gt 0>
-				<li><a href="#application.settings.mapping#/files.cfm?p=#attributes.projectid#" title="Files"<cfif find('/files.cfm',cgi.script_name) or find('/editFile.cfm',cgi.script_name)> class="current"</cfif>>Files</a></li>
-			</cfif>
-			<cfif userRole.svn gt 0 and compare(attributes.svnurl,'')>
-			<li><a href="#application.settings.mapping#/svnBrowse.cfm?p=#attributes.projectid#" title="SVN"<cfif find('/svn',cgi.script_name)> class="current"</cfif>>SVN</a></li>
-			</cfif>
+				<cfset project = application.project.getDistinct(attributes.projectid)>
+				<li><a href="#application.settings.mapping#/project.cfm?p=#attributes.projectid#" title="Overview"<cfif find('/project.cfm',cgi.script_name)> class="current"</cfif>>Overview</a></li>
+				<cfif project.tab_msgs eq 1 and userRole.msgs gt 0>
+					<li><a href="#application.settings.mapping#/messages.cfm?p=#attributes.projectid#" title="Messages"<cfif find('/messages.cfm',cgi.script_name) or find('/editMessage.cfm',cgi.script_name) or find('/message.cfm',cgi.script_name)> class="current"</cfif>>Messages</a></li>
+				</cfif>
+				<cfif project.tab_todos eq 1 and userRole.todos gt 0>
+					<li><a href="#application.settings.mapping#/todos.cfm?p=#attributes.projectid#" title="To-Dos"<cfif find('/todos.cfm',cgi.script_name) or find('/editTodolist.cfm',cgi.script_name)> class="current"</cfif>>To-Do</a></li>
+				</cfif>
+				<cfif project.tab_mstones eq 1 and userRole.mstones gt 0>
+					<li><a href="#application.settings.mapping#/milestones.cfm?p=#attributes.projectid#" title="Milestones"<cfif find('/milestone',cgi.script_name) or find('/editMilestone.cfm',cgi.script_name)> class="current"</cfif>>Milestones</a></li>
+				</cfif>
+				<cfif project.tab_issues eq 1 and userRole.issues gt 0>
+					<li><a href="#application.settings.mapping#/issues.cfm?p=#attributes.projectid#" title="Issues"<cfif find('/issue',cgi.script_name) or find('/editIssue.cfm',cgi.script_name)> class="current"</cfif>>Issues</a></li>
+				</cfif>
+				<cfif project.tab_files eq 1 and userRole.files gt 0>
+					<li><a href="#application.settings.mapping#/files.cfm?p=#attributes.projectid#" title="Files"<cfif find('/files.cfm',cgi.script_name) or find('/editFile.cfm',cgi.script_name)> class="current"</cfif>>Files</a></li>
+				</cfif>
+				<cfif project.tab_svn eq 1 and userRole.svn gt 0 and compare(attributes.svnurl,'')>
+				<li><a href="#application.settings.mapping#/svnBrowse.cfm?p=#attributes.projectid#" title="SVN"<cfif find('/svn',cgi.script_name)> class="current"</cfif>>SVN</a></li>
+				</cfif>
 			<cfelse>
-			<li><a href="#application.settings.mapping#/index.cfm" title="Dashboard across all your projects"<cfif find('#application.settings.mapping#/index.cfm',cgi.script_name)> class="current"</cfif>>Dashboard</a></li>
-			<li><a href="#application.settings.mapping#/alltodos.cfm" title="To-Dos across all your projects"<cfif find('/alltodos.cfm',cgi.script_name)> class="current"</cfif>>All To-Dos</a></li>
-			<li><a href="#application.settings.mapping#/allmilestones.cfm" title="Milestones across all your projects"<cfif find('/allmilestones.cfm',cgi.script_name)> class="current"</cfif>>All Milestones</a></li>
-			<li><a href="#application.settings.mapping#/allissues.cfm" title="Issues across all your projects"<cfif find('/allissues.cfm',cgi.script_name)> class="current"</cfif>>All Issues</a></li>
+				<li><a href="#application.settings.mapping#/index.cfm" title="Dashboard across all your projects"<cfif find('#application.settings.mapping#/index.cfm',cgi.script_name)> class="current"</cfif>>Dashboard</a></li>
+				<li><a href="#application.settings.mapping#/alltodos.cfm" title="To-Dos across all your projects"<cfif find('/alltodos.cfm',cgi.script_name)> class="current"</cfif>>All To-Dos</a></li>
+				<li><a href="#application.settings.mapping#/allmilestones.cfm" title="Milestones across all your projects"<cfif find('/allmilestones.cfm',cgi.script_name)> class="current"</cfif>>All Milestones</a></li>
+				<li><a href="#application.settings.mapping#/allissues.cfm" title="Issues across all your projects"<cfif find('/allissues.cfm',cgi.script_name)> class="current"</cfif>>All Issues</a></li>
 			</cfif>
 		</ul>
 		<br />

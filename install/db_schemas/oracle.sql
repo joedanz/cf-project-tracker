@@ -154,6 +154,12 @@ CREATE TABLE  "PT_PROJECTS"
 	"REG_MSTONES" tinyint(1) NULL, 
 	"REG_TODOS" tinyint(1) NULL,             
 	"REG_SVN" tinyint(1) NULL,
+	"TAB_FILES" tinyint(1) NULL, 
+	"TAB_ISSUES" tinyint(1) NULL, 
+	"TAB_MSGS" tinyint(1) NULL, 
+	"TAB_MSTONES" tinyint(1) NULL, 
+	"TAB_TODOS" tinyint(1) NULL,             
+	"TAB_SVN" tinyint(1) NULL,
 	 CONSTRAINT "PK_PT_PROJECTS" PRIMARY KEY ("PROJECTID") ENABLE
    )
 /
