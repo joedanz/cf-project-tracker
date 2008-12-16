@@ -4,14 +4,14 @@ alter table
    pt_projects
 add
    (
-   allow_reg tinyint(1) NULL, 
-   reg_active tinyint(1) NULL, 
-   reg_files tinyint(1) NULL, 
-   reg_issues tinyint(1) NULL, 
-   reg_msgs tinyint(1) NULL, 
-   reg_mstones tinyint(1) NULL, 
-   reg_todos tinyint(1) NULL,             
-   reg_svn tinyint(1) NULL
+   allow_reg NUMBER(1,0) NULL, 
+   reg_active NUMBER(1,0) NULL, 
+   reg_files NUMBER(1,0) NULL, 
+   reg_issues NUMBER(1,0) NULL, 
+   reg_msgs NUMBER(1,0) NULL, 
+   reg_mstones NUMBER(1,0) NULL, 
+   reg_todos NUMBER(1,0) NULL,             
+   reg_svn NUMBER(1,0) NULL
    );
 
 update pt_projects

@@ -4,12 +4,12 @@ alter table
    pt_projects
 add
    (
-   tab_files tinyint(1) NULL, 
-   tab_issues tinyint(1) NULL, 
-   tab_msgs tinyint(1) NULL, 
-   tab_mstones tinyint(1) NULL, 
-   tab_todos tinyint(1) NULL,             
-   tab_svn tinyint(1) NULL
+   tab_files NUMBER(1,0) NULL, 
+   tab_issues NUMBER(1,0) NULL, 
+   tab_msgs NUMBER(1,0) NULL, 
+   tab_mstones NUMBER(1,0) NULL, 
+   tab_todos NUMBER(1,0) NULL,             
+   tab_svn NUMBER(1,0) NULL
    );
 
 /* pt_issues */
