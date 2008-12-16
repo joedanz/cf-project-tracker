@@ -60,6 +60,24 @@ function confirmSubmitIssue() {
 		return false;
 	} else return true;
 }
+function newIssueComponent(id) {
+	if (id == 'new') {
+		var newcat = prompt('Enter the new component name:','');
+		var opt = new Option(newcat, newcat);
+  		var sel = document.edit.component;
+  		sel.options[sel.options.length] = opt;
+		sel.selectedIndex = sel.options.length-1;		
+	}	
+}
+function newIssueVersion(id) {
+	if (id == 'new') {
+		var newcat = prompt('Enter the new version name:','');
+		var opt = new Option(newcat, newcat);
+  		var sel = document.edit.version;
+  		sel.options[sel.options.length] = opt;
+		sel.selectedIndex = sel.options.length-1;		
+	}	
+}
 
 // *** MESSAGES ***
 function newMsgCat(id) {
@@ -184,40 +202,91 @@ function save_permissions(pid,uid,strippedid) {
 }
 
 // *** SETTINGS ***
-function add_msgcat(projectid,newcat) {
+function section_toggle(section) {
+	var targetContent = $('#' + section + 'info');
+	if (targetContent.css('display') == 'none') {
+		targetContent.slideDown(300);
+		$('#' + section + 'link').removeClass('collapsed');
+		$('#' + section + 'link').addClass('expanded');
+		$('#' + section + 'url').focus();
+	} else {
+		targetContent.slideUp(300);
+		$('#' + section + 'link').removeClass('expanded');
+		$('#' + section + 'link').addClass('collapsed');
+	}
+}
+function add_cat(projectid,type) {
     $.ajax({
 		type: 'get',
-		url: './ajax/msg_cat.cfm',
-		data: 'action=add&p=' + projectid + '&c=' + $('#msgCat').val(),
+		url: './ajax/' + type + '_cat.cfm',
+		data: 'action=add&p=' + projectid + '&c=' + $('#' + type + 'Cat').val(),
 		success: function(txt){
-		     $('#msgcats').html(txt);
-			 $('#addnew').hide();
-			 $('#newrow').show();
-			 $('#msgCat').val('');
+		     $('#' + type + 'cats').html(txt);
+			 $('#' + type + 'Cat').val('');
+			 $('#addnew' + type).show();
+			 $('#newrow' + type).hide();
 		}
 	});	
 }
-function edit_msgcat(projectid,categoryid,row) {
+function edit_cat(projectid,categoryid,row,type) {
     $.ajax({
 		type: 'get',
-		url: './ajax/msg_cat.cfm',
-		data: 'action=update&p=' + projectid + '&cid=' + categoryid + '&c=' + $('#cat' + row).val(),
+		url: './ajax/' + type + '_cat.cfm',
+		data: 'action=update&p=' + projectid + '&cid=' + categoryid + '&c=' + $('#' + type + 'cat' + row).val(),
 		success: function(txt){
-		     $('#msgcats').html(txt);
-			 $('#edit_r' + row).hide();
-			 $('#r' + row).show();
+		     $('#' + type + 'cats').html(txt);
+			 $('#edit_' + type + 'r' + row).hide();
+			 $('#' + type + 'r' + row).show();
 		}
 	});	
 }
-function confirm_delete(projectid,categoryid,category) {
+function confirm_cat_delete(projectid,categoryid,category,type) {
 	var answer = confirm('Are you sure you wish to remove the category \"' + category + '\"?')
 	if (answer) {
 	    $.ajax({
 			type: 'get',
-			url: './ajax/msg_cat.cfm',
+			url: './ajax/' + type + '_cat.cfm',
 			data: 'action=delete&p=' + projectid + '&c=' + categoryid,
 			success: function(txt){
-			     $('#msgcats').html(txt);
+			     $('#' + type + 'cats').html(txt);
+			}
+		});
+	}
+}
+function add_proj_item(projectid,type) {
+    $.ajax({
+		type: 'get',
+		url: './ajax/proj_' + type + 's.cfm',
+		data: 'action=add&p=' + projectid + '&i=' + $('#new' + type).val(),
+		success: function(txt){
+		     $('#' + type + 's').html(txt);
+			 $('#new' + type).val('');
+			 $('#addnew' + type).show();
+			 $('#newrow' + type).hide();
+		}
+	});	
+}
+function edit_proj_item(projectid,itemid,row,type) {
+    $.ajax({
+		type: 'get',
+		url: './ajax/proj_' + type + 's.cfm',
+		data: 'action=update&p=' + projectid + '&iid=' + itemid + '&i=' + $('#' + type + row).val(),
+		success: function(txt){
+		     $('#' + type + 's').html(txt);
+			 $('#edit_' + type + 'r' + row).hide();
+			 $('#' + type + 'r' + row).show();
+		}
+	});	
+}
+function confirm_item_delete(projectid,itemid,item,type) {
+	var answer = confirm('Are you sure you wish to remove the ' + type + ' \"' + item + '\"?')
+	if (answer) {
+	    $.ajax({
+			type: 'get',
+			url: './ajax/proj_' + type + 's.cfm',
+			data: 'action=delete&p=' + projectid + '&i=' + itemid,
+			success: function(txt){
+			     $('#' + type + 's').html(txt);
 			}
 		});
 	}

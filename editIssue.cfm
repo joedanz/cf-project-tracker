@@ -124,6 +124,20 @@
 							<option value="Trivial"<cfif not compare(severity,'Trivial')> selected="selected"</cfif>>Trivial</option>
 						</select>						
 						</p>
+						<p>
+						<label for="area">Area:</label>
+						<select name="area" id="area" onChange="newIssueArea(this.value);">
+							<option value=""></option>
+							<option value="new">--- add new area ---</option>
+						</select>
+						</p>
+						<p>
+						<label for="version">Version:</label>
+						<select name="version" id="version" onChange="newIssueVersion(this.value);">
+							<option value=""></option>
+							<option value="new">--- add new version ---</option>
+						</select>
+						</p>
 						<cfif StructKeyExists(url,"i")>
 						<p>
 						<label for="forwho">Assign To:</label>

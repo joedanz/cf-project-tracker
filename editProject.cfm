@@ -104,7 +104,10 @@
 </cfif>
 
 <cfset clients = application.client.get()>
-<cfset categories = application.message.getCatMsgs(url.p)>
+<cfset msgcats = application.message.getCatMsgs(url.p)>
+<cfset filecats = application.file.getCatFiles(url.p)>
+<cfset components = application.project.component()>
+<cfset versions = application.project.version()>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; #title_action# Project" project="#name#" projectid="#projID#" svnurl="#svnurl#">
@@ -117,19 +120,6 @@
 			alert('Please correct the following errors:\n\n' + errors)
 			return false;
 		} else return true;
-	}
-	function section_toggle(section) {
-		var targetContent = $('##' + section + 'info');
-		if (targetContent.css('display') == 'none') {
-			targetContent.slideDown(300);
-			$('##' + section + 'link').removeClass('collapsed');
-			$('##' + section + 'link').addClass('expanded');
-			$('##' + section + 'url').focus();
-		} else {
-			targetContent.slideUp(300);
-			$('##' + section + 'link').removeClass('expanded');
-			$('##' + section + 'link').addClass('collapsed');
-		}
 	}
 	$(document).ready(function(){
 	  	$('##name').focus();
@@ -152,58 +142,144 @@
 				<div class="content">
 				 	
 					<form action="#cgi.script_name#?#cgi.query_string#" method="post" name="edit" id="edit" class="frm" onsubmit="return confirmSubmit();">
-						<p>
-						<label for="name" class="req">Name:</label>
-						<input type="text" name="name" id="name" value="#HTMLEditFormat(form.name)#" maxlength="50" />
-						</p>					
-						<p>
-						<label for="description">Description:</label> 
-						<cfscript>
-							basePath = 'includes/fckeditor/';
-							fckEditor = createObject("component", "#basePath#fckeditor");
-							fckEditor.instanceName	= "description";
-							fckEditor.value			= '#form.description#';
-							fckEditor.basePath		= basePath;
-							fckEditor.width			= 460;
-							fckEditor.height		= 220;
-							fckEditor.ToolbarSet	= "Basic";
-							fckEditor.create(); // create the editor.
-						</cfscript>
-						</p>
-						<p style="font-size:.8em;">
-						<label for="display">&nbsp;</label>
-						<input type="checkbox" name="display" id="display" value="1" class="checkbox"<cfif form.display> checked="checked"</cfif> />Display description on overview page
-						</p>
+						<fieldset class="settings">
+						<legend><a href="##" onclick="section_toggle('general');return false;" class="collapsed" id="generallink"> General Info</a></legend>
+							<div id="generalinfo"<cfif StructKeyExists(url,"p")> style="display:none;"</cfif>>
+							<p>
+							<label for="name" class="req">Name:</label>
+							<input type="text" name="name" id="name" value="#HTMLEditFormat(form.name)#" maxlength="50" />
+							</p>					
+							<p>
+							<label for="description">Description:</label> 
+							<cfscript>
+								basePath = 'includes/fckeditor/';
+								fckEditor = createObject("component", "#basePath#fckeditor");
+								fckEditor.instanceName	= "description";
+								fckEditor.value			= '#form.description#';
+								fckEditor.basePath		= basePath;
+								fckEditor.width			= 460;
+								fckEditor.height		= 220;
+								fckEditor.ToolbarSet	= "Basic";
+								fckEditor.create(); // create the editor.
+							</cfscript>
+							</p>
+							<p style="font-size:.8em;">
+							<label for="display">&nbsp;</label>
+							<input type="checkbox" name="display" id="display" value="1" class="checkbox"<cfif form.display> checked="checked"</cfif> />Display description on overview page
+							</p>
+							
+							<cfif StructKeyExists(url,"p")>
+							<p>
+							<label for="owner">Owner:</label>
+							<select name="ownerID" id="owner">
+								<cfloop query="projectUsers">
+								<option value="#userID#"<cfif not compare(form.ownerID,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>
+								</cfloop>
+							</select>
+							</p>
+							</cfif>
+							
+							<p>
+							<label for="client">Client:</label>
+							<select name="clientID" id="client">
+								<option value="" class="i">None</option>
+								<cfloop query="clients">
+								<option value="#clientID#"<cfif not compare(form.clientID,clientID)> selected="selected"</cfif>>#name#</option>
+								</cfloop>
+							</select>
+							</p>
+							
+							<p>
+							<label for="status">Status:</label>
+							<select name="status" id="status">
+								<option value="Active"<cfif not compare(form.status,'Active')> selected="selected"</cfif>>Active</option>
+								<option value="On-Hold"<cfif not compare(form.status,'On-Hold')> selected="selected"</cfif>>On-Hold</option>
+								<option value="Archived"<cfif not compare(form.status,'Archived')> selected="selected"</cfif>>Archived</option>
+							</select>
+							</p>
+							</div>
+						</fieldset>
+
+						<fieldset class="settings">
+						<legend><a href="##" onclick="section_toggle('tab');return false;" class="collapsed" id="tablink"> Features Enabled</a></legend>
+						<div id="tabinfo" style="display:none;">
+						<table class="admin full mb15 permissions">
+							<tr>
+								<th width="28%">&nbsp;</th>
+								<th width="12%">Files</th>
+								<th width="12%">Issues</th>
+								<th width="12%">Messages</th>
+								<th width="12%">Milestones</th>
+								<th width="12%">To-Dos</th>
+								<th width="12%">SVN</th>
+							</tr>
+							<tr>
+								<td class="b">Feature Enabled</td>
+								<td><input type="checkbox" name="tab_files" value="1" class="cb"<cfif form.tab_files eq 1> checked="checked"</cfif> /></td>
+								<td><input type="checkbox" name="tab_issues" value="1" class="cb"<cfif form.tab_issues eq 1> checked="checked"</cfif> /></td>
+								<td><input type="checkbox" name="tab_msgs" value="1" class="cb"<cfif form.tab_msgs eq 1> checked="checked"</cfif> /></td>
+								<td><input type="checkbox" name="tab_mstones" value="1" class="cb"<cfif form.tab_mstones eq 1> checked="checked"</cfif> /></td>
+								<td><input type="checkbox" name="tab_todos" value="1" class="cb"<cfif form.tab_todos eq 1> checked="checked"</cfif> /></td>
+								<td><input type="checkbox" name="tab_svn" value="1" class="cb"<cfif form.tab_svn eq 1> checked="checked"</cfif> /></td>
+							</tr>
+						</table>
+						</div>
+						</fieldset>
+
+						<fieldset class="settings">
+						<legend><a href="##" onclick="section_toggle('cat');return false;" class="collapsed" id="catlink"> Category Lists</a></legend>
+						<div id="catinfo" style="display:none;">
+
+						<table align="center">
+							<tr><td>
+								<p>
+								<fieldset>
+								<legend>File Categories</legend>
+									<ul id="filecats">
+										<cfloop query="filecats">
+											<li id="filer#currentRow#">#currentRow#) #category# &nbsp; <a href="##" onclick="$('##filer#currentRow#').hide();$('##edit_filer#currentRow#').show();$('##filecat#currentRow#').focus();return false;">Edit</a> &nbsp;<cfif numFiles><span class="g i">(#numFiles# file<cfif numFiles gt 1>s</cfif>)</span><cfelse><a href="" onclick="confirm_cat_delete('#url.p#','#categoryID#','#category#','file');return false;" class="delete"></a></cfif></li>
+											<li id="edit_filer#currentRow#" style="display:none;">
+												<input type="text" id="filecat#currentRow#" value="#category#" class="short" />
+												<input type="button" value="Save" onclick="edit_cat('#url.p#','#categoryID#','#currentRow#','file'); return false;" /> or <a href="##" onclick="$('##filer#currentRow#').show();$('##edit_filer#currentRow#').hide();return false;">Cancel</a>
+											</li>
+										</cfloop>
+									</ul>
+									<ul>
+										<li id="addnewfile">-- <a href="##" onclick="$('##addnewfile').hide();$('##newrowfile').show();$('##fileCat').focus();return false;">New Category...</a></li>
+										<li id="newrowfile" style="display:none;">
+											<input type="text" id="fileCat" class="short" />
+											<input type="button" value="Add" onclick="add_cat('#url.p#','file'); return false;" /> or <a href="##" onclick="$('##addnewfile').show();$('##newrowfile').hide();return false;">Cancel</a>
+										</li>
+									</ul>
+								</fieldset>
+								</p>
+							</td><td>&nbsp;&nbsp;&nbsp;</td><td>
+								<p>
+								<fieldset>
+								<legend>Message Categories</legend>
+									<ul id="msgcats">
+										<cfloop query="msgcats">
+											<li id="msgr#currentRow#">#currentRow#) #category# &nbsp; <a href="##" onclick="$('##msgr#currentRow#').hide();$('##edit_msgr#currentRow#').show();$('##msgcat#currentRow#').focus();return false;">Edit</a> &nbsp;<cfif numMsgs><span class="g i">(#numMsgs# msgs)</span><cfelse><a href="" onclick="confirm_cat_delete('#url.p#','#categoryID#','#category#','msg');return false;" class="delete"></a></cfif></li>
+											<li id="edit_msgr#currentRow#" style="display:none;">
+												<input type="text" id="msgcat#currentRow#" value="#category#" class="short" />
+												<input type="button" value="Save" onclick="edit_cat('#url.p#','#categoryID#','#currentRow#','msg'); return false;" /> or <a href="##" onclick="$('##msgr#currentRow#').show();$('##edit_msgr#currentRow#').hide();return false;">Cancel</a>
+											</li>
+										</cfloop>
+									</ul>
+									<ul>
+										<li id="addnewmsg">-- <a href="##" onclick="$('##addnewmsg').hide();$('##newrowmsg').show();$('##msgCat').focus();return false;">New Category...</a></li>
+										<li id="newrowmsg" style="display:none;">
+											<input type="text" id="msgCat" class="short" />
+											<input type="button" value="Add" onclick="add_cat('#url.p#','msg'); return false;" /> or <a href="##" onclick="$('##addnewmsg').show();$('##newrowmsg').hide();return false;">Cancel</a>
+										</li>
+									</ul>
+								</fieldset>
+								</p>
+							</td></tr>
+						</table>
 						
-						<cfif StructKeyExists(url,"p")>
-						<p>
-						<label for="owner">Owner:</label>
-						<select name="ownerID" id="owner">
-							<cfloop query="projectUsers">
-							<option value="#userID#"<cfif not compare(form.ownerID,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>
-							</cfloop>
-						</select>
-						</p>
-						</cfif>
-						
-						<p>
-						<label for="client">Client:</label>
-						<select name="clientID" id="client">
-							<option value="" class="i">None</option>
-							<cfloop query="clients">
-							<option value="#clientID#"<cfif not compare(form.clientID,clientID)> selected="selected"</cfif>>#name#</option>
-							</cfloop>
-						</select>
-						</p>
-						
-						<p>
-						<label for="status">Status:</label>
-						<select name="status" id="status">
-							<option value="Active"<cfif not compare(form.status,'Active')> selected="selected"</cfif>>Active</option>
-							<option value="On-Hold"<cfif not compare(form.status,'On-Hold')> selected="selected"</cfif>>On-Hold</option>
-							<option value="Archived"<cfif not compare(form.status,'Archived')> selected="selected"</cfif>>Archived</option>
-						</select>
-						</p>
+						</div>
+						</fieldset>
 
 						<fieldset class="settings">
 						<legend><a href="##" onclick="section_toggle('issue');return false;" class="collapsed" id="issuelink"> Issue Details</a></legend>
@@ -213,34 +289,60 @@
 						<input type="text" name="ticketPrefix" id="ticketPrefix" value="#HTMLEditFormat(form.ticketPrefix)#" maxlength="2" style="width:80px" />
 						<span style="font-size:.8em">(optional two-letter prefix used when generating trouble tickets)</span>
 						</p>
-						</div>
-						</fieldset>
+						
+						<table align="center">
+							<tr><td>
+								<p>
+								<fieldset>
+								<legend>Project Components</legend>
+									<ul id="components">
+										<cfloop query="components">
+											<li id="componentr#currentRow#">#currentRow#) #component# &nbsp; <a href="##" onclick="$('##componentr#currentRow#').hide();$('##edit_componentr#currentRow#').show();$('##component#currentRow#').focus();return false;">Edit</a> &nbsp;<cfif numIssues><span class="g i">(#numIssues# issue<cfif numIssues gt 1>s</cfif>)</span><cfelse><a href="" onclick="confirm_item_delete('#url.p#','#componentID#','#component#','component');return false;" class="delete"></a></cfif></li>
+											<li id="edit_componentr#currentRow#" style="display:none;">
+												<input type="text" id="component#currentRow#" value="#component#" class="short" />
+												<input type="button" value="Save" onclick="edit_proj_item('#url.p#','#componentID#','#currentRow#','component'); return false;" /> or <a href="##" onclick="$('##componentr#currentRow#').show();$('##edit_componentr#currentRow#').hide();return false;">Cancel</a>
+											</li>
+										</cfloop>
+									</ul>
+									<ul>
+										<li id="addnewcomponent">-- <a href="##" onclick="$('##addnewcomponent').hide();$('##newrowcomponent').show();$('##newcomponent').focus();return false;">New Component...</a></li>
+										<li id="newrowcomponent" style="display:none;">
+											<input type="text" id="newcomponent" class="short" />
+											<input type="button" value="Add" onclick="add_proj_item('#url.p#','component'); return false;" /> or <a href="##" onclick="$('##addnewcomponent').show();$('##newrowcomponent').hide();return false;">Cancel</a>
+										</li>
+									</ul>
+								</fieldset>
+								</p>
+							</td><td>&nbsp;&nbsp;&nbsp;</td><td>
+								<p>
+								<fieldset>
+								<legend>Project Versions</legend>
+									<ul id="versions">
+										<cfloop query="versions">
+											<li id="versionr#currentRow#">#currentRow#) #version# &nbsp; <a href="##" onclick="$('##versionr#currentRow#').hide();$('##edit_versionr#currentRow#').show();$('##version#currentRow#').focus();return false;">Edit</a> &nbsp;<cfif numIssues><span class="g i">(#numIssues# issue<cfif numIssues gt 1>s</cfif>)</span><cfelse><a href="" onclick="confirm_item_delete('#url.p#','#versionID#','#version#','version');return false;" class="delete"></a></cfif></li>
+											<li id="edit_versionr#currentRow#" style="display:none;">
+												<input type="text" id="version#currentRow#" value="#version#" class="short" />
+												<input type="button" value="Save" onclick="edit_proj_item('#url.p#','#versionID#','#currentRow#','version'); return false;" /> or <a href="##" onclick="$('##versionr#currentRow#').show();$('##edit_versionr#currentRow#').hide();return false;">Cancel</a>
+											</li>
+										</cfloop>
+									</ul>
+									<ul>
+										<li id="addnewversion">-- <a href="##" onclick="$('##addnewversion').hide();$('##newrowversion').show();$('##newversion').focus();return false;">New Version...</a></li>
+										<li id="newrowversion" style="display:none;">
+											<input type="text" id="newversion" class="short" />
+											<input type="button" value="Add" onclick="add_proj_item('#url.p#','version'); return false;" /> or <a href="##" onclick="$('##addnewversion').show();$('##newrowversion').hide();return false;">Cancel</a>
+										</li>
+									</ul>								
+								</fieldset>
+								</p>
+							</td></tr>
+						</table>
 
-						<fieldset class="settings">
-						<legend><a href="##" onclick="section_toggle('msg');return false;" class="collapsed" id="msglink"> Message Categories</a></legend>
-						<div id="msginfo" style="display:none;">
-							<ul id="msgcats">
-								<cfloop query="categories">
-									<li id="r#currentRow#">#currentRow#) #category# &nbsp; <a href="##" onclick="$('##r#currentRow#').hide();$('##edit_r#currentRow#').show();$('##cat#currentRow#').focus();return false;">Edit</a> &nbsp;<cfif numMsgs><span class="g i">(#numMsgs# msgs)</span><cfelse><a href="" onclick="confirm_delete('#url.p#','#categoryID#','#category#');return false;" class="delete"></a></cfif></li>
-									<li id="edit_r#currentRow#" style="display:none;">
-										<input type="text" id="cat#currentRow#" value="#category#" class="short" />
-										<input type="button" value="Save" onclick="edit_msgcat('#url.p#','#categoryID#','#currentRow#'); return false;" /> or <a href="##" onclick="$('##r#currentRow#').show();$('##edit_r#currentRow#').hide();return false;">Cancel</a>
-									</li>
-								</cfloop>
-							</ul>
-							<ul id="newcat">
-								<li id="addnew">-- <a href="##" onclick="$('##addnew').hide();$('##newrow').show();$('##msgCat').focus();return false;">New Category...</a></li>
-								<li id="newrow" style="display:none;">
-									<input type="text" id="msgCat" class="short" />
-									<input type="button" value="Add" onclick="add_msgcat('#url.p#'); return false;" /> or <a href="##" onclick="$('##addnew').show();$('##newrow').hide();return false;">Cancel</a>
-								</li>
-							</ul>
-					
 						</div>
 						</fieldset>
 					
 						<fieldset class="settings">
-						<legend><a href="##" onclick="section_toggle('svn');return false;" class="collapsed" id="svnlink"> SVN Details</a></legend>
+						<legend><a href="##" onclick="section_toggle('svn');return false;" class="collapsed" id="svnlink"> SVN Settings</a></legend>
 						<div id="svninfo" style="display:none;">
 						<p>
 						<label for="svnurl">SVN URL:</label>
@@ -318,33 +420,7 @@
 							</tr>
 							</table>
 						</div>
-						</fieldset>		
-
-						<fieldset class="settings">
-						<legend><a href="##" onclick="section_toggle('tab');return false;" class="collapsed" id="tablink"> Activate Features</a></legend>
-						<div id="tabinfo" style="display:none;">
-						<table class="admin full mb15 permissions">
-							<tr>
-								<th width="28%">&nbsp;</th>
-								<th width="12%">Files</th>
-								<th width="12%">Issues</th>
-								<th width="12%">Messages</th>
-								<th width="12%">Milestones</th>
-								<th width="12%">To-Dos</th>
-								<th width="12%">SVN</th>
-							</tr>
-							<tr>
-								<td class="b">Features Enabled</td>
-								<td><input type="checkbox" name="tab_files" value="1" class="cb"<cfif form.tab_files eq 1> checked="checked"</cfif> /></td>
-								<td><input type="checkbox" name="tab_issues" value="1" class="cb"<cfif form.tab_issues eq 1> checked="checked"</cfif> /></td>
-								<td><input type="checkbox" name="tab_msgs" value="1" class="cb"<cfif form.tab_msgs eq 1> checked="checked"</cfif> /></td>
-								<td><input type="checkbox" name="tab_mstones" value="1" class="cb"<cfif form.tab_mstones eq 1> checked="checked"</cfif> /></td>
-								<td><input type="checkbox" name="tab_todos" value="1" class="cb"<cfif form.tab_todos eq 1> checked="checked"</cfif> /></td>
-								<td><input type="checkbox" name="tab_svn" value="1" class="cb"<cfif form.tab_svn eq 1> checked="checked"</cfif> /></td>
-							</tr>
-						</table>
-						</div>
-						</fieldset>
+						</fieldset>	
 						
 						<label for="submit" class="none">&nbsp;</label>
 						<cfif StructKeyExists(url,"p")>

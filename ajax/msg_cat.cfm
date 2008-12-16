@@ -14,10 +14,10 @@
 
 <cfset categories = application.message.getCatMsgs(url.p)>
 <cfoutput query="categories">
-	<li id="r#currentRow#"<cfif not compareNoCase(url.c,category)> class="current"</cfif>>#currentRow#) #category# &nbsp; <a href="##" onclick="$('##r#currentRow#').hide();$('##edit_r#currentRow#').show();$('##cat#currentRow#').focus();return false;">Edit</a> &nbsp;<cfif numMsgs><span class="g i">(#numMsgs# msgs)</span><cfelse><a href="" onclick="confirm_delete('#url.p#','#categoryID#','#category#');return false;" class="delete"></a></cfif></li>
-	<li id="edit_r#currentRow#" style="display:none;">
-		<input type="text" id="cat#currentRow#" value="#category#" class="short" />
-		<input type="button" value="Save" onclick="edit_msgcat('#url.p#','#categoryID#','#currentRow#'); return false;" /> or <a href="##" onclick="$('##r#currentRow#').show();$('##edit_r#currentRow#').hide();return false;">Cancel</a>
+	<li id="msgr#currentRow#"<cfif not compareNoCase(url.c,category)> class="current"</cfif>>#currentRow#) #category# &nbsp; <a href="##" onclick="$('##msgr#currentRow#').hide();$('##edit_msgr#currentRow#').show();$('##msgcat#currentRow#').focus();return false;">Edit</a> &nbsp;<cfif numMsgs><span class="g i">(#numMsgs# msg<cfif numMsgs gt 1>s</cfif>)</span><cfelse><a href="" onclick="confirm_delete('#url.p#','#categoryID#','#category#','msg');return false;" class="delete"></a></cfif></li>
+	<li id="edit_msgr#currentRow#" style="display:none;">
+		<input type="text" id="msgcat#currentRow#" value="#category#" class="short" />
+		<input type="button" value="Save" onclick="edit_cat('#url.p#','#categoryID#','#currentRow#','msg'); return false;" /> or <a href="##" onclick="$('##msgr#currentRow#').show();$('##edit_msgr#currentRow#').hide();return false;">Cancel</a>
 	</li>
 </cfoutput>
 <cfoutput>

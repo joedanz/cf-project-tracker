@@ -312,5 +312,70 @@
 				AND userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35"> 
 		</cfquery>
 	</cffunction>
-	
+
+	<cffunction name="component" access="public" returntype="query" output="false"
+				HINT="Returns project component records.">
+		<cfset var qRecords = "">
+		<cfquery name="qRecords" datasource="#variables.dsn#">
+			SELECT c.componentID, c.component, count(i.issueID) as numIssues
+			FROM #variables.tableprefix#project_components c LEFT JOIN #variables.tableprefix#issues i
+				ON c.componentID = i.componentID
+			GROUP BY c.componentID, c.component
+			ORDER BY component
+		</cfquery>		
+		<cfreturn qRecords>
+	</cffunction>
+
+	<cffunction name="addProjectItem" access="public" returnType="string" output="false"
+				hint="Adds a project item.">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="item" type="string" required="true">
+		<cfargument name="type" type="string" required="true">
+		<cfset var newID = createUUID()>
+		<cfquery datasource="#variables.dsn#">
+			INSERT INTO #variables.tableprefix#project_#arguments.type#s (projectID,#arguments.type#ID,#arguments.type#)
+			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
+					'#newID#',
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.item#" maxlength="50">)
+		</cfquery>
+		<cfreturn newID>
+	</cffunction>
+
+	<cffunction name="updateProjectItem" access="public" returnType="boolean" output="false"
+				hint="Updates a project item.">
+		<cfargument name="itemID" type="string" required="true">
+		<cfargument name="item" type="string" required="true">
+		<cfargument name="type" type="string" required="true">
+		<cfquery datasource="#variables.dsn#">
+			UPDATE #variables.tableprefix#project_#arguments.type#s
+			SET	#arguments.type# = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.item#" maxlength="50">
+			WHERE #arguments.type#ID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.itemID#" maxlength="35">  
+		</cfquery>
+		<cfreturn true>
+	</cffunction>
+
+	<cffunction name="deleteProjectItem" access="public" returnType="boolean" output="false"
+				hint="Deletes a project item.">
+		<cfargument name="itemID" type="string" required="true">
+		<cfargument name="type" type="string" required="true">
+		<cfquery datasource="#variables.dsn#">
+			DELETE FROM #variables.tableprefix#project_#arguments.type#s
+			WHERE #arguments.type#ID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.itemID#" maxlength="35">
+		</cfquery>
+		<cfreturn true>
+	</cffunction>
+
+	<cffunction name="version" access="public" returntype="query" output="false"
+				HINT="Returns project version records.">
+		<cfset var qRecords = "">
+		<cfquery name="qRecords" datasource="#variables.dsn#">
+			SELECT v.versionID, v.version, count(i.issueID) as numIssues
+			FROM #variables.tableprefix#project_versions v LEFT JOIN #variables.tableprefix#issues i
+				ON v.versionID = i.versionID
+			GROUP BY v.versionID, v.version
+			ORDER BY version
+		</cfquery>		
+		<cfreturn qRecords>
+	</cffunction>
+
 </CFCOMPONENT>

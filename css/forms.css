@@ -196,16 +196,23 @@ input#searchbox {
 fieldset.settings {
 	border:0;
 	border-top:2px solid #d9eaf5;
-	margin:0 0 0 50px;
+	margin:0 30px;
 	font-size:.9em;
 }
 fieldset.settings legend {
 	padding:0 3px;
+	font-weight:bold;
 }
 fieldset.settings ul {
 	list-style:none;
-	margin-left:40px;
 }
 fieldset.settings ul li {
 	margin-bottom:3px;
 }
+fieldset.settings fieldset {
+	margin:auto;
+	width:300px;
+	border:1px solid #ccc;
+}
+
+fieldset.settings table td { vertical-align:top; }

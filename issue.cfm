@@ -142,11 +142,14 @@
 								<td class="label"><cfif not compare(issue.status,'Closed')>Closed<cfelse>Updated</cfif>:</td>
 								<td><cfif isDate(issue.updated)>#DateFormat(issue.updated,"mmm d")# @ #TimeFormat(issue.updated,"h:mmtt")# by #issue.updatedFirstName# #issue.updatedLastName#<cfelse><span class="g">&lt;none&gt;</span></cfif></td>
 							</tr>
-							
 							<tr>
 								<td class="label">Assigned To:</td>
 								<td><cfif compare(issue.assignedLastName,'')>#issue.assignedFirstName# #issue.assignedLastName#<cfelse><span class="g">&lt;none&gt;</span></cfif></td>
 							</tr>
+							<tr>
+								<td class="label">Milestone:</td>
+								<td><cfif compare(issue.milestoneID,'')><a href="milestone.cfm?p=#url.p#&m=#issue.milestoneID#">#issue.milestone#</a><cfelse><span class="g">&lt;none&gt;</span></cfif></td>
+							</tr>								
 							<tr>
 								<td class="label">Resolution:</td>
 								<td><cfif compare(issue.resolution,'')>#issue.resolution#<cfelse><span class="g">&lt;none&gt;</span></cfif></td>
@@ -167,9 +170,13 @@
 								<td>#issue.severity#</td>
 							</tr>
 							<tr>
-								<td class="label">Milestone:</td>
-								<td><cfif compare(issue.milestoneID,'')><a href="milestone.cfm?p=#url.p#&m=#issue.milestoneID#">#issue.milestone#</a><cfelse><span class="g">&lt;none&gt;</span></cfif></td>
-							</tr>							
+								<td class="label">Component:</td>
+								<td><cfif compare(issue.componentID,'')>#issue.component#<cfelse><span class="g">&lt;none&gt;</span></cfif></td>
+							</tr>
+							<tr>
+								<td class="label">Version:</td>
+								<td><cfif compare(issue.versionID,'')>#issue.version#<cfelse><span class="g">&lt;none&gt;</span></cfif></td>
+							</tr>
 						</table>
 						</div>
 						

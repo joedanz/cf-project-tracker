@@ -27,16 +27,18 @@
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT issueID, i.projectID, i.shortID, i.issue, i.detail, i.type, i.severity, i.status, 
 				i.created, i.createdBy,	i.assignedTo, i.milestoneID, i.relevantURL, i.updated, i.updatedBy, 
-				i.resolution, i.resolutionDesc, p.name, c.firstName as createdFirstName, 
+				i.resolution, i.resolutionDesc, i.componentID, i.versionID, p.name, c.firstName as createdFirstName, 
 				c.lastName as createdLastName, u.firstName as updatedFirstName, 
 				u.lastName as updatedLastName, a.firstName as assignedFirstName, 
-				a.lastName as assignedLastName,	m.name as milestone
+				a.lastName as assignedLastName,	m.name as milestone, pc.component, pv.version
 			FROM #variables.tableprefix#issues i 
 				LEFT JOIN #variables.tableprefix#projects p ON i.projectID = p.projectID
 				LEFT JOIN #variables.tableprefix#users c ON i.createdBy = c.userID
 				LEFT JOIN #variables.tableprefix#users u ON i.updatedBy = u.userID
 				LEFT JOIN #variables.tableprefix#users a ON i.assignedTo = a.userID
 				LEFT JOIN #variables.tableprefix#milestones m ON i.milestoneID = m.milestoneID
+				LEFT JOIN #variables.tableprefix#project_components pc ON i.componentID = pc.componentID
+				LEFT JOIN #variables.tableprefix#project_versions pv ON i.versionID = pv.versionID
 			WHERE 0=0
 			<cfif compare(arguments.projectID,'')>
 				AND i.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
