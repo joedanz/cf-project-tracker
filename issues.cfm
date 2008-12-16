@@ -3,6 +3,8 @@
 <cfparam name="url.p" default="">
 <cfparam name="form.type" default="">
 <cfparam name="form.severity" default="">
+<cfparam name="form.componentID" default="">
+<cfparam name="form.versionID" default="">
 <cfparam name="form.status" default="New|Accepted">
 <cfparam name="form.assignedTo" default="">
 <cfparam name="form.milestone" default="">
@@ -12,8 +14,10 @@
 <cfelse>
 	<cfset project = application.project.get(session.user.userid,url.p)>
 </cfif>
+<cfset components = application.project.component()>
+<cfset versions = application.project.version()>
 <cfset projectUsers = application.project.projectUsers(url.p)>
-<cfset issues = application.issue.get(url.p,'',form.status,'',form.type,form.severity,form.assignedTo,form.milestone)>
+<cfset issues = application.issue.get(url.p,'',form.status,'',form.type,form.severity,form.assignedTo,form.milestone,form.componentID,form.versionID)>
 <cfset milestones = application.milestone.get(url.p)>
 
 <cfif project.issues eq 0 and not session.user.admin>
@@ -65,6 +69,13 @@ $(document).ready(function(){
 		<div class="main">
 
 				<div class="header">
+					
+					<span class="rightmenu">
+					<cfif project.issues gt 1>
+						<a href="editIssue.cfm?p=#url.p#" class="add b">Submit New Issue</a>
+					</cfif>
+					</span>
+					
 					<h2 class="issues">All issues</h2>
 				</div>
 				<div class="content">
@@ -94,7 +105,7 @@ $(document).ready(function(){
 								<option value="Minor"<cfif not compare(form.severity,'Minor')> selected="selected"</cfif>>Minor</option>
 								<option value="Trivial"<cfif not compare(form.severity,'Trivial')> selected="selected"</cfif>>Trivial</option>
 						 	</select>
-						 	
+
 						 	<select name="status">
 						 		<option value="">Status</option>
 						 		<option value="New"<cfif not compare(form.status,'New')> selected="selected"</cfif>>New</option>
@@ -102,6 +113,20 @@ $(document).ready(function(){
 						 		<option value="Resolved"<cfif not compare(form.status,'Resolved')> selected="selected"</cfif>>Resolved</option>
 						 		<option value="Closed"<cfif not compare(form.status,'Closed')> selected="selected"</cfif>>Closed</option>						 		
 						 	</select>
+						 	
+						 	<select name="componentID">
+								<option value="">Component</option>
+								<cfloop query="components">
+									<option value="#componentID#"<cfif not compare(form.componentID,componentID)> selected="selected"</cfif>>#component#</option>
+								</cfloop>
+							</select>
+						 	
+						 	<select name="versionID">
+								<option value="">Version</option>
+								<cfloop query="versions">
+									<option value="#versionID#"<cfif not compare(form.versionID,versionID)> selected="selected"</cfif>>#version#</option>
+								</cfloop>
+							</select>
 						 	
 						 	<select name="assignedTo">
 						 		<option value="">Assigned To</option>
@@ -132,8 +157,10 @@ $(document).ready(function(){
 								<th>ID</th>
 								<th>Type</th>
 								<th>Severity</th>
-								<th>Issue</th>
 								<th>Status</th>
+								<th>Issue</th>
+								<th>Component</th>
+								<th>Version</th>
 								<th>Assigned To</th>
 								<th>Reported</th>
 								<th>Updated</th>
@@ -146,8 +173,10 @@ $(document).ready(function(){
 							<td><a href="issue.cfm?p=#url.p#&i=#issueID#">#shortID#</a></td>
 							<td>#type#</td>
 							<td>#severity#</td>
-							<td><a href="issue.cfm?p=#url.p#&i=#issueID#">#issue#</a></td>
 							<td>#status#</td>
+							<td><a href="issue.cfm?p=#url.p#&i=#issueID#">#issue#</a></td>
+							<td>#component#</td>
+							<td>#version#</td>
 							<td>#assignedFirstName# #assignedLastName#</td>
 							<td>#DateFormat(created,"mmm d")#</td>
 							<td>#DateFormat(updated,"mmm d")#</td>
@@ -173,10 +202,6 @@ $(document).ready(function(){
 
 	<!--- right column --->
 	<div class="right">
-		
-		<cfif project.issues gt 1>
-		<h3><a href="editIssue.cfm?p=#url.p#" class="add">Submit new issue</a></h3><br />
-		</cfif>
 		
 	</div>
 <cfelse>

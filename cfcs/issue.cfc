@@ -23,6 +23,8 @@
 		<cfargument name="severity" type="string" required="false" default="">
 		<cfargument name="assignedTo" type="string" required="false" default="">
 		<cfargument name="milestoneID" type="string" required="false" default="">
+		<cfargument name="componentID" type="string" required="false" default="">
+		<cfargument name="versionID" type="string" required="false" default="">
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT issueID, i.projectID, i.shortID, i.issue, i.detail, i.type, i.severity, i.status, 
@@ -63,6 +65,12 @@
 			</cfif>
 			<cfif compare(arguments.milestoneID,'')>
 				AND i.milestoneID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">
+			</cfif>
+			<cfif compare(arguments.componentID,'')>
+				AND i.componentID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.componentID#" maxlength="35">
+			</cfif>
+			<cfif compare(arguments.versionID,'')>
+				AND i.versionID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.versionID#" maxlength="35">
 			</cfif>
 		</cfquery>		
 		<cfreturn qRecords>

@@ -62,6 +62,10 @@ table.activity td {
 	width:69%; float:left;
 }
 
+#container .left {
+	width:100%;
+}
+
 #container .left .main {
 	padding-right:8px; 
 }
