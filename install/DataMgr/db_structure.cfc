@@ -78,6 +78,7 @@
 				<field ColumnName="resolutionDesc" CF_DataType="CF_SQL_LONGVARCHAR" />
 				<field ColumnName="componentID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
 				<field ColumnName="versionID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
+				<field ColumnName="dueDate" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 			</table>
 			<table name="#arguments.tablePrefix#milestones">
 				<field ColumnName="milestoneID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />

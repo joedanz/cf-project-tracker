@@ -18,6 +18,8 @@ ALTER TABLE [dbo].[pt_issues] ADD [componentID] [varchar] (35) COLLATE SQL_Latin
 GO
 ALTER TABLE [dbo].[pt_issues] ADD [versionID] [varchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 GO
+ALTER TABLE [dbo].[pt_issues] ADD [dueDate] [datetime] NULL
+GO
 
 CREATE TABLE [dbo].[pt_project_components] (
 	[componentID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,

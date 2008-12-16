@@ -3,13 +3,13 @@
 <cfparam name="form.display" default="0">
 <cfparam name="form.fileslist" default="">
 <cfif StructKeyExists(form,"issueID")> <!--- update issue --->
-	<cfset application.issue.update(form.issueID,form.projectid,form.issue,form.detail,form.type,form.severity,form.assignedTo,form.milestone,form.relevantURL,session.user.userid,form.fileslist)>
+	<cfset application.issue.update(form.issueID,form.projectid,form.issue,form.detail,form.type,form.severity,form.componentID,form.versionID,form.dueDate,form.assignedTo,form.milestone,form.relevantURL,session.user.userid,form.fileslist)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Issue',form.issueID,form.issue,'edited')>
 	<cfset application.notify.issueUpdate(form.projectid,form.issueID)>
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#form.issueID#" addtoken="false">
 <cfelseif StructKeyExists(form,"submit")> <!--- add issue --->
 	<cfset newID = createUUID()>
-	<cfset application.issue.add(newID,form.projectID,form.ticketPrefix,form.issue,form.detail,form.type,form.severity,form.assignedTo,form.milestone,form.relevantURL,session.user.userid,form.fileslist)>
+	<cfset application.issue.add(newID,form.projectID,form.ticketPrefix,form.issue,form.detail,form.type,form.severity,form.componentID,form.versionID,form.dueDate,form.assignedTo,form.milestone,form.relevantURL,session.user.userid,form.fileslist)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Issue',newID,form.issue,'created')>
 	<cfset application.notify.issueNew(form.projectid,newID)>
 	<cfif compare(trim(form.fileupload),'')>
@@ -33,6 +33,8 @@
 <cfelse>
 	<cfset project = application.project.get(session.user.userid,url.p)>
 </cfif>
+<cfset components = application.project.component()>
+<cfset versions = application.project.version()>
 <cfset projectUsers = application.project.projectUsers(url.p)>
 <cfset milestones = application.milestone.get(url.p,'','incomplete')>
 <cfset files = application.file.get(url.p)>
@@ -41,6 +43,9 @@
 <cfparam name="detail" default="">
 <cfparam name="type" default="Bug">
 <cfparam name="severity" default="Normal">
+<cfparam name="componentID" default="">
+<cfparam name="versionID" default="">
+<cfparam name="dueDate" default="">
 <cfparam name="assignedTo" default="#session.user.userID#">
 <cfparam name="milestone" default="">
 <cfparam name="relevantURL" default="">
@@ -56,6 +61,9 @@
 	<cfset detail = thisIssue.detail>
 	<cfset type = thisIssue.type>
 	<cfset severity = thisIssue.severity>
+	<cfset componentID = thisIssue.componentID>
+	<cfset versionID = thisIssue.versionID>
+	<cfset dueDate = thisIssue.dueDate>
 	<cfset assignedTo = thisIssue.assignedTo>
 	<cfset milestone = thisIssue.milestoneID>
 	<cfset relevantURL = thisIssue.relevantURL>
@@ -69,6 +77,7 @@
 <cfhtmlhead text="<script type='text/javascript'>
 	$(document).ready(function(){
 	  	$('##name').focus();
+	  	$('.date-pick').datepicker();
 	});
 </script>">
 
@@ -125,18 +134,28 @@
 						</select>						
 						</p>
 						<p>
-						<label for="area">Area:</label>
-						<select name="area" id="area" onChange="newIssueArea(this.value);">
+						<label for="component">Component:</label>
+						<select name="componentID" id="component" onChange="newIssueComponent(this.value);">
 							<option value=""></option>
-							<option value="new">--- add new area ---</option>
+							<cfloop query="components">
+								<option value="#componentID#"<cfif not compare(form.componentID,componentID)> selected="selected"</cfif>>#component#</option>
+							</cfloop>
+							<option value="new">--- add new component ---</option>
 						</select>
 						</p>
 						<p>
 						<label for="version">Version:</label>
-						<select name="version" id="version" onChange="newIssueVersion(this.value);">
+						<select name="versionID" id="version" onChange="newIssueVersion(this.value);">
 							<option value=""></option>
+							<cfloop query="versions">
+								<option value="#versionID#"<cfif not compare(form.versionID,versionID)> selected="selected"</cfif>>#version#</option>
+							</cfloop>
 							<option value="new">--- add new version ---</option>
 						</select>
+						</p>
+						<p>
+						<label for="dueDate">Due Date:</label>
+						<input type="text" name="dueDate" id="dueDate" value="#DateFormat(dueDate,"mm/dd/yyyy")#" size="8" class="date-pick shortest" />
 						</p>
 						<cfif StructKeyExists(url,"i")>
 						<p>

@@ -30,7 +30,7 @@
 <cfoutput>
 <script type="text/javascript">
 $(document).ready(function(){
-	$('##upcoming_milestones').css('backgroundColor','##ffa').animate({backgroundColor:'##f7f7f7'},1500);
+	$('##upcoming_milestones').css('backgroundColor','##ffa').animate({backgroundColor:'##fff'},1500);
 });
 </script>
 </cfoutput>

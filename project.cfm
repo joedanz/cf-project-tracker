@@ -12,7 +12,7 @@
 	<cfset milestones_upcoming = application.milestone.get(url.p,'','upcoming','1')>
 </cfif>
 <cfif project.issues gt 0>
-	<cfset issues = application.issue.get(url.p,'','Open')>
+	<cfset issues = application.issue.get(url.p,'','New|Accepted')>
 </cfif>
 <cfset activity = application.activity.get(url.p,'','true')>
 
@@ -77,28 +77,21 @@ $(document).ready(function(){
 				
 				<cfif project.display><div class="fs12 mb20">#project.description#</div></cfif>
 				
-				<cfif project.mstones gt 0>
-					<cfif milestones_overdue.recordCount>
-					<div class="overdue">
-					<div class="mb5 b" style="color:##f00;border-bottom:1px solid ##f00;">Late Milestones</div>
-					<ul class="nobullet">
-						<cfloop query="milestones_overdue">
-						<cfset daysDiff = DateDiff("d",dueDate,Now())>
-						<li><span class="b" style="color:##f00;"><cfif daysDiff eq 0>Today<cfelseif daysDiff eq 1>Yesterday<cfelse>#daysDiff# days ago</cfif>:</span> 
-						<a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a>
-						<cfif compare(lastName,'')><span style="font-size:.9em;">(#firstName# #lastName# is responsible)</span></cfif>
-						</li>
-						</cfloop>
-					</ul>
-					</div><br />
-					</cfif>
-	
+				<cfif project.mstones gt 0 or project.issues gt 0>
 					<!--- due in next 14 days calendar --->
-					<cfquery name="ms_next_14" dbtype="query">
-						select * from milestones_upcoming where dueDate <= 
-						<cfqueryparam value="#CreateODBCDate(DateAdd("d",13,Now()))#" cfsqltype="CF_SQL_DATE" />
-					</cfquery>
-					<cfif ms_next_14.recordCount>
+					<cfif project.mstones gt 0>
+						<cfquery name="ms_next_14" dbtype="query">
+							select * from milestones_upcoming where dueDate <= 
+							<cfqueryparam value="#CreateODBCDate(DateAdd("d",13,Now()))#" cfsqltype="CF_SQL_DATE" />
+						</cfquery>
+					</cfif>
+					<cfif project.issues gt 0>
+						<cfquery name="issues_next_14" dbtype="query">
+							select * from issues where dueDate <= 
+							<cfqueryparam value="#CreateODBCDate(DateAdd("d",13,Now()))#" cfsqltype="CF_SQL_DATE" />
+						</cfquery>
+					</cfif>
+					<cfif (project.mstones gt 0 and ms_next_14.recordCount) or (project.issues gt 0 and issues_next_14.recordCount)>
 					<div class="mb5 b" style="border-bottom:1px solid ##000;">Due in the next 14 days</div>
 					<cfset theDay = dayOfWeek(now())>
 					<table border="0" cellpadding="0" cellspacing="1" width="100%" id="milestone_cal">
@@ -111,53 +104,64 @@ $(document).ready(function(){
 							</cfif>
 						</cfloop>
 						</tr>
-						<tr>
-						<cfloop index="i" from="0" to="6">
-							<cfquery name="todays_ms" dbtype="query">
-								select milestoneid,name from milestones_upcoming where dueDate = 
-								<cfqueryparam value="#CreateODBCDate(DateAdd("d",i,Now()))#" cfsqltype="CF_SQL_DATE" />
-							</cfquery>
-							<cfif i eq 0>
-								<td class="today"><span class="b">TODAY</span>
-							<cfelse>
-								<td<cfif todays_ms.recordCount> class="active"</cfif>><cfif i eq 1>#Left(MonthAsString(Month(DateAdd("d",i,Now()))),3)#</cfif>
-								#DateFormat(DateAdd("d",i,Now()),"d")#
-							</cfif>
-							<cfif todays_ms.recordCount>
+						
+						<cfloop index="i" from="0" to="13">
+							<cfif i mod 7 eq 0><tr></cfif>
+								<cfif project.mstones gt 0>
+									<cfquery name="todays_ms" dbtype="query">
+										select milestoneid,name from milestones_upcoming where dueDate = 
+										<cfqueryparam value="#CreateODBCDate(DateAdd("d",i,Now()))#" cfsqltype="CF_SQL_DATE" />
+									</cfquery>
+								</cfif>
+								<cfif project.issues gt 0>
+									<cfquery name="todays_issues" dbtype="query">
+										select issueid,issue from issues where dueDate = 
+										<cfqueryparam value="#CreateODBCDate(DateAdd("d",i,Now()))#" cfsqltype="CF_SQL_DATE" />
+									</cfquery>
+								</cfif>
+								<cfif i eq 0>
+									<td class="today"><span class="b">TODAY</span>
+								<cfelse>
+									<td<cfif (project.mstones gt 0 and todays_ms.recordCount) or (project.issues gt 0 and todays_issues.recordCount gt 0)> class="active"</cfif>><cfif i eq 1 or DatePart("d",DateAdd("d",i,Now())) eq 1>#Left(MonthAsString(Month(DateAdd("d",i,Now()))),3)#</cfif>
+									#DateFormat(DateAdd("d",i,Now()),"d")#
+								</cfif>
 								<ul class="cal_ms">
-								<cfloop query="todays_ms">
-									<li><a href="milestone.cfm?p=#url.p#&m=#milestoneID#">#name#</a></li>
-								</cfloop>
+								<cfif project.mstones gt 0 and todays_ms.recordCount>
+									<cfloop query="todays_ms">
+										<li><a href="milestone.cfm?p=#url.p#&m=#milestoneID#">#name#</a> (milestone)</li>
+									</cfloop>
+								</cfif>
+								<cfif project.issues gt 0 and todays_issues.recordCount>
+									<cfloop query="todays_issues">
+										<li><a href="issue.cfm?p=#url.p#&i=#issueID#">#issue#</a> (issue)</li>
+									</cfloop>
+								</cfif>
 								</ul>
-							</cfif>
 							</td>
-						</cfloop>	
-						</tr>
-						<tr>
-						<cfloop index="i" from="7" to="13">
-							<cfquery name="todays_ms" dbtype="query">
-								select milestoneid,name from milestones_upcoming where dueDate = 
-								<cfqueryparam value="#CreateODBCDate(DateAdd("d",i,Now()))#" cfsqltype="CF_SQL_DATE" />
-							</cfquery>
-							<td<cfif todays_ms.recordCount> class="active"</cfif>><cfif i eq 1>#Left(MonthAsString(Month(DateAdd("d",i,Now()))),3)#</cfif>
-								#DateFormat(DateAdd("d",i,Now()),"d")#
-							<cfif todays_ms.recordCount>
-								<ul class="cal_ms">
-								<cfloop query="todays_ms">
-									<li><a href="milestone.cfm?p=#url.p#&m=#milestoneID#">#name#</a></li>
-								</cfloop>
-								</ul>
-							</cfif>
-							</td>
-						</cfloop>	
-						</tr>
+							<cfif i mod 7 eq 6></tr></cfif>
+						</cfloop>
 					</table>
 					<br />
 					</cfif>
-						
+
+					<cfif project.mstones gt 0 and milestones_overdue.recordCount>
+						<div class="overdue">
+						<div class="mb5 b" style="color:##f00;border-bottom:1px solid ##f00;">Late Milestones</div>
+						<ul class="nobullet">
+							<cfloop query="milestones_overdue">
+							<cfset daysDiff = DateDiff("d",dueDate,Now())>
+							<li><span class="b" style="color:##f00;"><cfif daysDiff eq 0>Today<cfelseif daysDiff eq 1>Yesterday<cfelse>#daysDiff# days ago</cfif>:</span> 
+							<a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a>
+							<cfif compare(lastName,'')><span style="font-size:.9em;">(#firstName# #lastName# is responsible)</span></cfif>
+							</li>
+							</cfloop>
+						</ul>
+						</div><br />
+					</cfif>
+
 					<cfif milestones_upcoming.recordCount>
 					<div class="mb5 b" style="border-bottom:1px solid ##000;">
-						<span style="float:right;font-size:.75em;"><a href="##" onclick="upcoming_milestones('#url.p#','1');$(this).addClass('subactive');$('##threem').removeClass('subactive');$('##all').removeClass('subactive');" class="sublink subactive" id="onem">1 month</a> | <a href="##" onclick="upcoming_milestones('#url.p#','3');$('##onem').removeClass('subactive');$(this).addClass('subactive');$('##all').removeClass('subactive');" class="sublink" id="threem">3 months</a> | <a href="##" onclick="upcoming_milestones('#url.p#','');$('##onem').removeClass('subactive');$('##threem').removeClass('subactive');$(this).addClass('subactive');" class="sublink" id="all">All</a></span>
+						<span style="float:right;font-size:.75em;"><a href="##" onclick="upcoming_milestones('#url.p#','1');$(this).addClass('subactive');$('##threem').removeClass('subactive');$('##all').removeClass('subactive');return false;" class="sublink subactive" id="onem">1 month</a> | <a href="##" onclick="upcoming_milestones('#url.p#','3');$('##onem').removeClass('subactive');$(this).addClass('subactive');$('##all').removeClass('subactive');return false;" class="sublink" id="threem">3 months</a> | <a href="##" onclick="upcoming_milestones('#url.p#','');$('##onem').removeClass('subactive');$('##threem').removeClass('subactive');$(this).addClass('subactive');return false;" class="sublink" id="all">All</a></span>
 						Upcoming Milestones</div>	
 					<ul class="nobullet" id="upcoming_milestones">
 						<cfloop query="milestones_upcoming">
@@ -170,7 +174,7 @@ $(document).ready(function(){
 					</ul><br />
 					</cfif>
 				</cfif>
-				
+
 				<cfif project.issues gt 0 and issues.recordCount>
 					<div style="border:1px solid ##ddd;" class="mb20">
 					<table class="activity full tablesorter" id="issues">
@@ -185,6 +189,7 @@ $(document).ready(function(){
 							<th>Assigned To</th>
 							<th>Reported</th>
 							<th>Updated</th>
+							<th>Due</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -198,7 +203,8 @@ $(document).ready(function(){
 							<td>#status#</td>
 							<td>#assignedFirstName# #assignedLastName#</td>
 							<td>#DateFormat(created,"mmm d")#</td>
-							<td>#DateFormat(updated,"mmm d")#</td>	
+							<td>#DateFormat(updated,"mmm d")#</td>
+							<td>#DateFormat(dueDate,"mmm d")#</td>
 						</tr>
 						<cfset thisRow = thisRow + 1>
 						</cfloop>

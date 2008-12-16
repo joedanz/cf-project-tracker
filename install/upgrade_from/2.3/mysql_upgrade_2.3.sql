@@ -10,6 +10,7 @@ ALTER TABLE `pt_projects` ADD `tab_svn` int(1) default NULL;
 /* pt_issues */
 ALTER TABLE `pt_issues` ADD `componentID` varchar(35) default NULL;
 ALTER TABLE `pt_issues` ADD `versionID` varchar(35) default NULL;
+ALTER TABLE `pt_issues` ADD `dueDate` datetime default NULL;
 
 /*Table structure for table `pt_project_components` */
 

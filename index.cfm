@@ -108,7 +108,64 @@ $(document).ready(function(){
 			</div>
 			<div class="content">
 				<div class="wrapper">
-
+					
+					<!--- due in next 14 days calendar --->
+					<cfquery name="ms_next_14" dbtype="query">
+						select * from milestones_upcoming where dueDate <= 
+						<cfqueryparam value="#CreateODBCDate(DateAdd("d",13,Now()))#" cfsqltype="CF_SQL_DATE" />
+					</cfquery>
+					<cfquery name="issues_next_14" dbtype="query">
+						select * from issues where dueDate <= 
+						<cfqueryparam value="#CreateODBCDate(DateAdd("d",13,Now()))#" cfsqltype="CF_SQL_DATE" />
+					</cfquery>
+					<cfif ms_next_14.recordCount or issues_next_14.recordCount>
+					<div class="mb5 b" style="border-bottom:1px solid ##000;">Due in the next 14 days</div>
+					<cfset theDay = dayOfWeek(now())>
+					<table border="0" cellpadding="0" cellspacing="1" width="100%" id="milestone_cal">
+						<tr>
+						<cfloop index="i" from="0" to="6">
+							<th>#Left(dayOfWeekAsString(theDay),3)#</th>
+							<cfset theDay = theDay + 1>
+							<cfif theDay eq 8>
+								<cfset theDay = 1>
+							</cfif>
+						</cfloop>
+						</tr>
+						<cfloop index="i" from="0" to="13">
+							<cfif i mod 7 eq 0><tr></cfif>
+								<cfquery name="todays_ms" dbtype="query">
+									select milestoneid,name,projectid,projName from milestones_upcoming where dueDate = 
+									<cfqueryparam value="#CreateODBCDate(DateAdd("d",i,Now()))#" cfsqltype="CF_SQL_DATE" />
+								</cfquery>
+								<cfquery name="todays_issues" dbtype="query">
+									select issueid,issue,projectid,name from issues where dueDate = 
+									<cfqueryparam value="#CreateODBCDate(DateAdd("d",i,Now()))#" cfsqltype="CF_SQL_DATE" />
+								</cfquery>
+								<cfif i eq 0>
+									<td class="today"><span class="b">TODAY</span>
+								<cfelse>
+									<td<cfif todays_ms.recordCount or todays_issues.recordCount> class="active"</cfif>><cfif i eq 1 or DatePart("d",DateAdd("d",i,Now())) eq 1>#Left(MonthAsString(Month(DateAdd("d",i,Now()))),3)#</cfif>
+									#DateFormat(DateAdd("d",i,Now()),"d")#
+								</cfif>
+								<ul class="cal_ms">
+									<cfif todays_ms.recordCount>
+										<cfloop query="todays_ms">
+											<li><a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a> (milestone) (<a href="project.cfm?p=#projectID#">#projName#</a>)</li>
+										</cfloop>
+									</cfif>
+									<cfif todays_issues.recordCount>
+										<cfloop query="todays_issues">
+											<li><a href="issue.cfm?p=#projectID#&i=#issueID#">#issue#</a> (issue) (<a href="project.cfm?p=#projectID#">#name#</a>)</li>
+										</cfloop>
+									</cfif>
+								</ul>
+							</td>
+							<cfif i mod 7 eq 6></tr></cfif>
+						</cfloop>
+					</table>
+					<br />
+					</cfif>						
+					
 					<cfif milestones_overdue.recordCount>
 					<div class="overdue">
 					<div class="mb5 b" style="color:##f00;border-bottom:1px solid ##f00;">Late Milestones</div>
@@ -123,68 +180,6 @@ $(document).ready(function(){
 					</ul>
 					</div><br />
 					</cfif>
-					
-					<!--- due in next 14 days calendar --->
-					<cfquery name="ms_next_14" dbtype="query">
-						select * from milestones_upcoming where dueDate <= 
-						<cfqueryparam value="#CreateODBCDate(DateAdd("d",13,Now()))#" cfsqltype="CF_SQL_DATE" />
-					</cfquery>
-					<cfif ms_next_14.recordCount>
-					<div class="mb5 b" style="border-bottom:1px solid ##000;">Due in the next 14 days</div>
-					<cfset theDay = dayOfWeek(now())>
-					<table border="0" cellpadding="0" cellspacing="1" width="100%" id="milestone_cal">
-						<tr>
-						<cfloop index="i" from="0" to="6">
-							<th>#Left(dayOfWeekAsString(theDay),3)#</th>
-							<cfset theDay = theDay + 1>
-							<cfif theDay eq 8>
-								<cfset theDay = 1>
-							</cfif>
-						</cfloop>
-						</tr>
-						<tr>
-						<cfloop index="i" from="0" to="6">
-							<cfquery name="todays_ms" dbtype="query">
-								select milestoneid,name,projectid,projName from milestones_upcoming where dueDate = 
-								<cfqueryparam value="#CreateODBCDate(DateAdd("d",i,Now()))#" cfsqltype="CF_SQL_DATE" />
-							</cfquery>
-							<cfif i eq 0>
-								<td class="today"><span class="b">TODAY</span>
-							<cfelse>
-								<td<cfif todays_ms.recordCount> class="active"</cfif>><cfif i eq 1>#Left(MonthAsString(Month(DateAdd("d",i,Now()))),3)#</cfif>
-								#DateFormat(DateAdd("d",i,Now()),"d")#
-							</cfif>
-							<cfif todays_ms.recordCount>
-								<ul class="cal_ms">
-								<cfloop query="todays_ms">
-									<li><a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a> (<a href="project.cfm?p=#projectID#">#projName#</a>)</li>
-								</cfloop>
-								</ul>
-							</cfif>
-							</td>
-						</cfloop>	
-						</tr>
-						<tr>
-						<cfloop index="i" from="7" to="13">
-							<cfquery name="todays_ms" dbtype="query">
-								select milestoneid,name,projectid,projName from milestones_upcoming where dueDate = 
-								<cfqueryparam value="#CreateODBCDate(DateAdd("d",i,Now()))#" cfsqltype="CF_SQL_DATE" />
-							</cfquery>
-							<td<cfif todays_ms.recordCount> class="active"</cfif>><cfif i eq 1>#Left(MonthAsString(Month(DateAdd("d",i,Now()))),3)#</cfif>
-								#DateFormat(DateAdd("d",i,Now()),"d")#
-							<cfif todays_ms.recordCount>
-								<ul class="cal_ms">
-								<cfloop query="todays_ms">
-									<li><a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a> (<a href="project.cfm?p=#projectID#">#projName#</a>)</li>
-								</cfloop>
-								</ul>
-							</cfif>
-							</td>
-						</cfloop>	
-						</tr>
-					</table>
-					<br />
-					</cfif>						
 					
 					<cfif milestones_upcoming.recordCount>
 					<div class="mb5 b" style="border-bottom:1px solid ##000;">
@@ -218,6 +213,7 @@ $(document).ready(function(){
 							<th>Assigned To</th>
 							<th>Reported</th>
 							<th>Updated</th>
+							<th>Due</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -232,6 +228,7 @@ $(document).ready(function(){
 						<td>#assignedFirstName# #assignedLastName#</td>
 						<td>#DateFormat(created,"mmm d")#</td>
 						<td>#DateFormat(updated,"mmm d")#</td>
+						<td>#DateFormat(dueDate,"mmm d")#</td>
 					</tr>
 					<cfset thisRow = thisRow + 1>
 					</cfloop>

@@ -29,7 +29,8 @@
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT issueID, i.projectID, i.shortID, i.issue, i.detail, i.type, i.severity, i.status, 
 				i.created, i.createdBy,	i.assignedTo, i.milestoneID, i.relevantURL, i.updated, i.updatedBy, 
-				i.resolution, i.resolutionDesc, i.componentID, i.versionID, p.name, c.firstName as createdFirstName, 
+				i.resolution, i.resolutionDesc, i.componentID, i.versionID, i.dueDate, 
+				p.name, c.firstName as createdFirstName, 
 				c.lastName as createdLastName, u.firstName as updatedFirstName, 
 				u.lastName as updatedLastName, a.firstName as assignedFirstName, 
 				a.lastName as assignedLastName,	m.name as milestone, pc.component, pv.version
@@ -85,6 +86,9 @@
 		<cfargument name="detail" type="string" required="true">
 		<cfargument name="type" type="string" required="true">
 		<cfargument name="severity" type="string" required="true">
+		<cfargument name="componentID" type="string" required="true">
+		<cfargument name="versionID" type="string" required="true">
+		<cfargument name="dueDate" type="string" required="true">
 		<cfargument name="assignedTo" type="string" required="true">
 		<cfargument name="milestoneID" type="string" required="true">
 		<cfargument name="relevantURL" type="string" required="true">
@@ -97,7 +101,7 @@
 			WHERE 	projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
 		</CFQUERY>
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#issues (issueID, projectID, shortID, issue, detail, type, severity, status, assignedTo, milestoneID, relevantURL, created, createdBy)
+			INSERT INTO #variables.tableprefix#issues (issueID, projectID, shortID, issue, detail, type, severity, componentID, versionID, dueDate, status, assignedTo, milestoneID, relevantURL, created, createdBy)
 				VALUES(<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">, 
 						'#arguments.ticketPrefix##qCountTix.numTix+1#',
@@ -105,6 +109,9 @@
 						<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.detail#">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="11">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.severity#" maxlength="10">, 
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.componentID#" maxlength="35">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.versionID#" maxlength="35">,
+						<cfif isDate(arguments.dueDate)>#CreateODBCDateTime(arguments.dueDate)#<cfelse>NULL</cfif>,
 						'<cfif not compare(arguments.assignedTo,'')>New<cfelse>Accepted</cfif>', 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.assignedTo#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
@@ -130,6 +137,9 @@
 		<cfargument name="detail" type="string" required="true">
 		<cfargument name="type" type="string" required="true">
 		<cfargument name="severity" type="string" required="true">
+		<cfargument name="componentID" type="string" required="true">
+		<cfargument name="versionID" type="string" required="true">
+		<cfargument name="dueDate" type="string" required="true">
 		<cfargument name="assignedTo" type="string" required="true">
 		<cfargument name="milestoneID" type="string" required="true">
 		<cfargument name="relevantURL" type="string" required="true">
@@ -153,6 +163,9 @@
 				detail = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.detail#">, 
 				type = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="11">, 
 				severity = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.severity#" maxlength="10">, 
+				componentID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.componentID#" maxlength="35">,
+				versionID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.versionID#" maxlength="35">,
+				dueDate = <cfif isDate(arguments.dueDate)>#CreateODBCDateTime(arguments.dueDate)#<cfelse>NULL</cfif>,
 				assignedTo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.assignedTo#" maxlength="35">,
 				<cfif not compare(previous.assignedTo,'') and compare(arguments.assignedTo,'')>
 					status = 'Accepted',
