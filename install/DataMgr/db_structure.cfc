@@ -47,6 +47,17 @@
 				<field ColumnName="type" CF_DataType="CF_SQL_VARCHAR" Length="5" />
 				<field ColumnName="category" CF_DataType="CF_SQL_VARCHAR" Length="80" />
 			</table>
+			<table name="#arguments.tablePrefix#comments">
+				<field ColumnName="commentID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" Length="35" />
+				<field ColumnName="messageID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
+				<field ColumnName="issueID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
+				<field ColumnName="userID" CF_DataType="CF_SQL_CHAR" Length="35" />
+				<field ColumnName="commentText" CF_DataType="CF_SQL_LONGVARCHAR" />
+				<field ColumnName="stamp" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
+				<field ColumnName="type" CF_DataType="CF_SQL_VARCHAR" Length="6" />
+				<field ColumnName="itemID" CF_DataType="CF_SQL_CHAR" Length="35" />
+			</table>
 			<table name="#arguments.tablePrefix#issues">
 				<field ColumnName="issueID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
 				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" Length="35" />
@@ -65,6 +76,8 @@
 				<field ColumnName="updatedBy" CF_DataType="CF_SQL_VARCHAR" Length="35" />
 				<field ColumnName="resolution" CF_DataType="CF_SQL_VARCHAR" Length="12" />
 				<field ColumnName="resolutionDesc" CF_DataType="CF_SQL_LONGVARCHAR" />
+				<field ColumnName="componentID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
+				<field ColumnName="versionID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
 			</table>
 			<table name="#arguments.tablePrefix#milestones">
 				<field ColumnName="milestoneID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
@@ -75,6 +88,16 @@
 				<field ColumnName="description" CF_DataType="CF_SQL_LONGVARCHAR" />
 				<field ColumnName="dueDate" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 				<field ColumnName="completed" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
+			</table>
+			<table name="#arguments.tablePrefix#project_components">
+				<field ColumnName="componentID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="component" CF_DataType="CF_SQL_VARCHAR" Length="50" />
+			</table>
+			<table name="#arguments.tablePrefix#project_versions">
+				<field ColumnName="versionID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="version" CF_DataType="CF_SQL_VARCHAR" Length="50" />
 			</table>
 			<table name="#arguments.tablePrefix#projects">
 				<field ColumnName="projectID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
@@ -104,17 +127,6 @@
 				<field ColumnName="tab_mstones" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="tab_todos" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="tab_svn" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-			</table>
-			<table name="#arguments.tablePrefix#comments">
-				<field ColumnName="commentID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
-				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" Length="35" />
-				<field ColumnName="messageID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
-				<field ColumnName="issueID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
-				<field ColumnName="userID" CF_DataType="CF_SQL_CHAR" Length="35" />
-				<field ColumnName="commentText" CF_DataType="CF_SQL_LONGVARCHAR" />
-				<field ColumnName="stamp" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
-				<field ColumnName="type" CF_DataType="CF_SQL_VARCHAR" Length="6" />
-				<field ColumnName="itemID" CF_DataType="CF_SQL_CHAR" Length="35" />
 			</table>
 			<table name="#arguments.tablePrefix#project_users">
 				<field ColumnName="userID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />

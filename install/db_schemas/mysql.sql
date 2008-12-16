@@ -113,6 +113,8 @@ CREATE TABLE `pt_issues` (
   `updatedBy` varchar(35) default NULL,
   `resolution` varchar(12) default NULL,
   `resolutionDesc` text default NULL,
+  `componentID` varchar(35) default NULL,
+  `versionID` varchar(35) default NULL,
   PRIMARY KEY  (`issueID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -154,6 +156,15 @@ CREATE TABLE `pt_milestones` (
   PRIMARY KEY  (`milestoneID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `pt_project_components` */
+
+CREATE TABLE `pt_project_components` (
+  `componentID` char(35) NOT NULL,
+  `projectID` char(35) NOT NULL,
+  `component` varchar(50) default NULL,
+  PRIMARY KEY  (`componentID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `pt_project_users` */
 
 CREATE TABLE `pt_project_users` (
@@ -167,6 +178,15 @@ CREATE TABLE `pt_project_users` (
   `todos` int(1) default NULL,
   `svn` int(1) default NULL,
   PRIMARY KEY  (`userID`,`projectID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `pt_project_versions` */
+
+CREATE TABLE `pt_project_versions` (
+  `versionID` char(35) NOT NULL,
+  `projectID` char(35) NOT NULL,
+  `version` varchar(50) default NULL,
+  PRIMARY KEY  (`versionID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `pt_projects` */
