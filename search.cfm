@@ -38,7 +38,7 @@
 </cfif>
 
 <!--- Loads header/footer --->
-<cfmodule template="tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Search">
+<cfmodule template="tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Search" project="#IIf(isDefined("project.name"),'project.name','')#" projectid="#url.p#" svnurl="#IIf(isDefined("project.svnurl"),'project.svnurl','')#">
 
 <cfsavecontent variable="js">
 <cfoutput>

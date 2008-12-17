@@ -48,6 +48,11 @@
 	padding-left:28px;
 }
 
+#container .left .main .header h2.time {
+	background:url(../images/clock.gif) no-repeat 0 50%;
+	padding-left:28px;
+}
+
 #container .left .main .header h2.todo {
 	background:url(../images/clipboard.gif) no-repeat 0 50%;
 	padding-left:28px;

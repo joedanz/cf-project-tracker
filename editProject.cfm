@@ -34,7 +34,7 @@
 </cfif>
 
 <cfif StructKeyExists(form,"projectID")> <!--- update project --->
-	<cfset application.project.update(form.projectid,form.ownerID,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_svn)>
+	<cfset application.project.update(form.projectid,form.ownerID,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_time,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_svn)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'edited')>
 	<cfif not compare(form.from,'admin')>
 		<cflocation url="./admin/projects.cfm" addtoken="false">
@@ -43,7 +43,7 @@
 	</cfif>
 <cfelseif StructKeyExists(form,"submit")> <!--- add project --->
 	<cfset newID = createUUID()>
-	<cfset application.project.add(newID,session.user.userid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_svn,session.user.userid)>
+	<cfset application.project.add(newID,session.user.userid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_time,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_svn,session.user.userid)>
 	<cfset application.role.add(newID,session.user.userid,'1','2','2','2','2','2','1')>
 	<cfset application.activity.add(createUUID(),newID,session.user.userid,'Project',newID,form.name,'added')>
 	<cfset session.user.projects = application.project.get(session.user.userid)>
@@ -91,6 +91,7 @@
 	<cfset form.reg_issues = thisProject.reg_issues>
 	<cfset form.reg_msgs = thisProject.reg_msgs>
 	<cfset form.reg_mstones = thisProject.reg_mstones>
+	<cfset form.reg_time = thisProject.reg_time>
 	<cfset form.reg_todos = thisProject.reg_todos>
 	<cfset form.reg_svn = thisProject.reg_svn>
 	<cfset form.tab_files = thisProject.tab_files>
@@ -98,6 +99,7 @@
 	<cfset form.tab_msgs = thisProject.tab_msgs>
 	<cfset form.tab_mstones = thisProject.tab_mstones>
 	<cfset form.tab_todos = thisProject.tab_todos>
+	<cfset form.tab_time = thisProject.tab_time>
 	<cfset form.tab_svn = thisProject.tab_svn>
 	<cfset title_action = "Edit">
 	<cfset projectUsers = application.project.projectUsers(url.p)>
@@ -205,13 +207,14 @@
 						<div id="tabinfo" style="display:none;">
 						<table class="admin full mb15 permissions">
 							<tr>
-								<th width="28%">&nbsp;</th>
-								<th width="12%">Files</th>
-								<th width="12%">Issues</th>
-								<th width="12%">Messages</th>
+								<th width="20%">&nbsp;</th>
+								<th width="11%">Files</th>
+								<th width="11%">Issues</th>
+								<th width="11%">Messages</th>
 								<th width="12%">Milestones</th>
-								<th width="12%">To-Dos</th>
-								<th width="12%">SVN</th>
+								<th width="10%">To-Dos</th>
+								<th width="15%">Time Tracking</th>
+								<th width="10%">SVN</th>
 							</tr>
 							<tr>
 								<td class="b">Feature Enabled</td>
@@ -220,6 +223,7 @@
 								<td><input type="checkbox" name="tab_msgs" value="1" class="cb"<cfif form.tab_msgs eq 1> checked="checked"</cfif> /></td>
 								<td><input type="checkbox" name="tab_mstones" value="1" class="cb"<cfif form.tab_mstones eq 1> checked="checked"</cfif> /></td>
 								<td><input type="checkbox" name="tab_todos" value="1" class="cb"<cfif form.tab_todos eq 1> checked="checked"</cfif> /></td>
+								<td><input type="checkbox" name="tab_time" value="1" class="cb"<cfif form.tab_time eq 1> checked="checked"</cfif> /></td>
 								<td><input type="checkbox" name="tab_svn" value="1" class="cb"<cfif form.tab_svn eq 1> checked="checked"</cfif> /></td>
 							</tr>
 						</table>
@@ -376,6 +380,7 @@
 								<th>Messages</th>
 								<th>Milestones</th>
 								<th>To-Dos</th>
+								<th>Time Tracking</th>
 								<th>SVN</th>
 							</tr>
 							<tr>
@@ -414,6 +419,13 @@
 										<option value="2"<cfif form.reg_todos eq 2> selected="selected"</cfif>>Full Access</option>
 										<option value="1"<cfif form.reg_todos eq 1> selected="selected"</cfif>>Read-Only</option>
 										<option value="0"<cfif form.reg_todos eq 0> selected="selected"</cfif>>None</option>
+									</select>							
+								</td>
+								<td>
+									<select name="reg_time">
+										<option value="2"<cfif form.reg_time eq 2> selected="selected"</cfif>>Full Access</option>
+										<option value="1"<cfif form.reg_time eq 1> selected="selected"</cfif>>Read-Only</option>
+										<option value="0"<cfif form.reg_time eq 0> selected="selected"</cfif>>None</option>
 									</select>							
 								</td>
 								<td><input type="checkbox" name="reg_svn" value="1" class="cb"<cfif form.reg_svn eq 1> checked="checked"</cfif> /></td>

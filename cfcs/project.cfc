@@ -20,11 +20,18 @@
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT p.projectID, p.ownerID, p.clientID, p.name, p.description, p.display, p.added, 
-				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, 
-				pu.admin, pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos, pu.svn, 
+				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass,
+				<cfif compare(arguments.userID,'')> 
+					pu.admin, pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos, pu.timetrack, pu.svn,
+				<cfelse>
+					1 as admin, 2 as files, 2 as issues, 2 as msgs, 2 as mstones, 2 as todos, 
+					2 as timetrack, 1 as svn,
+				</cfif> 
 				c.name as clientName, u.firstName as ownerFirstName, u.lastName as ownerLastName
 			FROM #variables.tableprefix#projects p 
-				INNER JOIN #variables.tableprefix#project_users pu ON p.projectID = pu.projectID
+				<cfif compare(arguments.userID,'')>
+					INNER JOIN #variables.tableprefix#project_users pu ON p.projectID = pu.projectID
+				</cfif>
 				INNER JOIN #variables.tableprefix#users u ON p.ownerID = u.userID
 				LEFT JOIN #variables.tableprefix#clients c on p.clientID = c.clientID 
 			WHERE 0=0
@@ -48,8 +55,8 @@
 			SELECT p.projectID, p.ownerID, p.clientID, p.name, p.description, p.display, p.added, 
 				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, p.allow_reg, 
 				p.reg_active, p.reg_files, p.reg_issues, p.reg_msgs, p.reg_mstones, p.reg_todos, 
-				p.reg_svn, p.tab_files, p.tab_issues, p.tab_msgs, p.tab_mstones, p.tab_todos, 
-				p.tab_svn, c.name as clientName, 
+				p.reg_time, p.reg_svn, p.tab_files, p.tab_issues, p.tab_msgs, p.tab_mstones, 
+				p.tab_todos, p.tab_time, p.tab_svn, c.name as clientName, 
 				u.firstName as ownerFirstName, u.lastName as ownerLastName
 			FROM #variables.tableprefix#projects p
 				INNER JOIN #variables.tableprefix#users u ON p.ownerID = u.userID
@@ -86,16 +93,18 @@
 		<cfargument name="reg_msgs" type="numeric" required="true">
 		<cfargument name="reg_mstones" type="numeric" required="true">
 		<cfargument name="reg_todos" type="numeric" required="true">
+		<cfargument name="reg_time" type="numeric" required="true">
 		<cfargument name="reg_svn" type="numeric" required="true">
 		<cfargument name="tab_files" type="numeric" required="true">
 		<cfargument name="tab_issues" type="numeric" required="true">
 		<cfargument name="tab_msgs" type="numeric" required="true">
 		<cfargument name="tab_mstones" type="numeric" required="true">
 		<cfargument name="tab_todos" type="numeric" required="true">
+		<cfargument name="tab_time" type="numeric" required="true">
 		<cfargument name="tab_svn" type="numeric" required="true">
 		<cfargument name="addedBy" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#projects (projectID,ownerID,name,description,display,added,addedBy,clientID,status,ticketPrefix,svnurl,svnuser,svnpass,allow_reg,reg_active,reg_files,reg_issues,reg_msgs,reg_mstones,reg_todos,reg_svn,tab_files,tab_issues,tab_msgs,tab_mstones,tab_todos,tab_svn)
+			INSERT INTO #variables.tableprefix#projects (projectID,ownerID,name,description,display,added,addedBy,clientID,status,ticketPrefix,svnurl,svnuser,svnpass,allow_reg,reg_active,reg_files,reg_issues,reg_msgs,reg_mstones,reg_todos,reg_time,reg_svn,tab_files,tab_issues,tab_msgs,tab_mstones,tab_todos,tab_time,tab_svn)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.ownerID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
@@ -115,12 +124,14 @@
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_msgs#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_mstones#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_todos#" maxlength="1">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_time#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_svn#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.tab_files#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.tab_issues#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.tab_msgs#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.tab_mstones#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.tab_todos#" maxlength="1">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.tab_time#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.tab_svn#" maxlength="1">)
 		</cfquery>
 		<cfreturn true>
@@ -146,12 +157,14 @@
 		<cfargument name="reg_msgs" type="numeric" required="true">
 		<cfargument name="reg_mstones" type="numeric" required="true">
 		<cfargument name="reg_todos" type="numeric" required="true">
+		<cfargument name="reg_time" type="numeric" required="true">
 		<cfargument name="reg_svn" type="numeric" required="true">
 		<cfargument name="tab_files" type="numeric" required="true">
 		<cfargument name="tab_issues" type="numeric" required="true">
 		<cfargument name="tab_msgs" type="numeric" required="true">
 		<cfargument name="tab_mstones" type="numeric" required="true">
 		<cfargument name="tab_todos" type="numeric" required="true">
+		<cfargument name="tab_time" type="numeric" required="true">
 		<cfargument name="tab_svn" type="numeric" required="true">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#projects 
@@ -172,12 +185,14 @@
 					reg_msgs = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_msgs#" maxlength="1">,
 					reg_mstones = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_mstones#" maxlength="1">,
 					reg_todos = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_todos#" maxlength="1">,
+					reg_time = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_time#" maxlength="1">,
 					reg_svn = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_svn#" maxlength="1">,
 					tab_files = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.tab_files#" maxlength="1">,
 					tab_issues = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.tab_issues#" maxlength="1">,
 					tab_msgs = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.tab_msgs#" maxlength="1">,
 					tab_mstones = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.tab_mstones#" maxlength="1">,
 					tab_todos = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.tab_todos#" maxlength="1">,
+					tab_time = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.tab_time#" maxlength="1">,
 					tab_svn = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.tab_svn#" maxlength="1">
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
@@ -197,31 +212,48 @@
 		<!--- delete database records --->
 		<cftransaction>
 			<cfquery datasource="#variables.dsn#">
-				DELETE FROM #variables.tableprefix#activity WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+				DELETE FROM #variables.tableprefix#activity 
+				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
 			<cfquery datasource="#variables.dsn#">
-				DELETE FROM #variables.tableprefix#files WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+				DELETE FROM #variables.tableprefix#files 
+				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
 			<cfquery datasource="#variables.dsn#">
-				DELETE FROM #variables.tableprefix#issues WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+				DELETE FROM #variables.tableprefix#issues 
+				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
 			<cfquery datasource="#variables.dsn#">
-				DELETE FROM #variables.tableprefix#messages WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+				DELETE FROM #variables.tableprefix#messages 
+				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
 			<cfquery datasource="#variables.dsn#">
-				DELETE FROM #variables.tableprefix#milestones WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+				DELETE FROM #variables.tableprefix#milestones 
+				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
 			<cfquery datasource="#variables.dsn#">
-				DELETE FROM #variables.tableprefix#projects WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+				DELETE FROM #variables.tableprefix#projects 
+				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
 			<cfquery datasource="#variables.dsn#">
-				DELETE FROM #variables.tableprefix#project_users WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+				DELETE FROM #variables.tableprefix#project_components 
+				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
 			<cfquery datasource="#variables.dsn#">
-				DELETE FROM #variables.tableprefix#todolists WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+				DELETE FROM #variables.tableprefix#project_users 
+				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
 			<cfquery datasource="#variables.dsn#">
-				DELETE FROM #variables.tableprefix#todos WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+				DELETE FROM #variables.tableprefix#project_versions 
+				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+			</cfquery>
+			<cfquery datasource="#variables.dsn#">
+				DELETE FROM #variables.tableprefix#todolists 
+				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
+			</cfquery>
+			<cfquery datasource="#variables.dsn#">
+				DELETE FROM #variables.tableprefix#todos 
+				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
 		</cftransaction>
 	</cffunction>
@@ -241,7 +273,7 @@
 				u.email_msgs, u.mobile_msgs, u.email_mstones, u.mobile_mstones,	u.email_todos, 
 				u.mobile_todos, u.avatar, c.prefix, c.suffix	
 				<cfif not compare(arguments.projectIDlist,'')>
-					, pu.admin,	pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos, pu.svn
+					, pu.admin,	pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos, pu.timetrack, pu.svn
 				</cfif>
 			FROM #variables.tableprefix#users u 
 				INNER JOIN #variables.tableprefix#project_users pu ON u.userID = pu.userID
@@ -298,6 +330,7 @@
 		<cfargument name="msgs" type="numeric" required="true">
 		<cfargument name="mstones" type="numeric" required="true">
 		<cfargument name="todos" type="numeric" required="true">
+		<cfargument name="timetrack" type="numeric" required="true">
 		<cfargument name="svn" type="string" required="true">
 		
 		<cfquery datasource="#variables.dsn#">
@@ -307,7 +340,9 @@
 				issues = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.issues#" maxlength="1">,
 				msgs = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.msgs#" maxlength="1">,
 				mstones = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mstones#" maxlength="1">,
-				todos = <cfif isNumeric(arguments.todos)>1<cfelse>0</cfif>
+				todos = <cfif isNumeric(arguments.todos)><cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.todos#" maxlength="1"><cfelse>0</cfif>,
+				timetrack = <cfif isNumeric(arguments.timetrack)><cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.timetrack#" maxlength="1"><cfelse>0</cfif>,
+				svn = <cfif isNumeric(arguments.svn) and arguments.svn eq 1>1<cfelse>0</cfif>
 			WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				AND userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35"> 
 		</cfquery>
