@@ -120,25 +120,27 @@
 				<field ColumnName="reg_issues" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="reg_msgs" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="reg_mstones" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="reg_todos" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="reg_svn" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="reg_time" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="reg_todos" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="tab_files" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="tab_issues" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="tab_msgs" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="tab_mstones" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="tab_todos" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="tab_svn" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="tab_time" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="tab_todos" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 			</table>
 			<table name="#arguments.tablePrefix#project_users">
 				<field ColumnName="userID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
 				<field ColumnName="projectID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
-				<field ColumnName="role" CF_DataType="CF_SQL_VARCHAR" Length="9" />
+				<field ColumnName="admin" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="files" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="issues" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="msgs" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="mstones" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="todos" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="admin" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="timetrack" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="svn" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 			</table>
 			<table name="#arguments.tablePrefix#file_attach">

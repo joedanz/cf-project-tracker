@@ -1,5 +1,7 @@
 /* UPGRADE FROM 2.3 */
 /* pt_projects */
+ALTER TABLE [dbo].[pt_projects] ADD [reg_time] [tinyint] NULL
+GO
 ALTER TABLE [dbo].[pt_projects] ADD [tab_files] [tinyint] NULL
 GO
 ALTER TABLE [dbo].[pt_projects] ADD [tab_issues] [tinyint] NULL
@@ -8,9 +10,33 @@ ALTER TABLE [dbo].[pt_projects] ADD [tab_msgs] [tinyint] NULL
 GO
 ALTER TABLE [dbo].[pt_projects] ADD [tab_mstones] [tinyint] NULL
 GO
+ALTER TABLE [dbo].[pt_projects] ADD [tab_svn] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [tab_time] [tinyint] NULL
+GO
 ALTER TABLE [dbo].[pt_projects] ADD [tab_todos] [tinyint] NULL
 GO
-ALTER TABLE [dbo].[pt_projects] ADD [tab_svn] [tinyint] NULL
+UPDATE [dbo].[pt_projects] SET reg_time = 1 WHERE reg_time IS NULL
+GO
+UPDATE [dbo].[pt_projects] SET tab_files = 1 WHERE tab_files IS NULL
+GO
+UPDATE [dbo].[pt_projects] SET tab_issues = 1 WHERE tab_issues IS NULL
+GO
+UPDATE [dbo].[pt_projects] SET tab_msgs = 1 WHERE tab_msgs IS NULL
+GO
+UPDATE [dbo].[pt_projects] SET tab_mstones = 1 WHERE tab_mstones IS NULL
+GO
+UPDATE [dbo].[pt_projects] SET tab_svn = 1 WHERE tab_svn IS NULL
+GO
+UPDATE [dbo].[pt_projects] SET tab_time = 1 WHERE tab_time IS NULL
+GO
+UPDATE [dbo].[pt_projects] SET tab_todos = 1 WHERE tab_todos IS NULL
+GO
+
+/* pt_project_users */
+ALTER TABLE [dbo].[pt_project_users] ADD [timetrack] [tinyint] NULL
+GO
+UPDATE [dbo].[pt_project_users] SET timetrack = 0 WHERE timetrack IS NULL
 GO
 
 /* pt_issues */

@@ -177,6 +177,7 @@ CREATE TABLE `pt_project_users` (
   `msgs` int(1) default NULL,
   `mstones` int(1) default NULL,
   `todos` int(1) default NULL,
+  `timetrack` int(1) default NULL,
   `svn` int(1) default NULL,
   PRIMARY KEY  (`userID`,`projectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -212,14 +213,16 @@ CREATE TABLE `pt_projects` (
   `reg_issues` int(1) default NULL,
   `reg_msgs` int(1) default NULL,
   `reg_mstones` int(1) default NULL,
-  `reg_todos` int(1) default NULL,
   `reg_svn` int(1) default NULL,
+  `reg_time` int(1) default NULL,
+  `reg_todos` int(1) default NULL,
   `tab_files` int(1) default NULL,
   `tab_issues` int(1) default NULL,
   `tab_msgs` int(1) default NULL,
   `tab_mstones` int(1) default NULL,
-  `tab_todos` int(1) default NULL,
   `tab_svn` int(1) default NULL,
+  `tab_time` int(1) default NULL,
+  `tab_todos` int(1) default NULL,
   PRIMARY KEY  (`projectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
