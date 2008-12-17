@@ -58,7 +58,7 @@
 		 	]</div>
  		</cfif>
  		
-		<table class="admin full mt5 permissions" style="display:none;" id="up_#replace(userid,'-','','ALL')#">
+		<table class="clean full mt5 permissions" style="display:none;" id="up_#replace(userid,'-','','ALL')#">
 		<tr>
 			<th class="tac">Admin</th>
 			<th class="tac">Files</th>

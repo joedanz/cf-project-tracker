@@ -20,7 +20,7 @@
 				<div class="content">
 					<div class="wrapper">
 				 	
-				 	<table class="admin full">
+				 	<table class="clean full">
 					 	<tr>
 							<th class="tac">##</th>
 							<th>Carrier</th>

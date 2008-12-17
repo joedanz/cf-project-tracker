@@ -183,7 +183,7 @@
 						</form>								
 		            </div>
 		            <div id="projects">
-							<table class="admin full mb10">
+							<table class="clean full mb10">
 							<tr>
 								<th>Project</th>
 								<th class="tac">Owner</th>
@@ -214,7 +214,7 @@
 					</div>
 		            <div id="notifications">
 						<form action="#cgi.script_name#" method="post" name="edit" class="frm tac">
-							<table class="admin half mb15">
+							<table class="clean half mb15">
 							<tr><th>Action</th><th class="tac">Email</th><th class="tac">Mobile</th></tr>
 							<tr>
 								<td class="tal">New Files</td>

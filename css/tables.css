@@ -2,7 +2,7 @@
 table.full { width:100%; }
 table.half { width:65%; margin-right:auto; margin-left:auto; }
 table.activity tbody td { padding:4px; text-align:left; }
-table.admin tr th, table.admin tr td, table.svn tr th, table.svn tr td { padding:4px 0; }
+table.clean tr th, table.clean tr td, table.svn tr th, table.svn tr td { padding:4px 0; }
 table.svn tr th:first-child, table.svn tr td:first-child { padding:4px 0 4px 5px; }
 table#milestone_cal tr th, table#milestone_cal tr td { padding:3px; vertical-align:top; }
 table#milestone_cal tr td ul.cal_ms li { padding-top:4px; }
@@ -13,10 +13,10 @@ table tbody tr.even { background-color:#fff; }
 table tbody tr.odd { background-color:#fafafa; }
 table caption.plain { background:#eee; font-size:1.2em; font-weight:bold; color:#000; border:none; text-transform:none; }
 table.svn caption { font-size:1.2em; font-weight: bold; margin-bottom:10px; background-color:#ddd; padding:5px; }
-table.admin tfoot tr td, table.svn tfoot tr td { padding:3px 5px; background-color:#ddd; }
-table.admin tbody tr.odd, table.svn tbody tr.odd { background: #f9f9f9;	border-top:1px solid #FFF; }
-table.admin tr, table.svn tr { border-bottom:1px solid #ccc; }
-table.admin tr th, table.svn tr th { font-weight:bold; }
+table.clean tfoot tr td, table.svn tfoot tr td { padding:3px 5px; background-color:#ddd; }
+table.clean tbody tr.odd, table.svn tbody tr.odd { background: #f9f9f9;	border-top:1px solid #FFF; }
+table.clean tr, table.svn tr { border-bottom:1px solid #ccc; }
+table.clean tr th, table.svn tr th { font-weight:bold; }
 table.activity caption { font-size:1.2em; font-weight:bold; background-color:#eee; padding:4px; }
 table.activity thead th { 
 	padding-right:4px; padding-top:4px;	padding-bottom:4px;

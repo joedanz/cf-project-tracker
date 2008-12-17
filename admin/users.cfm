@@ -20,7 +20,7 @@
 				<div class="content">
 					<div class="wrapper">
 				 	
-				 	<table class="admin full">
+				 	<table class="clean full">
 					 	<tr>
 							<th class="tac">##</th>
 							<th>Full Name</th>
@@ -56,7 +56,7 @@
 
 	<!--- right column --->
 	<div class="right">
-
+		<cfinclude template="rightmenu.cfm">
 	</div>
 		
 </div>

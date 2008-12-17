@@ -21,7 +21,7 @@
 					<div class="wrapper">
 					
 					<cfif clients.recordCount>				 	
-					 	<table class="admin full">
+					 	<table class="clean full">
 						 	<tr>
 								<th class="tac">##</th>
 								<th>Client Name</th>

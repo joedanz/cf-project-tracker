@@ -205,7 +205,7 @@
 						<fieldset class="settings">
 						<legend><a href="##" onclick="section_toggle('tab');return false;" class="collapsed" id="tablink"> Features Enabled</a></legend>
 						<div id="tabinfo" style="display:none;">
-						<table class="admin full mb15 permissions">
+						<table class="clean full mb15 permissions">
 							<tr>
 								<th width="20%">&nbsp;</th>
 								<th width="11%">Files</th>
@@ -371,7 +371,7 @@
 							<input type="checkbox" name="allow_reg" id="allowreg" class="checkbox" value="1"<cfif form.allow_reg eq 1> checked="checked"</cfif> />
 							</p>
 
-							<table class="admin full mb15 permissions">
+							<table class="clean full mb15 permissions">
 							<tr>
 								<th>&nbsp;</th>
 								<th>Active</th>
