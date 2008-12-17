@@ -41,7 +41,7 @@
 								<pre>#XmlFormat(DataMgr.getXML())#</pre>--->
 								
 								<cfset CreateObject("component","db_structure").init(application.DataMgr,application.settings.tableprefix)>
-								<h4><em><strong>Database Created Successfully!</strong><br /><br /><a href="../../index.cfm?reinit">Click here to continue.</em></h4>
+								<h4><em><strong>Tables Created Successfully!</strong><br /><br /><a href="../../index.cfm?reinit">Click here to continue</em></h4>
 								<cfcatch>
 									<h4><em>Error Creating Database!</em></h4>
 								</cfcatch>
