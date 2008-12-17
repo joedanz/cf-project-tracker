@@ -150,12 +150,12 @@ $(document).ready(function(){
 								<ul class="cal_ms">
 									<cfif todays_ms.recordCount>
 										<cfloop query="todays_ms">
-											<li><a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a> (milestone) (<a href="project.cfm?p=#projectID#">#projName#</a>)</li>
+											<li><a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a> (<a href="project.cfm?p=#projectID#">#projName#</a>) (milestone)</li>
 										</cfloop>
 									</cfif>
 									<cfif todays_issues.recordCount>
 										<cfloop query="todays_issues">
-											<li><a href="issue.cfm?p=#projectID#&i=#issueID#">#issue#</a> (issue) (<a href="project.cfm?p=#projectID#">#name#</a>)</li>
+											<li><a href="issue.cfm?p=#projectID#&i=#issueID#">#issue#</a> (<a href="project.cfm?p=#projectID#">#name#</a>) (issue)</li>
 										</cfloop>
 									</cfif>
 								</ul>
