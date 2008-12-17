@@ -43,6 +43,9 @@
 			<cfset application.todo = createObject("component","cfcs.todo").init(settings)>
 			<cfset application.todolist = createObject("component","cfcs.todolist").init(settings)>
 			<cfset application.user = createObject("component","cfcs.user").init(settings)>
+			
+			<!--- DataMgr --->
+			<cfset application.DataMgr = createObject("component","cfcs.DataMgr.DataMgr").init(settings.dsn,settings.dbtype)>
 
 			<!--- stored queries --->
 			<cftry>
