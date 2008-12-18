@@ -50,7 +50,7 @@ CREATE TABLE `pt_timetrack` (
   `projectID` char(35) NOT NULL,
   `userID` char(35) NOT NULL,
   `dateStamp` datetime default NULL,  
-  `hours` decimal(5,2) default NULL,  
+  `hours` decimal(6,2) default NULL,  
   `description` varchar(255) default NULL,
   PRIMARY KEY  (`timetrackID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

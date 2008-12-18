@@ -214,7 +214,7 @@
 				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" Length="35" />
 				<field ColumnName="userID" CF_DataType="CF_SQL_CHAR" Length="35" />
 				<field ColumnName="dateStamp" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
-				<field ColumnName="hours" CF_DataType="CF_SQL_NUMERIC" Precision="2" Scale="0" />
+				<field ColumnName="hours" CF_DataType="CF_SQL_NUMERIC" Precision="6" Scale="2" />
 				<field ColumnName="description" CF_DataType="CF_SQL_VARCHAR" Length="255" />
 			</table>
 			<table name="#arguments.tablePrefix#todolists">

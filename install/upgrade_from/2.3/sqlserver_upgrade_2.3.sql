@@ -84,7 +84,7 @@ CREATE TABLE [pt_timetrack] (
 	[projectID] char (35) NULL,
 	[userID] char (35) NULL,
 	[dateStamp] datetime NULL,
-	[hours] numeric NULL,
+	[hours] numeric (6,2) NULL,
 	[description] nvarchar (255) NULL
 ) ON [PRIMARY]
 GO
