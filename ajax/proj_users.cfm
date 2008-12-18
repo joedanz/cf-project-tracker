@@ -123,7 +123,7 @@
 <cfif StructKeyExists(url,"a")>
 	<cfoutput>
 	<script type="text/javascript">
-		$('###url.a#').css('backgroundColor','##ffa').animate({backgroundColor:'##f7f7f7'},2000);
+		$('###url.a#').animate({backgroundColor:'##ffffb7'},200).animate({backgroundColor:'##f7f7f7'},2000);
 	</script>
 	</cfoutput>	
 </cfif>

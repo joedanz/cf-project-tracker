@@ -58,7 +58,7 @@
 		</script>
 		<cfif not compareNoCase(url.i,todoID)>
 			<script type="text/javascript">
-				$('###url.i#').css('backgroundColor','##ffa').animate({backgroundColor:'##f7f7f7'},1500);
+				$('###url.i#').animate({backgroundColor:'##ffffb7'},200).animate({backgroundColor:'##f7f7f7'},1500);
 			</script>
 		</cfif>
 		</cfoutput>

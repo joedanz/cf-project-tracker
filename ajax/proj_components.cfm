@@ -22,7 +22,7 @@
 </cfoutput>
 <cfoutput>
 	<script type="text/javascript">
-		$('.current').animate({backgroundColor:'##ff9'},200).animate({backgroundColor:'##fff'},2000);
+		$('.current').animate({backgroundColor:'##ffffb7'},200).animate({backgroundColor:'##fff'},2000);
 	</script>
 </cfoutput>
 
