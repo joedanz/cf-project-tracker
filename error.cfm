@@ -19,7 +19,7 @@
 
 						<cfif not compare(error.message,'Element SETTINGS.APP_TITLE is undefined in APPLICATION.')>
 							It appears this may be the first time you're running Project Tracker.<br />
-							&nbsp; -- If so, you should <a href="./install/install.cfm">run the install script</a> in order to setup your database.<br />
+							&nbsp; -- If so, you should <a href="./install/index.cfm">run the install script</a> in order to setup your database.<br />
 							&nbsp; -- If not, please check the <strong>dsn</strong> value in your settings file and <strong><a href="#cgi.script_name#?reinit">reinit</a></strong>.<br />
 						<cfelse>
 							<cfif application.settings.showError>
