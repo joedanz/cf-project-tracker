@@ -123,14 +123,22 @@
 			<!--- are we trying to logon? --->
 			<cfif not compare(trim(form.username),'') or not compare(trim(form.password),'')>
 				<cfset variables.error="Your must enter your login info to continue!">
-				<cfinclude template="login.cfm">
+				<cfif findNoCase('/mobile',cgi.script_name)>
+					<cfinclude template="mobile/login.cfm">
+				<cfelse>
+					<cfinclude template="login.cfm">
+				</cfif>
 				<cfabort>
 			<cfelse>
 				<!--- check user account against database table --->
 				<cfset thisUser = application.user.login(trim(form.username),trim(form.password))>
 				<cfif not structKeyExists(thisUser,"userid") or not compare(thisUser.userid,'')>
 					<cfset variables.error="Your login was not accepted. Please try again!">
-					<cfinclude template="login.cfm">
+					<cfif findNoCase('/mobile',cgi.script_name)>
+						<cfinclude template="mobile/login.cfm">
+					<cfelse>
+						<cfinclude template="login.cfm">
+					</cfif>
 					<cfabort>
 				<cfelse>
 					<!--- log user into application --->
