@@ -58,7 +58,7 @@
 
 	<!--- right column --->
 	<div class="right">
-
+		<cfinclude template="rightmenu.cfm">
 	</div>
 		
 </div>

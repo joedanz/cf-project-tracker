@@ -23,7 +23,7 @@ ul.nobullet li { margin-bottom:5px; }
 .tac { text-align:center; }
 .tal { text-align:left; }
 
-.error, .success { padding:10px; ma prgin-bottom:10px; }
+.error, .success { padding:10px; margin-bottom:10px; }
 .error ul, .success ul { margin:10px 30px;}
 
 div.pagediv {
