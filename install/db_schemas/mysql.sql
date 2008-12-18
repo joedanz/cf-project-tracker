@@ -116,6 +116,7 @@ CREATE TABLE `pt_issues` (
   `componentID` varchar(35) default NULL,
   `versionID` varchar(35) default NULL,
   `dueDate` datetime default NULL,
+  `svnrevision` int(6) default NULL,
   PRIMARY KEY  (`issueID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

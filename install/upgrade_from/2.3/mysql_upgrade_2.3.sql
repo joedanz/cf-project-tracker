@@ -25,6 +25,7 @@ UPDATE `pt_project_users` set `timetrack` = 0 WHERE `timetrack` = NULL;
 ALTER TABLE `pt_issues` ADD `componentID` varchar(35) default NULL;
 ALTER TABLE `pt_issues` ADD `versionID` varchar(35) default NULL;
 ALTER TABLE `pt_issues` ADD `dueDate` datetime default NULL;
+ALTER TABLE `pt_issues` ADD `svnrevision` int(6) default NULL;
 
 /*Table structure for table `pt_project_components` */
 

@@ -38,7 +38,8 @@ add
    (
    componentID varchar2(35) NULL, 
    versionID varchar2(35) NULL,
-   dueDate date
+   dueDate date,
+   svnrevision NUMBER(10,0)
    );
 
 CREATE TABLE  "PT_PROJECT_COMPONENTS" 

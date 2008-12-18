@@ -46,6 +46,8 @@ ALTER TABLE [dbo].[pt_issues] ADD [versionID] [varchar] (35) COLLATE SQL_Latin1_
 GO
 ALTER TABLE [dbo].[pt_issues] ADD [dueDate] [datetime] NULL
 GO
+ALTER TABLE [dbo].[pt_issues] ADD [svnrevision] [int] NULL 
+GO
 
 CREATE TABLE [dbo].[pt_project_components] (
 	[componentID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
