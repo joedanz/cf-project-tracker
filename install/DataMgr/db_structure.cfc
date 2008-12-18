@@ -15,22 +15,6 @@
 		<cfsavecontent variable="tableXML">
 		<cfoutput>
 		<tables>
-			<table name="#arguments.tablePrefix#messages">
-				<field ColumnName="messageID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
-				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" Length="35" />
-				<field ColumnName="milestoneID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
-				<field ColumnName="userID" CF_DataType="CF_SQL_CHAR" Length="35" />
-				<field ColumnName="title" CF_DataType="CF_SQL_VARCHAR" Length="120" />
-				<field ColumnName="message" CF_DataType="CF_SQL_LONGVARCHAR" />
-				<field ColumnName="allowcomments" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-				<field ColumnName="stamp" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
-				<field ColumnName="categoryID" CF_DataType="CF_SQL_CHAR" Length="35" />
-			</table>
-			<table name="#arguments.tablePrefix#settings">
-				<field ColumnName="settingID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
-				<field ColumnName="setting" CF_DataType="CF_SQL_VARCHAR" Length="20" />
-				<field ColumnName="settingValue" CF_DataType="CF_SQL_VARCHAR" Length="50" />
-			</table>
 			<table name="#arguments.tablePrefix#activity">
 				<field ColumnName="activityID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
 				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" Length="35" />
@@ -41,11 +25,35 @@
 				<field ColumnName="activity" CF_DataType="CF_SQL_VARCHAR" Length="50" />
 				<field ColumnName="stamp" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 			</table>
+			<table name="#arguments.tablePrefix#carriers">
+				<field ColumnName="carrierID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="carrier" CF_DataType="CF_SQL_VARCHAR" Length="20" />
+				<field ColumnName="countryCode" CF_DataType="CF_SQL_VARCHAR" Length="2" />
+				<field ColumnName="country" CF_DataType="CF_SQL_VARCHAR" Length="20" />
+				<field ColumnName="prefix" CF_DataType="CF_SQL_VARCHAR" Length="3" />
+				<field ColumnName="suffix" CF_DataType="CF_SQL_VARCHAR" Length="40" />
+				<field ColumnName="active" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+			</table>
 			<table name="#arguments.tablePrefix#categories">
 				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
 				<field ColumnName="categoryID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
 				<field ColumnName="type" CF_DataType="CF_SQL_VARCHAR" Length="5" />
 				<field ColumnName="category" CF_DataType="CF_SQL_VARCHAR" Length="80" />
+			</table>
+			<table name="#arguments.tablePrefix#clients">
+				<field ColumnName="clientID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="name" CF_DataType="CF_SQL_VARCHAR" Length="150" />
+				<field ColumnName="address" CF_DataType="CF_SQL_LONGVARCHAR" />
+				<field ColumnName="city" CF_DataType="CF_SQL_VARCHAR" Length="150" />
+				<field ColumnName="locality" CF_DataType="CF_SQL_VARCHAR" Length="200" />
+				<field ColumnName="country" CF_DataType="CF_SQL_VARCHAR" Length="35" />
+				<field ColumnName="postal" CF_DataType="CF_SQL_VARCHAR" Length="40" />
+				<field ColumnName="phone" CF_DataType="CF_SQL_VARCHAR" Length="40" />
+				<field ColumnName="fax" CF_DataType="CF_SQL_VARCHAR" Length="40" />
+				<field ColumnName="contactName" CF_DataType="CF_SQL_VARCHAR" Length="60" />
+				<field ColumnName="contactPhone" CF_DataType="CF_SQL_VARCHAR" Length="40" />
+				<field ColumnName="notes" CF_DataType="CF_SQL_LONGVARCHAR" />
+				<field ColumnName="active" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 			</table>
 			<table name="#arguments.tablePrefix#comments">
 				<field ColumnName="commentID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
@@ -57,6 +65,24 @@
 				<field ColumnName="stamp" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 				<field ColumnName="type" CF_DataType="CF_SQL_VARCHAR" Length="6" />
 				<field ColumnName="itemID" CF_DataType="CF_SQL_CHAR" Length="35" />
+			</table>
+			<table name="#arguments.tablePrefix#file_attach">
+				<field ColumnName="itemID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="fileID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="type" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="6" />
+			</table>
+			<table name="#arguments.tablePrefix#files">
+				<field ColumnName="fileID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" Length="35" />
+				<field ColumnName="title" CF_DataType="CF_SQL_VARCHAR" Length="200" />
+				<field ColumnName="description" CF_DataType="CF_SQL_LONGVARCHAR" />
+				<field ColumnName="filename" CF_DataType="CF_SQL_VARCHAR" Length="150" />
+				<field ColumnName="serverfilename" CF_DataType="CF_SQL_VARCHAR" Length="150" />
+				<field ColumnName="filetype" CF_DataType="CF_SQL_VARCHAR" Length="4" />
+				<field ColumnName="filesize" CF_DataType="CF_SQL_BIGINT" Precision="19" Scale="0" />
+				<field ColumnName="uploaded" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
+				<field ColumnName="uploadedBy" CF_DataType="CF_SQL_CHAR" Length="35" />
+				<field ColumnName="categoryID" CF_DataType="CF_SQL_CHAR" Length="35" />
 			</table>
 			<table name="#arguments.tablePrefix#issues">
 				<field ColumnName="issueID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
@@ -81,6 +107,22 @@
 				<field ColumnName="dueDate" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 				<field ColumnName="svnrevision" CF_DataType="CF_SQL_INTEGER" Precision="10" Scale="0" />
 			</table>
+			<table name="#arguments.tablePrefix#message_notify">
+				<field ColumnName="messageID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="userID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
+			</table>
+			<table name="#arguments.tablePrefix#messages">
+				<field ColumnName="messageID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" Length="35" />
+				<field ColumnName="milestoneID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
+				<field ColumnName="userID" CF_DataType="CF_SQL_CHAR" Length="35" />
+				<field ColumnName="title" CF_DataType="CF_SQL_VARCHAR" Length="120" />
+				<field ColumnName="message" CF_DataType="CF_SQL_LONGVARCHAR" />
+				<field ColumnName="allowcomments" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="stamp" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
+				<field ColumnName="categoryID" CF_DataType="CF_SQL_CHAR" Length="35" />
+			</table>
 			<table name="#arguments.tablePrefix#milestones">
 				<field ColumnName="milestoneID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
 				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" Length="35" />
@@ -95,6 +137,18 @@
 				<field ColumnName="componentID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
 				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
 				<field ColumnName="component" CF_DataType="CF_SQL_VARCHAR" Length="50" />
+			</table>
+			<table name="#arguments.tablePrefix#project_users">
+				<field ColumnName="userID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="projectID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="admin" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="files" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="issues" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="msgs" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="mstones" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="todos" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="timetrack" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="svn" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 			</table>
 			<table name="#arguments.tablePrefix#project_versions">
 				<field ColumnName="versionID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
@@ -132,23 +186,6 @@
 				<field ColumnName="tab_time" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="tab_todos" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 			</table>
-			<table name="#arguments.tablePrefix#project_users">
-				<field ColumnName="userID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
-				<field ColumnName="projectID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
-				<field ColumnName="admin" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="files" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="issues" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="msgs" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="mstones" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="todos" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="timetrack" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="svn" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-			</table>
-			<table name="#arguments.tablePrefix#file_attach">
-				<field ColumnName="itemID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
-				<field ColumnName="fileID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
-				<field ColumnName="type" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="6" />
-			</table>
 			<table name="#arguments.tablePrefix#screenshots">
 				<field ColumnName="fileID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
 				<field ColumnName="issueID" CF_DataType="CF_SQL_CHAR" Length="35" />
@@ -161,6 +198,35 @@
 				<field ColumnName="uploaded" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 				<field ColumnName="uploadedBy" CF_DataType="CF_SQL_CHAR" Length="35" />
 			</table>
+			<table name="#arguments.tablePrefix#settings">
+				<field ColumnName="settingID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="setting" CF_DataType="CF_SQL_VARCHAR" Length="20" />
+				<field ColumnName="settingValue" CF_DataType="CF_SQL_VARCHAR" Length="50" />
+			</table>
+			<table name="#arguments.tablePrefix#tags">
+				<field ColumnName="projectID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
+				<field ColumnName="tag" CF_DataType="CF_SQL_VARCHAR" Length="50" />
+				<field ColumnName="type" CF_DataType="CF_SQL_VARCHAR" Length="50" />
+				<field ColumnName="id" CF_DataType="CF_SQL_VARCHAR" Length="35" />
+			</table>
+			<table name="#arguments.tablePrefix#timetrack">
+				<field ColumnName="timetrackID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" Length="35" />
+				<field ColumnName="userID" CF_DataType="CF_SQL_CHAR" Length="35" />
+				<field ColumnName="dateStamp" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
+				<field ColumnName="hours" CF_DataType="CF_SQL_NUMERIC" Precision="2" Scale="0" />
+				<field ColumnName="description" CF_DataType="CF_SQL_VARCHAR" Length="255" />
+			</table>
+			<table name="#arguments.tablePrefix#todolists">
+				<field ColumnName="todolistID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" Length="35" />
+				<field ColumnName="title" CF_DataType="CF_SQL_VARCHAR" Length="100" />
+				<field ColumnName="description" CF_DataType="CF_SQL_LONGVARCHAR" />
+				<field ColumnName="milestoneID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
+				<field ColumnName="userID" CF_DataType="CF_SQL_CHAR" Length="35" />
+				<field ColumnName="added" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
+				<field ColumnName="rank" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+			</table>
 			<table name="#arguments.tablePrefix#todos">
 				<field ColumnName="todoID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
 				<field ColumnName="todolistID" CF_DataType="CF_SQL_CHAR" Length="35" />
@@ -172,50 +238,6 @@
 				<field ColumnName="completed" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 				<field ColumnName="svnrevision" CF_DataType="CF_SQL_INTEGER" Precision="10" Scale="0" />
 				<field ColumnName="due" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
-			</table>
-			<table name="#arguments.tablePrefix#tags">
-				<field ColumnName="projectID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
-				<field ColumnName="tag" CF_DataType="CF_SQL_VARCHAR" Length="50" />
-				<field ColumnName="type" CF_DataType="CF_SQL_VARCHAR" Length="50" />
-				<field ColumnName="id" CF_DataType="CF_SQL_VARCHAR" Length="35" />
-			</table>
-			<table name="#arguments.tablePrefix#files">
-				<field ColumnName="fileID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
-				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" Length="35" />
-				<field ColumnName="title" CF_DataType="CF_SQL_VARCHAR" Length="200" />
-				<field ColumnName="description" CF_DataType="CF_SQL_LONGVARCHAR" />
-				<field ColumnName="filename" CF_DataType="CF_SQL_VARCHAR" Length="150" />
-				<field ColumnName="serverfilename" CF_DataType="CF_SQL_VARCHAR" Length="150" />
-				<field ColumnName="filetype" CF_DataType="CF_SQL_VARCHAR" Length="4" />
-				<field ColumnName="filesize" CF_DataType="CF_SQL_BIGINT" Precision="19" Scale="0" />
-				<field ColumnName="uploaded" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
-				<field ColumnName="uploadedBy" CF_DataType="CF_SQL_CHAR" Length="35" />
-				<field ColumnName="categoryID" CF_DataType="CF_SQL_CHAR" Length="35" />
-			</table>
-			<table name="#arguments.tablePrefix#clients">
-				<field ColumnName="clientID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
-				<field ColumnName="name" CF_DataType="CF_SQL_VARCHAR" Length="150" />
-				<field ColumnName="address" CF_DataType="CF_SQL_LONGVARCHAR" />
-				<field ColumnName="city" CF_DataType="CF_SQL_VARCHAR" Length="150" />
-				<field ColumnName="locality" CF_DataType="CF_SQL_VARCHAR" Length="200" />
-				<field ColumnName="country" CF_DataType="CF_SQL_VARCHAR" Length="35" />
-				<field ColumnName="postal" CF_DataType="CF_SQL_VARCHAR" Length="40" />
-				<field ColumnName="phone" CF_DataType="CF_SQL_VARCHAR" Length="40" />
-				<field ColumnName="fax" CF_DataType="CF_SQL_VARCHAR" Length="40" />
-				<field ColumnName="contactName" CF_DataType="CF_SQL_VARCHAR" Length="60" />
-				<field ColumnName="contactPhone" CF_DataType="CF_SQL_VARCHAR" Length="40" />
-				<field ColumnName="notes" CF_DataType="CF_SQL_LONGVARCHAR" />
-				<field ColumnName="active" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-			</table>
-			<table name="#arguments.tablePrefix#todolists">
-				<field ColumnName="todolistID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
-				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" Length="35" />
-				<field ColumnName="title" CF_DataType="CF_SQL_VARCHAR" Length="100" />
-				<field ColumnName="description" CF_DataType="CF_SQL_LONGVARCHAR" />
-				<field ColumnName="milestoneID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
-				<field ColumnName="userID" CF_DataType="CF_SQL_CHAR" Length="35" />
-				<field ColumnName="added" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
-				<field ColumnName="rank" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 			</table>
 			<table name="#arguments.tablePrefix#users">
 				<field ColumnName="userID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
@@ -241,20 +263,6 @@
 				<field ColumnName="email_todos" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 				<field ColumnName="mobile_todos" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 				<field ColumnName="admin" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-				<field ColumnName="active" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-			</table>
-			<table name="#arguments.tablePrefix#message_notify">
-				<field ColumnName="messageID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
-				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
-				<field ColumnName="userID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
-			</table>
-			<table name="#arguments.tablePrefix#carriers">
-				<field ColumnName="carrierID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
-				<field ColumnName="carrier" CF_DataType="CF_SQL_VARCHAR" Length="20" />
-				<field ColumnName="countryCode" CF_DataType="CF_SQL_VARCHAR" Length="2" />
-				<field ColumnName="country" CF_DataType="CF_SQL_VARCHAR" Length="20" />
-				<field ColumnName="prefix" CF_DataType="CF_SQL_VARCHAR" Length="3" />
-				<field ColumnName="suffix" CF_DataType="CF_SQL_VARCHAR" Length="40" />
 				<field ColumnName="active" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 			</table>
 			<data table="#arguments.tablePrefix#users">

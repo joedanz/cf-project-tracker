@@ -252,6 +252,18 @@ CREATE TABLE `pt_settings` (
   PRIMARY KEY  (`settingID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `pt_timetrack` */
+
+CREATE TABLE `pt_timetrack` (
+  `timetrackID` char(35) NOT NULL,
+  `projectID` char(35) NOT NULL,
+  `userID` char(35) NOT NULL,
+  `dateStamp` datetime default NULL,  
+  `hours` decimal(5,2) default NULL,  
+  `description` varchar(255) default NULL,
+  PRIMARY KEY  (`timetrackID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `pt_todolists` */
 
 CREATE TABLE `pt_todolists` (
