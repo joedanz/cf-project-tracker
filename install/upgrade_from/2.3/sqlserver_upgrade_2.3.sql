@@ -85,7 +85,9 @@ CREATE TABLE [pt_timetrack] (
 	[userID] char (35) NULL,
 	[dateStamp] datetime NULL,
 	[hours] numeric (6,2) NULL,
-	[description] nvarchar (255) NULL
+	[description] nvarchar (255) NULL,
+	[itemID] [nvarchar] (35) NULL ,
+	[itemType] [nvarchar] (10) NULL
 ) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[pt_timetrack] WITH NOCHECK ADD 

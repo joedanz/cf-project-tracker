@@ -216,6 +216,8 @@
 				<field ColumnName="dateStamp" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 				<field ColumnName="hours" CF_DataType="CF_SQL_NUMERIC" Precision="6" Scale="2" />
 				<field ColumnName="description" CF_DataType="CF_SQL_VARCHAR" Length="255" />
+				<field ColumnName="itemID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
+				<field ColumnName="itemType" CF_DataType="CF_SQL_VARCHAR" Length="10" />				
 			</table>
 			<table name="#arguments.tablePrefix#todolists">
 				<field ColumnName="todolistID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />

@@ -52,6 +52,8 @@ CREATE TABLE `pt_timetrack` (
   `dateStamp` datetime default NULL,  
   `hours` decimal(6,2) default NULL,  
   `description` varchar(255) default NULL,
+  `itemID` varchar(35) default NULL,
+  `itemType` varchar(10) default NULL,
   PRIMARY KEY  (`timetrackID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
