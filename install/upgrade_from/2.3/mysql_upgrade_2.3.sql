@@ -16,7 +16,7 @@ CREATE TABLE `pt_project_components` (
 
 /* pt_project_users */
 ALTER TABLE `pt_project_users` ADD `timetrack` int(1) default NULL;
-UPDATE `pt_project_users` set `timetrack` = 0 WHERE `timetrack` = NULL;
+UPDATE `pt_project_users` set `timetrack` = 0;
 
 /* pt_project_versions */
 CREATE TABLE `pt_project_versions` (
@@ -35,14 +35,14 @@ ALTER TABLE `pt_projects` ADD `tab_mstones` int(1) default NULL;
 ALTER TABLE `pt_projects` ADD `tab_svn` int(1) default NULL;
 ALTER TABLE `pt_projects` ADD `tab_time` int(1) default NULL;
 ALTER TABLE `pt_projects` ADD `tab_todos` int(1) default NULL;
-UPDATE `pt_projects` set `reg_time` = 1 WHERE `reg_time` = NULL;
-UPDATE `pt_projects` set `tab_files` = 1 WHERE `tab_files` = NULL;
-UPDATE `pt_projects` set `tab_issues` = 1 WHERE `tab_issues` = NULL;
-UPDATE `pt_projects` set `tab_msgs` = 1 WHERE `tab_msgs` = NULL;
-UPDATE `pt_projects` set `tab_mstones` = 1 WHERE `tab_mstones` = NULL;
-UPDATE `pt_projects` set `tab_svn` = 1 WHERE `tab_svn` = NULL;
-UPDATE `pt_projects` set `tab_time` = 1 WHERE `tab_time` = NULL;
-UPDATE `pt_projects` set `tab_todos` = 1 WHERE `tab_todos` = NULL;
+UPDATE `pt_projects` set `reg_time` = 1;
+UPDATE `pt_projects` set `tab_files` = 1;
+UPDATE `pt_projects` set `tab_issues` = 1;
+UPDATE `pt_projects` set `tab_msgs` = 1;
+UPDATE `pt_projects` set `tab_mstones` = 1;
+UPDATE `pt_projects` set `tab_svn` = 1;
+UPDATE `pt_projects` set `tab_time` = 1;
+UPDATE `pt_projects` set `tab_todos` = 1;
 
 /* pt_timetrack */
 CREATE TABLE `pt_timetrack` (
@@ -54,3 +54,7 @@ CREATE TABLE `pt_timetrack` (
   `description` varchar(255) default NULL,
   PRIMARY KEY  (`timetrackID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/* pt_todolists *?
+ALTER TABLE `pt_todolists` ADD `timetrack` int(1) default NULL;
+UPDATE `pt_todolists` set `timetrack` = 0;

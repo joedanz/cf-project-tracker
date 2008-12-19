@@ -275,6 +275,7 @@ CREATE TABLE `pt_todolists` (
   `userID` char(35) NOT NULL,
   `added` datetime default NULL,
   `rank` tinyint(3) default NULL,
+  `timetrack` int(1) default NULL,
   PRIMARY KEY  (`todolistID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

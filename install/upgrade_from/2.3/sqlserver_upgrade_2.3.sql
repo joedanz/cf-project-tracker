@@ -27,21 +27,21 @@ ALTER TABLE [dbo].[pt_projects] ADD [tab_time] [tinyint] NULL
 GO
 ALTER TABLE [dbo].[pt_projects] ADD [tab_todos] [tinyint] NULL
 GO
-UPDATE [dbo].[pt_projects] SET reg_time = 1 WHERE reg_time IS NULL
+UPDATE [dbo].[pt_projects] SET reg_time = 1
 GO
-UPDATE [dbo].[pt_projects] SET tab_files = 1 WHERE tab_files IS NULL
+UPDATE [dbo].[pt_projects] SET tab_files = 1
 GO
-UPDATE [dbo].[pt_projects] SET tab_issues = 1 WHERE tab_issues IS NULL
+UPDATE [dbo].[pt_projects] SET tab_issues = 1
 GO
-UPDATE [dbo].[pt_projects] SET tab_msgs = 1 WHERE tab_msgs IS NULL
+UPDATE [dbo].[pt_projects] SET tab_msgs = 1
 GO
-UPDATE [dbo].[pt_projects] SET tab_mstones = 1 WHERE tab_mstones IS NULL
+UPDATE [dbo].[pt_projects] SET tab_mstones = 1
 GO
-UPDATE [dbo].[pt_projects] SET tab_svn = 1 WHERE tab_svn IS NULL
+UPDATE [dbo].[pt_projects] SET tab_svn = 1
 GO
-UPDATE [dbo].[pt_projects] SET tab_time = 1 WHERE tab_time IS NULL
+UPDATE [dbo].[pt_projects] SET tab_time = 1
 GO
-UPDATE [dbo].[pt_projects] SET tab_todos = 1 WHERE tab_todos IS NULL
+UPDATE [dbo].[pt_projects] SET tab_todos = 1
 GO
 
 /* pt_project_components */
@@ -61,7 +61,7 @@ GO
 /* pt_project_users */
 ALTER TABLE [dbo].[pt_project_users] ADD [timetrack] [tinyint] NULL
 GO
-UPDATE [dbo].[pt_project_users] SET timetrack = 0 WHERE timetrack IS NULL
+UPDATE [dbo].[pt_project_users] SET timetrack = 0
 GO
 
 /* pt_project_versions */
@@ -93,4 +93,10 @@ ALTER TABLE [dbo].[pt_timetrack] WITH NOCHECK ADD
 	(
 		[timetrackID]
 	)  ON [PRIMARY] 
+GO
+
+/* pt_todolists */
+ALTER TABLE [dbo].[pt_todolists] ADD [timetrack] [tinyint] NULL
+GO
+UPDATE [dbo].[pt_todolists] SET timetrack = 0
 GO

@@ -226,6 +226,7 @@
 				<field ColumnName="userID" CF_DataType="CF_SQL_CHAR" Length="35" />
 				<field ColumnName="added" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 				<field ColumnName="rank" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="timetrack" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 			</table>
 			<table name="#arguments.tablePrefix#todos">
 				<field ColumnName="todoID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />

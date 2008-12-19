@@ -24,9 +24,9 @@ alter table
    pt_project_users
 add
    (
-   time NUMBER(1,0) NULL
+   timetrack NUMBER(1,0) NULL
    );
-update pt_project_users set timetrack = 0 where timetrack IS NULL;
+update pt_project_users set timetrack = 0;
 
 /* pt_project_versions */
 CREATE TABLE  "PT_PROJECT_VERSIONS" 
@@ -50,14 +50,14 @@ add
    tab_time NUMBER(1,0) NULL,
    tab_todos NUMBER(1,0) NULL
    );
-update pt_projects set reg_time = 1 where reg_time IS NULL;
-update pt_projects set tab_files = 1 where tab_files IS NULL;
-update pt_projects set tab_issues = 1 where tab_issues IS NULL;
-update pt_projects set tab_msgs = 1 where tab_msgs IS NULL;
-update pt_projects set tab_mstones = 1 where tab_mstones IS NULL;
-update pt_projects set tab_svn = 1 where tab_svn IS NULL;
-update pt_projects set tab_time = 1 where tab_time IS NULL;
-update pt_projects set tab_todos = 1 where tab_todos IS NULL;
+update pt_projects set reg_time = 1;
+update pt_projects set tab_files = 1;
+update pt_projects set tab_issues = 1;
+update pt_projects set tab_msgs = 1;
+update pt_projects set tab_mstones = 1;
+update pt_projects set tab_svn = 1;
+update pt_projects set tab_time = 1;
+update pt_projects set tab_todos = 1;
 
 /* pt_timetrack */
 CREATE TABLE  "PT_TIMETRACK" 
@@ -69,3 +69,12 @@ CREATE TABLE  "PT_TIMETRACK"
 	"DESCRIPTION" VARCHAR2(255), 
 	 CONSTRAINT "PK_PT_TIMETRACK" PRIMARY KEY ("TIMETRACKID") ENABLE
    );
+
+/* pt_todolists */
+alter table
+   pt_todolists
+add
+   (
+   timetrack NUMBER(1,0) NULL
+   );
+update pt_todolists set timetrack = 0;
