@@ -22,6 +22,7 @@ ul.nobullet li { margin-bottom:5px; }
 .pl5 { padding-left:5px; }
 .tac { text-align:center; }
 .tal { text-align:left; }
+.tar { text-align:right; }
 
 .error, .success { padding:10px; margin-bottom:10px; }
 .error ul, .success ul { margin:10px 30px;}

@@ -13,7 +13,7 @@ table tbody tr.even { background-color:#fff; }
 table tbody tr.odd { background-color:#fafafa; }
 table caption.plain { background:#eee; font-size:1.2em; font-weight:bold; color:#000; border:none; text-transform:none; }
 table.svn caption { font-size:1.2em; font-weight: bold; margin-bottom:10px; background-color:#ddd; padding:5px; }
-table.clean tfoot tr td, table.svn tfoot tr td { padding:3px 5px; background-color:#ddd; }
+table.svn tfoot tr td { padding:3px 5px; background-color:#ddd; }
 table.clean tbody tr.odd, table.svn tbody tr.odd { background: #f9f9f9;	border-top:1px solid #FFF; }
 table.clean tr, table.svn tr { border-bottom:1px solid #ccc; }
 table.clean tr th, table.svn tr th { font-weight:bold; }
@@ -54,6 +54,23 @@ table#milestone_cal tr td.today { border:1px solid #000; background-color:#ffc;	
 table#milestone_cal tr td.active { border:1px solid #000; background-color:#fff; color:#000; }
 table#milestone_cal tr td ul.cal_ms { list-style:none; }
 table#milestone_cal tr td ul.cal_ms li { list-style-type:none; }
+
+tr.input td {
+	padding:10px;
+	background-color:#eee;
+	height:40px;
+	border-top:1px solid #aaa;
+}
+table#time tr td.first, table#time tr th.first {
+	padding-left:10px;
+}
+table#time tr.last td {
+	border-bottom:1px solid #fff;
+	border-top:2px solid #aaa;
+}
+tr.input td input, tr.input td select {
+	padding:2px;
+}
 
 /* tablesort plugin */
 table.tablesorter {

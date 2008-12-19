@@ -292,6 +292,73 @@ function confirm_item_delete(projectid,itemid,item,type) {
 	}
 }
 
+// *** TIME TRACKING ***
+function add_time_row(projectid) {
+	if (($('#hrs').val() == '') || ($('#desc').val() == '')) {
+		alert('You must enter the number of hours and a description.')
+	} else 
+	$.ajax({
+		type: 'get',
+		url: './ajax/timetrack.cfm',
+		data: 'act=add&p=' + projectid + '&u=' + $('#userid').val() + '&t=' + $('#datestamp').val() + '&h=' + escape($('#hrs').val()) + '&d=' + escape($('#desc').val()),
+		success: function(txt){
+	     $('#time tbody').prepend(txt);
+		 $('#hrs').val('');
+		 $('#desc').val('');
+		}
+	});
+}
+function edit_time_row(projectid,timetrackid,ttidstripped) {
+	$.ajax({
+		type: 'get',
+		url: './ajax/timetrack_edit.cfm',
+		data: 'p=' + projectid + '&tt=' + timetrackid,
+		success: function(txt){
+			$('#r'+ttidstripped).replaceWith(txt);
+		}
+	});
+}
+function cancel_time_edit(projectid,timetrackid,ttidstripped) {
+	$.ajax({
+		type: 'get',
+		url: './ajax/timetrack.cfm',
+		data: 'act=cancel&p=' + projectid + '&tt=' + timetrackid,
+		success: function(txt){
+			$('#r'+ttidstripped).replaceWith(txt);
+		}
+	});
+}
+function save_time_edit(projectid,timetrackid,ttidstripped) {
+    if (($('#hrs'+ttidstripped).val() == '') || ($('#desc'+ttidstripped).val() == '')) {
+		alert('You must enter the number of hours and a description.')
+	} else 
+	$.ajax({
+		type: 'get',
+		url: './ajax/timetrack.cfm',
+		data: 'act=update&p=' + projectid + '&tt=' + timetrackid + '&u=' + $('#userid'+ttidstripped).val() + '&t=' + $('#datestamp'+ttidstripped).val() + '&h=' + escape($('#hrs'+ttidstripped).val()) + '&d=' + escape($('#desc'+ttidstripped).val()),
+		success: function(txt){
+			$('#r'+ttidstripped).replaceWith(txt);
+		}
+	});
+}
+function delete_time(projectid,timetrackid,ttidstripped) {
+	var del = confirm('Are you sure you wish to delete this time tracking item?');
+	if (del == true) {
+		delete_time_ajax(projectid,timetrackid);
+		$('#r' + ttidstripped).fadeOut(500);
+	} else return false;
+}
+function delete_time_ajax(projectid,timetrackid) {
+    $.ajax({
+		type: 'get',
+		url: './ajax/timetrack.cfm',
+		data: 'act=delete&p=' + projectid + '&tt=' + timetrackid,
+		success: function(txt){
+			$('#totalhours').html(txt);
+		}
+	});
+}
+
 // *** TO-DOS ***
 function redraw_incomplete(projectid,todolistid,todoid,type) {
     $.ajax({
