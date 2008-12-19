@@ -56,7 +56,7 @@
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.timetrackID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
-					<cfqueryparam cfsqltype="cf_sql_date" value="#createODBCDateTime(arguments.dateStamp)#">,
+					<cfqueryparam cfsqltype="cf_sql_date" value="#createODBCDate(arguments.dateStamp)#">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.hours#" maxlength="6">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="255">)
 		</cfquery>
@@ -75,7 +75,7 @@
 			UPDATE #variables.tableprefix#timetrack 
 				SET projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
-					dateStamp = <cfqueryparam cfsqltype="cf_sql_date" value="#createODBCDateTime(arguments.dateStamp)#">,
+					dateStamp = <cfqueryparam cfsqltype="cf_sql_date" value="#createODBCDate(arguments.dateStamp)#">,
 					hours = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.hours#" maxlength="6">,
 					description = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="255">
 				WHERE timetrackID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.timetrackID#" maxlength="35">
