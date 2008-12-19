@@ -235,7 +235,7 @@
 				<field ColumnName="todolistID" CF_DataType="CF_SQL_CHAR" Length="35" />
 				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" Length="35" />
 				<field ColumnName="userID" CF_DataType="CF_SQL_CHAR" Length="35" />
-				<field ColumnName="task" CF_DataType="CF_SQL_LONGVARCHAR" />
+				<field ColumnName="task" CF_DataType="CF_SQL_VARCHAR" Length="300" />
 				<field ColumnName="rank" CF_DataType="CF_SQL_INTEGER" Precision="10" Scale="0" />
 				<field ColumnName="added" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 				<field ColumnName="completed" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />

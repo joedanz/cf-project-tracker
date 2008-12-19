@@ -57,6 +57,9 @@ CREATE TABLE `pt_timetrack` (
   PRIMARY KEY  (`timetrackID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/* pt_todolists *?
+/* pt_todolists */
 ALTER TABLE `pt_todolists` ADD `timetrack` int(1) default NULL;
 UPDATE `pt_todolists` set `timetrack` = 0;
+
+/* pt_todos */
+ALTER TABLE `pt_todos` MODIFY `task` varchar(300) default NULL;

@@ -80,3 +80,11 @@ add
    timetrack NUMBER(1,0) NULL
    );
 update pt_todolists set timetrack = 0;
+
+/* pt_todolists */
+alter table 
+	pt_todos 
+modify 
+	(
+	task varchar2(300) NULL
+	);
