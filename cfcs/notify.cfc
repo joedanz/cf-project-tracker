@@ -23,7 +23,7 @@
 		<cfset var theMessage = "">
 		
 		<cfloop query="qProjectUsers">		
-			<cfif email_msgs and request.udf.isEmail(email)>
+			<cfif email_files and request.udf.isEmail(email)>
 				
 				<cfsavecontent variable="theMessage">
 				<cfoutput>A new #qProject.name# file has been added:
@@ -45,7 +45,7 @@ To view file details or to download, visit this link:
 						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
 				</cfif>
 			</cfif>
-			<cfif mobile_msgs and isNumeric(mobile)>
+			<cfif mobile_files and isNumeric(mobile)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>New #qProject.name# file:
@@ -74,7 +74,7 @@ To view file details or to download, visit this link:
 		<cfset var qFile = application.file.get(arguments.projectID,arguments.fileID)>
 		<cfset var theMessage = "">
 		<cfloop query="qProjectUsers">		
-			<cfif email_msgs and request.udf.isEmail(email)>
+			<cfif email_files and request.udf.isEmail(email)>
 				
 				<cfsavecontent variable="theMessage">
 				<cfoutput>The following #qProject.name# issue has been updated:
@@ -96,7 +96,7 @@ To view file details or to download, visit this link:
 						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
 				</cfif>
 			</cfif>
-			<cfif mobile_msgs and isNumeric(mobile)>
+			<cfif mobile_files and isNumeric(mobile)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>Updated #qProject.name# file:
@@ -125,7 +125,7 @@ To view file details or to download, visit this link:
 		<cfset var qIssue = application.issue.get(arguments.projectID,arguments.issueID)>
 		<cfset var theMessage = "">
 		<cfloop query="qProjectUsers">		
-			<cfif email_msgs and request.udf.isEmail(email)>
+			<cfif email_issues and request.udf.isEmail(email)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>A new #qProject.name# issue has been added:
@@ -149,7 +149,7 @@ To view file details or to download, visit this link:
 						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
 				</cfif>
 			</cfif>
-			<cfif mobile_msgs and isNumeric(mobile)>
+			<cfif mobile_issues and isNumeric(mobile)>
 
 				<cfsavecontent variable="theMessage">
 				<cfoutput>New #qProject.name# issue:
@@ -177,7 +177,7 @@ To view file details or to download, visit this link:
 		<cfset var qIssue = application.issue.get(arguments.projectID,arguments.issueID)>
 		<cfset var theMessage = "">
 		<cfloop query="qProjectUsers">		
-			<cfif email_msgs and request.udf.isEmail(email)>
+			<cfif email_issues and request.udf.isEmail(email)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>The following #qProject.name# issue has been updated:
@@ -203,7 +203,7 @@ Status: #qIssue.status#
 						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
 				</cfif>
 			</cfif>
-			<cfif mobile_msgs and isNumeric(mobile)>
+			<cfif mobile_issues and isNumeric(mobile)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>Updated #qProject.name# issue:
@@ -384,7 +384,7 @@ To view the full message and leave comments, visit this link:
 		<cfset var qMilestone = application.milestone.get(arguments.projectID,arguments.milestoneID)>
 		<cfset var theMessage = "">
 		<cfloop query="qProjectUsers">
-			<cfif email_msgs and request.udf.isEmail(email)>
+			<cfif email_mstones and request.udf.isEmail(email)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>A new #qProject.name# milestone has been added:
@@ -406,7 +406,7 @@ To view the full message and leave comments, visit this link:
 						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
 				</cfif>
 			</cfif>
-			<cfif mobile_msgs and isNumeric(mobile)>
+			<cfif mobile_mstones and isNumeric(mobile)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>New #qProject.name# file:
@@ -437,7 +437,7 @@ Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
 		<cfset var qMilestone = application.milestone.get(arguments.projectID,arguments.milestoneID)>
 		<cfset var theMessage = "">
 		<cfloop query="qProjectUsers">		
-			<cfif email_msgs and request.udf.isEmail(email)>
+			<cfif email_mstones and request.udf.isEmail(email)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>The following #qProject.name# milestone has been updated:
@@ -461,7 +461,7 @@ Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
 						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
 				</cfif>
 			</cfif>
-			<cfif mobile_msgs and isNumeric(mobile)>
+			<cfif mobile_mstones and isNumeric(mobile)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>Updated #qProject.name# milestone:
@@ -492,7 +492,7 @@ Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
 		<cfset var qTodo = application.todo.get(projectID=arguments.projectID,todolistID=arguments.todolistID,todoID=arguments.todoID)>
 		<cfset var theMessage = "">
 		<cfloop query="qProjectUsers">		
-			<cfif email_msgs and request.udf.isEmail(email)>
+			<cfif email_todos and request.udf.isEmail(email)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>A new #qProject.name# to-do has been added to list #qTodolist.title#:
@@ -512,7 +512,7 @@ Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
 						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
 				</cfif>
 			</cfif>
-			<cfif mobile_msgs and isNumeric(mobile)>
+			<cfif mobile_todos and isNumeric(mobile)>
 				
 				<cfsavecontent variable="theMessage">
 				<cfoutput>New #qProject.name# to-do:
@@ -543,7 +543,7 @@ List: #qTodolist.title#
 		<cfset var qTodo = application.todo.get(projectID=arguments.projectID,todolistID=arguments.todolistID,todoID=arguments.todoID)>
 		<cfset var theMessage = "">
 		<cfloop query="qProjectUsers">		
-			<cfif email_msgs and request.udf.isEmail(email)>
+			<cfif email_todos and request.udf.isEmail(email)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>The following #qProject.name# to-do has been updated in list #qTodolist.title#:
@@ -563,7 +563,7 @@ List: #qTodolist.title#
 						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
 				</cfif>
 			</cfif>
-			<cfif mobile_msgs and isNumeric(mobile)>
+			<cfif mobile_todos and isNumeric(mobile)>
 				
 				<cfsavecontent variable="theMessage">
 				<cfoutput>Updated #qProject.name# to-do:

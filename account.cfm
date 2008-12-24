@@ -215,29 +215,29 @@
 		            <div id="notifications">
 						<form action="#cgi.script_name#" method="post" name="edit" class="frm tac">
 							<table class="clean half mb15">
-							<tr><th>Action</th><th class="tac">Email</th><th class="tac">Mobile</th></tr>
+							<tr><th>Item</th><th class="tac">Email</th><th class="tac">Mobile</th></tr>
 							<tr>
-								<td class="tal">New Files</td>
+								<td class="tal">Files</td>
 								<td class="tac"><input type="checkbox" name="email_files" value="1"<cfif user.email_files> checked="checked"</cfif> /></td>
 								<td class="tac"><input type="checkbox" name="mobile_files" value="1"<cfif user.mobile_files> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
 							</tr>
 							<tr>
-								<td class="tal">New Issues</td>
+								<td class="tal">Issues</td>
 								<td class="tac"><input type="checkbox" name="email_issues" value="1"<cfif user.email_issues> checked="checked"</cfif> /></td>
 								<td class="tac"><input type="checkbox" name="mobile_issues" value="1"<cfif user.mobile_issues> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
 							</tr>
 							<tr>
-								<td class="tal">New Messages</td>
+								<td class="tal">Messages</td>
 								<td class="tac"><input type="checkbox" name="email_msgs" value="1"<cfif user.email_msgs> checked="checked"</cfif> /></td>
 								<td class="tac"><input type="checkbox" name="mobile_msgs" value="1"<cfif user.mobile_msgs> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
 							</tr>
 							<tr>
-								<td class="tal">New Milestones</td>
+								<td class="tal">Milestones</td>
 								<td class="tac"><input type="checkbox" name="email_mstones" value="1"<cfif user.email_mstones> checked="checked"</cfif> /></td>
 								<td class="tac"><input type="checkbox" name="mobile_mstones" value="1"<cfif user.mobile_mstones> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
 							</tr>
 							<tr>
-								<td class="tal">New To-Dos</td>
+								<td class="tal">To-Dos</td>
 								<td class="tac"><input type="checkbox" name="email_todos" value="1"<cfif user.email_todos> checked="checked"</cfif> /></td>
 								<td class="tac"><input type="checkbox" name="mobile_todos" value="1"<cfif user.mobile_todos> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
 							</tr>
