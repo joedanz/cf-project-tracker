@@ -144,8 +144,13 @@ $(document).ready(function(){
 								<cfif i eq 0>
 									<td class="today"><span class="b">TODAY</span>
 								<cfelse>
-									<td<cfif todays_ms.recordCount or todays_issues.recordCount> class="active"</cfif>><cfif i eq 1 or DatePart("d",DateAdd("d",i,Now())) eq 1>#Left(MonthAsString(Month(DateAdd("d",i,Now()))),3)#</cfif>
-									#DateFormat(DateAdd("d",i,Now()),"d")#
+									<cfif todays_ms.recordCount or todays_issues.recordCount>
+										<td class="active"><span class="b"><cfif i eq 1 or DatePart("d",DateAdd("d",i,Now())) eq 1>#Left(MonthAsString(Month(DateAdd("d",i,Now()))),3)#</cfif>
+										#DateFormat(DateAdd("d",i,Now()),"d")#</span>
+									<cfelse>
+										<td><cfif i eq 1 or DatePart("d",DateAdd("d",i,Now())) eq 1>#Left(MonthAsString(Month(DateAdd("d",i,Now()))),3)#</cfif>
+										#DateFormat(DateAdd("d",i,Now()),"d")#
+									</cfif>
 								</cfif>
 								<ul class="cal_ms">
 									<cfif todays_ms.recordCount>

@@ -134,7 +134,7 @@
 												<cfif thisDay eq createDate(year(Now()),month(Now()),day(Now()))>
 													<td class="today"><span class="b">TODAY</span>
 												<cfelse>
-													<td<cfif todays_ms.recordCount> class="active"</cfif>>#thisMonthDay#
+													<cfif todays_ms.recordCount><td class="active"><span class="b">#thisMonthDay#</span><cfelse><td>#thisMonthDay#</cfif>
 												</cfif>
 												
 												<ul class="cal_ms">
