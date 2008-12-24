@@ -304,19 +304,23 @@ function confirm_item_delete(projectid,itemid,item,type) {
 
 // *** TIME TRACKING ***
 function add_time_row(projectid) {
-	if (($('#datestamp').val() == '') || ($('#hrs').val() == '') || ($('#desc').val() == '')) {
-		alert('You must enter the date, number of hours, and a description.')
+	var errors = '';
+	if ($('#datestamp').val() == '') errors = errors + '* You must enter a date.\n';
+	if ($('#hrs').val() == '') errors = errors + '* You must enter the number of hours.\n';
+	if ($('#desc').val() == '') errors = errors + '* You must enter a description.\n';
+	if (errors != '') {
+		alert('Please correct the following errors:\n\n' + errors)
 	} else 
-	$.ajax({
-		type: 'get',
-		url: './ajax/timetrack.cfm',
-		data: 'act=add&p=' + projectid + '&u=' + $('#userid').val() + '&t=' + $('#datestamp').val() + '&h=' + escape($('#hrs').val()) + '&d=' + escape($('#desc').val()),
-		success: function(txt){
-	     $('#time tbody').prepend(txt);
-		 $('#hrs').val('');
-		 $('#desc').val('');
-		}
-	});
+		$.ajax({
+			type: 'get',
+			url: './ajax/timetrack.cfm',
+			data: 'act=add&p=' + projectid + '&u=' + $('#userid').val() + '&t=' + $('#datestamp').val() + '&h=' + escape($('#hrs').val()) + '&d=' + escape($('#desc').val()),
+			success: function(txt){
+				$('#time tbody').prepend(txt);
+				$('#hrs').val('');
+				$('#desc').val('');
+			}
+		});
 }
 function edit_time_row(projectid,timetrackid,ttidstripped) {
 	$.ajax({
@@ -339,8 +343,8 @@ function cancel_time_edit(projectid,timetrackid,ttidstripped) {
 	});
 }
 function save_time_edit(projectid,timetrackid,ttidstripped) {
-    if (($('#datestamp'+ttidstripped).val() == '') || ($('#hrs'+ttidstripped).val() == '') || ($('#desc'+ttidstripped).val() == '')) {
-		alert('You must enter the date, number of hours, and a description.')
+    if (($('#datestamp'+ttidstripped).val() == '') || ($('#hrs'+ttidstripped).val() == '')) {
+		alert('You must enter the date and number of hours.')
 	} else 
 	$.ajax({
 		type: 'get',

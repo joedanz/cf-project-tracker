@@ -52,15 +52,25 @@
 		<cfargument name="dateStamp" type="string" required="true">
 		<cfargument name="hours" type="string" required="true">
 		<cfargument name="description" type="string" required="true">
-		<cfargument name="itemID" type="string" required="true">
-		<cfargument name="itemType" type="string" required="true">
+		<cfargument name="itemID" type="string" required="false" default="">
+		<cfargument name="itemType" type="string" required="false" default="">
+		<cfset var hoursConverted = "">
+		<cfset var hrs = "">
+		<cfset var min = "">
+		<cfif find(':',arguments.hours)>
+			<cfset hrs = left(arguments.hours,find(':',arguments.hours)-1)>
+			<cfset min = right(arguments.hours,len(arguments.hours)-find(':',arguments.hours)) / 60>
+			<cfset hoursConverted = left(hrs+min,6)>
+		<cfelse>
+			<cfset hoursConverted = arguments.hours>
+		</cfif>
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#timetrack (timetrackID,projectID,userID,dateStamp,hours,description,itemid,itemtype)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.timetrackID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_date" value="#createODBCDate(arguments.dateStamp)#">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.hours#" maxlength="6">,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#hoursConverted#" maxlength="6">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="255">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.itemid#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.itemtype#" maxlength="10">)
