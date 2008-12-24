@@ -83,13 +83,6 @@
 						 		<option value="Closed"<cfif not compare(form.status,'Closed')> selected="selected"</cfif>>Closed</option>						 		
 						 	</select>
 						 	
-						 	<select name="assignedTo">
-						 		<option value="">Assigned To</option>
-						 		<cfloop query="projectUsers">
-						 			<option value="#userID#"<cfif not compare(form.assignedTo,userID)> selected="selected"</cfif>>#firstName# #lastName#</option>
-						 		</cfloop>
-						 	</select>
-						 	
 						 	<input type="submit" value="Filter" />
 						 	</form>
 						 	
@@ -146,7 +139,18 @@
 	<!--- right column --->
 	<div class="right">
 
-		<h3><a href="editProject.cfm" class="add">Create a new project</a></h3><br />
+		<form action="#cgi.script_name#" method="post">
+		<div class="b">Show issues assigned to:</div>
+		<select name="assignedTo" onchange="this.form.submit();">
+			<option value="">Anyone</a>
+			<option value="#session.user.userid#"<cfif not compare(session.assignedTo,session.user.userID)> selected="selected"</cfif>>Me (#session.user.firstName# #session.user.lastName#)</a>
+			<cfloop query="projectUsers">
+				<cfif compare(session.user.userid,userID)>
+				<option value="#userID#"<cfif not compare(session.assignedTo,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>
+				</cfif>
+			</cfloop>
+		</select>
+		</form><br />
 
 		<cfif active_projects.recordCount>
 		<div class="header"><h3>Your projects</h3></div>
