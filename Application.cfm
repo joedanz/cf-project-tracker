@@ -147,6 +147,7 @@
 					<cfset session.user = thisUser>
 					<cfset session.style = thisUser.style>
 					<cfset session.loggedin = true>
+					<cfset session.assignedTo = "">
 					<!--- set last login stamp --->
 					<cfset application.user.setLastLogin(session.user.userid)>
 				</cfif>
