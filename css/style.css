@@ -71,7 +71,7 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 .issue { background-color:#c00; color:#fff; }
 .message { background-color:#00f; color:#fff; }
 .milestone { background-color:#ff0; }
-.todolist { background-color:#f90; }
+.to-do, .todolist { background-color:#f90; }
 .file { background-color:#ffc; }
 .project { background-color:#9c3; }
 .screenshot { background:#033; color:#fff; }
@@ -209,9 +209,18 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 	text-decoration:none;
 }
 
-#container .left .main .content .listWrapper .todolist {
+#container .left .main .content #listWrapper .todolist {
 	background-color:#f7f7f7;	
 	list-style:none;
+}
+
+#container .left .main .content #listWrapper .todolist td div {
+	background-color:#fff;
+	font-size:1.2em;
+}
+
+#container .left .main .content #listWrapper .todolist .liststamp {
+	border-top:1px solid #999;
 }
 
 #container .left .footer {

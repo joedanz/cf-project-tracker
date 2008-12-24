@@ -294,8 +294,8 @@ function confirm_item_delete(projectid,itemid,item,type) {
 
 // *** TIME TRACKING ***
 function add_time_row(projectid) {
-	if (($('#hrs').val() == '') || ($('#desc').val() == '')) {
-		alert('You must enter the number of hours and a description.')
+	if (($('#datestamp').val() == '') || ($('#hrs').val() == '') || ($('#desc').val() == '')) {
+		alert('You must enter the date, number of hours, and a description.')
 	} else 
 	$.ajax({
 		type: 'get',
@@ -329,8 +329,8 @@ function cancel_time_edit(projectid,timetrackid,ttidstripped) {
 	});
 }
 function save_time_edit(projectid,timetrackid,ttidstripped) {
-    if (($('#hrs'+ttidstripped).val() == '') || ($('#desc'+ttidstripped).val() == '')) {
-		alert('You must enter the number of hours and a description.')
+    if (($('#datestamp'+ttidstripped).val() == '') || ($('#hrs'+ttidstripped).val() == '') || ($('#desc'+ttidstripped).val() == '')) {
+		alert('You must enter the date, number of hours, and a description.')
 	} else 
 	$.ajax({
 		type: 'get',
@@ -364,7 +364,7 @@ function redraw_incomplete(projectid,todolistid,todoid,type) {
     $.ajax({
 		type: 'get',
 		url: './ajax/todo.cfm',
-		data: 'action=redraw_incomplete&p=' + projectid + '&t=' + todolistid + '&i=' + todoid + '&type=' + type,
+		data: 'action=redraw_incomplete&p=' + projectid + '&tl=' + todolistid + '&t=' + todoid + '&type=' + type,
 		success: function(txt){
 		     $('#todoitems' + todolistid).html(txt);
 		}
@@ -374,27 +374,27 @@ function redraw_completed(projectid,todolistid,todoid) {
     $.ajax({
 		type: 'get',
 		url: './ajax/todo.cfm',
-		data: 'action=redraw_completed&p=' + projectid + '&t=' + todolistid + '&i=' + todoid,
+		data: 'action=redraw_completed&p=' + projectid + '&tl=' + todolistid + '&t=' + todoid,
 		success: function(txt){
 		     $('#todocomplete' + todolistid).html(txt);
 		}
 	});
 }
-function mark_complete(projectid,todolistid,todoid) {
-    $('#' + todoid).fadeOut(500);
+function mark_complete(projectid,todolistid,todoid,todoidstripped) {
+    $('#id_' + todoidstripped).fadeOut(400, function(){	$(this).remove(); });
 	$.ajax({
 		type: 'get',
 		url: './ajax/todo.cfm',
-		data: 'action=mark_complete&t=' + todolistid + '&i=' + todoid
+		data: 'action=mark_complete&tl=' + todolistid + '&t=' + todoid
 	});
 	redraw_completed(projectid,todolistid,todoid);
 }
-function mark_incomplete(projectid,todolistid,todoid) {
-	$('#' + todoid).fadeOut(500);
+function mark_incomplete(projectid,todolistid,todoid,todoidstripped) {
+	$('#id_' + todoidstripped).fadeOut(400, function(){	$(this).remove(); });
 	$.ajax({
 		type: 'get',
 		url: './ajax/todo.cfm',
-		data: 'action=mark_incomplete&t=' + todolistid + '&i=' + todoid
+		data: 'action=mark_incomplete&tl=' + todolistid + '&t=' + todoid
 	});
 	redraw_incomplete(projectid,todolistid,todoid,'update');
 }
@@ -413,24 +413,45 @@ function add_todo_ajax(projectid,todolistid,newitem,forwho,due) {
 		data: 'action=add&p=' + projectid + '&l=' + todolistid + '&t=' + escape(newitem) + '&fw=' + forwho + '&d=' + due
 	});	
 }
-function update_item(projectid,todolistid,todoid,completed) {
-	var newitem = $('#ta' + todoid).val();
-	var forwho = $('#forwho' + todoid).val();
-	var due = $('#due' + todoid).val();
-	update_todo_ajax(projectid,todolistid,todoid,newitem,forwho,due);
-	if (completed == 'incomplete') {
-		redraw_incomplete(projectid,todolistid,todoid,'update');	
-	} else if (completed == 'complete') {
-		redraw_completed(projectid,todolistid,todoid,'update');
-	}
+
+function edit_item(projectid,todolistid,todoid) {
+	$.ajax({
+		type: 'get',
+		url: './ajax/todo.cfm',
+		data: 'action=edit&p=' + projectid + '&tl=' + todolistid + '&t=' + todoid,
+		success: function(txt){
+			$('#edit'+todoid).html(txt);
+		}
+	});
 }
-function update_todo_ajax(projectid,todolistid,todoid,newitem,forwho,due) {
-    $.ajax({
+
+function cancel_edit(projectid, todolistid, todoid){
+	$.ajax({
 		type: 'post',
-		url: './ajax/todo.cfm?action=update',
-		data: 'action=add&p=' + projectid + '&l=' + todolistid + '&t=' + escape(newitem) + '&i=' + todoid + '&fw=' + forwho + '&d=' + due
-	});	
+		url: './ajax/todo.cfm',
+		data: 'action=cancel&p=' + projectid + '&tl=' + todolistid + '&t=' + todoid,
+		success: function(txt){
+			$('#edit'+todoid).html(txt);
+		}
+	});
 }
+
+function update_item(projectid,todolistid,todoid) {
+	var newitem = $('#task' + todoid).val();
+	var forwho = $('#forwho' + todoid).val();
+	var forwhofull = $('#forwho' + todoid + ' :selected').text();
+	var due = $('#due' + todoid).val();
+	var completed = $('#completed' + todoid).val();
+	$.ajax({
+		type: 'post',
+		url: './ajax/todo.cfm',
+		data: 'action=update&p=' + projectid + '&tl=' + todolistid + '&t=' + todoid + '&task=' + escape(newitem) + '&fw=' + forwho + '&fwfull=' + escape(forwhofull) + '&d=' + due + '&c=' + completed,
+		success: function(txt){
+			$('#edit'+todoid).html(txt);
+		}
+	});
+}
+
 function delete_li(projectid,todolistid,todoid) {
 	var del = confirm('Are you sure you wish to delete this item?');
 	if (del == true) {
@@ -442,31 +463,47 @@ function delete_todo_ajax(projectid,todolistid,todoid) {
     $.ajax({
 		type: 'get',
 		url: './ajax/todo.cfm',
-		data: 'action=delete&p=' + projectid + '&l=' + todolistid + '&t=' + todoid
+		data: 'action=delete&p=' + projectid + '&tl=' + todolistid + '&t=' + todoid
+	});
+}
+	
+function todo_time(action,projectid,todolistid,todoid,todoidstripped) {
+	var data = 'p=' + projectid + '&tl=' + todolistid + '&t=' + todoid;
+	if (action == 'edit') data = data + '&edit=1';
+	if (action == 'save') data = data + '&d=' + escape($('#datestamp' + todoidstripped).val()) + '&u=' + $('#person' + todoidstripped).val() + '&h=' + escape($('#hours' + todoidstripped).val()) + '&note=' + escape($('#note' + todoidstripped).val());
+	if ((action == 'save') && (($('#datestamp'+todoidstripped).val() == '') || ($('#hrs'+todoidstripped).val() == '') || ($('#desc'+todoidstripped).val() == ''))) {
+		alert('You must enter the date, number of hours, and a description.')
+	} else 
+	$.ajax({
+		type: 'get',
+		url: './ajax/todo_time.cfm',
+		data: data,
+		success: function(txt){
+			$('#id_'+todoidstripped).html(txt);
+		}
 	});
 }
 
 // REORDER TO-DO LISTS
 function reorder_lists() {
 	$('.itemedit').hide(); $('.tododetail').hide(); $('.top').hide(); 
-	$(".listItem").removeClass("todolist"); $(".list").addClass("drag"); 
+	$(".todolist").css("background-color","#fff"); $(".list").addClass("drag"); 
 	$('#sorting_done').show();
 	$('#reorder_menu').html('<a href="#" onclick="done_reordering();" class="reorder">Done Reordering</a>');
-	$('.listWrapper').sortable({
+	$('#listWrapper').sortable({
 		axis: "y",
 		update: function() { save_order() }
 	});
 }
 function done_reordering() {
 	$('.itemedit').show(); $('.tododetail').show(); $('.top').show(); 
-	$(".list").removeClass("drag"); $(".listItem").addClass("todolist"); 
-	save_order();
+	$(".list").removeClass("drag"); $(".todolist").css("background-color","#f7f7f7");
 	$('.listWrapper').sortable('destroy'); 
 	$('#sorting_done').hide();
 	$('#reorder_menu').html('<a href="#" onclick="reorder_lists();" class="reorder">Reorder lists</a>');
 }
 function save_order() {
-	thelist = serialize_lists('#lw');
+	thelist = serialize_lists('#listWrapper');
 	$("#listsort").val(thelist);
     $.ajax({
 		type: 'post',
@@ -495,6 +532,7 @@ function reorder_items_by_due(projectid,todolistid){
 function reorder_items(todolistid) {
 	$('.li' + todolistid).addClass('drag');
 	$('.cb' + todolistid).hide(); $('.li_edit').hide();
+	$('.t' + todolistid + ' a.time').hide(); $('.t' + todolistid + ' a.timefull').hide();
 	$('#listmenu' + todolistid).hide();
 	$('#reorderdone' + todolistid).show();
 	$('#todoitems' + todolistid).sortable({
@@ -505,6 +543,7 @@ function reorder_items(todolistid) {
 function done_reordering_items(todolistid) {
 	$('#reorderdone' + todolistid).hide();
 	$('#listmenu' + todolistid).show(); 
+	$('.t' + todolistid + ' a.time').show(); $('.t' + todolistid + ' a.timefull').show();
 	$('.cb' + todolistid).show(); $('.li_edit').show();
 	$('.li' + todolistid).removeClass('drag');
 	$('#todoitems' + todolistid).sortable('destroy'); 

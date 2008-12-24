@@ -18,6 +18,7 @@ ul.nobullet li { margin-bottom:5px; }
 .mr5 { margin-right:5px; }
 .mt5 { margin-top:5px; }
 .mt10 { margin-top:10px; }
+.mt15 { margin-top:15px; }
 .mt20 { margin-top:20px; }
 .pl5 { padding-left:5px; }
 .tac { text-align:center; }
@@ -26,6 +27,8 @@ ul.nobullet li { margin-bottom:5px; }
 
 .error, .success { padding:10px; margin-bottom:10px; }
 .error ul, .success ul { margin:10px 30px;}
+
+.minitype { padding:1px 3px; }
 
 div.pagediv {
 	padding:3px 5px;
@@ -209,14 +212,28 @@ table.activity td {
 	margin-left:8px;
 }
 
-#container .left .main .content .listItem .top {
+#container .left .main .content .todolist .top {
 	float:right; 
 	margin:8px 5px 0 0;
 }
 
-#container .left .main .content .listWrapper .todolist {
+#container .left .main .content #listWrapper .todolist {
 	padding:2px 5px 5px 10px;
 	margin-bottom:20px;
+}
+
+#container .left .main .content #listWrapper .todolist .liststamp {
+	margin-top:10px;
+	padding-top:10px;
+}
+
+#container .left .main .content #listWrapper .todolist td {
+	vertical-align:top;
+	padding:2px;
+}
+
+#container .left .main .content #listWrapper .todolist td div {
+	padding:5px;
 }
 
 #container .left .footer {

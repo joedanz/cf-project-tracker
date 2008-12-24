@@ -22,20 +22,21 @@
 
 		<cfquery name="qGet" datasource="#variables.dsn#">
 			SELECT tt.timetrackID, tt.projectID, tt.userID, tt.dateStamp, tt.hours, tt.description,
-					u.firstName, u.lastName
+					tt.itemID, tt.itemType,	u.firstName, u.lastName, t.todolistID, t.task, t.task
 				FROM #variables.tableprefix#timetrack tt 
 					LEFT JOIN #variables.tableprefix#users u on tt.userid = u.userid
+					LEFT JOIN #variables.tableprefix#todos t ON tt.itemID = t.todoID
 				WHERE 0 = 0
 				<cfif compare(arguments.timetrackID,'')>
-					AND timetrackID = 
+					AND tt.timetrackID = 
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.timetrackID#" maxlength="35">
 				</cfif>
 				<cfif compare(arguments.projectID,'')>
-					AND projectID = 
+					AND tt.projectID = 
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				</cfif>
 				<cfif compare(arguments.userID,'')>
-					AND userID = 
+					AND tt.userID = 
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
 				</cfif>
 			ORDER BY dateStamp desc
@@ -51,14 +52,18 @@
 		<cfargument name="dateStamp" type="string" required="true">
 		<cfargument name="hours" type="string" required="true">
 		<cfargument name="description" type="string" required="true">
+		<cfargument name="itemID" type="string" required="true">
+		<cfargument name="itemType" type="string" required="true">
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#timetrack (timetrackID,projectID,userID,dateStamp,hours,description)
+			INSERT INTO #variables.tableprefix#timetrack (timetrackID,projectID,userID,dateStamp,hours,description,itemid,itemtype)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.timetrackID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_date" value="#createODBCDate(arguments.dateStamp)#">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.hours#" maxlength="6">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="255">)
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="255">,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.itemid#" maxlength="35">,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.itemtype#" maxlength="10">)
 		</cfquery>
 		<cfreturn true>
 	</cffunction>	

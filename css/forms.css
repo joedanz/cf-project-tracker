@@ -59,15 +59,21 @@ form.frm p input.short, form.frm p textarea.short, tr.input td input.short {
 	width:390px;
 }
 
+#container .left .main .content #listWrapper .todolist td form textarea {
+	width:300px;	
+}
+
 form.frm p input.shorter {
 	width:180px;
 } 
 
-form.frm p input.shortest, tr.input td input.shortest {
+form.frm p input.shortest, tr.input td input.shortest,
+#container .left .main .content #listWrapper .todolist td form input.shortest {
 	width:80px;	
 }
 
-tr.input td input.tiny {
+tr.input td input.tiny,
+#container .left .main .content #listWrapper .todolist td form input.tiny {
 	width:40px;
 }
 
@@ -224,3 +230,21 @@ fieldset.settings fieldset {
 }
 
 fieldset.settings table td { vertical-align:top; }
+
+#container .left .main .content #listWrapper .todolist td form label {
+	display:block;
+	float:left;
+	font-weight:bold;
+	text-align:right;
+	width:80px;
+	padding-right:5px;
+}
+
+#container .left .main .content #listWrapper .todolist td form input,
+#container .left .main .content #listWrapper .todolist td form textarea {
+	padding:2px;
+}
+
+#container .left .main .content #listWrapper .todolist td form select {
+	padding:1px;
+}

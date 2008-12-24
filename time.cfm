@@ -41,7 +41,20 @@
 			</div>
 			<div class="content">
 			 	<div class="wrapper">
-
+					
+					<div id="report" style="padding:10px 20px; background-color:##f5f5f5;" class="mb10">
+					<span class="b">Create Report:</span>&nbsp;&nbsp;&nbsp;
+					Show <select name="reportUserID">
+							<option value="">everyone</option>
+							<cfloop query="projectUsers">
+								<option value="#userid#"<cfif not compare(session.user.userid,userid)> selected="selected"</cfif>>#firstName# #lastName#</option>
+							</cfloop>
+						</select>'s hours from 
+						<input type="text" name="reportStart" class="shortest date-pick" /> to
+						<input type="text" name="reportEnd" class="shortest date-pick" /> 
+						<input type="button" value="Create Report" /> 
+					</div>
+					
 				 	<table class="clean full" id="time">
 					 	<thead>
 							<tr>
@@ -72,7 +85,7 @@
 								<td class="first">#DateFormat(dateStamp,"mmm d, yyyy")#</td>
 								<td>#firstName# #lastName#</td>
 								<td class="b">#numberFormat(hours,"0.00")#</td>
-								<td>#description#</td>
+								<td><cfif compare(itemType,'')><span class="catbox #itemtype#">#itemtype#</span> <a href="todos.cfm?p=#projectID###id_#replace(todolistID,'-','','all')#">#task#</a><cfif compare(description,'')> - </cfif></cfif>#description#</td>
 								<td class="tac"><a href="##" onclick="edit_time_row('#projectid#','#timetrackid#','#replace(timetrackid,'-','','ALL')#','#currentRow#')">Edit</a> &nbsp;&nbsp; <a href="##" onclick="delete_time('#projectID#','#timetrackID#','#replace(timetrackid,'-','','ALL')#');" class="delete"></a></td>
 							</tr>
 							<cfset totalHours = totalHours + hours>

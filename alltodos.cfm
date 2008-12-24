@@ -37,52 +37,27 @@
 				</div>
 				<div class="content">
 				 	<div class="wrapper">
-					 	
-					 	
+
 					<cfif todolists.recordCount>
 					 	
-					<div class="listWrapper" id="lw">
+					<div id="listWrapper">
 					<cfloop query="todolists">
-					<div class="listItem todolist" id="#todolistID#" style="margin-bottom:20px;">
-					<div class="top"><a href="##" onclick="$('##todoitems#todolistID#').toggle();$('##todocomplete#todolistID#').toggle();return false;">show/hide</a></div>
+					<div class="todolist" id="#todolistID#" style="margin-bottom:20px;">
 					
 					<h3 class="padtop padbottom list"><a href="project.cfm?p=#projectID#">#projName#</a> : <a href="todos.cfm?p=#projectID#&t=#todolistID#">#title#</a></h3>
 						<div class="tododetail">
-						<cfif compare(description,'')><div style="font-style:italic;">#description#</div></cfif>
 						<cfquery name="todos_notcompleted" dbtype="query">
 							select * from todos where todolistID = '#todolistID#' and completed IS NULL
 						</cfquery>
-						<ul class="nobullet" id="todoitems#todolistID#" style="display:none;">
+						<ul class="nobullet" id="todoitems#todolistID#">
 						<cfloop query="todos_notcompleted">
-						<li class="li#todolistID#" id="#todoID#"><input type="checkbox" name="todoID" value="#todoID#" class="cb#todolistID#" onclick="mark_complete('#projectID#','#todolistID#','#todoID#');" /> #task#<cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)</span></cfif></li>
+						<li class="li#todolistID#" id="#todoID#"><input type="checkbox" name="todoID" value="#todoID#" class="cb#todolistID#" onclick="mark_complete('#projectID#','#todolistID#','#todoID#','#replace(todoID,'-','','all')#');" /> #task#<cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)</span></cfif></li>
 						<li><div id="edititemform#todoID#" style="display:none;background-color:##ddd;padding:5px;">
 						</div>
 						</li>
 												
 						</cfloop>
 						</ul>
-
-						
-						
-						<cfquery name="todos_completed" dbtype="query">
-							select * from todos where todolistID = '#todolistID#' and completed IS NOT NULL
-						</cfquery>
-						<ul class="nobullet" id="todocomplete#todolistID#" style="display:none;">
-						<cfloop query="todos_completed">
-						<li class="g" id="#todoID#"><input type="checkbox" name="todoID" value="#todoID#" checked="checked" onclick="mark_incomplete('#projectID#','#todolistID#','#todoID#');" /> <strike>#task#</strike> - <span class="g">#DateFormat(completed,"mmm d")#</span> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="$('###todoID#').hide();$('##edititemform#todoID#').show();$('##ta#todoID#').focus();return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#projectID#','#todolistID#','#todoID#')" /></span></li>
-						
-						<li><div id="edititemform#todoID#" style="display:none;background-color:##ddd;padding:5px;">
-						</div>
-						</li>								
-						
-						</cfloop>
-						</ul>
-						</div>
-						
-						<div style="margin-top:10px;padding-top:10px;border-top:1px solid ##999;">
-						<cfset daysago = DateDiff("d",added,Now())>
-<cfif compare(name,'')><div class="ms mstone">Milestone: #name#</div></cfif>
-<div class="posted">Posted by #firstName# #lastName# on #DateFormat(added,"dddd, mmmm d, yyyy")# (<cfif daysago eq 0>Today<cfelse>#daysago# Day<cfif daysago neq 1>s</cfif> Ago</cfif>)</div>
 						</div>
 						
 					</div>

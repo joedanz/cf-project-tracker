@@ -82,7 +82,7 @@
 					</cfif>
 					<p>#message#</p>
 					<cfif compare(name,'')><div class="ms">Milestone: #name#</div></cfif>
-					<div class="byline<cfif currentRow neq recordCount> listitem</cfif>">
+					<div class="byline">
 						Posted by #firstName# #lastName# in <a href="#cgi.script_name#?p=#url.p#&c=#categoryID#">#category#</a>
 						<cfif project.msgs gt 1 or userID eq session.user.userID or session.user.admin> | <a href="editMessage.cfm?p=#url.p#&m=#messageID#&mh=#hash(messageID)#" class="edit">Edit</a>
 						 | <a href="messages.cfm?p=#url.p#&dm=#messageID#&dmh=#hash(messageID)#" class="delete" onclick="return confirm('Are you sure you wish to delete this message and all associated comments?')">Delete</a></cfif>

@@ -1,12 +1,14 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfif StructKeyExists(form,"todolistID")> <!--- update todo list --->
-	<cfset application.todolist.update(form.todolistID,form.projectid,form.title,form.description,form.milestoneID)>
+	<cfparam name="form.timetrack" default="0">
+	<cfset application.todolist.update(form.todolistID,form.projectid,form.title,form.description,form.milestoneID,form.timetrack)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'To-Do List',form.projectID,form.title,'edited')>
 	<cflocation url="todos.cfm?p=#form.projectID#" addtoken="false">
 <cfelseif StructKeyExists(form,"submit")> <!--- add todo list --->
 	<cfset newID = createUUID()>
-	<cfset application.todolist.add(newID,form.projectID,form.title,form.description,form.milestoneID,session.user.userid)>
+	<cfparam name="form.timetrack" default="0">
+	<cfset application.todolist.add(newID,form.projectID,form.title,form.description,form.milestoneID,form.timetrack,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'To-Do List',newID,form.title,'added')>
 	<cflocation url="todos.cfm?p=#form.projectID#" addtoken="false">
 </cfif>
@@ -34,6 +36,7 @@
 	<cfset title = thisTodolist.title>
 	<cfset description = thisTodolist.description>
 	<cfset msID = thisTodolist.milestoneID>
+	<cfset timetrack = thisTodolist.timetrack>
 	<cfset title_action = "Edit">
 </cfif>
 
@@ -99,7 +102,11 @@
 							<option value="#milestoneID#"<cfif not compare(msID,milestoneID)> selected="selected"</cfif>>#name#</option>
 							</cfloop>
 						</select>
-						</p>						
+						</p>
+						<p>
+						<label for="timetrack">Time Tracking:</label>
+						<input type="checkbox" name="timetrack" value="1" class="checkbox"<cfif timetrack> checked="checked"</cfif> />
+						</p>
 						<label for="submit">&nbsp;</label>
 						<cfif StructKeyExists(url,"t")>
 							<input type="submit" class="button" name="submit" id="submit" value="Update To-Do List" />

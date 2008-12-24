@@ -25,11 +25,12 @@
 		<cfset var qGetTodos = "">
 		<cfquery name="qGetTodos" datasource="#variables.dsn#">
 			SELECT t.todoID,t.todolistID,t.projectID,t.task,t.userID,t.rank,t.due,t.completed,t.svnrevision,
-					u.firstName,u.lastName 
-				FROM #variables.tableprefix#todos t LEFT JOIN #variables.tableprefix#users u
-					ON t.userID = u.userID
+					u.firstName,u.lastName, count(tt.timetrackid) as numTimeTracks, sum(tt.hours) as numHours
+				FROM #variables.tableprefix#todos t 
+					LEFT JOIN #variables.tableprefix#users u ON t.userID = u.userID
+					LEFT JOIN #variables.tableprefix#timetrack tt ON t.todoID = tt.itemid
 			WHERE 0=0
-				<cfif compare(arguments.projectID,'')> AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35"></cfif>
+				<cfif compare(arguments.projectID,'')> AND t.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35"></cfif>
 				<cfif compare(arguments.projectIDlist,'')>
 					AND t.projectID IN ('#replace(arguments.projectIDlist,",","','","ALL")#')
 				</cfif>	
@@ -45,6 +46,8 @@
 				<cfif compare(arguments.assignedTo,'')>
 					AND t.userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.assignedTo#" maxlength="35">
 				</cfif>
+			GROUP BY t.todoID,t.todolistID,t.projectID,t.task,t.userID,t.rank,t.added,t.due,
+				t.completed,t.svnrevision,u.firstName,u.lastName
 			ORDER BY #arguments.order_by#
 		</cfquery>
 		<cfreturn qGetTodos>
@@ -63,7 +66,7 @@
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todoID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
-					<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.task#">,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.task#" maxlength="300">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					999,#Now()#,
 					<cfif isDate(arguments.due)>
@@ -86,7 +89,7 @@
 		<cfargument name="svnRevision" type="numeric" required="false" default="0">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#todos
-				SET task = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.task#">,
+				SET task = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.task#" maxlength="300">,
 					userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					due = 
 						<cfif isDate(arguments.due)>

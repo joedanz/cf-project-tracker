@@ -21,7 +21,7 @@
 		<cfargument name="milestoneID" type="string" required="false" default="">
 		<cfset var qGetTodoLists = "">
 		<cfquery name="qGetTodoLists" datasource="#variables.dsn#">
-			SELECT u.firstName, u.lastName, tl.todolistID, tl.projectID, tl.title, tl.description, tl.added, 
+			SELECT u.firstName, u.lastName, tl.todolistID, tl.projectID, tl.title, tl.description, tl.added, tl.timetrack,
 				(select count(*) from #variables.tableprefix#todos t where tl.todolistID = t.todolistID and completed is not NULL) as completed_count, 
 				(select count(*) from #variables.tableprefix#todos t where tl.todolistID = t.todolistID and completed is NULL) as uncompleted_count,
 				ms.milestoneid, ms.name, p.projectID, p.name as projName 
@@ -48,14 +48,16 @@
 		<cfargument name="title" type="string" required="true">
 		<cfargument name="description" type="string" required="true">
 		<cfargument name="milestoneID" type="string" required="true">
+		<cfargument name="timetrack" type="numeric" required="true">
 		<cfargument name="userID" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#todolists (todolistID,projectID,title,description,milestoneid,userid,added,rank)
+			INSERT INTO #variables.tableprefix#todolists (todolistID,projectID,title,description,milestoneid,timetrack,userid,added,rank)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="100">,
 					<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.timetrack#" maxlength="1">, 
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					#Now()#,1)
 		</cfquery>
@@ -69,11 +71,13 @@
 		<cfargument name="title" type="string" required="true">
 		<cfargument name="description" type="string" required="true">
 		<cfargument name="milestoneID" type="string" required="true">
+		<cfargument name="timetrack" type="numeric" required="true">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#todolists 
 				SET title = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="100">,
 					description = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">,
-					milestoneid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">
+					milestoneid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
+					timetrack = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.timetrack#" maxlength="1">
 				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 					AND todolistid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">
 		</cfquery>

@@ -93,7 +93,7 @@
 							<div class="wrapper itemlist fileLrg #filetype#Lrg">
 							<h3 class="padtop">#title#</h3>	
 							<p>#description#</p>
-							<div class="byline<cfif currentRow neq recordCount> listitem</cfif>">
+							<div class="byline">
 							<cfif Int(filesize/1024000) gte 1>
 							#NumberFormat(filesize/1024000,"0.00")#MB,
 							<cfelse>

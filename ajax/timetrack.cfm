@@ -21,7 +21,7 @@
 	<td class="first">#DateFormat(timeline.dateStamp,"mmm d, yyyy")#</td>
 	<td>#timeline.firstName# #timeline.lastName#</td>
 	<td class="b">#numberFormat(timeline.hours,"0.00")#</td>
-	<td>#timeline.description#</td>
+	<td><cfif compare(timeline.itemType,'')><span class="catbox #timeline.itemtype#">#timeline.itemtype#</span> <a href="todos.cfm?p=#timeline.projectID###id_#replace(timeline.todolistID,'-','','all')#">#timeline.task#</a><cfif compare(timeline.description,'')> - </cfif></cfif>#timeline.description#</td>
 	<td class="tac"><a href="##" onclick="edit_time_row('#timeline.projectid#','#timeline.timetrackid#','#replace(timeline.timetrackid,'-','','ALL')#')">Edit</a> &nbsp;&nbsp; <a href="##" onclick="delete_time('#timeline.projectID#','#timeline.timetrackID#','#replace(timeline.timetrackid,'-','','ALL')#');" class="delete"></a></td>
 </tr>
 <cfif compare(url.act,'cancel')>

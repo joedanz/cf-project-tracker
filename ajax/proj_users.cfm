@@ -37,7 +37,7 @@
 		</script>
 	</cfif>
 	<cfloop query="projectUsers">
-	<div class="user<cfif currentRow neq recordCount> listitem</cfif>" id="#userID#">
+	<div class="user" id="#userID#">
 
  		<h4 class="b">#firstName# #lastName#&nbsp;
 			<span style="font-weight:normal;font-size:.9em;">(<span id="ut_#replace(userid,'-','','ALL')#"><cfif admin>Admin<cfelse>User</cfif></span>)<cfif session.user.admin>&nbsp; [<a href="./admin/editUser.cfm?from=people&p=#url.p#&u=#userid#">edit</a>]</cfif></span>
