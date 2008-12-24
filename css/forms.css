@@ -67,7 +67,7 @@ form.frm p input.shorter {
 	width:180px;
 } 
 
-form.frm p input.shortest, tr.input td input.shortest,
+form.frm p input.shortest, tr.input td input.shortest, div#report input.date,
 #container .left .main .content #listWrapper .todolist td form input.shortest {
 	width:80px;	
 }
@@ -241,7 +241,8 @@ fieldset.settings table td { vertical-align:top; }
 }
 
 #container .left .main .content #listWrapper .todolist td form input,
-#container .left .main .content #listWrapper .todolist td form textarea {
+#container .left .main .content #listWrapper .todolist td form textarea,
+div#report input, div#report select {
 	padding:2px;
 }
 

@@ -35,24 +35,25 @@
 
 			<div class="header">
 				<span class="rightmenu">
-					<a href="#cgi.script_name#?report" class="report">Create Report</a>
+					<a href="##" onclick="$('##report').slideDown();return false;" class="report">Create Report</a>
 				</span>
 				<h2 class="time">Time Tracking</h2>
 			</div>
 			<div class="content">
 			 	<div class="wrapper">
 					
-					<div id="report" style="padding:10px 20px; background-color:##f5f5f5;" class="mb10">
-					<span class="b">Create Report:</span>&nbsp;&nbsp;&nbsp;
-					Show <select name="reportUserID">
-							<option value="">everyone</option>
-							<cfloop query="projectUsers">
-								<option value="#userid#"<cfif not compare(session.user.userid,userid)> selected="selected"</cfif>>#firstName# #lastName#</option>
-							</cfloop>
-						</select>'s hours from 
-						<input type="text" name="reportStart" class="shortest date-pick" /> to
-						<input type="text" name="reportEnd" class="shortest date-pick" /> 
-						<input type="button" value="Create Report" /> 
+					<div id="report" class="p10 mb10" style="display:none;">
+						<span class="b">
+						Show <select name="reportUserID">
+								<option value="">everyone</option>
+								<cfloop query="projectUsers">
+									<option value="#userid#"<cfif not compare(session.user.userid,userid)> selected="selected"</cfif>>#firstName# #lastName#</option>
+								</cfloop>
+							</select>'s hours from 
+						<input type="text" name="reportStart" class="date date-pick" /> to
+						<input type="text" name="reportEnd" class="date date-pick" />
+						</span>
+						<input type="button" value="Create Report" /> or <a href="##" onclick="$('##report').slideUp();return false;">Cancel</a>
 					</div>
 					
 				 	<table class="clean full" id="time">

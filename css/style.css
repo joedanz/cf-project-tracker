@@ -322,3 +322,4 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 .searchresult { border:2px dotted #eee; background-color:#fafafa; }
 .searchresult+.odd { background-color:#f5f5f5; }
 .searchresult h4 { font-weight:bold; }
+div#report { background-color:#f5f5f5; }
