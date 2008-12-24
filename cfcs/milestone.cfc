@@ -20,6 +20,7 @@
 		<cfargument name="type" type="string" required="false" default="">
 		<cfargument name="limit" type="string" required="false" default="">
 		<cfargument name="projectIDlist" type="string" required="false" default="">
+		<cfargument name="forID" type="string" required="false" default="">
 		<cfset var qGetMilestones = "">
 		<cfquery name="qGetMilestones" datasource="#variables.dsn#">
 			SELECT milestoneid,m.projectID,m.name,m.description,dueDate,completed,
@@ -36,6 +37,9 @@
 			</cfif>
 			<cfif compare(arguments.milestoneID,'')>
 				AND m.milestoneID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.milestoneID#" maxlength="35">
+			</cfif>
+			<cfif compare(arguments.forID,'')>
+				AND m.forID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.forID#" maxlength="35">
 			</cfif>
 			<cfswitch expression="#arguments.type#">
 				<cfcase value="overdue">

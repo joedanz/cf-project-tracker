@@ -1,0 +1,43 @@
+h1 {
+	font-size:1.6em;
+	font-weight:bold;
+}
+
+a.return {
+	text-decoration:none;
+	margin:1px 0 8px 0;
+	display:block;
+}
+
+ul {
+	margin:10px 30px;
+	list-style:disc;
+}
+
+li {
+	padding:1px;
+}
+
+li a.current {
+	font-weight:bold;
+	background-color:#555;
+	color:#fff;
+	padding:1px 3px;
+	text-decoration:none;
+}
+
+label {
+	margin-left:10px;
+	font-size:1.1em;
+	font-weight:bold;
+}
+
+#header {
+	background-color:#ccc;
+	border-bottom:1px solid #000;
+	padding:5px;
+}
+
+#loggedin {
+	font-size:.9em;
+}

@@ -1,0 +1,1 @@
+<a href="http://projecttracker.riaforge.org">Project Tracker</a> Mobile <cfoutput>#application.settings.version#</cfoutput>, developed by <a href="http://www.ajaxcf.com">Joe Danziger</a>.

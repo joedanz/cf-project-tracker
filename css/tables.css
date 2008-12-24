@@ -51,12 +51,13 @@ table.permissions tr td { background-color:#fff; text-align:center; }
 
 table#milestone_cal { background:#e0e0e0; border-collapse:separate;	border-spacing:1px; }
 table#milestone_cal tr th, table#milestone_cal tr td { font-family:Verdana, Arial, sans-serif; font-size:80%; }
-table#milestone_cal tr th {	background-color:#e0e0e0; color:#666; font-weight:bold;	border-bottom:none; }
+table#milestone_cal tr th,table#milestone_cal tr td.blank { background-color:#e0e0e0; color:#666; font-weight:bold;	border-bottom:none; }
 table#milestone_cal tr td {	background-color:#f0f0f0; color:#aaa; }
 table#milestone_cal tr td.today { border:1px solid #000; background-color:#ffc;	color:#000; }
 table#milestone_cal tr td.active { border:1px solid #000; background-color:#fff; color:#000; }
 table#milestone_cal tr td ul.cal_ms { list-style:none; }
 table#milestone_cal tr td ul.cal_ms li { list-style-type:none; }
+table#milestone_cal tr td.mth { background-color:#fff; color:#000; font-size:1.1em; font-weight:bold; text-align:right; padding:3px; width:35px; }
 
 table#alltodos { width:100%; }
 table#alltodos tr td { border-top:1px solid #ccc; padding:5px; vertical-align:top; }
