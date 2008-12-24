@@ -157,4 +157,8 @@
 	</cflogin>
 </cfif>
 
+<cfif StructKeyExists(form,"assignedTo")>
+	<cfset session.assignedTo = form.assignedTo>
+</cfif>
+
 <cfsetting enablecfoutputonly="false">
