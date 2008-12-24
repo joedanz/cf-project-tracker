@@ -350,11 +350,13 @@
 
 	<cffunction name="component" access="public" returntype="query" output="false"
 				HINT="Returns project component records.">
+		<cfargument name="projectID" type="string" required="true">
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT c.componentID, c.component, count(i.issueID) as numIssues
 			FROM #variables.tableprefix#project_components c LEFT JOIN #variables.tableprefix#issues i
 				ON c.componentID = i.componentID
+			WHERE c.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			GROUP BY c.componentID, c.component
 			ORDER BY component
 		</cfquery>		
@@ -402,11 +404,13 @@
 
 	<cffunction name="version" access="public" returntype="query" output="false"
 				HINT="Returns project version records.">
+		<cfargument name="projectID" type="string" required="true">
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT v.versionID, v.version, count(i.issueID) as numIssues
 			FROM #variables.tableprefix#project_versions v LEFT JOIN #variables.tableprefix#issues i
 				ON v.versionID = i.versionID
+			WHERE v.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			GROUP BY v.versionID, v.version
 			ORDER BY version
 		</cfquery>		

@@ -21,14 +21,15 @@
 <cfparam name="form.reg_msgs" default="0">
 <cfparam name="form.reg_mstones" default="0">
 <cfparam name="form.reg_todos" default="0">
+<cfparam name="form.reg_time" default="0">
 <cfparam name="form.reg_svn" default="0">
-<cfparam name="form.tab_files" default="0">
-<cfparam name="form.tab_issues" default="0">
-<cfparam name="form.tab_msgs" default="0">
-<cfparam name="form.tab_mstones" default="0">
-<cfparam name="form.tab_todos" default="0">
-<cfparam name="form.tab_time" default="0">
-<cfparam name="form.tab_svn" default="0">
+<cfparam name="form.tab_files" default="1">
+<cfparam name="form.tab_issues" default="1">
+<cfparam name="form.tab_msgs" default="1">
+<cfparam name="form.tab_mstones" default="1">
+<cfparam name="form.tab_todos" default="1">
+<cfparam name="form.tab_time" default="1">
+<cfparam name="form.tab_svn" default="1">
 
 <cfif StructKeyExists(url,"from")>
 	<cfset form.from = url.from>
@@ -105,13 +106,13 @@
 	<cfset projectUsers = application.project.projectUsers(url.p)>
 	<cfset msgcats = application.message.getCatMsgs(url.p)>
 	<cfset filecats = application.file.getCatFiles(url.p)>
+	<cfset components = application.project.component(url.p)>
+	<cfset versions = application.project.version(url.p)>
 <cfelse>	
 	<cfset newID = createUUID()>
 </cfif>
 
 <cfset clients = application.client.get()>
-<cfset components = application.project.component()>
-<cfset versions = application.project.version()>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; #title_action# Project" project="#name#" projectid="#projID#" svnurl="#svnurl#">
@@ -232,6 +233,7 @@
 						</div>
 						</fieldset>
 
+						<cfif StructKeyExists(url,"p")>
 						<fieldset class="settings">
 						<legend><a href="##" onclick="section_toggle('cat');return false;" class="collapsed" id="catlink"> Category Lists</a></legend>
 						<div id="catinfo" style="display:none;">
@@ -256,7 +258,7 @@
 										<li id="addnewfile">-- <a href="##" onclick="$('##addnewfile').hide();$('##newrowfile').show();$('##fileCat').focus();return false;">New Category...</a></li>
 										<li id="newrowfile" style="display:none;">
 											<input type="text" id="fileCat" class="short" />
-											<input type="button" value="Add" onclick="add_cat('<cfif StructKeyExists(url,"p")>#url.p#<cfelse>#newID#</cfif>','file'); return false;" /> or <a href="##" onclick="$('##addnewfile').show();$('##newrowfile').hide();return false;">Cancel</a>
+											<input type="button" value="Add" onclick="add_cat('#url.p#','file'); return false;" /> or <a href="##" onclick="$('##addnewfile').show();$('##newrowfile').hide();return false;">Cancel</a>
 										</li>
 									</ul>
 								</fieldset>
@@ -280,7 +282,7 @@
 										<li id="addnewmsg">-- <a href="##" onclick="$('##addnewmsg').hide();$('##newrowmsg').show();$('##msgCat').focus();return false;">New Category...</a></li>
 										<li id="newrowmsg" style="display:none;">
 											<input type="text" id="msgCat" class="short" />
-											<input type="button" value="Add" onclick="add_cat('<cfif StructKeyExists(url,"p")>#url.p#<cfelse>#newID#</cfif>','msg'); return false;" /> or <a href="##" onclick="$('##addnewmsg').show();$('##newrowmsg').hide();return false;">Cancel</a>
+											<input type="button" value="Add" onclick="add_cat('#url.p#','msg'); return false;" /> or <a href="##" onclick="$('##addnewmsg').show();$('##newrowmsg').hide();return false;">Cancel</a>
 										</li>
 									</ul>
 								</fieldset>
@@ -290,6 +292,7 @@
 						
 						</div>
 						</fieldset>
+						</cfif>
 
 						<fieldset class="settings">
 						<legend><a href="##" onclick="section_toggle('issue');return false;" class="collapsed" id="issuelink"> Issue Details</a></legend>
@@ -300,6 +303,7 @@
 						<span style="font-size:.8em">(optional two-letter prefix used when generating trouble tickets)</span>
 						</p>
 						
+						<cfif StructKeyExists(url,"p")>
 						<table align="center">
 							<tr><td>
 								<p>
@@ -310,7 +314,7 @@
 											<li id="componentr#currentRow#">#currentRow#) #component# &nbsp; <a href="##" onclick="$('##componentr#currentRow#').hide();$('##edit_componentr#currentRow#').show();$('##component#currentRow#').focus();return false;">Edit</a> &nbsp;<cfif numIssues><span class="g i">(#numIssues# issue<cfif numIssues gt 1>s</cfif>)</span><cfelse><a href="" onclick="confirm_item_delete('#url.p#','#componentID#','#component#','component');return false;" class="delete"></a></cfif></li>
 											<li id="edit_componentr#currentRow#" style="display:none;">
 												<input type="text" id="component#currentRow#" value="#component#" class="short" />
-												<input type="button" value="Save" onclick="edit_proj_item('<cfif StructKeyExists(url,"p")>#url.p#<cfelse>#newID#</cfif>','#componentID#','#currentRow#','component'); return false;" /> or <a href="##" onclick="$('##componentr#currentRow#').show();$('##edit_componentr#currentRow#').hide();return false;">Cancel</a>
+												<input type="button" value="Save" onclick="edit_proj_item('#url.p#','#componentID#','#currentRow#','component'); return false;" /> or <a href="##" onclick="$('##componentr#currentRow#').show();$('##edit_componentr#currentRow#').hide();return false;">Cancel</a>
 											</li>
 										</cfloop>
 									</ul>
@@ -318,7 +322,7 @@
 										<li id="addnewcomponent">-- <a href="##" onclick="$('##addnewcomponent').hide();$('##newrowcomponent').show();$('##newcomponent').focus();return false;">New Component...</a></li>
 										<li id="newrowcomponent" style="display:none;">
 											<input type="text" id="newcomponent" class="short" />
-											<input type="button" value="Add" onclick="add_proj_item('<cfif StructKeyExists(url,"p")>#url.p#<cfelse>#newID#</cfif>','component'); return false;" /> or <a href="##" onclick="$('##addnewcomponent').show();$('##newrowcomponent').hide();return false;">Cancel</a>
+											<input type="button" value="Add" onclick="add_proj_item('#url.p#','component'); return false;" /> or <a href="##" onclick="$('##addnewcomponent').show();$('##newrowcomponent').hide();return false;">Cancel</a>
 										</li>
 									</ul>
 								</fieldset>
@@ -347,7 +351,8 @@
 								</p>
 							</td></tr>
 						</table>
-
+						</cfif>
+						
 						</div>
 						</fieldset>
 					
