@@ -174,7 +174,7 @@
 	<div class="right">
 
 		<form action="#cgi.script_name#" method="post">
-		<div class="b">Show to-dos assigned to:</div>
+		<div class="b">Show milestones assigned to:</div>
 		<select name="assignedTo" onchange="this.form.submit();">
 			<option value="">Anyone</a>
 			<option value="#session.user.userid#"<cfif not compare(session.assignedTo,session.user.userID)> selected="selected"</cfif>>Me (#session.user.firstName# #session.user.lastName#)</a>
