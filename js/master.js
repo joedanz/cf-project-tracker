@@ -13,6 +13,16 @@ function togglemenu() {
 	return false;		
 }
 
+// *** ALL TO-DOS ***
+function all_mark_complete(projectid,todolistid,todoid) {
+    $('#cb' + todoid).fadeOut(500);
+	$.ajax({
+		type: 'get',
+		url: './ajax/todo.cfm',
+		data: 'action=mark_complete&tl=' + todolistid + '&t=' + todoid
+	});
+}
+
 // *** COMMENTS ***
 function comment_preview() {
 	$('#preview').show();

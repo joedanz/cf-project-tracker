@@ -36,7 +36,7 @@
 				</cfif>				
 				<cfif compare(arguments.todolistID,'')> AND tl.todolistID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35"></cfif>
 				<cfif compare(arguments.milestoneID,'')> AND ms.milestoneID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35"></cfif>
-			ORDER BY tl.rank, tl.added, tl.title
+			ORDER BY p.name, tl.projectID, tl.title, tl.rank, tl.added 
 		</cfquery>
 		<cfreturn qGetTodoLists>
 	</cffunction>

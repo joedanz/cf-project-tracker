@@ -18,15 +18,23 @@
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfargument name="todolistID" type="string" required="false" default="">
 		<cfargument name="completed" type="string" required="false" default="">
-		<cfargument name="order_by" type="string" required="false" default="rank,added">
+		<cfargument name="order_by" type="string" required="false" default="t.rank,t.added">
 		<cfargument name="assignedTo" type="string" required="false" default="">
 		<cfargument name="projectIDlist" type="string" required="false" default="">
 		<cfargument name="todoID" type="string" required="false" default="">
+		<cfargument name="fullJoin" type="boolean" required="false" default="false">
 		<cfset var qGetTodos = "">
 		<cfquery name="qGetTodos" datasource="#variables.dsn#">
 			SELECT t.todoID,t.todolistID,t.projectID,t.task,t.userID,t.rank,t.due,t.completed,t.svnrevision,
+					<cfif arguments.fullJoin>
+						tl.title, p.projectID, p.name,
+					</cfif>
 					u.firstName,u.lastName, count(tt.timetrackid) as numTimeTracks, sum(tt.hours) as numHours
-				FROM #variables.tableprefix#todos t 
+				FROM #variables.tableprefix#todos t
+					<cfif arguments.fullJoin> 
+						LEFT JOIN #variables.tableprefix#todolists tl ON t.todolistID = tl.todolistID
+						LEFT JOIN #variables.tableprefix#projects p ON tl.projectID = p.projectID
+					</cfif>
 					LEFT JOIN #variables.tableprefix#users u ON t.userID = u.userID
 					LEFT JOIN #variables.tableprefix#timetrack tt ON t.todoID = tt.itemid
 			WHERE 0=0
@@ -46,8 +54,13 @@
 				<cfif compare(arguments.assignedTo,'')>
 					AND t.userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.assignedTo#" maxlength="35">
 				</cfif>
-			GROUP BY t.todoID,t.todolistID,t.projectID,t.task,t.userID,t.rank,t.added,t.due,
+			GROUP BY
+				<cfif arguments.fullJoin>
+					p.name, p.projectID, tl.title, 
+				</cfif> 
+				t.todoID,t.todolistID,t.projectID,t.task,t.userID,t.rank,t.added,t.due,
 				t.completed,t.svnrevision,u.firstName,u.lastName
+				
 			ORDER BY #arguments.order_by#
 		</cfquery>
 		<cfreturn qGetTodos>
