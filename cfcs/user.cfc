@@ -50,6 +50,8 @@
 		<cfargument name="userID" type="string" required="false" default="">
 		<cfargument name="userIDlist" type="string" required="false" default="">
 		<cfargument name="username" type="string" required="false" default="">
+		<cfargument name="activeOnly" type="boolean" required="false" default="false">
+		
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT u.userID, u.firstName, u.lastName, u.username, u.email, u.phone, u.mobile, u.carrierID, 
@@ -67,6 +69,9 @@
 			</cfif>
 			<cfif compare(ARGUMENTS.username,'')>
 				AND u.username = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#" maxlength="30">
+			</cfif>
+			<cfif ARGUMENTS.activeOnly>
+				AND u.active = 1
 			</cfif>
 			ORDER BY u.lastName, u.firstName
 		</cfquery>		

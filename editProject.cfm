@@ -35,7 +35,7 @@
 	<cfset form.from = url.from>
 </cfif>
 
-<cfif StructKeyExists(form,"projectID")> <!--- update project --->
+<cfif StructKeyExists(form,"submit") and not compare(form.submit,'Update Project')> <!--- update project --->
 	<cfset application.project.update(form.projectid,form.ownerID,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_time,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_svn)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'edited')>
 	<cfif not compare(form.from,'admin')>
@@ -43,15 +43,15 @@
 	<cfelse>
 		<cflocation url="project.cfm?p=#form.projectID#" addtoken="false">
 	</cfif>
-<cfelseif StructKeyExists(form,"submit")> <!--- add project --->
-	<cfset application.project.add(form.projectID,session.user.userid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_time,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_svn,session.user.userid)>
-	<cfset application.role.add(form.projectID,session.user.userid,'1','2','2','2','2','2','1')>
+<cfelseif StructKeyExists(form,"submit") and not compare(form.submit,'Add Project')> <!--- add project --->
+	<cfset application.project.add(form.projectID,form.ownerid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_time,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_svn,session.user.userid)>
+	<cfset application.role.add(form.projectID,session.user.userid,'1','2','2','2','2','2','2','1')>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'added')>
 	<cfset session.user.projects = application.project.get(session.user.userid)>
 	<cfif not compare(form.from,'admin')>
 		<cflocation url="./admin/projects.cfm" addtoken="false">
 	<cfelse>
-		<cflocation url="project.cfm?p=#newID#" addtoken="false">
+		<cflocation url="project.cfm?p=#form.projectID#" addtoken="false">
 	</cfif>
 <cfelseif StructKeyExists(url,"del") and hash(url.p) eq url.ph> <!--- delete project --->
 	<cfset application.project.delete(url.p)>
@@ -63,6 +63,7 @@
 <cfparam name="form.name" default="">
 <cfparam name="form.description" default="">
 <cfparam name="form.form.display" default="1">
+<cfparam name="form.ownerID" default="">
 <cfparam name="form.clientID" default="">
 <cfparam name="form.clientName" default="&lt;none&gt;">
 <cfparam name="form.status" default="">
@@ -109,6 +110,7 @@
 	<cfset components = application.project.component(url.p)>
 	<cfset versions = application.project.version(url.p)>
 <cfelse>	
+	<cfset projectUsers = application.user.get(activeOnly=true)>
 	<cfset newID = createUUID()>
 </cfif>
 
@@ -173,16 +175,14 @@
 							<input type="checkbox" name="display" id="display" value="1" class="checkbox"<cfif form.display> checked="checked"</cfif> />Display description on overview page
 							</p>
 							
-							<cfif StructKeyExists(url,"p")>
 							<p>
 							<label for="owner">Owner:</label>
 							<select name="ownerID" id="owner">
 								<cfloop query="projectUsers">
-								<option value="#userID#"<cfif not compare(form.ownerID,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>
+								<option value="#userID#"<cfif not compare(form.ownerID,userID)> selected="selected"</cfif>>#firstName# #lastName#</option>
 								</cfloop>
 							</select>
 							</p>
-							</cfif>
 							
 							<p>
 							<label for="client">Client:</label>
