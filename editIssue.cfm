@@ -39,11 +39,6 @@
 <cfset milestones = application.milestone.get(url.p,'','incomplete')>
 <cfset files = application.file.get(url.p)>
 
-<cfif project.issues lt 2 and not session.user.admin>
-	<cfoutput><h2>You do not have permission to edit issues!!!</h2></cfoutput>
-	<cfabort>
-</cfif>
-
 <cfparam name="issue" default="">
 <cfparam name="detail" default="">
 <cfparam name="type" default="Bug">
@@ -60,6 +55,10 @@
 <cfparam name="title" default="">
 
 <cfif StructKeyExists(url,"i")>
+	<cfif project.issues lt 2 and not session.user.admin>
+		<cfoutput><h2>You do not have permission to edit issues!!!</h2></cfoutput>
+		<cfabort>
+	</cfif>
 	<cfset issueID = url.i>
 	<cfset thisIssue = application.issue.get(url.p,url.i)>
 	<cfset issue = thisIssue.issue>
