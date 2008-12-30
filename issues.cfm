@@ -14,8 +14,8 @@
 <cfelse>
 	<cfset project = application.project.get(session.user.userid,url.p)>
 </cfif>
-<cfset components = application.project.component()>
-<cfset versions = application.project.version()>
+<cfset components = application.project.component(url.p)>
+<cfset versions = application.project.version(url.p)>
 <cfset projectUsers = application.project.projectUsers(url.p)>
 <cfset issues = application.issue.get(url.p,'',form.status,'',form.type,form.severity,form.assignedTo,form.milestone,form.componentID,form.versionID)>
 <cfset milestones = application.milestone.get(url.p)>

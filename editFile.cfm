@@ -90,7 +90,7 @@
 				</div>
 				<div class="content">
 				 	
-					<form action="#cgi.script_name#?#cgi.query_string#" method="post" name="edit" id="edit" class="frm" enctype="multipart/form-data" onsubmit="return confirmSubmit();">
+					<form action="#cgi.script_name#?#cgi.query_string#" method="post" name="edit" id="edit" class="frm pb15" enctype="multipart/form-data" onsubmit="return confirmSubmit();">
 						<cfif not StructKeyExists(url,"f")>
 						<p>
 						<label for="fileupload" class="req">File:</label>
@@ -124,7 +124,7 @@
 							fckEditor.ToolbarSet	= "Basic";
 							fckEditor.create(); // create the editor.
 						</cfscript>&nbsp;
-						</p><br />			
+						</p>		
 						<label for="submit">&nbsp;</label>
 						<cfif StructKeyExists(url,"f")>
 							<input type="submit" class="button" name="submit" id="submit" value="Update File" onclick="return confirmSubmit();" />

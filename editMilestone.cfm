@@ -83,7 +83,7 @@
 				</div>
 				<div class="content">
 				 	
-					<form action="#cgi.script_name#?#cgi.query_string#" method="post" name="edit" id="edit" class="frm" onsubmit="return confirmSubmit();">
+					<form action="#cgi.script_name#?#cgi.query_string#" method="post" name="edit" id="edit" class="frm pb15" onsubmit="return confirmSubmit();">
 						
 		<div style="padding:0 15px;float:left;margin-bottom:50px;border-right:2px solid ##ddd;height:400px;">
 

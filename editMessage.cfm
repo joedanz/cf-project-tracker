@@ -82,7 +82,7 @@
 				</div>
 				<div class="content">
 				 	
-					<form action="#cgi.script_name#?#cgi.query_string#" method="post" name="edit" id="edit" class="frm" onsubmit="return confirmSubmitMsg();">
+					<form action="#cgi.script_name#?#cgi.query_string#" method="post" name="edit" id="edit" class="frm pb15" onsubmit="return confirmSubmitMsg();">
 						<p>
 						<label for="title" class="req">Title:</label>
 						<input type="text" name="title" id="title" value="#HTMLEditFormat(title)#" maxlength="120" />

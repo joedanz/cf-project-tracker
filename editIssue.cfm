@@ -97,7 +97,7 @@
 				</div>
 				<div class="content">
 				 	
-					<form action="#cgi.script_name#?#cgi.query_string#" method="post" name="edit" id="edit" class="frm" enctype="multipart/form-data" onsubmit="return confirmSubmitIssue();">
+					<form action="#cgi.script_name#?#cgi.query_string#" method="post" name="edit" id="edit" class="frm pb15" enctype="multipart/form-data" onsubmit="return confirmSubmitIssue();">
 						<p>
 						<label for="issue" class="req">Issue:</label>
 						<input type="text" name="issue" id="issue" value="#HTMLEditFormat(issue)#" maxlength="120" />
