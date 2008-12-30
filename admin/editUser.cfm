@@ -199,7 +199,7 @@
 <cfoutput>
 <div id="container">
 	<!--- left column --->
-	<div class="left">
+	<div class="left medium">
 		<div class="main">
 
 				<div class="header" style="margin-bottom:0;">

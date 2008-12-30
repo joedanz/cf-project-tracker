@@ -69,6 +69,10 @@ table.activity td {
 	width:69%; float:left;
 }
 
+#container div.medium {
+	width:82%;
+}
+
 #container div.full {
 	width:100%;
 }
@@ -87,7 +91,7 @@ table.activity td {
 }
 
 #container .left .main .submenu {
-	padding:10px 20px 10px 60px;
+	padding:10px 20px 10px 20px;
 }
 
 #container .left .main ul.submenu li {
@@ -96,7 +100,7 @@ table.activity td {
 }
 
 #container .left .main ul.submenu li a {
-	padding:4px 20px;
+	padding:4px 15px;
 }
 
 #container .left .main .header .rightmenu {

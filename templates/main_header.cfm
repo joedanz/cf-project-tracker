@@ -102,11 +102,11 @@
 				<cfif project.tab_issues eq 1 and userRole.issues gt 0>
 					<li><a href="#application.settings.mapping#/issues.cfm?p=#attributes.projectid#" title="Issues"<cfif find('/issue',cgi.script_name) or find('/editIssue.cfm',cgi.script_name)> class="current"</cfif>>Issues</a></li>
 				</cfif>
-				<cfif project.tab_time eq 1 and userRole.timetrack gt 0>
-					<li><a href="#application.settings.mapping#/time.cfm?p=#attributes.projectid#" title="Time"<cfif find('/time.cfm',cgi.script_name)> class="current"</cfif>>Time</a></li>
-				</cfif>
 				<cfif project.tab_files eq 1 and userRole.files gt 0>
 					<li><a href="#application.settings.mapping#/files.cfm?p=#attributes.projectid#" title="Files"<cfif find('/files.cfm',cgi.script_name) or find('/editFile.cfm',cgi.script_name)> class="current"</cfif>>Files</a></li>
+				</cfif>
+				<cfif project.tab_time eq 1 and userRole.timetrack gt 0>
+					<li><a href="#application.settings.mapping#/time.cfm?p=#attributes.projectid#" title="Time"<cfif find('/time.cfm',cgi.script_name)> class="current"</cfif>>Time</a></li>
 				</cfif>
 				<cfif project.tab_svn eq 1 and userRole.svn gt 0 and compare(attributes.svnurl,'')>
 				<li><a href="#application.settings.mapping#/svnBrowse.cfm?p=#attributes.projectid#" title="SVN"<cfif find('/svn',cgi.script_name)> class="current"</cfif>>SVN</a></li>

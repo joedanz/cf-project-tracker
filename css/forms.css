@@ -9,6 +9,10 @@ form.frm label {
 	float:left;
 }
 
+form.frm label.short {
+	width: 120px;
+}
+
 form.frm label.none {
 	width: 50px;
 	margin-right:6px;
@@ -30,7 +34,7 @@ form.frm label.full {
 }
 
 form.frm p input.cb {
-	margin-left:30px;
+	margin-left:5px;
 	width:auto;
 }
 
@@ -58,7 +62,7 @@ form.frm p input.short, form.frm p textarea.short, tr.input td input.short {
 	width:390px;
 }
 
-#container .left .main .content #listWrapper .todolist td form textarea {
+form.frm p input.short2, #container .left .main .content #listWrapper .todolist td form textarea {
 	width:300px;	
 }
 
@@ -224,7 +228,7 @@ fieldset.settings ul li {
 }
 fieldset.settings fieldset {
 	margin:auto;
-	width:300px;
+	width:250px;
 	border:1px solid #ccc;
 }
 

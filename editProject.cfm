@@ -23,13 +23,13 @@
 <cfparam name="form.reg_todos" default="0">
 <cfparam name="form.reg_time" default="0">
 <cfparam name="form.reg_svn" default="0">
-<cfparam name="form.tab_files" default="1">
-<cfparam name="form.tab_issues" default="1">
-<cfparam name="form.tab_msgs" default="1">
-<cfparam name="form.tab_mstones" default="1">
-<cfparam name="form.tab_todos" default="1">
-<cfparam name="form.tab_time" default="1">
-<cfparam name="form.tab_svn" default="1">
+<cfparam name="form.tab_files" default="0">
+<cfparam name="form.tab_issues" default="0">
+<cfparam name="form.tab_msgs" default="0">
+<cfparam name="form.tab_mstones" default="0">
+<cfparam name="form.tab_todos" default="0">
+<cfparam name="form.tab_time" default="0">
+<cfparam name="form.tab_svn" default="0">
 
 <cfif StructKeyExists(url,"from")>
 	<cfset form.from = url.from>
@@ -154,7 +154,7 @@
 							<div id="generalinfo"<cfif StructKeyExists(url,"p")> style="display:none;"</cfif>>
 							<p>
 							<label for="name" class="req">Name:</label>
-							<input type="text" name="name" id="name" value="#HTMLEditFormat(form.name)#" maxlength="50" />
+							<input type="text" name="name" id="name" value="#HTMLEditFormat(form.name)#" maxlength="50" class="short" />
 							</p>					
 							<p>
 							<label for="description">Description:</label> 
@@ -164,7 +164,7 @@
 								fckEditor.instanceName	= "description";
 								fckEditor.value			= '#form.description#';
 								fckEditor.basePath		= basePath;
-								fckEditor.width			= 460;
+								fckEditor.width			= 390;
 								fckEditor.height		= 220;
 								fckEditor.ToolbarSet	= "Basic";
 								fckEditor.create(); // create the editor.
@@ -298,7 +298,7 @@
 						<legend><a href="##" onclick="section_toggle('issue');return false;" class="collapsed" id="issuelink"> Issue Details</a></legend>
 						<div id="issueinfo" style="display:none;">
 						<p>
-						<label for="ticketPrefix">Ticket Prefix:</label>
+						<label for="ticketPrefix" class="short">Ticket Prefix:</label>
 						<input type="text" name="ticketPrefix" id="ticketPrefix" value="#HTMLEditFormat(form.ticketPrefix)#" maxlength="2" style="width:80px" />
 						<span style="font-size:.8em">(optional two-letter prefix used when generating trouble tickets)</span>
 						</p>

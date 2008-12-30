@@ -37,7 +37,7 @@
 					</p>
 					<p>
 					<label for="api_key">API Key:</label>
-					<input type="text" name="api_key" id="api_key" class="short" value="#application.settings.api_key#" /> <a href="#cgi.script_name#?newkey">new key</a>
+					<input type="text" name="api_key" id="api_key" class="short2" value="#application.settings.api_key#" /> <a href="#cgi.script_name#?newkey">new key</a>
 					</p>
 					
 					<label for="submit">&nbsp;</label>
