@@ -26,7 +26,7 @@
 <div id="container">
 <cfif project.recordCount>
 	<!--- left column --->
-	<div class="left">
+	<div class="left full">
 		<div class="main">
 
 			<div class="header">
