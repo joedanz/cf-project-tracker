@@ -18,11 +18,14 @@
 		<cfargument name="timetrackID" type="string" required="false" default="">
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfargument name="userID" type="string" required="false" default="">
+		<cfargument name="startDate" type="string" required="false" default="">
+		<cfargument name="endDate" type="string" required="false" default="">
+		<cfargument name="itemID" type="string" required="false" default="">
 		<cfset var qGet = "">
 
 		<cfquery name="qGet" datasource="#variables.dsn#">
 			SELECT tt.timetrackID, tt.projectID, tt.userID, tt.dateStamp, tt.hours, tt.description,
-					tt.itemID, tt.itemType,	u.firstName, u.lastName, t.todolistID, t.task, t.task
+					tt.itemID, tt.itemType,	u.firstName, u.lastName, t.todolistID, t.task
 				FROM #variables.tableprefix#timetrack tt 
 					LEFT JOIN #variables.tableprefix#users u on tt.userid = u.userid
 					LEFT JOIN #variables.tableprefix#todos t ON tt.itemID = t.todoID
@@ -38,6 +41,16 @@
 				<cfif compare(arguments.userID,'')>
 					AND tt.userID = 
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
+				</cfif>
+				<cfif compare(arguments.startDate,'')>
+					AND tt.dateStamp >= #CreateODBCDate(arguments.startDate)#
+				</cfif>
+				<cfif compare(arguments.endDate,'')>
+					AND tt.dateStamp <= #CreateODBCDate(arguments.endDate)#
+				</cfif>
+				<cfif compare(arguments.itemID,'')>
+					AND tt.itemID = 
+						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.itemID#" maxlength="35">
 				</cfif>
 			ORDER BY dateStamp desc
 		</cfquery>

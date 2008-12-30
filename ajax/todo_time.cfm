@@ -27,7 +27,7 @@
 				<cfif numHours gt 0>
 				<div style="background-color:##ddd;">
 					<span class="b" style="background-color:#session.style#;color:##fff;padding:0 3px;margin-left:5px;">#numberFormat(numHours,"0.0")#</span> hour<cfif numHours neq 1>s</cfif> total &nbsp;&nbsp;
-					<small><a href="time.cfm?t=#url.t#">View the time log</a> for this to-do item</small>
+					<small><a href="timeReport.cfm?p=#url.p#&t=#url.t#">View the time log</a> for this to-do item</small>
 				</div>
 				</cfif>
 
