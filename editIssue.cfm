@@ -33,8 +33,8 @@
 <cfelse>
 	<cfset project = application.project.get(session.user.userid,url.p)>
 </cfif>
-<cfset components = application.project.component()>
-<cfset versions = application.project.version()>
+<cfset components = application.project.component(url.p)>
+<cfset versions = application.project.version(url.p)>
 <cfset projectUsers = application.project.projectUsers(url.p)>
 <cfset milestones = application.milestone.get(url.p,'','incomplete')>
 <cfset files = application.file.get(url.p)>
