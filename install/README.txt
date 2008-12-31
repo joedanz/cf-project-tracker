@@ -2,7 +2,7 @@ Project Tracker v2.4
 by Joe Danziger (joe@ajaxcf.com)
 
 Initial Release: June 5, 2007
-Current Release: December 30, 2008
+Current Release: December 31, 2008
 
 This application was inspired by Basecamp (http://www.basecamphq.com) 
 put out by the 37signals crew.  Not too much documentation but 
@@ -73,7 +73,7 @@ To Jason Dean for getting things going on Oracle.
 
 FEEDBACK?
 Please email joe@ajaxcf.com with any suggestions or other feedback.
-My wishlist, should you be so inclined, is located at:
+My Amazon Wishlist, should you be so inclined, is located at:
 http://amazon.com/gp/registry/wishlist/1X4EGLWAC43FJ/102-5824999-1765764
 
 PROJECT HOME:
