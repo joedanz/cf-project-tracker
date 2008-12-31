@@ -40,6 +40,7 @@
 			<cfset application.role = createObject("component","cfcs.role").init(settings)>
 			<cfset application.screenshot = createObject("component","cfcs.screenshot").init(settings)>
 			<cfset application.search = createObject("component","cfcs.search").init(settings)>
+			<cfset application.svn = createObject("component","cfcs.svn").init(settings)>
 			<cfset application.timetrack = createObject("component","cfcs.timetrack").init(settings)>
 			<cfset application.todo = createObject("component","cfcs.todo").init(settings)>
 			<cfset application.todolist = createObject("component","cfcs.todolist").init(settings)>

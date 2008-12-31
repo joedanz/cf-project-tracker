@@ -116,7 +116,6 @@ CREATE TABLE `pt_issues` (
   `componentID` varchar(35) default NULL,
   `versionID` varchar(35) default NULL,
   `dueDate` datetime default NULL,
-  `svnrevision` int(6) default NULL,
   PRIMARY KEY  (`issueID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -252,6 +251,17 @@ CREATE TABLE `pt_settings` (
   PRIMARY KEY  (`settingID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `pt_svn_link` */
+
+CREATE TABLE `pt_svn_link` (
+  `linkID` char(35) NOT NULL,
+  `projectID` char(35) default NULL,
+  `revision` int(5) default NULL,
+  `itemID` char(35) default NULL,
+  `itemType` varchar(10) default NULL,
+  PRIMARY KEY  (`linkID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `pt_timetrack` */
 
 CREATE TABLE `pt_timetrack` (
@@ -293,7 +303,6 @@ CREATE TABLE `pt_todos` (
   `added` datetime default NULL,
   `due` datetime default NULL,
   `completed` datetime default NULL,
-  `svnrevision` int(6) default NULL,
   PRIMARY KEY  (`todoID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

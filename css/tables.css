@@ -2,13 +2,13 @@
 table.full { width:100%; }
 table.half { width:65%; margin-right:auto; margin-left:auto; }
 table.activity tbody td { padding:4px; text-align:left; }
-table.clean tr th, table.clean tr td, table.svn tr th, table.svn tr td { padding:4px 0; }
+table.clean tr th, table.clean tr td, table.svn tr th, table.svn tr td { padding:4px 2px; vertical-align:top; }
 table.svn tr th:first-child, table.svn tr td:first-child { padding:4px 0 4px 5px; }
 table#milestone_cal tr th, table#milestone_cal tr td { padding:3px; vertical-align:top; }
 table#milestone_cal tr td ul.cal_ms li { padding-top:4px; }
 table.todo td { padding:3px; vertical-align:top; }
 table.todo tr td { font-size:.8em; }
-table.todoadd tr td { font-size:.9em; }
+table.todoadd tr td, table.sm tr { font-size:.9em; }
 table.todo tr td.pad { padding-left:12px; }
 
 /* STYLE */
@@ -19,7 +19,7 @@ table.svn caption { font-size:1.2em; font-weight: bold; margin-bottom:10px; back
 table.svn tfoot tr td { padding:3px 5px; background-color:#ddd; }
 table.clean tbody tr.odd, table.svn tbody tr.odd { background: #f9f9f9;	border-top:1px solid #FFF; }
 table.clean tr, table.svn tr { border-bottom:1px solid #ccc; }
-table.clean tr th, table.svn tr th { font-weight:bold; }
+table.clean tr th, table.svn tr th { font-weight:bold; vertical-align:bottom; }
 table.activity caption { font-size:1.2em; font-weight:bold; background-color:#eee; padding:4px; }
 table.activity thead th { 
 	padding-right:4px; padding-top:4px;	padding-bottom:4px;

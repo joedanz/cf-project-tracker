@@ -245,7 +245,7 @@ fieldset.settings table td { vertical-align:top; }
 
 #container .left .main .content #listWrapper .todolist td form input,
 #container .left .main .content #listWrapper .todolist td form textarea,
-div#report input, div#report select {
+div#report input, div#report select, form.frm select.rev {
 	padding:2px;
 }
 

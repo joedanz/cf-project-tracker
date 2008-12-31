@@ -302,6 +302,36 @@ function confirm_item_delete(projectid,itemid,item,type) {
 	}
 }
 
+// *** SVN ***
+function add_svn_link(projectid,itemid,itemtype) {
+	$.ajax({
+		type: 'post',
+		url: './ajax/svn_link.cfm',
+		data: 'a=add&p=' + projectid + '&r=' + escape($('#rev').val()) + '&i=' + itemid + '&t=' + itemtype + '&m=' + $('#rev :selected').text(),
+		success: function(txt){
+			$('#revrows').prepend(txt);
+		}
+	});
+	var count = parseInt($('#revcount').html());
+	$('#revcount').html(eval(count+1));
+	$("#rev").removeOption($('#rev').val());
+}
+
+function delete_svn_link(revision,linkid,msg) {
+	var check = confirm('Are you sure you wish to remove the link to revision ' + revision + '?');	
+	if (check == true) {
+		$('#r' + revision).fadeOut(600, function(){	$(this).remove(); });
+		$.ajax({
+			type: 'post',
+			url: './ajax/svn_link.cfm',
+			data: 'a=del&l=' + linkid
+		});
+		var count = parseInt($('#revcount').html());
+		$('#revcount').html(eval(count-1));
+		$("#rev").addOption(revision+'|'+msg,revision + ' - ' + Left(msg,50));
+	} else return false;
+}
+
 // *** TIME TRACKING ***
 function add_time_row(projectid) {
 	var errors = '';
@@ -621,3 +651,14 @@ $.tablesorter.addParser({
     }, 
     type: 'numeric'
 });
+
+// MISC functions
+function Left(str, n)
+{
+   if (n <= 0)
+         return "";
+   else if (n > String(str).length)
+         return str;
+   else
+         return String(str).substring(0,n);
+}

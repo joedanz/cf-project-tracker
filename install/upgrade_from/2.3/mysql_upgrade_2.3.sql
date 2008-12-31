@@ -4,7 +4,6 @@
 ALTER TABLE `pt_issues` ADD `componentID` varchar(35) default NULL;
 ALTER TABLE `pt_issues` ADD `versionID` varchar(35) default NULL;
 ALTER TABLE `pt_issues` ADD `dueDate` datetime default NULL;
-ALTER TABLE `pt_issues` ADD `svnrevision` int(6) default NULL;
 
 /* pt_project_components */
 CREATE TABLE `pt_project_components` (
@@ -44,6 +43,16 @@ UPDATE `pt_projects` set `tab_svn` = 1;
 UPDATE `pt_projects` set `tab_time` = 1;
 UPDATE `pt_projects` set `tab_todos` = 1;
 
+/* pt_svn_link */
+CREATE TABLE `pt_svn_link` (
+  `linkID` char(35) NOT NULL,
+  `projectID` char(35) default NULL,
+  `revision` int(5) default NULL,
+  `itemID` char(35) default NULL,
+  `itemType` varchar(10) default NULL,
+  PRIMARY KEY  (`linkID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /* pt_timetrack */
 CREATE TABLE `pt_timetrack` (
   `timetrackID` char(35) NOT NULL,
@@ -63,3 +72,4 @@ UPDATE `pt_todolists` set `timetrack` = 0;
 
 /* pt_todos */
 ALTER TABLE `pt_todos` MODIFY `task` varchar(300) default NULL;
+ALTER TABLE `pt_todos` DROP COLUMN `svnrevision`;

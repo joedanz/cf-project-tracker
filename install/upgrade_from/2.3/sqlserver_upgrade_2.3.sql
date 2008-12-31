@@ -7,8 +7,6 @@ ALTER TABLE [dbo].[pt_issues] ADD [versionID] [nvarchar] (35) COLLATE SQL_Latin1
 GO
 ALTER TABLE [dbo].[pt_issues] ADD [dueDate] [datetime] NULL
 GO
-ALTER TABLE [dbo].[pt_issues] ADD [svnrevision] [int] NULL 
-GO
 
 /* pt_projects */
 ALTER TABLE [dbo].[pt_projects] ADD [reg_time] [tinyint] NULL
@@ -78,6 +76,22 @@ ALTER TABLE [dbo].[pt_project_versions] WITH NOCHECK ADD
 	)  ON [PRIMARY] 
 GO
 
+/* pt_svn_link */
+CREATE TABLE [dbo].[pt_svn_link] (
+	[linkID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[revision] [smallint] NULL ,
+	[itemID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[itemType] [nvarchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL 
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[pt_svn_link] WITH NOCHECK ADD 
+	CONSTRAINT [PK_pt_svn_link] PRIMARY KEY  CLUSTERED 
+	(
+		[linkID]
+	)  ON [PRIMARY] 
+GO
+
 /* pt_timetrack */
 CREATE TABLE [pt_timetrack] (
 	[timetrackID] char (35) NOT NULL,
@@ -105,4 +119,6 @@ GO
 
 /* pt_todos */
 ALTER TABLE [dbo].[pt_todos] ALTER COLUMN [task] [nvarchar] (300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
+ALTER TABLE [dbo].[pt_todos] DROP COLUMN [svnrevision]
 GO

@@ -105,7 +105,6 @@
 				<field ColumnName="componentID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
 				<field ColumnName="versionID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
 				<field ColumnName="dueDate" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
-				<field ColumnName="svnrevision" CF_DataType="CF_SQL_INTEGER" Precision="10" Scale="0" />
 			</table>
 			<table name="#arguments.tablePrefix#message_notify">
 				<field ColumnName="messageID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
@@ -203,6 +202,13 @@
 				<field ColumnName="setting" CF_DataType="CF_SQL_VARCHAR" Length="20" />
 				<field ColumnName="settingValue" CF_DataType="CF_SQL_VARCHAR" Length="50" />
 			</table>
+			<table name="#arguments.tablePrefix#svn_link">
+				<field ColumnName="linkID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" Length="35" />
+				<field ColumnName="revision" CF_DataType="CF_SQL_INTEGER" Precision="5" Scale="0" />
+				<field ColumnName="itemID" CF_DataType="CF_SQL_CHAR" Length="35" />
+				<field ColumnName="itemType" CF_DataType="CF_SQL_VARCHAR" Length="10" />
+			</table>
 			<table name="#arguments.tablePrefix#tags">
 				<field ColumnName="projectID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
 				<field ColumnName="tag" CF_DataType="CF_SQL_VARCHAR" Length="50" />
@@ -239,7 +245,6 @@
 				<field ColumnName="rank" CF_DataType="CF_SQL_INTEGER" Precision="10" Scale="0" />
 				<field ColumnName="added" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 				<field ColumnName="completed" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
-				<field ColumnName="svnrevision" CF_DataType="CF_SQL_INTEGER" Precision="10" Scale="0" />
 				<field ColumnName="due" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 			</table>
 			<table name="#arguments.tablePrefix#users">

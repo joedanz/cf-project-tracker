@@ -7,8 +7,7 @@ add
    (
    componentID varchar2(35) NULL, 
    versionID varchar2(35) NULL,
-   dueDate date,
-   svnrevision NUMBER(10,0)
+   dueDate date
    );
 
 /* pt_project_components */
@@ -59,6 +58,16 @@ update pt_projects set tab_svn = 1;
 update pt_projects set tab_time = 1;
 update pt_projects set tab_todos = 1;
 
+/* pt_svn_link */
+CREATE TABLE  "PT_SVN_LINK" 
+   (	"LINKID" CHAR(35) NOT NULL ENABLE, 
+	"PROJECTID" CHAR(35), 
+	"REVISION" NUMBER(5,0), 
+	"ITEMID" CHAR(35), 
+	"ITEMTYPE" VARCHAR2(10), 
+	 CONSTRAINT "PK_PT_SVN_LINK" PRIMARY KEY ("LINKID") ENABLE
+   );
+
 /* pt_timetrack */
 CREATE TABLE  "PT_TIMETRACK" 
    (	"TIMETRACKID" CHAR(35) NOT NULL ENABLE, 
@@ -87,4 +96,10 @@ alter table
 modify 
 	(
 	task varchar2(300) NULL
+	);
+alter table 
+	pt_todos 
+drop 
+	(
+	svnrevision
 	);

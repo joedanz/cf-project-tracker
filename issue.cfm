@@ -9,6 +9,8 @@
 </cfif>
 
 <cfif project.issues eq 2>
+	<cfset svn = createObject("component", "cfcs.SVNBrowser").init(project.svnurl,project.svnuser,project.svnpass)>
+	<cfset log = svn.getLog(numEntries=1000)>
 	<cfif StructKeyExists(form,"submit")>
 		<cfset application.comment.add(createUUID(),url.p,'issue',url.i,session.user.userid,form.comment)>
 	<cfelseif StructKeyExists(form,"resolve")>
@@ -44,10 +46,28 @@
 		<cfset issue = application.issue.get(url.p,url.i)>
 		<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Issue',url.i,issue.issue,'re-opened')>
 		<cfset application.notify.issueUpdate(url.p,url.i)>
+	<cfelseif StructKeyExists(form,"revid")>
+		<cfset revs = application.svn.getLinks(itemID=url.i,itemType='issue')>
+		<cfquery name="findRev1" dbtype="query">
+			select revision from revs where revision = #form.revid#
+		</cfquery>
+		<cfif not findRev1.recordCount>
+			<cfquery name="findRev2" dbtype="query">
+				select revision from log where revision = #form.revid#
+			</cfquery>
+			<cfif findRev2.recordCount>	
+				<cfset application.svn.addLink(createUUID(),url.p,form.revid,url.i,'issue')>
+			<cfelse>
+				<cfset error = "Revision number not found!">
+			</cfif>
+		<cfelse>
+			<cfset error = "Revision number is already linked!">
+		</cfif>
 	</cfif>
 </cfif>
 
 <cfset issue = application.issue.get(url.p,url.i)>
+<cfset revs = application.svn.getLinks(itemID=url.i,itemType='issue')>
 <cfset comments = application.comment.get(url.p,'issue',url.i)>
 <cfset attachments = application.file.getFileList(url.p,url.i,'issue')>
 <cfset screenshots = application.screenshot.get(url.i)>
@@ -61,7 +81,8 @@
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#project.name# &raquo; Issue Detail" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
 
-<cfhtmlhead text='<script type="text/javascript" src="./js/comments.js"></script>
+<cfhtmlhead text='<script type="text/javascript" src="./js/jquery-select.js"></script>
+<script type="text/javascript" src="./js/comments.js"></script>
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
 		$("a[rel^=''prettyPhoto'']").prettyPhoto();
@@ -211,10 +232,10 @@
 							</tr>
 							</cfif>
 						</table>	
-						
+
 						<div class="attachbar">
 							<cfif project.issues eq 2><span style="float:right;margin-top:2px;"><a href="editScreen.cfm?p=#url.p#&i=#url.i#" class="button2 nounder">Upload Screenshot</a></span></cfif>
-							#screenshots.recordCount# screenshot<cfif screenshots.recordCount neq 1>s are<cfelse> is</cfif> associated with this issue
+							Screenshots (#screenshots.recordCount#)
 						</div>						
 						<cfif screenshots.recordCount>
 						<a name="screen"></a>
@@ -245,10 +266,71 @@
 							</tbody>
 						</table>
 						</cfif>
-											
+
+						<div class="attachbar">
+							SVN Revisions (<span id="revcount">#revs.recordCount#</span>)
+						</div>
+						<form action="#cgi.script_name#?#cgi.query_string###revcount" class="frm" method="post">
+						<table>
+							<tr>
+								<td>
+								<cfif project.issues eq 2>
+									<cfquery name="reverselog" dbtype="query">
+										select * from log order by revision asc
+									</cfquery>
+									<cfquery name="svnfull" dbtype="query">
+										select * from log, revs
+											where log.revision = revs.revision
+									</cfquery>				
+									<p>
+									<select name="revision" id="rev" class="rev">
+										<option value="">Recent SVN Revisions</option>
+										<cfloop from="#reverselog.recordCount#" to="#Max(reverselog.recordCount-50,1)#" step="-1" index="i">
+											<cfif not listFind(valueList(svnfull.revision),reverselog.revision[i])>
+											<option value="#reverselog.revision[i]#|#reverselog.message[i]#">#reverselog.revision[i]# - #left(reverselog.message[i],50)#</option>
+											</cfif>
+										</cfloop>
+									</select>
+									<input type="button" class="button2 shortest" value="Add Link" onclick="add_svn_link('#url.p#','#url.i#','issue');" />
+									</p> 
+								</cfif>
+								</td>
+								<td>
+									<p>
+									<label for="revid" class="none">Rev ##:</label>
+									<input type="text" name="revid" id="revid" class="shortest" />
+									<input type="submit" class="button2 shortest" value="Add Link" />
+									</p>
+								</td>
+							</tr>
+						</table>
+						</form>
+						<cfif StructKeyExists(form,"revid") and isDefined("error")>
+							<div class="alertbox">#error#</div>
+						</cfif>
+						<cfif svnfull.recordCount>
+						<table class="clean full sm">
+							<thead>
+								<tr>
+									<th>Rev</th>
+									<th>Comment</th>
+								</tr>
+							</thead>
+							<tbody id="revrows">
+								<cfloop query="svnfull">
+									<tr id="r#revision#">
+										<td>#revision#</td>
+										<td>#message#</td>
+										<td><a href="##" onclick="delete_svn_link('#revision#','#linkID#','#JSStringFormat(message)#');return false;"><img src="./images/x.png" height="12" width="12" border="0" alt="Delete Link?" /></a></td>
+									</tr>
+								</cfloop>
+							</tbody>
+						</table>
+						</cfif>
+										
 						<cfif attachments.recordCount>
 						<a name="attach"></a>
-						<div class="attachbar">#attachments.recordCount# project file<cfif attachments.recordCount neq 1>s are<cfelse> is</cfif> associated with this issue</div>
+						<div class="attachbar">Files (#attachments.recordCount#)</div>
 						<table class="svn full" id="issues">
 							<thead>
 								<tr>
@@ -274,7 +356,7 @@
 						</cfif>
 						
 						<a name="comments" />
-						<div class="commentbar"><span id="cnum">#comments.recordCount#</span> comment<cfif comments.recordCount neq 1>s</cfif> so far</div>
+						<div class="commentbar">Comments (<span id="cnum">#comments.recordCount#</span>)</div>
 	
 						<cfloop query="comments">
 						<div id="#commentID#">
@@ -318,7 +400,7 @@
 						</cfif>			
 						
 						
-						<div class="commentbar">Audit Trail</div>
+						<div class="commentbar">Audit Trail (#activity.recordCount#)</div>
 						<ul class="nobullet">
 						<cfloop query="activity">
 							<li class="collapsed"><span class="b">Ticket #activity#</span> by #firstName# #lastName# #request.udf.relativeTime(stamp)#</li> 

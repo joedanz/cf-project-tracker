@@ -41,8 +41,8 @@ fieldset { border:1px solid #666; }
 	cursor:hand;
 }
 .alertbox {
-	background:#ffebeb url(../images/delete.gif) no-repeat;
-	background-position:7px 7px;
+	background:#ffebeb url(../images/stop_round.gif) no-repeat;
+	background-position:9px 9px;
 	border:1px solid #f5c1c2;
 	font-weight:700;
 	color:#9e0b0f;
