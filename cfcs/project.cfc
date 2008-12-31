@@ -21,6 +21,7 @@
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT p.projectID, p.ownerID, p.clientID, p.name, p.description, p.display, p.added, 
 				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass,
+				p.tab_files, p.tab_issues, p.tab_msgs, p.tab_mstones,p.tab_todos, p.tab_time, p.tab_svn,
 				<cfif compare(arguments.userID,'')> 
 					pu.admin, pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos, pu.timetrack, pu.svn,
 				<cfelse>

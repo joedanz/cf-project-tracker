@@ -267,65 +267,67 @@
 						</table>
 						</cfif>
 
-						<div class="attachbar">
-							SVN Revisions (<span id="revcount">#revs.recordCount#</span>)
-						</div>
-						<form action="#cgi.script_name#?#cgi.query_string###revcount" class="frm" method="post">
-						<table>
-							<tr>
-								<td>
-								<cfif project.issues eq 2>
-									<cfquery name="reverselog" dbtype="query">
-										select * from log order by revision asc
-									</cfquery>
-									<cfquery name="svnfull" dbtype="query">
-										select * from log, revs
-											where log.revision = revs.revision
-									</cfquery>				
-									<p>
-									<select name="revision" id="rev" class="rev">
-										<option value="">Recent SVN Revisions</option>
-										<cfloop from="#reverselog.recordCount#" to="#Max(reverselog.recordCount-50,1)#" step="-1" index="i">
-											<cfif not listFind(valueList(svnfull.revision),reverselog.revision[i])>
-											<option value="#reverselog.revision[i]#|#reverselog.message[i]#">#reverselog.revision[i]# - #left(reverselog.message[i],50)#</option>
-											</cfif>
-										</cfloop>
-									</select>
-									<input type="button" class="button2 shortest" value="Add Link" onclick="add_svn_link('#url.p#','#url.i#','issue');" />
-									</p> 
-								</cfif>
-								</td>
-								<td>
-									<p>
-									<label for="revid" class="none">Rev ##:</label>
-									<input type="text" name="revid" id="revid" class="shortest" />
-									<input type="submit" class="button2 shortest" value="Add Link" />
-									</p>
-								</td>
-							</tr>
-						</table>
-						</form>
-						<cfif StructKeyExists(form,"revid") and isDefined("error")>
-							<div class="alertbox">#error#</div>
-						</cfif>
-						<cfif svnfull.recordCount>
-						<table class="clean full sm">
-							<thead>
+						<cfif project.tab_svn eq 1 and project.svn gt 0 and compare(project.svnurl,'')>
+							<div class="attachbar">
+								SVN Revisions (<span id="revcount">#revs.recordCount#</span>)
+							</div>
+							<form action="#cgi.script_name#?#cgi.query_string###revcount" class="frm" method="post">
+							<table>
 								<tr>
-									<th>Rev</th>
-									<th>Comment</th>
+									<td>
+									<cfif project.issues eq 2>
+										<cfquery name="reverselog" dbtype="query">
+											select * from log order by revision asc
+										</cfquery>
+										<cfquery name="svnfull" dbtype="query">
+											select * from log, revs
+												where log.revision = revs.revision
+										</cfquery>				
+										<p>
+										<select name="revision" id="rev" class="rev">
+											<option value="">Recent SVN Revisions</option>
+											<cfloop from="#reverselog.recordCount#" to="#Max(reverselog.recordCount-50,1)#" step="-1" index="i">
+												<cfif not listFind(valueList(svnfull.revision),reverselog.revision[i])>
+												<option value="#reverselog.revision[i]#|#reverselog.message[i]#">#reverselog.revision[i]# - #left(reverselog.message[i],50)#</option>
+												</cfif>
+											</cfloop>
+										</select>
+										<input type="button" class="button2 shortest" value="Add Link" onclick="add_svn_link('#url.p#','#url.i#','issue');" />
+										</p> 
+									</cfif>
+									</td>
+									<td>
+										<p>
+										<label for="revid" class="none">Rev ##:</label>
+										<input type="text" name="revid" id="revid" class="shortest" />
+										<input type="submit" class="button2 shortest" value="Add Link" />
+										</p>
+									</td>
 								</tr>
-							</thead>
-							<tbody id="revrows">
-								<cfloop query="svnfull">
-									<tr id="r#revision#">
-										<td>#revision#</td>
-										<td>#message#</td>
-										<td><a href="##" onclick="delete_svn_link('#revision#','#linkID#','#JSStringFormat(message)#');return false;"><img src="./images/x.png" height="12" width="12" border="0" alt="Delete Link?" /></a></td>
+							</table>
+							</form>
+							<cfif StructKeyExists(form,"revid") and isDefined("error")>
+								<div class="alertbox">#error#</div>
+							</cfif>
+							<cfif svnfull.recordCount>
+							<table class="clean full sm">
+								<thead>
+									<tr>
+										<th>Rev</th>
+										<th>Comment</th>
 									</tr>
-								</cfloop>
-							</tbody>
-						</table>
+								</thead>
+								<tbody id="revrows">
+									<cfloop query="svnfull">
+										<tr id="r#revision#">
+											<td>#revision#</td>
+											<td>#message#</td>
+											<td><a href="##" onclick="delete_svn_link('#revision#','#linkID#','#JSStringFormat(message)#');return false;"><img src="./images/x.png" height="12" width="12" border="0" alt="Delete Link?" /></a></td>
+										</tr>
+									</cfloop>
+								</tbody>
+							</table>
+							</cfif>
 						</cfif>
 										
 						<cfif attachments.recordCount>
