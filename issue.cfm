@@ -9,8 +9,10 @@
 </cfif>
 
 <cfif project.issues eq 2>
-	<cfset svn = createObject("component", "cfcs.SVNBrowser").init(project.svnurl,project.svnuser,project.svnpass)>
-	<cfset log = svn.getLog(numEntries=1000)>
+	<cfif project.tab_svn eq 1 and project.svn gt 0 and compare(project.svnurl,'')>
+		<cfset svn = createObject("component", "cfcs.SVNBrowser").init(project.svnurl,project.svnuser,project.svnpass)>
+		<cfset log = svn.getLog(numEntries=1000)>
+	</cfif>
 	<cfif StructKeyExists(form,"submit")>
 		<cfset application.comment.add(createUUID(),url.p,'issue',url.i,session.user.userid,form.comment)>
 	<cfelseif StructKeyExists(form,"resolve")>
