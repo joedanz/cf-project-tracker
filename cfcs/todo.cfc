@@ -99,7 +99,6 @@
 		<cfargument name="task" type="string" required="true">
 		<cfargument name="userID" type="uuid" required="true">
 		<cfargument name="due" type="string" required="true">
-		<cfargument name="svnRevision" type="numeric" required="false" default="0">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#todos
 				SET task = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.task#" maxlength="300">,
@@ -109,8 +108,7 @@
 							<cfqueryparam cfsqltype="cf_sql_date" value="#arguments.due#">
 						<cfelse>
 							NULL
-						</cfif>,
-					svnRevision = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.svnRevision#">
+						</cfif>
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 					AND todolistID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">
 					AND todoID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todoID#" maxlength="35">

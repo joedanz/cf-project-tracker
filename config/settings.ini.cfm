@@ -13,4 +13,4 @@ mailPassword=
 showDebug=false
 errorPage=true
 showError=false
-version=2.4.1
+version=2.4.2
