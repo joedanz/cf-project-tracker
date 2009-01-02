@@ -25,7 +25,7 @@
 		<cfargument name="fullJoin" type="boolean" required="false" default="false">
 		<cfset var qGetTodos = "">
 		<cfquery name="qGetTodos" datasource="#variables.dsn#">
-			SELECT t.todoID,t.todolistID,t.projectID,t.task,t.userID,t.rank,t.due,t.completed,t.svnrevision,
+			SELECT t.todoID,t.todolistID,t.projectID,t.task,t.userID,t.rank,t.due,t.completed,
 					<cfif arguments.fullJoin>
 						tl.title, p.projectID, p.name,
 					</cfif>
@@ -59,7 +59,7 @@
 					p.name, p.projectID, tl.title, 
 				</cfif> 
 				t.todoID,t.todolistID,t.projectID,t.task,t.userID,t.rank,t.added,t.due,
-				t.completed,t.svnrevision,u.firstName,u.lastName
+				t.completed,u.firstName,u.lastName
 				
 			ORDER BY #arguments.order_by#
 		</cfquery>
