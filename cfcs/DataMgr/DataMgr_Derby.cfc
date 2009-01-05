@@ -1,18 +1,27 @@
 <!--- 2.2 Beta 3 (Build 143) --->
 <!--- Last Updated: 2008-12-02 --->
 <!--- Created by Steve Bryant 2004-12-08 --->
-<cfcomponent extends="DataMgr" displayname="Data Manager for PostGreSQL" hint="I manage data interactions with the PostGreSQL database. I can be used to handle inserts/updates.">
+<cfcomponent extends="DataMgr" displayname="Data Manager for MS SQL Server" hint="I manage data interactions with the Derby database. I can be used to handle inserts/updates.">
 
 <cffunction name="getDatabase" access="public" returntype="string" output="no" hint="I return the database platform being used (Access,MS SQL,MySQL etc).">
-	<cfreturn "PostGreSQL">
+	<cfreturn "Derby">
 </cffunction>
 
 <cffunction name="getDatabaseShortString" access="public" returntype="string" output="no" hint="I return the string that can be found in the driver or JDBC URL for the database platform being used.">
-	<cfreturn "postgre">
+	<cfreturn "derby">
 </cffunction>
 
 <cffunction name="getDatabaseDriver" access="public" returntype="string" output="no" hint="I return the string that can be found in the driver or JDBC URL for the database platform being used.">
-	<cfreturn "PostgreSQL">
+	<cfreturn "Apache Derby Embedded">
+</cffunction>
+
+<cffunction name="getDatabaseProperties" access="public" returntype="struct" output="no" hint="I return some properties about this database">
+	
+	<cfset var sProps = StructNew()>
+	
+	<cfset sProps["areSubqueriesSortable"] = false>
+	
+	<cfreturn sProps>
 </cffunction>
 
 <cffunction name="sqlCreateColumn" access="public" returntype="any" output="false" hint="">
@@ -22,7 +31,7 @@
 	<cfset var type = getDBDataType(sField.CF_DataType)>
 	<cfset var result = "">
 	
-	<cfsavecontent variable="result"><cfoutput>#escape(sField.ColumnName)#<cfif StructKeyExists(sField,"Increment") AND sField.Increment> SERIAL<cfelseif getTypeOfCFType(sField.CF_DataType) EQ "numeric" AND sField.scale GT 0> float<cfelse> #getDBDataType(sField.CF_DataType)#<cfif isStringType(getDBDataType(sField.CF_DataType))> (<cfif StructKeyExists(sField,"Length") AND isNumeric(sField.Length) AND sField.Length gt 0>#sField.Length#<cfelse>255</cfif>)<cfelseif getTypeOfCFType(sField.CF_DataType) EQ "numeric" AND StructKeyExists(sField,"scale") AND StructKeyExists(sField,"precision")>(<cfif Val(sField.precision) EQ 0>5<cfelse>#Val(sField.precision)#</cfif>,#Val(sField.scale)#)</cfif></cfif><cfif StructKeyExists(sField,"Default") AND Len(Trim(sField.Default))> DEFAULT #sField.Default#</cfif> <cfif sField.PrimaryKey OR NOT sField.AllowNulls>NOT </cfif>NULL</cfoutput></cfsavecontent>
+	<cfsavecontent variable="result"><cfoutput>#escape(sField.ColumnName)# #type#<cfif isStringType(type)>(#sField.Length#)<cfelseif getTypeOfCFType(sField.CF_DataType) EQ "numeric" AND StructKeyExists(sField,"scale") AND StructKeyExists(sField,"precision")>(#Val(sField.precision)#,#Val(sField.scale)#)</cfif><cfif Len(Trim(sField.Default))> DEFAULT #sField.Default#</cfif><cfif sField.PrimaryKey OR NOT sField.AllowNulls> NOT NULL</cfif><cfif sField.Increment> GENERATED ALWAYS AS IDENTITY</cfif></cfoutput></cfsavecontent>
 	
 	<cfreturn result>
 </cffunction>
@@ -30,9 +39,9 @@
 <cffunction name="getCreateSQL" access="public" returntype="string" output="no" hint="I return the SQL to create the given table.">
 	<cfargument name="tablename" type="string" required="yes">
 	
-	<cfset var ii = 0>
-	<cfset var arrFields = getFields(arguments.tablename)>
-	<cfset var CreateSQL = "">
+	<cfset var ii = 0><!--- generic counter --->
+	<cfset var arrFields = getFields(arguments.tablename)><!--- table structure --->
+	<cfset var CreateSQL = ""><!--- holds sql to create table --->
 	<cfset var pkfields = "">
 	<cfset var thisField = "">
 	
@@ -43,10 +52,13 @@
 		</cfif>
 	</cfloop>
 	
+	<!--- create sql to create table --->
 	<cfsavecontent variable="CreateSQL"><cfoutput>
 	CREATE TABLE #escape(arguments.tablename)# (<cfloop index="ii" from="1" to="#ArrayLen(arrFields)#" step="1">
-		#sqlCreateColumn(arrFields[ii])#<cfif ii LT ArrayLen(arrFields) OR Len(pkfields)>,</cfif></cfloop>
-		<cfif Len(pkfields)>PRIMARY KEY (#pkfields#)</cfif>
+		#sqlCreateColumn(arrFields[ii])#,</cfloop>
+		<cfif Len(pkfields)>
+		PRIMARY KEY (#pkfields#)
+		</cfif>
 	)
 	</cfoutput></cfsavecontent>
 	
@@ -62,9 +74,9 @@
 	
 	<cfloop index="colname" list="#arguments.fields#">
 		<cfif Len(result)>
-			<cfset result =  "#result# || '#arguments.delimeter#' || CAST(#colname# AS varchar)">
+			<cfset result =  "#result# || '#arguments.delimeter#' || CAST(#colname# AS char(50))">
 		<cfelse>
-			<cfset result = "CAST(#colname# AS varchar)">
+			<cfset result = "CAST(#colname# AS char(50))">
 		</cfif>
 	</cfloop>
 	
@@ -91,153 +103,110 @@
 			<cfset ArrayAppend(aSQL," || '#arguments.delimeter#' || ")>
 		</cfif>
 		<cfif isSimpleValue(fieldSQL)>
-			<cfset ArrayAppend(aSQL,"CAST(#fieldSQL# AS varchar)")>
+			<cfset ArrayAppend(aSQL,"CAST(#fieldSQL# AS char(50))")>
 		<cfelse>
 			<cfset ArrayAppend(aSQL,"CAST(")>
 			<cfset ArrayAppend(aSQL,fieldSQL)>
-			<cfset ArrayAppend(aSQL," AS varchar)")>
+			<cfset ArrayAppend(aSQL," AS char(50))")>
 		</cfif>
 	</cfloop>
 	
 	<cfreturn aSQL>
 </cffunction>
 
-<cffunction name="escape" access="public" returntype="string" output="yes" hint="I return an escaped value for a table or field.">
+<cffunction name="escape" access="public" returntype="string" output="no" hint="I return an escaped value for a table or field.">
 	<cfargument name="name" type="string" required="yes">
 	
 	<cfset var result = "">
 	<cfset var item = "">
 	
 	<cfloop index="item" list="#arguments.name#" delimiters=".">
-		<cfset result = ListAppend(result,"#chr(34)##LCase(item)##chr(34)#",".")>
+		<cfset result = ListAppend(result,"#chr(34)##UCase(item)##chr(34)#",".")>
 	</cfloop>
 	
 	<cfreturn result>
 </cffunction>
 
-<cffunction name="getDatabaseTables" access="public" returntype="string" output="yes" hint="I get a list of all tables in the current database.">
+<cffunction name="getDatabaseTables" access="public" returntype="string" output="no" hint="I get a list of all tables in the current database.">
 
-	<cfset var qTables = runSQL("SELECT tablename FROM pg_tables WHERE tableowner = current_user AND schemaname = 'public'")>
+	<cfset var qTables = 0>
 	
-	<cfreturn ValueList(qTables.tablename)>
+	<cfdbinfo datasource="#variables.datasource#" name="qTables" type="tables" />
+	
+	<cfreturn ValueList(qTables.Table_Name)>
+</cffunction>
+
+<cffunction name="getDBFieldList" access="public" returntype="string" output="no" hint="I return a list of fields in the database for the given table.">
+	<cfargument name="tablename" type="string" required="yes">
+	
+	<cfset var qColumns = 0>
+	
+	<cfdbinfo datasource="#variables.datasource#" name="qColumns" type="columns" table="#arguments.tablename#">
+	
+	<cfreturn ValueList(qColumns.Column_Name)>
 </cffunction>
 
 <cffunction name="getDBTableStruct" access="public" returntype="array" output="no" hint="I return the structure of the given table in the database.">
 	<cfargument name="tablename" type="string" required="yes">
 	
-	<cfscript>
-	var qTable = runSQL("SELECT tablename FROM pg_tables WHERE tableowner = current_user AND tablename = '#LCase(arguments.tablename)#'");
-	var qFields = 0;
-	var qPrimaryKeys = 0;
-	var qSequences = 0;
-	var PrimaryKeys = "";
-	var Sequences = "";
-	var TableData = ArrayNew(1);
-	var tmpStruct = StructNew();
-	var sqlarray = ArrayNew(1);
-	</cfscript>
+	<cfset var qColumns = 0>
+	<cfset var TableData = ArrayNew(1)>
+	<cfset var sTemp = StructNew()>
 	
-	<cfif qTable.RecordCount eq 0>
-		<cfthrow message="Data Manager: No such table ('#arguments.tablename#'). Trying to load a table that doesn't exist." type="DataMgr">
-	</cfif>
-	<!--- <cfquery name="qFields" datasource="#variables.datasource#">
-	SELECT	attnum,attname AS Field
-	FROM	pg_class, pg_attribute
-	WHERE	relname = '#arguments.tablename#'
- 		AND	pg_class.oid = attrelid
-		AND	attnum > 0
-	</cfquery> --->
-	<cfset sqlarray = ArrayNew(1)>
-	<cfset ArrayAppend(sqlarray,"SELECT		a.attnum, a.attname AS Field, t.typname AS Type,")>
-	<cfset ArrayAppend(sqlarray,"			a.attlen AS Length, a.atttypmod, a.attnotnull AS NotNull, a.atthasdef,")>
-	<cfset ArrayAppend(sqlarray,"			d.adsrc AS #escape('Default')#")>
-	<cfset ArrayAppend(sqlarray,"FROM		pg_class as c")>
-	<cfset ArrayAppend(sqlarray,"INNER JOIN	pg_attribute a")>
-	<cfset ArrayAppend(sqlarray,"	ON		c.oid = a.attrelid")>
-	<cfset ArrayAppend(sqlarray,"INNER JOIN	pg_type t")>
-	<cfset ArrayAppend(sqlarray,"	ON		a.atttypid = t.oid")>
-	<cfset ArrayAppend(sqlarray,"LEFT JOIN	pg_attrdef d")>
-	<cfset ArrayAppend(sqlarray,"	ON		c.oid = d.adrelid")>
-	<cfset ArrayAppend(sqlarray,"		AND	d.adnum = a.attnum")>
-	<cfset ArrayAppend(sqlarray,"WHERE		a.attnum > 0")>
-	<cfset ArrayAppend(sqlarray,"	AND		c.relname = '#LCase(arguments.tablename)#'")>
-	<cfset ArrayAppend(sqlarray,"ORDER BY	a.attnum")>
-	<cfset qFields = runSQLArray(sqlarray)>
-	
-	<cfset sqlarray = ArrayNew(1)>
-	<cfset ArrayAppend(sqlarray,"SELECT	conkey")>
-	<cfset ArrayAppend(sqlarray,"FROM	pg_constraint")>
-	<cfset ArrayAppend(sqlarray,"JOIN	pg_class")>
-	<cfset ArrayAppend(sqlarray,"	ON	pg_class.oid=conrelid")>
-	<cfset ArrayAppend(sqlarray,"WHERE	contype='p'")>
-	<cfset ArrayAppend(sqlarray,"	AND	relname = '#LCase(arguments.tablename)#'")>
-	<cfset qPrimaryKeys = runSQLArray(sqlarray)>
-	
-	<cfset PrimaryKeys = ValueList(qPrimaryKeys.conkey)>
-	
-	<cfset sqlarray = ArrayNew(1)>
-	<cfset ArrayAppend(sqlarray,"SELECT	relname")>
-	<cfset ArrayAppend(sqlarray,"FROM	pg_class")>
-	<cfset ArrayAppend(sqlarray,"WHERE	relkind = 'S'")>
-	<cfset ArrayAppend(sqlarray,"	AND	relname LIKE '#LCase(arguments.tablename)#%'")>
-	<cfset qSequences = runSQLArray(sqlarray)>
-	
-	<cfoutput query="qSequences">
-		<cfset Sequences = ListAppend(Sequences,ReplaceNoCase(ReplaceNoCase(relname, "#LCase(arguments.tablename)#_", ""), "_seq", "") )>
-	</cfoutput>
-	
-
-	<cfoutput query="qFields">
-		<cfset tmpStruct = StructNew()>
-		<cfset tmpStruct["ColumnName"] = Field>
-		<cfset tmpStruct["CF_DataType"] = getCFDataType(type)>
-		<cfif ListFindNoCase(Sequences,Field)>
-			<cfset tmpStruct["Increment"] = True>
-		</cfif>
-		<cfif ListFindNoCase(PrimaryKeys,Field)>
-			<cfset tmpStruct["PrimaryKey"] = True>
-		</cfif>
-		<cfif isStringType(type) AND NOT tmpStruct["CF_DataType"] eq "CF_SQL_LONGVARCHAR">
-			<cfset tmpStruct["length"] = getLength(type)>
-		</cfif>
-		<cfif isBoolean(NotNull)>
-			<cfset tmpStruct["AllowNulls"] = NotNull>
+	<cftry>
+		<cfdbinfo datasource="#variables.datasource#" name="qColumns" type="columns" table="#arguments.tablename#">
+	<cfcatch>
+		<cfif CFCATCH.Detail EQ "Table #arguments.tablename# does not exist.">
+			<cfthrow message="Data Manager: No such table (#arguments.tablename#). Trying to load a table that doesn't exist." type="DataMgr">
 		<cfelse>
-			<cfset tmpStruct["AllowNulls"] = true>
+			<cfrethrow>
 		</cfif>
-		<cfif Len(Default)>
-			<cfset tmpStruct["Default"] = Default>
-		</cfif>
-		<cfset tmpStruct["Precision"] = "">
-		<cfset tmpStruct["Scale"] = "">
-		<cfset tmpStruct["Special"] = "">
+	</cfcatch>
+	</cftry>
+	<cfoutput query="qColumns">
+		<cfset sTemp = StructNew()>
+		<cfset sTemp["ColumnName"] = Column_Name>
+		<cfset sTemp["CF_DataType"] = getCFDataType(Type_Name)>
+		<cfset sTemp["PrimaryKey"] = Is_PrimaryKey>
 		
-		<cfif Len(tmpStruct.CF_DataType)>
-			<cfset ArrayAppend(TableData,StructCopy(tmpStruct))>
+		<!--- Determine increment/default --->
+		<cfif ListFirst(Column_Default_Value,":") EQ "AUTOINCREMENT">
+			<cfset sTemp["Increment"] = true>
+		<cfelseif Len(Column_Default_Value)>
+			<cfset sTemp["Default"] = Column_Default_Value>
+		</cfif>
+		
+		<cfif Len(Column_Size) AND isNumeric(Column_Size) AND NOT sTemp["CF_DataType"] EQ "CF_SQL_LONGVARCHAR">
+			<cfset sTemp["length"] = Column_Size>
+		</cfif>
+		<cfset sTemp["AllowNulls"] = Is_Nullable>
+		<!--- <cfset sTemp["Precision"] = Decimal_Digits>
+		<cfset sTemp["Scale"] = Decimal_Digits> --->
+		<cfset sTemp["Special"] = "">
+		
+		<cfif Len(sTemp.CF_DataType)>
+			<cfset ArrayAppend(TableData,StructCopy(sTemp))>
 		</cfif>
 	</cfoutput>
 	
 	<cfreturn TableData>
 </cffunction>
 
+<!--- %%TODO: --->
 <cffunction name="getCFDataType" access="public" returntype="string" output="no" hint="I return the cfqueryparam datatype from the database datatype.">
 	<cfargument name="type" type="string" required="yes" hint="The database data type.">
 	
 	<cfset var result = "">
-	<cfif FindNoCase(arguments.type,"(")>
-		<cfset arguments.type = Left(arguments.type,FindNoCase(arguments.type,"("))>
-	</cfif>
 	
 	<cfswitch expression="#arguments.type#">
 		<cfcase value="bigint"><cfset result = "CF_SQL_BIGINT"></cfcase>
 		<cfcase value="binary,image,sql_variant,sysname,varbinary"><cfset result = ""></cfcase>
-		<cfcase value="bit,boolean"><cfset result = "CF_SQL_BIT"></cfcase>
+		<cfcase value="bit"><cfset result = "CF_SQL_BIT"></cfcase>
 		<cfcase value="char"><cfset result = "CF_SQL_CHAR"></cfcase>
-		<cfcase value="date"><cfset result = "CF_SQL_DATE"></cfcase>
+		<cfcase value="datetime"><cfset result = "CF_SQL_DATE"></cfcase>
 		<cfcase value="decimal"><cfset result = "CF_SQL_DECIMAL"></cfcase>
-		<cfcase value="double"><cfset result = "CF_SQL_DOUBLE"></cfcase>
 		<cfcase value="float"><cfset result = "CF_SQL_FLOAT"></cfcase>
-		<cfcase value="int"><cfset result = "CF_SQL_INTEGER"></cfcase>
+		<cfcase value="int,integer"><cfset result = "CF_SQL_INTEGER"></cfcase>
 		<cfcase value="money"><cfset result = "CF_SQL_MONEY"></cfcase>
 		<cfcase value="nchar"><cfset result = "CF_SQL_CHAR"></cfcase>
 		<cfcase value="ntext"><cfset result = "CF_SQL_LONGVARCHAR"></cfcase>
@@ -258,6 +227,7 @@
 	<cfreturn result>
 </cffunction>
 
+<!--- %%TODO: --->
 <cffunction name="getDBDataType" access="public" returntype="string" output="no" hint="I return the database datatype from the cfqueryparam datatype.">
 	<cfargument name="CF_Datatype" type="string" required="yes">
 	
@@ -265,15 +235,15 @@
 	
 	<cfswitch expression="#arguments.CF_Datatype#">
 		<cfcase value="CF_SQL_BIGINT"><cfset result = "bigint"></cfcase>
-		<cfcase value="CF_SQL_BIT"><cfset result = "boolean"></cfcase>
+		<cfcase value="CF_SQL_BIT"><cfset result = "smallint"></cfcase>
 		<cfcase value="CF_SQL_CHAR"><cfset result = "char"></cfcase>
-		<cfcase value="CF_SQL_DATE"><cfset result = "date"></cfcase>
+		<cfcase value="CF_SQL_DATE"><cfset result = "timestamp"></cfcase>
 		<cfcase value="CF_SQL_DECIMAL"><cfset result = "decimal"></cfcase>
-		<cfcase value="CF_SQL_DOUBLE"><cfset result = "double"></cfcase>
+		<cfcase value="CF_SQL_DOUBLE"><cfset result = "float"></cfcase>
 		<cfcase value="CF_SQL_FLOAT"><cfset result = "float"></cfcase>
 		<cfcase value="CF_SQL_IDSTAMP"><cfset result = "uniqueidentifier"></cfcase>
 		<cfcase value="CF_SQL_INTEGER"><cfset result = "int"></cfcase>
-		<cfcase value="CF_SQL_LONGVARCHAR"><cfset result = "text"></cfcase>
+		<cfcase value="CF_SQL_LONGVARCHAR"><cfset result = "CLOB"></cfcase>
 		<cfcase value="CF_SQL_MONEY"><cfset result = "money"></cfcase>
 		<cfcase value="CF_SQL_MONEY4"><cfset result = "smallmoney"></cfcase>
 		<cfcase value="CF_SQL_NUMERIC"><cfset result = "numeric"></cfcase>
@@ -298,10 +268,10 @@
 	<cfreturn "">
 </cffunction>
 
-<cffunction name="getMaxRowsSuffix" access="public" returntype="string" output="no" hint="I get the SQL before the field list in the select statement to limit the number of rows.">
-	<cfargument name="maxrows" type="numeric" required="yes">
+<cffunction name="isValidDate" access="public" returntype="boolean" output="no">
+	<cfargument name="value" type="string" required="yes">
 	
-	<cfreturn " LIMIT #arguments.maxrows#">
+	<cfreturn isDate(arguments.value)><!---  AND Year(arguments.value) GTE 1753 AND arguments.value LT CreateDate(2079,6,7) --->
 </cffunction>
 
 <cffunction name="checkTable" access="private" returntype="boolean" output="no" hint="I check to see if the given table exists in the Datamgr.">
@@ -331,54 +301,26 @@
 	<cfcase value="numeric">
 		<cfset ArrayAppend(aSQL,"CASE WHEN (")>
 		<cfset ArrayAppend(aSQL, getFieldSelectSQL(tablename=arguments.tablename,field=sField.Relation['field'],tablealias=arguments.tablealias,useFieldAlias=false) )>
-		<cfset ArrayAppend(aSQL,") > 0 THEN true ELSE false END")>
+		<cfset ArrayAppend(aSQL,") > 0 THEN 1 ELSE 0 END")>
 	</cfcase>
 	<cfcase value="string">
-		<cfset ArrayAppend(aSQL,"CASE WHEN (bit_length(")>
+		<cfset ArrayAppend(aSQL,"CASE WHEN LENGTH(")>
 		<cfset ArrayAppend(aSQL, getFieldSelectSQL(tablename=arguments.tablename,field=sField.Relation['field'],tablealias=arguments.tablealias,useFieldAlias=false) )>
-		<cfset ArrayAppend(aSQL,")) > 0 THEN true ELSE false END")>
+		<cfset ArrayAppend(aSQL,") > 0 THEN 1 ELSE 0 END")>
 	</cfcase>
 	<cfcase value="date">
 		<cfset ArrayAppend(aSQL,"CASE WHEN (")>
 		<cfset ArrayAppend(aSQL, getFieldSelectSQL(tablename=arguments.tablename,field=sField.Relation['field'],tablealias=arguments.tablealias,useFieldAlias=false) )>
-		<cfset ArrayAppend(aSQL,") IS NULL THEN false ELSE true END")>
+		<cfset ArrayAppend(aSQL,") IS NULL THEN 0 ELSE 1 END")>
 	</cfcase>
 	<cfcase value="boolean">
-		<cfset ArrayAppend(aSQL,"COALESCE(")>
+		<cfset ArrayAppend(aSQL,"CASE WHEN (")>
 		<cfset ArrayAppend(aSQL, getFieldSelectSQL(tablename=arguments.tablename,field=sField.Relation['field'],tablealias=arguments.tablealias,useFieldAlias=false) )>
-		<cfset ArrayAppend(aSQL,",false)")>
+		<cfset ArrayAppend(aSQL,") = 1 THEN 1 ELSE 0 END")>
 	</cfcase>
 	</cfswitch>
 	
 	<cfreturn aSQL>	
-</cffunction>
-
-<cffunction name="getInsertedIdentity" access="private" returntype="string" output="no" hint="I get the value of the identity field that was just inserted into the given table.">
-	<cfargument name="tablename" type="string" required="yes">
-	<cfargument name="identfield" type="string" required="yes">
-	
-	<cfset var qCheckKey = runSQL("SELECT #escape(identfield)# AS NewID FROM #escape(arguments.tablename)# ORDER BY #escape(identfield)# DESC LIMIT 1")>
-	<cfset var result = 0>
-	
-	<cfset result = qCheckKey.NewID>
-	
-	<cfreturn result>
-</cffunction>
-
-<cffunction name="getLength" access="private" returntype="string" output="no">
-	<cfargument name="type" type="string" required="yes">
-	
-	<cfset var result = "">
-	<cfset var parens1 = "(">
-	<cfset var parens2 = ")">
-	<cfset var fparens1 = FindNoCase(parens1,arguments.type)>
-	<cfset var fparens2 = FindNoCase(parens2,arguments.type)>
-	
-	<cfif fparens1 AND fparens2>
-		<cfset result = Mid(arguments.type,fparens1+1,fparens2-(fparens1+1))>
-	</cfif>
-	
-	<cfreturn result>
 </cffunction>
 
 <cffunction name="isStringType" access="private" returntype="boolean" output="no" hint="I indicate if the given datatype is valid for string data.">
@@ -388,40 +330,6 @@
 	<cfset var result = false>
 	<cfif ListFindNoCase(strtypes,arguments.type)>
 		<cfset result = true>
-	</cfif>
-	
-	<cfreturn result>
-</cffunction>
-
-<!--- <cffunction name="makeDefaultValue" access="private" returntype="string" output="no" hint="I return the value of the default for the given datatype and raw value.">
-	<cfargument name="value" type="string" required="yes">
-	<cfargument name="CF_DataType" type="string" required="yes">
-	
-	<cfset var result = super.makeDefaultValue(arguments.value,arguments.CF_DataType)>
-	<cfset var type = getDBDataType(arguments.CF_DataType)>
-	
-	<cfif type eq "boolean">
-		<cfif isBoolean(result) AND result>
-			<cfset result = "true">
-		<cfelse>
-			<cfset result = "false">
-		</cfif>
-	</cfif>
-	
-	<cfreturn result>
-</cffunction> --->
-
-<cffunction name="getBooleanSqlValue" access="public" returntype="string" output="no">
-	<cfargument name="value" type="string" required="yes">
-	
-	<cfset var result = "NULL">
-	
-	<cfif isBoolean(arguments.value)>
-		<cfif arguments.value>
-			<cfset result = "true">
-		<cfelse>
-			<cfset result = "false">
-		</cfif>
 	</cfif>
 	
 	<cfreturn result>

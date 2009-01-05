@@ -1,5 +1,5 @@
-<!--- 2.1 (Build 112) --->
-<!--- Last Updated: 2007-07-10 --->
+<!--- 2.2 Beta 3 (Build 143) --->
+<!--- Last Updated: 2008-12-02 --->
 <!--- Created by Steve Bryant 2004-12-08 --->
 <cfcomponent extends="DataMgr" displayname="Data Manager for MS Access" hint="I manage data interactions with the MS Access database. I can be used to handle inserts/updates.">
 
@@ -11,9 +11,25 @@
 	<cfreturn "Access">
 </cffunction>
 
+<cffunction name="getDatabaseDriver" access="public" returntype="string" output="no" hint="I return the string that can be found in the driver or JDBC URL for the database platform being used.">
+	<cfreturn "MSAccessJet">
+</cffunction>
+
+<cffunction name="sqlCreateColumn" access="public" returntype="any" output="false" hint="">
+	<cfargument name="field" type="struct" required="yes">
+	
+	<cfset var sField = adjustColumnArgs(arguments.field)>
+	<cfset var type = getDBDataType(sField.CF_DataType)>
+	<cfset var result = "">
+	
+	<cfsavecontent variable="result"><cfoutput>#escape(sField.ColumnName)# <cfif sField.Increment>COUNTER<cfelseif getTypeOfCFType(sField.CF_DataType) EQ "numeric"><!---  AND StructKeyExists(sField,"scale") AND sField.scale GT 0 ---> float<cfelse>#getDBDataType(sField.CF_DataType)#</cfif><cfif isStringType(type)>(#sField.Length#)</cfif> <cfif sField.PrimaryKey OR NOT sField.AllowNulls>NOT </cfif>NULL</cfoutput></cfsavecontent>
+	
+	<cfreturn result>
+</cffunction>
+
 <cffunction name="addColumn" access="public" returntype="any" output="no" hint="I add a column to the given table">
 	<cfargument name="tablename" type="string" required="yes" hint="The name of the table to which a column will be added.">
-	<cfargument name="columnname" type="string" required="yes" hint="The name of the column to add.">
+	<cfargument name="ColumnName" type="string" required="yes" hint="The name of the column to add.">
 	<cfargument name="CF_Datatype" type="string" required="yes" hint="The ColdFusion SQL Datatype of the column.">
 	<cfargument name="Length" type="numeric" default="50" hint="The ColdFusion SQL Datatype of the column.">
 	<cfargument name="Default" type="string" required="no" hint="The default value for the column.">
@@ -22,12 +38,7 @@
 	<cfset var sql = "">
 	<cfset var FailedSQL = "">
 	
-	<!--- Don't allow zero length (return to default) --->
-	<cfif arguments.Length eq 0>
-		<cfset arguments.Length = 50>
-	</cfif>
-	
-	<cfsavecontent variable="sql"><cfoutput>ALTER TABLE #escape(arguments.tablename)# ADD #escape(arguments.columnname)# #type#<cfif isStringType(type)> (#arguments.Length#)</cfif></cfoutput></cfsavecontent>
+	<cfsavecontent variable="sql"><cfoutput>ALTER TABLE #escape(arguments.tablename)# ADD #sqlCreateColumn(arguments)#</cfoutput></cfsavecontent>
 	
 	<cftry>
 		<cfset runSQL(sql)>
@@ -48,7 +59,7 @@
 	</cfif>
 	
 	<cfif Len(FailedSQL)>
-		<cfthrow message="Failed to add Column (""#arguments.columnname#"")." type="DataMgr" detail="#FailedSQL#">
+		<cfthrow message="Failed to add Column (""#arguments.ColumnName#"")." type="DataMgr" detail="#FailedSQL#">
 	</cfif>
 	
 </cffunction>
@@ -56,27 +67,27 @@
 <cffunction name="getCreateSQL" access="public" returntype="string" output="no" hint="I return the SQL to create the given table.">
 	<cfargument name="tablename" type="string" required="yes" hint="The name of the table to create.">
 	
-	<cfset var i = 0><!--- generic counter --->
+	<cfset var ii = 0><!--- generic counter --->
 	<cfset var arrFields = getFields(arguments.tablename)><!--- structure of table --->
 	<cfset var CreateSQL = ""><!--- holds sql used for creation, allows us to return it in an error --->
 	<cfset var pkfields = ""><!--- primary key fields --->
 	<cfset var thisField = ""><!--- current field holder --->
 	
 	<!--- Find Primary Key fields --->
-	<cfloop index="i" from="1" to="#ArrayLen(arrFields)#" step="1">
-		<cfif arrFields[i].PrimaryKey>
-			<cfset pkfields = ListAppend(pkfields,arrFields[i].ColumnName)>
+	<cfloop index="ii" from="1" to="#ArrayLen(arrFields)#" step="1">
+		<cfif arrFields[ii].PrimaryKey>
+			<cfset pkfields = ListAppend(pkfields,arrFields[ii].ColumnName)>
 		</cfif>
 	</cfloop>
 	
 	<!--- create the sql to create the table --->
 	<cfsavecontent variable="CreateSQL"><cfoutput>
-	CREATE TABLE #arguments.tablename# (<cfloop index="i" from="1" to="#ArrayLen(arrFields)#" step="1">
-		#escape(arrFields[i].ColumnName)# <cfif StructKeyExists(arrFields[i],"Increment") AND arrFields[i].Increment>COUNTER<cfelse>#getDBDataType(arrFields[i].CF_DataType)#</cfif><cfif isStringType(getDBDataType(arrFields[i].CF_DataType))>(<cfif StructKeyExists(arrFields[i],"Length") AND isNumeric(arrFields[i].Length) AND arrFields[i].Length gt 0>#arrFields[i].Length#<cfelse>255</cfif>)</cfif> <cfif ListFindNoCase(pkfields,arrFields[i].ColumnName) OR Not arrFields[i].AllowNulls>NOT </cfif>NULL<cfif i lt ArrayLen(arrFields)> ,</cfif></cfloop>
+	CREATE TABLE #arguments.tablename# (<cfloop index="ii" from="1" to="#ArrayLen(arrFields)#" step="1">
+		#sqlCreateColumn(arrFields[ii])#<cfif ii LT ArrayLen(arrFields)> ,</cfif></cfloop>
 		<cfif Len(pkfields)>,
 		CONSTRAINT [PK_#tablename#] PRIMARY KEY 
-		(<cfloop index="i" from="1" to="#ListLen(pkfields)#" step="1"><cfset thisField = ListGetAt(pkfields,i)>
-			#thisField#<cfif i lt ListLen(pkfields)>,</cfif></cfloop>
+		(<cfloop index="ii" from="1" to="#ListLen(pkfields)#" step="1"><cfset thisField = ListGetAt(pkfields,ii)>
+			#thisField#<cfif ii lt ListLen(pkfields)>,</cfif></cfloop>
 		)
 		</cfif>
 	)<!--- <cfif Len(pkfields)> ON [PRIMARY]</cfif> --->
@@ -170,7 +181,7 @@
 	<cfset var qTables = 0>
 	
 	<cftry>
-		<cfset qTables = runSQL("SELECT Name AS TableName FROM MSysObjects WHERE Type = 1 AND Flags = 0")>
+		<cfset qTables = runSQL("SELECT Name FROM MSysObjects WHERE Type = 1 AND Flags = 0")>
 		<cfcatch>
 			<cfif cfcatch.detail CONTAINS "no read permission">
 				<cfthrow message="Your Access database doesn't have appropriate permissions to use tables without loading them via loadXML()." type="DataMgr" detail="In order to allow this method, open your database using MS Access and check the 'System objects' box under Tools/Options/View. You may also need to make sure 'Read Data' is checked for every table in Tools/Security/User and Group Permissions.">
@@ -180,7 +191,7 @@
 		</cfcatch>
 	</cftry>
 	
-	<cfreturn ValueList(qTables.TableName)>
+	<cfreturn ValueList(qTables.Name)>
 </cffunction>
 
 <cffunction name="getDBTableStruct" access="public" returntype="array" output="no" hint="I return the structure of the given table in the database.">
@@ -288,6 +299,10 @@
 	<cfreturn result>
 </cffunction>
 
+<cffunction name="getNowSQL" access="public" returntype="string" output="no" hint="I return the SQL for the current date/time.">
+	<cfreturn "Now()">
+</cffunction>
+
 <cffunction name="loadXML" access="public" returntype="void" output="false" hint="I add table/tables from XML and optionally create tables/columns as needed (I can also load data to a table upon its creation).">
 	<cfargument name="xmldata" type="string" required="yes" hint="XML data of tables to load into DataMgr follows. Schema: http://www.bryantwebconsulting.com/cfc/DataMgr.xsd">
 	<cfargument name="docreate" type="boolean" default="false" hint="I indicate if the table should be created in the database if it doesn't already exist.">
@@ -321,6 +336,47 @@
 	</cfif>
 	
 	<cfreturn true>
+</cffunction>
+
+<cffunction name="getFieldSQL_Has" access="private" returntype="any" output="no">
+	<cfargument name="tablename" type="string" required="yes">
+	<cfargument name="field" type="string" required="yes">
+	<cfargument name="tablealias" type="string" required="no">
+	
+	<cfset var sField = getField(arguments.tablename,arguments.field)>
+	<cfset var dtype = getEffectiveDataType(arguments.tablename,sField.Relation.field)>
+	<cfset var aSQL = ArrayNew(1)>
+	<cfset var sAdvSQL = StructNew()>
+	<cfset var sJoin = StructNew()>
+	<cfset var sArgs = StructNew()>
+	<cfset var temp = "">
+	
+	<cfset ArrayAppend(aSQL,"ABS(")>
+	
+	<cfswitch expression="#dtype#">
+	<cfcase value="numeric">
+		<cfset ArrayAppend(aSQL,"IIF(")>
+		<cfset ArrayAppend(aSQL, getFieldSelectSQL(tablename=arguments.tablename,field=sField.Relation['field'],tablealias=arguments.tablealias,useFieldAlias=false) )>
+		<cfset ArrayAppend(aSQL," > 0,1,0)")>
+	</cfcase>
+	<cfcase value="string">
+		<cfset ArrayAppend(aSQL,"IIF(Len(")>
+		<cfset ArrayAppend(aSQL, getFieldSelectSQL(tablename=arguments.tablename,field=sField.Relation['field'],tablealias=arguments.tablealias,useFieldAlias=false) )>
+		<cfset ArrayAppend(aSQL,") IS NULL,0,1) > 0")>
+	</cfcase>
+	<cfcase value="date">
+		<cfset ArrayAppend(aSQL,"IIF(")>
+		<cfset ArrayAppend(aSQL, getFieldSelectSQL(tablename=arguments.tablename,field=sField.Relation['field'],tablealias=arguments.tablealias,useFieldAlias=false) )>
+		<cfset ArrayAppend(aSQL," IS NULL,0,1)")>
+	</cfcase>
+	<cfcase value="boolean">
+		<cfset ArrayAppend(aSQL, getFieldSelectSQL(tablename=arguments.tablename,field=sField.Relation['field'],tablealias=arguments.tablealias,useFieldAlias=false) )>
+	</cfcase>
+	</cfswitch>
+	
+	<cfset ArrayAppend(aSQL,")")>
+	
+	<cfreturn aSQL>	
 </cffunction>
 
 <cffunction name="getInsertedIdentity" access="private" returntype="string" output="no" hint="I get the value of the identity field that was just inserted into the given table.">

@@ -1,5 +1,5 @@
-<!--- 2.1 (Build 112) --->
-<!--- Last Updated: 2007-07-10 --->
+<!--- 2.2 Beta 3 (Build 143) --->
+<!--- Last Updated: 2008-12-02 --->
 <!--- Created by Steve Bryant 2004-12-08 --->
 <cfcomponent extends="DataMgr" displayname="Data Manager for Simulated Database" hint="I manage simulated data interactions with a database.">
 
@@ -14,6 +14,9 @@
 	
 	<cfset variables.rows = arguments.rows>
 	<cfset variables.tables = StructNew()><!--- Used to internally keep track of tables used by DataMgr --->
+	<cfset variables.tableprops = StructNew()><!--- Used to internally keep track of tables properties used by DataMgr --->
+	<cfset setCacheDate()><!--- Used to internally keep track caching --->
+	
 	<cfset variables.nocomparetypes = "CF_SQL_LONGVARCHAR"><!--- Don't run comparisons against fields of these cf_datatypes for queries --->
 	<cfset variables.dectypes = "CF_SQL_DECIMAL"><!--- Decimal types (shouldn't be rounded by DataMgr) --->
 	<cfset variables.aggregates = "avg,count,max,min,sum">
@@ -208,88 +211,101 @@
 		<cfset arguments.maxrows = variables.simrows[arguments.tablename]>
 	</cfif>
 	
+	<!--- Create column list --->
+	<cfloop index="i" from="1" to="#ArrayLen(pkfields)#" step="1">
+		<cfif Len(arguments.fieldlist) eq 0 OR ListFindNoCase(arguments.fieldlist, pkfields[i].ColumnName)>
+			<cfset columnlist = ListAppend(columnlist,pkfields[i]["ColumnName"])>
+		</cfif>
+	</cfloop>
+	<cfloop index="i" from="1" to="#ArrayLen(fields)#" step="1">
+		<cfif Len(arguments.fieldlist) eq 0 OR ListFindNoCase(arguments.fieldlist, fields[i].ColumnName)>
+			<cfset columnlist = ListAppend(columnlist,fields[i]["ColumnName"])>
+		</cfif>
+	</cfloop>
+	<cfloop index="i" from="1" to="#ArrayLen(rfields)#" step="1">
+		<cfif Len(arguments.fieldlist) eq 0 OR ListFindNoCase(arguments.fieldlist, rfields[i].ColumnName)>
+			<cfset columnlist = ListAppend(columnlist,rfields[i]["ColumnName"])>
+		</cfif>
+	</cfloop>
+	
 	<!--- If we have simulated data for this table --->
 	<cfif StructKeyExists(variables.simdata,arguments.tablename) AND isQuery(variables.simdata[arguments.tablename]) AND variables.simdata[arguments.tablename].RecordCount>
-	
+		
 		<cfset qSimData = variables.simdata[arguments.tablename]>
 		
-		<!--- Create data --->
-		<cfloop index="i" from="1" to="#ArrayLen(pkfields)#" step="1">
-			<cfif Len(arguments.fieldlist) eq 0 OR ListFindNoCase(arguments.fieldlist, pkfields[i].ColumnName)>
-				<cfset columnlist = ListAppend(columnlist,pkfields[i]["ColumnName"])>
-			</cfif>
-		</cfloop>
-		<cfloop index="i" from="1" to="#ArrayLen(fields)#" step="1">
-			<cfif Len(arguments.fieldlist) eq 0 OR ListFindNoCase(arguments.fieldlist, fields[i].ColumnName)>
-				<cfset columnlist = ListAppend(columnlist,fields[i]["ColumnName"])>
-			</cfif>
-		</cfloop>
-		<cfloop index="i" from="1" to="#ArrayLen(rfields)#" step="1">
-			<cfif Len(arguments.fieldlist) eq 0 OR ListFindNoCase(arguments.fieldlist, rfields[i].ColumnName)>
-				<cfset columnlist = ListAppend(columnlist,rfields[i]["ColumnName"])>
-			</cfif>
-		</cfloop>
-		<cfif Len(arguments.orderby)>
-			<cfset qRecords = QueryNew(ListAppend(columnlist,"DataMgrOrderField"))>
-		<cfelse>
-			<cfset qRecords = QueryNew(columnlist)>
-		</cfif>
-		
-		<!--- Build record from simulated data --->
-		<cfloop query="qSimData">
-			<!--- Check for matching data --->
-			<cfset isMatch = true>
-			<cfif StructKeyExists(arguments,"data")>
-				<cfloop collection="#arguments.data#" item="col">
-					<cfif ListFindNoCase(qSimData.ColumnList,col) AND arguments.data[col] neq qSimData[col][CurrentRow]>
-						<cfset isMatch = false>
-						<cfbreak>
-					</cfif>
-				</cfloop>
-			</cfif>
-			<!--- If row matches data, add row to result --->
-			<cfif isMatch>
-				<cfset QueryAddRow(qRecords)>
-				<!--- Set value for each field --->
-				<cfloop index="col" list="#columnlist#">
-					<cfif ListFindNoCase(qSimData.ColumnList,col)>
-						<!--- If field is in query, set its value --->
-						<cfset QuerySetCell(qRecords, col, qSimData[col][CurrentRow])>
-					<cfelse>
-						<!--- If field is not in query, try to set a value --->
-						<cfif StructKeyExists(variables.tables,arguments.tablename)>
-							<cfset field = getField(arguments.tablename,col)>
-							<!--- set to a default value (if one exists) --->
-							<cfif StructKeyExists(field,"Default")>
-								<cfset QuerySetCell(qRecords, col, field["Default"])>
-							</cfif>
-							<!--- If this is a relation, get the value --->
-							<cfif StructKeyExists(field,"Relation")>
-								<cfset rowdata = QueryRowToStruct(qRecords,CurrentRow)>
-								<cfset QuerySetCell(qRecords, col, getRelatedData(arguments.tablename,field,rowdata))>
-							</cfif>
-						</cfif>
-					</cfif>
-					<!--- Add order by field for proper sorting --->
-					<cfif Len(arguments.orderby)>
-						<cfif ListFindNoCase(qRecords.ColumnList,arguments.orderby)>
-							<cfset QuerySetCell(qRecords, "DataMgrOrderField", qRecords[arguments.orderby][qRecords.RecordCount])>
-						</cfif>
-					</cfif>
+		<!--- Set relation field values --->
+		<cfloop index="col" list="#columnlist#">
+			<cfset field = getField(arguments.tablename,col)>
+			<!--- If the field is a relation field, loop over the query and set the value --->
+			<cfif StructKeyExists(field,"Relation")>
+				<cfloop query="qSimData">
+					<cfset rowdata = QueryRowToStruct(qSimData,CurrentRow)>
+					<cfset QuerySetCell(qSimData, col, getRelatedData(arguments.tablename,field,rowdata),CurrentRow)>
 				</cfloop>
 			</cfif>
 		</cfloop>
-		
-		<cfif Len(arguments.orderby)>
-			<cfquery name="qRecords" dbtype="query">
-			SELECT		#columnlist#
-			FROM		qRecords
-			ORDER BY	DataMgrOrderField
-			</cfquery>
-		</cfif>
 		
 	<cfelse>
-		<cfset qRecords = getSimRecords(argumentCollection=arguments)>
+		<cfset qSimData = getSimRecords(argumentCollection=arguments)>
+	</cfif>
+	
+	<cfif Len(arguments.orderby)>
+		<cfset qRecords = QueryNew(ListAppend(columnlist,"DataMgrOrderField"))>
+	<cfelse>
+		<cfset qRecords = QueryNew(columnlist)>
+	</cfif>
+	
+	<!--- Build record from simulated data --->
+	<cfloop query="qSimData">
+		<!--- Check for matching data --->
+		<cfset isMatch = true>
+		<cfif StructKeyExists(arguments,"data")>
+			<cfloop collection="#arguments.data#" item="col">
+				<cfif ListFindNoCase(qSimData.ColumnList,col) AND arguments.data[col] neq qSimData[col][CurrentRow]>
+					<cfset isMatch = false>
+					<cfbreak>
+				</cfif>
+			</cfloop>
+		</cfif>
+		<!--- If row matches data, add row to result --->
+		<cfif isMatch>
+			<cfset QueryAddRow(qRecords)>
+			<!--- Set value for each field --->
+			<cfloop index="col" list="#columnlist#">
+				<cfif ListFindNoCase(qSimData.ColumnList,col)>
+					<!--- If field is in query, set its value --->
+					<cfset QuerySetCell(qRecords, col, qSimData[col][CurrentRow])>
+				<cfelse>
+					<!--- If field is not in query, try to set a value --->
+					<cfif StructKeyExists(variables.tables,arguments.tablename)>
+						<cfset field = getField(arguments.tablename,col)>
+						<!--- set to a default value (if one exists) --->
+						<cfif StructKeyExists(field,"Default")>
+							<cfset QuerySetCell(qRecords, col, field["Default"])>
+						</cfif>
+						<!--- If this is a relation, get the value --->
+						<cfif StructKeyExists(field,"Relation")>
+							<cfset rowdata = QueryRowToStruct(qRecords,CurrentRow)>
+							<cfset QuerySetCell(qRecords, col, getRelatedData(arguments.tablename,field,rowdata))>
+						</cfif>
+					</cfif>
+				</cfif>
+				<!--- Add order by field for proper sorting --->
+				<cfif Len(arguments.orderby)>
+					<cfif ListFindNoCase(qRecords.ColumnList,arguments.orderby)>
+						<cfset QuerySetCell(qRecords, "DataMgrOrderField", qRecords[arguments.orderby][qRecords.RecordCount])>
+					</cfif>
+				</cfif>
+			</cfloop>
+		</cfif>
+	</cfloop>
+	
+	<cfif Len(arguments.orderby)>
+		<cfquery name="qRecords" dbtype="query">
+		SELECT		#columnlist#
+		FROM		qRecords
+		ORDER BY	DataMgrOrderField
+		</cfquery>
 	</cfif>
 	
 	<cfreturn qRecords>
@@ -423,27 +439,36 @@
 	</cfcase>
 	<cfcase value="label">
 		<!--- get label from table where join field values match --->
-		<cfset data[field.Relation["join-field"]] = rowdata[field.Relation["join-field"]]>
-		<cfset qRelatedRecords = getRecords(tablename=field.Relation["table"],data=data,fieldlist=field.Relation["field"],maxrows=1)>
-		<cfset result = qRelatedRecords[field.Relation["field"]][1]>
+		<cftry>
+			<cfset data[field.Relation["join-field-remote"]] = rowdata[field.Relation["join-field-local"]]>
+			<cfset qRelatedRecords = getRecords(tablename=field.Relation["table"],data=data,fieldlist=field.Relation["field"],maxrows=1)>
+			<cfset result = qRelatedRecords[field.Relation["field"]][1]>
+			<cfcatch>
+				<cfif StructKeyExists(field,"CF_Datatype")>
+					<cfset result = getSimValue(field.CF_Datatype)>
+				<cfelse>
+					<cfset result = ProperCase(Mid(variables.greek,RandRange(1,(Len(variables.greek)-40)),40))>
+				</cfif>
+			</cfcatch>
+		</cftry>
 	</cfcase>
 	<cfcase value="list">
 		<cfif StructKeyExists(field.Relation,"join-table")>
 			<!--- Get data from join table --->
-			<cfset data[pkfields[1].ColumnName] = rowdata[pkfields[1].ColumnName]>
-			<cfset qRelatedRecords = getRecords(tablename=field.Relation["join-table"],data=data,fieldlist=field.Relation["join-field"])>
+			<cfset data[field.Relation["join-table-field-local"]] = rowdata[field.Relation["local-table-join-field"]]>
+			<cfset qRelatedRecords = getRecords(tablename=field.Relation["join-table"],data=data,fieldlist=field.Relation["join-table-field-remote"])>
+			<cfdump var="#qRelatedRecords#">
 			<cfloop query="qRelatedRecords">
-				<cfset joindata = ListAppend(joindata,qRelatedRecords[field.Relation["join-field"]][CurrentRow])>
+				<cfset joindata = ListAppend(joindata,qRelatedRecords[field.Relation["join-table-field-remote"]][CurrentRow])>
 			</cfloop>
-			
 			<!--- Using data from join table, get data from table --->
 			<cfloop index="temp" list="#joindata#">
-				<cfset data[field.Relation["join-field"]] = rowdata[field.Relation["join-field"]]>
+				<cfset data[field.Relation["remote-table-join-field"]] = rowdata[field.Relation["local-table-join-field"]]>
 				<cfset qRelatedRecords = getRecords(tablename=field.Relation["table"],data=data,fieldlist=field.Relation["field"],maxrows=1)>
 				<cfset result = ListAppend(result,qRelatedRecords[field.Relation["field"]][1])>
 			</cfloop>
 		<cfelse>
-			<cfset data[pkfields[1].ColumnName] = rowdata[pkfields[1].ColumnName]>
+			<cfset data[field.Relation["join-field-remote"]] = rowdata[field.Relation["join-field-local"]]>
 			<cfset qRelatedRecords = getRecords(tablename=field.Relation["table"],data=data,fieldlist=field.Relation["field"])>
 			<cfloop query="qRelatedRecords">
 				<cfset result = ListAppend(result,qRelatedRecords[field.Relation["field"]][CurrentRow])>
@@ -472,11 +497,21 @@
 		<cfset data[field.Relation["join-field"]] = rowdata[field.Relation["join-field"]]>
 		<cfset qRelatedRecords = getRecords(tablename=field.Relation["table"],data=data,fieldlist=field.Relation["field"])>
 		<cfset result = "">
+		
 		<cfloop query="qRelatedRecords">
 			<cfif qRelatedRecords[field.Relation["field"]][CurrentRow] lt result OR NOT Len(result)>
 				<cfset result = qRelatedRecords[field.Relation["field"]][CurrentRow]>
 			</cfif>
 		</cfloop>
+	</cfcase>
+	<cfcase value="has">
+		<cfset result = true>
+	</cfcase>
+	<cfcase value="hasnot">
+		<cfset result = false>
+	</cfcase>
+	<cfcase value="now">
+		<cfset result = now()>
 	</cfcase>
 	<cfcase value="sum">
 		<!--- get the max value from table where join field values match --->
@@ -499,53 +534,64 @@
 	<cfargument name="data" type="struct" required="no" hint="A structure with the data for the desired record. Each key/value indicates a value for the field matching that key.">
 	<cfargument name="orderBy" type="string" default="">
 	<cfargument name="maxrows" type="numeric" default="#variables.rows#">
+	<cfargument name="fieldlist" type="string" default="" hint="A list of fields to return. If left blank, all fields will be returned.">
 	
 	<cfset var qRecords = 0><!--- The recordset to return --->
 	<cfset var fields = getUpdateableFields(arguments.tablename)><!--- non primary-key fields in table --->
 	<cfset var pkfields = getPKFields(arguments.tablename)><!--- primary key fields in table --->
 	<cfset var rfields = getRelationFields(arguments.tablename)><!--- relation fields in table --->
 	<cfset var i = 0><!--- Generic counter --->
-	<cfset var fieldlist = "">
+	<cfset var columnlist = "">
 	<cfset var row = 0><!--- Generic counter --->
 	<cfset var rowdata = 0>
 	
-	<!--- Create data --->
+	<!--- Create column list --->
 	<cfloop index="i" from="1" to="#ArrayLen(pkfields)#" step="1">
-		<cfset fieldlist = ListAppend(fieldlist,pkfields[i]["ColumnName"])>
+		<cfif Len(arguments.fieldlist) eq 0 OR ListFindNoCase(arguments.fieldlist, pkfields[i].ColumnName)>
+			<cfset columnlist = ListAppend(columnlist,pkfields[i]["ColumnName"])>
+		</cfif>
 	</cfloop>
 	<cfloop index="i" from="1" to="#ArrayLen(fields)#" step="1">
-		<cfset fieldlist = ListAppend(fieldlist,fields[i]["ColumnName"])>
+		<cfif Len(arguments.fieldlist) eq 0 OR ListFindNoCase(arguments.fieldlist, fields[i].ColumnName)>
+			<cfset columnlist = ListAppend(columnlist,fields[i]["ColumnName"])>
+		</cfif>
 	</cfloop>
 	<cfloop index="i" from="1" to="#ArrayLen(rfields)#" step="1">
-		<cfset fieldlist = ListAppend(fieldlist,rfields[i]["ColumnName"])>
+		<cfif Len(arguments.fieldlist) eq 0 OR ListFindNoCase(arguments.fieldlist, rfields[i].ColumnName)>
+			<cfset columnlist = ListAppend(columnlist,rfields[i]["ColumnName"])>
+		</cfif>
 	</cfloop>
-	<cfif Len(arguments.orderby)>
-		<cfset fieldlist = ListAppend(fieldlist,"DataMgrOrderField")>
-	</cfif>
 	
-	<cfset qRecords = QueryNew(fieldlist)>
+	<!--- Create data --->
+	<cfset qRecords = QueryNew("#columnlist#,DataMgrOrderField")>
 	
 	<cfloop index="row" from="1" to="#Min(arguments.maxrows,variables.rows)#" step="1">
 		<cfset QueryAddRow(qRecords)>
 		<cfloop index="i" from="1" to="#ArrayLen(pkfields)#" step="1">
-			<cfset QuerySetCell(qRecords, pkfields[i]["ColumnName"], getSimValue(pkfields[i]))>
+			<cfif ListFindNoCase(columnlist,pkfields[i]["ColumnName"])>
+				<cfset QuerySetCell(qRecords, pkfields[i]["ColumnName"], getSimValue(pkfields[i]))>
+			</cfif>
 		</cfloop>
 		<cfloop index="i" from="1" to="#ArrayLen(fields)#" step="1">
-			<cfset QuerySetCell(qRecords, fields[i]["ColumnName"], getSimValue(fields[i]))>
+			<cfif ListFindNoCase(columnlist,fields[i]["ColumnName"])>
+				<cfset QuerySetCell(qRecords, fields[i]["ColumnName"], getSimValue(fields[i]))>
+			</cfif>
 		</cfloop>
 		<cfloop index="i" from="1" to="#ArrayLen(rfields)#" step="1">
-			<cfset rowdata = QueryRowToStruct(qRecords,row)>
-			<cfset QuerySetCell(qRecords, rfields[i]["ColumnName"], getRelatedData(arguments.tablename,rfields[i],rowdata))>
+			<cfif ListFindNoCase(columnlist,rfields[i]["ColumnName"])>
+				<cfset rowdata = QueryRowToStruct(qRecords,row)>
+				<cfset QuerySetCell(qRecords, rfields[i]["ColumnName"], getRelatedData(arguments.tablename,rfields[i],rowdata))>
+			</cfif>
 		</cfloop>
 		
 		<cfif Len(arguments.orderby)>
-			<cfset QuerySetCell(qRecords, "DataMgrOrderField", UCase(qRecords[arguments.orderby][row]))>
+			<cfset QuerySetCell(qRecords, "DataMgrOrderField", UCase(qRecords[ListFirst(arguments.orderby," ")][row]))>
 		</cfif>
 	</cfloop>
 	
 	<cfif Len(arguments.orderby)>
 		<cfquery name="qRecords" dbtype="query">
-		SELECT		#ListDeleteAt(fieldlist,ListLen(fieldlist))#
+		SELECT		#ListDeleteAt(columnlist,ListLen(columnlist))#
 		FROM		qRecords
 		ORDER BY	DataMgrOrderField
 		</cfquery>
@@ -676,7 +722,13 @@
 	<cfloop index="col" list="#fieldlist#">
 		<cfif NOT StructKeyExists(data,col)>
 			<cfset field = getField(arguments.tablename,col)>
-			<cfif StructKeyExists(field,"Default") AND Len(field["Default"])>
+			<cfif StructKeyExists(field,"Special") AND Len(field["Special"])>
+				<cfswitch expression="#field.Special#">
+				<cfcase value="CreationDate,LastUpdatedDate">
+					<cfset data[col] = now()>
+				</cfcase>
+				</cfswitch>
+			<cfelseif StructKeyExists(field,"Default") AND Len(field["Default"])>
 				<cfset data[col] = field["Default"]>
 			</cfif>
 		</cfif>
