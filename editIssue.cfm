@@ -142,7 +142,7 @@
 						<select name="componentID" id="component" onChange="newIssueComponent(this.value);">
 							<option value=""></option>
 							<cfloop query="components">
-								<option value="#componentID#"<cfif not compare(form.componentID,componentID)> selected="selected"</cfif>>#component#</option>
+								<option value="#componentID#"<cfif not compare(variables.componentID,componentID)> selected="selected"</cfif>>#component#</option>
 							</cfloop>
 							<option value="new">--- add new component ---</option>
 						</select>
@@ -152,7 +152,7 @@
 						<select name="versionID" id="version" onChange="newIssueVersion(this.value);">
 							<option value=""></option>
 							<cfloop query="versions">
-								<option value="#versionID#"<cfif not compare(form.versionID,versionID)> selected="selected"</cfif>>#version#</option>
+								<option value="#versionID#"<cfif not compare(variables.versionID,versionID)> selected="selected"</cfif>>#version#</option>
 							</cfloop>
 							<option value="new">--- add new version ---</option>
 						</select>
