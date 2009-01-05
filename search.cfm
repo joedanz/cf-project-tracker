@@ -71,13 +71,13 @@ $(document).ready(function(){
 							<cfif not compare(url.p,'')>
 								<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&f=project">Projects (#projects.recordCount#)</a>,
 							</cfif>
-							<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&f=msgs"<cfif not compare(url.f,'msgs')> class="b"</cfif>>Messages (#messages.recordCount#)</a>, 
-							<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&f=comments"<cfif not compare(url.f,'comments')> class="b"</cfif>>Comments (#comments.recordCount#)</a>, 
-							<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&f=todos"<cfif not compare(url.f,'todos')> class="b"</cfif>>To-Dos (#todos.recordCount#)</a>, 
-							<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&f=files"<cfif not compare(url.f,'files')> class="b"</cfif>>Files (#files.recordCount#)</a>, 
-							<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&f=mstones"<cfif not compare(url.f,'mstones')> class="b"</cfif>>Milestones (#mstones.recordCount#)</a>, 
-							<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&f=issues"<cfif not compare(url.f,'issues')> class="b"</cfif>>Issues (#issues.recordCount#)</a>,
-							<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&f=screen"<cfif not compare(url.f,'screen')> class="b"</cfif>>Screenshots (#screenshots.recordCount#)</a>					
+							<a href="#cgi.script_name#?p=#url.p#&s=#URLEncodedFormat(form.search)#&f=msgs"<cfif not compare(url.f,'msgs')> class="b"</cfif>>Messages (#messages.recordCount#)</a>, 
+							<a href="#cgi.script_name#?p=#url.p#&s=#URLEncodedFormat(form.search)#&f=comments"<cfif not compare(url.f,'comments')> class="b"</cfif>>Comments (#comments.recordCount#)</a>, 
+							<a href="#cgi.script_name#?p=#url.p#&s=#URLEncodedFormat(form.search)#&f=todos"<cfif not compare(url.f,'todos')> class="b"</cfif>>To-Dos (#todos.recordCount#)</a>, 
+							<a href="#cgi.script_name#?p=#url.p#&s=#URLEncodedFormat(form.search)#&f=files"<cfif not compare(url.f,'files')> class="b"</cfif>>Files (#files.recordCount#)</a>, 
+							<a href="#cgi.script_name#?p=#url.p#&s=#URLEncodedFormat(form.search)#&f=mstones"<cfif not compare(url.f,'mstones')> class="b"</cfif>>Milestones (#mstones.recordCount#)</a>, 
+							<a href="#cgi.script_name#?p=#url.p#&s=#URLEncodedFormat(form.search)#&f=issues"<cfif not compare(url.f,'issues')> class="b"</cfif>>Issues (#issues.recordCount#)</a>,
+							<a href="#cgi.script_name#?p=#url.p#&s=#URLEncodedFormat(form.search)#&f=screen"<cfif not compare(url.f,'screen')> class="b"</cfif>>Screenshots (#screenshots.recordCount#)</a>					
 					</div>
 				</cfif>
 				<div class="content">
