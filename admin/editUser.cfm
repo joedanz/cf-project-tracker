@@ -53,7 +53,7 @@
 						<cfelse>	
 							<cfset svn = 0>	
 						</cfif>
-						<cfset application.role.add(i,newID,project_admin,ListGetAt(form.files,listFind(form.all_proj_ids,i)),ListGetAt(form.issues,listFind(form.all_proj_ids,i)),ListGetAt(form.msgs,listFind(form.all_proj_ids,i)),ListGetAt(form.mstones,listFind(form.all_proj_ids,i)),ListGetAt(form.todos,listFind(form.all_proj_ids,i)),svn)>
+						<cfset application.role.add(i,newID,project_admin,ListGetAt(form.files,listFind(form.all_proj_ids,i)),ListGetAt(form.issues,listFind(form.all_proj_ids,i)),ListGetAt(form.msgs,listFind(form.all_proj_ids,i)),ListGetAt(form.mstones,listFind(form.all_proj_ids,i)),ListGetAt(form.todos,listFind(form.all_proj_ids,i)),ListGetAt(form.timetrack,listFind(form.all_proj_ids,i)),svn)>
 					</cfloop>					
 					<cfif not compare(form.from,'admin')>
 						<cflocation url="users.cfm" addtoken="false">
@@ -80,7 +80,7 @@
 					<cfelse>	
 						<cfset svn = 0>	
 					</cfif>
-					<cfset application.role.add(i,form.userid,project_admin,ListGetAt(form.files,listFind(form.all_proj_ids,i)),ListGetAt(form.issues,listFind(form.all_proj_ids,i)),ListGetAt(form.msgs,listFind(form.all_proj_ids,i)),ListGetAt(form.mstones,listFind(form.all_proj_ids,i)),ListGetAt(form.todos,listFind(form.all_proj_ids,i)),svn)>
+					<cfset application.role.add(i,form.userid,project_admin,ListGetAt(form.files,listFind(form.all_proj_ids,i)),ListGetAt(form.issues,listFind(form.all_proj_ids,i)),ListGetAt(form.msgs,listFind(form.all_proj_ids,i)),ListGetAt(form.mstones,listFind(form.all_proj_ids,i)),ListGetAt(form.todos,listFind(form.all_proj_ids,i)),ListGetAt(form.timetrack,listFind(form.all_proj_ids,i)),svn)>
 				</cfloop>
 				<cfif not compare(form.from,'admin')>
 					<cflocation url="users.cfm" addtoken="false">
@@ -146,6 +146,7 @@
 	<cfset form.msgs = "">
 	<cfset form.mstones = "">
 	<cfset form.todos = "">
+	<cfset form.timetrack = "">
 	<cfset form.svn = "">
 	<cfloop query="projects">
 		<cfset form.all_proj_ids = listAppend(form.all_proj_ids,projectid)>
@@ -156,6 +157,7 @@
 			<cfset form.msgs = listAppend(form.msgs,listGetAt(valueList(user_projects.msgs),projectid_loc))>
 			<cfset form.mstones = listAppend(form.mstones,listGetAt(valueList(user_projects.mstones),projectid_loc))>
 			<cfset form.todos = listAppend(form.todos,listGetAt(valueList(user_projects.todos),projectid_loc))>
+			<cfset form.timetrack = listAppend(form.timetrack,listGetAt(valueList(user_projects.timetrack),projectid_loc))>
 			<cfset form.svn = listAppend(form.svn,listGetAt(valueList(user_projects.svn),projectid_loc))>
 		<cfelse>
 			<cfset form.files = listAppend(form.files,'0')>
@@ -163,6 +165,7 @@
 			<cfset form.msgs = listAppend(form.msgs,'0')>
 			<cfset form.mstones = listAppend(form.mstones,'0')>
 			<cfset form.todos = listAppend(form.todos,'0')>
+			<cfset form.timetrack = listAppend(form.timetrack,'0')>
 			<cfset form.svn = listAppend(form.svn,'0')>
 		</cfif>
 	</cfloop>
@@ -189,7 +192,7 @@
 	<cfparam name="form.msgs" default="#default_roles#">
 	<cfparam name="form.mstones" default="#default_roles#">
 	<cfparam name="form.todos" default="#default_roles#">
-	<cfparam name="form.time" default="#default_roles#">
+	<cfparam name="form.timetrack" default="#default_roles#">
 	<cfparam name="form.svn" default="#replace(default_roles,'2','1','all')#">
 </cfif>
 
@@ -324,6 +327,7 @@
 								<th>Messages</th>
 								<th>Milestones</th>
 								<th>To-Dos</th>
+								<th>Time Tracking</th>
 								<th>SVN</th>
 							</tr>
 							<cfloop query="projects">
@@ -364,6 +368,13 @@
 										<option value="2"<cfif ListGetAt(form.todos,listFind(form.all_proj_ids,projectid)) eq 2> selected="selected"</cfif>>Full Access</option>
 										<option value="1"<cfif ListGetAt(form.todos,listFind(form.all_proj_ids,projectid)) eq 1> selected="selected"</cfif>>Read-Only</option>
 										<option value="0"<cfif ListGetAt(form.todos,listFind(form.all_proj_ids,projectid)) eq 0> selected="selected"</cfif>>None</option>
+									</select>							
+								</td>
+								<td>
+									<select name="timetrack" onchange="if (this.selectedIndex > 0) $('##a_#replace(projectid,'-','','ALL')#').attr('checked','');">
+										<option value="2"<cfif ListGetAt(form.timetrack,listFind(form.all_proj_ids,projectid)) eq 2> selected="selected"</cfif>>Full Access</option>
+										<option value="1"<cfif ListGetAt(form.timetrack,listFind(form.all_proj_ids,projectid)) eq 1> selected="selected"</cfif>>Read-Only</option>
+										<option value="0"<cfif ListGetAt(form.timetrack,listFind(form.all_proj_ids,projectid)) eq 0> selected="selected"</cfif>>None</option>
 									</select>							
 								</td>
 								<td><input type="checkbox" name="svnids" value="#projectid#" id="p_#replace(projectid,'-','','ALL')#" class="cb" onchange="if (this.checked == false) $('##a_#replace(projectid,'-','','ALL')#').attr('checked','');"<cfif ListGetAt(form.svn,listFind(form.all_proj_ids,projectid)) eq 1> checked="checked"</cfif> /></td>
