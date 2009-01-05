@@ -37,16 +37,15 @@
 									<cfset data[i] = getData>
 								</cfif>
 							</cfloop>
+
+							<cfwddx action="cfml2wddx" input="#data#" output="packet">
+							<cffile action="write" file="#expandPath("./backup/temp/data.packet")#" output="#packet#">
 						
 							<!--- file to store zip --->
 							<cfset zfile = expandPath("./backup/#UCase(DateFormat(Now(),"yyyymmmdd"))#_#TimeFormat(now(),"HHMMSS")#_backup.zip")>
 						
-							<cfwddx action="cfml2wddx" input="#data#" output="packet">
-						
 							<!--- zip up data --->
-							<cfzip action="zip" file="#zfile#" overwrite="true">
-							   <cfzipparam content="#packet#" entrypath="data.packet">
-							</cfzip>
+							<cfzip action="zip" file="#zfile#" overwrite="true" source="#expandPath("./backup/temp/")#">
 								
 							<div class="successbox">Backup file saved to <em>#zfile#</em>.</div>
 							
@@ -91,7 +90,7 @@
 				 			
 							<cfdirectory action="list" directory="#expandPath('./backup')#" name="backup_files">
 							<cfquery name="backups" dbtype="query">
-								select * from backup_files order by datelastmodified desc
+								select * from backup_files where name != 'temp' order by datelastmodified desc
 							</cfquery>
 				 			<cfif backups.recordCount eq 0>
 								<div class="alert">There are no backup files.</div>
