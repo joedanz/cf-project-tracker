@@ -169,7 +169,7 @@
 		<cfargument name="admin" type="boolean" required="true">
 		<cfset var qScreenshots = "">
 		<cfquery name="qScreenshots" datasource="#variables.dsn#">
-			SELECT s.fileID, s.title, s.description, s.filename, s.serverfilename, s.filetype,
+			SELECT s.fileID, s.issueID, s.title, s.description, s.filename, s.serverfilename, s.filetype,
 				s.filesize,s.uploaded,s.uploadedBy,u.firstName, u.lastName, p.projectID, p.name as projName
 			FROM #variables.tableprefix#screenshots s
 				INNER JOIN #variables.tableprefix#issues i ON s.issueID = i.issueID
