@@ -192,8 +192,7 @@
 		<cfset var qTodoLists = "">
 		<cfquery name="qTodoLists" datasource="#variables.dsn#">
 			SELECT t.todoID, t.todolistID, t.projectID, t.task, t.userID, t.rank, t.due, t.completed, 
-					t.svnrevision, tl.title, tl.description, u.firstName, u.lastName, p.projectID, 
-					p.name as projName
+					tl.title, tl.description, u.firstName, u.lastName, p.projectID, p.name as projName
 				FROM #variables.tableprefix#todos t 
 					INNER JOIN #variables.tableprefix#projects p ON t.projectID = p.projectID
 					LEFT JOIN #variables.tableprefix#todolists tl ON t.todolistID = tl.todolistID
