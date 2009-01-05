@@ -93,7 +93,7 @@ ALTER TABLE [dbo].[pt_svn_link] WITH NOCHECK ADD
 GO
 
 /* pt_timetrack */
-CREATE TABLE [pt_timetrack] (
+CREATE TABLE [dbo].[pt_timetrack] (
 	[timetrackID] char (35) NOT NULL,
 	[projectID] char (35) NULL,
 	[userID] char (35) NULL,
