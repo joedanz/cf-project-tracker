@@ -298,7 +298,7 @@ CREATE TABLE `pt_todos` (
   `todolistID` char(35) NOT NULL,
   `projectID` char(35) NOT NULL,
   `userID` char(35) NOT NULL,
-  `task` varchar(300) default NULL,
+  `task` varchar(600) default NULL,
   `rank` int(3) default NULL,
   `added` datetime default NULL,
   `due` datetime default NULL,

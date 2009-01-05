@@ -71,5 +71,5 @@ ALTER TABLE `pt_todolists` ADD `timetrack` int(1) default NULL;
 UPDATE `pt_todolists` set `timetrack` = 0;
 
 /* pt_todos */
-ALTER TABLE `pt_todos` MODIFY `task` varchar(300) default NULL;
+ALTER TABLE `pt_todos` MODIFY `task` varchar(600) default NULL;
 ALTER TABLE `pt_todos` DROP COLUMN `svnrevision`;

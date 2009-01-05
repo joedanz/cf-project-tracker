@@ -118,7 +118,7 @@ UPDATE [dbo].[pt_todolists] SET timetrack = 0
 GO
 
 /* pt_todos */
-ALTER TABLE [dbo].[pt_todos] ALTER COLUMN [task] [nvarchar] (300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+ALTER TABLE [dbo].[pt_todos] ALTER COLUMN [task] [nvarchar] (600) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 GO
 ALTER TABLE [dbo].[pt_todos] DROP COLUMN [svnrevision]
 GO

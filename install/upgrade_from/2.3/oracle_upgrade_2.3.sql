@@ -95,7 +95,7 @@ alter table
 	pt_todos 
 modify 
 	(
-	task varchar2(300) NULL
+	task varchar2(600) NULL
 	);
 alter table 
 	pt_todos 

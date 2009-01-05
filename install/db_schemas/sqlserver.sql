@@ -345,7 +345,7 @@ CREATE TABLE [dbo].[pt_todos] (
 	[todolistID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[userID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-	[task] [nvarchar] (300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[task] [nvarchar] (600) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
 	[rank] [int] NULL ,
 	[added] [datetime] NULL ,
 	[due] [datetime] NULL ,
