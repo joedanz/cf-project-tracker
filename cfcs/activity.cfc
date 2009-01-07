@@ -39,7 +39,7 @@
 				<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.projectIDlist,'')>
-				AND a.projectID IN ('#replace(arguments.projectIDlist,",","','","ALL")#')
+				AND a.projectID IN (<cfqueryparam value="#arguments.projectIDlist#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 			</cfif>			
 			<cfif arguments.recentOnly>
 				AND a.stamp > #DateAdd("m",-1,Now())#

@@ -28,7 +28,7 @@
 					LEFT JOIN #variables.tableprefix#users u ON c.userid = u.userid
 			WHERE c.commentText like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
 				<cfif not arguments.admin>
-					AND p.projectID IN ('#replace(ValueList(session.user.projects.projectID),",","','","ALL")#')
+					AND p.projectID IN (<cfqueryparam value="#ValueList(session.user.projects.projectID)#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 				</cfif>
 			ORDER BY c.stamp desc
 		</cfquery>
@@ -55,7 +55,7 @@
 				(f.title like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
 				OR f.description like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">)
 				<cfif not arguments.admin>
-					AND p.projectID IN ('#replace(ValueList(session.user.projects.projectID),",","','","ALL")#')
+					AND p.projectID IN (<cfqueryparam value="#ValueList(session.user.projects.projectID)#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 				</cfif>
 			ORDER BY f.title asc
 		  </cfquery>
@@ -91,7 +91,7 @@
 			WHERE (i.issue like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
 				OR i.detail like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">)
 				<cfif not arguments.admin>
-					AND p.projectID IN ('#replace(ValueList(session.user.projects.projectID),",","','","ALL")#')
+					AND p.projectID IN (<cfqueryparam value="#ValueList(session.user.projects.projectID)#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 				</cfif>
 		</cfquery>		
 		<cfreturn qIssues>
@@ -115,7 +115,7 @@
 			WHERE mc.type = 'msg' AND (m.title like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
 				OR m.message like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">)
 				<cfif not arguments.admin>
-					AND p.projectID IN ('#replace(ValueList(session.user.projects.projectID),",","','","ALL")#')
+					AND p.projectID IN (<cfqueryparam value="#ValueList(session.user.projects.projectID)#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 				</cfif>
 			ORDER BY m.stamp desc
 		</cfquery>
@@ -136,7 +136,7 @@
 			WHERE (m.name like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
 				OR m.description like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">)
 				<cfif not arguments.admin>
-					AND p.projectID IN ('#replace(ValueList(session.user.projects.projectID),",","','","ALL")#')
+					AND p.projectID IN (<cfqueryparam value="#ValueList(session.user.projects.projectID)#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 				</cfif>
 		</cfquery>
 		<cfreturn qMilestones>
@@ -156,7 +156,7 @@
 			WHERE (p.name like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
 				OR p.description like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">)
 				<cfif not arguments.admin>
-					AND p.projectID IN ('#replace(ValueList(session.user.projects.projectID),",","','","ALL")#')
+					AND p.projectID IN (<cfqueryparam value="#ValueList(session.user.projects.projectID)#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 				</cfif>
 				ORDER BY p.name
 		</cfquery>		
@@ -179,7 +179,7 @@
 				OR s.filename like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
 				OR s.description like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">)
 				<cfif not arguments.admin>
-					AND p.projectID IN ('#replace(ValueList(session.user.projects.projectID),",","','","ALL")#')
+					AND p.projectID IN (<cfqueryparam value="#ValueList(session.user.projects.projectID)#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 				</cfif>
 		</cfquery>
 		<cfreturn qScreenshots>
@@ -201,7 +201,7 @@
 				OR tl.title like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
 				OR tl.description like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">)
 				<cfif not arguments.admin>
-					AND p.projectID IN ('#replace(ValueList(session.user.projects.projectID),",","','","ALL")#')
+					AND p.projectID IN (<cfqueryparam value="#ValueList(session.user.projects.projectID)#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 				</cfif>
 			ORDER BY tl.rank,tl.added,t.added
 		</cfquery>

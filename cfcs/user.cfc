@@ -65,7 +65,7 @@
 				AND u.userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
 			</cfif>
 			<cfif compare(ARGUMENTS.userIDlist,'')>
-				AND u.userID IN ('#replace(arguments.userIDlist,",","','","ALL")#')
+				AND u.userID IN (<cfqueryparam value="#arguments.userIDlist#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 			</cfif>
 			<cfif compare(ARGUMENTS.username,'')>
 				AND u.username = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#" maxlength="30">

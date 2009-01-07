@@ -33,7 +33,7 @@
 				AND m.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.projectIDlist,'')>
-				AND m.projectID IN ('#replace(arguments.projectIDlist,",","','","ALL")#')
+				AND m.projectID IN (<cfqueryparam value="#arguments.projectIDlist#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 			</cfif>
 			<cfif compare(arguments.milestoneID,'')>
 				AND m.milestoneID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.milestoneID#" maxlength="35">

@@ -32,7 +32,7 @@
 			WHERE 0=0
 				<cfif compare(arguments.projectID,'')> AND tl.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35"></cfif>
 				<cfif compare(arguments.projectIDlist,'')>
-					AND tl.projectID IN ('#replace(arguments.projectIDlist,",","','","ALL")#')
+					AND tl.projectID IN (<cfqueryparam value="#arguments.projectIDlist#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 				</cfif>				
 				<cfif compare(arguments.todolistID,'')> AND tl.todolistID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35"></cfif>
 				<cfif compare(arguments.milestoneID,'')> AND ms.milestoneID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35"></cfif>

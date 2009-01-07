@@ -284,7 +284,7 @@
 				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.projectIDlist,'')>
-				AND projectID IN ('#replace(arguments.projectIDlist,",","','","ALL")#')
+				AND projectID IN (<cfqueryparam value="#arguments.projectIDlist#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 			</cfif>
 			<cfif arguments.admin>AND pu.admin = 1</cfif>
 			ORDER BY #arguments.order_by#

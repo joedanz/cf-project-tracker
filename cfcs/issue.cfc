@@ -47,13 +47,13 @@
 				AND i.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.projectIDlist,'')>
-				AND i.projectID IN ('#replace(arguments.projectIDlist,",","','","ALL")#')
+				AND i.projectID IN (<cfqueryparam value="#arguments.projectIDlist#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 			</cfif>			
 			<cfif compare(arguments.issueID,'')>
 				AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.status,'')>
-				AND i.status IN (<cfif find('|',arguments.status)>'#replace(arguments.status,"|","','","ALL")#'<cfelse><cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#"></cfif>)
+				AND i.status IN (<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" list="Yes" separator="|">)
 			</cfif>
 			<cfif compare(arguments.type,'')>
 				AND i.type = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="11">
