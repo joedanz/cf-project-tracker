@@ -20,7 +20,7 @@
 		</cfif>
 		<cfset projectUsers = application.project.projectUsers(url.p)>
 		<cfset todos_notcompleted = application.todo.get('',url.lid,'0','due,rank,added')>
-		<cfset todos_reordered = QueryNew('todoID,todolistID,projectID,task,userID,rank,due,completed,svnrevision,firstname,lastname')>
+		<cfset todos_reordered = QueryNew('todoID,todolistID,projectID,task,userID,rank,due,completed,firstname,lastname')>
 		<cfloop query="todos_notcompleted">
 			<cfif isDate(due)> <!--- add items with due dates --->
 				<cfset QueryAddRow(todos_reordered)>
@@ -32,7 +32,6 @@
 				<cfset QuerySetCell(todos_reordered,'rank',rank)>
 				<cfset QuerySetCell(todos_reordered,'due',due)>
 				<cfset QuerySetCell(todos_reordered,'completed',completed)>
-				<cfset QuerySetCell(todos_reordered,'svnrevision',svnrevision)>
 				<cfset QuerySetCell(todos_reordered,'firstname',firstname)>
 				<cfset QuerySetCell(todos_reordered,'lastname',lastname)>
 			</cfif>
@@ -48,7 +47,6 @@
 				<cfset QuerySetCell(todos_reordered,'rank',rank)>
 				<cfset QuerySetCell(todos_reordered,'due',due)>
 				<cfset QuerySetCell(todos_reordered,'completed',completed)>
-				<cfset QuerySetCell(todos_reordered,'svnrevision',svnrevision)>
 				<cfset QuerySetCell(todos_reordered,'firstname',firstname)>
 				<cfset QuerySetCell(todos_reordered,'lastname',lastname)>
 			</cfif>
