@@ -24,10 +24,30 @@
 <script type='text/javascript'>
 $(document).ready(function(){
 	<cfif project.issues gt 0 and issues.recordCount>
+    $.tablesorter.addParser({ 
+        id: 'severity', 
+        is: function(s) {  
+            return false; // return false so this parser is not auto detected
+        }, 
+        format: function(s) { 
+            return s.toLowerCase().replace(/critical/,4).replace(/major/,3).replace(/normal/,2).replace(/minor/,1).replace(/trivial/,0); 
+        }, 
+        type: 'numeric' 
+    });
+	$.tablesorter.addParser({ 
+        id: 'status', 
+        is: function(s) {  
+            return false; // return false so this parser is not auto detected
+        }, 
+        format: function(s) { 
+            return s.toLowerCase().replace(/closed/,3).replace(/resolved/,2).replace(/accepted/,1).replace(/new/,0); 
+        }, 
+        type: 'numeric' 
+    });
 	$('##issues').tablesorter({
 			cssHeader: 'theader',
 			sortList: [[0,0]],
-			headers: { 3: { sorter:'statuses' }, 6: { sorter:'usMonthOnlyDate' }, 7: { sorter:'usMonthOnlyDate' } },
+			headers: { 2: { sorter:'severity' }, 3: { sorter:'statuses' }, 6: { sorter:'usMonthOnlyDate' }, 7: { sorter:'usMonthOnlyDate' } },
 			widgets: ['zebra']  
 	});
 	</cfif>
@@ -189,8 +209,8 @@ $(document).ready(function(){
 							<th>ID</th>
 							<th>Type</th>
 							<th>Severity</th>
-							<th>Issue</th>
 							<th>Status</th>
+							<th>Issue</th>
 							<th>Assigned To</th>
 							<th>Reported</th>
 							<th>Updated</th>
@@ -204,8 +224,8 @@ $(document).ready(function(){
 							<td><a href="issue.cfm?p=#url.p#&i=#issueID#">#shortID#</a></td>
 							<td>#type#</td>
 							<td>#severity#</td>
-							<td><a href="issue.cfm?p=#url.p#&i=#issueID#">#issue#</a></td>
 							<td>#status#</td>
+							<td><a href="issue.cfm?p=#url.p#&i=#issueID#">#issue#</a></td>
 							<td>#assignedFirstName# #assignedLastName#</td>
 							<td>#DateFormat(created,"mmm d")#</td>
 							<td>#DateFormat(updated,"mmm d")#</td>

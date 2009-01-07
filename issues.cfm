@@ -31,12 +31,22 @@
 <cfhtmlhead text="<script type='text/javascript'>
 $(document).ready(function(){
     $.tablesorter.addParser({ 
-        id: 'statuses', 
+        id: 'severity', 
         is: function(s) {  
             return false; // return false so this parser is not auto detected
         }, 
         format: function(s) { 
-            return s.toLowerCase().replace(/trivial/,4).replace(/minor/,3).replace(/normal/,2).replace(/major/,1).replace(/critical/,0); 
+            return s.toLowerCase().replace(/critical/,4).replace(/major/,3).replace(/normal/,2).replace(/minor/,1).replace(/trivial/,0); 
+        }, 
+        type: 'numeric' 
+    });
+	$.tablesorter.addParser({ 
+        id: 'status', 
+        is: function(s) {  
+            return false; // return false so this parser is not auto detected
+        }, 
+        format: function(s) { 
+            return s.toLowerCase().replace(/closed/,3).replace(/resolved/,2).replace(/accepted/,1).replace(/new/,0); 
         }, 
         type: 'numeric' 
     });
@@ -54,7 +64,7 @@ $(document).ready(function(){
 	$('##issues').tablesorter({
 			cssHeader: 'theader',
 			sortList: [[0,0]],
-			headers: { 3: { sorter:'statuses' }, 6: { sorter:'usMonthOnlyDate' }, 7: { sorter:'usMonthOnlyDate' }, 8: { sorter:'usMonthOnlyDate' } },
+			headers: { 2: { sorter:'severity' }, 3: { sorter:'status' }, 6: { sorter:'usMonthOnlyDate' }, 8: { sorter:'usMonthOnlyDate' }, 9: { sorter:'usMonthOnlyDate' }, 10: { sorter:'usMonthOnlyDate' } },
 			widgets: ['zebra']  
 	});
 });
