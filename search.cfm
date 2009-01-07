@@ -125,7 +125,11 @@ $(document).ready(function(){
 											<cfif not compare(url.p,'')>
 												<a href="project.cfm?p=#projectID#">#projName#</a> : 
 											</cfif>
-											<a href="message.cfm?p=#projectID#">#title#</a>
+											<cfif compare(messageID,'')>
+												<a href="message.cfm?p=#projectID#&m=#messageID#">#title#</a>
+											<cfelseif compare(issueID,'')>
+												<a href="issue.cfm?p=#projectID#&m=#issueID#">#issue#</a>
+											</cfif>
 										</h4>
 										<cfif compare(commentText,'')><p>#left(commentText,200)#<cfif len(commentText) gt 200>...</cfif></p></cfif>
 									</div>

@@ -20,11 +20,12 @@
 		<cfset var qComments = "">
 		
 		<cfquery name="qComments" datasource="#variables.dsn#">
-			SELECT c.commentID, c.itemID, c.commentText, c.stamp, m.title,
+			SELECT c.commentID, c.itemID, c.commentText, c.stamp, m.messageID, m.title, i.issueID, i.issue,
 				u.userID, u.firstName, u.lastName, u.avatar, p.projectID, p.name as projName
 				FROM #variables.tableprefix#comments c 
 					INNER JOIN #variables.tableprefix#projects p ON c.projectID = p.projectID
-					LEFT JOIN #variables.tableprefix#messages m	ON c.messageID = m.messageID  
+					LEFT JOIN #variables.tableprefix#messages m	ON c.itemID = m.messageID AND c.type = 'msg'  
+					LEFT JOIN #variables.tableprefix#issues i ON c.itemID = i.issueID AND c.type = 'issue'
 					LEFT JOIN #variables.tableprefix#users u ON c.userid = u.userid
 			WHERE c.commentText like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
 				<cfif not arguments.admin>
