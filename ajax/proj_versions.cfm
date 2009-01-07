@@ -12,7 +12,7 @@
 	</cfcase>
 </cfswitch>
 
-<cfset versions = application.project.version()>
+<cfset versions = application.project.version(url.p)>
 <cfoutput query="versions">
 	<li id="versionr#currentRow#"<cfif not compareNoCase(url.i,version)> class="current"</cfif>>#currentRow#) #version# &nbsp; <a href="##" onclick="$('##versionr#currentRow#').hide();$('##edit_versionr#currentRow#').show();$('##version#currentRow#').focus();return false;">Edit</a> &nbsp;<cfif numIssues><span class="g i">(#numIssues# issue<cfif numIssues gt 1>s</cfif>)</span><cfelse><a href="" onclick="confirm_item_delete('#url.p#','#versionID#','#version#','version');return false;" class="delete"></a></cfif></li>
 	<li id="edit_versionr#currentRow#" style="display:none;">

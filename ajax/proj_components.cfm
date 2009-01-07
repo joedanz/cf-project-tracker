@@ -12,7 +12,7 @@
 	</cfcase>
 </cfswitch>
 
-<cfset components = application.project.component()>
+<cfset components = application.project.component(url.p)>
 <cfoutput query="components">
 	<li id="componentr#currentRow#"<cfif not compareNoCase(url.i,component)> class="current"</cfif>>#currentRow#) #component# &nbsp; <a href="##" onclick="$('##componentr#currentRow#').hide();$('##edit_componentr#currentRow#').show();$('##component#currentRow#').focus();return false;">Edit</a> &nbsp;<cfif numIssues><span class="g i">(#numIssues# issue<cfif numIssues gt 1>s</cfif>)</span><cfelse><a href="" onclick="confirm_item_delete('#url.p#','#componentID#','#component#','component');return false;" class="delete"></a></cfif></li>
 	<li id="edit_componentr#currentRow#" style="display:none;">
