@@ -13,5 +13,4 @@ mailPassword=
 showDebug=true
 errorPage=false
 showError=true
-sessionTimeout=90
 version=2.4.4
