@@ -1,7 +1,7 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfset applicationName = "project_tracker">
-<cfapplication name="#applicationName#" sessionManagement="true" loginstorage="session">
+<cfapplication name="#applicationName#" sessionManagement="true" loginstorage="session" sessiontimeout="#CreateTimeSpan(0,1,30,0)#">
 
 <cfparam name="application.settings.showDebug" default="false">
 <cfsetting showdebugoutput="#application.settings.showDebug#">
