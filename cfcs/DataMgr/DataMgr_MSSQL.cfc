@@ -1,5 +1,5 @@
-<!--- 2.2 Beta 3 (Build 143) --->
-<!--- Last Updated: 2008-12-02 --->
+<!--- 2.2 RC (Build 145) --->
+<!--- Last Updated: 2009-01-05 --->
 <!--- Created by Steve Bryant 2004-12-08 --->
 <cfcomponent extends="DataMgr" displayname="Data Manager for MS SQL Server" hint="I manage data interactions with the MS SQL Server database. I can be used to handle inserts/updates.">
 
@@ -337,6 +337,57 @@
 	<cfreturn true>
 </cffunction>
 
+<cffunction name="getDBTableIndexes" access="public" returntype="query" output="false" hint="">
+	<cfargument name="tablename" type="string" required="yes">
+	<cfargument name="indexname" type="string" required="no">
+	
+	<cfset var sql = "">
+	<cfset var fields = "">
+	<cfset var qRawIndexes = 0>
+	<cfset var qIndexes = QueryNew("tablename,indexname,fields,unique,clustered")>
+	
+	<cfsavecontent variable="sql"><cfoutput>
+	SELECT		object_name(i.id) AS table_name,
+				col_name(i.id, ik.colid) AS column_name,
+				i.name AS index_name,
+				indexproperty(i.id, i.name, 'IsClustered') AS isclustered,
+				ik.keyno AS index_order,
+				INDEXPROPERTY( i.id , i.name , 'IsUnique' ) AS isunique
+	FROM		sysindexes i
+	JOIN		sysindexkeys ik
+		ON		i.id = ik.id
+		AND		i.indid = ik.indid
+	WHERE		i.indid BETWEEN 1 AND 254
+		AND 	indexproperty(i.id, name, 'IsHypothetical') = 0
+		AND 	indexproperty(i.id, name, 'IsStatistics') = 0
+		AND 	indexproperty(i.id, name, 'IsAutoStatistics') = 0
+		AND 	objectproperty(i.id, 'IsMsShipped') = 0
+		AND		object_name(i.id) = '#arguments.tablename#'
+		<cfif StructKeyExists(arguments,"indexname")>
+		AND 	i.name = '#arguments.indexname#'
+		</cfif>
+		AND		NOT i.name LIKE 'PK_%'
+	ORDER BY	table_name, i.id, ik.colid, isclustered DESC, ik.keyno
+	</cfoutput></cfsavecontent>
+	
+	<cfset qRawIndexes = runSQL(sql)>
+	
+	<cfoutput query="qRawIndexes" group="index_name">
+		<cfset fields = "">
+		<cfset QueryAddRow(qIndexes)>
+		<cfset QuerySetCell(qIndexes,"tablename",table_name)>
+		<cfset QuerySetCell(qIndexes,"indexname",index_name)>
+		<cfset QuerySetCell(qIndexes,"unique",isunique)>
+		<cfset QuerySetCell(qIndexes,"clustered",isclustered)>
+		<cfoutput>
+			<cfset fields = ListAppend(fields,column_name)>
+		</cfoutput>
+		<cfset QuerySetCell(qIndexes,"fields",fields)>
+	</cfoutput>
+	
+	<cfreturn qIndexes>
+</cffunction>
+
 <cffunction name="getInsertedIdentity" access="private" returntype="string" output="no" hint="I get the value of the identity field that was just inserted into the given table.">
 	<cfargument name="tablename" type="string" required="yes">
 	<cfargument name="identfield" type="string" required="yes">
@@ -347,6 +398,24 @@
 	<cfset qCheckKey = runSQL("SELECT	IDENT_CURRENT ('#arguments.tablename#') AS NewID")>
 	
 	<cfset result = qCheckKey.NewID>
+	
+	<cfreturn result>
+</cffunction>
+
+<cffunction name="hasIndex" access="private" returntype="boolean" output="false" hint="">
+	<cfargument name="tablename" type="string" required="yes">
+	<cfargument name="indexname" type="string" required="yes">
+	
+	<cfset var result = false>
+	<cfset var qIndexes = RunSQL("
+	SELECT	1
+	FROM	sysindexes
+	WHERE	name = '#arguments.indexname#'
+	")>
+	
+	<cfif qIndexes.RecordCount>
+		<cfset result = true>
+	</cfif>
 	
 	<cfreturn result>
 </cffunction>

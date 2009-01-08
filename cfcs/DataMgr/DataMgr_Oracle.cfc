@@ -1,5 +1,5 @@
-<!--- 2.2 Beta 3 (Build 143) --->
-<!--- Last Updated: 2008-12-02 --->
+<!--- 2.2 RC (Build 145) --->
+<!--- Last Updated: 2009-01-05 --->
 <!--- Created by Beth Bowden and Steve Bryant 2007-01-14 --->
 <cfcomponent extends="DataMgr" displayname="Data Manager for Oracle" hint="I manage data interactions with the Oracle database. I can be used to handle inserts/updates.">
 
@@ -353,6 +353,68 @@ CREATE OR REPLACE TRIGGER #escape("BI_#arguments.tablename#")# #lf#  before inse
 	<cfreturn result />
 </cffunction>
 
+<cffunction name="getDBTableIndexes" access="public" returntype="query" output="false" hint="">
+	<cfargument name="tablename" type="string" required="yes">
+	<cfargument name="indexname" type="string" required="no">
+	
+	<cfset var sql = "">
+	<cfset var fields = "">
+	<cfset var qRawIndexes = 0>
+	<cfset var qIndexes = QueryNew("tablename,indexname,fields,unique,clustered")>
+	
+	<cfsavecontent variable="sql"><cfoutput>
+	SELECT		ui.table_name, ui.index_name, DECODE(ui.uniqueness, 'UNIQUE', 'YES', 'NO') AS non_unique,
+				ai.index_type, ai.column_name,ai.column_position
+	FROM		user_indexes ui
+	INNER JOIN	(
+					SELECT		aic.index_name,
+								aic.table_name,
+								aic.column_name,
+								aic.column_position,
+								aic.descend,
+								aic.table_owner,
+								CASE alc.constraint_type
+									WHEN 'U' THEN 'UNIQUE'
+									WHEN 'P' THEN 'PRIMARY KEY'
+									ELSE ''
+								END AS index_type
+					FROM		all_ind_columns aic
+					LEFT JOIN	all_constraints alc
+						ON		aic.index_name = alc.constraint_name
+							AND	aic.table_name = alc.table_name
+							AND	aic.table_owner = alc.owner
+					WHERE		aic.table_name = '#UCase(arguments.tablename)#' -- table name
+					<cfif StructKeyExists(arguments,"indexname")>
+						AND		aic.index_name = '#arguments.indexname#' -- index name
+					</cfif>
+					ORDER BY	column_position
+				) ai
+		ON		ui.index_name = ai.index_name
+	ORDER BY	ui.table_name, ui.index_name, ui.uniqueness desc, ai.column_position
+	</cfoutput></cfsavecontent>
+	
+	<cfset qRawIndexes = runSQL(sql)>
+	
+	<cfoutput query="qRawIndexes" group="index_name">
+		<cfset fields = "">
+		<cfset QueryAddRow(qIndexes)>
+		<cfset QuerySetCell(qIndexes,"tablename",table_name)>
+		<cfset QuerySetCell(qIndexes,"indexname",index_name)>
+		<cfif index_type EQ "UNIQUE">
+			<cfset QuerySetCell(qIndexes,"unique",true)>
+		<cfelse>
+			<cfset QuerySetCell(qIndexes,"unique",false)>
+		</cfif>
+		<cfset QuerySetCell(qIndexes,"clustered",false)><!--- %%TODO: Get correct value --->
+		<cfoutput>
+			<cfset fields = ListAppend(fields,column_name)>
+		</cfoutput>
+		<cfset QuerySetCell(qIndexes,"fields",fields)>
+	</cfoutput>
+	
+	<cfreturn qIndexes>
+</cffunction>
+
 <cffunction name="getFieldSQL_Has" access="private" returntype="any" output="no">
 	<cfargument name="tablename" type="string" required="yes">
 	<cfargument name="field" type="string" required="yes">
@@ -404,6 +466,35 @@ CREATE OR REPLACE TRIGGER #escape("BI_#arguments.tablename#")# #lf#  before inse
 	</cfif>
 
 	<cfreturn true>
+</cffunction>
+
+<cffunction name="hasIndex" access="private" returntype="boolean" output="false" hint="">
+	<cfargument name="tablename" type="string" required="yes">
+	<cfargument name="indexname" type="string" required="yes">
+	
+	<cfset var result = false>
+	<cfset var qIndexes = RunSQL("
+		SELECT 
+					dic.table_name AS table_name, 
+					dic.index_name AS index_name,
+					DECODE(di.uniqueness, 'UNIQUE', 'YES', 'NO') AS non_unique,
+					dic.column_position AS index_order, 
+					dic.column_name 
+		FROM		user_indexes di
+		INNER JOIN	user_ind_columns dic
+			ON		di.table_name = dic.table_name
+				AND	di.index_name = dic.index_name
+		WHERE		1 = 1 
+			AND		dic.table_name = '#UCase(arguments.tablename)#'
+			AND		dic.index_name = '#arguments.indexname#'
+		ORDER BY	dic.table_name, dic.index_name, di.uniqueness desc, dic.column_position
+	")>
+	
+	<cfif qIndexes.RecordCount>
+		<cfset result = true>
+	</cfif>
+	
+	<cfreturn result>
 </cffunction>
 
 <cffunction name="isStringType" access="private" returntype="boolean" output="no" hint="I indicate if the given datatype is valid for string data.">

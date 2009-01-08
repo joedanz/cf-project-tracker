@@ -1,5 +1,5 @@
-<!--- 2.2 Beta 3 (Build 143) --->
-<!--- Last Updated: 2008-12-02 --->
+<!--- 2.2 RC (Build 145) --->
+<!--- Last Updated: 2009-01-05 --->
 <!--- Created by Steve Bryant 2004-12-08 --->
 <cfcomponent extends="DataMgr" displayname="Data Manager for PostGreSQL" hint="I manage data interactions with the PostGreSQL database. I can be used to handle inserts/updates.">
 
@@ -314,6 +314,49 @@
 	<cfreturn true>
 </cffunction>
 
+<cffunction name="getDBTableIndexes" access="public" returntype="query" output="false" hint="">
+	<cfargument name="tablename" type="string" required="yes">
+	<cfargument name="indexname" type="string" required="no">
+	
+	<cfset var sql = "">
+	<cfset var qIndexes = 0>
+	
+	<cfsavecontent variable="sql"><cfoutput>
+	SELECT		(
+					SELECT	relname
+					FROM	pg_class tables
+					WHERE	oid = pg_index.indrelid
+				) AS table_name,
+				pg_class.relname AS index_name,
+				indisclustered AS isclustered,
+				--indkey,
+				attname AS column_name
+	FROM		pg_class
+	INNER JOIN	pg_index
+		ON		pg_class.oid = pg_index.indexrelid
+	INNER JOIN	pg_attribute a
+		ON	a.attnum = ANY(indkey)
+		AND	a.attrelid = pg_index.indrelid
+	WHERE		1 = 1
+		AND		pg_class.oid IN (
+					SELECT		indexrelid
+					FROM		pg_index,
+							pg_class
+					WHERE		1 = 1
+						AND		pg_class.relname = '#LCase(arguments.tablename)#'
+						AND		pg_class.oid=pg_index.indrelid
+						--AND	indisunique != 't'
+						AND		indisprimary != 't'
+				)
+		<cfif StructKeyExists(arguments,"indexname")>
+		AND		pg_class.relname = '#arguments.indexname#'
+		</cfif>
+	</cfoutput></cfsavecontent>
+	<cfset qIndexes = runSQL(sql)>
+	
+	<cfreturn qIndexes>
+</cffunction>
+
 <cffunction name="getFieldSQL_Has" access="private" returntype="any" output="no">
 	<cfargument name="tablename" type="string" required="yes">
 	<cfargument name="field" type="string" required="yes">
@@ -376,6 +419,33 @@
 	
 	<cfif fparens1 AND fparens2>
 		<cfset result = Mid(arguments.type,fparens1+1,fparens2-(fparens1+1))>
+	</cfif>
+	
+	<cfreturn result>
+</cffunction>
+
+<cffunction name="hasIndex" access="private" returntype="boolean" output="false" hint="">
+	<cfargument name="tablename" type="string" required="yes">
+	<cfargument name="indexname" type="string" required="yes">
+	
+	<cfset var result = false>
+	<cfset var qIndexes = RunSQL("
+	SELECT	1
+	FROM	pg_class
+	WHERE	oid IN (
+			SELECT		indexrelid
+			FROM		pg_index,
+						pg_class
+			WHERE		1 = 1
+				AND		pg_class.relname = '#arguments.indexname#'
+				AND		pg_class.oid=pg_index.indrelid
+				AND		indisunique != 't'
+				AND		indisprimary != 't'
+		)
+	")>
+	
+	<cfif qIndexes.RecordCount>
+		<cfset result = true>
 	</cfif>
 	
 	<cfreturn result>

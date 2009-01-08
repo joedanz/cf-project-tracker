@@ -1,5 +1,5 @@
-<!--- 2.2 Beta 3 (Build 143) --->
-<!--- Last Updated: 2008-12-02 --->
+<!--- 2.2 RC (Build 145) --->
+<!--- Last Updated: 2009-01-05 --->
 <!--- Created by Steve Bryant 2004-12-08 --->
 <cfcomponent extends="DataMgr" displayname="Data Manager for MySQL" hint="I manage data interactions with the MySQL database. I can be used to handle inserts/updates.">
 
@@ -219,6 +219,7 @@
 		<cfcase value="smallint"><cfset result = "CF_SQL_SMALLINT"></cfcase>
 		<cfcase value="smallmoney"><cfset result = "CF_SQL_MONEY4"></cfcase>
 		<cfcase value="text"><cfset result = "CF_SQL_LONGVARCHAR"></cfcase>
+		<cfcase value="longtext"><cfset result = "CF_SQL_LONGVARCHAR"></cfcase>
 		<cfcase value="timestamp"><cfset result = "CF_SQL_TIMESTAMP"></cfcase>
 		<cfcase value="tinyint"><cfset result = "CF_SQL_BIT"></cfcase>
 		<cfcase value="uniqueidentifier"><cfset result = "CF_SQL_IDSTAMP"></cfcase>
@@ -351,6 +352,48 @@
 	
 	<cfif fparens1 AND fparens2>
 		<cfset result = Mid(arguments.type,fparens1+1,fparens2-(fparens1+1))>
+	</cfif>
+	
+	<cfreturn result>
+</cffunction>
+
+<cffunction name="getDBTableIndexes" access="public" returntype="query" output="false" hint="">
+	<cfargument name="tablename" type="string" required="yes">
+	<cfargument name="indexname" type="string" required="no">
+	
+	<cfset var fields = "">
+	<cfset var qRawIndexes = 0>
+	<cfset var qIndexes = QueryNew("tablename,indexname,fields,unique,clustered")>
+	
+	<cfset qRawIndexes = runSQL("show index from #escape(arguments.tablename)#")>
+	
+	<cfoutput query="qRawIndexes" group="key_name">
+		<cfif ( NOT StructKeyExists(arguments,"indexname") ) OR key_name EQ arguments.indexname>
+			<cfset fields = "">
+			<cfset QueryAddRow(qIndexes)>
+			<cfset QuerySetCell(qIndexes,"tablename",Table)>
+			<cfset QuerySetCell(qIndexes,"indexname",key_name)>
+			<cfset QuerySetCell(qIndexes,"unique","#NOT non_unique#")>
+			<cfset QuerySetCell(qIndexes,"clustered",false)>
+			<cfoutput>
+				<cfset fields = ListAppend(fields,column_name)>
+			</cfoutput>
+			<cfset QuerySetCell(qIndexes,"fields",fields)>
+		</cfif>
+	</cfoutput>
+	
+	<cfreturn qIndexes>
+</cffunction>
+
+<cffunction name="hasIndex" access="private" returntype="boolean" output="false" hint="">
+	<cfargument name="tablename" type="string" required="yes">
+	<cfargument name="indexname" type="string" required="yes">
+	
+	<cfset var result = false>
+	<cfset var qIndexes = RunSQL("show index from #escape(arguments.tablename)#")>
+	
+	<cfif qIndexes.RecordCount AND ListFindNoCase(ValueList(qIndexes.key_name),arguments.indexname)>
+		<cfset result = true>
 	</cfif>
 	
 	<cfreturn result>

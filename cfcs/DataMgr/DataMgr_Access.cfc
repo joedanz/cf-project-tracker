@@ -1,5 +1,5 @@
-<!--- 2.2 Beta 3 (Build 143) --->
-<!--- Last Updated: 2008-12-02 --->
+<!--- 2.2 RC1 Dev1 (Build 144) --->
+<!--- Last Updated: 2008-12-19 --->
 <!--- Created by Steve Bryant 2004-12-08 --->
 <cfcomponent extends="DataMgr" displayname="Data Manager for MS Access" hint="I manage data interactions with the MS Access database. I can be used to handle inserts/updates.">
 
@@ -403,6 +403,15 @@
 	</cfif>
 	
 	<cfreturn result>
+</cffunction>
+
+<cffunction name="seedIndex" access="private" returntype="void" output="no" hint="No way to get index meta data from MS Access, so I do nothin.">
+	<cfargument name="indexname" type="string" required="yes">
+	<cfargument name="tablename" type="string" required="yes">
+	<cfargument name="fields" type="string" required="yes">
+	<cfargument name="unique" type="boolean" default="false">
+	<cfargument name="clustered" type="boolean" default="false">
+	
 </cffunction>
 
 </cfcomponent>
