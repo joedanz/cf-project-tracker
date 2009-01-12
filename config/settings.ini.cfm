@@ -1,6 +1,5 @@
 [settings]
 dsn=project
-dbtype=mysql
 tableprefix=pt_
 mapping=/project
 rootURL=http://www.yoursite.com

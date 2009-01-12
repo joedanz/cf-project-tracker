@@ -52,7 +52,6 @@
 							<h4>
 							<ul style="margin:10px 30px;">
 								<li><strong>Datasource Name:</strong> #application.settings.dsn#</li>
-								<li><strong>Database Type:</strong> #application.settings.dbtype#</li>
 								<li><strong>Table Prefix:</strong> #application.settings.tableprefix#</li>
 							</ul>
 							</h4>
