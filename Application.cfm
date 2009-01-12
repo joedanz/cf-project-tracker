@@ -62,7 +62,7 @@
 
 			<!--- stored queries --->
 			<cftry>
-				<cfset application.carriers = application.carrier.get('','true')>
+				<cfset application.carriers = application.carrier.get(activeOnly=true)>
 				<cfcatch></cfcatch>
 			</cftry>
 
