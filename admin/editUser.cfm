@@ -196,6 +196,10 @@
 	<cfparam name="form.svn" default="#replace(default_roles,'2','1','all')#">
 </cfif>
 
+<cfif not isDefined("application.carriers")>
+	<cfset application.carriers = application.carrier.get(activeOnly=true)>
+</cfif>
+
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Admin">
 
@@ -260,12 +264,12 @@
 								<option value=""></option>
 						</cfoutput>
 
-							<cfoutput query="application.carriers" group="country">
-							<optgroup label="#country#">
-							<cfoutput>
-							<option value="#carrierID#"<cfif not compare(form.carrierID,carrierID)> selected="selected"</cfif>>#carrier#</option>
-							</cfoutput>
-							</cfoutput>
+						<cfoutput query="application.carriers" group="country">
+						<optgroup label="#country#">
+						<cfoutput>
+						<option value="#carrierID#"<cfif not compare(form.carrierID,carrierID)> selected="selected"</cfif>>#carrier#</option>
+						</cfoutput>
+						</cfoutput>
 						
 						<cfoutput>
 							</select> <span style="font-size:85%;" class="i">(used for SMS notifications)
