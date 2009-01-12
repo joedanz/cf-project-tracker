@@ -16,7 +16,8 @@
 	<cffunction name="login" access="public" returntype="struct" output="false"
 				hint="Login method.">				
 		<cfargument name="username" type="string" required="true">
-		<cfargument name="password" type="string" required="true">
+		<cfargument name="password" type="string" required="false" default="">
+		<cfargument name="cookieLogin" type="boolean" required="false" default="false">
 		<cfset var qLogin = "">
 		<cfset var sLogin = StructNew()>
 		<cfset var qProjects = "">
@@ -24,7 +25,9 @@
 			SELECT userID, firstName, lastName, username, email, phone, lastLogin, avatar, style, admin, active
 			FROM #variables.tableprefix#users
 			WHERE username = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#" maxlength="35">
+			<cfif not cookieLogin>
 				AND password = <cfqueryparam cfsqltype="cf_sql_varchar" value="#hash(arguments.password)#" maxlength="32">
+			</cfif>
 		</cfquery>
 		<cfif qLogin.recordCount eq 1>
 			<cfscript>

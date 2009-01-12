@@ -110,6 +110,9 @@
 <!--- check for logout --->
 <cfif StructKeyExists(url,"logout")>
 	<cfset structDelete(session, "user")>
+	<cfif StructKeyExists(cookie,"ptuser")>
+		<cfcookie name="ptuser" expires="now" domain="#replaceNoCase(replaceNoCase(application.settings.rootURL,'http://',''),'https://','')#" path="#application.settings.mapping#">
+	</cfif>
 	<cfset session.loggedin = false>
 	<cflogout>
 </cfif>
@@ -129,12 +132,12 @@
 			<cfset form.password = "guest">
 		</cfif>
 	
-		<cfif NOT StructKeyExists(form,"username")>
+		<cfif NOT StructKeyExists(form,"username") AND (not StructKeyExists(cookie,"ptuser") or not len(cookie.ptuser))>
 			<cfinclude template="login.cfm">
 			<cfabort>
 		<cfelse>
 			<!--- are we trying to logon? --->
-			<cfif not compare(trim(form.username),'') or not compare(trim(form.password),'')>
+			<cfif ((not StructKeyExists(cookie,"ptuser") or not len(cookie.ptuser)) and not compare(trim(form.username),'')) or ((not StructKeyExists(cookie,"ptuser") or not len(cookie.ptuser)) and not compare(trim(form.password),''))>
 				<cfset variables.error="Your must enter your login info to continue!">
 				<cfif findNoCase('/mobile',cgi.script_name)>
 					<cfinclude template="mobile/login.cfm">
@@ -144,7 +147,11 @@
 				<cfabort>
 			<cfelse>
 				<!--- check user account against database table --->
-				<cfset thisUser = application.user.login(trim(form.username),trim(form.password))>
+				<cfif StructKeyExists(cookie,"ptuser") and len(cookie.ptuser)>
+					<cfset thisUser = application.user.login(username=decrypt(cookie.ptuser,'ajaxcf.com'),cookieLogin=true)>
+				<cfelse>	
+					<cfset thisUser = application.user.login(trim(form.username),trim(form.password))>
+				</cfif>
 				<cfif not structKeyExists(thisUser,"userid") or not compare(thisUser.userid,'')>
 					<cfset variables.error="Your login was not accepted. Please try again!">
 					<cfif findNoCase('/mobile',cgi.script_name)>
@@ -155,13 +162,21 @@
 					<cfabort>
 				<cfelse>
 					<!--- log user into application --->
-					<cfloginuser name="#trim(form.username)#" password="#trim(hash(form.password))#" roles="user">
+					<cfif StructKeyExists(cookie,"ptuser") and len(cookie.ptuser)>
+						<cfloginuser name="#decrypt(cookie.ptuser,'ajaxcf.com')#" password="cookielogin" roles="user">
+					<cfelse>
+						<cfloginuser name="#trim(form.username)#" password="#trim(hash(form.password))#" roles="user">
+					</cfif>
 					<cfset session.user = thisUser>
 					<cfset session.style = thisUser.style>
 					<cfset session.loggedin = true>
 					<cfset session.assignedTo = "">
 					<!--- set last login stamp --->
 					<cfset application.user.setLastLogin(session.user.userid)>
+					<!--- set persistant login if user chose it --->
+					<cfif StructKeyExists(form,"remain")>
+						<cfcookie name="ptuser" expires="14" value="#encrypt(trim(form.username),'ajaxcf.com')#" domain="#replaceNoCase(replaceNoCase(application.settings.rootURL,'http://',''),'https://','')#" path="#application.settings.mapping#">
+					</cfif>
 				</cfif>
 			</cfif>
 		</cfif>

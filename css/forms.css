@@ -171,6 +171,9 @@ form#login input {
 	padding:4px;
 	margin-bottom:5px;
 }
+form#login input#remain { text-align:left; width:15px; }
+form#login label#rem { font-weight:normal; font-size:1em; }
+form#login small { margin-left:20px; font-size:.9em; }
 form#login input.loginactive {
 	border:2px solid #f00;
 	background-color:#ffc;
@@ -180,6 +183,7 @@ form#login input.sub {
 	padding:3px;
 	font-size:1.1em;
 	font-weight:bold;
+	margin-top:5px;
 }
 
 form.forgot { clear:both; }
