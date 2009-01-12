@@ -46,19 +46,8 @@
 			<cfset application.todolist = createObject("component","cfcs.todolist").init(settings)>
 			<cfset application.user = createObject("component","cfcs.user").init(settings)>
 			
-			<!--- fix capitalization for DataMgr --->
-			<cfswitch expression="#settings.dbtype#">
-				<cfcase value="access"><cfset dbCaseSen = "Access"></cfcase>
-				<cfcase value="derby"><cfset dbCaseSen = "Derby"></cfcase>
-				<cfcase value="mssql"><cfset dbCaseSen = "MSSQL"></cfcase>
-				<cfcase value="mysql"><cfset dbCaseSen = "MYSQL"></cfcase>
-				<cfcase value="oracle"><cfset dbCaseSen = "Oracle"></cfcase>
-				<cfcase value="postgresql"><cfset dbCaseSen = "PostGreSQL"></cfcase>
-				<cfdefaultcase><cfset dbCaseSen = settings.dbtype></cfdefaultcase>>
-			</cfswitch>
-			
 			<!--- DataMgr --->
-			<cfset application.DataMgr = createObject("component","cfcs.DataMgr.DataMgr").init(settings.dsn,dbCaseSen)>
+			<cfset application.DataMgr = createObject("component","cfcs.DataMgr.DataMgr").init(settings.dsn)>
 
 			<!--- stored queries --->
 			<cftry>
