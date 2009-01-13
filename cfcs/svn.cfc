@@ -29,6 +29,12 @@
 				<cfif compare(arguments.projectID,'')>
 					AND p.projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
 				</cfif>
+				<cfif compare(arguments.itemID,'')>
+   					AND s.itemID = <cfqueryparam value="#arguments.itemID#" cfsqltype="cf_sql_varchar" />
+				</cfif>
+				<cfif compare(arguments.itemType,'')>
+   					AND s.itemType = <cfqueryparam value="#arguments.itemType#" cfsqltype="cf_sql_varchar" maxlength="10" />
+				</cfif>
 			ORDER BY s.revision desc
 		</cfquery>
 		<cfreturn qLinks>
