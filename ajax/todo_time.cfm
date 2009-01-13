@@ -19,8 +19,8 @@
 	<cfoutput query="todo">
 	<table>
 		<tr>
-			<td><cfif project.todos gt 1><input type="checkbox" name="todoID" value="#todoID#" class="cb#todolistID#" onclick="mark_complete('#url.p#','#todolistID#','#todoID#','#replace(todoID,'-','','all')#');" /></cfif></td>
-			<td><cfif project.todos gt 1 and project.timetrack gt 1 and todolist.timetrack eq 1><a href="##" onclick="todo_time('edit','#url.p#','#url.tl#','#url.t#','#replace(url.t,'-','','all')#');return false;" class="time<cfif numTimeTracks gt 0>full</cfif>"></a></cfif></td>
+			<td><cfif project.todos gt 1><input type="checkbox" name="todoID" value="#todoID#" class="cb#todolistID#"<cfif url.c eq 1> checked="checked"</cfif> onclick="mark_<cfif url.c eq 1>in</cfif>complete('#url.p#','#todolistID#','#todoID#','#replace(todoID,'-','','all')#');" /></cfif></td>
+			<td><cfif project.todos gt 1 and project.timetrack gt 1 and todolist.timetrack eq 1><img src="./images/time<cfif numTimeTracks gt 0>3<cfelse>2</cfif>.gif" onclick="todo_time('edit','#url.p#','#url.tl#','#url.t#','#replace(url.t,'-','','all')#','#url.c#');" /></cfif></td>
 			<td style="border:2px solid #session.style#;padding:0;">
 				
 				<div>#task#</div>
@@ -55,7 +55,7 @@
 					</p>
 					<p>
 						<label for="add">&nbsp;</label>
-						<input type="button" value="Add to log" id="add" onclick="todo_time('save','#url.p#','#url.tl#','#url.t#','#replace(url.t,'-','','all')#');return false;" /> or <a href="##" onclick="todo_time('cancel','#url.p#','#url.tl#','#url.t#','#replace(url.t,'-','','all')#');return false;">Cancel</a>
+						<input type="button" value="Add to log" id="add" onclick="todo_time('save','#url.p#','#url.tl#','#url.t#','#replace(url.t,'-','','all')#','#url.c#');return false;" /> or <a href="##" onclick="todo_time('cancel','#url.p#','#url.tl#','#url.t#','#replace(url.t,'-','','all')#','#url.c#');return false;">Cancel</a>
 					</p>
 				</form>
 			</td>
@@ -71,8 +71,8 @@
 	<cfoutput query="todo">
 	<table>
 		<tr>
-			<td class="cb#todolistID#"><cfif project.todos gt 1><input type="checkbox" name="todoID" value="#todoID#" onclick="mark_complete('#url.p#','#todolistID#','#todoID#','#replace(todoID,'-','','all')#');" /></cfif></td>
-			<td class="t#todolistID#"><cfif project.todos gt 1 and project.timetrack gt 1 and todolist.timetrack eq 1><a href="##" onclick="todo_time('edit','#url.p#','#todolistID#','#todoID#','#replace(todoID,'-','','all')#');return false;" class="time<cfif numTimeTracks gt 0>full</cfif>"></a></cfif></td>
+			<td class="cb#todolistID#"><cfif project.todos gt 1><input type="checkbox" name="todoID" value="#todoID#"<cfif url.c eq 1> checked="checked"</cfif> onclick="mark_<cfif url.c eq 1>in</cfif>complete('#url.p#','#todolistID#','#todoID#','#replace(todoID,'-','','all')#');" /></cfif></td>
+			<td class="t#todolistID#"><cfif project.todos gt 1 and project.timetrack gt 1 and todolist.timetrack eq 1><img src="./images/time<cfif numTimeTracks gt 0>3<cfelse>2</cfif>.gif" height="16" width="16" onclick="todo_time('edit','#url.p#','#todolistID#','#todoID#','#replace(todoID,'-','','all')#','#url.c#');" class="time<cfif numTimeTracks gt 0>full</cfif>"></a></cfif></td>
 			<td id="edit#todoID#"><cfif isDate(completed)><strike>#task#</strike><cfelse>#task#</cfif><cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)<cfif isDate(due)> - due on #DateFormat(due,"mmm d, yyyy")#</cfif></span></cfif><cfif project.todos gt 1> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="edit_item('#url.p#','#todolistID#','#todoID#');return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#url.p#','#todolistID#','#todoID#');return false;" /></span></cfif></td>
 		</tr>
 	</table>

@@ -511,8 +511,8 @@ function delete_todo_ajax(projectid,todolistid,todoid) {
 	});
 }
 	
-function todo_time(action,projectid,todolistid,todoid,todoidstripped) {
-	var data = 'p=' + projectid + '&tl=' + todolistid + '&t=' + todoid;
+function todo_time(action,projectid,todolistid,todoid,todoidstripped,completed) {
+	var data = 'p=' + projectid + '&tl=' + todolistid + '&t=' + todoid + '&c=' + completed;
 	if (action == 'edit') data = data + '&edit=1';
 	if (action == 'save') data = data + '&d=' + escape($('#datestamp' + todoidstripped).val()) + '&u=' + $('#person' + todoidstripped).val() + '&h=' + escape($('#hours' + todoidstripped).val()) + '&note=' + escape($('#note' + todoidstripped).val());
 	if ((action == 'save') && (($('#datestamp'+todoidstripped).val() == '') || ($('#hrs'+todoidstripped).val() == '') || ($('#desc'+todoidstripped).val() == ''))) {
