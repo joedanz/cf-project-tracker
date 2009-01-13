@@ -286,7 +286,7 @@
 												where log.revision = revs.revision
 										</cfquery>				
 										<p>
-										<select name="revision" id="rev" class="rev">
+										<select name="revision" id="rev" class="rev sm">
 											<option value="">Recent SVN Revisions</option>
 											<cfloop from="#reverselog.recordCount#" to="#Max(reverselog.recordCount-50,1)#" step="-1" index="i">
 												<cfif not listFind(valueList(svnfull.revision),reverselog.revision[i])>
