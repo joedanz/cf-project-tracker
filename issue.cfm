@@ -392,7 +392,7 @@
 							fckEditor.create(); // create the editor.
 						</cfscript>
 		
-						<div id="preview" style="display:none;margin:15px 0;font-size:.9em;">
+						<div id="preview" class="sm" style="display:none;margin:15px 0;">
 						<fieldset style="padding:0;"><legend style="padding:0 5px;font-weight:bold;font-size:1em;">Comment Preview (<a href="##" onclick="$('##preview').hide();">X</a>)</legend>
 						<div id="commentbody"></div>
 						</fieldset>

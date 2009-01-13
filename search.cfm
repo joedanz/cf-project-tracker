@@ -58,7 +58,7 @@ $(document).ready(function(){
 		<div class="main">
 
 				<div class="header headernomb">
-					<h2>Search <cfif compare(url.p,'')>the &quot;#project.name#&quot; project<span style="font-weight:normal;font-size:.9em;"> or <a href="#cgi.script_name#">across all projects</a></span><cfelse>across all projects</cfif></h2>
+					<h2>Search <cfif compare(url.p,'')>the &quot;#project.name#&quot; project<span class="norm sm"> or <a href="#cgi.script_name#">across all projects</a></span><cfelse>across all projects</cfif></h2>
 					<form action="#cgi.script_name#?#cgi.query_string#" method="post" id="search">
 						<input type="text" name="search" value="#form.search#" id="searchbox" />
 						<input type="submit" value="Search" class="button" />

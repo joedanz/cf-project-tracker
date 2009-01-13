@@ -177,7 +177,7 @@ $(document).ready(function(){
 							<cfset daysDiff = DateDiff("d",dueDate,Now())>
 							<li><span class="b" style="color:##f00;"><cfif daysDiff eq 0>Today<cfelseif daysDiff eq 1>Yesterday<cfelse>#daysDiff# days ago</cfif>:</span> 
 							<a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a>
-							<cfif compare(lastName,'')><span style="font-size:.9em;">(#firstName# #lastName# is responsible)</span></cfif>
+							<cfif compare(lastName,'')><span class="sm">(#firstName# #lastName# is responsible)</span></cfif>
 							</li>
 							</cfloop>
 						</ul>
@@ -193,7 +193,7 @@ $(document).ready(function(){
 							<cfset daysDiff = DateDiff("d",CreateDate(year(Now()),month(Now()),day(Now())),dueDate)>
 						<li><span class="b"><cfif daysDiff eq 0>Today<cfelseif daysDiff eq 1>Tomorrow<cfelse>#daysDiff# days away</cfif>:</span> 
 							<a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a>
-							<cfif compare(lastName,'')><span style="font-size:.9em;">(#firstName# #lastName# is responsible)</span></cfif>
+							<cfif compare(lastName,'')><span class="sm">(#firstName# #lastName# is responsible)</span></cfif>
 						</li>
 						</cfloop>
 					</ul><br />
@@ -332,7 +332,7 @@ $(document).ready(function(){
 			<ul class="people">
 				<cfloop query="projectUsers">
 				<li><div class="b">#firstName# #lastName#<cfif admin> (admin)</cfif></div>
-				<div style="font-weight:normal;font-size:.9em;color:##666;"><cfif compare(userID,session.user.userID)><cfif isDate(lastLogin)>Last login 
+				<div class="sm g norm"><cfif compare(userID,session.user.userID)><cfif isDate(lastLogin)>Last login 
 					<cfif DateDiff("n",lastLogin,Now()) lt 60>
 						#DateDiff("n",lastLogin,Now())# minutes
 					<cfelseif DateDiff("h",lastLogin,Now()) lt 24>
