@@ -1,4 +1,4 @@
-/* UPGRADE FROM 2.3 */
+/* UPGRADE FROM 2.3 -- NOTE: YOU MAY NEED TO MAKE THE LAST CHANGE MANUALLY!!! */
 
 /* pt_issues */
 ALTER TABLE `pt_issues` ADD `componentID` varchar(35) default NULL;
@@ -71,5 +71,5 @@ ALTER TABLE `pt_todolists` ADD `timetrack` int(1) default NULL;
 UPDATE `pt_todolists` set `timetrack` = 0;
 
 /* pt_todos */
-ALTER TABLE `pt_todos` MODIFY `task` varchar(600) default NULL;
 ALTER TABLE `pt_todos` DROP COLUMN `svnrevision`;
+ALTER TABLE `pt_todos` MODIFY `task` varchar(600) default NULL;

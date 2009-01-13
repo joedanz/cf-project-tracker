@@ -1,4 +1,4 @@
-/* UPGRADE FROM 2.3 */
+/* UPGRADE FROM 2.3 -- NOTE: YOU MAY NEED TO MAKE THE LAST CHANGE MANUALLY!!! */
 
 /* pt_issues */
 alter table
@@ -93,13 +93,13 @@ update pt_todolists set timetrack = 0;
 /* pt_todolists */
 alter table 
 	pt_todos 
-modify 
-	(
-	task varchar2(600) NULL
-	);
-alter table 
-	pt_todos 
 drop 
 	(
 	svnrevision
+	);
+alter table 
+	pt_todos 
+modify 
+	(
+	task varchar2(600) NULL
 	);
