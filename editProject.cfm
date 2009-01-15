@@ -62,7 +62,6 @@
 <cfparam name="projID" default="">
 <cfparam name="form.name" default="">
 <cfparam name="form.description" default="">
-<cfparam name="form.display" default="1">
 <cfparam name="form.ownerID" default="">
 <cfparam name="form.clientID" default="">
 <cfparam name="form.clientName" default="&lt;none&gt;">
@@ -112,6 +111,7 @@
 <cfelse>	
 	<cfset projectUsers = application.user.get(activeOnly=true)>
 	<cfset newID = createUUID()>
+	<cfset form.display = 1>
 </cfif>
 
 <cfset clients = application.client.get()>
