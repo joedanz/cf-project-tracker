@@ -13,6 +13,10 @@ form.frm label.short {
 	width: 120px;
 }
 
+form.frm label.med {
+	width: 180px;
+}
+
 form.frm label.none {
 	width: 50px;
 	margin-right:6px;

@@ -298,7 +298,7 @@
 						<legend><a href="##" onclick="section_toggle('issue');return false;" class="collapsed" id="issuelink"> Issue Details</a></legend>
 						<div id="issueinfo" style="display:none;">
 						<p>
-						<label for="ticketPrefix" class="short">Ticket Prefix:</label>
+						<label for="ticketPrefix" class="med">2 Letter Ticket Prefix:</label>
 						<input type="text" name="ticketPrefix" id="ticketPrefix" value="#HTMLEditFormat(form.ticketPrefix)#" maxlength="2" style="width:80px" />
 						<span style="font-size:.8em">(optional two-letter prefix used when generating trouble tickets)</span>
 						</p>
