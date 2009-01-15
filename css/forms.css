@@ -33,6 +33,13 @@ form.frm label.full {
 	float:left;
 }
 
+form.frm label.wide {
+	width:300px;
+	margin-right:0;
+	text-align:left;
+	float:none;
+}
+
 form.frm p input.cb {
 	margin-left:5px;
 	width:auto;

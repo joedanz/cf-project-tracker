@@ -62,7 +62,7 @@
 <cfparam name="projID" default="">
 <cfparam name="form.name" default="">
 <cfparam name="form.description" default="">
-<cfparam name="form.form.display" default="1">
+<cfparam name="form.display" default="1">
 <cfparam name="form.ownerID" default="">
 <cfparam name="form.clientID" default="">
 <cfparam name="form.clientName" default="&lt;none&gt;">
@@ -172,7 +172,7 @@
 							</p>
 							<p style="font-size:.8em;">
 							<label for="display">&nbsp;</label>
-							<input type="checkbox" name="display" id="display" value="1" class="checkbox"<cfif form.display> checked="checked"</cfif> />Display description on overview page
+							<input type="checkbox" name="display" id="display" value="1" class="checkbox"<cfif form.display> checked="checked"</cfif> /><label for="display" class="wide">Display description on overview page</label>
 							</p>
 							
 							<p>
