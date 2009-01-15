@@ -3,7 +3,7 @@
 <cfif StructKeyExists(url,"reg")>
 	<cfset project = application.project.getDistinct(url.p)>
 	<cfif project.allow_reg>
-		<cfset application.role.add(url.p,session.user.userid,'0',project.reg_files,project.reg_issues,project.reg_msgs,project.reg_mstones,project.reg_todos,project.reg_svn)>
+		<cfset application.role.add(url.p,session.user.userid,'0',project.reg_files,project.reg_issues,project.reg_msgs,project.reg_mstones,project.reg_todos,project.reg_time,project.reg_svn)>
 	</cfif>
 </cfif>
 
