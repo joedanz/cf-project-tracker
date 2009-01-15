@@ -9,7 +9,7 @@
 
 <cfset projects = application.project.get(session.user.userid)>
 <cfset projects_reg = application.project.getDistinct(allowReg=true)>
-<cfif projects.recordCount eq 1>
+<cfif projects.recordCount eq 1 and not session.user.admin>
 	<cflocation url="project.cfm?p=#projects.projectid#" addtoken="false">
 	<cfabort>
 </cfif>

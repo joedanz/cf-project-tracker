@@ -48,7 +48,7 @@
 	</div>
 
 	<cfif compare(attributes.project,'')>
-		<cfif session.user.projects.recordCount gt 1>
+		<cfif session.user.projects.recordCount gt 1 or session.user.admin>
 		<div id="linksback">
 			<a href="#application.settings.mapping#/index.cfm">Dashboard</a>
 			 | <a href="##" onclick="togglemenu();">Choose a project</a>
