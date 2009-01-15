@@ -36,7 +36,7 @@
 							<option value="green"<cfif not compare(application.settings.default_style,'green')> selected="selected"</cfif>>Green</option>
 							<option value="grey"<cfif not compare(application.settings.default_style,'grey')> selected="selected"</cfif>>Grey</option>
 							<option value="red"<cfif not compare(application.settings.default_style,'red')> selected="selected"</cfif>>Red</option>					
-						</select> <span style="font-size:80%">(Note: you can set your personal style under <a href="account.cfm?editStyle">My Settings</a>)</span>
+						</select> <span style="font-size:80%">(Note: you can set your personal style under <a href="../account.cfm##skin">My Settings</a>)</span>
 						</p>				
 	
 						<label for="submit">&nbsp;</label>
