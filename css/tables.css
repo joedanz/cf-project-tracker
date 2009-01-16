@@ -67,7 +67,7 @@ table#alltodos li { list-style-type:none; margin-bottom:5px; }
 tr.input td {
 	padding:10px;
 	background-color:#eee;
-	height:40px;
+	height:32px;
 	border-top:1px solid #aaa;
 }
 table#time tr td.first, table#time tr th.first {
@@ -80,6 +80,22 @@ table#time tr.last td {
 tr.input td input, tr.input td select {
 	padding:2px;
 }
+
+table.input2 {
+	background-color:#eee;
+	border:1px solid #ccc;
+}
+table.input2 thead tr th, table.input2 tbody tr td, table.input2 tbody tr td input {
+	padding:2px;
+}
+table.input2 thead tr th {
+	padding:5px 10px 0 10px;
+}
+table.input2 tbody tr td {
+	padding:0 10px 5px 10px;
+}
+table.input2 tbody tr td input.short { width:250px; }
+table.input2 tbody tr td input.tiny { width:50px; }
 
 /* tablesort plugin */
 table.tablesorter {

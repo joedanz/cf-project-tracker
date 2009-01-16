@@ -31,6 +31,12 @@ form.frm label.cb {
 	float:none;
 }
 
+form.frm label.half {
+	width: 228px;
+	margin-right:6px;
+	float:left;
+}
+
 form.frm label.full {
 	width: 320px;
 	margin-right:6px;

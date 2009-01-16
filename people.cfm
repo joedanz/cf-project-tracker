@@ -64,6 +64,7 @@
 					<th>Milestones</th>
 					<th>To-Dos</th>
 					<th>Time Tracking</th>
+					<th>Billing</th>
 					<th>SVN</th>
 					<th rowspan="2"><input type="button" value="Add" class="button" onclick="add_existing('#url.p#');return false;" /> or <a href="##" onclick="$('##slidediv').slideUp(1000);return false;">cancel</a></th>
 				</tr>
@@ -106,6 +107,13 @@
 					</td>
 					<td>
 						<select name="timetrack" onchange="if (this.selectedIndex > 0) $('##a_existing').attr('checked','');" id="tt_existing">
+							<option value="2">Full Access</option>
+							<option value="1">Read-Only</option>
+							<option value="0">None</option>
+						</select>							
+					</td>
+					<td>
+						<select name="billing" onchange="if (this.selectedIndex > 0) $('##a_existing').attr('checked','');" id="b_existing">
 							<option value="2">Full Access</option>
 							<option value="1">Read-Only</option>
 							<option value="0">None</option>
@@ -169,6 +177,7 @@
 						<th>Milestones</th>
 						<th>To-Dos</th>
 						<th>Time Tracking</th>
+						<th>Billing</th>
 						<th>SVN</th>
 						<th rowspan="2"><input type="button" value="Add" class="button" onclick="add_new('#url.p#');return false;" /> or <a href="##" onclick="$('##slidediv').slideUp(1000);return false;">cancel</a></th>
 					</tr>
@@ -211,6 +220,13 @@
 						</td>
 						<td>
 							<select name="timetrack" onchange="if (this.selectedIndex > 0) $('##a_new').attr('checked','');" id="tt_new">
+								<option value="2">Full Access</option>
+								<option value="1">Read-Only</option>
+								<option value="0">None</option>
+							</select>							
+						</td>
+						<td>
+							<select name="billing" onchange="if (this.selectedIndex > 0) $('##a_new').attr('checked','');" id="b_new">
 								<option value="2">Full Access</option>
 								<option value="1">Read-Only</option>
 								<option value="0">None</option>
@@ -259,6 +275,7 @@
 								<th class="tac">Milestones</th>
 								<th class="tac">To-Dos</th>
 								<th class="tac">Time Tracking</th>
+								<th class="tac">Billing</th>
 								<th class="tac">SVN</th>
 								<th rowspan="2" class="tac"><input type="button" value="Save" class="button" onclick="save_permissions('#url.p#','#userid#','#replace(userid,'-','','ALL')#')" /></th>
 							</tr>
@@ -304,6 +321,13 @@
 										<option value="2"<cfif timetrack eq 2> selected="selected"</cfif>>Full Access</option>
 										<option value="1"<cfif timetrack eq 1> selected="selected"</cfif>>Read-Only</option>
 										<option value="0"<cfif timetrack eq 0> selected="selected"</cfif>>None</option>
+									</select>							
+								</td>
+								<td class="tac">
+									<select name="billing" onchange="if (this.selectedIndex > 0) $('##a_#replace(userid,'-','','ALL')#').attr('checked','');" id="b_#replace(userid,'-','','ALL')#">
+										<option value="2"<cfif billing eq 2> selected="selected"</cfif>>Full Access</option>
+										<option value="1"<cfif billing eq 1> selected="selected"</cfif>>Read-Only</option>
+										<option value="0"<cfif billing eq 0> selected="selected"</cfif>>None</option>
 									</select>							
 								</td>
 								<td class="tac"><input type="checkbox" name="svn" id="s_#replace(userid,'-','','ALL')#" value="1" class="cb" onchange="if (this.checked == false) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');"<cfif svn> checked="checked"</cfif> /></td>

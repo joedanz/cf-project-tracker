@@ -28,6 +28,7 @@
 								<th>Contact Name</th>
 								<th class="tac">Projects</th>
 								<th class="tac">Active</th>
+								<th class="tac">Billing</th>
 								<th class="tac">Edit</th>
 							</tr>
 						<cfloop query="clients">
@@ -37,8 +38,9 @@
 								<td>#contactName#</td>
 								<td class="tac">#NumberFormat(numProjects)#</td>
 								<td class="tac"><img src="../images/<cfif active>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(active)#" /></td>
+								<td class="tac"><a href="billRates.cfm?c=#clientid#">rates</a></td>
 								<td class="tac"><a href="editClient.cfm?c=#clientid#">edit</a></td>
-							</tr>					
+							</tr>
 						</cfloop>
 						</table>
 					<cfelse>

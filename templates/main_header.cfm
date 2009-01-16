@@ -105,6 +105,9 @@
 				<cfif project.tab_time eq 1 and userRole.timetrack gt 0>
 					<li><a href="#application.settings.mapping#/time.cfm?p=#attributes.projectid#" title="Time"<cfif find('/time.cfm',cgi.script_name)> class="current"</cfif>>Time</a></li>
 				</cfif>
+				<cfif project.tab_billing eq 1 and userRole.billing gt 0>
+					<li><a href="#application.settings.mapping#/billing.cfm?p=#attributes.projectid#" title="Billing"<cfif find('/billing.cfm',cgi.script_name)> class="current"</cfif>>Billing</a></li>
+				</cfif>
 				<cfif project.tab_files eq 1 and userRole.files gt 0>
 					<li><a href="#application.settings.mapping#/files.cfm?p=#attributes.projectid#" title="Files"<cfif find('/files.cfm',cgi.script_name) or find('/editFile.cfm',cgi.script_name)> class="current"</cfif>>Files</a></li>
 				</cfif>

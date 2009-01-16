@@ -12,10 +12,10 @@
 	<cfif not compare(variables.errors,'')>
 	<cfswitch expression="#form.submit#">
 		<cfcase value="Add Client">
-			<cfset application.client.add(form.name,form.address,form.city,form.locality,form.country,form.postal,form.phone,form.fax,form.contactName,form.contactPhone,form.notes,form.active)>
+			<cfset application.client.add(form.name,form.address,form.city,form.locality,form.country,form.postal,form.phone,form.fax,form.contactName,form.contactPhone,form.contactEmail,form.website,form.notes,form.active)>
 		</cfcase>
 		<cfcase value="Update Client">
-			<cfset application.client.update(form.clientID,form.name,form.address,form.city,form.locality,form.country,form.postal,form.phone,form.fax,form.contactName,form.contactPhone,form.notes,form.active)>
+			<cfset application.client.update(form.clientID,form.name,form.address,form.city,form.locality,form.country,form.postal,form.phone,form.fax,form.contactName,form.contactPhone,form.contactEmail,form.website,form.notes,form.active)>
 		</cfcase>
 	</cfswitch>
 	<cflocation url="clients.cfm" addtoken="false">
@@ -32,6 +32,8 @@
 <cfparam name="form.fax" default="">
 <cfparam name="form.contactName" default="">
 <cfparam name="form.contactPhone" default="">
+<cfparam name="form.contactEmail" default="">
+<cfparam name="form.website" default="">
 <cfparam name="form.notes" default="">
 <cfparam name="form.active" default="1">
 
@@ -47,6 +49,8 @@
 	<cfset form.fax = client.fax>
 	<cfset form.contactName = client.contactName>
 	<cfset form.contactPhone = client.contactPhone>
+	<cfset form.contactEmail = client.contactEmail>
+	<cfset form.website = client.website>
 	<cfset form.notes = client.notes>
 	<cfset form.active = client.active>
 </cfif>
@@ -120,6 +124,14 @@
 						<p>
 						<label for="contactPhone">Contact Phone:</label> 
 						<input type="text" name="contactPhone" id="contactPhone" value="#HTMLEditFormat(form.contactPhone)#" maxlength="40" class="shorter" />
+						</p>
+						<p>
+						<label for="contactEmail">Contact Email:</label> 
+						<input type="text" name="contactEmail" id="contactEmail" value="#HTMLEditFormat(form.contactEmail)#" size="35" class="short" />
+						</p>
+						<p>
+						<label for="website">Website:</label> 
+						<input type="text" name="website" id="website" value="#HTMLEditFormat(form.website)#" size="35" class="short" />
 						</p>
 						<p>
 						<label for="notes">Notes:</label> 

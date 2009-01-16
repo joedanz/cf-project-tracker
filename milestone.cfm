@@ -61,7 +61,7 @@
 							<cfif project.mstones eq 1>
 								<h3>#name#</h3>
 							<cfelse>
-								<h3><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&<cfif isDate(milestone.completed)>a<cfelse>c</cfif>=1&m=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;"<cfif isDate(milestone.completed)> checked="checked"</cfif> /> #name#</h3>
+								<h3><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&<cfif isDate(milestone.completed)>a<cfelse>c</cfif>=1&m=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;"<cfif isDate(milestone.completed)> checked="checked"</cfif> /> #name# <span style="font-size:.65em;font-weight:normal;">[<a href="editMilestone.cfm?p=#url.p#&m=#milestoneid#&one=1">edit</a>]</span></h3>
 							</cfif>
 							<cfif compare(description,'')><div class="desc">#description#</div></cfif>
 							

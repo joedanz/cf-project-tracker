@@ -1,4 +1,4 @@
-Project Tracker v2.4.5
+Project Tracker v2.5 Beta
 by Joe Danziger (joe@ajaxcf.com)
 
 Initial Release: June 5, 2007

@@ -23,6 +23,28 @@ function all_mark_complete(projectid,todolistid,todoid) {
 	});
 }
 
+// *** CLIENT RATES ***
+function add_client_rate(clientid) {
+    $.ajax({
+		type: 'get',
+		url: '../ajax/client_rate.cfm',
+		data: 'a=add&c=' + clientid + '&cat=' + escape($('#category').val()) + '&r=' + escape($('#rate').val()),
+		success: function(txt){
+	     $('#client_rates').html(txt);
+		 $('#category').val('');
+		 $('#rate').val('');
+		}
+	});
+}
+function delete_client_rate(rateid) {
+    $('#r' + rateid).fadeOut(600, function(){	$(this).remove(); });
+	$.ajax({
+		type: 'get',
+		url: '../ajax/client_rate.cfm',
+		data: 'a=delete&r=' + rateid
+	});
+}
+
 // *** COMMENTS ***
 function comment_preview() {
 	$('#preview').show();
@@ -168,7 +190,7 @@ function add_existing(pid) {
     $.ajax({
 		type: 'get',
 		url: './ajax/proj_users.cfm',
-		data: 'p=' + pid + '&e=' + $('#userID').val() + '&a=' + $('#a_existing:checked').val() + '&f=' + $('#f_existing').val() + '&i=' + $('#i_existing').val() + '&m=' + $('#m_existing').val() + '&ms=' + $('#ms_existing').val() + '&t=' + $('#t_existing').val() + '&tt=' + $('#tt_existing').val() + '&s=' + $('#s_existing:checked').val(),
+		data: 'p=' + pid + '&e=' + $('#userID').val() + '&a=' + $('#a_existing:checked').val() + '&f=' + $('#f_existing').val() + '&i=' + $('#i_existing').val() + '&m=' + $('#m_existing').val() + '&ms=' + $('#ms_existing').val() + '&t=' + $('#t_existing').val() + '&tt=' + $('#tt_existing').val() + '&b=' + $('#b_existing').val() + '&s=' + $('#s_existing:checked').val(),
 		success: function(txt){
 	     $('#replace').html(txt);
 		}
@@ -181,7 +203,7 @@ function add_new(pid) {
     $.ajax({
 		type: 'post',
 		url: './ajax/proj_users.cfm',
-		data: 'addnew=1&p=' + pid + '&fn=' + $('#fname').val() + '&ln=' + $('#lname').val() + '&ph=' + $('#phone').val() + '&un=' + $('#username').val() + '&pw=' + $('#password').val() + '&adm=' + $('#admin').val() + '&e=' + $('#email').val() + '&a=' + $('#a_new:checked').val() + '&f=' + $('#f_new').val() + '&i=' + $('#i_new').val() + '&m=' + $('#m_new').val() + '&ms=' + $('#ms_new').val() + '&t=' + $('#t_new').val() + '&tt=' + $('#tt_new').val() + '&s=' + $('#s_new:checked').val(),
+		data: 'addnew=1&p=' + pid + '&fn=' + $('#fname').val() + '&ln=' + $('#lname').val() + '&ph=' + $('#phone').val() + '&un=' + $('#username').val() + '&pw=' + $('#password').val() + '&adm=' + $('#admin').val() + '&e=' + $('#email').val() + '&a=' + $('#a_new:checked').val() + '&f=' + $('#f_new').val() + '&i=' + $('#i_new').val() + '&m=' + $('#m_new').val() + '&ms=' + $('#ms_new').val() + '&t=' + $('#t_new').val() + '&tt=' + $('#tt_new').val() + '&b=' + $('#b_new').val() + '&s=' + $('#s_new:checked').val(),
 		success: function(txt){
 	     $('#replace').html(txt);
 		}
@@ -202,7 +224,7 @@ function save_permissions(pid,uid,strippedid) {
     $.ajax({
 		type: 'get',
 		url: './ajax/user_permissions.cfm',
-		data: 'p=' + pid + '&u=' + uid + '&a=' + $('#a_'+strippedid+':checked').val() + '&f=' + $('#f_'+strippedid).val() + '&i=' + $('#i_'+strippedid).val() + '&m=' + $('#m_'+strippedid).val() + '&ms=' + $('#ms_'+strippedid).val() + '&t=' + $('#t_'+strippedid).val()  + '&tt=' + $('#tt_'+strippedid).val() + '&s=' + $('#s_'+strippedid+':checked').val(),
+		data: 'p=' + pid + '&u=' + uid + '&a=' + $('#a_'+strippedid+':checked').val() + '&f=' + $('#f_'+strippedid).val() + '&i=' + $('#i_'+strippedid).val() + '&m=' + $('#m_'+strippedid).val() + '&ms=' + $('#ms_'+strippedid).val() + '&t=' + $('#t_'+strippedid).val() + '&tt=' + $('#tt_'+strippedid).val() + '&b=' + $('#b_'+strippedid).val() + '&s=' + $('#s_'+strippedid+':checked').val(),
 		success: function(txt){
 	     $('#up_'+strippedid).slideUp();
 		 if ($('#a_'+strippedid+':checked').val() == 1) {$('#ut_'+strippedid).html('Admin')} else {$('#ut_'+strippedid).html('User')};
@@ -344,7 +366,7 @@ function add_time_row(projectid) {
 		$.ajax({
 			type: 'get',
 			url: './ajax/timetrack.cfm',
-			data: 'act=add&p=' + projectid + '&u=' + $('#userid').val() + '&t=' + $('#datestamp').val() + '&h=' + escape($('#hrs').val()) + '&d=' + escape($('#desc').val()),
+			data: 'act=add&p=' + projectid + '&u=' + $('#userid').val() + '&t=' + $('#datestamp').val() + '&h=' + escape($('#hrs').val()) + '&r=' + $('#rateID').val() + '&d=' + escape($('#desc').val()),
 			success: function(txt){
 				$('#time tbody').prepend(txt);
 				$('#hrs').val('');
@@ -352,11 +374,11 @@ function add_time_row(projectid) {
 			}
 		});
 }
-function edit_time_row(projectid,timetrackid,ttidstripped) {
+function edit_time_row(projectid,timetrackid,ttidstripped,tab_billing,billing,clientid) {
 	$.ajax({
 		type: 'get',
 		url: './ajax/timetrack_edit.cfm',
-		data: 'p=' + projectid + '&tt=' + timetrackid,
+		data: 'p=' + projectid + '&tt=' + timetrackid + '&tb=' + tab_billing + '&b=' + billing + '&c=' + clientid,
 		success: function(txt){
 			$('#r'+ttidstripped).replaceWith(txt);
 		}
@@ -379,7 +401,7 @@ function save_time_edit(projectid,timetrackid,ttidstripped) {
 	$.ajax({
 		type: 'get',
 		url: './ajax/timetrack.cfm',
-		data: 'act=update&p=' + projectid + '&tt=' + timetrackid + '&u=' + $('#userid'+ttidstripped).val() + '&t=' + $('#datestamp'+ttidstripped).val() + '&h=' + escape($('#hrs'+ttidstripped).val()) + '&d=' + escape($('#desc'+ttidstripped).val()),
+		data: 'act=update&p=' + projectid + '&tt=' + timetrackid + '&u=' + $('#userid'+ttidstripped).val() + '&t=' + $('#datestamp'+ttidstripped).val() + '&h=' + escape($('#hrs'+ttidstripped).val()) + '&d=' + escape($('#desc'+ttidstripped).val()) + '&r=' + $('#rateID'+ttidstripped).val(),
 		success: function(txt){
 			$('#r'+ttidstripped).replaceWith(txt);
 		}

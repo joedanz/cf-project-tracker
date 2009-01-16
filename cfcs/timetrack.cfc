@@ -25,10 +25,12 @@
 
 		<cfquery name="qGet" datasource="#variables.dsn#">
 			SELECT tt.timetrackID, tt.projectID, tt.userID, tt.dateStamp, tt.hours, tt.description,
-					tt.itemID, tt.itemType,	u.firstName, u.lastName, t.todolistID, t.task
+					tt.itemID, tt.itemType,	u.firstName, u.lastName, t.todolistID, t.task, 
+					cr.rateID, cr.category, cr.rate
 				FROM #variables.tableprefix#timetrack tt 
 					LEFT JOIN #variables.tableprefix#users u on tt.userid = u.userid
 					LEFT JOIN #variables.tableprefix#todos t ON tt.itemID = t.todoID
+					LEFT JOIN #variables.tableprefix#client_rates cr ON tt.rateID = cr.rateID
 				WHERE 0 = 0
 				<cfif compare(arguments.timetrackID,'')>
 					AND tt.timetrackID = 
@@ -67,6 +69,7 @@
 		<cfargument name="description" type="string" required="true">
 		<cfargument name="itemID" type="string" required="false" default="">
 		<cfargument name="itemType" type="string" required="false" default="">
+		<cfargument name="rateID" type="string" required="false" default="">
 		<cfset var hoursConverted = "">
 		<cfset var hrs = "">
 		<cfset var min = "">
@@ -78,7 +81,7 @@
 			<cfset hoursConverted = arguments.hours>
 		</cfif>
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#timetrack (timetrackID,projectID,userID,dateStamp,hours,description,itemid,itemtype)
+			INSERT INTO #variables.tableprefix#timetrack (timetrackID,projectID,userID,dateStamp,hours,description,itemid,itemtype,rateID)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.timetrackID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
@@ -86,7 +89,8 @@
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#hoursConverted#" maxlength="6">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="255">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.itemid#" maxlength="35">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.itemtype#" maxlength="10">)
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.itemtype#" maxlength="10">,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.rateID#" maxlength="35">)
 		</cfquery>
 		<cfreturn true>
 	</cffunction>	
@@ -99,13 +103,15 @@
 		<cfargument name="dateStamp" type="string" required="true">
 		<cfargument name="hours" type="string" required="true">
 		<cfargument name="description" type="string" required="true">
+		<cfargument name="rateID" type="string" required="false" default="">
 		<cfquery datasource="#variables.dsn#">
 			UPDATE #variables.tableprefix#timetrack 
 				SET projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					dateStamp = <cfqueryparam cfsqltype="cf_sql_date" value="#createODBCDate(arguments.dateStamp)#">,
 					hours = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.hours#" maxlength="6">,
-					description = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="255">
+					description = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="255">,
+					rateID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.rateID#" maxlength="35">
 				WHERE timetrackID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.timetrackID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>

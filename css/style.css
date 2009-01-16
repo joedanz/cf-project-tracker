@@ -14,6 +14,7 @@ h3 { font-size:1.3em; font-weight:bold; }
 h4 { font-size:1.2em; font-weight:normal; }
 h6 { font-size:.8em; font-weight:normal; }
 .sm { font-size:.9em; }
+.sma { font-size:.8em; }
 
 h5.sub {
 	font-size:.9em;
@@ -21,6 +22,12 @@ h5.sub {
 }
 
 fieldset { border:1px solid #666; }
+fieldset.bill {
+	border:3px solid #ccc;
+}
+fieldset.bill legend {
+	font-size:1.2em; font-weight:bold; padding:0 5px;
+}
 
 .b { font-weight:bold; }
 .norm { font-weight:normal; }

@@ -35,6 +35,16 @@ CREATE TABLE `pt_categories` (
   PRIMARY KEY  (`projectID`,`categoryID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `pt_client_rates` */
+
+CREATE TABLE `pt_client_rates` (
+  `rateID` char(35) NOT NULL,
+  `clientID` char(35) NOT NULL,
+  `category` varchar(150) default NULL,
+  `rate` decimal(6,2) default NULL,  
+  PRIMARY KEY  (`rateID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `pt_clients` */
 
 CREATE TABLE `pt_clients` (
@@ -49,6 +59,8 @@ CREATE TABLE `pt_clients` (
   `fax` varchar(40) default NULL,
   `contactName` varchar(60) default NULL,
   `contactPhone` varchar(40) default NULL,
+  `contactEmail` varchar(150) default NULL,
+  `website` varchar(150) default NULL,
   `notes` text default NULL,
   `active` tinyint(1) default NULL,
   PRIMARY KEY  (`clientID`)
@@ -154,6 +166,7 @@ CREATE TABLE `pt_milestones` (
   `description` text default NULL,
   `dueDate` datetime default NULL,
   `completed` datetime default NULL,
+  `rate` decimal(8,2) default NULL,  
   PRIMARY KEY  (`milestoneID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -172,12 +185,13 @@ CREATE TABLE `pt_project_users` (
   `userID` char(35) NOT NULL,
   `projectID` char(35) NOT NULL,
   `admin` tinyint(1) default NULL,
+  `billing` int(1) default NULL,
   `files` int(1) default NULL,
   `issues` int(1) default NULL,
   `msgs` int(1) default NULL,
   `mstones` int(1) default NULL,
-  `todos` int(1) default NULL,
   `timetrack` int(1) default NULL,
+  `todos` int(1) default NULL,
   `svn` int(1) default NULL,
   PRIMARY KEY  (`userID`,`projectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -216,6 +230,7 @@ CREATE TABLE `pt_projects` (
   `reg_svn` int(1) default NULL,
   `reg_time` int(1) default NULL,
   `reg_todos` int(1) default NULL,
+  `tab_billing` int(1) default NULL,
   `tab_files` int(1) default NULL,
   `tab_issues` int(1) default NULL,
   `tab_msgs` int(1) default NULL,
@@ -223,6 +238,7 @@ CREATE TABLE `pt_projects` (
   `tab_svn` int(1) default NULL,
   `tab_time` int(1) default NULL,
   `tab_todos` int(1) default NULL,
+  `issue_svn_link` int(1) default NULL,
   PRIMARY KEY  (`projectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -273,6 +289,7 @@ CREATE TABLE `pt_timetrack` (
   `description` varchar(255) default NULL,
   `itemID` varchar(35) default NULL,
   `itemType` varchar(10) default NULL,
+  `rateID` varchar(35) default NULL,
   PRIMARY KEY  (`timetrackID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

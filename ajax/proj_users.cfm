@@ -1,7 +1,7 @@
 <cfsetting enablecfoutputonly="true" showdebugoutput="false">
 
 <cfif StructKeyExists(url,"a")>
-	<cfset application.role.add(url.p,url.e,url.a,url.f,url.i,url.m,url.ms,url.t,url.tt,url.s)>
+	<cfset application.role.add(url.p,url.e,url.a,url.f,url.i,url.m,url.ms,url.t,url.tt,url.b,url.s)>
 	<cfset thread = CreateObject("java", "java.lang.Thread")>
 	<cfset thread.sleep(250)>	
 <cfelseif StructKeyExists(form,"addnew")>
@@ -11,7 +11,7 @@
 	<cfelse>
 		<cfset newID = createUUID()>
 		<cfset application.user.create(newID,form.fn,form.ln,form.e,form.ph,form.un,form.pw,form.adm)>
-		<cfset application.role.add(form.p,newID,form.a,form.f,form.i,form.m,form.ms,form.t,form.tt,form.s)>
+		<cfset application.role.add(form.p,newID,form.a,form.f,form.i,form.m,form.ms,form.t,form.tt,form.b,form.s)>
 		<cfset thread = CreateObject("java", "java.lang.Thread")>
 		<cfset thread.sleep(250)>
 	</cfif>
@@ -67,6 +67,7 @@
 			<th class="tac">Milestones</th>
 			<th class="tac">To-Dos</th>
 			<th class="tac">Time Tracking</th>
+			<th class="tac">Billing</th>
 			<th class="tac">SVN</th>
 			<th rowspan="2" class="tac"><input type="button" value="Save" class="button" onclick="save_permissions('#url.p#','#userid#','#replace(userid,'-','','ALL')#')" /></th>
 		</tr>
@@ -109,6 +110,13 @@
 		</td>
 		<td class="tac">
 			<select name="timetrack" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="tt_#replace(userid,'-','','ALL')#">
+				<option value="2"<cfif timetrack eq 2> selected="selected"</cfif>>Full Access</option>
+				<option value="1"<cfif timetrack eq 1> selected="selected"</cfif>>Read-Only</option>
+				<option value="0"<cfif timetrack eq 0> selected="selected"</cfif>>None</option>
+			</select>							
+		</td>
+		<td class="tac">
+			<select name="billing" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="b_#replace(userid,'-','','ALL')#">
 				<option value="2"<cfif timetrack eq 2> selected="selected"</cfif>>Full Access</option>
 				<option value="1"<cfif timetrack eq 1> selected="selected"</cfif>>Read-Only</option>
 				<option value="0"<cfif timetrack eq 0> selected="selected"</cfif>>None</option>

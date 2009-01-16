@@ -2,13 +2,17 @@
 
 <cfparam name="form.completed" default="0">
 <cfif StructKeyExists(form,"milestoneID")> <!--- update milestone --->
-	<cfset application.milestone.update(form.milestoneID,form.projectid,form.name,createDate(form.y,form.m,form.d),form.description,form.forID,form.completed)>
+	<cfset application.milestone.update(form.milestoneID,form.projectid,form.name,createDate(form.y,form.m,form.d),form.description,form.forID,form.rate,form.completed)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Milestone',form.milestoneID,form.name,'edited')>
 	<cfset application.notify.milestoneUpdate(form.projectid,form.milestoneID)>
-	<cflocation url="milestones.cfm?p=#form.projectID#" addtoken="false">
+	<cfif StructKeyExists(url,"one")>
+		<cflocation url="milestone.cfm?p=#form.projectID#&m=#form.milestoneid#" addtoken="false">
+	<cfelse>
+		<cflocation url="milestones.cfm?p=#form.projectID#" addtoken="false">
+	</cfif>
 <cfelseif StructKeyExists(form,"projectID")> <!--- add milestone --->
 	<cfset newID = createUUID()>
-	<cfset application.milestone.add(newID,form.projectID,form.name,createDate(form.y,form.m,form.d),form.description,form.forID,form.completed,session.user.userid)>
+	<cfset application.milestone.add(newID,form.projectID,form.name,createDate(form.y,form.m,form.d),form.description,form.forID,form.rate,form.completed,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Milestone',newID,form.name,'added')>
 	<cfset application.notify.milestoneNew(form.projectid,newID)>
 	<cflocation url="milestones.cfm?p=#form.projectID#" addtoken="false">
@@ -42,6 +46,7 @@
 	<cfset thisYear = datePart("yyyy",thisMilestone.dueDate)>
 	<cfset name = thisMilestone.name>
 	<cfset description = thisMilestone.description>
+	<cfset rate = thisMilestone.rate>
 	<cfset variables.isCompleted = isDate(thisMilestone.completed)>
 	<cfset title_action = "Edit">
 </cfif>
@@ -147,6 +152,13 @@
 							</cfloop>
 						</select>
 						</div>
+						
+						<cfif project.tab_billing and project.billing eq 2>
+						<div>
+						<label for="rate">Rate:</label>
+						$ <input type="text" name="rate" id="rate" value="#HTMLEditFormat(rate)#" maxlength="8" style="width:100px;padding:2px;" />
+						</div>
+						</cfif>
 						
 						<div style="margin:10px 0;">
 						<label for="completed">Completed?</label>

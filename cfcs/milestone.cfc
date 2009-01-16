@@ -21,10 +21,11 @@
 		<cfargument name="limit" type="string" required="false" default="">
 		<cfargument name="projectIDlist" type="string" required="false" default="">
 		<cfargument name="forID" type="string" required="false" default="">
+		<cfargument name="withRate" type="boolean" required="false" default="false">
 		<cfset var qGetMilestones = "">
 		<cfquery name="qGetMilestones" datasource="#variables.dsn#">
 			SELECT milestoneid,m.projectID,m.name,m.description,dueDate,completed,
-				m.forid,m.userid,u.firstName,u.lastName,p.name as projName
+				m.forid,m.userid,m.rate,u.firstName,u.lastName,p.name as projName
 				FROM #variables.tableprefix#milestones m
 				LEFT JOIN #variables.tableprefix#users u ON m.forid = u.userid
 				LEFT JOIN #variables.tableprefix#projects p ON m.projectID = p.projectID
@@ -40,6 +41,9 @@
 			</cfif>
 			<cfif compare(arguments.forID,'')>
 				AND m.forID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.forID#" maxlength="35">
+			</cfif>
+			<cfif arguments.withRate>
+				AND m.rate > 0
 			</cfif>
 			<cfswitch expression="#arguments.type#">
 				<cfcase value="overdue">
@@ -74,10 +78,11 @@
 		<cfargument name="dueDate" type="date" required="true">
 		<cfargument name="description" type="string" required="true">
 		<cfargument name="forID" type="uuid" required="true">
+		<cfargument name="rate" type="string" required="true">
 		<cfargument name="completed" type="boolean" required="true">
 		<cfargument name="userID" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#milestones (milestoneID,projectID,userID,forID,name,description,dueDate,completed)
+			INSERT INTO #variables.tableprefix#milestones (milestoneID,projectID,userID,forID,name,description,dueDate,rate,completed)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.milestoneID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
@@ -85,6 +90,7 @@
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
 					<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">,
 					<cfqueryparam cfsqltype="cf_sql_date" value="#arguments.dueDate#">,
+					<cfif isNumeric(arguments.rate)><cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.rate#"><cfelse>NULL</cfif>,
 					<cfif arguments.completed>#CreateODBCDateTime(Now())#<cfelse>NULL</cfif>)
 		</cfquery>
 		<cfreturn true>
@@ -98,6 +104,7 @@
 		<cfargument name="dueDate" type="string" required="true">
 		<cfargument name="description" type="string" required="true">
 		<cfargument name="forID" type="uuid" required="true">
+		<cfargument name="rate" type="string" required="true">
 		<cfargument name="completed" type="boolean" required="true">
 		<cfset var original = application.milestone.get(arguments.projectID,arguments.milestoneID)>		
 		<cfquery datasource="#variables.dsn#">
@@ -106,6 +113,7 @@
 					description = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">,
 					dueDate = <cfqueryparam cfsqltype="cf_sql_date" value="#arguments.dueDate#">,
 					forID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.forID#" maxlength="35">,
+					rate = <cfif isNumeric(arguments.rate)><cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.rate#"><cfelse>NULL</cfif>,
 					completed = <cfif arguments.completed><cfif isDate(original.completed)>#CreateODBCDateTime(original.completed)#<cfelse>#CreateODBCDateTime(Now())#</cfif><cfelse>NULL</cfif>
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 					AND milestoneID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.milestoneID#" maxlength="35">

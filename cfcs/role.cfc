@@ -19,7 +19,7 @@
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
-			SELECT admin,files,issues,msgs,mstones,todos,timetrack,svn
+			SELECT admin,files,issues,msgs,mstones,todos,timetrack,billing,svn
 			FROM #variables.tableprefix#project_users
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				AND userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
@@ -38,6 +38,7 @@
 		<cfargument name="mstones" type="numeric" required="true">
 		<cfargument name="todos" type="numeric" required="true">
 		<cfargument name="timetrack" type="numeric" required="true">
+		<cfargument name="billing" type="string" required="true">
 		<cfargument name="svn" type="string" required="true">
 		<cfif isNumeric(arguments.admin) and arguments.admin>
 			<cfset arguments.files = 2>
@@ -46,10 +47,11 @@
 			<cfset arguments.mstones = 2>
 			<cfset arguments.todos = 2>
 			<cfset arguments.timetrack = 2>
+			<cfset arguments.billing = 2>
 			<cfset arguments.svn = 1>
 		</cfif>
 		<cfquery datasource="#variables.dsn#">
-			INSERT INTO #variables.tableprefix#project_users (projectID,userID,admin,files,issues,msgs,mstones,todos,timetrack,svn)
+			INSERT INTO #variables.tableprefix#project_users (projectID,userID,admin,files,issues,msgs,mstones,todos,timetrack,billing,svn)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#IIF(isNumeric(arguments.admin),arguments.admin,'0')#">,
@@ -59,6 +61,7 @@
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mstones#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.todos#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.timetrack#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.billing#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#IIF(isNumeric(arguments.svn),arguments.svn,'0')#">)
 		</cfquery>
 		<cfreturn true>

@@ -269,7 +269,7 @@
 						</table>
 						</cfif>
 
-						<cfif project.tab_svn eq 1 and project.svn gt 0 and compare(project.svnurl,'')>
+						<cfif project.tab_svn eq 1 and project.svn gt 0 and compare(project.svnurl,'') and project.issue_svn_link>
 							<div class="attachbar">
 								SVN Revisions (<span id="revcount">#revs.recordCount#</span>)
 							</div>

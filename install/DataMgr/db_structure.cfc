@@ -40,6 +40,12 @@
 				<field ColumnName="type" CF_DataType="CF_SQL_VARCHAR" Length="5" />
 				<field ColumnName="category" CF_DataType="CF_SQL_VARCHAR" Length="80" />
 			</table>
+			<table name="#arguments.tablePrefix#client_rates">
+				<field ColumnName="rateID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="clientID" CF_DataType="CF_SQL_CHAR" Length="35" />
+				<field ColumnName="category" CF_DataType="CF_SQL_VARCHAR" Length="50" />
+				<field ColumnName="rate" CF_DataType="CF_SQL_NUMERIC" Precision="6" Scale="2" />
+			</table>
 			<table name="#arguments.tablePrefix#clients">
 				<field ColumnName="clientID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
 				<field ColumnName="name" CF_DataType="CF_SQL_VARCHAR" Length="150" />
@@ -52,6 +58,8 @@
 				<field ColumnName="fax" CF_DataType="CF_SQL_VARCHAR" Length="40" />
 				<field ColumnName="contactName" CF_DataType="CF_SQL_VARCHAR" Length="60" />
 				<field ColumnName="contactPhone" CF_DataType="CF_SQL_VARCHAR" Length="40" />
+				<field ColumnName="contactEmail" CF_DataType="CF_SQL_VARCHAR" Length="150" />
+				<field ColumnName="website" CF_DataType="CF_SQL_VARCHAR" Length="150" />
 				<field ColumnName="notes" CF_DataType="CF_SQL_LONGVARCHAR" />
 				<field ColumnName="active" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 			</table>
@@ -131,6 +139,7 @@
 				<field ColumnName="description" CF_DataType="CF_SQL_LONGVARCHAR" />
 				<field ColumnName="dueDate" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 				<field ColumnName="completed" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
+				<field ColumnName="rate" CF_DataType="CF_SQL_NUMERIC" Precision="8" Scale="2" />
 			</table>
 			<table name="#arguments.tablePrefix#project_components">
 				<field ColumnName="componentID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
@@ -141,12 +150,13 @@
 				<field ColumnName="userID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
 				<field ColumnName="projectID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
 				<field ColumnName="admin" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="billing" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="files" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="issues" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="msgs" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="mstones" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="todos" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="timetrack" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="todos" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 				<field ColumnName="svn" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
 			</table>
 			<table name="#arguments.tablePrefix#project_versions">
@@ -168,22 +178,25 @@
 				<field ColumnName="svnuser" CF_DataType="CF_SQL_VARCHAR" Length="20" />
 				<field ColumnName="svnpass" CF_DataType="CF_SQL_VARCHAR" Length="20" />
 				<field ColumnName="ownerID" CF_DataType="CF_SQL_CHAR" Length="35" />
-				<field ColumnName="allow_reg" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="reg_active" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="reg_files" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="reg_issues" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="reg_msgs" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="reg_mstones" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="reg_svn" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="reg_time" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="reg_todos" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="tab_files" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="tab_issues" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="tab_msgs" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="tab_mstones" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="tab_svn" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="tab_time" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
-				<field ColumnName="tab_todos" CF_DataType="CF_SQL_TINYINT" Precision="3" Scale="0" />
+				<field ColumnName="allow_reg" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_active" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_files" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_issues" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_msgs" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_mstones" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_svn" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_time" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_todos" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="tab_billing" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="tab_files" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="tab_issues" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="tab_msgs" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="tab_mstones" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="tab_svn" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="tab_time" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="tab_todos" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="tab_todos" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="issue_svn_link" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 			</table>
 			<table name="#arguments.tablePrefix#screenshots">
 				<field ColumnName="fileID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
@@ -223,7 +236,8 @@
 				<field ColumnName="hours" CF_DataType="CF_SQL_NUMERIC" Precision="6" Scale="2" />
 				<field ColumnName="description" CF_DataType="CF_SQL_VARCHAR" Length="255" />
 				<field ColumnName="itemID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
-				<field ColumnName="itemType" CF_DataType="CF_SQL_VARCHAR" Length="10" />				
+				<field ColumnName="itemType" CF_DataType="CF_SQL_VARCHAR" Length="10" />
+				<field ColumnName="rateID" CF_DataType="CF_SQL_VARCHAR" Length="35" />				
 			</table>
 			<table name="#arguments.tablePrefix#todolists">
 				<field ColumnName="todolistID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
