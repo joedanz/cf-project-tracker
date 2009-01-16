@@ -42,9 +42,6 @@
 		<div class="main">
 
 			<div class="header">
-				<span class="rightmenu">
-					<a href="##" onclick="$('##report').slideDown();return false;" class="report">Create Report</a>
-				</span>
 				<h2 class="bill">Billing</h2>
 			</div>
 			<div class="content">
