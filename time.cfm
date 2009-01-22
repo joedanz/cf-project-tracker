@@ -102,8 +102,9 @@
 									<th>Fee</th>
 								</cfif>
 								<th>Description</th>
-								<th></th>
+								<cfif project.timetrack eq 2 or session.user.admin><th></th></cfif>
 							</tr>
+							<cfif project.timetrack eq 2 or session.user.admin>
 							<tr class="input">
 								<td class="first"><input type="text" name="datestamp" id="datestamp" class="shortest date-pick" /></td>
 								<td>
@@ -130,6 +131,7 @@
 								<td><input type="text" name="description" id="desc" class="short" /></td>
 								<td class="tac"><input type="submit" value="Add to log" onclick="add_time_row('#url.p#');" /></td>
 							</tr>
+							</cfif>
 						</thead>
 						<tbody>	
 						<cfloop query="timelines">
@@ -143,7 +145,9 @@
 									<td><cfif isNumeric(rate)>$#NumberFormat(rate*hours,"0")#</cfif></td>
 								</cfif>
 								<td><cfif compare(itemType,'')><span class="catbox #itemtype#">#itemtype#</span> <a href="todos.cfm?p=#projectID###id_#replace(todolistID,'-','','all')#">#task#</a><cfif compare(description,'')> - </cfif></cfif>#description#</td>
-								<td class="tac"><a href="##" onclick="edit_time_row('#projectid#','#timetrackid#','#replace(timetrackid,'-','','ALL')#','#project.tab_billing#','#project.billing#','#project.clientID#')">Edit</a> &nbsp;&nbsp; <a href="##" onclick="delete_time('#projectID#','#timetrackID#','#replace(timetrackid,'-','','ALL')#');" class="delete"></a></td>
+								<cfif project.timetrack eq 2 or session.user.admin>
+									<td class="tac"><a href="##" onclick="edit_time_row('#projectid#','#timetrackid#','#replace(timetrackid,'-','','ALL')#','#project.tab_billing#','#project.billing#','#project.clientID#')">Edit</a> &nbsp;&nbsp; <a href="##" onclick="delete_time('#projectID#','#timetrackID#','#replace(timetrackid,'-','','ALL')#');" class="delete"></a></td>
+								</cfif>
 							</tr>
 							<cfset totalHours = totalHours + hours>
 							<cfif isNumeric(rate)>
