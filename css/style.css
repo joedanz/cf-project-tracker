@@ -87,7 +87,7 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 
 /* LEFT COLUMN */
 #container .left .main {
-	background: #fff url(../images/right-bg.png) right repeat-y;
+	background: #fff url(../images/right-bg.gif) right repeat-y;
 }
 
 #container .left .main .header {
@@ -210,7 +210,7 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 }
 
 #container .left .bottom {
-	background: #e5e5e5 url(../images/bottom-bg.png) top right no-repeat;
+	background: #e5e5e5 url(../images/bottom-bg.gif) top right no-repeat;
   	font-size: 8px;
 }
 
