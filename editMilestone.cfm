@@ -36,6 +36,7 @@
 <cfparam name="thisYear" default="#Month(Now())#">
 <cfparam name="name" default="">
 <cfparam name="description" default="">
+<cfparam name="rate" default="">
 <cfparam name="variables.isCompleted" default="false">
 <cfparam name="title_action" default="Add">
 
