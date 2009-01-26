@@ -1,9 +1,9 @@
-<!--- 2.2 RC (Build 145) --->
-<!--- Last Updated: 2009-01-05 --->
+<!--- 2.2 (Build 146) --->
+<!--- Last Updated: 2009-01-25 --->
 <!--- Created by Steve Bryant 2004-12-08 --->
 <!--- Information: sebtools.com --->
 <cfcomponent displayname="Data Manager" hint="I manage data interactions with the database. I can be used to handle inserts/updates.">
-<cfset variables.DataMgrVersion = "2.2 RC">
+<cfset variables.DataMgrVersion = "2.2">
 <cffunction name="init" access="public" returntype="DataMgr" output="no" hint="I instantiate and return this object.">
 	<cfargument name="datasource" type="string" required="yes">
 	<cfargument name="database" type="string" required="no">

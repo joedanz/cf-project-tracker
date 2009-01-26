@@ -1,5 +1,5 @@
-<!--- 2.2 RC (Build 145) --->
-<!--- Last Updated: 2009-01-05 --->
+<!--- 2.2 (Build 146) --->
+<!--- Last Updated: 2009-01-25 --->
 <!--- Created by Steve Bryant 2004-12-08 --->
 <cfcomponent extends="DataMgr" displayname="Data Manager for MS SQL Server" hint="I manage data interactions with the MS SQL Server database. I can be used to handle inserts/updates.">
 
