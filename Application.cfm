@@ -100,7 +100,11 @@
 <cfif StructKeyExists(url,"logout")>
 	<cfset structDelete(session, "user")>
 	<cfif StructKeyExists(cookie,"ptuser")>
-		<cfcookie name="ptuser" expires="now" domain="#replaceNoCase(replaceNoCase(application.settings.rootURL,'http://',''),'https://','')#" path="#application.settings.mapping#">
+		<cfif compare(application.settings.mapping,'')>
+			<cfcookie name="ptuser" expires="now" domain="#replaceNoCase(replaceNoCase(application.settings.rootURL,'http://',''),'https://','')#" path="#application.settings.mapping#">
+		<cfelse>
+			<cfcookie name="ptuser" expires="now" domain="#replaceNoCase(replaceNoCase(application.settings.rootURL,'http://',''),'https://','')#">
+		</cfif>
 	</cfif>
 	<cfset session.loggedin = false>
 	<cflogout>
@@ -164,7 +168,11 @@
 					<cfset application.user.setLastLogin(session.user.userid)>
 					<!--- set persistant login if user chose it --->
 					<cfif StructKeyExists(form,"remain")>
-						<cfcookie name="ptuser" expires="14" value="#encrypt(trim(form.username),'ajaxcf.com')#" domain="#replaceNoCase(replaceNoCase(application.settings.rootURL,'http://',''),'https://','')#" path="#application.settings.mapping#">
+						<cfif compare(application.settings.mapping,'')>
+							<cfcookie name="ptuser" expires="14" value="#encrypt(trim(form.username),'ajaxcf.com')#" domain="#replaceNoCase(replaceNoCase(application.settings.rootURL,'http://',''),'https://','')#" path="#application.settings.mapping#">
+						<cfelse>
+							<cfcookie name="ptuser" expires="14" value="#encrypt(trim(form.username),'ajaxcf.com')#" domain="#replaceNoCase(replaceNoCase(application.settings.rootURL,'http://',''),'https://','')#">
+						</cfif>
 					</cfif>
 				</cfif>
 			</cfif>
