@@ -15,7 +15,7 @@ function togglemenu() {
 
 // *** ALL TO-DOS ***
 function all_mark_complete(projectid,todolistid,todoid) {
-    $('#cb' + todoid).fadeOut(500);
+    $('#cb' + todoid).fadeOut(500, function(){	$(this).remove(); });
 	$.ajax({
 		type: 'get',
 		url: './ajax/todo.cfm',
@@ -37,7 +37,7 @@ function add_client_rate(clientid) {
 	});
 }
 function delete_client_rate(rateid) {
-    $('#r' + rateid).fadeOut(600, function(){	$(this).remove(); });
+    $('#r' + rateid).fadeOut(600, function(){ $(this).remove(); });
 	$.ajax({
 		type: 'get',
 		url: '../ajax/client_rate.cfm',
@@ -68,7 +68,7 @@ function delete_comment(cid) {
 		if (comment_num == '') newcomment_num = '0' 
 			else newcomment_num = comment_num;
 		$('#cnum').html(newcomment_num);
-		$('#'+cid).fadeOut(500);
+		$('#'+cid).fadeOut(500, function(){	$(this).remove(); });
 		delete_comment_ajax(cid);
 		return true;
 	} else return false;
@@ -411,7 +411,7 @@ function delete_time(projectid,timetrackid,ttidstripped) {
 	var del = confirm('Are you sure you wish to delete this time tracking item?');
 	if (del == true) {
 		delete_time_ajax(projectid,timetrackid);
-		$('#r' + ttidstripped).fadeOut(500);
+		$('#r' + ttidstripped).fadeOut(500, function(){	$(this).remove(); });
 	} else return false;
 }
 function delete_time_ajax(projectid,timetrackid) {
@@ -446,8 +446,8 @@ function redraw_completed(projectid,todolistid,todoid) {
 		}
 	});
 }
-function mark_complete(projectid,todolistid,todoid,todoidstripped) {
-    $('#id_' + todoidstripped).fadeOut(400, function(){	$(this).remove(); });
+function mark_complete(projectid,todolistid,todoid) {
+    $('#id_' + todoid).fadeOut(400, function(){	$(this).remove(); });
 	$.ajax({
 		type: 'get',
 		url: './ajax/todo.cfm',
@@ -455,8 +455,8 @@ function mark_complete(projectid,todolistid,todoid,todoidstripped) {
 	});
 	redraw_completed(projectid,todolistid,todoid);
 }
-function mark_incomplete(projectid,todolistid,todoid,todoidstripped) {
-	$('#id_' + todoidstripped).fadeOut(400, function(){	$(this).remove(); });
+function mark_incomplete(projectid,todolistid,todoid) {
+	$('#id_' + todoid).fadeOut(400, function(){	$(this).remove(); });
 	$.ajax({
 		type: 'get',
 		url: './ajax/todo.cfm',
@@ -522,7 +522,7 @@ function delete_li(projectid,todolistid,todoid) {
 	var del = confirm('Are you sure you wish to delete this item?');
 	if (del == true) {
 		delete_todo_ajax(projectid,todolistid,todoid);
-		$('#' + todoid).fadeOut(500);
+		$('#id_' + todoid).fadeOut(500, function(){	$(this).remove(); });
 	} else return false;
 }
 function delete_todo_ajax(projectid,todolistid,todoid) {
