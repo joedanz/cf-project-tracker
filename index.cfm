@@ -79,7 +79,7 @@ $(document).ready(function(){
 	$('##issues').tablesorter({
 			cssHeader: 'theader',
 			sortList: [[0,0]],
-			headers: { 3: { sorter:'severity' }, 4: { sorter:'statuses' }, 7: { sorter:'usMonthOnlyDate' }, 8: { sorter:'usMonthOnlyDate' } },
+			headers: { 3: { sorter:'severity' }, 4: { sorter:'statuses' }, 7: { sorter:'usLongDate' }, 8: { sorter:'usLongDate' }, 9: { sorter:'usLongDate' } },
 			widgets: ['zebra']  
 	});
 	</cfif>
@@ -253,9 +253,9 @@ $(document).ready(function(){
 						<td>#status#</td>
 						<td><a href="issue.cfm?p=#projectID#&i=#issueID#">#issue#</a></td>
 						<td>#assignedFirstName# #assignedLastName#</td>
-						<td>#DateFormat(created,"mmm d")#</td>
-						<td>#DateFormat(updated,"mmm d")#</td>
-						<td>#DateFormat(dueDate,"mmm d")#</td>
+						<td>#DateFormat(created,"mmm dd, yyyy")#</td>
+						<td>#DateFormat(updated,"mmm dd, yyyy")#</td>
+						<td>#DateFormat(dueDate,"mmm dd, yyyy")#</td>
 					</tr>
 					<cfset thisRow = thisRow + 1>
 					</cfloop>

@@ -64,7 +64,7 @@ $(document).ready(function(){
 	$('##issues').tablesorter({
 			cssHeader: 'theader',
 			sortList: [[0,0]],
-			headers: { 2: { sorter:'severity' }, 3: { sorter:'status' }, 6: { sorter:'text' }, 8: { sorter:'usMonthOnlyDate' }, 9: { sorter:'usMonthOnlyDate' }, 10: { sorter:'usMonthOnlyDate' } },
+			headers: { 2: { sorter:'severity' }, 3: { sorter:'status' }, 6: { sorter:'text' }, 8: { sorter:'usLongDate' }, 9: { sorter:'usLongDate' }, 10: { sorter:'usLongDate' } },
 			widgets: ['zebra'] 
 	});
 });
@@ -189,9 +189,9 @@ $(document).ready(function(){
 							<td>#component#</td>
 							<td>#version#</td>
 							<td>#assignedFirstName# #assignedLastName#</td>
-							<td>#DateFormat(created,"mmm d")#</td>
-							<td>#DateFormat(updated,"mmm d")#</td>
-							<td>#DateFormat(dueDate,"mmm d")#</td>
+							<td>#DateFormat(created,"mmm dd, yyyy")#</td>
+							<td>#DateFormat(updated,"mmm dd, yyyy")#</td>
+							<td>#DateFormat(dueDate,"mmm dd, yyyy")#</td>
 						</tr>
 						<cfset thisRow = thisRow + 1>
 						</cfloop>
