@@ -64,8 +64,8 @@ $(document).ready(function(){
 	$('##issues').tablesorter({
 			cssHeader: 'theader',
 			sortList: [[0,0]],
-			headers: { 2: { sorter:'severity' }, 3: { sorter:'status' }, 6: { sorter:'usMonthOnlyDate' }, 8: { sorter:'usMonthOnlyDate' }, 9: { sorter:'usMonthOnlyDate' }, 10: { sorter:'usMonthOnlyDate' } },
-			widgets: ['zebra']  
+			headers: { 2: { sorter:'severity' }, 3: { sorter:'status' }, 6: { sorter:'text' }, 8: { sorter:'usMonthOnlyDate' }, 9: { sorter:'usMonthOnlyDate' }, 10: { sorter:'usMonthOnlyDate' } },
+			widgets: ['zebra'] 
 	});
 });
 </script>
