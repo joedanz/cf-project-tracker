@@ -384,11 +384,11 @@
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="item" type="string" required="true">
 		<cfargument name="type" type="string" required="true">
-		<cfset var newID = createUUID()>
+		<cfargument name="newID" type="string" required="false" default="#createUUID()#">
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#project_#arguments.type#s (projectID,#arguments.type#ID,#arguments.type#)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
-					'#newID#',
+					'#arguments.newID#',
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.item#" maxlength="50">)
 		</cfquery>
 		<cfreturn newID>

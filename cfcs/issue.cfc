@@ -95,7 +95,17 @@
 		<cfargument name="createdBy" type="string" required="true">
 		<cfargument name="filesList" type="string" required="true">
 		<cfset var qCountTix = "">
+		<cfset var newComponentID = createUUID()>
+		<cfset var newVersionID = createUUID()>
 		<CFTRANSACTION>
+		<cfif not request.udf.IsCFUUID(arguments.componentID) and compare(arguments.componentID,'')>
+			<cfset application.project.addProjectItem(arguments.projectID,arguments.componentID,'component',newComponentID)>
+			<cfset arguments.componentID = newComponentID>
+		</cfif>
+		<cfif not request.udf.IsCFUUID(arguments.versionID) and compare(arguments.versionID,'')>
+			<cfset application.project.addProjectItem(arguments.projectID,arguments.versionID,'version',newVersionID)>
+			<cfset arguments.versionID = newVersionID>
+		</cfif>
 		<CFQUERY NAME="qCountTix" DATASOURCE="#variables.dsn#">
 			SELECT 	count(*) as numTix FROM #variables.tableprefix#issues 
 			WHERE 	projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
