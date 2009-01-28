@@ -172,7 +172,7 @@ $(document).ready(function(){
 								<th>Component</th>
 								<th>Version</th>
 								<th>Assigned To</th>
-								<th>Created</th>
+								<th>Reported</th>
 								<th>Updated</th>
 								<th>Due Date</th>
 							</tr>

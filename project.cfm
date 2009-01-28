@@ -214,7 +214,7 @@ $(document).ready(function(){
 							<th>Assigned To</th>
 							<th>Reported</th>
 							<th>Updated</th>
-							<th>Due</th>
+							<th>Due Date</th>
 						</tr>
 					</thead>
 					<tbody>
