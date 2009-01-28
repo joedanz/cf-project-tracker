@@ -32,13 +32,14 @@
 <cfparam name="form.tab_billing" default="0">
 <cfparam name="form.tab_svn" default="0">
 <cfparam name="form.issue_svn_link" default="0">
+<cfparam name="form.issue_timetrack" default="0">
 
 <cfif StructKeyExists(url,"from")>
 	<cfset form.from = url.from>
 </cfif>
 
 <cfif StructKeyExists(form,"submit") and not compare(form.submit,'Update Project')> <!--- update project --->
-	<cfset application.project.update(form.projectid,form.ownerID,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_time,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link)>
+	<cfset application.project.update(form.projectid,form.ownerID,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_time,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,form.issue_timetrack)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'edited')>
 	<cfif not compare(form.from,'admin')>
 		<cflocation url="./admin/projects.cfm" addtoken="false">
@@ -46,7 +47,7 @@
 		<cflocation url="project.cfm?p=#form.projectID#" addtoken="false">
 	</cfif>
 <cfelseif StructKeyExists(form,"submit") and not compare(form.submit,'Add Project')> <!--- add project --->
-	<cfset application.project.add(form.projectID,form.ownerid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_time,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,session.user.userid)>
+	<cfset application.project.add(form.projectID,form.ownerid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_time,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,form.issue_timetrack,session.user.userid)>
 	<cfset application.role.add(form.projectID,session.user.userid,'1','2','2','2','2','2','2','2','1')>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'added')>
 	<cfset session.user.projects = application.project.get(session.user.userid)>
@@ -106,6 +107,7 @@
 	<cfset form.tab_billing = thisProject.tab_billing>
 	<cfset form.tab_svn = thisProject.tab_svn>
 	<cfset form.issue_svn_link = thisProject.issue_svn_link>
+	<cfset form.issue_timetrack = thisProject.issue_timetrack>
 	<cfset title_action = "Edit">
 	<cfset projectUsers = application.project.projectUsers(url.p)>
 	<cfset msgcats = application.message.getCatMsgs(url.p)>
@@ -123,6 +125,7 @@
 	<cfset form.tab_billing = 1>
 	<cfset form.tab_svn = 1>
 	<cfset form.issue_svn_link = 1>
+	<cfset form.issue_timetrack = 1>
 	<cfset projectUsers = application.user.get(activeOnly=true)>
 	<cfset newID = createUUID()>
 	<cfset form.display = 1>
@@ -322,6 +325,11 @@
 						<p>
 							<label for="issue_svn_link" class="half">Allow linking of SVN Revisions?</label>
 							<input type="checkbox" name="issue_svn_link" id="issue_svn_link" class="checkbox" value="1"<cfif form.issue_svn_link eq 1> checked="checked"</cfif> /> <span class="sma g">(may slow things down on remote repositories)</span>
+						</p>
+
+						<p>
+							<label for="issue_timetrack" class="half">Allow time tracking on issues?</label>
+							<input type="checkbox" name="issue_svn_link" id="issue_svn_link" class="checkbox" value="1"<cfif form.issue_svn_link eq 1> checked="checked"</cfif> /> <span class="sma g">(requires time tracking to be enabled under <a href="##" onclick="section_toggle('tab');return false;" id="tablink">features</a>)</span>
 						</p>
 						
 						<cfif StructKeyExists(url,"p")>

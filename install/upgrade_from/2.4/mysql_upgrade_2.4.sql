@@ -25,6 +25,8 @@ ALTER TABLE `pt_projects` ADD `tab_billing` int(1) default NULL;
 UPDATE `pt_projects` set `tab_billing` = 0;
 ALTER TABLE `pt_projects` ADD `issue_svn_link` int(1) default NULL;
 UPDATE `pt_projects` set `issue_svn_link` = 1;
+ALTER TABLE `pt_projects` ADD `issue_timetrack` int(1) default NULL;
+UPDATE `pt_projects` set `issue_timetrack` = 1;
 
 /* pt_timetrack */
 ALTER TABLE `pt_timetrack` ADD `rateID` varchar(35) default NULL;

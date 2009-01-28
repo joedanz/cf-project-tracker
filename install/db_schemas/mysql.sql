@@ -239,6 +239,7 @@ CREATE TABLE `pt_projects` (
   `tab_time` int(1) default NULL,
   `tab_todos` int(1) default NULL,
   `issue_svn_link` int(1) default NULL,
+  `issue_timetrack` int(1) default NULL,
   PRIMARY KEY  (`projectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

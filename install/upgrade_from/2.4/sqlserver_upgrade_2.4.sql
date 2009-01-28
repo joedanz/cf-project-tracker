@@ -34,6 +34,10 @@ ALTER TABLE [dbo].[pt_projects] ADD [issue_svn_link] [tinyint] NULL
 GO
 UPDATE [dbo].[pt_projects] SET issue_svn_link = 1
 GO
+ALTER TABLE [dbo].[pt_projects] ADD [issue_timetrack] [tinyint] NULL
+GO
+UPDATE [dbo].[pt_projects] SET issue_timetrack = 1
+GO
 
 /* pt_timetrack */
 ALTER TABLE [dbo].[pt_timetrack] ADD [rateID] [nvarchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL

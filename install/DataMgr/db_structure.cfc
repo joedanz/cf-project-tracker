@@ -197,6 +197,7 @@
 				<field ColumnName="tab_todos" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="tab_todos" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="issue_svn_link" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="issue_timetrack" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 			</table>
 			<table name="#arguments.tablePrefix#screenshots">
 				<field ColumnName="fileID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />

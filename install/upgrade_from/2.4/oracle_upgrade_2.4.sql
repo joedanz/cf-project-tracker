@@ -41,10 +41,12 @@ alter table
 add
    (
    tab_billing NUMBER(1,0) NULL,
-   issue_svn_link NUMBER(1,0) NULL
+   issue_svn_link NUMBER(1,0) NULL,
+   issue_timetrack NUMBER(1,0) NULL
    );
 update pt_projects set tab_billing = 0;
 update pt_projects set issue_svn_link = 1;
+update pt_projects set issue_timetrack = 1;
 
 /* pt_timetrack */
 alter table
