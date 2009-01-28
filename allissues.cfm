@@ -32,6 +32,45 @@
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Issues">
 
+<cfsavecontent variable="js">
+<cfoutput>
+<script type='text/javascript'>
+$(document).ready(function(){
+	<cfif issues.recordCount>
+    $.tablesorter.addParser({ 
+        id: 'severity', 
+        is: function(s) {  
+            return false; // return false so this parser is not auto detected
+        }, 
+        format: function(s) { 
+            return s.toLowerCase().replace(/critical/,4).replace(/major/,3).replace(/normal/,2).replace(/minor/,1).replace(/trivial/,0); 
+        }, 
+        type: 'numeric' 
+    });
+	$.tablesorter.addParser({ 
+        id: 'status', 
+        is: function(s) {  
+            return false; // return false so this parser is not auto detected
+        }, 
+        format: function(s) { 
+            return s.toLowerCase().replace(/closed/,3).replace(/resolved/,2).replace(/accepted/,1).replace(/new/,0); 
+        }, 
+        type: 'numeric' 
+    });
+	$('##issues').tablesorter({
+			cssHeader: 'theader',
+			sortList: [[0,0]],
+			headers: { 4: { sorter:'severity' }, 5: { sorter:'statuses' }, 7: { sorter:'usMonthOnlyDate' }, 8: { sorter:'usMonthOnlyDate' } },
+			widgets: ['zebra']  
+	});
+	</cfif>
+});
+</script>
+</cfoutput>
+</cfsavecontent>
+
+<cfhtmlhead text="#js#">
+
 <cfoutput>
 <div id="container">
 	<!--- left column --->
@@ -90,8 +129,8 @@
 
 					 	<cfif issues.recordCount>
 					 	<div style="border:1px solid ##ddd;" class="mb20">
-					 	<table class="activity full" id="issues">
-						<caption class="plain">#form.status# Issues</caption>
+					 	<table class="activity full tablesorter" id="issues">
+						<caption class="plain"><cfif compare(form.status,'New|Accepted')>#form.status#<cfelse>Open</cfif> Issues</caption>
 						<thead>
 							<tr>
 								<th>ID</th>
@@ -99,6 +138,7 @@
 								<th>Issue</th>
 								<th>Type</th>
 								<th>Severity</th>
+								<th>Status</th>
 								<th>Assigned To</th>
 								<th>Reported</th>
 								<th>Updated</th>
@@ -113,6 +153,7 @@
 							<td>#issue#</td>
 							<td>#type#</td>
 							<td>#severity#</td>
+							<td>#status#</td>
 							<td>#assignedFirstName# #assignedLastName#</td>
 							<td>#DateFormat(created,"d mmm")#</td>
 							<td>#DateFormat(updated,"d mmm")#</td>
