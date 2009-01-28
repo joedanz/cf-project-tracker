@@ -21,13 +21,8 @@
 
 <!-- JavaScript -->
 <script type="text/javascript" src="#application.settings.mapping#/js/jquery-1.3.1.min.js"></script>
-<script type="text/javascript" src="#application.settings.mapping#/js/jquery.color.js"></script>
-<script type="text/javascript" src="#application.settings.mapping#/js/jquery-ui.min.js"></script>
-<script type="text/javascript" src="#application.settings.mapping#/js/jquery.checkboxes.js"></script>
 <script type="text/javascript" src="#application.settings.mapping#/js/jquery.tablesorter.js"></script>
 <script type="text/javascript" src="#application.settings.mapping#/js/webtoolkit.scrollabletable.js"></script>
-<script type="text/javascript" src="#application.settings.mapping#/js/jquery.prettyPhoto.js"></script>
-<script type="text/javascript" src="#application.settings.mapping#/js/master.js"></script>
 </head>
 <body>
 <div id="header">
