@@ -1,9 +1,12 @@
 <cfsetting enablecfoutputonly="true" showdebugoutput="false">
 
+<cfparam name="url.i" default="">
+<cfparam name="url.type" default="">
+
 <cfswitch expression="#url.act#">
 	<cfcase value="add">
 		<cfset url.tt = createUUID()>
-		<cfset application.timetrack.add(timetrackID=url.tt,projectID=url.p,userID=url.u,dateStamp=url.t,hours=url.h,description=url.d,rateID=url.r)>
+		<cfset application.timetrack.add(timetrackID=url.tt,projectID=url.p,userID=url.u,dateStamp=url.t,hours=url.h,description=url.d,rateID=url.r,itemID=url.i,itemType=url.type)>		
 	</cfcase>
 	<cfcase value="update">
 		<cfset application.timetrack.update(url.tt,url.p,url.u,url.t,url.h,url.d,url.r)>
@@ -14,7 +17,11 @@
 </cfswitch>
 
 <cfset timeline = application.timetrack.get(url.tt)>
-<cfset totalhours = application.timetrack.countHours(url.p)>
+<cfif not compareNoCase(url.f,'issue')>
+	<cfset totaltime = application.timetrack.countTime(itemID=url.i)>
+<cfelse>
+	<cfset totaltime = application.timetrack.countTime(projectID=url.p)>
+</cfif>
 <cfif session.user.admin>
 	<cfset project = application.project.get(projectID=url.p)>
 <cfelse>
@@ -22,20 +29,27 @@
 </cfif>
 
 <cfoutput>
-<tr id="r#replace(timeline.timetrackid,'-','','ALL')#">
-	<td class="first">#DateFormat(timeline.dateStamp,"mmm d, yyyy")#</td>
-	<td>#timeline.firstName# #timeline.lastName#</td>
-	<td class="b">#numberFormat(timeline.hours,"0.00")#</td>
-	<cfif project.tab_billing and project.billing gt 0>
-		<td>#timeline.category#</td>
-	</cfif>
-	<td><cfif compare(timeline.itemType,'')><span class="catbox #timeline.itemtype#">#timeline.itemtype#</span> <a href="todos.cfm?p=#timeline.projectID###id_#replace(timeline.todolistID,'-','','all')#">#timeline.task#</a><cfif compare(timeline.description,'')> - </cfif></cfif>#timeline.description#</td>
-	<td class="tac"><a href="##" onclick="edit_time_row('#timeline.projectid#','#timeline.timetrackid#','#replace(timeline.timetrackid,'-','','ALL')#','#project.tab_billing#','#project.billing#','#project.clientID#')">Edit</a> &nbsp;&nbsp; <a href="##" onclick="delete_time('#timeline.projectID#','#timeline.timetrackID#','#replace(timeline.timetrackid,'-','','ALL')#');" class="delete"></a></td>
-</tr>
+<cfif compareNoCase(url.act,'delete')>
+	<tr id="r#timeline.timetrackid#">
+		<td class="first">#DateFormat(timeline.dateStamp,"mmm d, yyyy")#</td>
+		<td>#timeline.firstName# #timeline.lastName#</td>
+		<td<cfif compareNoCase(url.f,'issue')> class="b"</cfif>>#numberFormat(timeline.hours,"0.00")#</td>
+		<cfif project.tab_billing and project.billing gt 0>
+			<td>#timeline.category#<cfif compare(timeline.category,'')> ($#NumberFormat(timeline.rate,"0")#/hr)</cfif></td>
+			<cfif compareNoCase(url.f,'issue')>
+				<td><cfif isNumeric(timeline.rate)>$#NumberFormat(timeline.rate*timeline.hours,"0")#</cfif></td>
+			</cfif>
+		</cfif>
+		<td><cfif compare(timeline.itemType,'') and not (not compareNoCase(url.f,'issue') and not compareNoCase(timeline.itemType,'issue'))><span class="catbox #timeline.itemtype#">#timeline.itemtype#</span> <a href="todos.cfm?p=#timeline.projectID###id_#replace(timeline.todolistID,'-','','all')#">#timeline.task#</a><cfif compare(timeline.description,'')> - </cfif></cfif>#timeline.description#</td>
+		<td class="tac"><a href="##" onclick="edit_time_row('#timeline.projectid#','#timeline.timetrackid#','#project.tab_billing#','#project.billing#','#project.clientID#','#url.type#','#url.i#','#url.f#'); return false;">Edit</a> &nbsp;&nbsp; <a href="##" onclick="delete_time('#timeline.projectID#','#timeline.timetrackID#','#url.f#','#url.i#'); return false;" class="delete"></a></td>
+	</tr>
+</cfif>
 <cfif compare(url.act,'cancel')>
 	<script type="text/javascript">
-		$('##totalhours').html('#numberFormat(totalhours,"0.00")#').animate({backgroundColor:'##ffffb7'},100).animate({backgroundColor:'##fff'},1500);
-		$('##r#replace(timeline.timetrackid,'-','','ALL')#').animate({backgroundColor:'##ffffb7'},100).animate({backgroundColor:'##fff'},1500);
+		$('##totalhours').html('#numberFormat(totaltime.numHours,"0.00")#').animate({backgroundColor:'##ffffb7'},100).animate({backgroundColor:'##fff'},1500);
+		<cfif not compareNoCase(url.f,'issue')>
+			$('##timerows').html('#numberFormat(totaltime.numLines)#');
+		</cfif>
 	</script>
 </cfif>
 </cfoutput>

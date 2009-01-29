@@ -87,6 +87,7 @@
 <script type="text/javascript" src="./js/comments.js"></script>
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
+		$(".date-pick").datepicker();
 		$("a[rel^=''prettyPhoto'']").prettyPhoto();
 	});
 </script>'>
@@ -267,6 +268,86 @@
 								</cfloop>
 							</tbody>
 						</table>
+						</cfif>
+
+						<cfif project.tab_time eq 1 and project.timetrack gt 0 and project.issue_timetrack>
+							<cfset projectUsers = application.project.projectUsers(url.p,'0','firstName, lastName')>
+							<cfset timelines = application.timetrack.get(itemID=url.i)>
+							<cfif project.tab_billing and project.billing eq 2>
+								<cfset rates = application.client.getRates(project.clientID)>
+							</cfif>
+							<cfset totalHours = 0>						
+							<div class="attachbar">
+								Time Tracking (<span id="timerows">#timelines.recordCount#</span>)
+							</div>						
+							<a name="time"></a>
+							<table class="clean full" id="time">
+								<thead>
+									<tr>
+										<th>Date</th>
+										<th>Person</th>
+										<th>Hours</th>
+										<cfif project.tab_billing and project.billing gt 0>
+											<th>Billing Category</th>
+										</cfif>
+										<th>Description</th>
+										<cfif project.timetrack eq 2 or session.user.admin>
+											<th></th>
+										</cfif>
+									</tr>
+									<cfif project.timetrack eq 2 or session.user.admin>
+									<tr class="input">
+										<td class="first"><input type="text" name="datestamp" id="datestamp" class="shortest date-pick" /></td>
+										<td>
+											<select name="userID" id="userid">
+												<cfloop query="projectUsers">
+												<option value="#userid#"<cfif not compare(session.user.userid,userid)> selected="selected"</cfif>>#firstName# #lastName#</option>
+												</cfloop>
+											</select>
+										</td>
+										<td><input type="text" name="hours" id="hrs" class="tiny" /></td>
+										<cfif project.tab_billing>
+											<td>
+												<select name="rateID" id="rateID">
+													<option value="">None</option>
+													<cfloop query="rates">
+														<option value="#rateID#">#category# ($#NumberFormat(rate,"0")#/hr)</option>
+													</cfloop>
+												</select>
+											</td>
+										<cfelse>
+											<input type="hidden" name="rateID" value="" />
+										</cfif>
+										<td><input type="text" name="description" id="desc" class="short2" /></td>
+										<td class="tac"><input type="submit" value="Add to log" onclick="add_time_row('#url.p#','issue','#url.i#','issue');" class="sm" /></td>
+									</tr>
+									</cfif>
+								</thead>
+								<tbody>
+									<cfloop query="timelines">
+										<tr id="r#timetrackid#">
+											<td class="first">#DateFormat(dateStamp,"mmm d, yyyy")#</td>
+											<td>#firstName# #lastName#</td>
+											<td>#numberFormat(hours,"0.00")#</td>
+											<cfif project.tab_billing and project.billing gt 0>
+												<td>#category#<cfif compare(category,'')> ($#NumberFormat(rate,"0")#/hr)</cfif></td>
+											</cfif>
+											<td>#description#</td>
+											<cfif project.timetrack eq 2 or session.user.admin>
+												<td class="tac"><a href="##" onclick="edit_time_row('#projectid#','#timetrackid#','#project.tab_billing#','#project.billing#','#project.clientID#','issue','#url.i#','issue'); return false;">Edit</a> &nbsp;&nbsp; <a href="##" onclick="delete_time('#projectID#','#timetrackID#','issue','#url.i#'); return false;" class="delete"></a></td>
+											</cfif>
+										</tr>
+										<cfset totalHours = totalHours + hours>
+									</cfloop>
+								</tbody>
+								<tfoot>
+									<tr class="last">
+										<td colspan="2" class="tar b">TOTAL:&nbsp;&nbsp;&nbsp;</td>
+										<td class="b"><span id="totalhours">#NumberFormat(totalHours,"0.00")#</span></td>
+										<td colspan="<cfif project.tab_billing and project.billing gt 0>3<cfelse>2</cfif>">&nbsp;</td>
+									</tr>
+								</tfoot>
+							</table>
 						</cfif>
 
 						<cfif project.tab_svn eq 1 and project.svn gt 0 and compare(project.svnurl,'') and project.issue_svn_link>

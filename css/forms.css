@@ -83,6 +83,10 @@ form.frm p input.short2, #container .left .main .content #listWrapper .todolist 
 	width:300px;	
 }
 
+tr.input td input.short2 {
+	width:220px;
+}
+
 form.frm p input.shorter {
 	width:180px;
 } 

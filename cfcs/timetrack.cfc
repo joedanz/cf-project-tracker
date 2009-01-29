@@ -127,15 +127,22 @@
 		<cfreturn true>
 	</cffunction>		
 
-	<cffunction name="countHours" access="public" returnType="numeric" output="false"
+	<cffunction name="countTime" access="public" returnType="query" output="false"
 				hint="Returns total hours for item.">
-		<cfargument name="projectID" type="uuid" required="true">
-		<cfset var qCountHours = "">		
-		<cfquery name="qCountHours" datasource="#variables.dsn#">
-			SELECT sum(hours) as numHours FROM #variables.tableprefix#timetrack 
-				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+		<cfargument name="projectID" type="string" required="false" default="">
+		<cfargument name="itemID" type="string" required="false" default="">
+		<cfset var qCountTime = "">		
+		<cfquery name="qCountTime" datasource="#variables.dsn#">
+			SELECT count(hours) as numLines, sum(hours) as numHours FROM #variables.tableprefix#timetrack 
+				WHERE 0=0
+				<cfif compare(arguments.projectID,'')>
+					AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				</cfif>
+				<cfif compare(arguments.itemID,'')>
+					AND itemID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.itemID#" maxlength="35">
+				</cfif>
 		</cfquery>
-		<cfreturn qCountHours.numHours>
+		<cfreturn qCountTime>
 	</cffunction>
 
 </cfcomponent>
