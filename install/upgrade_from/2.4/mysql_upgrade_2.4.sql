@@ -30,3 +30,20 @@ UPDATE `pt_projects` set `issue_timetrack` = 1;
 
 /* pt_timetrack */
 ALTER TABLE `pt_timetrack` ADD `rateID` varchar(35) default NULL;
+
+/* pt_user_notify */
+CREATE TABLE `pt_user_notify` (
+  `userID` char(35) NOT NULL,
+  `projectID` char(35) NOT NULL,
+  `email_files` tinyint(1) default NULL,
+  `mobile_files` tinyint(1) default NULL,
+  `email_issues` tinyint(1) default NULL,
+  `mobile_issues` tinyint(1) default NULL,
+  `email_msgs` tinyint(1) default NULL,
+  `mobile_msgs` tinyint(1) default NULL,
+  `email_mstones` tinyint(1) default NULL,
+  `mobile_mstones` tinyint(1) default NULL,
+  `email_todos` tinyint(1) default NULL,
+  `mobile_todos` tinyint(1) default NULL,
+  PRIMARY KEY  (`userID`,`projectID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

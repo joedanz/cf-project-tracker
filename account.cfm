@@ -16,17 +16,19 @@
 	<cfset session.user.mobile = form.mobile>
 	<cfset session.user.carrierID = form.carrierID>
 <cfelseif StructKeyExists(form,"notifysub")>
-	<cfparam name="form.email_files" default="0">
-	<cfparam name="form.mobile_files" default="0">
-	<cfparam name="form.email_issues" default="0">
-	<cfparam name="form.mobile_issues" default="0">
-	<cfparam name="form.email_msgs" default="0">
-	<cfparam name="form.mobile_msgs" default="0">
-	<cfparam name="form.email_mstones" default="0">
-	<cfparam name="form.mobile_mstones" default="0">
-	<cfparam name="form.email_todos" default="0">
-	<cfparam name="form.mobile_todos" default="0">
-	<cfset application.user.notifyUpdate(session.user.userid,form.email_files,form.mobile_files,form.email_issues,form.mobile_issues,form.email_msgs,form.mobile_msgs,form.email_mstones,form.mobile_mstones,form.email_todos,form.mobile_todos)>
+	<cfloop list="#notify_proj_ids#" index="i">
+		<cfparam name="form.email_files_#replace(i,'-','','ALL')#" default="0">
+		<cfparam name="form.mobile_files_#replace(i,'-','','ALL')#" default="0">
+		<cfparam name="form.email_issues_#replace(i,'-','','ALL')#" default="0">
+		<cfparam name="form.mobile_issues_#replace(i,'-','','ALL')#" default="0">
+		<cfparam name="form.email_msgs_#replace(i,'-','','ALL')#" default="0">
+		<cfparam name="form.mobile_msgs_#replace(i,'-','','ALL')#" default="0">
+		<cfparam name="form.email_mstones_#replace(i,'-','','ALL')#" default="0">
+		<cfparam name="form.mobile_mstones_#replace(i,'-','','ALL')#" default="0">
+		<cfparam name="form.email_todos_#replace(i,'-','','ALL')#" default="0">
+		<cfparam name="form.mobile_todos_#replace(i,'-','','ALL')#" default="0">
+		<cfset application.notify.update(session.user.userid,i,Evaluate("form.email_files_"&replace(i,'-','','ALL')),Evaluate("form.mobile_files_"&replace(i,'-','','ALL')),Evaluate("form.email_issues_"&replace(i,'-','','ALL')),Evaluate("form.mobile_issues_"&replace(i,'-','','ALL')),Evaluate("form.email_msgs_"&replace(i,'-','','ALL')),Evaluate("form.mobile_msgs_"&replace(i,'-','','ALL')),Evaluate("form.email_mstones_"&replace(i,'-','','ALL')),Evaluate("form.mobile_mstones_"&replace(i,'-','','ALL')),Evaluate("form.email_todos_"&replace(i,'-','','ALL')),Evaluate("form.mobile_todos_"&replace(i,'-','','ALL')))>
+	</cfloop>
 	<cfset whichTab = 3>	
 <cfelseif StructKeyExists(form,"submit2")>
 	<cfif not compareNoCase(form.pass1,form.pass2)>
@@ -72,6 +74,7 @@
 
 <cfset user = application.user.get(session.user.userid)>
 <cfset projects = application.project.get(session.user.userid)>
+<cfset notifications = application.project.userNotify(session.user.userid)>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; My Account">
@@ -183,72 +186,89 @@
 						</form>								
 		            </div>
 		            <div id="projects">
-							<table class="clean full mb10">
-							<tr>
-								<th>Project</th>
-								<th class="tac">Owner</th>
-								<th class="tac">Admin</th>
-								<th class="tac">Files</th>
-								<th class="tac">Issues</th>
-								<th class="tac">Messages</th>
-								<th class="tac">Milestones</th>
-								<th class="tac">To-Dos</th>
-								<th class="tac">SVN</th>
-								<th class="tac">Remove</th>
-							</tr>
-							<cfloop query="projects">
-							<tr>
-								<td>#name#</td>
-								<td class="tac"><img src="./images/<cfif not compareNoCase(session.user.userid,ownerid)>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(compareNoCase(session.user.userid,ownerid))#" /></td>
-								<td class="tac"><img src="./images/<cfif admin eq 1>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(admin)#" /></td>
-								<td class="tac"><cfif files eq 2>Full Access<cfelseif files eq 1>Read-Only<cfelseif files eq 0>None</cfif></td>
-								<td class="tac"><cfif issues eq 2>Full Access<cfelseif issues eq 1>Read-Only<cfelseif issues eq 0>None</cfif></td>
-								<td class="tac"><cfif msgs eq 2>Full Access<cfelseif msgs eq 1>Read-Only<cfelseif msgs eq 0>None</cfif></td>
-								<td class="tac"><cfif mstones eq 2>Full Access<cfelseif mstones eq 1>Read-Only<cfelseif mstones eq 0>None</cfif></td>
-								<td class="tac"><cfif todos eq 2>Full Access<cfelseif todos eq 1>Read-Only<cfelseif todos eq 0>None</cfif></td>
-								<td class="tac"><img src="./images/<cfif svn eq 1>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(svn)#" /></td>
-								<td class="tac">[<a href="#cgi.script_name#?rp=#projectid###projects" onclick="return confirm('Are you sure you wish to remove access to this project?')">remove</a>]</td>
-							</tr>
-							</cfloop>
-							</table>					
+						<table class="clean admin full mb10">
+						<tr>
+							<th>Project</th>
+							<th class="tac">Owner</th>
+							<th class="tac">Admin</th>
+							<th class="tac">Files</th>
+							<th class="tac">Issues</th>
+							<th class="tac">Messages</th>
+							<th class="tac">Milestones</th>
+							<th class="tac">To-Dos</th>
+							<th class="tac">Time</th>
+							<th class="tac">Billing</th>
+							<th class="tac">SVN</th>
+							<th class="tac">Remove</th>
+						</tr>
+						<cfloop query="projects">
+						<tr>
+							<td>#name#</td>
+							<td class="tac"><img src="./images/<cfif not compareNoCase(session.user.userid,ownerid)>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(compareNoCase(session.user.userid,ownerid))#" /></td>
+							<td class="tac"><img src="./images/<cfif admin eq 1>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(admin)#" /></td>
+							<td class="tac"><cfif files eq 2>Full Access<cfelseif files eq 1>Read-Only<cfelseif files eq 0>None</cfif></td>
+							<td class="tac"><cfif issues eq 2>Full Access<cfelseif issues eq 1>Read-Only<cfelseif issues eq 0>None</cfif></td>
+							<td class="tac"><cfif msgs eq 2>Full Access<cfelseif msgs eq 1>Read-Only<cfelseif msgs eq 0>None</cfif></td>
+							<td class="tac"><cfif mstones eq 2>Full Access<cfelseif mstones eq 1>Read-Only<cfelseif mstones eq 0>None</cfif></td>
+							<td class="tac"><cfif todos eq 2>Full Access<cfelseif todos eq 1>Read-Only<cfelseif todos eq 0>None</cfif></td>
+							<td class="tac"><cfif timetrack eq 2>Full Access<cfelseif timetrack eq 1>Read-Only<cfelseif timetrack eq 0>None</cfif></td>
+							<td class="tac"><cfif billing eq 2>Full Access<cfelseif billing eq 1>Read-Only<cfelseif billing eq 0>None</cfif></td>
+							<td class="tac"><img src="./images/<cfif svn eq 1>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(svn)#" /></td>
+							<td class="tac">[<a href="#cgi.script_name#?rp=#projectid###projects" onclick="return confirm('Are you sure you wish to remove yourself from this project?')">remove</a>]</td>
+						</tr>
+						</cfloop>
+						</table>			
 					</div>
 		            <div id="notifications">
-						<form action="#cgi.script_name#" method="post" name="edit" class="frm tac">
-							<table class="clean half mb15">
-							<tr><th>Item</th><th class="tac">Email</th><th class="tac">Mobile</th></tr>
+			            <form action="#cgi.script_name#" method="post" name="edit">
+							<table class="clean admin full mb10">
 							<tr>
-								<td class="tal">Files</td>
-								<td class="tac"><input type="checkbox" name="email_files" value="1"<cfif user.email_files> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_files" value="1"<cfif user.mobile_files> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
+								<th width="25%">Project</th>
+								<th class="tac" width="15%">Files</th>
+								<th class="tac" width="15%">Issues</th>
+								<th class="tac" width="15%">Messages</th>
+								<th class="tac" width="15%">Milestones</th>
+								<th class="tac" width="15%">To-Dos</th>
+	
 							</tr>
-							<tr>
-								<td class="tal">Issues</td>
-								<td class="tac"><input type="checkbox" name="email_issues" value="1"<cfif user.email_issues> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_issues" value="1"<cfif user.mobile_issues> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
-							</tr>
-							<tr>
-								<td class="tal">Messages</td>
-								<td class="tac"><input type="checkbox" name="email_msgs" value="1"<cfif user.email_msgs> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_msgs" value="1"<cfif user.mobile_msgs> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
-							</tr>
-							<tr>
-								<td class="tal">Milestones</td>
-								<td class="tac"><input type="checkbox" name="email_mstones" value="1"<cfif user.email_mstones> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_mstones" value="1"<cfif user.mobile_mstones> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
-							</tr>
-							<tr>
-								<td class="tal">To-Dos</td>
-								<td class="tac"><input type="checkbox" name="email_todos" value="1"<cfif user.email_todos> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_todos" value="1"<cfif user.mobile_todos> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> /></td>
-							</tr>
+							<cfloop query="notifications">
+								<tr>
+									<td class="tal">#name#</td>
+									<td class="tac">
+										<input type="checkbox" name="email_files_#replace(projectID,'-','','ALL')#" id="e_f_#projectID#" value="1"<cfif email_files> checked="checked"</cfif> />
+										<label for="e_f_#projectID#"><img src="./images/email.png" height="16" width="16" border="0" alt="Email" /></label> &nbsp;
+										<label for="m_f_#projectID#"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile" /></label><input type="checkbox" name="mobile_files_#replace(projectID,'-','','ALL')#" id="m_f_#projectID#" value="1"<cfif mobile_files> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> />				
+									</td>
+									<td class="tac">
+										<input type="checkbox" name="email_issues_#replace(projectID,'-','','ALL')#" id="e_i_#projectID#" value="1"<cfif email_issues> checked="checked"</cfif> />
+										<label for="e_i_#projectID#"><img src="./images/email.png" height="16" width="16" border="0" alt="Email" /></label> &nbsp;
+										<label for="m_i_#projectID#"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile" /></label><input type="checkbox" name="mobile_issues_#replace(projectID,'-','','ALL')#" id="m_i_#projectID#" value="1"<cfif mobile_issues> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> />
+									</td>
+									<td class="tac">
+										<input type="checkbox" name="email_msgs_#replace(projectID,'-','','ALL')#" id="e_msg_#projectID#" value="1"<cfif email_msgs> checked="checked"</cfif> />
+										<label for="e_msg_#projectID#"><img src="./images/email.png" height="16" width="16" border="0" alt="Email" /></label> &nbsp;
+										<label for="m_msg_#projectID#"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile" /></label><input type="checkbox" name="mobile_msgs_#replace(projectID,'-','','ALL')#" id="m_msg_#projectID#" value="1"<cfif mobile_msgs> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> />
+									</td>
+									<td class="tac">
+										<input type="checkbox" name="email_mstones_#replace(projectID,'-','','ALL')#" id="e_m_#projectID#" value="1"<cfif email_mstones> checked="checked"</cfif> />
+										<label for="e_m_#projectID#"><img src="./images/email.png" height="16" width="16" border="0" alt="Email" /></label> &nbsp;
+										<label for="m_m_#projectID#"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile" /></label><input type="checkbox" name="mobile_mstones_#replace(projectID,'-','','ALL')#" id="m_m_#projectID#" value="1"<cfif mobile_mstones> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> />
+									</td>
+									<td class="tac">
+										<input type="checkbox" name="email_todos_#replace(projectID,'-','','ALL')#" id="e_t_#projectID#" value="1"<cfif email_todos> checked="checked"</cfif> />
+										<label for="e_t_#projectID#"><img src="./images/email.png" height="16" width="16" border="0" alt="Email" /></label> &nbsp;
+										<label for="m_t_#projectID#"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile" /></label><input type="checkbox" name="mobile_todos_#replace(projectID,'-','','ALL')#" id="m_t_#projectID#" value="1"<cfif mobile_todos> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> />
+									<input type="hidden" name="notify_proj_ids" value="#projectid#" />
+									</td>
+								</tr>
+							</cfloop>
 							</table>
-												
+			
 							<input type="submit" class="button" name="notifysub" id="submit5" value="Update Notifications" />
 							
 							<cfif not isNumeric(user.mobile)>
 								<h6 class="b r i mt20">Note: You must have a valid mobile number to enable Mobile Notifications.</h6>
 							</cfif>
-
 						</form>
 					</div>		            
 		            <div id="account">            

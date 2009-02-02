@@ -583,4 +583,85 @@ List: #qTodolist.title#
 		</cfloop>
 	</cffunction>
 
+	<cffunction name="add" access="public" returntype="void" output="false"
+				hint="Updates a user's notification settings.">
+		<cfargument name="userID" type="string" required="true">
+		<cfargument name="projectID" type="string" required="true">
+		<cfargument name="email_files" type="numeric" required="true">
+		<cfargument name="mobile_files" type="numeric" required="true">
+		<cfargument name="email_issues" type="numeric" required="true">
+		<cfargument name="mobile_issues" type="numeric" required="true">
+		<cfargument name="email_msgs" type="numeric" required="true">
+		<cfargument name="mobile_msgs" type="numeric" required="true">
+		<cfargument name="email_mstones" type="numeric" required="true">
+		<cfargument name="mobile_mstones" type="numeric" required="true">
+		<cfargument name="email_todos" type="numeric" required="true">
+		<cfargument name="mobile_todos" type="numeric" required="true">
+		
+		<cfquery datasource="#variables.dsn#">
+			INSERT INTO #variables.tableprefix#user_notify (userID, projectID, email_files, mobile_files,
+				email_issues, mobile_issues, email_msgs, mobile_msgs, email_mstones, mobile_mstones, 
+				email_todos, mobile_todos)
+			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">,
+					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_files#">, 
+					 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_files#">,
+					 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_issues#">, 
+					 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_issues#">,
+					 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_msgs#">, 
+					 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_msgs#">,
+					 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_mstones#">, 
+					 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_mstones#">,
+					 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todos#">, 
+					 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todos#">
+					)
+		</cfquery>		
+	</cffunction>
+	
+	<cffunction name="update" access="public" returntype="void" output="false"
+				hint="Updates a user's notification settings.">
+		<cfargument name="userID" type="string" required="true">
+		<cfargument name="projectID" type="string" required="true">
+		<cfargument name="email_files" type="numeric" required="true">
+		<cfargument name="mobile_files" type="numeric" required="true">
+		<cfargument name="email_issues" type="numeric" required="true">
+		<cfargument name="mobile_issues" type="numeric" required="true">
+		<cfargument name="email_msgs" type="numeric" required="true">
+		<cfargument name="mobile_msgs" type="numeric" required="true">
+		<cfargument name="email_mstones" type="numeric" required="true">
+		<cfargument name="mobile_mstones" type="numeric" required="true">
+		<cfargument name="email_todos" type="numeric" required="true">
+		<cfargument name="mobile_todos" type="numeric" required="true">
+		<cfquery datasource="#variables.dsn#">
+			UPDATE #variables.tableprefix#user_notify SET
+				email_files = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_files#">, 
+				mobile_files = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_files#">,
+				email_issues = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_issues#">, 
+				mobile_issues = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_issues#">,
+				email_msgs = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_msgs#">, 
+				mobile_msgs = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_msgs#">,
+				email_mstones = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_mstones#">, 
+				mobile_mstones = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_mstones#">,
+				email_todos = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todos#">, 
+				mobile_todos = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todos#"> 
+			WHERE userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
+				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">			
+		</cfquery>		
+	</cffunction>
+		
+	<cffunction name="remove" access="public" returnType="boolean" output="false"
+				hint="Removes user role.">
+		<cfargument name="projectID" type="string" required="false" default="">		
+		<cfargument name="userID" type="uuid" required="true">
+		<cfquery datasource="#variables.dsn#">
+			DELETE FROM #variables.tableprefix#user_notify
+			WHERE 0=0
+				<cfif compare(arguments.projectID,'')>
+					AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				</cfif>
+				AND userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
+		</cfquery>
+		<cfreturn true>
+	</cffunction>	
+
 </cfcomponent>

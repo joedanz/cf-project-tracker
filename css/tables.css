@@ -28,6 +28,8 @@ table.activity thead th {
 table.bug tr td.label { font-weight:bold; text-align:right; width:100px; padding-right:10px; vertical-align:top; }
 table.bug tr td { padding:3px; }
 table.bug tr td > p { margin:0; padding:0; }
+table.admin th { background:url(../images/grad3.gif) repeat-x; border:1px solid #ccc; }
+table.admin td { border:1px solid #ccc; }
 
 /* diff stuff */
 table.diff td, .diff th { vertical-align: top; padding:3px; }
@@ -43,11 +45,12 @@ table.diff .code { width: 50%; }
 table.diff .code div { overflow: hidden; }
 table.diff { font-family: 'Bitstream Vera Sans Mono', 'Bitstream Vera Mono', 'Vera Mono', 'Vera Sans Mono', 'Lucida Console', 'Lucida Typewriter', monospace, fixed-width, fixed; font-size: 0.85em; }
 
-table.permissions tr th, table.permissions tr td {
+table.permissions tr th, table.permissions tr td, table.notify tr th, table.notify tr td {
 	font-size:.80em; border:1px solid #ccc; padding:3px;
 }
-table.permissions tr th { background-color:#eee; text-align:center; }
-table.permissions tr td { background-color:#fff; text-align:center; }
+table.permissions tr th, table.notify tr th { background-color:#eee; text-align:center; }
+table.permissions tr td, table.notify tr td { background-color:#fff; text-align:center; }
+table.notify label { float:none; }
 
 table#milestone_cal { background:#e0e0e0; border-collapse:separate;	border-spacing:1px; }
 table#milestone_cal tr th, table#milestone_cal tr td { font-family:Verdana, Arial, sans-serif; font-size:80%; }

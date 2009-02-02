@@ -55,7 +55,7 @@
 				</cfloop>
 				</select>
 				with the following permissions:
-				<table class="full mt5 permissions">
+				<table class="full mt5 permissions sma">
 				<tr>
 					<th>Admin</th>
 					<th>Files</th>
@@ -168,7 +168,7 @@
 					<br style="clear:both;" />
 					
 					with the following permissions:
-					<table class="full mt5 permissions">
+					<table class="full mt5 permissions sma">
 					<tr>
 						<th>Admin</th>
 						<th>Files</th>

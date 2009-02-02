@@ -8,16 +8,6 @@
 </cfif>
 
 <cfif StructKeyExists(form,"submit")>
-	<cfparam name="form.email_files" default="0">
-	<cfparam name="form.mobile_files" default="0">
-	<cfparam name="form.email_issues" default="0">
-	<cfparam name="form.mobile_issues" default="0">
-	<cfparam name="form.email_msgs" default="0">
-	<cfparam name="form.mobile_msgs" default="0">
-	<cfparam name="form.email_mstones" default="0">
-	<cfparam name="form.mobile_mstones" default="0">
-	<cfparam name="form.email_todos" default="0">
-	<cfparam name="form.mobile_todos" default="0">
 	<cfparam name="form.admin" default="0">
 	<cfparam name="form.active" default="0">
 	<cfparam name="form.projectids" default="">
@@ -41,7 +31,7 @@
 				<cfset qCheckUser = application.user.get('','',form.username)>
 				<cfif not qCheckUser.recordCount>
 					<cfset newID = createUUID()>
-					<cfset application.user.adminCreate(newID,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.email_files,form.mobile_files,form.email_issues,form.mobile_issues,form.email_msgs,form.mobile_msgs,form.email_mstones,form.mobile_mstones,form.email_todos,form.mobile_todos,form.admin,form.active)>
+					<cfset application.user.adminCreate(newID,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.admin,form.active)>
 					<cfloop list="#form.projectids#" index="i">
 						<cfif listFind(form.adminids,i)>
 							<cfset project_admin = 1>
@@ -53,8 +43,11 @@
 						<cfelse>	
 							<cfset svn = 0>	
 						</cfif>
-						<cfset application.role.add(i,newID,project_admin,ListGetAt(form.files,listFind(form.all_proj_ids,i)),ListGetAt(form.issues,listFind(form.all_proj_ids,i)),ListGetAt(form.msgs,listFind(form.all_proj_ids,i)),ListGetAt(form.mstones,listFind(form.all_proj_ids,i)),ListGetAt(form.todos,listFind(form.all_proj_ids,i)),ListGetAt(form.timetrack,listFind(form.all_proj_ids,i)),svn)>
-					</cfloop>					
+						<cfset application.role.add(i,newID,project_admin,ListGetAt(form.files,listFind(form.all_proj_ids,i)),ListGetAt(form.issues,listFind(form.all_proj_ids,i)),ListGetAt(form.msgs,listFind(form.all_proj_ids,i)),ListGetAt(form.mstones,listFind(form.all_proj_ids,i)),ListGetAt(form.todos,listFind(form.all_proj_ids,i)),ListGetAt(form.timetrack,listFind(form.all_proj_ids,i)),ListGetAt(form.billing,listFind(form.all_proj_ids,i)),svn)>
+						<cfif find(i,form.projectids)>
+							<cfset application.notify.add(newID,i,'0','0','0','0','0','0','0','0','0','0')>
+						</cfif>
+					</cfloop>
 					<cfif not compare(form.from,'admin')>
 						<cflocation url="users.cfm" addtoken="false">
 					<cfelse>
@@ -67,8 +60,9 @@
 		</cfcase>
 		<cfcase value="Update User">
 			<cfif not compare(errors,'')>
-				<cfset application.user.adminUpdate(form.userid,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.email_files,form.mobile_files,form.email_issues,form.mobile_issues,form.email_msgs,form.mobile_msgs,form.email_mstones,form.mobile_mstones,form.email_todos,form.mobile_todos,form.admin,form.active)>
-				<cfset application.role.remove('',form.userid)>
+				<cfset application.user.adminUpdate(form.userid,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.admin,form.active)>
+				<cfset application.role.remove(userID=form.userid)>
+				<cfset application.notify.remove(userID=form.userid)>
 				<cfloop list="#form.projectids#" index="i">
 					<cfif listFind(form.adminids,i)>
 						<cfset project_admin = 1>
@@ -80,7 +74,20 @@
 					<cfelse>	
 						<cfset svn = 0>	
 					</cfif>
-					<cfset application.role.add(i,form.userid,project_admin,ListGetAt(form.files,listFind(form.all_proj_ids,i)),ListGetAt(form.issues,listFind(form.all_proj_ids,i)),ListGetAt(form.msgs,listFind(form.all_proj_ids,i)),ListGetAt(form.mstones,listFind(form.all_proj_ids,i)),ListGetAt(form.todos,listFind(form.all_proj_ids,i)),ListGetAt(form.timetrack,listFind(form.all_proj_ids,i)),svn)>
+					<cfset application.role.add(i,form.userid,project_admin,ListGetAt(form.files,listFind(form.all_proj_ids,i)),ListGetAt(form.issues,listFind(form.all_proj_ids,i)),ListGetAt(form.msgs,listFind(form.all_proj_ids,i)),ListGetAt(form.mstones,listFind(form.all_proj_ids,i)),ListGetAt(form.todos,listFind(form.all_proj_ids,i)),ListGetAt(form.timetrack,listFind(form.all_proj_ids,i)),ListGetAt(form.billing,listFind(form.all_proj_ids,i)),svn)>
+					<cfif find(i,form.projectids)>
+						<cfparam name="form.email_files_#replace(i,'-','','ALL')#" default="0">
+						<cfparam name="form.mobile_files_#replace(i,'-','','ALL')#" default="0">
+						<cfparam name="form.email_issues_#replace(i,'-','','ALL')#" default="0">
+						<cfparam name="form.mobile_issues_#replace(i,'-','','ALL')#" default="0">
+						<cfparam name="form.email_msgs_#replace(i,'-','','ALL')#" default="0">
+						<cfparam name="form.mobile_msgs_#replace(i,'-','','ALL')#" default="0">
+						<cfparam name="form.email_mstones_#replace(i,'-','','ALL')#" default="0">
+						<cfparam name="form.mobile_mstones_#replace(i,'-','','ALL')#" default="0">
+						<cfparam name="form.email_todos_#replace(i,'-','','ALL')#" default="0">
+						<cfparam name="form.mobile_todos_#replace(i,'-','','ALL')#" default="0">
+						<cfset application.notify.add(form.userid,i,Evaluate("form.email_files_"&replace(i,'-','','ALL')),Evaluate("form.mobile_files_"&replace(i,'-','','ALL')),Evaluate("form.email_issues_"&replace(i,'-','','ALL')),Evaluate("form.mobile_issues_"&replace(i,'-','','ALL')),Evaluate("form.email_msgs_"&replace(i,'-','','ALL')),Evaluate("form.mobile_msgs_"&replace(i,'-','','ALL')),Evaluate("form.email_mstones_"&replace(i,'-','','ALL')),Evaluate("form.mobile_mstones_"&replace(i,'-','','ALL')),Evaluate("form.email_todos_"&replace(i,'-','','ALL')),Evaluate("form.mobile_todos_"&replace(i,'-','','ALL')))>
+					</cfif>
 				</cfloop>
 				<cfif not compare(form.from,'admin')>
 					<cflocation url="users.cfm" addtoken="false">
@@ -102,16 +109,6 @@
 <cfparam name="form.carrierID" default="">
 <cfparam name="form.admin" default="0">
 <cfparam name="form.active" default="0">
-<cfparam name="form.email_files" default="0">
-<cfparam name="form.mobile_files" default="0">
-<cfparam name="form.email_issues" default="0">
-<cfparam name="form.mobile_issues" default="0">
-<cfparam name="form.email_msgs" default="0">
-<cfparam name="form.mobile_msgs" default="0">
-<cfparam name="form.email_mstones" default="0">
-<cfparam name="form.mobile_mstones" default="0">
-<cfparam name="form.email_todos" default="0">
-<cfparam name="form.mobile_todos" default="0">
 
 <cfset projects = application.project.getDistinct()>
 
@@ -126,17 +123,8 @@
 	<cfset form.carrierID = user.carrierID>
 	<cfset form.admin = user.admin>
 	<cfset form.active = user.active>
-	<cfset form.email_files = user.email_files>
-	<cfset form.mobile_files = user.mobile_files>
-	<cfset form.email_issues = user.email_issues>
-	<cfset form.mobile_issues = user.mobile_issues>
-	<cfset form.email_msgs = user.email_msgs>
-	<cfset form.mobile_msgs = user.mobile_msgs>
-	<cfset form.email_mstones = user.email_mstones>
-	<cfset form.mobile_mstones = user.mobile_mstones>
-	<cfset form.email_todos = user.email_todos>
-	<cfset form.mobile_todos = user.mobile_todos>
 	<cfset user_projects = application.project.get(url.u)>
+	<cfset notifications = application.project.userNotify(url.u)>
 	<cfquery name="admin_projects" dbtype="query">
 		select * from user_projects where admin = 1
 	</cfquery>
@@ -147,6 +135,7 @@
 	<cfset form.mstones = "">
 	<cfset form.todos = "">
 	<cfset form.timetrack = "">
+	<cfset form.billing = "">
 	<cfset form.svn = "">
 	<cfloop query="projects">
 		<cfset form.all_proj_ids = listAppend(form.all_proj_ids,projectid)>
@@ -158,6 +147,7 @@
 			<cfset form.mstones = listAppend(form.mstones,listGetAt(valueList(user_projects.mstones),projectid_loc))>
 			<cfset form.todos = listAppend(form.todos,listGetAt(valueList(user_projects.todos),projectid_loc))>
 			<cfset form.timetrack = listAppend(form.timetrack,listGetAt(valueList(user_projects.timetrack),projectid_loc))>
+			<cfset form.billing = listAppend(form.billing,listGetAt(valueList(user_projects.billing),projectid_loc))>
 			<cfset form.svn = listAppend(form.svn,listGetAt(valueList(user_projects.svn),projectid_loc))>
 		<cfelse>
 			<cfset form.files = listAppend(form.files,'0')>
@@ -166,6 +156,7 @@
 			<cfset form.mstones = listAppend(form.mstones,'0')>
 			<cfset form.todos = listAppend(form.todos,'0')>
 			<cfset form.timetrack = listAppend(form.timetrack,'0')>
+			<cfset form.billing = listAppend(form.billing,'0')>
 			<cfset form.svn = listAppend(form.svn,'0')>
 		</cfif>
 	</cfloop>
@@ -193,6 +184,7 @@
 	<cfparam name="form.mstones" default="#default_roles#">
 	<cfparam name="form.todos" default="#default_roles#">
 	<cfparam name="form.timetrack" default="#default_roles#">
+	<cfparam name="form.billing" default="#default_roles#">
 	<cfparam name="form.svn" default="#replace(default_roles,'2','1','all')#">
 </cfif>
 
@@ -285,43 +277,9 @@
 						</fieldset>
 						
 						<fieldset class="mb15">
-						 	<legend>Notifications</legend>
-						 	
-							<table class="admin half mb15">
-							<tr><th>Action</th><th class="tac">Email</th><th class="tac">Mobile</th></tr>
-							<tr>
-								<td class="tal">New Files</td>
-								<td class="tac"><input type="checkbox" name="email_files" value="1"<cfif form.email_files> checked="checked"</cfif><cfif not compare(form.email,'') and StructKeyExists(url,"u")> disabled="disabled"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_files" value="1"<cfif form.mobile_files> checked="checked"</cfif><cfif not isNumeric(form.mobile) and StructKeyExists(url,"u")> disabled="disabled"</cfif> /></td>
-							</tr>
-							<tr>
-								<td class="tal">New Issues</td>
-								<td class="tac"><input type="checkbox" name="email_issues" value="1"<cfif form.email_issues> checked="checked"</cfif><cfif not compare(form.email,'') and StructKeyExists(url,"u")> disabled="disabled"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_issues" value="1"<cfif form.mobile_issues> checked="checked"</cfif><cfif not isNumeric(form.mobile) and StructKeyExists(url,"u")> disabled="disabled"</cfif> /></td>
-							</tr>
-							<tr>
-								<td class="tal">New Messages</td>
-								<td class="tac"><input type="checkbox" name="email_msgs" value="1"<cfif form.email_msgs> checked="checked"</cfif><cfif not compare(form.email,'') and StructKeyExists(url,"u")> disabled="disabled"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_msgs" value="1"<cfif form.mobile_msgs> checked="checked"</cfif><cfif not isNumeric(form.mobile) and StructKeyExists(url,"u")> disabled="disabled"</cfif> /></td>
-							</tr>
-							<tr>
-								<td class="tal">New Milestones</td>
-								<td class="tac"><input type="checkbox" name="email_mstones" value="1"<cfif form.email_mstones> checked="checked"</cfif><cfif not compare(form.email,'') and StructKeyExists(url,"u")> disabled="disabled"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_mstones" value="1"<cfif form.mobile_mstones> checked="checked"</cfif><cfif not isNumeric(form.mobile) and StructKeyExists(url,"u")> disabled="disabled"</cfif> /></td>
-							</tr>
-							<tr>
-								<td class="tal">New To-Dos</td>
-								<td class="tac"><input type="checkbox" name="email_todos" value="1"<cfif form.email_todos> checked="checked"</cfif><cfif not compare(form.email,'') and StructKeyExists(url,"u")> disabled="disabled"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_todos" value="1"<cfif form.mobile_todos> checked="checked"</cfif><cfif not isNumeric(form.mobile) and StructKeyExists(url,"u")> disabled="disabled"</cfif> /></td>
-							</tr>
-							</table>						 	
-						 	
-						 </fieldset>
-						
-						<fieldset class="mb20">
 							<legend>Projects</legend>
 							
-							<table class="admin full mb15 permissions">
+							<table class="admin full permissions">
 							<tr>
 								<th class="tal">Project</th>
 								<th>Active</th>
@@ -332,6 +290,7 @@
 								<th>Milestones</th>
 								<th>To-Dos</th>
 								<th>Time Tracking</th>
+								<th>Billing</th>
 								<th>SVN</th>
 							</tr>
 							<cfloop query="projects">
@@ -381,6 +340,13 @@
 										<option value="0"<cfif ListGetAt(form.timetrack,listFind(form.all_proj_ids,projectid)) eq 0> selected="selected"</cfif>>None</option>
 									</select>							
 								</td>
+								<td>
+									<select name="billing" onchange="if (this.selectedIndex > 0) $('##a_#replace(projectid,'-','','ALL')#').attr('checked','');">
+										<option value="2"<cfif ListGetAt(form.billing,listFind(form.all_proj_ids,projectid)) eq 2> selected="selected"</cfif>>Full Access</option>
+										<option value="1"<cfif ListGetAt(form.billing,listFind(form.all_proj_ids,projectid)) eq 1> selected="selected"</cfif>>Read-Only</option>
+										<option value="0"<cfif ListGetAt(form.billing,listFind(form.all_proj_ids,projectid)) eq 0> selected="selected"</cfif>>None</option>
+									</select>							
+								</td>
 								<td><input type="checkbox" name="svnids" value="#projectid#" id="p_#replace(projectid,'-','','ALL')#" class="cb" onchange="if (this.checked == false) $('##a_#replace(projectid,'-','','ALL')#').attr('checked','');"<cfif ListGetAt(form.svn,listFind(form.all_proj_ids,projectid)) eq 1> checked="checked"</cfif> /></td>
 								<input type="hidden" name="all_proj_ids" value="#projectid#" />
 							</tr>
@@ -388,7 +354,59 @@
 							</table>
 						
 						</fieldset>
-						
+
+						<cfif StructKeyExists(url,"u")>
+						<fieldset class="mb20">
+						 	<legend>Notifications</legend>
+							<table class="admin full mb10 notify">
+							<tr>
+								<th class="tal">Project</th>
+								<th class="tac">Files</th>
+								<th class="tac">Issues</th>
+								<th class="tac">Messages</th>
+								<th class="tac">Milestones</th>
+								<th class="tac">To-Dos</th>
+		
+							</tr>
+							<cfloop query="notifications">
+							<tr>
+								<td class="tal">#name#</td>
+								<td class="tac">
+									<input type="checkbox" name="email_files_#replace(projectID,'-','','ALL')#" id="e_f_#projectID#" value="1"<cfif email_files> checked="checked"</cfif> />
+									<label for="e_f_#projectID#"><img src="../images/email.png" height="16" width="16" border="0" alt="Email" /></label> &nbsp;
+									<label for="m_f_#projectID#"><img src="../images/phone.png" height="16" width="16" border="0" alt="Mobile" /></label><input type="checkbox" name="mobile_files_#replace(projectID,'-','','ALL')#" id="m_f_#projectID#" value="1"<cfif mobile_files> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> />				
+								</td>
+								<td class="tac">
+									<input type="checkbox" name="email_issues_#replace(projectID,'-','','ALL')#" id="e_i_#projectID#" value="1"<cfif email_issues> checked="checked"</cfif> />
+									<label for="e_i_#projectID#"><img src="../images/email.png" height="16" width="16" border="0" alt="Email" /></label> &nbsp;
+									<label for="m_i_#projectID#"><img src="../images/phone.png" height="16" width="16" border="0" alt="Mobile" /></label><input type="checkbox" name="mobile_issues_#replace(projectID,'-','','ALL')#" id="m_i_#projectID#" value="1"<cfif mobile_issues> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> />
+								</td>
+								<td class="tac">
+									<input type="checkbox" name="email_msgs_#replace(projectID,'-','','ALL')#" id="e_msg_#projectID#" value="1"<cfif email_msgs> checked="checked"</cfif> />
+									<label for="e_msg_#projectID#"><img src="../images/email.png" height="16" width="16" border="0" alt="Email" /></label> &nbsp;
+									<label for="m_msg_#projectID#"><img src="../images/phone.png" height="16" width="16" border="0" alt="Mobile" /></label><input type="checkbox" name="mobile_msgs_#replace(projectID,'-','','ALL')#" id="m_msg_#projectID#" value="1"<cfif mobile_msgs> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> />
+								</td>
+								<td class="tac">
+									<input type="checkbox" name="email_mstones_#replace(projectID,'-','','ALL')#" id="e_m_#projectID#" value="1"<cfif email_mstones> checked="checked"</cfif> />
+									<label for="e_m_#projectID#"><img src="../images/email.png" height="16" width="16" border="0" alt="Email" /></label> &nbsp;
+									<label for="m_m_#projectID#"><img src="../images/phone.png" height="16" width="16" border="0" alt="Mobile" /></label><input type="checkbox" name="mobile_mstones_#replace(projectID,'-','','ALL')#" id="m_m_#projectID#" value="1"<cfif mobile_mstones> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> />
+								</td>
+								<td class="tac">
+									<input type="checkbox" name="email_todos_#replace(projectID,'-','','ALL')#" id="e_t_#projectID#" value="1"<cfif email_todos> checked="checked"</cfif> />
+									<label for="e_t_#projectID#"><img src="../images/email.png" height="16" width="16" border="0" alt="Email" /></label> &nbsp;
+									<label for="m_t_#projectID#"><img src="../images/phone.png" height="16" width="16" border="0" alt="Mobile" /></label><input type="checkbox" name="mobile_todos_#replace(projectID,'-','','ALL')#" id="m_t_#projectID#" value="1"<cfif mobile_todos> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> />
+								<input type="hidden" name="notify_proj_ids" value="#projectid#" />
+								</td>
+							</tr>
+							</cfloop>
+							</table>
+						 	
+						 	<cfif not isNumeric(user.mobile)>
+								<h6 class="b r i">Note: User must have a valid mobile number to enable Mobile Notifications.</h6>
+							</cfif>
+						 </fieldset>
+						</cfif>
+					
 						<p>
 						<input type="submit" name="submit" value="<cfif StructKeyExists(url,"u")>Update<cfelse>Add</cfif> User" class="button shorter" />
 						or <a href="<cfif not compare(form.from,'admin')>users.cfm<cfelse>../people.cfm?p=#url.p#</cfif>">Cancel</a>

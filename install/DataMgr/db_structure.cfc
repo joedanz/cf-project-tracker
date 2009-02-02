@@ -262,6 +262,20 @@
 				<field ColumnName="completed" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 				<field ColumnName="due" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 			</table>
+			<table name="#arguments.tablePrefix#user_notify">
+				<field ColumnName="userID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="email_files" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_files" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_issues" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_issues" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_msgs" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_msgs" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_mstones" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_mstones" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_todos" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_todos" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+			</table>
 			<table name="#arguments.tablePrefix#users">
 				<field ColumnName="userID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
 				<field ColumnName="firstName" CF_DataType="CF_SQL_VARCHAR" Length="12" />
@@ -275,16 +289,6 @@
 				<field ColumnName="lastLogin" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 				<field ColumnName="avatar" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 				<field ColumnName="style" CF_DataType="CF_SQL_VARCHAR" Length="20" />
-				<field ColumnName="email_files" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-				<field ColumnName="mobile_files" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-				<field ColumnName="email_issues" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-				<field ColumnName="mobile_issues" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-				<field ColumnName="email_msgs" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-				<field ColumnName="mobile_msgs" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-				<field ColumnName="email_mstones" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-				<field ColumnName="mobile_mstones" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-				<field ColumnName="email_todos" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-				<field ColumnName="mobile_todos" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 				<field ColumnName="admin" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 				<field ColumnName="active" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 			</table>
