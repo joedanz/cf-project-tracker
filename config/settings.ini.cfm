@@ -12,4 +12,4 @@ mailPassword=
 showDebug=false
 errorPage=true
 showError=false
-version=2.5 Beta
+version=2.5 Beta R2
