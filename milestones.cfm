@@ -92,14 +92,14 @@
 							</cfif>
 						
 							<cfquery name="iss" dbtype="query">
-								select issueID, shortID, issue, status, created, assignedFirstName, assignedLastName
+								select issueID, shortID, issue, status, type, severity, created, assignedFirstName, assignedLastName
 								from issues where milestoneid = '#milestoneid#'
 							</cfquery>
 							<cfif iss.recordCount>
 							<h5 class="sub">Issues:</h5>
 							<ul class="sub">
 							<cfloop query="iss">
-							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> (#status#) - Added #DateFormat(created,"d mmm, yyyy")#<cfif compare(assignedFirstName,'') or compare(assignedLastName,'')> for #assignedFirstName# #assignedLastName#</cfif></li>
+							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> (#status# #type# / #severity#) - Added #DateFormat(created,"d mmm, yyyy")#<cfif compare(assignedFirstName,'') or compare(assignedLastName,'')> for #assignedFirstName# #assignedLastName#</cfif></li>
 							</cfloop>
 							</ul>	
 							</cfif>						
@@ -151,14 +151,14 @@
 							</cfif>
 						
 							<cfquery name="iss" dbtype="query">
-								select issueID, shortID, issue, created, assignedFirstName, assignedLastName
+								select issueID, shortID, issue, status, type, severity, created, assignedFirstName, assignedLastName
 								from issues where milestoneid = '#milestoneid#'
 							</cfquery>
 							<cfif iss.recordCount>
 							<h5 class="sub">Issues:</h5>
 							<ul class="sub">
 							<cfloop query="iss">
-							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> - Added #DateFormat(created,"d mmm, yyyy")#<cfif compare(assignedFirstName,'') or compare(assignedLastName,'')> for #assignedFirstName# #assignedLastName#</cfif></li>
+							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> (#status# #type# / #severity#) - Added #DateFormat(created,"d mmm, yyyy")#<cfif compare(assignedFirstName,'') or compare(assignedLastName,'')> for #assignedFirstName# #assignedLastName#</cfif></li>
 							</cfloop>
 							</ul>	
 							</cfif>							
@@ -209,14 +209,14 @@
 							</cfif>
 
 							<cfquery name="iss" dbtype="query">
-								select issueID, shortID, issue, created, assignedFirstName, assignedLastName
+								select issueID, shortID, issue, status, type, severity, created, assignedFirstName, assignedLastName
 								from issues where milestoneid = '#milestoneid#'
 							</cfquery>
 							<cfif iss.recordCount>
 							<h5 class="sub">Issues:</h5>
 							<ul class="sub">
 							<cfloop query="iss">
-							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> - Added #DateFormat(created,"d mmm, yyyy")#<cfif compare(assignedFirstName,'') or compare(assignedLastName,'')> for #assignedFirstName# #assignedLastName#</cfif></li>
+							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> (#status# #type# / #severity#) - Added #DateFormat(created,"d mmm, yyyy")#<cfif compare(assignedFirstName,'') or compare(assignedLastName,'')> for #assignedFirstName# #assignedLastName#</cfif></li>
 							</cfloop>
 							</ul>	
 							</cfif>	
