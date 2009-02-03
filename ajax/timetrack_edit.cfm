@@ -31,7 +31,7 @@
 	<cfelse>
 		<input type="hidden" name="rateID" id="rateID" value="">
 	</cfif>
-	<td><input type="text" name="description" id="desc#timeline.timetrackid#" value="#timeline.description#" class="short<cfif not compareNoCase(url.type,'issue')>2</cfif>" /></td>
+	<td><input type="text" name="description" id="desc#timeline.timetrackid#" value="#timeline.description#" class="short<cfif compareNoCase(url.f,'time') and not compareNoCase(url.type,'issue')>2</cfif>" /></td>
 	<td class="tac"><input type="submit" value="Save" onclick="save_time_edit('#timeline.projectID#','#timeline.timetrackID#','#timeline.itemType#','#timeline.itemID#','#url.f#');return false;" />&nbsp;or&nbsp;<a href="##" onclick="cancel_time_edit('#timeline.projectID#','#timeline.timetrackID#','#timeline.itemType#','#timeline.itemID#','#url.f#');return false;">Cancel</a></td>
 </tr>
 </cfoutput>
