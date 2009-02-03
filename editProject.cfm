@@ -329,7 +329,7 @@
 
 						<p>
 							<label for="issue_timetrack" class="half">Allow time tracking on issues?</label>
-							<input type="checkbox" name="issue_svn_link" id="issue_svn_link" class="checkbox" value="1"<cfif form.issue_svn_link eq 1> checked="checked"</cfif> /> <span class="sma g">(requires time tracking to be enabled under <a href="##" onclick="section_toggle('tab');return false;" id="tablink">features</a>)</span>
+							<input type="checkbox" name="issue_timetrack" id="issue_timetrack" class="checkbox" value="1"<cfif form.issue_timetrack eq 1> checked="checked"</cfif> /> <span class="sma g">(requires time tracking to be enabled under <a href="##" onclick="section_toggle('tab');return false;" id="tablink">features</a>)</span>
 						</p>
 						
 						<cfif StructKeyExists(url,"p")>
