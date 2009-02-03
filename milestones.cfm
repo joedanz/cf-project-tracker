@@ -86,7 +86,7 @@
 							<h5 class="sub">To-Do Lists:</h5>
 							<ul class="sub">
 							<cfloop query="tl">
-							<li class="sub"><a href="todos.cfm?p=#url.p#&tlid=#todolistid#">#title#</a> - #completed_count# complete / #uncompleted_count# pending - Added #DateFormat(added,"d mmm, yyyy")# for #firstName# #lastName#</li>
+							<li class="sub"><a href="todos.cfm?p=#url.p#&tlid=#todolistid#">#title#</a> - #completed_count# complete / #uncompleted_count# pending - Added #DateFormat(added,"d mmm, yyyy")#<cfif compare(firstName,'') or compare(lastName,'')> for #firstName# #lastName#</cfif></li>
 							</cfloop>
 							</ul>	
 							</cfif>
@@ -99,7 +99,7 @@
 							<h5 class="sub">Issues:</h5>
 							<ul class="sub">
 							<cfloop query="iss">
-							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> (#status#) - Added #DateFormat(created,"d mmm, yyyy")# for #assignedFirstName# #assignedLastName#</li>
+							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> (#status#) - Added #DateFormat(created,"d mmm, yyyy")#<cfif compare(assignedFirstName,'') or compare(assignedLastName,'')> for #assignedFirstName# #assignedLastName#</cfif></li>
 							</cfloop>
 							</ul>	
 							</cfif>						
@@ -145,7 +145,7 @@
 							<h5 class="sub">To-Do List:</h5>
 							<ul class="sub">
 							<cfloop query="tl">
-							<li class="sub"><a href="todos.cfm?p=#url.p#&tlid=#todolistid#">#title#</a> - Added #DateFormat(added,"d mmm, yyyy")# for #firstName# #lastName#</li>
+							<li class="sub"><a href="todos.cfm?p=#url.p#&tlid=#todolistid#">#title#</a> - Added #DateFormat(added,"d mmm, yyyy")#<cfif compare(firstName,'') or compare(lastName,'')> for #firstName# #lastName#</cfif></li>
 							</cfloop>
 							</ul>	
 							</cfif>
@@ -158,7 +158,7 @@
 							<h5 class="sub">Issues:</h5>
 							<ul class="sub">
 							<cfloop query="iss">
-							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> - Added #DateFormat(created,"d mmm, yyyy")# for #assignedFirstName# #assignedLastName#</li>
+							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> - Added #DateFormat(created,"d mmm, yyyy")#<cfif compare(assignedFirstName,'') or compare(assignedLastName,'')> for #assignedFirstName# #assignedLastName#</cfif></li>
 							</cfloop>
 							</ul>	
 							</cfif>							
@@ -203,7 +203,7 @@
 							<h5 class="sub">To-Do Lists:</h5>
 							<ul class="sub">
 							<cfloop query="tl">
-							<li class="sub"><a href="todos.cfm?p=#url.p#&tlid=#todolistid#">#title#</a> - Added #DateFormat(added,"d mmm, yyyy")# for #firstName# #lastName#</li>
+							<li class="sub"><a href="todos.cfm?p=#url.p#&tlid=#todolistid#">#title#</a> - Added #DateFormat(added,"d mmm, yyyy")#<cfif compare(firstName,'') or compare(lastName,'')> for #firstName# #lastName#</cfif></li>
 							</cfloop>
 							</ul>	
 							</cfif>
@@ -216,7 +216,7 @@
 							<h5 class="sub">Issues:</h5>
 							<ul class="sub">
 							<cfloop query="iss">
-							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> - Added #DateFormat(created,"d mmm, yyyy")# for #assignedFirstName# #assignedLastName#</li>
+							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> - Added #DateFormat(created,"d mmm, yyyy")#<cfif compare(assignedFirstName,'') or compare(assignedLastName,'')> for #assignedFirstName# #assignedLastName#</cfif></li>
 							</cfloop>
 							</ul>	
 							</cfif>	
