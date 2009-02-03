@@ -326,7 +326,14 @@ $(document).ready(function(){
 				<li>#project.ownerFirstName# #project.ownerLastName#</li>
 			</ul>
 		</div>
-	
+
+		<div class="header"><h3>Status</h3></div>
+		<div class="content">
+			<ul>
+				<li>#project.status#</li>
+			</ul>
+		</div>
+		
 		<div class="header"><h3>People on this project</h3></div>
 		<div class="content">
 			<ul class="people">
