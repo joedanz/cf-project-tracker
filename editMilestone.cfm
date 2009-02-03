@@ -155,10 +155,12 @@
 						</div>
 						
 						<cfif project.tab_billing and project.billing eq 2>
-						<div>
-						<label for="rate">Rate:</label>
-						$ <input type="text" name="rate" id="rate" value="#HTMLEditFormat(rate)#" maxlength="8" style="width:100px;padding:2px;" />
-						</div>
+							<div>
+							<label for="rate">Rate:</label>
+							$ <input type="text" name="rate" id="rate" value="#HTMLEditFormat(rate)#" maxlength="8" style="width:100px;padding:2px;" />
+							</div>
+						<cfelse>
+							<input type="hidden" name="rate" value="#rate#" />
 						</cfif>
 						
 						<div style="margin:10px 0;">
