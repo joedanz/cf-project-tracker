@@ -229,6 +229,7 @@ Status: #qIssue.status#
 		<cfargument name="notifyList" type="string" required="true">
 		<cfargument name="addedBy" type="uuid" required="true">
 		<cfset var qProject = application.project.get('',arguments.projectID)>
+		<cfset var qProjectUsers = application.project.projectUsers(arguments.projectID)>
 		<cfset var qMessage = application.message.get(arguments.projectID,arguments.messageID)>
 		<cfset var qMailNotifyUsers = application.user.get('',arguments.notifyList)>
 		<cfset var theMessage = "">
@@ -332,6 +333,7 @@ Use the following link to view or edit the message and to make comments:</cfif>
 		<cfargument name="messageID" type="string" required="true">
 		<cfargument name="comment" type="string" required="true">
 		<cfset var qProject = application.project.get('',arguments.projectID)>
+		<cfset var qProjectUsers = application.project.projectUsers(arguments.projectID)>
 		<cfset var qMessage = application.message.get(arguments.projectID,arguments.messageID)>
 		<cfset var qNotifyList = application.message.getNotifyList(arguments.projectID,arguments.messageID)>
 		<cfset var theMessage = "">
