@@ -229,9 +229,8 @@ Status: #qIssue.status#
 		<cfargument name="notifyList" type="string" required="true">
 		<cfargument name="addedBy" type="uuid" required="true">
 		<cfset var qProject = application.project.get('',arguments.projectID)>
-		<cfset var qProjectUsers = application.project.projectUsers(arguments.projectID)>
 		<cfset var qMessage = application.message.get(arguments.projectID,arguments.messageID)>
-		<cfset var qMailNotifyUsers = application.user.get('',arguments.notifyList)>
+		<cfset var qMailNotifyUsers = application.project.userNotify('',arguments.notifyList,arguments.projectID)>
 		<cfset var theMessage = "">
 		<cfloop query="qMailNotifyUsers">
 			<cfif email_msgs and request.udf.isEmail(email)>
@@ -281,15 +280,17 @@ Use the following link to view or edit the message and to make comments:</cfif>
 				hint="Notification of updated message.">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="messageID" type="uuid" required="true">
+		<cfargument name="notifyList" type="string" required="true">
+		<cfargument name="updatedBy" type="uuid" required="true">
 		<cfset var qProject = application.project.get('',arguments.projectID)>
-		<cfset var qProjectUsers = application.project.projectUsers(arguments.projectID)>
 		<cfset var qMessage = application.message.get(arguments.projectID,arguments.messageID)>
+		<cfset var qMailNotifyUsers = application.project.userNotify('',arguments.notifyList,arguments.projectID)>
 		<cfset var theMessage = "">
-		<cfloop query="qProjectUsers">		
+		<cfloop query="qMailNotifyUsers">		
 			<cfif email_msgs and request.udf.isEmail(email)>
 			
 				<cfsavecontent variable="theMessage">
-				<cfoutput>The following #qProject.name# message has been updated:
+				<cfoutput><cfif compare(userID,arguments.updatedBy)>The following #qProject.name# message has been updated<cfelse>You have updated a #qProject.name# message</cfif>:
 #qMessage.title#
 
 #request.udf.CleanText(qMessage.message)#
@@ -333,7 +334,6 @@ Use the following link to view or edit the message and to make comments:</cfif>
 		<cfargument name="messageID" type="string" required="true">
 		<cfargument name="comment" type="string" required="true">
 		<cfset var qProject = application.project.get('',arguments.projectID)>
-		<cfset var qProjectUsers = application.project.projectUsers(arguments.projectID)>
 		<cfset var qMessage = application.message.get(arguments.projectID,arguments.messageID)>
 		<cfset var qNotifyList = application.message.getNotifyList(arguments.projectID,arguments.messageID)>
 		<cfset var theMessage = "">

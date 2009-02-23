@@ -78,19 +78,26 @@
 	<cffunction name="userNotify" access="public" returntype="query" output="false"
 				hint="Returns 'project notification settings.">				
 		<cfargument name="userID" type="string" required="true">
+		<cfargument name="userIDlist" type="string" required="false" default="">
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT distinct p.projectID, p.name, un.email_files, un.mobile_files, un.email_issues, un.mobile_issues, 
-				un.email_msgs, un.mobile_msgs, un.email_mstones, un.mobile_mstones, un.email_todos, un.mobile_todos 
+				un.email_msgs, un.mobile_msgs, un.email_mstones, un.mobile_mstones, un.email_todos, un.mobile_todos,
+				u.userid, u.email, u.mobile, c.prefix, c.suffix 
 			FROM #variables.tableprefix#projects p 
 				INNER JOIN #variables.tableprefix#user_notify un ON p.projectID = un.projectID
+				INNER JOIN #variables.tableprefix#users u ON un.userID = u.userID
+				LEFT JOIN #variables.tableprefix#carriers c ON u.carrierID = c.carrierID
 			WHERE 0=0
-			  <cfif compare(ARGUMENTS.projectID,'')>
-				  AND p.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
-			  </cfif>
 			  <cfif compare(ARGUMENTS.userID,'')>
 				  AND un.userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
+			  </cfif>
+			  <cfif compare(ARGUMENTS.userIDlist,'')>
+				  AND un.userID IN (<cfqueryparam value="#arguments.userIDlist#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
+			  </cfif>
+			  <cfif compare(ARGUMENTS.projectID,'')>
+				  AND p.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			  </cfif>
 				ORDER BY p.name
 		</cfquery>		

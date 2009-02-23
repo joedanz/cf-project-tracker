@@ -105,12 +105,14 @@
 		<cfargument name="filesList" type="string" required="true">
 		<cfset var catID = "">
 		<cfset var i = "">
+		
 		<!--- determine if new category --->
 		<cfif request.udf.IsCFUUID(arguments.category)>
 			<cfset catID = arguments.category>
 		<cfelse>
 			<cfset catID = application.category.add(arguments.projectID,arguments.category,'msg')>
 		</cfif>
+		
 		<!--- insert record --->
 		<cfquery datasource="#variables.dsn#">
 			INSERT INTO #variables.tableprefix#messages (messageID,projectID,title,message,categoryID,milestoneID,allowcomments,userID,stamp)
@@ -124,12 +126,14 @@
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.addedBy#" maxlength="35">,
 					#Now()#)
 		</cfquery>
+		
 		<!--- add attached file --->
 		<cfif listLen(arguments.filesList)>
 			<cfloop list="#arguments.filesList#" index="i">
 				<cfset application.file.attachFile(arguments.messageID,i,'msg')>
 			</cfloop>
 		</cfif>
+		
 		<!--- set notification list --->
 		<cfif not listFind(arguments.notifyList,session.user.userID)>
 			<cfset arguments.notifyList = ListAppend(arguments.notifyList,session.user.userID)>
@@ -137,6 +141,7 @@
 		<cfloop list="#arguments.notifyList#" index="i">
 			<cfset application.message.addNotify(arguments.projectID,arguments.messageID,i)>
 		</cfloop>
+		
 		<!--- send notifications --->
 		<cfset application.notify.messageNew(arguments.projectID,arguments.messageID,arguments.notifyList,arguments.addedBy)>
 		<cfreturn true>
@@ -151,12 +156,25 @@
 		<cfargument name="message" type="string" required="true">
 		<cfargument name="milestoneID" type="string" required="true">
 		<cfargument name="allowcomments" type="numeric" required="true">
+		<cfargument name="updatedBy" type="uuid" required="true">
 		<cfargument name="notifyList" type="string" required="true">
 		<cfargument name="filesList" type="string" required="true">
 		<cfset var qProject = application.project.get(arguments.projectID)>
 		<cfset var qMailUsers = "">
 		<cfset var i = "">
 		<cfset var mailMessage = "">
+		
+		<!--- update record --->
+		<cfquery datasource="#variables.dsn#">
+			UPDATE #variables.tableprefix#messages 
+				SET title = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="120">,
+					message = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.message#">,
+					categoryid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.categoryID#" maxlength="35">,
+					milestoneid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
+					allowcomments = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.allowcomments#" maxlength="1">
+				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+					AND messageid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
+		</cfquery>
 		
 		<!--- clear and repopulate message notify list --->
 		<cfset application.message.removeNotify(arguments.projectID,arguments.messageID)>
@@ -174,38 +192,8 @@
 			</cfloop>
 		</cfif>
 		
-		<cfquery datasource="#variables.dsn#">
-			UPDATE #variables.tableprefix#messages 
-				SET title = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="120">,
-					message = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.message#">,
-					categoryid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.categoryID#" maxlength="35">,
-					milestoneid = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
-					allowcomments = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.allowcomments#" maxlength="1">
-				WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
-					AND messageid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
-		</cfquery>
-
-		<cfset qMailUsers = application.message.getNotify(arguments.projectID,arguments.messageID)>
-		
-		<cfsavecontent variable="theMessage">
-		<cfoutput>The message entitled #arguments.title# has been updated:
-
-To view the full message and leave comments, visit this link:
-#application.settings.rootURL##application.settings.mapping#/message.cfm?p=#arguments.projectID#&m=#arguments.messageID#		
-		</cfoutput>
-		</cfsavecontent>
-		
-		<cfloop query="qMailUsers">
-			<cfif compare(userID,session.user.userID)> <!--- don't notify message updater --->
-				<cfif not compare(application.settings.mailServer,'')>
-					<cfmail from="#session.user.email#" to="#email#" subject="#qProject.name# Message Updated">#theMessage#</cfmail>
-				<cfelse>
-					<cfmail from="#session.user.email#" to="#email#" subject="#qProject.name# Message Updated"
-						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" 
-						password="#application.settings.mailPassword#">#theMessage#</cfmail>
-				</cfif>
-			</cfif>
-		</cfloop>
+		<!--- send notifications --->
+		<cfset application.notify.messageUpdate(arguments.projectID,arguments.messageID,arguments.notifyList,arguments.updatedBy)>
 		<cfreturn true>
 	</cffunction>
 	
