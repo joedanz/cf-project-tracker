@@ -341,7 +341,7 @@ Use the following link to view or edit the message and to make comments:</cfif>
 			<cfif email_msgs and request.udf.isEmail(email)>
 				
 				<cfsavecontent variable="theMessage">
-				<cfoutput>A new #qProject.name# message has been posted on the message in #qMessage.category# entitled:
+				<cfoutput>A new #qProject.name# comment has been posted on the message in #qMessage.category# entitled:
 #qMessage.title#
 
 #request.udf.CleanText(arguments.comment)#
