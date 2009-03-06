@@ -25,6 +25,7 @@
 <cfquery name="allow_reg_projects" dbtype="query">
 	select * from projects_reg where projectid not in (
 	<cfif active_projects.recordCount>'#replace(ValueList(active_projects.projectid),",","','","ALL")#'<cfelse>''</cfif>)
+	AND status != 'Archived'
 </cfquery>
 <cfif not projects.recordCount>
 	<cfset newInstall = true>
