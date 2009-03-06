@@ -55,13 +55,22 @@
 				<cfcatch></cfcatch>
 			</cftry>
 
-			<!--- check for CF8 Scorpio --->
-			<cfset majorVersion = listFirst(server.coldfusion.productversion)>
-			<cfset minorVersion = listGetAt(server.coldfusion.productversion,2)>
-			<cfset cfversion = majorVersion & "." & minorVersion>
-			<cfset application.isCF8 = server.coldfusion.productname is "ColdFusion Server" and cfversion gte 8>
 			<!--- check for Blue Dragon --->
 			<cfset application.isBD = StructKeyExists(server,"bluedragon")>
+
+			<!--- get CF version --->
+			<cfif application.isBD>
+				<cfset majorVersion = listFirst(server.coldfusion.productversion,'.')>
+				<cfset minorVersion = listGetAt(server.coldfusion.productversion,2,'.')>
+				<cfset cfversion = server.coldfusion.productversion>
+			<cfelse>
+				<cfset majorVersion = listFirst(server.coldfusion.productversion)>
+				<cfset minorVersion = listGetAt(server.coldfusion.productversion,2)>
+				<cfset cfversion = majorVersion & "." & minorVersion>	
+			</cfif>
+
+			<!--- check for CF8 Scorpio --->
+			<cfset application.isCF8 = server.coldfusion.productname is "ColdFusion Server" and cfversion gte 8>
 
 			<!--- create all_styles.css --->
 			<cffile action="read" file="#ExpandPath(settings.mapping & '/css/')#reset.css" variable="reset">
