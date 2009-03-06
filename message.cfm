@@ -73,7 +73,7 @@
 					<cfif userID eq session.user.userID or session.user.admin>
 					<a href="##" onclick="return delete_comment('#commentID#');"><img src="./images/delete.gif" height="16" width="16" border="0" style="float:right;padding:5px;" /></a>
 					</cfif>
-					<cfif application.isCF8 or application.isBD>
+					<cfif application.isCF8 or application.isBD or application.isRailo>
 					<img src="./images/<cfif avatar>avatars/#userID#_48.jpg<cfelse>noavatar48.gif</cfif>" height="48" width="48" border="0" style="float:left;border:1px solid ##ddd;" />
 					</cfif>
 					<div class="commentbody">

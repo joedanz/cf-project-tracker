@@ -58,6 +58,9 @@
 			<!--- check for Blue Dragon --->
 			<cfset application.isBD = StructKeyExists(server,"bluedragon")>
 
+			<!--- check for Railo --->
+			<cfset application.isRailo = not compareNoCase(server.coldfusion.productname,"railo")>
+
 			<!--- get CF version --->
 			<cfif application.isBD>
 				<cfset majorVersion = listFirst(server.coldfusion.productversion,'.')>

@@ -40,7 +40,8 @@
 	<cfset session.user.username = form.username>
 	<cfset whichTab = 4>
 <cfelseif StructKeyExists(form,"submitimage")>
-	<cfif application.isCF8> <!--- include prevents invalid tag error from on earlier versions --->
+	<!--- this include prevents invalid tag error from on earlier versions --->
+	<cfif application.isCF8 or application.isRailo>
 		<cfinclude template="img_proc_acct_cf8.cfm">
 	<cfelseif application.isBD>
 		<cfinclude template="img_proc_acct_bd.cfm">
@@ -60,12 +61,12 @@
 	<cfset session.style = form.style>
 	<cfset application.user.setStyle(session.user.userID,form.style)>
 	<cfset whichTab = 6>
-	<cfif not application.isCF8 and not application.isBD>
+	<cfif not application.isCF8 and not application.isBD and not application.isRailo>
 		<cfset whichTab = whichTab - 1>
 	</cfif>
 <cfelseif StructKeyExists(url,"editStyle")>
 	<cfset whichTab = 6>
-	<cfif not application.isCF8 and not application.isBD>
+	<cfif not application.isCF8 and not application.isBD and not application.isRailo>
 		<cfset whichTab = whichTab - 1>
 	</cfif>
 <cfelseif StructKeyExists(url,"rp")>
@@ -140,7 +141,7 @@
 		                <li><a href="##projects"><span>Projects</span></a></li>
 		                <li><a href="##notifications"><span>Notifications</span></a></li>
 						<li><a href="##account"><span>Account Info</span></a></li>
-		                <cfif application.isCF8 or application.isBD>
+		                <cfif application.isCF8 or application.isBD or application.isRailo>
 							<li><a href="##avatar"><span>Avatar</span></a></li>
 						</cfif>
 		                <li><a href="##skin"><span>Style</span></a></li>
@@ -289,7 +290,7 @@
 							<input type="submit" class="button" name="submit2" id="submit2" value="Update Account" onclick="return confirmSubmit2();" />				
 						</form>								
 		            </div>
-					<cfif application.isCF8 or application.isBD>			
+					<cfif application.isCF8 or application.isBD or application.isRailo>			
 		            <div id="avatar">
 						<form action="#cgi.script_name#" method="post" name="edit" class="frm" enctype="multipart/form-data">
 							<p>
