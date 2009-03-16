@@ -45,9 +45,13 @@
 	</cfif>
 </cfloop>
 <cfset activity = application.activity.get('',valueList(projects.projectID),'true')>
-<cfset milestones_overdue = application.milestone.get('','','overdue','',visible_project_list_mstones)>
-<cfset milestones_upcoming = application.milestone.get('','','upcoming','1',visible_project_list_mstones)>
-<cfset issues = application.issue.get('','','New|Accepted',visible_project_list_issues)>
+<cfif listLen(visible_project_list_mstones)>
+	<cfset milestones_overdue = application.milestone.get('','','overdue','',visible_project_list_mstones)>
+	<cfset milestones_upcoming = application.milestone.get('','','upcoming','1',visible_project_list_mstones)>
+</cfif>
+<cfif listLen(visible_project_list_issues)>
+	<cfset issues = application.issue.get('','','New|Accepted',visible_project_list_issues)>
+</cfif>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Home">
@@ -192,7 +196,7 @@ $(document).ready(function(){
 					<br />
 					</cfif>						
 					
-					<cfif milestones_overdue.recordCount>
+					<cfif listLen(visible_project_list_mstones) and milestones_overdue.recordCount>
 					<div class="overdue">
 					<div class="mb5 b" style="color:##f00;border-bottom:1px solid ##f00;">Late Milestones</div>
 					<ul class="nobullet">
@@ -207,7 +211,7 @@ $(document).ready(function(){
 					</div><br />
 					</cfif>
 					
-					<cfif milestones_upcoming.recordCount>
+					<cfif listLen(visible_project_list_mstones) and milestones_upcoming.recordCount>
 					<div class="mb5 b" style="border-bottom:1px solid ##000;">
 						
 					<span style="float:right;font-size:.75em;"><a href="##" onclick="all_upcoming_milestones('1');$(this).addClass('subactive');$('##threem').removeClass('subactive');$('##all').removeClass('subactive');" class="sublink subactive" id="onem">1 month</a> | <a href="##" onclick="all_upcoming_milestones('3');$('##onem').removeClass('subactive');$(this).addClass('subactive');$('##all').removeClass('subactive');" class="sublink" id="threem">3 months</a> | <a href="##" onclick="all_upcoming_milestones('');$('##onem').removeClass('subactive');$('##threem').removeClass('subactive');$(this).addClass('subactive');" class="sublink" id="all">All</a></span>
@@ -225,7 +229,7 @@ $(document).ready(function(){
 					</cfif>
 
 
-				 	<cfif issues.recordCount>
+				 	<cfif listLen(visible_project_list_issues) and issues.recordCount>
 					<div style="border:1px solid ##ddd;" class="mb20">
 				 	<table class="activity full tablesorter" id="issues">
 					<caption class="plain">Open Issues</caption>	 	
