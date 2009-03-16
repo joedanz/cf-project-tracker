@@ -59,7 +59,7 @@
 								</thead>
 								<tbody>
 									<cfloop list="#application.DataMgr.getDatabaseTables()#" index="i">
-										<cfif left(i,len(application.settings.tablePrefix)) is application.settings.tablePrefix>
+										<cfif len(application.settings.tablePrefix) eq 0 or (len(application.settings.tablePrefix) and left(i,len(application.settings.tablePrefix)) is application.settings.tablePrefix)>
 											<cfquery name="table" datasource="#application.settings.dsn#">
 												select count(*) as numRecords from #i#
 											</cfquery>
