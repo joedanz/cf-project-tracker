@@ -3,12 +3,7 @@
 <cfparam name="url.p" default="">
 <cfparam name="url.f" default="">
 <cfparam name="form.search" default="">
-<!---<cfif session.user.admin>
-	<cfset project = application.project.get(projectID=url.p)>
-<cfelse>
-	<cfset project = application.project.get(session.user.userid,url.p)>
-</cfif>--->
-<cfparam name="form.search" default="">
+
 <cfif StructKeyExists(url,"s")>
 	<cfset form.search = url.s>
 </cfif>
