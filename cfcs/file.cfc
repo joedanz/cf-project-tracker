@@ -124,6 +124,21 @@
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="fileID" type="uuid" required="true">
 		<cfargument name="uploadedBy" type="uuid" required="true">
+		<cfset var thisFile = "">
+		<cfset var remainingFiles = "">
+		
+		<!--- get file details and delete from file system --->
+		<cfset thisFile = get(arguments.projectID,arguments.fileID)>
+		<cftry>
+			<cffile action="delete" file="#application.userFilesPath##url.p#/#thisFile.serverfilename#">
+			<cfcatch></cfcatch>
+		</cftry>
+		<cfset remainingFiles = get(arguments.projectID)>
+		<cfif remainingFiles.recordCount eq 0>
+			<cfdirectory action="delete" directory="#application.userFilesPath##arguments.projectID#">
+		</cfif>
+		
+		<!--- delete database record --->
 		<cfquery datasource="#variables.dsn#">
 			DELETE FROM #variables.tableprefix#files 
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">

@@ -77,15 +77,30 @@
 
 	<cffunction name="delete" access="public" returntype="void" output="false"
 				hint="Deletes a pp_files record.">
+		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="issueID" type="uuid" required="true">
 		<cfargument name="fileID" type="uuid" required="true">
 		<cfargument name="uploadedBy" type="uuid" required="true">
+		<cfset var thisFile = "">
+		<cfset var remainingFiles = "">
+		
+		<!--- get file details and delete from file system --->
+		<cfset thisFile = get(arguments.issueID,arguments.fileID)>
+		<cftry>
+			<cffile action="delete" file="#application.userFilesPath##url.p#/#thisFile.serverfilename#">
+			<cfcatch></cfcatch>
+		</cftry>
+		<cfset remainingFiles = get(arguments.projectID)>
+		<cfif remainingFiles.recordCount eq 0>
+			<cfdirectory action="delete" directory="#application.userFilesPath##arguments.projectID#">
+		</cfif>
+
 		<cfquery datasource="#variables.dsn#">
 			DELETE FROM #variables.tableprefix#screenshots 
 				WHERE issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#" maxlength="35">
 					AND fileID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">
 					AND uploadedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.uploadedBy#" maxlength="35">
-		</cfquery>			
+		</cfquery>
 	</cffunction>
 
 </cfcomponent>
