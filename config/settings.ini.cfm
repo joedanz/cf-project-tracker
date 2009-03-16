@@ -4,6 +4,7 @@ tableprefix=pt_
 mapping=/project
 rootURL=http://www.yoursite.com
 userFilesPath=./userfiles/
+userFilesMapping=/project/userfiles
 adminEmail=admin@localhost
 guestUserAutoLogin=0
 allowRegister=0

@@ -259,7 +259,7 @@
 								<cfloop query="screenshots">
 									<tr>
 										<td>#title#</td>
-										<td><cfif compareNoCase(application.settings.userFilesPath,'./userfiles/') and len(application.settings.userFilesPath)><a href="./download.cfm?p=#url.p#&i=#url.i#&f=#fileID#" class="#lcase(filetype)#" title="#title#"><cfelse><a href="#application.settings.mapping#/userfiles/#url.p#/#filename#" class="#lcase(filetype)#" rel="prettyPhoto" title="#title#"></cfif>#filename#</a></td>
+										<td><a href="#application.settings.userFilesMapping#/#url.p#/#filename#" class="#lcase(filetype)#" rel="prettyPhoto" title="#title#">#filename#</a></td>
 										<td>#ceiling(filesize/1024)#K</td>
 										<td>#dateFormat(uploaded,"medium")#</td>
 										<cfif not compareNoCase(session.user.userID,uploadedBy) or session.user.admin>
