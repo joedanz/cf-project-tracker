@@ -162,11 +162,11 @@
 					 	<table class="bug" style="float:right;margin-right:20px;">
 							<tr>
 								<td class="label">Created:</td>
-								<td>#DateFormat(issue.created,"mmm d, yyyy")# @ #TimeFormat(issue.created,"h:mmtt")# by #issue.createdFirstName# #issue.createdLastName#</td>
+								<td>#DateFormat(issue.created,"mmm d, yyyy")# @ <cfif application.settings.clockHours eq 12>#TimeFormat(issue.created,"h:mmtt")#<cfelse>#TimeFormat(issue.created,"HH:mm")#</cfif> by #issue.createdFirstName# #issue.createdLastName#</td>
 							</tr>
 							<tr>
 								<td class="label"><cfif not compare(issue.status,'Closed')>Closed<cfelse>Updated</cfif>:</td>
-								<td><cfif isDate(issue.updated)>#DateFormat(issue.updated,"mmm d, yyyy")# @ #TimeFormat(issue.updated,"h:mmtt")# by #issue.updatedFirstName# #issue.updatedLastName#<cfelse><span class="g">&lt;none&gt;</span></cfif></td>
+								<td><cfif isDate(issue.updated)>#DateFormat(issue.updated,"mmm d, yyyy")# @ <cfif application.settings.clockHours eq 12>#TimeFormat(issue.updated,"h:mmtt")#<cfelse>#TimeFormat(issue.updated,"HH:mm")#</cfif> by #issue.updatedFirstName# #issue.updatedLastName#<cfelse><span class="g">&lt;none&gt;</span></cfif></td>
 							</tr>
 							<tr>
 								<td class="label">Assigned To:</td>
@@ -454,7 +454,7 @@
 						<img src="./images/<cfif avatar>avatars/#userID#_48.jpg<cfelse>noavatar48.gif</cfif>" height="48" width="48" border="0" style="float:left;border:1px solid ##ddd;" />
 						</cfif>
 						<div class="commentbody">
-						<span class="b">#firstName# #lastName#</span> said on #DateFormat(stamp,"ddd, mmm d")# at #TimeFormat(stamp,"h:mmtt")#<br />
+						<span class="b">#firstName# #lastName#</span> said on #DateFormat(stamp,"ddd, mmm d")# at <cfif application.settings.clockHours eq 12>#TimeFormat(stamp,"h:mmtt")#<cfelse>#TimeFormat(stamp,"HH:mm")#</cfif><br />
 						#commentText#
 						</div>
 						</div>

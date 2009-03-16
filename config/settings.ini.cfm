@@ -8,6 +8,7 @@ userFilesMapping=/project/userfiles
 adminEmail=admin@localhost
 guestUserAutoLogin=0
 allowRegister=0
+clockHours=12
 mailServer=
 mailUsername=
 mailPassword=

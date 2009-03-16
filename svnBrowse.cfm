@@ -95,7 +95,7 @@
 								#name#</a></td>
 								<td>-----</td>
 								<!---<cfset dt = request.udf.DateConvertISO8601(list.date,-getTimeZoneInfo().utcHourOffset)>--->
-								<td>#DateFormat(date,"mm-dd-yyyy")# @ #TimeFormat(date,"HH:mm:ss")#</td>
+								<td>#DateFormat(date,"mm-dd-yyyy")# @ <cfif application.settings.clockHours eq 12>#TimeFormat(date,"hh:mm:ss tt")#<cfelse>#TimeFormat(date,"HH:mm:ss")#</cfif></td>
 								<td class="tac">#NumberFormat(revision)#</td>
 								<td>#author#</td>
 							</tr>
@@ -125,7 +125,7 @@
 								#name#</a></td>
 								<td>#NumberFormat(size)# bytes</td>
 								<!---<cfset dt = request.udf.DateConvertISO8601(date,-getTimeZoneInfo().utcHourOffset)>--->
-								<td>#DateFormat(date,"mm-dd-yyyy")# @ #TimeFormat(date,"hh:mm:ss")#</td>
+								<td>#DateFormat(date,"mm-dd-yyyy")# @ <cfif application.settings.clockHours eq 12>#TimeFormat(date,"hh:mm:ss tt")#<cfelse>#TimeFormat(date,"HH:mm:ss")#</cfif></td>
 								<td class="tac">#NumberFormat(revision)#</td>
 								<td>#author#</td>
 							</tr>

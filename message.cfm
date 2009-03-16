@@ -44,7 +44,7 @@
 				</span>
 				
 				<h2 class="msg">#message.title#</h2>
-				<h4>posted by #message.firstName# #message.lastName# in <a href="messages.cfm?p=#url.p#&c=#message.categoryID#">#message.category#</a> on #DateFormat(message.stamp,"ddd, d mmm")# at #TimeFormat(message.stamp,"h:mmtt")#</h4>
+				<h4>posted by #message.firstName# #message.lastName# in <a href="messages.cfm?p=#url.p#&c=#message.categoryID#">#message.category#</a> on #DateFormat(message.stamp,"ddd, d mmm")# at <cfif application.settings.clockHours eq 12>#TimeFormat(message.stamp,"h:mmtt")#<cfelse>#TimeFormat(message.stamp,"HH:mm")#</cfif></h4>
 				
 			</div>
 			<div class="content">
@@ -77,7 +77,7 @@
 					<img src="./images/<cfif avatar>avatars/#userID#_48.jpg<cfelse>noavatar48.gif</cfif>" height="48" width="48" border="0" style="float:left;border:1px solid ##ddd;" />
 					</cfif>
 					<div class="commentbody">
-					<span class="b">#firstName# #lastName#</span> said on #DateFormat(stamp,"ddd, mmm d")# at #TimeFormat(stamp,"h:mmtt")#<br />
+					<span class="b">#firstName# #lastName#</span> said on #DateFormat(stamp,"ddd, mmm d")# at <cfif application.settings.clockHours eq 12>#TimeFormat(stamp,"h:mmtt")#<cfelse>#TimeFormat(stamp,"HH:mm")#</cfif><br />
 					#commentText#
 					</div>
 					</div>

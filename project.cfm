@@ -284,7 +284,7 @@ $(document).ready(function(){
 							</td>
 						<td class="g">#activity# by</td>
 						<td>#firstName# #lastName#</td>
-						<td>#DateFormat(stamp,"mmm d, yyyy")# #TimeFormat(stamp,"h:mm tt")#</td>
+						<td>#DateFormat(stamp,"mmm d, yyyy")# <cfif application.settings.clockHours eq 12>#TimeFormat(stamp,"h:mmtt")#<cfelse>#TimeFormat(stamp,"HH:mm")#</cfif></td>
 						</tr>
 						<cfset thisRow = thisRow + 1>
 						</cfif>
