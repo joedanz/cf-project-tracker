@@ -26,7 +26,7 @@
 	</cfif>
 </cfloop>
 <cfset todos = application.todo.get('','','false','p.name,tl.title,t.task',session.assignedTo,visible_project_list,'','true')>
-<cfset projectUsers = application.project.projectUsers(projectIDlist=visible_project_list)>
+<cfset projectUsers = application.project.projectUsers(projectIDlist=visible_project_list,useList=true)>
 <cfif compare(session.assignedTo,'')>
 	<cfset user = application.user.get(session.assignedTo)>
 </cfif>
@@ -61,13 +61,17 @@
 								<cfquery name="todos_notcompleted" dbtype="query">
 									select * from todos where todolistID = '#todolistID#' and completed IS NULL
 								</cfquery>
+								<cfquery name="check_permission" dbtype="query">
+									select todos from projectUsers 
+									where projectID = '#projectID#' and userID = '#session.user.userid#'
+								</cfquery>
 								<cfif todos_notcompleted.recordCount>
 								<tr>
 									<td><a href="todos.cfm?p=#projectID#&t=#todolistID#">#title#</a></td>
 									<td>
 										<ul>
 										<cfoutput>
-										<li id="cb#todoID#"><input type="checkbox" name="todoID" value="#todoID#" onclick="all_mark_complete('#projectID#','#todolistID#','#todoID#');" /> #task#<cfif not compare(session.assignedTo,'') and compare(lastname,'')> <span class="g">(#firstName# #lastName#)</span></cfif></li>
+										<li id="cb#todoID#"><cfif check_permission.todos gt 1><input type="checkbox" name="todoID" value="#todoID#" onclick="all_mark_complete('#projectID#','#todolistID#','#todoID#');" /></cfif> #task#<cfif not compare(session.assignedTo,'') and compare(lastname,'')> <span class="g">(#firstName# #lastName#)</span></cfif></li>
 										</cfoutput>
 										</ul>							
 									</td>

@@ -312,6 +312,7 @@
 		<cfargument name="admin" type="numeric" required="false" default="0">
 		<cfargument name="order_by" type="string" required="false" default="lastName, firstName">
 		<cfargument name="projectIDlist" type="string" required="false" default="">
+		<cfargument name="useList" type="boolean" required="false" default="false">
 		
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
@@ -319,8 +320,8 @@
 				u.lastLogin, u.avatar, c.prefix, c.suffix, un.email_files, un.mobile_files, un.email_issues,un.mobile_issues, 
 				un.email_msgs, un.mobile_msgs, un.email_mstones, un.mobile_mstones,	un.email_todos, 
 				un.mobile_todos
-				<cfif not compare(arguments.projectIDlist,'')>
-					, pu.admin, pu.billing,	pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos, pu.timetrack, pu.svn
+				<cfif arguments.uselist>
+					, pu.projectID, pu.admin, pu.billing, pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos, pu.timetrack, pu.svn
 				</cfif>
 			FROM #variables.tableprefix#users u 
 				INNER JOIN #variables.tableprefix#project_users pu ON u.userID = pu.userID
@@ -331,7 +332,7 @@
 				AND pu.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				AND un.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			</cfif>
-			<cfif compare(arguments.projectIDlist,'')>
+			<cfif arguments.uselist>
 				AND pu.projectID IN (<cfqueryparam value="#arguments.projectIDlist#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 				AND un.projectID IN (<cfqueryparam value="#arguments.projectIDlist#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 			</cfif>
