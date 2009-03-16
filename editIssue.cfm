@@ -14,10 +14,10 @@
 	<cfset application.notify.issueNew(form.projectid,newID)>
 	<cfif compare(trim(form.fileupload),'')>
 		<cftry>
-			<cfdirectory action="create" directory="#ExpandPath('./userfiles/')##form.projectID#">
+			<cfdirectory action="create" directory="#application.userFilesPath##form.projectID#">
 			<cfcatch></cfcatch>
 		</cftry>
-		<cffile action="upload" filefield="fileupload" destination = "#ExpandPath('./userfiles/')##form.projectID#" nameConflict = "MakeUnique">
+		<cffile action="upload" filefield="fileupload" destination = "#application.userFilesPath##form.projectID#" nameConflict = "MakeUnique">
 		<cfset newID2 = createUUID()>
 		<cfset application.screenshot.add(newID2,newID,form.title,'',cffile.ClientFile,cffile.ServerFile,cffile.ClientFileExt,cffile.FileSize,session.user.userid)>
 	</cfif>

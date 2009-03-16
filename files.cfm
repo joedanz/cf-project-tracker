@@ -1,16 +1,7 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfif StructKeyExists(url,"df")>
-	<cfset thisFile = application.file.get(url.p,url.df)>
-	<cftry>
-	<cffile action="delete" file="#ExpandPath('./userfiles/')##url.p#/#thisFile.serverfilename#">
-	<cfcatch></cfcatch>
-	</cftry>
 	<cfset application.file.delete(url.p,url.df,session.user.userID)>
-	<cfset remainingFiles = application.file.get(url.p)>
-	<cfif remainingFiles.recordCount eq 1>
-		<cfdirectory action="delete" directory="#ExpandPath('./userfiles/')##url.p#">
-	</cfif>
 </cfif>
 
 <cfif StructKeyExists(url,"o")>

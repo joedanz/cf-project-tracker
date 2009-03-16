@@ -7,10 +7,10 @@
 	<cflocation url="files.cfm?p=#form.projectID#" addtoken="false">
 <cfelseif StructKeyExists(form,"projectID")> <!--- add/upload file --->
 	<cftry>
-		<cfdirectory action="create" directory="#ExpandPath('./userfiles/')##form.projectID#">
+		<cfdirectory action="create" directory="#application.userFilesPath##form.projectID#">
 		<cfcatch></cfcatch>
 	</cftry>
-	<cffile action="upload" filefield="fileupload" destination = "#ExpandPath('./userfiles/')##form.projectID#" nameConflict = "MakeUnique">
+	<cffile action="upload" filefield="fileupload" destination = "#application.userFilesPath##form.projectID#" nameConflict = "MakeUnique">
 	<cfset newID = createUUID()>
 	<cfset application.file.add(newID,form.projectID,form.title,form.category,form.description,cffile.ClientFile,cffile.ServerFile,cffile.ClientFileExt,cffile.FileSize,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'File',newID,form.title,'added')>

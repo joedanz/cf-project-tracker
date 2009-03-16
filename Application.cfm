@@ -20,8 +20,21 @@
 
 			<cfinvoke component="config.settings" method="getSettings" iniFile="#serverSettings#" returnVariable="settings">
 			<cfset application.settings = settings>
-
-			<cfset application.userFilesPath = ExpandPath('./userfiles/')>
+			
+			<!--- determine userfiles directory if custom from config file --->
+			<cfif compareNoCase(settings.userFilesPath,'./userfiles/') and len(settings.userFilesPath)>
+				<cfset application.userFilesPath = settings.userFilesPath>
+				<cfif compare(right(settings.userFilesPath,1),'/')>
+					<cfset application.userFilesPath = application.userFilesPath & '/'>
+				</cfif>
+			<cfelse>
+				<cfset application.userFilesPath = ExpandPath('./userfiles/')>
+			</cfif>
+			<!--- create userfiles directory if it doesn't exist --->
+			<cftry>
+				<cfdirectory action="create" directory="#application.userFilesPath#">
+				<cfcatch></cfcatch>
+			</cftry>
 
 			<!--- application CFCs --->
 			<cfset application.activity = createObject("component","cfcs.activity").init(settings)>
