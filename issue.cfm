@@ -176,7 +176,7 @@
 							</tr>
 							<tr>
 								<td class="label">Milestone:</td>
-								<td><cfif compare(issue.milestoneID,'')><a href="milestone.cfm?p=#url.p#&m=#issue.milestoneID#">#issue.milestone#</a><cfelse><span class="g">&lt;none&gt;</span></cfif></td>
+								<td><cfif compare(issue.milestone,'')><a href="milestone.cfm?p=#url.p#&m=#issue.milestoneID#">#issue.milestone#</a><cfelse><span class="g">&lt;none&gt;</span></cfif></td>
 							</tr>			
 						</table>
 					
