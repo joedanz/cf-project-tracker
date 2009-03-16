@@ -317,9 +317,9 @@
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#">
 			SELECT distinct u.userID, u.firstName, u.lastName, u.username, u.email, u.phone, u.mobile,
-				u.lastLogin, u.avatar, c.prefix, c.suffix, un.email_files, un.mobile_files, un.email_issues,un.mobile_issues, 
-				un.email_msgs, un.mobile_msgs, un.email_mstones, un.mobile_mstones,	un.email_todos, 
-				un.mobile_todos
+				u.lastLogin, u.avatar, u.admin, c.prefix, c.suffix, un.email_files, un.mobile_files, 
+				un.email_issues,un.mobile_issues, un.email_msgs, un.mobile_msgs, un.email_mstones, 
+				un.mobile_mstones, un.email_todos, un.mobile_todos
 				<cfif arguments.uselist>
 					, pu.projectID, pu.admin, pu.billing, pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos, pu.timetrack, pu.svn
 				</cfif>
