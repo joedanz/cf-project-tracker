@@ -58,7 +58,7 @@
 	<div id="projectmenu" style="display:none;">
 	<ul>
 		<cfloop query="session.user.projects">
-			<cfif compareNoCase(status,'Archived')>
+			<cfif not compareNoCase(status,'Active')>
 				<li onclick="window.location='#application.settings.mapping#/project.cfm?p=#projectID#';" onmouseover="$(this).addClass('menuhover')" onmouseout="$(this).removeClass('menuhover')"><a href="#application.settings.mapping#/project.cfm?p=#projectID#">#name#</a></li>
 			</cfif>
 		</cfloop>
