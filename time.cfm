@@ -1,4 +1,4 @@
-<cfsetting enablecfoutputonly="true" showdebugoutput="false">
+<cfsetting enablecfoutputonly="true">
 
 <cfparam name="url.p" default="">
 
@@ -141,8 +141,8 @@
 								<td>#firstName# #lastName#</td>
 								<td class="b">#numberFormat(hours,"0.00")#</td>
 								<cfif project.tab_billing and project.billing gt 0>
-									<td>#category#<cfif compare(category,'')> ($#NumberFormat(rate,"0")#/hr)</cfif></td>
-									<td><cfif isNumeric(rate)>$#NumberFormat(rate*hours,"0")#</cfif></td>
+									<td><cfif compare(category,'') and not compareNoCase(clientID,project.clientID)>#category# ($#NumberFormat(rate,"0")#/hr)</cfif></td>
+									<td><cfif isNumeric(rate) and not compareNoCase(clientID,project.clientID)>$#NumberFormat(rate*hours,"0")#</cfif></td>
 								</cfif>
 								<td><cfif compare(itemType,'')><span class="catbox #itemtype#">#itemtype#</span> <a href="todos.cfm?p=#projectID###id_#replace(todolistID,'-','','all')#">#task#</a><cfif compare(description,'')> - </cfif></cfif>#description#</td>
 								<cfif project.timetrack eq 2 or session.user.admin>
@@ -150,7 +150,7 @@
 								</cfif>
 							</tr>
 							<cfset totalHours = totalHours + hours>
-							<cfif isNumeric(rate)>
+							<cfif isNumeric(rate) and not compareNoCase(clientID,project.clientID)>
 								<cfset totalFee = totalFee + (rate*hours)>
 							</cfif>
 						</cfloop>
@@ -161,7 +161,7 @@
 								<td class="b"><span id="totalhours">#NumberFormat(totalHours,"0.00")#</span></td>
 								<cfif project.tab_billing and project.billing gt 0>
 									<td class="tar b">TOTAL FEE:&nbsp;&nbsp;&nbsp;</td>
-									<td class="b">$#NumberFormat(totalFee,"0")#</td>
+									<td class="b"><span id="totalrate">$#NumberFormat(totalFee,"0")#</span></td>
 								</cfif>
 								<td colspan="4">&nbsp;</td>
 							</tr>

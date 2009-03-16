@@ -1,4 +1,4 @@
-<cfsetting enablecfoutputonly="true" showdebugoutput="false">
+<cfsetting enablecfoutputonly="true">
 
 <cfparam name="url.i" default="">
 <cfparam name="url.type" default="">
@@ -21,6 +21,7 @@
 	<cfset totaltime = application.timetrack.countTime(itemID=url.i)>
 <cfelse>
 	<cfset totaltime = application.timetrack.countTime(projectID=url.p)>
+	<cfset totalrate = application.timetrack.sumRate(projectID=url.p)>
 </cfif>
 <cfif session.user.admin>
 	<cfset project = application.project.get(projectID=url.p)>
@@ -49,6 +50,8 @@
 		$('##totalhours').html('#numberFormat(totaltime.numHours,"0.00")#').animate({backgroundColor:'##ffffb7'},100).animate({backgroundColor:'##fff'},1500);
 		<cfif not compareNoCase(url.f,'issue')>
 			$('##timerows').html('#numberFormat(totaltime.numLines)#');
+		<cfelse>
+			$('##totalrate').html('$#NumberFormat(totalrate.sumRate,"0")#').animate({backgroundColor:'##ffffb7'},100).animate({backgroundColor:'##fff'},1500);
 		</cfif>
 	</script>
 </cfif>

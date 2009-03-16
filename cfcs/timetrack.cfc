@@ -25,8 +25,8 @@
 
 		<cfquery name="qGet" datasource="#variables.dsn#">
 			SELECT tt.timetrackID, tt.projectID, tt.userID, tt.dateStamp, tt.hours, tt.description,
-					tt.itemID, tt.itemType,	u.firstName, u.lastName, t.todolistID, t.task, 
-					cr.rateID, cr.category, cr.rate
+					tt.itemID, tt.itemType,	u.firstName, u.lastName, t.todolistID, t.task,
+					cr.clientID, cr.rateID, cr.category, cr.rate
 				FROM #variables.tableprefix#timetrack tt 
 					LEFT JOIN #variables.tableprefix#users u on tt.userid = u.userid
 					LEFT JOIN #variables.tableprefix#todos t ON tt.itemID = t.todoID
@@ -143,6 +143,22 @@
 				</cfif>
 		</cfquery>
 		<cfreturn qCountTime>
+	</cffunction>
+
+	<cffunction name="sumRate" access="public" returnType="query" output="false"
+				hint="Returns total rate for item.">
+		<cfargument name="projectID" type="string" required="false" default="">
+		<cfset var qSumRate = "">		
+		<cfquery name="qSumRate" datasource="#variables.dsn#">
+			SELECT sum(t.hours*cr.rate) as sumRate 
+			FROM #variables.tableprefix#timetrack t 
+				LEFT JOIN #variables.tableprefix#client_rates cr ON t.rateID = cr.rateID
+				LEFT JOIN #variables.tableprefix#clients c on cr.clientID = c.clientID
+				LEFT JOIN #variables.tableprefix#projects p on t.projectID = p.projectID
+			WHERE t.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				AND t.rateID != '' AND p.clientID = cr.clientID
+		</cfquery>
+		<cfreturn qSumRate>
 	</cffunction>
 
 </cfcomponent>
