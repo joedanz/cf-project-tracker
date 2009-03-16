@@ -1,7 +1,7 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfif StructKeyExists(form,"fileID")> <!--- update file --->
-	<cfset application.screenshot.update(form.fileID,form.projectid,form.title,form.description)>
+	<cfset application.screenshot.update(form.fileID,form.issueid,form.title,form.description)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Screenshot',url.i,form.title,'edited')>
 	<cfset application.notify.fileUpdate(form.projectid,form.fileID)>
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#url.i#" addtoken="false">
@@ -36,7 +36,7 @@
 <cfparam name="title_action" default="Add">
 
 <cfif StructKeyExists(url,"f")>
-	<cfset thisFile = application.file.get(url.p,url.f)>
+	<cfset thisFile = application.screenshot.get(url.i,url.f)>
 	<cfset title = thisFile.title>
 	<cfset description = thisFile.description>
 	<cfset title_action = "Edit">
@@ -72,7 +72,7 @@
 						<a href="javascript:history.back();" class="cancel">Cancel</a>
 					</span>
 					
-					<h2 class="msg"><cfif StructKeyExists(url,"m")>Edit<cfelse>Upload new</cfif> screenshot</h2>
+					<h2 class="msg"><cfif StructKeyExists(url,"f")>Edit<cfelse>Upload new</cfif> screenshot</h2>
 				</div>
 				<div class="content">
 				 	
@@ -110,6 +110,7 @@
 						</cfif>
 						<input type="button" class="button" name="cancel" value="Cancel" onclick="history.back();" />
 						<input type="hidden" name="projectID" value="#url.p#" />
+						<input type="hidden" name="issueID" value="#url.i#" />
 					</form>				 	
 
 				</div>

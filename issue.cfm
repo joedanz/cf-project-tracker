@@ -261,8 +261,8 @@
 										<td>#ceiling(filesize/1024)#K</td>
 										<td>#dateFormat(uploaded,"medium")#</td>
 										<cfif session.user.userID eq uploadedBy or session.user.admin>
-											<td><a href="editFile.cfm?p=#url.p#&f=#fileID#" class="edit">Edit</a></td>
-											<td><a href="#cgi.script_name#?p=#url.p#&df=#fileID#" class="delete" onclick="return confirm('Are you sure you wish to delete this screenshot?');">Delete</a></td>										
+											<td><a href="editScreen.cfm?p=#url.p#&i=#url.i#&f=#fileID#" class="edit">Edit</a></td>
+											<td><a href="#cgi.script_name#?p=#url.p#&i=#url.i#&df=#fileID#" class="delete" onclick="return confirm('Are you sure you wish to delete this screenshot?');">Delete</a></td>										
 										</cfif>
 									</tr>
 								</cfloop>
