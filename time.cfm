@@ -97,7 +97,7 @@
 								<th class="first">Date</th>
 								<th>Person</th>
 								<th>Hours</th>
-								<cfif project.tab_billing and project.billing eq 2>
+								<cfif project.tab_billing and project.billing gt 0>
 									<th>Billing Category</th>
 									<th>Fee</th>
 								</cfif>
@@ -126,7 +126,7 @@
 									</td>
 									<td>&nbsp;</td>
 								<cfelse>
-									<input type="hidden" name="rateID" value="" />
+									<td colspan="2"><input type="hidden" name="rateID" value="" /></td>
 								</cfif>
 								<td><input type="text" name="description" id="desc" class="short" /></td>
 								<td class="tac"><input type="submit" value="Add to log" onclick="add_time_row('#url.p#','','','time');" /></td>
