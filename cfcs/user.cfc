@@ -357,10 +357,20 @@ You must confirm this account before using it by clicking here:
 	<cffunction name="delete" access="public" returntype="void" output="false"
 				hint="Deletes a users record.">
 		<cfargument name="userID" type="string" required="true">
+		<cftransaction>
 		<cfquery datasource="#variables.dsn#">
 			DELETE FROM #variables.tableprefix#users WHERE 0=0
 				AND userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
-		</cfquery>		
+		</cfquery>
+		<cfquery datasource="#variables.dsn#">
+			DELETE FROM #variables.tableprefix#project_users WHERE 0=0
+				AND userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
+		</cfquery>
+		<cfquery datasource="#variables.dsn#">
+			DELETE FROM #variables.tableprefix#user_notify WHERE 0=0
+				AND userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
+		</cfquery>
+		</cftransaction>
 	</cffunction>
 
 	<cffunction name="setLastLogin" access="public" returnType="boolean" output="false"
