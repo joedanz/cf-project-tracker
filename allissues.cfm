@@ -30,7 +30,7 @@
 <cfset issues = application.issue.get(form.projectIDfilter,'',form.status,visible_project_list,form.type,form.severity,form.assignedTo)>
 
 <!--- Loads header/footer --->
-<cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Issues">
+<cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; All Issues">
 
 <cfsavecontent variable="js">
 <cfoutput>

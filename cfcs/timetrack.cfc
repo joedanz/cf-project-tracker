@@ -21,15 +21,18 @@
 		<cfargument name="startDate" type="string" required="false" default="">
 		<cfargument name="endDate" type="string" required="false" default="">
 		<cfargument name="itemID" type="string" required="false" default="">
+		<cfargument name="projectIDlist" type="string" required="false" default="">
 		<cfset var qGet = "">
 
 		<cfquery name="qGet" datasource="#variables.dsn#">
 			SELECT tt.timetrackID, tt.projectID, tt.userID, tt.dateStamp, tt.hours, tt.description,
 					tt.itemID, tt.itemType,	tt.billed, tt.paid, u.firstName, u.lastName, 
-					t.todolistID, t.task, cr.clientID, cr.rateID, cr.category, cr.rate
+					t.todolistID, t.task, cr.clientID, cr.rateID, cr.category, cr.rate,
+					p.clientID as projClientID, p.name
 				FROM #variables.tableprefix#timetrack tt 
 					LEFT JOIN #variables.tableprefix#users u on tt.userid = u.userid
 					LEFT JOIN #variables.tableprefix#todos t ON tt.itemID = t.todoID
+					LEFT JOIN #variables.tableprefix#projects p ON tt.projectID = p.projectID
 					LEFT JOIN #variables.tableprefix#client_rates cr ON tt.rateID = cr.rateID
 				WHERE 0 = 0
 				<cfif compare(arguments.timetrackID,'')>
@@ -39,6 +42,9 @@
 				<cfif compare(arguments.projectID,'')>
 					AND tt.projectID = 
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				</cfif>
+				<cfif compare(arguments.projectIDlist,'')>
+					AND tt.projectID IN (<cfqueryparam value="#arguments.projectIDlist#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 				</cfif>
 				<cfif compare(arguments.userID,'')>
 					AND tt.userID = 

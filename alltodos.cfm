@@ -32,7 +32,7 @@
 </cfif>
 
 <!--- Loads header/footer --->
-<cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; To-Dos">
+<cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; All To-Dos">
 
 <cfoutput>
 <div id="container">
@@ -41,7 +41,7 @@
 		<div class="main">
 
 				<div class="header">
-					<h2 class="todo"><cfif compare(session.assignedTo,'')>#user.firstName# #user.lastName#'s<cfelse>Everyone's</cfif> to-do items across all projects</h2>
+					<h2 class="todo">To-do items across all your projects</h2>
 				</div>
 				<div class="content">
 				 	<div class="wrapper">

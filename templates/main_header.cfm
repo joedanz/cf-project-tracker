@@ -113,9 +113,11 @@
 				</cfif>
 			<cfelse>
 				<li><a href="#application.settings.mapping#/index.cfm" title="Dashboard across all your projects"<cfif find('#application.settings.mapping#/index.cfm',cgi.script_name)> class="current"</cfif>>Dashboard</a></li>
-				<li><a href="#application.settings.mapping#/alltodos.cfm" title="To-Dos across all your projects"<cfif find('/alltodos.cfm',cgi.script_name)> class="current"</cfif>>All To-Dos</a></li>
+				<li><a href="#application.settings.mapping#/alltodos.cfm" title="To-Do items across all your projects"<cfif find('/alltodos.cfm',cgi.script_name)> class="current"</cfif>>All To-Dos</a></li>
 				<li><a href="#application.settings.mapping#/allmilestones.cfm" title="Milestones across all your projects"<cfif find('/allmilestones.cfm',cgi.script_name)> class="current"</cfif>>All Milestones</a></li>
 				<li><a href="#application.settings.mapping#/allissues.cfm" title="Issues across all your projects"<cfif find('/allissues.cfm',cgi.script_name)> class="current"</cfif>>All Issues</a></li>
+				<li><a href="#application.settings.mapping#/alltime.cfm" title="Time tracking across all your projects"<cfif find('/alltime.cfm',cgi.script_name)> class="current"</cfif>>All Time</a></li>
+				<li><a href="#application.settings.mapping#/allbilling.cfm" title="Billing across all your projects"<cfif find('/allbilling.cfm',cgi.script_name)> class="current"</cfif>>All Billing</a></li>
 			</cfif>
 		</ul>
 		<br />

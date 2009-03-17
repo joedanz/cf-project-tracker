@@ -17,9 +17,6 @@
 <cfset milestones_completed = application.milestone.get(projectID=url.p,withRate=true,type='completed')>
 <cfset milestones_incomplete = application.milestone.get(projectID=url.p,withRate=true,type='incomplete')>
 <cfset timelines = application.timetrack.get(projectID=url.p)>
-<cfif project.tab_billing and project.billing eq 2>
-	<cfset rates = application.client.getRates(project.clientID)>
-</cfif>
 <cfset totalIncMSFee = 0>
 <cfset totalComMSFee = 0>
 <cfset totalHours = 0>

@@ -33,7 +33,7 @@
 </cfif>
 
 <!--- Loads header/footer --->
-<cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Milestones">
+<cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; All Milestones">
 
 <cfoutput>
 <div id="container">
@@ -42,7 +42,7 @@
 		<div class="main">
 
 				<div class="header">
-					<h2 class="milestone"><cfif compare(session.assignedTo,'')>#user.firstName# #user.lastName#'s<cfelse>Everyone's</cfif> milestones across all projects</h2>
+					<h2 class="milestone">Milestones across all your projects</h2>
 				</div>
 				<div class="content">
 				 	<div class="wrapper">
