@@ -115,7 +115,7 @@
 									</select>
 								</td>
 								<td><input type="text" name="hours" id="hrs" class="tiny" /></td>
-								<cfif project.tab_billing>
+								<cfif project.tab_billing and project.billing eq 2>
 									<td>
 										<select name="rateID" id="rateID">
 											<option value="">None</option>
