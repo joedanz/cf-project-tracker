@@ -1,6 +1,6 @@
 <cfsetting enablecfoutputonly="true">
 
-<cfset applicationName = "project_tracker">
+<cfset applicationName = right(REReplace(getDirectoryFromPath(getCurrentTemplatePath()),'[^A-Za-z0-9]','','all'),64)>
 <cfapplication name="#applicationName#" sessionManagement="true" loginstorage="session" sessiontimeout="#CreateTimeSpan(0,1,30,0)#">
 
 <cfparam name="application.settings.showDebug" default="false">
