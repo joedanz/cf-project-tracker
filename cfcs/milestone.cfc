@@ -24,8 +24,8 @@
 		<cfargument name="withRate" type="boolean" required="false" default="false">
 		<cfset var qGetMilestones = "">
 		<cfquery name="qGetMilestones" datasource="#variables.dsn#">
-			SELECT milestoneid,m.projectID,m.name,m.description,dueDate,completed,
-				m.forid,m.userid,m.rate,u.firstName,u.lastName,p.name as projName
+			SELECT milestoneid, m.projectID, m.name, m.description, m.dueDate, m.completed,
+				m.forid, m.userid, m.rate, m.billed, m.paid, u.firstName, u.lastName, p.name as projName
 				FROM #variables.tableprefix#milestones m
 				LEFT JOIN #variables.tableprefix#users u ON m.forid = u.userid
 				LEFT JOIN #variables.tableprefix#projects p ON m.projectID = p.projectID

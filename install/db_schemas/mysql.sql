@@ -167,6 +167,8 @@ CREATE TABLE `pt_milestones` (
   `dueDate` datetime default NULL,
   `completed` datetime default NULL,
   `rate` decimal(8,2) default NULL,  
+  `billed` int(1) default NULL,
+  `paid` int(1) default NULL,
   PRIMARY KEY  (`milestoneID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -291,6 +293,8 @@ CREATE TABLE `pt_timetrack` (
   `itemID` varchar(35) default NULL,
   `itemType` varchar(10) default NULL,
   `rateID` varchar(35) default NULL,
+  `billed` int(1) default NULL,
+  `paid` int(1) default NULL,
   PRIMARY KEY  (`timetrackID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

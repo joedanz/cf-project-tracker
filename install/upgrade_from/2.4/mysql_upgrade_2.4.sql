@@ -15,6 +15,10 @@ ALTER TABLE `pt_clients` ADD `website` varchar(150) default NULL;
 
 /* pt_milestones */
 ALTER TABLE `pt_milestones` ADD `rate` decimal(8,2) default NULL;
+ALTER TABLE `pt_milestones` ADD `billed` tinyint(1) default NULL;
+UPDATE `pt_milestones` set `billed` = 0;
+ALTER TABLE `pt_milestones` ADD `paid` tinyint(1) default NULL;
+UPDATE `pt_milestones` set `paid` = 0;
 
 /* pt_project_users */
 ALTER TABLE `pt_project_users` ADD `billing` int(1) default NULL;
@@ -30,6 +34,10 @@ UPDATE `pt_projects` set `issue_timetrack` = 1;
 
 /* pt_timetrack */
 ALTER TABLE `pt_timetrack` ADD `rateID` varchar(35) default NULL;
+ALTER TABLE `pt_timetrack` ADD `billed` tinyint(1) default NULL;
+UPDATE `pt_timetrack` set `billed` = 0;
+ALTER TABLE `pt_timetrack` ADD `paid` tinyint(1) default NULL;
+UPDATE `pt_timetrack` set `paid` = 0;
 
 /* pt_user_notify */
 CREATE TABLE `pt_user_notify` (

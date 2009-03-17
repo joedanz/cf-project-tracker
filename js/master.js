@@ -27,6 +27,16 @@ function all_mark_complete(projectid,todolistid,todoid) {
 	});
 }
 
+// *** BILLING ***
+function set_bill(itemid,itemtype,prefix) {
+	$.ajax({
+		type: 'get',
+		url: './ajax/set_bill.cfm',
+		data: 'i=' + itemid + '&t=' + itemtype + '&p=' + prefix + '&v=' + $('#' + prefix + itemid).attr("checked")
+	});
+	$('tr#r'+itemid+' td').animate({backgroundColor:'#ffffb7'},100).animate({backgroundColor:'#fff'},1500);
+}
+
 // *** CLIENT RATES ***
 function add_client_rate(clientid) {
     $.ajax({

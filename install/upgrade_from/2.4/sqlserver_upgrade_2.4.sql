@@ -25,6 +25,14 @@ GO
 /* pt_milestones */
 ALTER TABLE [dbo].[pt_milestones] ADD [rate] numeric (8,2) NULL
 GO
+ALTER TABLE [dbo].[pt_milestones] ADD [billed] [tinyint] NULL
+GO
+UPDATE [dbo].[pt_milestones] SET billed = 0
+GO
+ALTER TABLE [dbo].[pt_milestones] ADD [paid] [tinyint] NULL
+GO
+UPDATE [dbo].[pt_milestones] SET paid = 0
+GO
 
 /* pt_project_users */
 ALTER TABLE [dbo].[pt_project_users] ADD [billing] [tinyint] NULL
@@ -48,6 +56,14 @@ GO
 
 /* pt_timetrack */
 ALTER TABLE [dbo].[pt_timetrack] ADD [rateID] [nvarchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
+ALTER TABLE [dbo].[pt_timetrack] ADD [billed] [tinyint] NULL
+GO
+UPDATE [dbo].[pt_timetrack] SET billed = 0
+GO
+ALTER TABLE [dbo].[pt_timetrack] ADD [paid] [tinyint] NULL
+GO
+UPDATE [dbo].[pt_timetrack] SET paid = 0
 GO
 
 /* pt_user_notify */

@@ -25,8 +25,8 @@
 
 		<cfquery name="qGet" datasource="#variables.dsn#">
 			SELECT tt.timetrackID, tt.projectID, tt.userID, tt.dateStamp, tt.hours, tt.description,
-					tt.itemID, tt.itemType,	u.firstName, u.lastName, t.todolistID, t.task,
-					cr.clientID, cr.rateID, cr.category, cr.rate
+					tt.itemID, tt.itemType,	tt.billed, tt.paid, u.firstName, u.lastName, 
+					t.todolistID, t.task, cr.clientID, cr.rateID, cr.category, cr.rate
 				FROM #variables.tableprefix#timetrack tt 
 					LEFT JOIN #variables.tableprefix#users u on tt.userid = u.userid
 					LEFT JOIN #variables.tableprefix#todos t ON tt.itemID = t.todoID

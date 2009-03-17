@@ -23,8 +23,12 @@ alter table
    pt_milestones
 add
    (
-   rate NUMBER(8,2) NULL
+   rate NUMBER(8,2) NULL,
+   billed NUMBER(1,0) NULL,
+   paid NUMBER(1,0) NULL
    );
+update pt_milestones set billed = 0;
+update pt_milestones set paid = 0;
 
 /* pt_project_users */
 alter table
@@ -53,8 +57,12 @@ alter table
    pt_timetrack
 add
    (
-   rateID varchar2(35) NULL
+   rateID varchar2(35) NULL,
+   billed NUMBER(1,0) NULL,
+   paid NUMBER(1,0) NULL
    );
+update pt_timetrack set billed = 0;
+update pt_timetrack set paid = 0;
 
 /* pt_user_notify */
 CREATE TABLE  "PT_USER_NOTIFY" 

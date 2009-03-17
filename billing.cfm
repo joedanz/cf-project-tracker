@@ -1,4 +1,4 @@
-<cfsetting enablecfoutputonly="true" showdebugoutput="false">
+<cfsetting enablecfoutputonly="true">
 
 <cfparam name="url.p" default="">
 
@@ -58,6 +58,8 @@
 										<th>Name</th>
 										<th>Person</th>
 										<th>Fee</th>
+										<th class="tac">Billed</th>
+										<th class="tac">Paid</th>
 										<th>Description</th>
 									</tr>
 								</thead>
@@ -65,11 +67,13 @@
 								<cfloop query="milestones_incomplete">
 									<cfif isNumeric(rate)>
 										<cfset thisUserID = userid>
-										<tr id="r#replace(milestoneid,'-','','ALL')#">
+										<tr id="r#milestoneid#">
 											<td class="first">#DateFormat(dueDate,"mmm d, yyyy")#</td>
 											<td>#name#</td>
 											<td>#firstName# #lastName#</td>
 											<td>$#NumberFormat(rate,"0")#</td>
+											<td class="tac"><input type="checkbox" id="b_#milestoneid#" value="1"<cfif billed eq 1> checked="checked"</cfif> onclick="set_bill('#milestoneID#','milestone','b_');" /></td>
+											<td class="tac"><input type="checkbox" id="p_#milestoneid#" value="1"<cfif paid eq 1> checked="checked"</cfif> onclick="set_bill('#milestoneID#','milestone','p_');" /></td>
 											<td>#description#</td>
 										</tr>
 										<cfif isNumeric(rate)>
@@ -82,7 +86,7 @@
 									<tr class="last">
 										<td class="tar b" colspan="3">TOTAL FEE:&nbsp;&nbsp;&nbsp;</td>
 										<td class="b">$#NumberFormat(totalIncMSFee,"0")#</td>
-										<td colspan="3">&nbsp;</td>
+										<td colspan="5">&nbsp;</td>
 									</tr>
 								</tfoot>
 							</table>
@@ -101,6 +105,8 @@
 										<th>Name</th>
 										<th>Person</th>
 										<th>Fee</th>
+										<th class="tac">Billed</th>
+										<th class="tac">Paid</th>
 										<th>Description</th>
 									</tr>
 								</thead>
@@ -108,11 +114,13 @@
 								<cfloop query="milestones_completed">
 									<cfif isNumeric(rate)>
 										<cfset thisUserID = userid>
-										<tr id="r#replace(milestoneid,'-','','ALL')#">
+										<tr id="r#milestoneid#">
 											<td class="first">#DateFormat(dueDate,"mmm d, yyyy")#</td>
 											<td>#name#</td>
 											<td>#firstName# #lastName#</td>
 											<td>$#NumberFormat(rate,"0")#</td>
+											<td class="tac"><input type="checkbox" id="b_#milestoneid#" value="1"<cfif billed eq 1> checked="checked"</cfif> onclick="set_bill('#milestoneID#','milestone','b_');" /></td>
+											<td class="tac"><input type="checkbox" id="p_#milestoneid#" value="1"<cfif paid eq 1> checked="checked"</cfif> onclick="set_bill('#milestoneid#','milestone','b_');" /></td>
 											<td>#description#</td>
 										</tr>
 										<cfif isNumeric(rate)>
@@ -125,7 +133,7 @@
 									<tr class="last">
 										<td class="tar b" colspan="3">TOTAL FEE:&nbsp;&nbsp;&nbsp;</td>
 										<td class="b">$#NumberFormat(totalComMSFee,"0")#</td>
-										<td colspan="3">&nbsp;</td>
+										<td colspan="5">&nbsp;</td>
 									</tr>
 								</tfoot>
 							</table>
@@ -145,6 +153,8 @@
 										<th>Hours</th>
 										<th>Billing Category</th>
 										<th>Fee</th>
+										<th class="tac">Billed</th>
+										<th class="tac">Paid</th>
 										<th>Description</th>
 									</tr>
 								</thead>
@@ -152,12 +162,14 @@
 								<cfloop query="timelines">
 									<cfif isNumeric(rate)>
 										<cfset thisUserID = userid>
-										<tr id="r#replace(timetrackid,'-','','ALL')#">
+										<tr id="r#timetrackid#">
 											<td class="first">#DateFormat(dateStamp,"mmm d, yyyy")#</td>
 											<td>#firstName# #lastName#</td>
 											<td class="b">#numberFormat(hours,"0.00")#</td>
 											<td>#category#<cfif compare(category,'')> ($#NumberFormat(rate,"0")#/hr)</cfif></td>
 											<td><cfif isNumeric(rate)>$#NumberFormat(rate*hours,"0")#</cfif></td>
+											<td class="tac"><input type="checkbox" id="b_#timetrackid#" value="1"<cfif billed eq 1> checked="checked"</cfif> onclick="set_bill('#timetrackid#','timetrack','b_');" /></td>
+											<td class="tac"><input type="checkbox" id="p_#timetrackid#" value="1"<cfif paid eq 1> checked="checked"</cfif> onclick="set_bill('#timetrackid#','timetrack','p_');" /></td>
 											<td><cfif compare(itemType,'')><span class="catbox #itemtype#">#itemtype#</span> <a href="todos.cfm?p=#projectID###id_#replace(todolistID,'-','','all')#">#task#</a><cfif compare(description,'')> - </cfif></cfif>#description#</td>
 										</tr>
 										<cfset totalHours = totalHours + hours>
