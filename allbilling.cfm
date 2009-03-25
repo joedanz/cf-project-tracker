@@ -62,6 +62,7 @@
 							 	<thead>
 									<tr>
 										<th class="first">Due Date</th>
+										<th>Project</th>
 										<th>Name</th>
 										<th>Person</th>
 										<th>Fee</th>
@@ -76,6 +77,7 @@
 										<cfset thisUserID = userid>
 										<tr id="r#milestoneid#">
 											<td class="first">#DateFormat(dueDate,"mmm d, yyyy")#</td>
+											<td>#projName#</td>
 											<td>#name#</td>
 											<td>#firstName# #lastName#</td>
 											<td>$#NumberFormat(rate,"0")#</td>
@@ -91,7 +93,7 @@
 								</tbody>
 								<tfoot>
 									<tr class="last">
-										<td class="tar b" colspan="3">TOTAL FEE:&nbsp;&nbsp;&nbsp;</td>
+										<td class="tar b" colspan="4">TOTAL FEE:&nbsp;&nbsp;&nbsp;</td>
 										<td class="b">$#NumberFormat(totalIncMSFee,"0")#</td>
 										<td colspan="5">&nbsp;</td>
 									</tr>
@@ -109,6 +111,7 @@
 							 	<thead>
 									<tr>
 										<th class="first">Due Date</th>
+										<th>Project</th>
 										<th>Name</th>
 										<th>Person</th>
 										<th>Fee</th>
@@ -123,6 +126,7 @@
 										<cfset thisUserID = userid>
 										<tr id="r#milestoneid#">
 											<td class="first">#DateFormat(dueDate,"mmm d, yyyy")#</td>
+											<td>#projName#</td>
 											<td>#name#</td>
 											<td>#firstName# #lastName#</td>
 											<td>$#NumberFormat(rate,"0")#</td>
@@ -138,7 +142,7 @@
 								</tbody>
 								<tfoot>
 									<tr class="last">
-										<td class="tar b" colspan="3">TOTAL FEE:&nbsp;&nbsp;&nbsp;</td>
+										<td class="tar b" colspan="4">TOTAL FEE:&nbsp;&nbsp;&nbsp;</td>
 										<td class="b">$#NumberFormat(totalComMSFee,"0")#</td>
 										<td colspan="5">&nbsp;</td>
 									</tr>
@@ -162,6 +166,7 @@
 							 	<thead>
 									<tr>
 										<th class="first">Date</th>
+										<th>Project</th>
 										<th>Person</th>
 										<th>Hours</th>
 										<th>Billing Category</th>
@@ -177,6 +182,7 @@
 										<cfset thisUserID = userid>
 										<tr id="r#timetrackid#">
 											<td class="first">#DateFormat(dateStamp,"mmm d, yyyy")#</td>
+											<td>#name#</td>
 											<td>#firstName# #lastName#</td>
 											<td class="b">#numberFormat(hours,"0.00")#</td>
 											<td>#category#<cfif compare(category,'')> ($#NumberFormat(rate,"0")#/hr)</cfif></td>
@@ -194,7 +200,7 @@
 								</tbody>
 								<tfoot>
 									<tr class="last">
-										<td colspan="2" class="tar b">TOTAL:&nbsp;&nbsp;&nbsp;</td>
+										<td colspan="3" class="tar b">TOTAL:&nbsp;&nbsp;&nbsp;</td>
 										<td class="b"><span id="totalhours">#NumberFormat(totalHours,"0.00")#</span></td>
 										<td class="tar b">TOTAL FEE:&nbsp;&nbsp;&nbsp;</td>
 										<td class="b">$#NumberFormat(totalFee,"0")#</td>
