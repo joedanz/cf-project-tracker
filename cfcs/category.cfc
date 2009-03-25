@@ -9,6 +9,8 @@
 
 		<cfset variables.dsn = arguments.settings.dsn>
 		<cfset variables.tableprefix = arguments.settings.tableprefix>
+		<cfset variables.dbUsername = arguments.settings.dbUsername>
+		<cfset variables.dbPassword = arguments.settings.dbPassword>
 		
 		<cfreturn this>
 	</cffunction>
@@ -19,7 +21,7 @@
 		<cfargument name="type" type="string" required="true">
 		<cfargument name="categoryID" type="string" required="false" default="">
 		<cfset var qGetCategories = "">
-		<cfquery name="qGetCategories" datasource="#variables.dsn#">
+		<cfquery name="qGetCategories" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT distinct categoryID, category FROM #variables.tableprefix#categories
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				<cfif compare(ARGUMENTS.categoryID,'')> AND categoryID = 
@@ -37,7 +39,7 @@
 		<cfargument name="category" type="string" required="true">
 		<cfargument name="type" type="string" required="true">
 		<cfset var newID = createUUID()>
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#categories (projectID,categoryID,type,category)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					'#newID#',
@@ -51,7 +53,7 @@
 				hint="Updates a category.">
 		<cfargument name="categoryID" type="string" required="true">
 		<cfargument name="category" type="string" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#categories
 			SET	category = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#" maxlength="80">
 			WHERE categoryID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.categoryID#" maxlength="35">  
@@ -62,7 +64,7 @@
 	<cffunction name="delete" access="public" returnType="boolean" output="false"
 				hint="Deletes a category.">
 		<cfargument name="categoryID" type="string" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#categories
 			WHERE categoryID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.categoryID#" maxlength="35">
 		</cfquery>

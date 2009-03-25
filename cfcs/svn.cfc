@@ -9,6 +9,8 @@
 
 		<cfset variables.dsn = arguments.settings.dsn>
 		<cfset variables.tableprefix = arguments.settings.tableprefix>
+		<cfset variables.dbUsername = arguments.settings.dbUsername>
+		<cfset variables.dbPassword = arguments.settings.dbPassword>
 		
 		<cfreturn this>
 	</cffunction>
@@ -20,7 +22,7 @@
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfset var qLinks = "">
 		
-		<cfquery name="qLinks" datasource="#variables.dsn#">
+		<cfquery name="qLinks" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT s.linkID, s.revision
 				FROM #variables.tableprefix#svn_link s 
 					INNER JOIN #variables.tableprefix#projects p ON s.projectID = p.projectID
@@ -48,7 +50,7 @@
 		<cfargument name="itemID" type="string" required="true">
 		<cfargument name="itemType" type="string" required="true">
 		
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#svn_link (linkID,projectID,revision,itemID,itemType)
 			VALUES (
 				<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.linkID#" maxlength="35">,
@@ -65,7 +67,7 @@
 				hint="Deletes an svn link.">
 		<cfargument name="linkID" type="string" required="true">
 		
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#svn_link
 			WHERE linkID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.linkID#" maxlength="35">
 		</cfquery>

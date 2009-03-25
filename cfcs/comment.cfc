@@ -9,6 +9,8 @@
 
 		<cfset variables.dsn = arguments.settings.dsn>
 		<cfset variables.tableprefix = arguments.settings.tableprefix>
+		<cfset variables.dbUsername = arguments.settings.dbUsername>
+		<cfset variables.dbPassword = arguments.settings.dbPassword>
 		
 		<cfreturn this>
 	</cffunction>
@@ -26,7 +28,7 @@
 			<cfset maxRows = 1>
 		</cfif>
 		
-		<cfquery name="qGetComments" datasource="#variables.dsn#" maxrows="#maxRows#">
+		<cfquery name="qGetComments" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#" maxrows="#maxRows#">
 			SELECT c.commentID,c.itemID,c.commentText,c.stamp,u.userID,u.firstName,u.lastName,u.avatar
 				FROM #variables.tableprefix#comments c LEFT JOIN #variables.tableprefix#users u	ON c.userid = u.userid
 			WHERE c.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
@@ -50,7 +52,7 @@
 		<cfargument name="itemID" type="string" required="true">
 		<cfargument name="userID" type="uuid" required="true">
 		<cfargument name="comment" type="string" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#comments (commentID,projectID,type,itemID,userID,commentText,stamp)
 				VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.commentID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
@@ -68,7 +70,7 @@
 				hint="Add a message comment.">
 		<cfargument name="userID" type="uuid" required="true">
 		<cfargument name="commentID" type="uuid" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#comments
 				WHERE userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
 					AND commentID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.commentID#" maxlength="35">

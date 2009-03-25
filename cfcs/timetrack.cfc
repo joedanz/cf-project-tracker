@@ -9,6 +9,8 @@
 
 		<cfset variables.dsn = arguments.settings.dsn>
 		<cfset variables.tableprefix = arguments.settings.tableprefix>
+		<cfset variables.dbUsername = arguments.settings.dbUsername>
+		<cfset variables.dbPassword = arguments.settings.dbPassword>
 		
 		<cfreturn this>
 	</cffunction>
@@ -24,7 +26,7 @@
 		<cfargument name="projectIDlist" type="string" required="false" default="">
 		<cfset var qGet = "">
 
-		<cfquery name="qGet" datasource="#variables.dsn#">
+		<cfquery name="qGet" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT tt.timetrackID, tt.projectID, tt.userID, tt.dateStamp, tt.hours, tt.description,
 					tt.itemID, tt.itemType,	tt.billed, tt.paid, u.firstName, u.lastName, 
 					t.todolistID, t.task, cr.clientID, cr.rateID, cr.category, cr.rate,
@@ -86,7 +88,7 @@
 		<cfelse>
 			<cfset hoursConverted = arguments.hours>
 		</cfif>
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#timetrack (timetrackID,projectID,userID,dateStamp,hours,description,itemid,itemtype,rateID)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.timetrackID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
@@ -110,7 +112,7 @@
 		<cfargument name="hours" type="string" required="true">
 		<cfargument name="description" type="string" required="true">
 		<cfargument name="rateID" type="string" required="false" default="">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#timetrack 
 				SET projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
@@ -126,7 +128,7 @@
 	<cffunction name="delete" access="public" returnType="boolean" output="false"
 				hint="Deletes a time tracking value.">
 		<cfargument name="timetrackID" type="uuid" required="true">		
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#timetrack 
 				WHERE timetrackID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.timetrackID#" maxlength="35">
 		</cfquery>
@@ -138,7 +140,7 @@
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfargument name="itemID" type="string" required="false" default="">
 		<cfset var qCountTime = "">		
-		<cfquery name="qCountTime" datasource="#variables.dsn#">
+		<cfquery name="qCountTime" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT count(hours) as numLines, sum(hours) as numHours FROM #variables.tableprefix#timetrack 
 				WHERE 0=0
 				<cfif compare(arguments.projectID,'')>
@@ -155,7 +157,7 @@
 				hint="Returns total rate for item.">
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfset var qSumRate = "">		
-		<cfquery name="qSumRate" datasource="#variables.dsn#">
+		<cfquery name="qSumRate" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT sum(t.hours*cr.rate) as sumRate 
 			FROM #variables.tableprefix#timetrack t 
 				LEFT JOIN #variables.tableprefix#client_rates cr ON t.rateID = cr.rateID

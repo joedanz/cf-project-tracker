@@ -6,6 +6,8 @@
 
 		<cfset variables.dsn = arguments.settings.dsn>
 		<cfset variables.tableprefix = arguments.settings.tableprefix>
+		<cfset variables.dbUsername = arguments.settings.dbUsername>
+		<cfset variables.dbPassword = arguments.settings.dbPassword>
 		
 		<cfreturn this>
 	</cffunction>
@@ -15,12 +17,12 @@
 		<cfargument name="app_title" type="string" required="true">
 		<cfargument name="default_style" type="string" required="true">
 		
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #application.settings.tableprefix#settings
 				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.app_title#" maxlength="250">
 					WHERE setting = 'app_title'
 		</cfquery>
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #application.settings.tableprefix#settings
 				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.default_style#">
 					WHERE setting = 'default_style'
@@ -34,12 +36,12 @@
 		<cfargument name="email_subject_prefix" type="string" required="true">
 		<cfargument name="sms_subject_prefix" type="string" required="true">
 		
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #application.settings.tableprefix#settings
 				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email_subject_prefix#" maxlength="250">
 					WHERE setting = 'email_subject_prefix'
 		</cfquery>
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #application.settings.tableprefix#settings
 				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.sms_subject_prefix#" maxlength="250">
 					WHERE setting = 'sms_subject_prefix'
@@ -53,12 +55,12 @@
 		<cfargument name="enable_api" type="string" required="true">
 		<cfargument name="api_key" type="string" required="true">
 		
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #application.settings.tableprefix#settings
 				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.enable_api#" maxlength="1">
 					WHERE setting = 'enable_api'
 		</cfquery>
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #application.settings.tableprefix#settings
 				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.api_key#" maxlength="35">
 					WHERE setting = 'api_key'
@@ -71,7 +73,7 @@
 				hint="Sets application API settings.">
 		<cfargument name="api_key" type="string" required="true">
 		
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #application.settings.tableprefix#settings
 				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.api_key#" maxlength="35">
 					WHERE setting = 'api_key'

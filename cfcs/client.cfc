@@ -9,6 +9,8 @@
 
 		<cfset variables.dsn = arguments.settings.dsn>
 		<cfset variables.tableprefix = arguments.settings.tableprefix>
+		<cfset variables.dbUsername = arguments.settings.dbUsername>
+		<cfset variables.dbPassword = arguments.settings.dbPassword>
 		
 		<cfreturn this>
 	</cffunction>
@@ -19,7 +21,7 @@
 		<cfargument name="activeOnly" type="boolean" required="false" default="false">
 		<cfset var qGet = "">
 
-		<cfquery name="qGet" datasource="#variables.dsn#">
+		<cfquery name="qGet" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT c.clientID, c.name, c.address, c.city, c.locality, c.country, c.postal, c.phone, c.fax, 
 				c.contactName, c.contactPhone, c.contactEmail, c.website, c.notes, c.active, 
 				(select count(*) from #variables.tableprefix#projects p where p.clientID = c.clientID) as numProjects
@@ -52,7 +54,7 @@
 		<cfargument name="website" type="string" required="true">
 		<cfargument name="notes" type="string" required="true">
 		<cfargument name="active" type="numeric" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#clients (clientID, name, address, city, locality, country, postal, 
 				phone, fax,	contactName, contactPhone, contactEmail, website, notes, active )
 			VALUES ('#createUUID()#',
@@ -91,7 +93,7 @@
 		<cfargument name="website" type="string" required="true">
 		<cfargument name="notes" type="string" required="true">
 		<cfargument name="active" type="numeric" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#clients 
 				SET name = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="150">,
 					address = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.address#">,
@@ -117,7 +119,7 @@
 		<cfargument name="clientID" type="string" required="true">
 		<cfset var qGetRates = "">
 
-		<cfquery name="qGetRates" datasource="#variables.dsn#">
+		<cfquery name="qGetRates" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT r.rateID, r.category, r.rate, count(tt.rateID) as numLines
 				FROM #variables.tableprefix#client_rates r 
 					LEFT JOIN #variables.tableprefix#timetrack tt ON r.rateID = tt.rateID
@@ -135,7 +137,7 @@
 		<cfargument name="clientID" type="string" required="true">
 		<cfargument name="category" type="string" required="true">
 		<cfargument name="rate" type="numeric" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#client_rates (rateID, clientID, category, rate )
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.rateID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.clientID#" maxlength="35">,
@@ -148,7 +150,7 @@
 	<cffunction name="deleteRate" access="public" returnType="boolean" output="false"
 				hint="Deletes a client rate.">	
 		<cfargument name="rateID" type="string" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#client_rates 
 			WHERE rateID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.rateID#" maxlength="35">
 		</cfquery>

@@ -9,6 +9,8 @@
 
 		<cfset variables.dsn = arguments.settings.dsn>
 		<cfset variables.tableprefix = arguments.settings.tableprefix>
+		<cfset variables.dbUsername = arguments.settings.dbUsername>
+		<cfset variables.dbPassword = arguments.settings.dbPassword>
 		
 		<cfreturn this>
 	</cffunction>
@@ -19,7 +21,7 @@
 		<cfargument name="activeOnly" type="boolean" required="false" default="false">
 		<cfset var qGet = "">
 
-		<cfquery name="qGet" datasource="#variables.dsn#">
+		<cfquery name="qGet" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT carrierID, carrier, countryCode, country, prefix, suffix, active 
 				FROM #variables.tableprefix#carriers
 				WHERE 0 = 0
@@ -42,7 +44,7 @@
 		<cfargument name="prefix" type="string" required="true">
 		<cfargument name="suffix" type="string" required="true">
 		<cfargument name="active" type="numeric" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#carriers (carrierID,carrier,countryCode,country,prefix,suffix,active)
 			VALUES ('#createUUID()#',
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.carrier#" maxlength="20">,
@@ -64,7 +66,7 @@
 		<cfargument name="prefix" type="string" required="true">
 		<cfargument name="suffix" type="string" required="true">
 		<cfargument name="active" type="numeric" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#carriers 
 				SET carrier = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.carrier#" maxlength="20">,
 					countryCode = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.countryCode#" maxlength="2">,

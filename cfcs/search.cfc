@@ -9,6 +9,8 @@
 
 		<cfset variables.dsn = arguments.settings.dsn>
 		<cfset variables.tableprefix = arguments.settings.tableprefix>
+		<cfset variables.dbUsername = arguments.settings.dbUsername>
+		<cfset variables.dbPassword = arguments.settings.dbPassword>
 		
 		<cfreturn this>
 	</cffunction>
@@ -19,7 +21,7 @@
 		<cfargument name="admin" type="boolean" required="true">
 		<cfset var qComments = "">
 		
-		<cfquery name="qComments" datasource="#variables.dsn#">
+		<cfquery name="qComments" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT c.commentID, c.itemID, c.commentText, c.stamp, m.messageID, m.title, i.issueID, i.issue,
 				u.userID, u.firstName, u.lastName, u.avatar, p.projectID, p.name as projName
 				FROM #variables.tableprefix#comments c 
@@ -44,7 +46,7 @@
 		<cfset var datesOnly = arrayNew(1)>
 	    <cfset var leftChar = arrayNew(1)>
 
-		<cfquery name="qFiles" datasource="#variables.dsn#">
+		<cfquery name="qFiles" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT f.fileID, f.title, f.categoryID, f.description, f.filename, f.serverfilename, f.filetype,
 				f.filesize,f.uploaded,f.uploadedBy,u.firstName, u.lastName, fc.category, p.projectID, 
 				p.name as projName
@@ -76,7 +78,7 @@
 		<cfargument name="searchText" type="string" required="true">
 		<cfargument name="admin" type="boolean" required="true">
 		<cfset var qIssues = "">
-		<cfquery name="qIssues" datasource="#variables.dsn#">
+		<cfquery name="qIssues" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT issueID, i.projectID, i.shortID, i.issue, i.detail, i.type, i.severity, i.status, 
 				i.created, i.createdBy,	i.assignedTo, i.milestoneID, i.relevantURL, i.updated, i.updatedBy, 
 				i.resolution, i.resolutionDesc, p.projectID, p.name as projName, 
@@ -103,7 +105,7 @@
 		<cfargument name="searchText" type="string" required="true">
 		<cfargument name="admin" type="boolean" required="true">
 		<cfset var qMessages = "">
-		<cfquery name="qMessages" datasource="#variables.dsn#">
+		<cfquery name="qMessages" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT u.userID,u.firstName,u.lastName,u.avatar,m.messageID,m.categoryID,m.milestoneID,m.title,m.message,
 					m.allowcomments,m.stamp,ms.name,mc.category, p.projectID, p.name as projName,
 					(SELECT count(commentID) FROM #variables.tableprefix#comments c where m.messageid = c.itemid and type = 'msg') as commentcount,
@@ -128,7 +130,7 @@
 		<cfargument name="searchText" type="string" required="true">
 		<cfargument name="admin" type="boolean" required="true">
 		<cfset var qMilestones = "">
-		<cfquery name="qMilestones" datasource="#variables.dsn#">
+		<cfquery name="qMilestones" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT milestoneid, m.projectID, m.name, m.description, dueDate, completed,
 				m.forid, m.userid, u.firstName, u.lastName, p.projectID, p.name as projName
 			FROM #variables.tableprefix#milestones m
@@ -148,7 +150,7 @@
 		<cfargument name="searchText" type="string" required="true">
 		<cfargument name="admin" type="boolean" required="true">
 		<cfset var qProjects = "">
-		<cfquery name="qProjects" datasource="#variables.dsn#">
+		<cfquery name="qProjects" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT p.projectID, p.name, p.description
 			FROM #variables.tableprefix#projects p 
 				INNER JOIN #variables.tableprefix#project_users pu ON p.projectID = pu.projectID
@@ -169,7 +171,7 @@
 		<cfargument name="searchText" type="string" required="true">
 		<cfargument name="admin" type="boolean" required="true">
 		<cfset var qScreenshots = "">
-		<cfquery name="qScreenshots" datasource="#variables.dsn#">
+		<cfquery name="qScreenshots" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT s.fileID, s.issueID, s.title, s.description, s.filename, s.serverfilename, s.filetype,
 				s.filesize,s.uploaded,s.uploadedBy,u.firstName, u.lastName, p.projectID, p.name as projName
 			FROM #variables.tableprefix#screenshots s
@@ -191,7 +193,7 @@
 		<cfargument name="searchText" type="string" required="true">
 		<cfargument name="admin" type="boolean" required="true">
 		<cfset var qTodoLists = "">
-		<cfquery name="qTodoLists" datasource="#variables.dsn#">
+		<cfquery name="qTodoLists" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT t.todoID, t.todolistID, t.projectID, t.task, t.userID, t.rank, t.due, t.completed, 
 					tl.title, tl.description, u.firstName, u.lastName, p.projectID, p.name as projName
 				FROM #variables.tableprefix#todos t 

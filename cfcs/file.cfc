@@ -9,6 +9,8 @@
 
 		<cfset variables.dsn = arguments.settings.dsn>
 		<cfset variables.tableprefix = arguments.settings.tableprefix>
+		<cfset variables.dbUsername = arguments.settings.dbUsername>
+		<cfset variables.dbPassword = arguments.settings.dbPassword>
 		
 		<cfreturn this>
 	</cffunction>
@@ -24,7 +26,7 @@
 		<cfset var datesOnly = arrayNew(1)>
 	    <cfset var leftChar = arrayNew(1)>
 
-		<cfquery name="qGetFiles" datasource="#variables.dsn#">
+		<cfquery name="qGetFiles" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT f.fileID, f.title, f.categoryID, f.description, f.filename, f.serverfilename, f.filetype,
 				f.filesize,f.uploaded,f.uploadedBy,u.firstName, u.lastName, fc.category
 			FROM #variables.tableprefix#files f 
@@ -77,7 +79,7 @@
 			<cfset catID = application.category.add(arguments.projectID,arguments.category,'file')>
 		</cfif>
 		<!--- insert record --->		
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#files (fileID, projectID, title, categoryID, description, filename, serverfilename, filetype, filesize, uploaded, uploadedBy)
 				VALUES(<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">, 
@@ -109,7 +111,7 @@
 			<cfset catID = application.category.add(arguments.projectID,arguments.category,'file')>
 		</cfif>
 		<!--- update record --->
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#files SET
 				title = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="200">, 
 				categoryid = <cfqueryparam cfsqltype="cf_sql_char" value="#catID#" maxlength="35">, 
@@ -139,13 +141,13 @@
 		</cfif>
 		
 		<!--- delete database record --->
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#files 
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 					AND fileID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">
 					AND uploadedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.uploadedBy#" maxlength="35">
 		</cfquery>
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#file_attach 
 				WHERE fileID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">
 		</cfquery>				
@@ -157,7 +159,7 @@
 		<cfargument name="itemID" type="uuid" required="true">
 		<cfargument name="type" type="string" required="false">
 		<cfset var qGetFileList = "">
-		<cfquery name="qGetFileList" datasource="#variables.dsn#">
+		<cfquery name="qGetFileList" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT f.fileID,f.title,f.filetype,f.filename,f.serverfilename,f.filesize,f.uploaded,c.category
 			FROM #variables.tableprefix#file_attach fa
 				JOIN #variables.tableprefix#files f ON fa.fileID = f.fileID
@@ -174,7 +176,7 @@
 		<cfargument name="itemID" type="uuid" required="true">
 		<cfargument name="fileID" type="uuid" required="true">
 		<cfargument name="type" type="string" required="true">		
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#file_attach (itemID,fileID,type)
 				VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.itemID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">,
@@ -187,7 +189,7 @@
 				hint="Remove file attachment from message or issue.">
 		<cfargument name="itemID" type="uuid" required="true">
 		<cfargument name="type" type="string" required="true">		
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#file_attach
 			WHERE itemID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.itemID#" maxlength="35">
 				AND type = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.type#" maxlength="6">
@@ -199,7 +201,7 @@
 				hint="Returns files associated with a message.">
 		<cfargument name="fileID" type="uuid" required="true">
 		<cfset var qCheckFile = "">
-		<cfquery name="qCheckFile" datasource="#variables.dsn#">
+		<cfquery name="qCheckFile" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT type
 			FROM #variables.tableprefix#file_attach
 			WHERE fileID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">
@@ -211,7 +213,7 @@
 				hint="Returns file categories with issue count.">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfset var qGetCategories = "">
-		<cfquery name="qGetCategories" datasource="#variables.dsn#">
+		<cfquery name="qGetCategories" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT c.categoryID, c.category, count(f.fileID) as numFiles
 			FROM #variables.tableprefix#categories c left join #variables.tableprefix#files f
 				ON c.categoryID = f.categoryID

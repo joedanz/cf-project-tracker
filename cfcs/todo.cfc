@@ -9,6 +9,8 @@
 
 		<cfset variables.dsn = arguments.settings.dsn>
 		<cfset variables.tableprefix = arguments.settings.tableprefix>
+		<cfset variables.dbUsername = arguments.settings.dbUsername>
+		<cfset variables.dbPassword = arguments.settings.dbPassword>
 		
 		<cfreturn this>
 	</cffunction>
@@ -24,7 +26,7 @@
 		<cfargument name="todoID" type="string" required="false" default="">
 		<cfargument name="fullJoin" type="boolean" required="false" default="false">
 		<cfset var qGetTodos = "">
-		<cfquery name="qGetTodos" datasource="#variables.dsn#">
+		<cfquery name="qGetTodos" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT t.todoID,t.todolistID,t.projectID,t.task,t.userID,t.rank,t.due,t.completed,
 					<cfif arguments.fullJoin>
 						tl.title, p.projectID, p.name,
@@ -74,7 +76,7 @@
 		<cfargument name="task" type="string" required="true">
 		<cfargument name="userID" type="uuid" required="true">
 		<cfargument name="due" type="string" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#todos (todoID,todolistID,projectID,task,userid,rank,added,due)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todoID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">,
@@ -99,7 +101,7 @@
 		<cfargument name="task" type="string" required="true">
 		<cfargument name="userID" type="uuid" required="true">
 		<cfargument name="due" type="string" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#todos
 				SET task = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.task#" maxlength="300">,
 					userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
@@ -121,7 +123,7 @@
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="todolistID" type="uuid" required="true">
 		<cfargument name="todoID" type="string" required="false" default="">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#todos
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				AND todolistID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">
@@ -135,7 +137,7 @@
 		<cfargument name="todolistID" type="uuid" required="true">
 		<cfargument name="todoID" type="uuid" required="true">
 		<cfargument name="rank" type="numeric" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#todos
 			SET rank = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.rank#">
 			WHERE todoID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todoID#" maxlength="35">
@@ -149,7 +151,7 @@
 		<cfargument name="todolistID" type="uuid" required="true">
 		<cfargument name="todoID" type="uuid" required="true">
 		<cfargument name="isCompleted" type="boolean" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#todos
 			SET completed = <cfif arguments.isCompleted>#Now()#<cfelse>NULL</cfif>
 			WHERE todoID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todoID#" maxlength="35">

@@ -9,6 +9,8 @@
 
 		<cfset variables.dsn = arguments.settings.dsn>
 		<cfset variables.tableprefix = arguments.settings.tableprefix>
+		<cfset variables.dbUsername = arguments.settings.dbUsername>
+		<cfset variables.dbPassword = arguments.settings.dbPassword>
 
 		<cfreturn this>
 	</cffunction>
@@ -18,7 +20,7 @@
 		<cfargument name="userID" type="string" required="false" default="">	
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfset var qRecords = "">
-		<cfquery name="qRecords" datasource="#variables.dsn#">
+		<cfquery name="qRecords" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT admin,files,issues,msgs,mstones,todos,timetrack,billing,svn
 			FROM #variables.tableprefix#project_users
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
@@ -50,7 +52,7 @@
 			<cfset arguments.billing = 2>
 			<cfset arguments.svn = 1>
 		</cfif>
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#project_users (projectID,userID,admin,files,issues,msgs,mstones,todos,timetrack,billing,svn)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
@@ -71,7 +73,7 @@
 				hint="Removes user role.">
 		<cfargument name="projectID" type="string" required="false" default="">		
 		<cfargument name="userID" type="uuid" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#project_users
 			WHERE 0=0
 				<cfif compare(arguments.projectID,'')>

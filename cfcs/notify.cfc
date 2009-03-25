@@ -9,7 +9,9 @@
 
 		<cfset variables.dsn = arguments.settings.dsn>
 		<cfset variables.tableprefix = arguments.settings.tableprefix>
-		
+		<cfset variables.dbUsername = arguments.settings.dbUsername>
+		<cfset variables.dbPassword = arguments.settings.dbPassword>
+				
 		<cfreturn this>
 	</cffunction>
 
@@ -600,7 +602,7 @@ List: #qTodolist.title#
 		<cfargument name="email_todos" type="numeric" required="true">
 		<cfargument name="mobile_todos" type="numeric" required="true">
 		
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#user_notify (userID, projectID, email_files, mobile_files,
 				email_issues, mobile_issues, email_msgs, mobile_msgs, email_mstones, mobile_mstones, 
 				email_todos, mobile_todos)
@@ -634,7 +636,7 @@ List: #qTodolist.title#
 		<cfargument name="mobile_mstones" type="numeric" required="true">
 		<cfargument name="email_todos" type="numeric" required="true">
 		<cfargument name="mobile_todos" type="numeric" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#user_notify SET
 				email_files = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_files#">, 
 				mobile_files = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_files#">,
@@ -655,7 +657,7 @@ List: #qTodolist.title#
 				hint="Removes user role.">
 		<cfargument name="projectID" type="string" required="false" default="">		
 		<cfargument name="userID" type="uuid" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#user_notify
 			WHERE 0=0
 				<cfif compare(arguments.projectID,'')>

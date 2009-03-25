@@ -9,7 +9,9 @@
 
 		<cfset variables.dsn = arguments.settings.dsn>
 		<cfset variables.tableprefix = arguments.settings.tableprefix>
-		
+		<cfset variables.dbUsername = arguments.settings.dbUsername>
+		<cfset variables.dbPassword = arguments.settings.dbPassword>
+
 		<cfreturn this>
 	</cffunction>
 	
@@ -20,7 +22,7 @@
 		<cfargument name="itemWhich" type="string" required="true">
 		<cfargument name="itemValue" type="boolean" required="true">
 
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix##arguments.itemType#<cfif not compareNoCase(arguments.itemType,'milestone')>s</cfif>
 			SET #itemWhich# = 
 				<cfswitch expression="#arguments.itemValue#">

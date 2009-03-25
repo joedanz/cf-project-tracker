@@ -9,7 +9,9 @@
 
 		<cfset variables.dsn = arguments.settings.dsn>
 		<cfset variables.tableprefix = arguments.settings.tableprefix>
-		
+		<cfset variables.dbUsername = arguments.settings.dbUsername>
+		<cfset variables.dbPassword = arguments.settings.dbPassword>
+				
 		<cfreturn this>
 	</cffunction>
 
@@ -21,7 +23,7 @@
 		<cfargument name="type" type="string" required="false" default="">
 		<cfargument name="id" type="string" required="false" default="">
 		<cfset var qGetActivity = "">
-		<cfquery name="qGetActivity" datasource="#variables.dsn#">
+		<cfquery name="qGetActivity" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT a.activityID,a.projectID,a.type,a.id,a.name,a.activity,a.stamp,
 				u.userid,u.firstName,u.lastName,p.projectID,p.name as projectName, 'red' as thiscolor
 				<cfif compare(arguments.projectIDlist,'')>
@@ -69,7 +71,7 @@
 		
 		<cfset var result = structNew()>
 		<cfset var qGetActivity = "">
-		<cfquery name="qGetActivity" datasource="#arguments.dsn#">
+		<cfquery name="qGetActivity" datasource="#arguments.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT a.activityID,a.projectID,a.type,a.id,a.name,a.activity,a.activity + ' by' as activityText,a.stamp,
 				u.userid,u.firstName + ' ' + u.lastName as fullname,p.projectID,p.name as projectName
 			FROM #arguments.tableprefix#activity a 
@@ -100,7 +102,7 @@
 		<cfargument name="id" type="string" required="true">
 		<cfargument name="name" type="string" required="true">
 		<cfargument name="activity" type="string" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#activity (activityID,projectID,userid,type,id,name,activity,stamp)
 			VALUES(<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.activityID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
@@ -119,7 +121,7 @@
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="type" type="string" required="true">
 		<cfargument name="id" type="string" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#activity 
 				WHERE 0=0
 					AND projectID = 

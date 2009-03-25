@@ -9,6 +9,8 @@
 
 		<cfset variables.dsn = arguments.settings.dsn>
 		<cfset variables.tableprefix = arguments.settings.tableprefix>
+		<cfset variables.dbUsername = arguments.settings.dbUsername>
+		<cfset variables.dbPassword = arguments.settings.dbPassword>
 		
 		<cfreturn this>
 	</cffunction>
@@ -26,7 +28,7 @@
 		<cfargument name="componentID" type="string" required="false" default="">
 		<cfargument name="versionID" type="string" required="false" default="">
 		<cfset var qRecords = "">
-		<cfquery name="qRecords" datasource="#variables.dsn#">
+		<cfquery name="qRecords" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT issueID, i.projectID, i.shortID, i.issue, i.detail, i.type, i.severity, i.status, 
 				i.created, i.createdBy,	i.assignedTo, i.milestoneID, i.relevantURL, i.updated, i.updatedBy, 
 				i.resolution, i.resolutionDesc, i.componentID, i.versionID, i.dueDate, 
@@ -106,11 +108,11 @@
 			<cfset application.project.addProjectItem(arguments.projectID,arguments.versionID,'version',newVersionID)>
 			<cfset arguments.versionID = newVersionID>
 		</cfif>
-		<CFQUERY NAME="qCountTix" DATASOURCE="#variables.dsn#">
+		<cfquery name="qCountTix" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT 	count(*) as numTix FROM #variables.tableprefix#issues 
 			WHERE 	projectID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.projectID#" maxlength="35">
-		</CFQUERY>
-		<cfquery datasource="#variables.dsn#">
+		</cfquery>
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#issues (issueID, projectID, shortID, issue, detail, type, severity, componentID, versionID, dueDate, status, assignedTo, milestoneID, relevantURL, created, createdBy)
 				VALUES(<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">, 
@@ -166,7 +168,7 @@
 			</cfloop>
 		</cfif>
 		
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#issues SET
 				projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">, 
 				issue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.issue#" maxlength="120">, 
@@ -197,7 +199,7 @@
 		<cfargument name="issueID" type="string" required="true">
 		<cfargument name="projectID" type="string" required="true">
 		<cfargument name="userID" type="string" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#issues 
 			SET status = 'Accepted',
 				assignedTo = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">,
@@ -213,7 +215,7 @@
 		<cfargument name="issueID" type="string" required="true">
 		<cfargument name="projectID" type="string" required="true">
 		<cfargument name="userID" type="string" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#issues 
 			SET status = 'New', assignedTo = '', updated = #CreateODBCDateTime(Now())#, 
 				updatedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
@@ -230,7 +232,7 @@
 		<cfargument name="closealso" type="boolean" required="true">
 		<cfargument name="resolution" type="string" required="true">
 		<cfargument name="resolutionDesc" type="string" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#issues 
 			SET status = 'Resolved',
 				resolution = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.resolution#" maxlength="12">,
@@ -247,7 +249,7 @@
 		<cfargument name="issueID" type="string" required="true">
 		<cfargument name="projectID" type="string" required="true">
 		<cfargument name="userID" type="string" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#issues 
 				SET	status = 'Closed', updated = #CreateODBCDateTime(Now())#, 
 				updatedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
@@ -261,7 +263,7 @@
 		<cfargument name="issueID" type="string" required="true">
 		<cfargument name="projectID" type="string" required="true">
 		<cfargument name="userID" type="string" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#issues 
 				SET	status = 'Accepted', updated = #CreateODBCDateTime(Now())#, 
 				updatedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">

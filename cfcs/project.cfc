@@ -9,6 +9,8 @@
 
 		<cfset variables.dsn = arguments.settings.dsn>
 		<cfset variables.tableprefix = arguments.settings.tableprefix>
+		<cfset variables.dbUsername = arguments.settings.dbUsername>
+		<cfset variables.dbPassword = arguments.settings.dbPassword>
 		
 		<cfreturn this>
 	</cffunction>
@@ -18,7 +20,7 @@
 		<cfargument name="userID" type="string" required="false" default="">
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfset var qRecords = "">
-		<cfquery name="qRecords" datasource="#variables.dsn#">
+		<cfquery name="qRecords" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT p.projectID, p.ownerID, p.clientID, p.name, p.description, p.display, p.added, 
 				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass,
 				p.tab_billing, p.tab_files, p.tab_issues, p.tab_msgs, p.tab_mstones,p.tab_todos, p.tab_time, 
@@ -53,7 +55,7 @@
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfargument name="allowReg" type="boolean" required="false" default="false">
 		<cfset var qRecords = "">
-		<cfquery name="qRecords" datasource="#variables.dsn#">
+		<cfquery name="qRecords" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT p.projectID, p.ownerID, p.clientID, p.name, p.description, p.display, p.added, 
 				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, p.allow_reg, 
 				p.reg_active, p.reg_files, p.reg_issues, p.reg_msgs, p.reg_mstones, p.reg_todos, 
@@ -81,7 +83,7 @@
 		<cfargument name="userIDlist" type="string" required="false" default="">
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfset var qRecords = "">
-		<cfquery name="qRecords" datasource="#variables.dsn#">
+		<cfquery name="qRecords" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT distinct p.projectID, p.name, un.email_files, un.mobile_files, un.email_issues, un.mobile_issues, 
 				un.email_msgs, un.mobile_msgs, un.email_mstones, un.mobile_mstones, un.email_todos, un.mobile_todos,
 				u.userid, u.email, u.mobile, c.prefix, c.suffix 
@@ -137,7 +139,7 @@
 		<cfargument name="issue_svn_link" type="numeric" required="true">
 		<cfargument name="issue_timetrack" type="numeric" required="true">
 		<cfargument name="addedBy" type="string" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#projects (projectID,ownerID,name,description,display,added,addedBy,clientID,status,ticketPrefix,svnurl,svnuser,svnpass,allow_reg,reg_active,reg_files,reg_issues,reg_msgs,reg_mstones,reg_todos,reg_time,reg_svn,tab_files,tab_issues,tab_msgs,tab_mstones,tab_todos,tab_time,tab_billing,tab_svn,issue_svn_link,issue_timetrack)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.ownerID#" maxlength="35">,
@@ -206,7 +208,7 @@
 		<cfargument name="tab_svn" type="numeric" required="true">
 		<cfargument name="issue_svn_link" type="numeric" required="true">
 		<cfargument name="issue_timetrack" type="numeric" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#projects 
 				SET name = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
 					ownerID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.ownerID#" maxlength="35">,
@@ -254,51 +256,51 @@
 		
 		<!--- delete database records --->
 		<cftransaction>
-			<cfquery datasource="#variables.dsn#">
+			<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 				DELETE FROM #variables.tableprefix#activity 
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
-			<cfquery datasource="#variables.dsn#">
+			<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 				DELETE FROM #variables.tableprefix#files 
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
-			<cfquery datasource="#variables.dsn#">
+			<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 				DELETE FROM #variables.tableprefix#issues 
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
-			<cfquery datasource="#variables.dsn#">
+			<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 				DELETE FROM #variables.tableprefix#messages 
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
-			<cfquery datasource="#variables.dsn#">
+			<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 				DELETE FROM #variables.tableprefix#milestones 
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
-			<cfquery datasource="#variables.dsn#">
+			<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 				DELETE FROM #variables.tableprefix#projects 
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
-			<cfquery datasource="#variables.dsn#">
+			<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 				DELETE FROM #variables.tableprefix#project_components 
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
-			<cfquery datasource="#variables.dsn#">
+			<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 				DELETE FROM #variables.tableprefix#project_users 
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
-			<cfquery datasource="#variables.dsn#">
+			<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 				DELETE FROM #variables.tableprefix#project_versions 
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
-			<cfquery datasource="#variables.dsn#">
+			<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 				DELETE FROM #variables.tableprefix#svn_link 
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
-			<cfquery datasource="#variables.dsn#">
+			<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 				DELETE FROM #variables.tableprefix#todolists 
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
-			<cfquery datasource="#variables.dsn#">
+			<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 				DELETE FROM #variables.tableprefix#todos 
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 			</cfquery>
@@ -315,7 +317,7 @@
 		<cfargument name="useList" type="boolean" required="false" default="false">
 		
 		<cfset var qRecords = "">
-		<cfquery name="qRecords" datasource="#variables.dsn#">
+		<cfquery name="qRecords" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT distinct u.userID, u.firstName, u.lastName, u.username, u.email, u.phone, u.mobile,
 				u.lastLogin, u.avatar, u.admin, c.prefix, c.suffix, un.email_files, un.mobile_files, 
 				un.email_issues,un.mobile_issues, un.email_msgs, un.mobile_msgs, un.email_mstones, 
@@ -346,7 +348,7 @@
 				hint="Returns project users.">				
 		<cfargument name="projectID" type="string" required="true">
 		<cfset var qRecords = "">
-		<cfquery name="qRecords" datasource="#variables.dsn#">
+		<cfquery name="qRecords" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT userID, firstName, lastName
 			FROM #variables.tableprefix#users 
 			WHERE active = 1
@@ -364,7 +366,7 @@
 		<cfargument name="projectID" type="string" required="true">
 		<cfargument name="userID" type="string" required="true">
 		
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#projects
 			SET ownerID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
 			WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
@@ -385,7 +387,7 @@
 		<cfargument name="billing" type="numeric" required="true">
 		<cfargument name="svn" type="string" required="true">
 		
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#project_users
 			SET admin = <cfif isNumeric(arguments.admin)>1<cfelse>0</cfif>,
 				files = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.files#" maxlength="1">,
@@ -405,7 +407,7 @@
 				HINT="Returns project component records.">
 		<cfargument name="projectID" type="string" required="true">
 		<cfset var qRecords = "">
-		<cfquery name="qRecords" datasource="#variables.dsn#">
+		<cfquery name="qRecords" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT c.componentID, c.component, count(i.issueID) as numIssues
 			FROM #variables.tableprefix#project_components c LEFT JOIN #variables.tableprefix#issues i
 				ON c.componentID = i.componentID
@@ -422,7 +424,7 @@
 		<cfargument name="item" type="string" required="true">
 		<cfargument name="type" type="string" required="true">
 		<cfargument name="newID" type="string" required="false" default="#createUUID()#">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#project_#arguments.type#s (projectID,#arguments.type#ID,#arguments.type#)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					'#arguments.newID#',
@@ -436,7 +438,7 @@
 		<cfargument name="itemID" type="string" required="true">
 		<cfargument name="item" type="string" required="true">
 		<cfargument name="type" type="string" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#project_#arguments.type#s
 			SET	#arguments.type# = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.item#" maxlength="50">
 			WHERE #arguments.type#ID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.itemID#" maxlength="35">  
@@ -448,7 +450,7 @@
 				hint="Deletes a project item.">
 		<cfargument name="itemID" type="string" required="true">
 		<cfargument name="type" type="string" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#project_#arguments.type#s
 			WHERE #arguments.type#ID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.itemID#" maxlength="35">
 		</cfquery>
@@ -459,7 +461,7 @@
 				HINT="Returns project version records.">
 		<cfargument name="projectID" type="string" required="true">
 		<cfset var qRecords = "">
-		<cfquery name="qRecords" datasource="#variables.dsn#">
+		<cfquery name="qRecords" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT v.versionID, v.version, count(i.issueID) as numIssues
 			FROM #variables.tableprefix#project_versions v LEFT JOIN #variables.tableprefix#issues i
 				ON v.versionID = i.versionID

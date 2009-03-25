@@ -9,6 +9,8 @@
 
 		<cfset variables.dsn = arguments.settings.dsn>
 		<cfset variables.tableprefix = arguments.settings.tableprefix>
+		<cfset variables.dbUsername = arguments.settings.dbUsername>
+		<cfset variables.dbPassword = arguments.settings.dbPassword>
 		
 		<cfreturn this>
 	</cffunction>
@@ -23,7 +25,7 @@
 		<cfargument name="forID" type="string" required="false" default="">
 		<cfargument name="withRate" type="boolean" required="false" default="false">
 		<cfset var qGetMilestones = "">
-		<cfquery name="qGetMilestones" datasource="#variables.dsn#">
+		<cfquery name="qGetMilestones" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT milestoneid, m.projectID, m.name, m.description, m.dueDate, m.completed,
 				m.forid, m.userid, m.rate, m.billed, m.paid, u.firstName, u.lastName, p.name as projName
 				FROM #variables.tableprefix#milestones m
@@ -81,7 +83,7 @@
 		<cfargument name="rate" type="string" required="true">
 		<cfargument name="completed" type="boolean" required="true">
 		<cfargument name="userID" type="uuid" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#milestones (milestoneID,projectID,userID,forID,name,description,dueDate,rate,completed)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.milestoneID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
@@ -107,7 +109,7 @@
 		<cfargument name="rate" type="string" required="true">
 		<cfargument name="completed" type="boolean" required="true">
 		<cfset var original = application.milestone.get(arguments.projectID,arguments.milestoneID)>		
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#milestones 
 				SET name = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
 					description = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">,
@@ -125,7 +127,7 @@
 				hint="Deletes a milestone.">
 		<cfargument name="milestoneID" type="uuid" required="true">
 		<cfargument name="projectID" type="uuid" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#milestones
 			WHERE milestoneID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.milestoneID#" maxlength="35">
 				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
@@ -138,7 +140,7 @@
 				hint="Marks a milestone as completed.">
 		<cfargument name="milestoneID" type="uuid" required="true">
 		<cfargument name="projectID" type="uuid" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#milestones SET completed = #Now()#
 			WHERE milestoneID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.milestoneID#" maxlength="35">
 				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
@@ -150,7 +152,7 @@
 				hint="Marks a milestone as active again.">
 		<cfargument name="milestoneID" type="uuid" required="true">
 		<cfargument name="projectID" type="uuid" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#milestones SET completed = NULL
 			WHERE milestoneID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.milestoneID#" maxlength="35">
 				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">

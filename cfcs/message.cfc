@@ -9,6 +9,8 @@
 
 		<cfset variables.dsn = arguments.settings.dsn>
 		<cfset variables.tableprefix = arguments.settings.tableprefix>
+		<cfset variables.dbUsername = arguments.settings.dbUsername>
+		<cfset variables.dbPassword = arguments.settings.dbPassword>
 		
 		<cfreturn this>
 	</cffunction>
@@ -22,7 +24,7 @@
 		<cfargument name="m" type="numeric" required="false" default="0">
 		<cfargument name="y" type="numeric" required="false" default="0">
 		<cfset var qGetMessages = "">
-		<cfquery name="qGetMessages" datasource="#variables.dsn#">
+		<cfquery name="qGetMessages" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT u.userID,u.firstName,u.lastName,u.avatar,m.messageID,m.categoryID,m.milestoneID,m.title,m.message,
 					m.allowcomments,m.stamp,ms.name,mc.category,
 					(SELECT count(commentID) FROM #variables.tableprefix#comments c where m.messageid = c.itemid and type = 'msg') as commentcount,
@@ -50,7 +52,7 @@
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="messageID" type="string" required="false" default="">
 		<cfset var qGetNotifyList = "">
-		<cfquery name="qGetNotifyList" datasource="#variables.dsn#">
+		<cfquery name="qGetNotifyList" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT u.userID, u.firstName, u.lastName, u.email, u.mobile,
 				un.email_files, un.mobile_files, un.email_issues, un.mobile_issues, un.email_msgs,
 				un.mobile_msgs, un.email_mstones, un.mobile_mstones, un.email_todos, un.mobile_todos,
@@ -69,7 +71,7 @@
 				hint="Returns message milestones.">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfset var qGetMilestones = "">
-		<cfquery name="qGetMilestones" datasource="#variables.dsn#">
+		<cfquery name="qGetMilestones" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT distinct ms.milestoneid, ms.name 
 			FROM #variables.tableprefix#messages m LEFT JOIN #variables.tableprefix#milestones ms
 					ON m.milestoneid = ms.milestoneid
@@ -83,7 +85,7 @@
 				hint="Returns message dates.">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfset var qGetDates = "">
-		<cfquery name="qGetDates" datasource="#variables.dsn#">
+		<cfquery name="qGetDates" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT distinct month(stamp) as m, year(stamp) as y
 			FROM #variables.tableprefix#messages
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
@@ -114,7 +116,7 @@
 		</cfif>
 		
 		<!--- insert record --->
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#messages (messageID,projectID,title,message,categoryID,milestoneID,allowcomments,userID,stamp)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
@@ -165,7 +167,7 @@
 		<cfset var mailMessage = "">
 		
 		<!--- update record --->
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#messages 
 				SET title = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.title#" maxlength="120">,
 					message = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.message#">,
@@ -201,22 +203,22 @@
 				hint="Deletes a message.">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="messageID" type="uuid" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#messages
 			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
 				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#comments
 			WHERE itemID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
 				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#message_notify
 			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
 				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#file_attach
 			WHERE itemID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
 				AND type = 'msg'
@@ -230,7 +232,7 @@
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="messageID" type="uuid" required="true">
 		<cfargument name="userID" type="uuid" required="true">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#message_notify (messageID,projectID,userID)
 				VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
@@ -244,7 +246,7 @@
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="messageID" type="uuid" required="true">
 		<cfset var qGetNotify = "">
-		<cfquery name="qGetNotify" datasource="#variables.dsn#">
+		<cfquery name="qGetNotify" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT u.userID,u.email FROM #variables.tableprefix#message_notify mn
 				LEFT JOIN #variables.tableprefix#users u ON mn.userID = u.userID
 			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
@@ -258,7 +260,7 @@
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="messageID" type="uuid" required="true">
 		<cfargument name="userID" type="string" required="false" default="">
-		<cfquery datasource="#variables.dsn#">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#message_notify
 			WHERE messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
 				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
@@ -273,7 +275,7 @@
 				hint="Returns message categories with msg count.">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfset var qGetCategories = "">
-		<cfquery name="qGetCategories" datasource="#variables.dsn#">
+		<cfquery name="qGetCategories" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT c.categoryID, c.category, count(m.messageID) as numMsgs
 			FROM #variables.tableprefix#categories c LEFT JOIN #variables.tableprefix#messages m
 				ON c.categoryID = m.categoryID
