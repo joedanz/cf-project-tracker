@@ -49,10 +49,10 @@
 	<cfset whichTab = 5>
 <cfelseif StructKeyExists(url,"rmvimg")>
 	<cftry>
-	<cffile action="delete" file="#ExpandPath('./images/avatars')#/#session.user.userid#_72.jpg">
-	<cffile action="delete" file="#ExpandPath('./images/avatars')#/#session.user.userid#_48.jpg">
-	<cffile action="delete" file="#ExpandPath('./images/avatars')#/#session.user.userid#_24.jpg">
-	<cffile action="delete" file="#ExpandPath('./images/avatars')#/#session.user.userid#_16.jpg">
+	<cffile action="delete" file="#ExpandPath(application.settings.userFilesPath & 'avatars')#/#session.user.userid#_72.jpg">
+	<cffile action="delete" file="#ExpandPath(application.settings.userFilesPath & 'avatars')#/#session.user.userid#_48.jpg">
+	<cffile action="delete" file="#ExpandPath(application.settings.userFilesPath & 'avatars')#/#session.user.userid#_24.jpg">
+	<cffile action="delete" file="#ExpandPath(application.settings.userFilesPath & 'avatars')#/#session.user.userid#_16.jpg">
 	<cfcatch></cfcatch>
 	</cftry>
 	<cfset application.user.setImage(session.user.userID,0)>
@@ -296,7 +296,7 @@
 							<p>
 							<label for="img">&nbsp;</label>
 							<cfif user.avatar eq 1>
-							<img src="./images/avatars/#session.user.userid#_72.jpg" height="72" width="72" border="0" alt="#user.firstName# #user.lastName#" style="border:1px solid ##666;" />
+							<img src="#application.settings.userFilesMapping#/avatars/#session.user.userid#_72.jpg" height="72" width="72" border="0" alt="#user.firstName# #user.lastName#" style="border:1px solid ##666;" />
 							<a href="#cgi.script_name#?rmvimg">remove</a>
 							<cfelse>
 							<img src="./images/noavatar72.gif" height="72" width="72" border="0" alt="No Avatar" style="border:1px solid ##666;" />

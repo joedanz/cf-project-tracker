@@ -82,3 +82,25 @@
 <cfquery datasource="#application.settings.dsn#">
 	ALTER TABLE #application.settings.tableprefix#users DROP COLUMN mobile_todos
 </cfquery>
+
+<!--- MOVE AVATARS DIRECTORY TO USERFILES --->
+<cftry>
+	<cfdirectory action="create" directory="#ExpandPath('../../../userfiles/')#avatars">
+	<cfcatch></cfcatch>
+</cftry>
+
+<!--- GET CURRENT AVATAR FILES --->
+<cfdirectory action="list" directory="#ExpandPath('../../../images/')#avatars" name="avatars">
+
+<!--- MOVE CURRENT AVATAR FILES --->
+<cfloop query="avatars">
+	<cfif compareNoCase(name,'.svn')>
+		<cffile action="move" source="#ExpandPath('../../../images/')#avatars/#name#" destination="#ExpandPath('../../../userfiles/')#avatars">
+	</cfif>
+</cfloop>
+
+<!--- DELETE OLD AVATAR DIRECTORY --->
+<cftry>
+	<cfdirectory action="delete" directory="#ExpandPath('../../../images/')#avatars">
+	<cfcatch></cfcatch>
+</cftry>

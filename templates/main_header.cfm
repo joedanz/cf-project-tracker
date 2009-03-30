@@ -31,7 +31,7 @@
 
 	<div id="loggedin">
 		<cfif compareNoCase(session.user.username,'guest')>
-			<img src="#application.settings.mapping#/images/<cfif session.user.avatar>avatars/#session.user.userid#_16.jpg<cfelse>user.gif</cfif>" style="vertical-align:middle;"> #session.user.firstName# #session.user.lastName#
+			<img src="<cfif session.user.avatar>#application.settings.userFilesMapping#/avatars/#session.user.userid#_16.jpg<cfelse>#application.settings.mapping#/images/user.gif</cfif>" style="vertical-align:middle;"> #session.user.firstName# #session.user.lastName#
 			| <a href="#application.settings.mapping#/account.cfm" title="My Account"<cfif find('/account.cfm',cgi.script_name)> class="current"</cfif>>My Account</a>
 			| <a href="#application.settings.mapping#/index.cfm?logout" title="Logout">Logout</a>
 		<cfelse>
