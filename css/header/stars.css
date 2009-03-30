@@ -1,0 +1,9 @@
+#header {
+	background: #0A142D url("../../images/header/star.jpg");
+}
+
+#header #tabs ul li a {
+    background-color: #185285;
+    color: #FFF;
+	border-bottom: 1px solid #185285;
+}

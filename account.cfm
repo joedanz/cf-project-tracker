@@ -320,6 +320,7 @@
 								<option value="green"<cfif not compare(user.style,'green')> selected="selected"</cfif>>Green</option>
 								<option value="grey"<cfif not compare(user.style,'grey')> selected="selected"</cfif>>Grey</option>
 								<option value="red"<cfif not compare(user.style,'red')> selected="selected"</cfif>>Red</option>
+								<option value="stars"<cfif not compare(user.style,'stars')> selected="selected"</cfif>>Stars</option>
 							</select>
 							</p>
 							<label for="submit4">&nbsp;</label>					
