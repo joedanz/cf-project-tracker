@@ -54,6 +54,14 @@ GO
 UPDATE [dbo].[pt_projects] SET issue_timetrack = 1
 GO
 
+/* pt_settings */
+INSERT INTO [dbo].[pt_settings](settingID,setting,settingValue) values('1E5ED63A-C938-2FE9-C60035D81F955266','company_name','')
+GO
+INSERT INTO [dbo].[pt_settings](settingID,setting,settingValue) values('1E77669A-963D-735E-C7C22FA82FABC398','company_logo','')
+GO
+INSERT INTO [dbo].[pt_settings](settingID,setting,settingValue) values('3D72D1F7-CD23-8BE3-60F9614093F89CCF','hourly_rate','')
+GO
+
 /* pt_timetrack */
 ALTER TABLE [dbo].[pt_timetrack] ADD [rateID] [nvarchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 GO

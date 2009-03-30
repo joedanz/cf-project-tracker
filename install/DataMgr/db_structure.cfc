@@ -303,6 +303,9 @@
 				<row settingID="E5A50225-1372-7975-6F9777FB42FD45E6" setting="api_key" settingValue="" />
 				<row settingID="50ED062A-16E6-58DE-13EF9FEB2312EE8C" setting="email_subject_prefix" settingValue="" />
 				<row settingID="50ED2D69-16E6-58DE-130067F4C29ABF35" setting="sms_subject_prefix" settingValue="" />
+				<row settingID="1E5ED63A-C938-2FE9-C60035D81F955266" setting="company_name" settingValue="" />
+				<row settingID="1E77669A-963D-735E-C7C22FA82FABC398" setting="company_logo" settingValue="" />
+				<row settingID="3D72D1F7-CD23-8BE3-60F9614093F89CCF" setting="hourly_rate" settingValue="" />
 			</data>
 			<data table="#arguments.tablePrefix#carriers">
 				<row carrierID="8464AB28-1372-7975-6F2E9747CA6E4693" carrier="AT&amp;T" countryCode="US" country="United States" prefix="" suffix="@txt.att.net" active="1" />

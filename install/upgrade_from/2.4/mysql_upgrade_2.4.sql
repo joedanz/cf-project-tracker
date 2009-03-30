@@ -32,6 +32,11 @@ UPDATE `pt_projects` set `issue_svn_link` = 1;
 ALTER TABLE `pt_projects` ADD `issue_timetrack` int(1) default NULL;
 UPDATE `pt_projects` set `issue_timetrack` = 1;
 
+/* pt_settings */
+INSERT INTO `pt_settings` values ('1E5ED63A-C938-2FE9-C60035D81F955266','company_name','');
+INSERT INTO `pt_settings` values ('1E77669A-963D-735E-C7C22FA82FABC398','company_logo','');
+INSERT INTO `pt_settings` values ('3D72D1F7-CD23-8BE3-60F9614093F89CCF','hourly_rate','');
+
 /* pt_timetrack */
 ALTER TABLE `pt_timetrack` ADD `rateID` varchar(35) default NULL;
 ALTER TABLE `pt_timetrack` ADD `billed` tinyint(1) default NULL;

@@ -396,6 +396,15 @@ INSERT INTO pt_settings (settingid,setting,settingvalue) values
 INSERT INTO pt_settings (settingid,setting,settingvalue) values 
 ('50ED2D69-16E6-58DE-130067F4C29ABF35','sms_subject_prefix','');
 
+INSERT INTO pt_settings (settingid,setting,settingvalue) values 
+('1E5ED63A-C938-2FE9-C60035D81F955266','company_name','');
+
+INSERT INTO pt_settings (settingid,setting,settingvalue) values 
+('1E77669A-963D-735E-C7C22FA82FABC398','company_logo','');
+
+INSERT INTO pt_settings (settingid,setting,settingvalue) values 
+('3D72D1F7-CD23-8BE3-60F9614093F89CCF','hourly_rate','');
+
 INSERT INTO pt_users
 (userID,firstName,lastName,username,password,style,email_files,mobile_files,email_issues,mobile_issues,email_msgs,mobile_msgs,email_mstones,mobile_mstones,email_todos,mobile_todos,avatar,admin,active) 
 values('FCDCF4CD-16E6-58DE-13EDC6A2B362B22C','Admin','User','admin','21232F297A57A5A743894A0E4A801FC3','blue',0,0,0,0,0,0,0,0,0,0,0,1,1
