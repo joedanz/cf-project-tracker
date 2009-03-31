@@ -164,7 +164,10 @@
 
 	<!--- right column --->
 	<div class="right">
-	
+		<cfif compare(project.logo_img,'')>
+			<img src="#application.settings.userFilesMapping#/projects/#project.logo_img#" border="0" alt="#project.name#" /><br />
+		</cfif>
+			
 		<form action="#cgi.script_name#?p=#url.p#" method="post">
 		<div class="b">Show to-dos assigned to:</div>
 		<select name="assignedTo" onchange="this.form.submit();">

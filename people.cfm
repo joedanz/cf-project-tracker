@@ -350,7 +350,10 @@
 
 	<!--- right column --->
 	<div class="right">
-
+		<cfif compare(project.logo_img,'')>
+			<img src="#application.settings.userFilesMapping#/projects/#project.logo_img#" border="0" alt="#project.name#" /><br />
+		</cfif>
+		
 		<div class="header"><h3>Project Owner</h3></div>
 		<div class="content">
 			<ul>

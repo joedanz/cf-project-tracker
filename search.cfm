@@ -231,6 +231,8 @@ $(document).ready(function(){
 	<div class="right">
 		<cfif not compare(url.p,'') and compare(application.settings.company_logo,'')>
 			<img src="#application.settings.userFilesMapping#/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" /><br />
+		<cfelseif compare(url.p,'') and compare(project.logo_img,'')>
+			<img src="#application.settings.userFilesMapping#/projects/#project.logo_img#" border="0" alt="#project.name#" /><br />		
 		</cfif>
 	</div>
 		

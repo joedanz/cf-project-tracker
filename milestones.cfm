@@ -278,6 +278,10 @@
 
 	<!--- right column --->
 	<div class="right">
+		<cfif compare(project.logo_img,'')>
+			<img src="#application.settings.userFilesMapping#/projects/#project.logo_img#" border="0" alt="#project.name#" /><br />
+		</cfif>
+
 		<cfif project.mstones gt 1>
 		<h3><a href="editMilestone.cfm?p=#url.p#" class="add">Add a new milestone</a></h3><br />
 		</cfif>	

@@ -223,6 +223,7 @@
 					svnurl = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnurl#" maxlength="100">,
 					svnuser = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnuser#" maxlength="20">,
 					svnpass = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnpass#" maxlength="20">,
+					logo_img = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.logo_img#" maxlength="150">,
 					allow_reg = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.allow_reg#" maxlength="1">,
 					reg_active = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_active#" maxlength="1">,
 					reg_files = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_files#" maxlength="1">,
@@ -330,10 +331,9 @@
 			SELECT distinct u.userID, u.firstName, u.lastName, u.username, u.email, u.phone, u.mobile,
 				u.lastLogin, u.avatar, u.admin, c.prefix, c.suffix, un.email_files, un.mobile_files, 
 				un.email_issues,un.mobile_issues, un.email_msgs, un.mobile_msgs, un.email_mstones, 
-				un.mobile_mstones, un.email_todos, un.mobile_todos
-				<cfif arguments.uselist>
-					, pu.projectID, pu.admin, pu.billing, pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos, pu.timetrack, pu.svn
-				</cfif>
+				un.mobile_mstones, un.email_todos, un.mobile_todos, 
+				pu.projectID, pu.admin, pu.billing, pu.files, pu.issues, pu.msgs, pu.mstones, 
+				pu.todos, pu.timetrack, pu.svn
 			FROM #variables.tableprefix#users u 
 				INNER JOIN #variables.tableprefix#project_users pu ON u.userID = pu.userID
 				INNER JOIN pt_user_notify un ON pu.userID = un.userID

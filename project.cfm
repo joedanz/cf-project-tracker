@@ -310,7 +310,10 @@ $(document).ready(function(){
 
 	<!--- right column --->
 	<div class="right">
-	
+		<cfif compare(project.logo_img,'')>
+			<img src="#application.settings.userFilesMapping#/projects/#project.logo_img#" border="0" alt="#project.name#" /><br />
+		</cfif>
+			
 		<cfif compare(project.clientID,'')>
 			<div class="header"><h3>Client</h3></div>
 			<div class="content">

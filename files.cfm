@@ -115,6 +115,9 @@
 
 	<!--- right column --->
 	<div class="right">
+		<cfif compare(project.logo_img,'')>
+			<img src="#application.settings.userFilesMapping#/projects/#project.logo_img#" border="0" alt="#project.name#" /><br />
+		</cfif>
 	
 		<cfif project.files gt 1>
 		<h3><a href="editFile.cfm?p=#url.p#" class="add">Upload a new file</a></h3><br />

@@ -132,6 +132,7 @@
 	<cfset versions = application.project.version(url.p)>
 <cfelse>
 	<cfset form.display = 1>
+	<cfset form.logo_img = "">
 	<cfset form.tab_files = 1>
 	<cfset form.tab_issues = 1>
 	<cfset form.tab_msgs = 1>
@@ -531,6 +532,9 @@
 
 	<!--- right column --->
 	<div class="right">
+		<cfif compare(form.logo_img,'')>
+			<img src="#application.settings.userFilesMapping#/projects/#form.logo_img#" border="0" alt="#form.name#" /><br />
+		</cfif>
 
 		<cfif StructKeyExists(url,"p")>
 		<div class="header"><h3 class="delete">Delete this project?</h3></div>

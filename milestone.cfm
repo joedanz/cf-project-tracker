@@ -119,7 +119,9 @@
 
 	<!--- right column --->
 	<div class="right">
-
+		<cfif compare(project.logo_img,'')>
+			<img src="#application.settings.userFilesMapping#/projects/#project.logo_img#" border="0" alt="#project.name#" /><br />
+		</cfif>
 	</div>
 <cfelse>
 	<div class="alert">Project Not Found.</div>
