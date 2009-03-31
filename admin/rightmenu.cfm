@@ -1,6 +1,10 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfoutput>
+	<cfif compare(application.settings.company_logo,'')>
+		<img src="#application.settings.userFilesMapping#/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" /><br />
+	</cfif>
+
 	<div class="header"><h3 class="save">Backup / Restore</h3></div>
 	<div class="content">
 		<!--- no backup on blue dragon - cfzip doesn't work the same way --->

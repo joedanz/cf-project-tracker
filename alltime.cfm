@@ -115,8 +115,11 @@
 	</div>
 
 	<!--- right column --->
-	<div class="right">
-
+	<div class="right">	
+		<cfif compare(application.settings.company_logo,'')>
+			<img src="#application.settings.userFilesMapping#/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" /><br />
+		</cfif>
+		
 		<form action="#cgi.script_name#" method="post">
 		<div class="b">Show time tracking assigned to:</div>
 		<select name="assignedTo" onchange="this.form.submit();">

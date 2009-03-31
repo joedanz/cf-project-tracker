@@ -9,6 +9,17 @@
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Admin">
 
+<cfhtmlhead text="<script type='text/javascript'>
+	function confirmSubmit1() {
+		var errors = '';
+		if (document.edit.app_title.value == '') {errors = errors + '   ** You must enter an application title.\n';}
+		if (errors != '') {
+			alert('Please correct the following errors:\n\n' + errors)
+			return false;
+		} else return true;
+	}
+</script>">
+
 <cfoutput>
 <div id="container">
 	<!--- left column --->
@@ -30,7 +41,7 @@
 						<input type="text" name="app_title" id="title" class="short" value="#application.settings.app_title#" />
 						</p>
 						<p>
-						<label for="defstyle" class="req">Default Style:</label>
+						<label for="defstyle">Default Style:</label>
 						<select name="default_style" id="defstyle">
 							<option value="blue"<cfif not compare(application.settings.default_style,'blue')> selected="selected"</cfif>>Blue</option>
 							<option value="green"<cfif not compare(application.settings.default_style,'green')> selected="selected"</cfif>>Green</option>

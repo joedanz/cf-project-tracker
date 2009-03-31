@@ -96,7 +96,7 @@ form.frm p input.shortest, tr.input td input.shortest, div#report input.date,
 	width:80px;	
 }
 
-tr.input td input.tiny,
+tr.input td input.tiny, form.frm p input.tiny, 
 #container .left .main .content #listWrapper .todolist td form input.tiny {
 	width:40px;
 }

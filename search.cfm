@@ -229,7 +229,9 @@ $(document).ready(function(){
 
 	<!--- right column --->
 	<div class="right">
-
+		<cfif not compare(url.p,'') and compare(application.settings.company_logo,'')>
+			<img src="#application.settings.userFilesMapping#/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" /><br />
+		</cfif>
 	</div>
 		
 </div>
