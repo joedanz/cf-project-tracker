@@ -25,6 +25,7 @@ ALTER TABLE `pt_project_users` ADD `billing` int(1) default NULL;
 UPDATE `pt_project_users` set `billing` = 0;
 
 /* pt_projects */
+ALTER TABLE `pt_projects` ADD `logo_img` varchar(150) default NULL;
 ALTER TABLE `pt_projects` ADD `tab_billing` int(1) default NULL;
 UPDATE `pt_projects` set `tab_billing` = 0;
 ALTER TABLE `pt_projects` ADD `issue_svn_link` int(1) default NULL;

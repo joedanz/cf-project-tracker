@@ -178,6 +178,7 @@
 				<field ColumnName="svnuser" CF_DataType="CF_SQL_VARCHAR" Length="20" />
 				<field ColumnName="svnpass" CF_DataType="CF_SQL_VARCHAR" Length="20" />
 				<field ColumnName="ownerID" CF_DataType="CF_SQL_CHAR" Length="35" />
+				<field ColumnName="logo_img" CF_DataType="CF_SQL_VARCHAR" Length="150" />
 				<field ColumnName="allow_reg" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="reg_active" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="reg_files" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />

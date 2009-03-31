@@ -41,6 +41,8 @@ UPDATE [dbo].[pt_project_users] SET billing = 0
 GO
 
 /* pt_projects */
+ALTER TABLE [dbo].[pt_projects] ADD [logo_img] [nvarchar] (150) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+GO
 ALTER TABLE [dbo].[pt_projects] ADD [tab_billing] [tinyint] NULL
 GO
 UPDATE [dbo].[pt_projects] SET tab_billing = 0

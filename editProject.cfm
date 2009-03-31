@@ -14,6 +14,7 @@
 
 <cfparam name="form.display" default="0">
 <cfparam name="form.from" default="">
+<cfparam name="form.logo_img" default="">
 <cfparam name="form.allow_reg" default="0">
 <cfparam name="form.reg_active" default="0">
 <cfparam name="form.reg_files" default="0">
@@ -38,8 +39,22 @@
 	<cfset form.from = url.from>
 </cfif>
 
+
+<cfif (StructKeyExists(form,"submit") and not compare(form.submit,'Update Project')) or (StructKeyExists(form,"submit") and not compare(form.submit,'Add Project')) and compare(form.logo_img,'')>
+	<cfif not compare(left(application.settings.userFilesPath,1),'.')>	
+		<cffile action="upload" accept="image/gif,image/jpg,image/jpeg,image/png" filefield="imagefile"
+			destination = "#ExpandPath(application.settings.userFilesPath & '/projects')#" nameConflict = "MakeUnique">
+	<cfelse>
+		<cffile action="upload" accept="image/gif,image/jpg,image/jpeg,image/png" filefield="imagefile"
+			destination = "#application.settings.userFilesPath#/projects" nameConflict = "MakeUnique">		
+	</cfif>
+	<cfset logoimg = cffile.serverFile>
+<cfelse>
+	<cfset logoimg = "">
+</cfif>
+	
 <cfif StructKeyExists(form,"submit") and not compare(form.submit,'Update Project')> <!--- update project --->
-	<cfset application.project.update(form.projectid,form.ownerID,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_time,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,form.issue_timetrack)>
+	<cfset application.project.update(form.projectid,form.ownerID,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,logoimg,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_time,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,form.issue_timetrack)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'edited')>
 	<cfif not compare(form.from,'admin')>
 		<cflocation url="./admin/projects.cfm" addtoken="false">
@@ -47,7 +62,7 @@
 		<cflocation url="project.cfm?p=#form.projectID#" addtoken="false">
 	</cfif>
 <cfelseif StructKeyExists(form,"submit") and not compare(form.submit,'Add Project')> <!--- add project --->
-	<cfset application.project.add(form.projectID,form.ownerid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_time,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,form.issue_timetrack,session.user.userid)>
+	<cfset application.project.add(form.projectID,form.ownerid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,logoimg,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_time,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,form.issue_timetrack,session.user.userid)>
 	<cfset application.role.add(form.projectID,session.user.userid,'1','2','2','2','2','2','2','2','1')>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'added')>
 	<cfset session.user.projects = application.project.get(session.user.userid)>
@@ -89,6 +104,7 @@
 	<cfset form.svnurl = thisProject.svnurl>
 	<cfset form.svnuser = thisProject.svnuser>
 	<cfset form.svnpass = thisProject.svnpass>
+	<cfset form.logo_img = thisProject.logo_img>
 	<cfset form.allow_reg = thisProject.allow_reg>
 	<cfset form.reg_active = thisProject.reg_active>
 	<cfset form.reg_files = thisProject.reg_files>
@@ -165,7 +181,7 @@
 				</div>
 				<div class="content">
 				 	
-					<form action="#cgi.script_name#?#cgi.query_string#" method="post" name="edit" id="edit" class="frm pb15" onsubmit="return confirmSubmit();">
+					<form action="#cgi.script_name#?#cgi.query_string#" method="post" name="edit" id="edit" class="frm pb15" enctype="multipart/form-data" onsubmit="return confirmSubmit();">
 						<fieldset class="settings">
 						<legend><a href="##" onclick="section_toggle('general');return false;" class="collapsed" id="generallink"> General Info</a></legend>
 							<div id="generalinfo"<cfif StructKeyExists(url,"p")> style="display:none;"</cfif>>
@@ -222,6 +238,24 @@
 							</div>
 						</fieldset>
 
+						<fieldset class="settings">
+						<legend><a href="##" onclick="section_toggle('logo');return false;" class="collapsed" id="logolink"> Project Logo</a></legend>
+						<div id="logoinfo" style="display:none;">
+							<p>
+							<label for="imgfile">Logo Image:</label>
+							<input type="file" name="imagefile" id="imgfile" />
+							</p>				
+							<cfif compare(logo_img,'')>
+								<p>
+								<label for="img">&nbsp;</label>
+								<img src="#application.settings.userFilesMapping#/projects/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" style="border:1px solid ##666;" />
+								<a href="#cgi.script_name#?rmvimg">remove</a>
+								</p>
+							</cfif>
+							<p>
+						</div>
+						</fieldset>
+						
 						<fieldset class="settings">
 						<legend><a href="##" onclick="section_toggle('tab');return false;" class="collapsed" id="tablink"> Features Enabled</a></legend>
 						<div id="tabinfo" style="display:none;">

@@ -44,6 +44,7 @@ alter table
    pt_projects
 add
    (
+   logo_img varchar2(150) NULL,
    tab_billing NUMBER(1,0) NULL,
    issue_svn_link NUMBER(1,0) NULL,
    issue_timetrack NUMBER(1,0) NULL

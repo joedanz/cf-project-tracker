@@ -223,6 +223,7 @@ CREATE TABLE `pt_projects` (
   `svnurl` varchar(100) default NULL,
   `svnuser` varchar(20) default NULL,
   `svnpass` varchar(20) default NULL,
+  `logo_img` varchar(150) default NULL,
   `allow_reg` tinyint(1) default NULL,
   `reg_active` tinyint(1) default NULL,
   `reg_files` int(1) default NULL,

@@ -22,7 +22,7 @@
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT p.projectID, p.ownerID, p.clientID, p.name, p.description, p.display, p.added, 
-				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass,
+				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, p.logo_img,
 				p.tab_billing, p.tab_files, p.tab_issues, p.tab_msgs, p.tab_mstones,p.tab_todos, p.tab_time, 
 				p.tab_svn, p.issue_svn_link, p.issue_timetrack,
 				<cfif compare(arguments.userID,'')> 
@@ -57,7 +57,7 @@
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT p.projectID, p.ownerID, p.clientID, p.name, p.description, p.display, p.added, 
-				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, p.allow_reg, 
+				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, p.logo_img, p.allow_reg, 
 				p.reg_active, p.reg_files, p.reg_issues, p.reg_msgs, p.reg_mstones, p.reg_todos, 
 				p.reg_time, p.reg_svn, p.tab_billing, p.tab_files, p.tab_issues, p.tab_msgs, 
 				p.tab_mstones, p.tab_todos, p.tab_time, p.tab_svn, p.issue_svn_link, p.issue_timetrack,
@@ -119,6 +119,7 @@
 		<cfargument name="svnurl" type="string" required="true">
 		<cfargument name="svnuser" type="string" required="true">
 		<cfargument name="svnpass" type="string" required="true">
+		<cfargument name="logo_img" type="string" required="true">
 		<cfargument name="allow_reg" type="numeric" required="true">
 		<cfargument name="reg_active" type="numeric" required="true">
 		<cfargument name="reg_files" type="numeric" required="true">
@@ -140,7 +141,7 @@
 		<cfargument name="issue_timetrack" type="numeric" required="true">
 		<cfargument name="addedBy" type="string" required="true">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			INSERT INTO #variables.tableprefix#projects (projectID,ownerID,name,description,display,added,addedBy,clientID,status,ticketPrefix,svnurl,svnuser,svnpass,allow_reg,reg_active,reg_files,reg_issues,reg_msgs,reg_mstones,reg_todos,reg_time,reg_svn,tab_files,tab_issues,tab_msgs,tab_mstones,tab_todos,tab_time,tab_billing,tab_svn,issue_svn_link,issue_timetrack)
+			INSERT INTO #variables.tableprefix#projects (projectID,ownerID,name,description,display,added,addedBy,clientID,status,ticketPrefix,svnurl,svnuser,svnpass,logo_img,allow_reg,reg_active,reg_files,reg_issues,reg_msgs,reg_mstones,reg_todos,reg_time,reg_svn,tab_files,tab_issues,tab_msgs,tab_mstones,tab_todos,tab_time,tab_billing,tab_svn,issue_svn_link,issue_timetrack)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.ownerID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
@@ -153,6 +154,7 @@
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnurl#" maxlength="100">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnuser#" maxlength="20">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnpass#" maxlength="20">,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.logo_img#" maxlength="150">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.allow_reg#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_active#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_files#" maxlength="1">,
@@ -189,6 +191,7 @@
 		<cfargument name="svnurl" type="string" required="true">
 		<cfargument name="svnuser" type="string" required="true">
 		<cfargument name="svnpass" type="string" required="true">
+		<cfargument name="logo_img" type="string" required="true">
 		<cfargument name="allow_reg" type="numeric" required="true">
 		<cfargument name="reg_active" type="numeric" required="true">
 		<cfargument name="reg_files" type="numeric" required="true">
@@ -248,11 +251,17 @@
 				hint="Deletes a project record.">
 		<cfargument name="projectID" type="string" required="true">
 		
+		<cfset var qProject = application.project.getDistinct(arguments.projectID)>
+		
 		<!--- delete physical files --->
 		<cfset var qFiles = application.file.get(arguments.projectid)>
 		<cfloop query="qFiles">
 			<cfset application.file.delete(arguments.projectid,fileID,uploadedBy)>
 		</cfloop>
+		<cftry>
+			<cffile action="delete" file="#ExpandPath(application.settings.userFilesPath & 'projects/')##qProject.logo_img#">
+			<cfcatch></cfcatch>
+		</cftry>
 		
 		<!--- delete database records --->
 		<cftransaction>

@@ -7,7 +7,7 @@
 	<cfif compare(form.imagefile,'')>
 		<cfif compare(application.settings.company_logo,'')>
 			<cftry>
-				<cfif not compare(left(userFilesPath,1),'.')>
+				<cfif not compare(left(application.settings.userFilesPath,1),'.')>
 					<cffile action="delete" file="#ExpandPath('.' & application.settings.userFilesPath)#/#application.settings.company_logo#">
 				<cfelse>
 					<cffile action="delete" file="#application.settings.userFilesPath#/#application.settings.company_logo#">
@@ -15,7 +15,7 @@
 				<cfcatch></cfcatch>
 			</cftry>
 		</cfif>
-		<cfif not compare(left(userFilesPath,1),'.')>
+		<cfif not compare(left(application.settings.userFilesPath,1),'.')>
 			<cffile action="upload" accept="image/gif,image/jpg,image/jpeg,image/png" filefield="imagefile"
 				destination = "#ExpandPath('.' & application.settings.userFilesPath)#" nameConflict = "MakeUnique">
 		<cfelse>
@@ -28,7 +28,7 @@
 	<cfif compare(form.invimagefile,'')>
 		<cfif compare(application.settings.invoice_logo,'')>
 			<cftry>
-				<cfif not compare(left(userFilesPath,1),'.')>
+				<cfif not compare(left(application.settings.userFilesPath,1),'.')>
 					<cffile action="delete" file="#ExpandPath('.' & application.settings.userFilesPath)#/company/#application.settings.company_logo#">
 				<cfelse>
 					<cffile action="delete" file="#application.settings.userFilesPath#/company/#application.settings.company_logo#">
@@ -36,7 +36,7 @@
 				<cfcatch></cfcatch>
 			</cftry>
 		</cfif>
-		<cfif not compare(left(userFilesPath,1),'.')>	
+		<cfif not compare(left(application.settings.userFilesPath,1),'.')>	
 			<cffile action="upload" accept="image/gif,image/jpg,image/jpeg,image/png" filefield="invimagefile"
 				destination = "#ExpandPath('.' & application.settings.userFilesPath & '/company')#" nameConflict = "MakeUnique">
 		<cfelse>
