@@ -124,6 +124,31 @@
 		</cfquery>
 
 		<cfreturn true>
-	</cffunction>	
-	
+	</cffunction>
+
+	<cffunction name="saveInvoiceLogo" access="public" returnType="boolean" output="false"
+				hint="Sets company logo setting.">
+		<cfargument name="filename" type="string" required="true">
+		
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
+			UPDATE #application.settings.tableprefix#settings
+				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filename#" maxlength="35">
+					WHERE setting = 'invoice_logo'
+		</cfquery>
+
+		<cfreturn true>
+	</cffunction>
+
+	<cffunction name="deleteInvoiceLogo" access="public" returnType="boolean" output="false"
+				hint="Removes company logo setting.">
+		
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
+			UPDATE #application.settings.tableprefix#settings
+				SET settingValue = ''
+					WHERE setting = 'invoice_logo'
+		</cfquery>
+
+		<cfreturn true>
+	</cffunction>
+
 </cfcomponent>

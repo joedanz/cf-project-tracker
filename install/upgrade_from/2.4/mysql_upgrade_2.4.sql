@@ -35,6 +35,7 @@ UPDATE `pt_projects` set `issue_timetrack` = 1;
 /* pt_settings */
 INSERT INTO `pt_settings` values ('1E5ED63A-C938-2FE9-C60035D81F955266','company_name','');
 INSERT INTO `pt_settings` values ('1E77669A-963D-735E-C7C22FA82FABC398','company_logo','');
+INSERT INTO `pt_settings` values ('5D717D09-1372-7975-6F21844EACDAFC54','invoice_logo','');
 INSERT INTO `pt_settings` values ('3D72D1F7-CD23-8BE3-60F9614093F89CCF','hourly_rate','');
 
 /* pt_timetrack */

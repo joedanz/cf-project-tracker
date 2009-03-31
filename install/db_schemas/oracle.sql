@@ -403,6 +403,9 @@ INSERT INTO pt_settings (settingid,setting,settingvalue) values
 ('1E77669A-963D-735E-C7C22FA82FABC398','company_logo','');
 
 INSERT INTO pt_settings (settingid,setting,settingvalue) values 
+('5D717D09-1372-7975-6F21844EACDAFC54','invoice_logo','');
+
+INSERT INTO pt_settings (settingid,setting,settingvalue) values 
 ('3D72D1F7-CD23-8BE3-60F9614093F89CCF','hourly_rate','');
 
 INSERT INTO pt_users

@@ -5,12 +5,28 @@
 	<cfset application.settings.company_name = form.company_name>
 	<cfset application.settings.hourly_rate = form.hourly_rate>
 	<cfif compare(form.imagefile,'')>
-		<!--- this include prevents invalid tag error from on earlier versions --->
-		<cfif application.isCF8 or application.isRailo>
-			<cfinclude template="img_company_cf8.cfm">
-		<cfelseif application.isBD>
-			<cfinclude template="img_company_bd.cfm">
+		<cfif compare(application.settings.company_logo,'')>
+			<cftry>
+				<cffile action="delete" file="#ExpandPath('.' & application.settings.userFilesPath)#/#application.settings.company_logo#">
+				<cfcatch></cfcatch>
+			</cftry>
 		</cfif>
+		<cffile action="upload" accept="image/gif,image/jpg,image/jpeg,image/png" filefield="imagefile"
+				destination = "#ExpandPath('.' & application.settings.userFilesPath)#" nameConflict = "MakeUnique">
+		<cfset application.config.saveCompanyLogo(cffile.serverFile)>
+		<cfset application.settings.company_logo = cffile.serverFile>
+	</cfif>
+	<cfif compare(form.invimagefile,'')>
+		<cfif compare(application.settings.invoice_logo,'')>
+			<cftry>
+				<cffile action="delete" file="#ExpandPath('.' & application.settings.userFilesPath)#/#application.settings.company_logo#">
+				<cfcatch></cfcatch>
+			</cftry>
+		</cfif>
+		<cffile action="upload" accept="image/gif,image/jpg,image/jpeg,image/png" filefield="invimagefile"
+				destination = "#ExpandPath('.' & application.settings.userFilesPath)#" nameConflict = "MakeUnique">
+		<cfset application.config.saveInvoiceLogo(cffile.serverFile)>
+		<cfset application.settings.invoice_logo = cffile.serverFile>
 	</cfif>
 <cfelseif StructKeyExists(url,"rmvimg")>
 	<cftry>
@@ -19,6 +35,13 @@
 	</cftry>
 	<cfset application.config.deleteCompanyLogo()>
 	<cfset application.settings.company_logo = "">
+<cfelseif StructKeyExists(url,"rmvinvimg")>
+	<cftry>
+		<cffile action="delete" file="#ExpandPath('.' & application.settings.userFilesPath)##application.settings.invoice_logo#">
+		<cfcatch></cfcatch>
+	</cftry>
+	<cfset application.config.deleteInvoiceLogo()>
+	<cfset application.settings.invoice_logo = "">
 </cfif>
 
 <!--- Loads header/footer --->
@@ -49,15 +72,23 @@
 						<input type="file" name="imagefile" id="imgfile" />
 						</p>				
 						<cfif compare(application.settings.company_logo,'')>
+							<p>
+							<label for="img">&nbsp;</label>
+							<img src="#application.settings.userFilesMapping#/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" style="border:1px solid ##666;" />
+							<a href="#cgi.script_name#?rmvimg">remove</a>
+							</p>
+						</cfif>
 						<p>
-						<label for="img">&nbsp;</label>
-						<img src="#application.settings.userFilesMapping#/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" style="border:1px solid ##666;" />
-						<a href="#cgi.script_name#?rmvimg">remove</a>
-						<!---
-						<cfelse>
-						<img src="../images/your_logo.gif" height="74" width="145" border="0" alt="Your Logo Here" style="border:1px solid ##666;" />
-						--->
-						</p>
+						<p>
+						<label for="invimgfile">Invoice Logo:</label>
+						<input type="file" name="invimagefile" id="invimgfile" />
+						</p>				
+						<cfif compare(application.settings.invoice_logo,'')>
+							<p>
+							<label for="img">&nbsp;</label>
+							<img src="#application.settings.userFilesMapping#/#application.settings.invoice_logo#" border="0" alt="#application.settings.company_name#" style="border:1px solid ##666;" />
+							<a href="#cgi.script_name#?rmvinvimg">remove</a>
+							</p>
 						</cfif>
 						<p>
 						<label for="hourly_rate">Base Hourly Rate:</label>

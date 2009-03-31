@@ -379,6 +379,7 @@ INSERT INTO `pt_settings` values ('50ED062A-16E6-58DE-13EF9FEB2312EE8C','email_s
 INSERT INTO `pt_settings` values ('50ED2D69-16E6-58DE-130067F4C29ABF35','sms_subject_prefix','');
 INSERT INTO `pt_settings` values ('1E5ED63A-C938-2FE9-C60035D81F955266','company_name','');
 INSERT INTO `pt_settings` values ('1E77669A-963D-735E-C7C22FA82FABC398','company_logo','');
+INSERT INTO `pt_settings` values ('5D717D09-1372-7975-6F21844EACDAFC54','invoice_logo','');
 INSERT INTO `pt_settings` values ('3D72D1F7-CD23-8BE3-60F9614093F89CCF','hourly_rate','');
 
 /*Add carriers */
