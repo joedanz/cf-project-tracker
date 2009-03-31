@@ -29,33 +29,33 @@
 		<cfif compare(application.settings.invoice_logo,'')>
 			<cftry>
 				<cfif not compare(left(userFilesPath,1),'.')>
-					<cffile action="delete" file="#ExpandPath('.' & application.settings.userFilesPath)#/#application.settings.company_logo#">
+					<cffile action="delete" file="#ExpandPath('.' & application.settings.userFilesPath)#/company/#application.settings.company_logo#">
 				<cfelse>
-					<cffile action="delete" file="#application.settings.userFilesPath#/#application.settings.company_logo#">
+					<cffile action="delete" file="#application.settings.userFilesPath#/company/#application.settings.company_logo#">
 				</cfif>
 				<cfcatch></cfcatch>
 			</cftry>
 		</cfif>
 		<cfif not compare(left(userFilesPath,1),'.')>	
 			<cffile action="upload" accept="image/gif,image/jpg,image/jpeg,image/png" filefield="invimagefile"
-				destination = "#ExpandPath('.' & application.settings.userFilesPath)#" nameConflict = "MakeUnique">
+				destination = "#ExpandPath('.' & application.settings.userFilesPath & '/company')#" nameConflict = "MakeUnique">
 		<cfelse>
 			<cffile action="upload" accept="image/gif,image/jpg,image/jpeg,image/png" filefield="invimagefile"
-				destination = "#application.settings.userFilesPath#" nameConflict = "MakeUnique">		
+				destination = "#application.settings.userFilesPath#/company" nameConflict = "MakeUnique">		
 		</cfif>
 		<cfset application.config.saveInvoiceLogo(cffile.serverFile)>
 		<cfset application.settings.invoice_logo = cffile.serverFile>
 	</cfif>
 <cfelseif StructKeyExists(url,"rmvimg")>
 	<cftry>
-		<cffile action="delete" file="#ExpandPath('.' & application.settings.userFilesPath)##application.settings.company_logo#">
+		<cffile action="delete" file="#ExpandPath('.' & application.settings.userFilesPath & 'company/')##application.settings.company_logo#">
 		<cfcatch></cfcatch>
 	</cftry>
 	<cfset application.config.deleteCompanyLogo()>
 	<cfset application.settings.company_logo = "">
 <cfelseif StructKeyExists(url,"rmvinvimg")>
 	<cftry>
-		<cffile action="delete" file="#ExpandPath('.' & application.settings.userFilesPath)##application.settings.invoice_logo#">
+		<cffile action="delete" file="#ExpandPath('.' & application.settings.userFilesPath & 'company/')##application.settings.invoice_logo#">
 		<cfcatch></cfcatch>
 	</cftry>
 	<cfset application.config.deleteInvoiceLogo()>
@@ -92,7 +92,7 @@
 						<cfif compare(application.settings.company_logo,'')>
 							<p>
 							<label for="img">&nbsp;</label>
-							<img src="#application.settings.userFilesMapping#/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" style="border:1px solid ##666;" />
+							<img src="#application.settings.userFilesMapping#/company/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" style="border:1px solid ##666;" />
 							<a href="#cgi.script_name#?rmvimg">remove</a>
 							</p>
 						</cfif>
@@ -104,7 +104,7 @@
 						<cfif compare(application.settings.invoice_logo,'')>
 							<p>
 							<label for="img">&nbsp;</label>
-							<img src="#application.settings.userFilesMapping#/#application.settings.invoice_logo#" border="0" alt="#application.settings.company_name#" style="border:1px solid ##666;" />
+							<img src="#application.settings.userFilesMapping#/company/#application.settings.invoice_logo#" border="0" alt="#application.settings.company_name#" style="border:1px solid ##666;" />
 							<a href="#cgi.script_name#?rmvinvimg">remove</a>
 							</p>
 						</cfif>
