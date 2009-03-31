@@ -1,4 +1,4 @@
-	<cffile action="upload" accept="image/gif,image/jpg,image/jpeg" filefield="imagefile"
+	<cffile action="upload" accept="image/gif,image/jpg,image/jpeg,image/png" filefield="imagefile"
 			destination = "#ExpandPath(application.settings.userFilesPath & 'avatars')#" nameConflict = "MakeUnique">
 	<cfimage height="72" width="72" nameconflict="overwrite"
 		srcfile="#ExpandPath(application.settings.userFilesPath & 'avatars')#/#serverFile#"
