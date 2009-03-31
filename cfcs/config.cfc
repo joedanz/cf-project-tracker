@@ -30,6 +30,25 @@
 		
 		<cfreturn true>
 	</cffunction>
+	
+	<cffunction name="saveCompany" access="public" returnType="boolean" output="false"
+				hint="Sets application company settings.">
+		<cfargument name="company_name" type="string" required="true">
+		<cfargument name="hourly_rate" type="string" required="true">
+		
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
+			UPDATE #application.settings.tableprefix#settings
+				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.company_name#" maxlength="250">
+					WHERE setting = 'company_name'
+		</cfquery>		
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
+			UPDATE #application.settings.tableprefix#settings
+				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.hourly_rate#" maxlength="10">
+					WHERE setting = 'hourly_rate'
+		</cfquery>
+		
+		<cfreturn true>
+	</cffunction>
 
 	<cffunction name="saveNotification" access="public" returnType="boolean" output="false"
 				hint="Sets application settings.">
@@ -77,6 +96,31 @@
 			UPDATE #application.settings.tableprefix#settings
 				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.api_key#" maxlength="35">
 					WHERE setting = 'api_key'
+		</cfquery>
+
+		<cfreturn true>
+	</cffunction>	
+	
+	<cffunction name="saveCompanyLogo" access="public" returnType="boolean" output="false"
+				hint="Sets company logo setting.">
+		<cfargument name="filename" type="string" required="true">
+		
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
+			UPDATE #application.settings.tableprefix#settings
+				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filename#" maxlength="35">
+					WHERE setting = 'company_logo'
+		</cfquery>
+
+		<cfreturn true>
+	</cffunction>
+
+	<cffunction name="deleteCompanyLogo" access="public" returnType="boolean" output="false"
+				hint="Removes company logo setting.">
+		
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
+			UPDATE #application.settings.tableprefix#settings
+				SET settingValue = ''
+					WHERE setting = 'company_logo'
 		</cfquery>
 
 		<cfreturn true>
