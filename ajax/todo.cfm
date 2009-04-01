@@ -48,7 +48,7 @@
 		</cfif>
 		<cfset todo = application.todo.get(todoID=form.t)>
 		<cfoutput>	
-		<cfif isDate(todo.completed)><strike>#todo.task#</strike><cfelse>#todo.task#</cfif><cfif compare(todo.lastName,'')> <span class="g">(#todo.firstName# #todo.lastName#)<cfif isDate(todo.due)> - due on #DateFormat(todo.due,"mmm d, yyyy")#</cfif></span></cfif><cfif project.todos gt 1> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="edit_item('#form.p#','#form.tl#','#form.t#');return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#form.p#','#form.tl#','#form.t#');return false;" /></span></cfif>
+		<cfif isDate(todo.completed)><strike>#todo.task#</strike><cfelse>#todo.task#</cfif><cfif compare(todo.lastName,'')> <span class="g">(#todo.firstName# #todo.lastName#)<cfif isDate(todo.due)> - due on #DateFormat(todo.due,"mmm d, yyyy")#</cfif></span></cfif><cfif project.todos gt 1> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="edit_item('#form.p#','#form.tl#','#form.t#');return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#form.p#','#form.tl#','#form.t#');return false;" /> <a href="todo.cfm?p=#url.p#&tl=#todolistID#&t=#todoID#" class="nounder" id="c#todoID#"<cfif numComments eq 0> style="display:none;"</cfif>><img src="./images/comment.png" height="11" width="14" alt="Comments" class="link" /><cfif numComments gt 0> #numComments#</cfif></a></span></cfif>
 		</cfoutput>	
 	</cfcase>
 	<cfcase value="update">
@@ -60,7 +60,7 @@
 			<cfset project = application.project.get(session.user.userid,form.p)>
 		</cfif>
 		<cfoutput>	
-		<cfif isDate(form.c)><strike>#form.task#</strike><cfelse>#form.task#</cfif><cfif compare(form.fw,'')> <span class="g">(#form.fwfull#)<cfif isDate(form.d)> - due on #DateFormat(form.d,"mmm d, yyyy")#</cfif></span></cfif><cfif project.todos gt 1> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="edit_item('#form.p#','#form.tl#','#form.t#');return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#form.p#','#form.tl#','#form.t#');return false;" /></span></cfif>
+		<cfif isDate(form.c)><strike>#form.task#</strike><cfelse>#form.task#</cfif><cfif compare(form.fw,'')> <span class="g">(#form.fwfull#)<cfif isDate(form.d)> - due on #DateFormat(form.d,"mmm d, yyyy")#</cfif></span></cfif><cfif project.todos gt 1> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="edit_item('#form.p#','#form.tl#','#form.t#');return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#form.p#','#form.tl#','#form.t#');return false;" /> <a href="todo.cfm?p=#url.p#&tl=#todolistID#&t=#todoID#" class="nounder" id="c#todoID#"<cfif numComments eq 0> style="display:none;"</cfif>><img src="./images/comment.png" height="11" width="14" alt="Comments" class="link" /><cfif numComments gt 0> #numComments#</cfif></a></span></cfif>
 		<script type="text/javascript">
 			$('##id_#form.t#').animate({backgroundColor:'##ffffb7'},200).animate({backgroundColor:'##f7f7f7'},1500);
 		</script>
@@ -75,6 +75,11 @@
 	<cfcase value="mark_incomplete">
 		<cfset application.todo.markCompleted(url.tl,url.t,'false')>
 	</cfcase>		
+	<cfcase value="mark_todo">
+		<cfset todo = application.todo.get(todoID=url.t)>
+		<cfset application.todo.markCompleted(url.tl,url.t,url.v)>
+		<cfoutput><cfif url.v><strike>#todo.task#</strike><cfelse>#todo.task#</cfif></cfoutput>
+	</cfcase>		
 	<cfcase value="redraw_completed">
 		<cfset thread = CreateObject("java", "java.lang.Thread")>
 		<cfset thread.sleep(200)>
@@ -83,7 +88,7 @@
 		<cfelse>
 			<cfset project = application.project.get(session.user.userid,url.p)>
 		</cfif>
-		<cfset todos_completed = application.todo.get(url.p,url.tl,'true')>
+		<cfset todos_completed = application.todo.get(url.p,url.tl,'true','completed desc')>
 		<cfset projectUsers = application.project.projectUsers(url.p)>
 		<cfset todolist = application.todolist.get(url.p,url.tl)>
 		<cfoutput query="todos_completed">
@@ -91,8 +96,8 @@
 			<table>
 				<tr>
 					<td class="cb#todolistID#"><cfif project.todos gt 1><input type="checkbox" name="todoID" value="#todoID#" checked="checked" onclick="mark_incomplete('#url.p#','#todolistID#','#todoID#');" /></cfif></td>
-					<td class="t#todolistID#"><cfif project.todos gt 1 and project.timetrack gt 1 and todolist.timetrack eq 1><img src="./images/time<cfif numTimeTracks gt 0>3<cfelse>2</cfif>.gif" height="16" width="16" onclick="todo_time('edit','#url.p#','#todolistID#','#todoID#','#replace(todoID,'-','','all')#');" /></cfif></td>
-					<td id="edit#todoID#"><strike>#task#</strike><cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)<cfif isDate(due)> - due on #DateFormat(due,"mmm d, yyyy")#</cfif></span></cfif><cfif project.todos gt 1> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="edit_item('#url.p#','#todolistID#','#todoID#');return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#url.p#','#todolistID#','#todoID#');return false;" /></span></cfif></td>
+					<td class="t#todolistID#"><cfif project.todos gt 1 and project.timetrack gt 1 and todolist.timetrack eq 1><img src="./images/time<cfif numTimeTracks gt 0>3<cfelse>2</cfif>.gif" height="16" width="16" onclick="todo_time('edit','#url.p#','#todolistID#','#todoID#','1');" /></cfif></td>
+					<td id="edit#todoID#" class="sm"<cfif numComments eq 0> onmouseover="$('##c#todoID#').show();" onmouseout="$('##c#todoID#').hide();"</cfif>>#DateFormat(completed,"mmm d")# <strike>#task#</strike><cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)<cfif isDate(due)> - due on #DateFormat(due,"mmm d, yyyy")#</cfif></span></cfif><cfif project.todos gt 1> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="edit_item('#url.p#','#todolistID#','#todoID#');return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#url.p#','#todolistID#','#todoID#');return false;" /> <a href="todo.cfm?p=#url.p#&tl=#todolistID#&t=#todoID#" class="nounder" id="c#todoID#"<cfif numComments eq 0> style="display:none;"</cfif>><img src="./images/comment.png" height="11" width="14" alt="Comments" class="link" /><cfif numComments gt 0> #numComments#</cfif></a></span></cfif></td>
 				</tr>
 			</table>
 		</li>
@@ -123,8 +128,8 @@
 			<table>
 				<tr>
 					<td class="cb#todolistID#"><cfif project.todos gt 1><input type="checkbox" name="todoID" value="#todoID#" onclick="mark_complete('#url.p#','#todolistID#','#todoID#');" /></cfif></td>
-					<td class="t#todolistID#"><cfif project.todos gt 1 and project.timetrack gt 1 and todolist.timetrack eq 1><img src="./images/time<cfif numTimeTracks gt 0>3<cfelse>2</cfif>.gif" height="16" width="16" onclick="todo_time('edit','#url.p#','#todolistID#','#todoID#','#replace(todoID,'-','','all')#');" /></cfif></td>
-					<td id="edit#todoID#">#task#<cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)<cfif isDate(due)> - due on #DateFormat(due,"mmm d, yyyy")#</cfif></span></cfif><cfif project.todos gt 1> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="edit_item('#url.p#','#todolistID#','#todoID#');return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#url.p#','#todolistID#','#todoID#');return false;" /></span></cfif></td>
+					<td class="t#todolistID#"><cfif project.todos gt 1 and project.timetrack gt 1 and todolist.timetrack eq 1><img src="./images/time<cfif numTimeTracks gt 0>3<cfelse>2</cfif>.gif" height="16" width="16" onclick="todo_time('edit','#url.p#','#todolistID#','#todoID#','0');" /></cfif></td>
+					<td id="edit#todoID#"<cfif numComments eq 0> onmouseover="$('##c#todoID#').show();" onmouseout="$('##c#todoID#').hide();"</cfif>>#task#<cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)<cfif isDate(due)> - due on #DateFormat(due,"mmm d, yyyy")#</cfif></span></cfif><cfif project.todos gt 1> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="edit_item('#url.p#','#todolistID#','#todoID#');return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#url.p#','#todolistID#','#todoID#');return false;" /> <a href="todo.cfm?p=#url.p#&tl=#todolistID#&t=#todoID#" class="nounder" id="c#todoID#"<cfif numComments eq 0> style="display:none;"</cfif>><img src="./images/comment.png" height="11" width="14" alt="Comments" class="link" /><cfif numComments gt 0> #numComments#</cfif></a></span></cfif></td>
 				</tr>
 			</table>
 		</li>

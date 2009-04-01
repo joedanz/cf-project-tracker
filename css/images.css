@@ -13,6 +13,11 @@
 	padding-left:28px;
 }
 
+#container .left .main .header h2.comments {
+	background:url(../images/comments.png) no-repeat 0 50%;
+	padding-left:28px;
+}
+
 #container .left .main .header h2.files {
 	background:url(../images/files.gif) no-repeat 0 50%;
 	padding-left:28px;

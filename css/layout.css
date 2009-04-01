@@ -25,6 +25,8 @@ ul.nobullet li { margin-bottom:5px; }
 .p10 { padding:10px; }
 .pb15 { padding-bottom:15px; }
 .pl5 { padding-left:5px; }
+.pl30 { padding-left:30px; }
+.pl50 { padding-left:50px; }
 .tac { text-align:center; }
 .tal { text-align:left !important }
 .tar { text-align:right; }

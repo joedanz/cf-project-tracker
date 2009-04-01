@@ -31,7 +31,8 @@
 					<cfif arguments.fullJoin>
 						tl.title, p.projectID, p.name,
 					</cfif>
-					u.firstName,u.lastName, count(tt.timetrackid) as numTimeTracks, sum(tt.hours) as numHours
+					u.firstName,u.lastName, count(tt.timetrackid) as numTimeTracks, sum(tt.hours) as numHours,
+					count(c.commentid) as numComments
 				FROM #variables.tableprefix#todos t
 					<cfif arguments.fullJoin> 
 						LEFT JOIN #variables.tableprefix#todolists tl ON t.todolistID = tl.todolistID
@@ -39,6 +40,7 @@
 					</cfif>
 					LEFT JOIN #variables.tableprefix#users u ON t.userID = u.userID
 					LEFT JOIN #variables.tableprefix#timetrack tt ON t.todoID = tt.itemid
+					LEFT JOIN #variables.tableprefix#comments c ON t.todoID = c.itemID
 			WHERE 0=0
 				<cfif compare(arguments.projectID,'')> AND t.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35"></cfif>
 				<cfif compare(arguments.projectIDlist,'')>

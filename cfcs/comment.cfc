@@ -32,12 +32,9 @@
 			SELECT c.commentID,c.itemID,c.commentText,c.stamp,u.userID,u.firstName,u.lastName,u.avatar
 				FROM #variables.tableprefix#comments c LEFT JOIN #variables.tableprefix#users u	ON c.userid = u.userid
 			WHERE c.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
-			<cfif not compare(arguments.type,'msg')> 
+			<cfif listFindNoCase('issue,msg,mstone,todo',arguments.type)> 
 				AND c.itemID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.itemID#" maxlength="35">
-				AND c.type = 'msg'
-			<cfelseif not compare(arguments.type,'issue')> 
-				AND c.itemID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.itemID#" maxlength="35">
-				AND c.type = 'issue'
+				AND c.type = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="6">
 			</cfif>
 			ORDER BY c.stamp <cfif arguments.lastOnly>desc</cfif>
 		</cfquery>
