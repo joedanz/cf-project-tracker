@@ -7,55 +7,37 @@
 	<cfif compare(form.imagefile,'')>
 		<cfif compare(application.settings.company_logo,'')>
 			<cftry>
-				<cfif not compare(left(application.settings.userFilesPath,1),'.')>
-					<cffile action="delete" file="#ExpandPath('.' & application.settings.userFilesPath)#/#application.settings.company_logo#">
-				<cfelse>
-					<cffile action="delete" file="#application.settings.userFilesPath#/#application.settings.company_logo#">
-				</cfif>
+				<cffile action="delete" file="#application.userFilesPath#company/#application.settings.company_logo#">
 				<cfcatch></cfcatch>
 			</cftry>
 		</cfif>
-		<cfif not compare(left(application.settings.userFilesPath,1),'.')>
-			<cffile action="upload" accept="image/gif,image/jpg,image/jpeg,image/png" filefield="imagefile"
-				destination = "#ExpandPath('.' & application.settings.userFilesPath)#" nameConflict = "MakeUnique">
-		<cfelse>
-			<cffile action="upload" accept="image/gif,image/jpg,image/jpeg,image/png" filefield="imagefile"
-				destination = "#application.settings.userFilesPath#" nameConflict = "MakeUnique">
-		</cfif>
+		<cffile action="upload" accept="image/gif,image/jpg,image/jpeg,image/png" filefield="imagefile"
+			destination = "#application.userFilesPath#company/" nameConflict = "MakeUnique">
 		<cfset application.config.saveCompanyLogo(cffile.serverFile)>
 		<cfset application.settings.company_logo = cffile.serverFile>
 	</cfif>
 	<cfif compare(form.invimagefile,'')>
 		<cfif compare(application.settings.invoice_logo,'')>
 			<cftry>
-				<cfif not compare(left(application.settings.userFilesPath,1),'.')>
-					<cffile action="delete" file="#ExpandPath('.' & application.settings.userFilesPath)#/company/#application.settings.company_logo#">
-				<cfelse>
-					<cffile action="delete" file="#application.settings.userFilesPath#/company/#application.settings.company_logo#">
-				</cfif>
+				<cffile action="delete" file="#application.userFilesPath#company/#application.settings.company_logo#">
 				<cfcatch></cfcatch>
 			</cftry>
 		</cfif>
-		<cfif not compare(left(application.settings.userFilesPath,1),'.')>	
-			<cffile action="upload" accept="image/gif,image/jpg,image/jpeg,image/png" filefield="invimagefile"
-				destination = "#ExpandPath('.' & application.settings.userFilesPath & '/company')#" nameConflict = "MakeUnique">
-		<cfelse>
-			<cffile action="upload" accept="image/gif,image/jpg,image/jpeg,image/png" filefield="invimagefile"
-				destination = "#application.settings.userFilesPath#/company" nameConflict = "MakeUnique">		
-		</cfif>
+		<cffile action="upload" accept="image/gif,image/jpg,image/jpeg,image/png" filefield="invimagefile"
+			destination = "#application.userFilesPath#company/" nameConflict = "MakeUnique">
 		<cfset application.config.saveInvoiceLogo(cffile.serverFile)>
 		<cfset application.settings.invoice_logo = cffile.serverFile>
 	</cfif>
 <cfelseif StructKeyExists(url,"rmvimg")>
 	<cftry>
-		<cffile action="delete" file="#ExpandPath('.' & application.settings.userFilesPath & 'company/')##application.settings.company_logo#">
+		<cffile action="delete" file="#application.userFilesPath#company/#application.settings.company_logo#">
 		<cfcatch></cfcatch>
 	</cftry>
 	<cfset application.config.deleteCompanyLogo()>
 	<cfset application.settings.company_logo = "">
 <cfelseif StructKeyExists(url,"rmvinvimg")>
 	<cftry>
-		<cffile action="delete" file="#ExpandPath('.' & application.settings.userFilesPath & 'company/')##application.settings.invoice_logo#">
+		<cffile action="delete" file="#application.userFilesPath#company/#application.settings.invoice_logo#">
 		<cfcatch></cfcatch>
 	</cftry>
 	<cfset application.config.deleteInvoiceLogo()>

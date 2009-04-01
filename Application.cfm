@@ -22,9 +22,9 @@
 			<cfset application.settings = settings>
 			
 			<!--- determine userfiles directory if custom from config file --->
-			<cfif compareNoCase(settings.userFilesPath,'./userfiles/') and len(settings.userFilesPath)>
-				<cfset application.userFilesPath = settings.userFilesPath>
-				<cfif compare(right(settings.userFilesPath,1),'/')>
+			<cfif compare(settings.userFilesCustom,'') and len(settings.userFilesCustom)>
+				<cfset application.userFilesPath = settings.userFilesCustom>
+				<cfif compare(right(settings.userFilesCustom,1),'/')>
 					<cfset application.userFilesPath = application.userFilesPath & '/'>
 				</cfif>
 			<cfelse>

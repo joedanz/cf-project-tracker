@@ -49,10 +49,10 @@
 	<cfset whichTab = 5>
 <cfelseif StructKeyExists(url,"rmvimg")>
 	<cftry>
-	<cffile action="delete" file="#ExpandPath(application.settings.userFilesPath & 'avatars')#/#session.user.userid#_72.jpg">
-	<cffile action="delete" file="#ExpandPath(application.settings.userFilesPath & 'avatars')#/#session.user.userid#_48.jpg">
-	<cffile action="delete" file="#ExpandPath(application.settings.userFilesPath & 'avatars')#/#session.user.userid#_24.jpg">
-	<cffile action="delete" file="#ExpandPath(application.settings.userFilesPath & 'avatars')#/#session.user.userid#_16.jpg">
+	<cffile action="delete" file="#application.userFilesPath#avatars/#session.user.userid#_72.jpg">
+	<cffile action="delete" file="#application.userFilesPath#avatars/#session.user.userid#_48.jpg">
+	<cffile action="delete" file="#application.userFilesPath#avatars/#session.user.userid#_24.jpg">
+	<cffile action="delete" file="#application.userFilesPath#avatars/#session.user.userid#_16.jpg">
 	<cfcatch></cfcatch>
 	</cftry>
 	<cfset application.user.setImage(session.user.userID,0)>

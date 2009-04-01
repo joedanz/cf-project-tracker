@@ -41,13 +41,8 @@
 
 
 <cfif (StructKeyExists(form,"submit") and not compare(form.submit,'Update Project')) or (StructKeyExists(form,"submit") and not compare(form.submit,'Add Project')) and compare(form.logo_img,'')>
-	<cfif not compare(left(application.settings.userFilesPath,1),'.')>	
-		<cffile action="upload" accept="image/gif,image/jpg,image/jpeg,image/png" filefield="imagefile"
-			destination = "#ExpandPath(application.settings.userFilesPath & '/projects')#" nameConflict = "MakeUnique">
-	<cfelse>
-		<cffile action="upload" accept="image/gif,image/jpg,image/jpeg,image/png" filefield="imagefile"
-			destination = "#application.settings.userFilesPath#/projects" nameConflict = "MakeUnique">		
-	</cfif>
+	<cffile action="upload" accept="image/gif,image/jpg,image/jpeg,image/png" filefield="imagefile"
+		destination = "#application.userFilesPath#projects" nameConflict = "MakeUnique">		
 	<cfset logoimg = cffile.serverFile>
 <cfelse>
 	<cfset logoimg = "">
