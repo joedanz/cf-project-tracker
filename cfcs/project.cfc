@@ -260,7 +260,7 @@
 			<cfset application.file.delete(arguments.projectid,fileID,uploadedBy)>
 		</cfloop>
 		<cftry>
-			<cffile action="delete" file="#ExpandPath(application.settings.userFilesPath & 'projects/')##qProject.logo_img#">
+			<cffile action="delete" file="#application.userFilesPath#projects/#qProject.logo_img#">
 			<cfcatch></cfcatch>
 		</cftry>
 		
