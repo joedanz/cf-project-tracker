@@ -2,9 +2,6 @@ $(document).ready(function() {
 	$('input[type="text"],input[type="password"],select,textarea').addClass("idleField");
   	$('input[type="text"],input[type="password"],select,textarea').focus(function() {
   		$(this).removeClass("idleField").addClass("focusField");
-	    if (this.value == this.defaultValue){ 
-	    	this.value = '';
-		}
 		if(this.value != this.defaultValue){
 			this.select();
 		}
