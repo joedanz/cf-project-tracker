@@ -29,9 +29,9 @@ a:link, a:visited {color:##00f;}</style>
 <cfparam name="form.username" default="">
 <cfparam name="form.remain" default="0">
 <label for="username" style="display:block;">Username:</label>
-<input type="text" id="username" name="username" value="#form.username#" size="20" class="login" onfocus="$(this).addClass('loginactive');" onblur="$(this).removeClass('loginactive');" /><br />
+<input type="text" id="username" name="username" value="#form.username#" size="20" class="focusField" /><br />
 <label for="pass" style="display:block;">Password:</label>
-<input type="password" id="pass" name="password" size="20" class="login" onfocus="$(this).addClass('loginactive');" onblur="$(this).removeClass('loginactive');" /><br />
+<input type="password" id="pass" name="password" size="20" /><br />
 <input type="checkbox" name="remain" id="remain" value="1"<cfif form.remain eq 1> checked="checked"</cfif> /> 
 <label for="remain" id="rem"><span class="b">Keep me signed in</span><br />
 <small>for 2 weeks unless I sign out</small></label><br />
