@@ -16,7 +16,7 @@
 .tabs-nav {
     list-style: none;
     margin: 0;
-    padding: 0 0 0 4px;
+    padding: 0 0 0 15px;
 }
 .tabs-nav:after { /* clearing without presentational markup, IE gets extra treatment */
     display: block;

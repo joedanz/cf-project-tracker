@@ -565,7 +565,7 @@ function delete_todo_ajax(projectid,todolistid,todoid) {
 	});
 }
 	
-function todo_time(action,projectid,todolistid,todoid,completed) {
+function todo_time(action,projectid,todolistid,todoid,todoidstripped,completed) {
 	var data = 'p=' + projectid + '&tl=' + todolistid + '&t=' + todoid + '&c=' + completed;
 	if (action == 'edit') data = data + '&edit=1';
 	if (action == 'save') data = data + '&d=' + escape($('#datestamp' + todoid).val()) + '&u=' + $('#person' + todoid).val() + '&h=' + escape($('#hours' + todoid).val()) + '&note=' + escape($('#note' + todoid).val());
@@ -577,7 +577,7 @@ function todo_time(action,projectid,todolistid,todoid,completed) {
 		url: './ajax/todo_time.cfm',
 		data: data,
 		success: function(txt){
-			$('#id_'+todoid).html(txt);
+			$('#id_'+todoidstripped).html(txt);
 		}
 	});
 }
@@ -587,7 +587,7 @@ function reorder_lists() {
 	$('.itemedit').hide(); $('.tododetail').hide(); $('.top').hide(); 
 	$(".todolist").css("background-color","#fff"); $(".list").addClass("drag"); 
 	$('#sorting_done').show();
-	$('#reorder_menu').html('<a href="#" onclick="done_reordering();" class="reorder">Done Reordering</a>');
+	$('#reorder_menu').html('<a href="#" onclick="done_reordering();return false;" class="reorder">Done Reordering</a>');
 	$('#listWrapper').sortable({
 		axis: "y",
 		update: function() { save_order() }
@@ -598,7 +598,7 @@ function done_reordering() {
 	$(".list").removeClass("drag"); $(".todolist").css("background-color","#f7f7f7");
 	$('.listWrapper').sortable('destroy'); 
 	$('#sorting_done').hide();
-	$('#reorder_menu').html('<a href="#" onclick="reorder_lists();" class="reorder">Reorder lists</a>');
+	$('#reorder_menu').html('<a href="#" onclick="reorder_lists();return false;" class="reorder">Reorder lists</a>');
 }
 function save_order() {
 	thelist = serialize_lists('#listWrapper');
@@ -630,7 +630,7 @@ function reorder_items_by_due(projectid,todolistid){
 function reorder_items(todolistid) {
 	$('.li' + todolistid).addClass('drag');
 	$('.cb' + todolistid).hide(); $('.li_edit').hide();
-	$('.t' + todolistid + ' a.time').hide(); $('.t' + todolistid + ' a.timefull').hide();
+	$('.t' + todolistid ).hide();
 	$('#listmenu' + todolistid).hide();
 	$('#reorderdone' + todolistid).show();
 	$('#todoitems' + todolistid).sortable({
@@ -641,7 +641,7 @@ function reorder_items(todolistid) {
 function done_reordering_items(todolistid) {
 	$('#reorderdone' + todolistid).hide();
 	$('#listmenu' + todolistid).show(); 
-	$('.t' + todolistid + ' a.time').show(); $('.t' + todolistid + ' a.timefull').show();
+	$('.t' + todolistid).show();
 	$('.cb' + todolistid).show(); $('.li_edit').show();
 	$('.li' + todolistid).removeClass('drag');
 	$('#todoitems' + todolistid).sortable('destroy'); 

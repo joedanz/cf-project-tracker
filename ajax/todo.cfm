@@ -48,7 +48,9 @@
 		</cfif>
 		<cfset todo = application.todo.get(todoID=form.t)>
 		<cfoutput>	
-		<cfif isDate(todo.completed)><strike>#todo.task#</strike><cfelse>#todo.task#</cfif><cfif compare(todo.lastName,'')> <span class="g">(#todo.firstName# #todo.lastName#)<cfif isDate(todo.due)> - due on #DateFormat(todo.due,"mmm d, yyyy")#</cfif></span></cfif><cfif project.todos gt 1> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="edit_item('#form.p#','#form.tl#','#form.t#');return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#form.p#','#form.tl#','#form.t#');return false;" /> <a href="todo.cfm?p=#url.p#&tl=#todolistID#&t=#todoID#" class="nounder" id="c#todoID#"<cfif numComments eq 0> style="display:none;"</cfif>><img src="./images/comment.png" height="11" width="14" alt="Comments" class="link" /><cfif numComments gt 0> #numComments#</cfif></a></span></cfif>
+		<cfif isDate(todo.completed)><strike>#todo.task#</strike><cfelse>#todo.task#</cfif><cfif compare(todo.lastName,'')> <span class="g">(#todo.firstName# #todo.lastName#)</span></cfif><cfif isDate(todo.due)> - due on #DateFormat(todo.due,"mmm d, yyyy")#</cfif>
+		
+<cfif project.todos gt 1> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="edit_item('#form.p#','#form.tl#','#form.t#');return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#form.p#','#form.tl#','#form.t#');return false;" /> <a href="todo.cfm?p=#form.p#&tl=#form.tl#&t=#form.t#" class="nounder" id="c#form.t#"<cfif todo.numComments eq 0> style="display:none;"</cfif>><img src="./images/comment.png" height="11" width="14" alt="Comments" class="link" /><cfif todo.numComments gt 0> #todo.numComments#</cfif></a></span></cfif>
 		</cfoutput>	
 	</cfcase>
 	<cfcase value="update">
@@ -59,8 +61,9 @@
 		<cfelse>
 			<cfset project = application.project.get(session.user.userid,form.p)>
 		</cfif>
+		<cfset todo = application.todo.get(todoID=form.t)>
 		<cfoutput>	
-		<cfif isDate(form.c)><strike>#form.task#</strike><cfelse>#form.task#</cfif><cfif compare(form.fw,'')> <span class="g">(#form.fwfull#)<cfif isDate(form.d)> - due on #DateFormat(form.d,"mmm d, yyyy")#</cfif></span></cfif><cfif project.todos gt 1> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="edit_item('#form.p#','#form.tl#','#form.t#');return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#form.p#','#form.tl#','#form.t#');return false;" /> <a href="todo.cfm?p=#url.p#&tl=#todolistID#&t=#todoID#" class="nounder" id="c#todoID#"<cfif numComments eq 0> style="display:none;"</cfif>><img src="./images/comment.png" height="11" width="14" alt="Comments" class="link" /><cfif numComments gt 0> #numComments#</cfif></a></span></cfif>
+		<cfif isDate(form.c)><strike>#form.task#</strike><cfelse>#form.task#</cfif><cfif compare(form.fw,'')> <span class="g">(#form.fwfull#)</span></cfif><cfif isDate(form.d)> - due on #DateFormat(form.d,"mmm d, yyyy")#</cfif><cfif project.todos gt 1> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="edit_item('#form.p#','#form.tl#','#form.t#');return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#form.p#','#form.tl#','#form.t#');return false;" /> <a href="todo.cfm?p=#form.p#&tl=#form.tl#&t=#form.t#" class="nounder" id="c#form.t#"<cfif todo.numComments eq 0> style="display:none;"</cfif>><img src="./images/comment.png" height="11" width="14" alt="Comments" class="link" /><cfif todo.numComments gt 0> #todo.numComments#</cfif></a></span></cfif>
 		<script type="text/javascript">
 			$('##id_#form.t#').animate({backgroundColor:'##ffffb7'},200).animate({backgroundColor:'##f7f7f7'},1500);
 		</script>
@@ -92,7 +95,7 @@
 		<cfset projectUsers = application.project.projectUsers(url.p)>
 		<cfset todolist = application.todolist.get(url.p,url.tl)>
 		<cfoutput query="todos_completed">
-		<li class="g" id="id_#todoID#">
+		<li class="g" id="id_#replace(todoID,'-','','ALL')#">
 			<table>
 				<tr>
 					<td class="cb#todolistID#"><cfif project.todos gt 1><input type="checkbox" name="todoID" value="#todoID#" checked="checked" onclick="mark_incomplete('#url.p#','#todolistID#','#todoID#');" /></cfif></td>
@@ -124,7 +127,7 @@
 		<cfset projectUsers = application.project.projectUsers(url.p)>
 		<cfset todolist = application.todolist.get(url.p,url.tl)>
 		<cfoutput query="todos_notcompleted">
-		<li class="li#todolistID#" id="id_#todoID#">
+		<li class="li#todolistID#" id="id_#replace(todoID,'-','','ALL')#">
 			<table>
 				<tr>
 					<td class="cb#todolistID#"><cfif project.todos gt 1><input type="checkbox" name="todoID" value="#todoID#" onclick="mark_complete('#url.p#','#todolistID#','#todoID#');" /></cfif></td>

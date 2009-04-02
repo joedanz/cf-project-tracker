@@ -46,10 +46,15 @@ table.diff .code div { overflow: hidden; }
 table.diff { font-family: 'Bitstream Vera Sans Mono', 'Bitstream Vera Mono', 'Vera Mono', 'Vera Sans Mono', 'Lucida Console', 'Lucida Typewriter', monospace, fixed-width, fixed; font-size: 0.85em; }
 
 table.permissions tr th, table.permissions tr td, table.notify tr th, table.notify tr td {
-	font-size:.80em; border:1px solid #ccc; padding:3px;
+	font-size:1em; border:1px solid #ccc; padding:3px;
 }
 table.permissions tr th, table.notify tr th { background-color:#eee; text-align:center; }
-table.permissions tr td, table.notify tr td { background-color:#fff; text-align:center; }
+table.permissions tr td, table.notify tr td { text-align:center; }
+
+table.permissions td.hover, table.permissions tbody tr:hover {
+	background-color: #EFF5FF !important;
+}
+
 table.notify label { float:none; }
 
 table#milestone_cal { background:#e0e0e0; border-collapse:separate;	border-spacing:1px; }

@@ -18,6 +18,7 @@
 <!-- CSS -->
 <link rel="stylesheet" href="#application.settings.mapping#/css/header/#session.style#.css" media="screen,projection" type="text/css" />
 <link rel="stylesheet" href="#application.settings.mapping#/css/all_styles.css" media="screen,projection" type="text/css" />
+<link rel="stylesheet" href="#application.settings.mapping#/css/smoothness/jquery-ui-1.7.1.custom.css" media="screen,projection" type="text/css" />
 
 <!-- JavaScript -->
 <script type="text/javascript" src="#application.settings.mapping#/js/jquery-1.3.2.min.js"></script>
