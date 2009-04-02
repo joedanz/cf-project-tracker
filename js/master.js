@@ -1,10 +1,20 @@
-$(document).ready(function(){
-	$('input:not(#searchbox):not([type=submit]), textarea, select').focus(function(){ $(this).css('background-color', '#ffc'); $(this).css('border', '1px solid #7f9db9'); });
-	$('input:not(#searchbox):not([type=submit])').focus(function(){ $(this).css('padding', '3px'); });
-	$('select').focus(function(){ $(this).css('padding', '2px'); });
-	$('input:not(#searchbox):not([type=submit]), textarea, select').blur(function(){ $(this).css('background-color', '#fff'); $(this).css('border', '1px solid #7f9db9'); $(this).css('padding', '3px'); });
-	$('input:not(#searchbox):not([type=submit])').blur(function(){ $(this).css('padding', '3px'); });
-	$('select').blur(function(){ $(this).css('padding', '2px'); });
+$(document).ready(function() {
+	$('input[type="text"],input[type="password"],select,textarea').addClass("idleField");
+  	$('input[type="text"],input[type="password"],select,textarea').focus(function() {
+  		$(this).removeClass("idleField").addClass("focusField");
+	    if (this.value == this.defaultValue){ 
+	    	this.value = '';
+		}
+		if(this.value != this.defaultValue){
+			this.select();
+		}
+	});
+	$('input[type="text"],input[type="password"],select,textarea').blur(function() {
+		$(this).removeClass("focusField").addClass("idleField");
+		if ($.trim(this.value) == ''){
+	    	this.value = (this.defaultValue ? this.defaultValue : '');
+		}
+	});
 });
 
 function togglemenu() {
