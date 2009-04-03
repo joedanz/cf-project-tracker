@@ -29,6 +29,94 @@
 		where userid = <cfqueryparam cfsqltype="cf_sql_char" value="#userID#" maxlength="35"> 
 	</cfquery>
 	<cfloop query="userProjects">
+		<cfif files gt 0>
+			<cfquery datasource="#application.settings.dsn#">
+				UPDATE #application.settings.tableprefix#project_users
+					SET file_view = 1
+				<cfif files gt 1>
+					, file_add = 1
+					, file_edit = 1
+				</cfif>
+				where userid = <cfqueryparam cfsqltype="cf_sql_char" value="#userID#" maxlength="35">
+			</cfquery>
+		</cfif>
+		<cfif issues gt 0>
+			<cfquery datasource="#application.settings.dsn#">
+				UPDATE #application.settings.tableprefix#project_users
+					SET issue_view = 1
+				<cfif issues gt 1>
+					, issue_add = 1
+					, issue_edit = 1
+					, issue_accept = 1
+					, issue_comment = 1
+				</cfif>
+				where userid = <cfqueryparam cfsqltype="cf_sql_char" value="#userID#" maxlength="35">
+			</cfquery>	
+		</cfif>
+		<cfif msgs gt 0>
+			<cfquery datasource="#application.settings.dsn#">
+				UPDATE #application.settings.tableprefix#project_users
+					SET msg_view = 1
+				<cfif msgs gt 1>
+					, msg_add = 1
+					, msg_edit = 1
+					, msg_comment = 1
+				</cfif>
+				where userid = <cfqueryparam cfsqltype="cf_sql_char" value="#userID#" maxlength="35">
+			</cfquery>	
+		</cfif>
+		<cfif mstones gt 0>
+			<cfquery datasource="#application.settings.dsn#">
+				UPDATE #application.settings.tableprefix#project_users
+					SET mstone_view = 1
+				<cfif mstones gt 1>
+					, mstone_add = 1
+					, mstone_edit = 1
+					, mstone_comment = 1
+				</cfif>
+				where userid = <cfqueryparam cfsqltype="cf_sql_char" value="#userID#" maxlength="35">
+			</cfquery>	
+		</cfif>
+		<cfif todos gt 0>
+			<cfquery datasource="#application.settings.dsn#">
+				UPDATE #application.settings.tableprefix#project_users
+					SET todolist_view = 1
+				<cfif todos gt 1>
+					, todolist_add = 1
+					, todolist_edit = 1
+					, todo_add = 1
+					, todo_edit = 1
+					, todo_comment = 1
+				</cfif>
+				where userid = <cfqueryparam cfsqltype="cf_sql_char" value="#userID#" maxlength="35">
+			</cfquery>	
+		</cfif>
+		<cfif timetrack gt 0>
+			<cfquery datasource="#application.settings.dsn#">
+				UPDATE #application.settings.tableprefix#project_users
+					SET time_view = 1
+				<cfif timetrack gt 1>
+					, time_add = 1
+					, time_edit = 1
+				</cfif>
+				where userid = <cfqueryparam cfsqltype="cf_sql_char" value="#userID#" maxlength="35">
+			</cfquery>	
+		</cfif>
+		<cfif billing gt 0>
+			<cfquery datasource="#application.settings.dsn#">
+				UPDATE #application.settings.tableprefix#project_users
+					SET bill_view = 1
+				<cfif billing gt 1>
+					, bill_add = 1
+					, bill_edit = 1
+					, bill_rates = 1
+					, bill_invoices = 1
+					, bill_markpaid = 1
+				</cfif>
+				where userid = <cfqueryparam cfsqltype="cf_sql_char" value="#userID#" maxlength="35">
+			</cfquery>	
+		</cfif>
+
 		<cfquery datasource="#application.settings.dsn#">
 			insert into #application.settings.tableprefix#user_notify (userID, projectID, email_files, 
 				mobile_files, email_issues, mobile_issues, email_msgs, mobile_msgs, email_mstones, 
@@ -52,6 +140,26 @@
 </cfloop>
 
 <!--- REMOVE OLD COLUMNS FROM PROJECT_USERS TABLE --->
+<cfquery datasource="#application.settings.dsn#">
+	ALTER TABLE #application.settings.tableprefix#project_users DROP COLUMN files
+</cfquery>
+<cfquery datasource="#application.settings.dsn#">
+	ALTER TABLE #application.settings.tableprefix#project_users DROP COLUMN issues
+</cfquery>
+<cfquery datasource="#application.settings.dsn#">
+	ALTER TABLE #application.settings.tableprefix#project_users DROP COLUMN msgs
+</cfquery>
+<cfquery datasource="#application.settings.dsn#">
+	ALTER TABLE #application.settings.tableprefix#project_users DROP COLUMN mstones
+</cfquery>
+<cfquery datasource="#application.settings.dsn#">
+	ALTER TABLE #application.settings.tableprefix#project_users DROP COLUMN todos
+</cfquery>
+<cfquery datasource="#application.settings.dsn#">
+	ALTER TABLE #application.settings.tableprefix#project_users DROP COLUMN timetrack
+</cfquery>
+
+<!--- REMOVE OLD COLUMNS FROM USERS TABLE --->
 <cfquery datasource="#application.settings.dsn#">
 	ALTER TABLE #application.settings.tableprefix#users DROP COLUMN email_files
 </cfquery>

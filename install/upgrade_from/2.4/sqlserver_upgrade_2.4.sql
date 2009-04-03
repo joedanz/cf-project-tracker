@@ -35,9 +35,129 @@ UPDATE [dbo].[pt_milestones] SET paid = 0
 GO
 
 /* pt_project_users */
-ALTER TABLE [dbo].[pt_project_users] ADD [billing] [tinyint] NULL
+ALTER TABLE [dbo].[pt_project_users] ADD [file_view] [tinyint] NULL
 GO
-UPDATE [dbo].[pt_project_users] SET billing = 0
+ALTER TABLE [dbo].[pt_project_users] ADD [file_add] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [file_edit] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [issue_view] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [issue_add] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [issue_edit] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [issue_accept] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [issue_comment] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [msg_view] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [msg_add] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [msg_edit] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [msg_comment] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [mstone_view] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [mstone_add] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [mstone_edit] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [mstone_comment] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [todolist_view] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [todolist_add] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [todolist_edit] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [todo_add] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [todo_edit] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [todo_comment] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [time_view] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [time_add] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [time_edit] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [bill_view] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [bill_add] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [bill_edit] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [bill_rates] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [bill_invoices] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [bill_markpaid] [tinyint] NULL
+GO
+UPDATE [dbo].[pt_project_users] SET file_view = 0
+GO
+UPDATE [dbo].[pt_project_users] SET file_add = 0
+GO
+UPDATE [dbo].[pt_project_users] SET file_edit = 0
+GO
+UPDATE [dbo].[pt_project_users] SET issue_view = 0
+GO
+UPDATE [dbo].[pt_project_users] SET issue_add = 0
+GO
+UPDATE [dbo].[pt_project_users] SET issue_edit = 0
+GO
+UPDATE [dbo].[pt_project_users] SET issue_accept = 0
+GO
+UPDATE [dbo].[pt_project_users] SET issue_comment = 0
+GO
+UPDATE [dbo].[pt_project_users] SET msg_view = 0
+GO
+UPDATE [dbo].[pt_project_users] SET msg_add = 0
+GO
+UPDATE [dbo].[pt_project_users] SET msg_edit = 0
+GO
+UPDATE [dbo].[pt_project_users] SET msg_comment = 0
+GO
+UPDATE [dbo].[pt_project_users] SET mstone_view = 0
+GO
+UPDATE [dbo].[pt_project_users] SET mstone_add = 0
+GO
+UPDATE [dbo].[pt_project_users] SET mstone_edit = 0
+GO
+UPDATE [dbo].[pt_project_users] SET mstone_comment = 0
+GO
+UPDATE [dbo].[pt_project_users] SET todolist_view = 0
+GO
+UPDATE [dbo].[pt_project_users] SET todolist_add = 0
+GO
+UPDATE [dbo].[pt_project_users] SET todolist_edit = 0
+GO
+UPDATE [dbo].[pt_project_users] SET todo_add = 0
+GO
+UPDATE [dbo].[pt_project_users] SET todo_edit = 0
+GO
+UPDATE [dbo].[pt_project_users] SET todo_comment = 0
+GO
+UPDATE [dbo].[pt_project_users] SET time_view = 0
+GO
+UPDATE [dbo].[pt_project_users] SET time_add = 0
+GO
+UPDATE [dbo].[pt_project_users] SET time_edit = 0
+GO
+UPDATE [dbo].[pt_project_users] SET bill_view = 0
+GO
+UPDATE [dbo].[pt_project_users] SET bill_add = 0
+GO
+UPDATE [dbo].[pt_project_users] SET bill_edit = 0
+GO
+UPDATE [dbo].[pt_project_users] SET bill_rates = 0
+GO
+UPDATE [dbo].[pt_project_users] SET bill_invoices = 0
+GO
+UPDATE [dbo].[pt_project_users] SET bill_markpaid = 0
 GO
 
 /* pt_projects */
