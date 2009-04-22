@@ -2,9 +2,9 @@
 
 /* pt_client_rates */
 CREATE TABLE [dbo].[pt_client_rates] (
-	[rateID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-	[clientID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-	[category] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[rateID] [char] (35) NOT NULL ,
+	[clientID] [char] (35) NOT NULL ,
+	[category] [nvarchar] (50) NULL ,
 	[rate] numeric (6,2) NULL
 ) ON [PRIMARY]
 GO
@@ -17,9 +17,9 @@ ALTER TABLE [dbo].[pt_client_rates] WITH NOCHECK ADD
 GO
 
 /* pt_clients */
-ALTER TABLE [dbo].[pt_clients] ADD [contactEmail] [nvarchar] (150) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+ALTER TABLE [dbo].[pt_clients] ADD [contactEmail] [nvarchar] (150) NULL
 GO
-ALTER TABLE [dbo].[pt_clients] ADD [website] [nvarchar] (150) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+ALTER TABLE [dbo].[pt_clients] ADD [website] [nvarchar] (150) NULL
 GO
 
 /* pt_milestones */
@@ -161,7 +161,7 @@ UPDATE [dbo].[pt_project_users] SET bill_markpaid = 0
 GO
 
 /* pt_projects */
-ALTER TABLE [dbo].[pt_projects] ADD [logo_img] [nvarchar] (150) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+ALTER TABLE [dbo].[pt_projects] ADD [logo_img] [nvarchar] (150) NULL
 GO
 ALTER TABLE [dbo].[pt_projects] ADD [tab_billing] [tinyint] NULL
 GO
@@ -187,7 +187,7 @@ INSERT INTO [dbo].[pt_settings](settingID,setting,settingValue) values('3D72D1F7
 GO
 
 /* pt_timetrack */
-ALTER TABLE [dbo].[pt_timetrack] ADD [rateID] [nvarchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+ALTER TABLE [dbo].[pt_timetrack] ADD [rateID] [nvarchar] (35) NULL
 GO
 ALTER TABLE [dbo].[pt_timetrack] ADD [billed] [tinyint] NULL
 GO
@@ -200,8 +200,8 @@ GO
 
 /* pt_user_notify */
 CREATE TABLE [dbo].[pt_user_notify] (
-	[userID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-	[projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[userID] [char] (35) NOT NULL ,
+	[projectID] [char] (35) NOT NULL ,
 	[email_files] [tinyint] NULL ,
 	[mobile_files] [tinyint] NULL ,
 	[email_issues] [tinyint] NULL ,

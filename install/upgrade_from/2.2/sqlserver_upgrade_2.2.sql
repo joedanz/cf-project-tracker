@@ -1,4 +1,4 @@
-ALTER TABLE [dbo].[pt_message_files] ADD [type] [nvarchar] (6) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+ALTER TABLE [dbo].[pt_message_files] ADD [type] [nvarchar] (6) NULL
 GO
 
 EXEC sp_rename 'pt_message_files.[messageID]', 'itemID', 'COLUMN'
@@ -14,7 +14,7 @@ GO
 ALTER TABLE pt_file_attach DROP CONSTRAINT PK_pt_message_files
 GO
 
-ALTER TABLE [dbo].[pt_file_attach] ALTER COLUMN [type] [nvarchar] (6) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+ALTER TABLE [dbo].[pt_file_attach] ALTER COLUMN [type] [nvarchar] (6) NOT NULL
 GO
 
 ALTER TABLE [dbo].[pt_file_attach] WITH NOCHECK ADD 
@@ -25,16 +25,16 @@ ALTER TABLE [dbo].[pt_file_attach] WITH NOCHECK ADD
 GO
 
 CREATE TABLE [dbo].[pt_screenshots] (
-	[fileID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-	[issueID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-	[title] [nvarchar] (200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
-	[description] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
-	[filename] [nvarchar] (150) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
-	[serverfilename] [nvarchar] (150) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
-	[filetype] [nvarchar] (4) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[fileID] [char] (35) NOT NULL ,
+	[issueID] [char] (35) NOT NULL ,
+	[title] [nvarchar] (200) NULL ,
+	[description] [ntext] NULL ,
+	[filename] [nvarchar] (150) NULL ,
+	[serverfilename] [nvarchar] (150) NULL ,
+	[filetype] [nvarchar] (4) NULL ,
 	[filesize] [bigint] NULL ,
 	[uploaded] [datetime] NULL ,
-	[uploadedBy] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL 
+	[uploadedBy] [char] (35) NOT NULL 
 ) ON [PRIMARY]
 GO
 

@@ -1,9 +1,9 @@
 /* UPGRADE FROM 2.3 */
 
 /* pt_issues */
-ALTER TABLE [dbo].[pt_issues] ADD [componentID] [nvarchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+ALTER TABLE [dbo].[pt_issues] ADD [componentID] [nvarchar] (35) NULL
 GO
-ALTER TABLE [dbo].[pt_issues] ADD [versionID] [nvarchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+ALTER TABLE [dbo].[pt_issues] ADD [versionID] [nvarchar] (35) NULL
 GO
 ALTER TABLE [dbo].[pt_issues] ADD [dueDate] [datetime] NULL
 GO
@@ -44,9 +44,9 @@ GO
 
 /* pt_project_components */
 CREATE TABLE [dbo].[pt_project_components] (
-	[componentID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-	[projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-	[component] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL 
+	[componentID] [char] (35) NOT NULL ,
+	[projectID] [char] (35) NOT NULL ,
+	[component] [nvarchar] (50) NULL 
 ) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[pt_project_components] WITH NOCHECK ADD 
@@ -64,9 +64,9 @@ GO
 
 /* pt_project_versions */
 CREATE TABLE [dbo].[pt_project_versions] (
-	[versionID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-	[projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-	[version] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL 
+	[versionID] [char] (35) NOT NULL ,
+	[projectID] [char] (35) NOT NULL ,
+	[version] [nvarchar] (50) NULL 
 ) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[pt_project_versions] WITH NOCHECK ADD 
@@ -78,11 +78,11 @@ GO
 
 /* pt_svn_link */
 CREATE TABLE [dbo].[pt_svn_link] (
-	[linkID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-	[projectID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[linkID] [char] (35) NOT NULL ,
+	[projectID] [char] (35) NULL ,
 	[revision] [smallint] NULL ,
-	[itemID] [char] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
-	[itemType] [nvarchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL 
+	[itemID] [char] (35) NULL ,
+	[itemType] [nvarchar] (10) NULL 
 ) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[pt_svn_link] WITH NOCHECK ADD 
@@ -118,7 +118,7 @@ UPDATE [dbo].[pt_todolists] SET timetrack = 0
 GO
 
 /* pt_todos */
-ALTER TABLE [dbo].[pt_todos] ALTER COLUMN [task] [nvarchar] (600) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+ALTER TABLE [dbo].[pt_todos] ALTER COLUMN [task] [nvarchar] (600) NULL
 GO
 ALTER TABLE [dbo].[pt_todos] DROP COLUMN [svnrevision]
 GO

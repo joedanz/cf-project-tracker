@@ -434,13 +434,13 @@ INSERT INTO pt_settings (settingid,setting,settingvalue) values
 ('3D72D1F7-CD23-8BE3-60F9614093F89CCF','hourly_rate','');
 
 INSERT INTO pt_users
-(userID,firstName,lastName,username,password,style,email_files,mobile_files,email_issues,mobile_issues,email_msgs,mobile_msgs,email_mstones,mobile_mstones,email_todos,mobile_todos,avatar,admin,active) 
-values('FCDCF4CD-16E6-58DE-13EDC6A2B362B22C','Admin','User','admin','21232F297A57A5A743894A0E4A801FC3','blue',0,0,0,0,0,0,0,0,0,0,0,1,1
+(userID,firstName,lastName,username,password,style,avatar,admin,active) 
+values('FCDCF4CD-16E6-58DE-13EDC6A2B362B22C','Admin','User','admin','21232F297A57A5A743894A0E4A801FC3','blue',0,1,1
 );
 
 INSERT INTO pt_users
-(userID,firstName,lastName,username,password,style,email_files,mobile_files,email_issues,mobile_issues,email_msgs,mobile_msgs,email_mstones,mobile_mstones,email_todos,mobile_todos,avatar,admin,active) 
-values('7F16CA08-1372-7975-6F7F9DA33EBD6A09','Guest','User','guest','084E0343A0486FF05530DF6C705C8BB4','blue',0,0,0,0,0,0,0,0,0,0,0,0,1
+(userID,firstName,lastName,username,password,style,avatar,admin,active) 
+values('7F16CA08-1372-7975-6F7F9DA33EBD6A09','Guest','User','guest','084E0343A0486FF05530DF6C705C8BB4','blue',0,0,1
 );
 
 create or replace function month(v_date in date) return varchar2 is
