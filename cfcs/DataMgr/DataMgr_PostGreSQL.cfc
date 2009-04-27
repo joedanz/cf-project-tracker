@@ -1,5 +1,5 @@
-<!--- 2.2 (Build 146) --->
-<!--- Last Updated: 2009-01-25 --->
+<!--- 2.2.0.1 (Build 148) --->
+<!--- Last Updated: 2009-04-24 --->
 <!--- Created by Steve Bryant 2004-12-08 --->
 <cfcomponent extends="DataMgr" displayname="Data Manager for PostGreSQL" hint="I manage data interactions with the PostGreSQL database. I can be used to handle inserts/updates.">
 
@@ -85,8 +85,8 @@
 		<cfset arguments.tablealias = arguments.tablename>
 	</cfif>
 	
-	<cfloop index="colname" list="#arguments.fields#">
-		<cfset fieldSQL = getFieldSelectSQL(tablename=arguments.tablename,field=colname,tablealias=arguments.tablealias,useFieldAlias=false)>
+	<cfloop index="col" list="#arguments.fields#">
+		<cfset fieldSQL = getFieldSelectSQL(tablename=arguments.tablename,field=col,tablealias=arguments.tablealias,useFieldAlias=false)>
 		<cfif ArrayLen(aSQL)>
 			<cfset ArrayAppend(aSQL," || '#arguments.delimeter#' || ")>
 		</cfif>
