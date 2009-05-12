@@ -151,32 +151,24 @@
 				<field ColumnName="projectID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
 				<field ColumnName="admin" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="file_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
-				<field ColumnName="file_add" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="file_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="issue_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
-				<field ColumnName="issue_add" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="issue_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="issue_accept" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="issue_comment" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="msg_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
-				<field ColumnName="msg_add" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="msg_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="msg_comment" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="mstone_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
-				<field ColumnName="mstone_add" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="mstone_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="mstone_comment" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="todolist_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
-				<field ColumnName="todolist_add" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="todolist_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
-				<field ColumnName="todo_add" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="todo_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="todo_comment" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="time_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
-				<field ColumnName="time_add" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="time_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="bill_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
-				<field ColumnName="bill_add" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="bill_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="bill_rates" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="bill_invoices" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />

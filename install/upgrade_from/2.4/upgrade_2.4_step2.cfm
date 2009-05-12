@@ -34,7 +34,6 @@
 				UPDATE #application.settings.tableprefix#project_users
 					SET file_view = 1
 				<cfif files gt 1>
-					, file_add = 1
 					, file_edit = 1
 				</cfif>
 				where userid = <cfqueryparam cfsqltype="cf_sql_char" value="#userID#" maxlength="35">
@@ -45,7 +44,6 @@
 				UPDATE #application.settings.tableprefix#project_users
 					SET issue_view = 1
 				<cfif issues gt 1>
-					, issue_add = 1
 					, issue_edit = 1
 					, issue_accept = 1
 					, issue_comment = 1
@@ -58,7 +56,6 @@
 				UPDATE #application.settings.tableprefix#project_users
 					SET msg_view = 1
 				<cfif msgs gt 1>
-					, msg_add = 1
 					, msg_edit = 1
 					, msg_comment = 1
 				</cfif>
@@ -70,7 +67,6 @@
 				UPDATE #application.settings.tableprefix#project_users
 					SET mstone_view = 1
 				<cfif mstones gt 1>
-					, mstone_add = 1
 					, mstone_edit = 1
 					, mstone_comment = 1
 				</cfif>
@@ -82,9 +78,7 @@
 				UPDATE #application.settings.tableprefix#project_users
 					SET todolist_view = 1
 				<cfif todos gt 1>
-					, todolist_add = 1
 					, todolist_edit = 1
-					, todo_add = 1
 					, todo_edit = 1
 					, todo_comment = 1
 				</cfif>
@@ -96,7 +90,6 @@
 				UPDATE #application.settings.tableprefix#project_users
 					SET time_view = 1
 				<cfif timetrack gt 1>
-					, time_add = 1
 					, time_edit = 1
 				</cfif>
 				where userid = <cfqueryparam cfsqltype="cf_sql_char" value="#userID#" maxlength="35">
@@ -107,7 +100,6 @@
 				UPDATE #application.settings.tableprefix#project_users
 					SET bill_view = 1
 				<cfif billing gt 1>
-					, bill_add = 1
 					, bill_edit = 1
 					, bill_rates = 1
 					, bill_invoices = 1
