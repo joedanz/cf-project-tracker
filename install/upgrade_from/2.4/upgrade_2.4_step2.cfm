@@ -5,12 +5,11 @@
 
 <cfsetting showdebugoutput="true">
 
-<!--- get all users --->
+<!--- GET ALL USERS --->
 <cfquery name="getUsers" datasource="#application.settings.dsn#">
 	select * from #application.settings.tableprefix#users
 </cfquery>
 
-<!--- insert per project notifications --->
 <cfloop query="getUsers">
 	<cfscript>
 		this_email_files = email_files;
@@ -28,6 +27,7 @@
 		select * from #application.settings.tableprefix#project_users 
 		where userid = <cfqueryparam cfsqltype="cf_sql_char" value="#userID#" maxlength="35"> 
 	</cfquery>
+	<!--- INSERT PER PROJECT PERMISSIONS --->
 	<cfloop query="userProjects">
 		<cfif files gt 0>
 			<cfquery datasource="#application.settings.dsn#">
@@ -109,6 +109,7 @@
 			</cfquery>	
 		</cfif>
 
+		<!--- INSERT PER PROJECT NOTIFICATIONS --->
 		<cfquery datasource="#application.settings.dsn#">
 			insert into #application.settings.tableprefix#user_notify (userID, projectID, email_files, 
 				mobile_files, email_issues, mobile_issues, email_msgs, mobile_msgs, email_mstones, 
@@ -182,6 +183,71 @@
 <cfquery datasource="#application.settings.dsn#">
 	ALTER TABLE #application.settings.tableprefix#users DROP COLUMN mobile_todos
 </cfquery>
+
+
+<!--- GET ALL PROJECTS --->
+<cfquery name="getProjects" datasource="#application.settings.dsn#">
+	select * from #application.settings.tableprefix#projects
+</cfquery>
+
+<!--- MODIFY PROJECT PERMISSION DEFAULTS --->
+<cfloop query="getProjects">
+	<cfquery datasource="#application.settings.dsn#">
+		UPDATE #application.settings.tableprefix#projects
+			SET reg_bill_view = 0, reg_bill_edit = 0, reg_bill_rates = 0, 
+			reg_bill_invoices = 0, reg_bill_markpaid = 0,
+			reg_file_view = <cfif reg_files gte 1>1<cfelse>0</cfif>,
+			reg_file_edit = <cfif reg_files eq 2>1<cfelse>0</cfif>,
+			reg_issue_view = <cfif reg_issues gte 1>1<cfelse>0</cfif>,
+			<cfif reg_issues eq 2>
+				reg_issue_edit = 1, reg_issue_accept = 1, reg_issue_comment = 1,
+			<cfelse>
+				reg_issue_edit = 0, reg_issue_accept = 0, reg_issue_comment = 0,
+			</cfif>
+			reg_msg_view = <cfif reg_msgs gte 1>1<cfelse>0</cfif>,
+			<cfif reg_msgs eq 2>
+				reg_msg_edit = 1, reg_msg_comment = 1,
+			<cfelse>
+				reg_msg_edit = 0, reg_msg_comment = 0,
+			</cfif>
+			reg_mstone_view = <cfif reg_mstones gte 1>1<cfelse>0</cfif>,
+			<cfif reg_mstones eq 2>
+				reg_mstone_edit = 1, reg_mstone_comment = 1,
+			<cfelse>
+				reg_mstone_edit = 0, reg_mstone_comment = 0,
+			</cfif>
+			reg_todolist_view = <cfif reg_todos gte 1>1<cfelse>0</cfif>,
+			<cfif reg_todos eq 2>
+				reg_todolist_edit = 1, reg_todo_edit = 1, reg_todo_comment = 1,
+			<cfelse>
+				reg_todolist_edit = 0, reg_todo_edit = 0, reg_todo_comment = 0,
+			</cfif>
+			reg_time_view = <cfif reg_time gte 1>1<cfelse>0</cfif>,
+			reg_time_edit = <cfif reg_time eq 2>1<cfelse>0</cfif>
+		WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#projectID#" maxlength="35">
+	</cfquery>
+</cfloop>
+
+<!--- REMOVE OLD COLUMNS FROM PROJECTS TABLE --->
+<cfquery datasource="#application.settings.dsn#">
+	ALTER TABLE #application.settings.tableprefix#projects DROP COLUMN reg_files
+</cfquery>
+<cfquery datasource="#application.settings.dsn#">
+	ALTER TABLE #application.settings.tableprefix#projects DROP COLUMN reg_issues
+</cfquery>
+<cfquery datasource="#application.settings.dsn#">
+	ALTER TABLE #application.settings.tableprefix#projects DROP COLUMN reg_msgs
+</cfquery>
+<cfquery datasource="#application.settings.dsn#">
+	ALTER TABLE #application.settings.tableprefix#projects DROP COLUMN reg_mstones
+</cfquery>
+<cfquery datasource="#application.settings.dsn#">
+	ALTER TABLE #application.settings.tableprefix#projects DROP COLUMN reg_todos
+</cfquery>
+<cfquery datasource="#application.settings.dsn#">
+	ALTER TABLE #application.settings.tableprefix#projects DROP COLUMN reg_time
+</cfquery>
+
 
 <!--- MOVE AVATARS DIRECTORY TO USERFILES --->
 <cftry>

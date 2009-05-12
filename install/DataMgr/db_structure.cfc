@@ -197,13 +197,30 @@
 				<field ColumnName="logo_img" CF_DataType="CF_SQL_VARCHAR" Length="150" />
 				<field ColumnName="allow_reg" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="reg_active" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
-				<field ColumnName="reg_files" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
-				<field ColumnName="reg_issues" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
-				<field ColumnName="reg_msgs" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
-				<field ColumnName="reg_mstones" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_file_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_file_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_issue_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_issue_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_issue_accept" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_issue_comment" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_msg_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_msg_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_msg_comment" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_mstone_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_mstone_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_mstone_comment" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_todolist_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_todolist_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_todo_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_todo_comment" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_time_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_time_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_bill_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_bill_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_bill_rates" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_bill_invoices" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_bill_markpaid" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="reg_svn" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
-				<field ColumnName="reg_time" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
-				<field ColumnName="reg_todos" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="tab_billing" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="tab_files" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="tab_issues" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />

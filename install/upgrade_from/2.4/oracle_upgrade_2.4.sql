@@ -91,7 +91,30 @@ add
    logo_img varchar2(150) NULL,
    tab_billing NUMBER(1,0) NULL,
    issue_svn_link NUMBER(1,0) NULL,
-   issue_timetrack NUMBER(1,0) NULL
+   issue_timetrack NUMBER(1,0) NULL,
+   reg_file_view NUMBER(1,0) NULL,
+   reg_file_edit NUMBER(1,0) NULL,
+   reg_issue_view NUMBER(1,0) NULL,
+   reg_issue_edit NUMBER(1,0) NULL,
+   reg_issue_accept NUMBER(1,0) NULL,
+   reg_issue_comment NUMBER(1,0) NULL,
+   reg_msg_view NUMBER(1,0) NULL,
+   reg_msg_edit NUMBER(1,0) NULL,
+   reg_msg_comment NUMBER(1,0) NULL,
+   reg_mstone_view NUMBER(1,0) NULL,
+   reg_mstone_edit NUMBER(1,0) NULL,
+   reg_mstone_comment NUMBER(1,0) NULL,
+   reg_todolist_view NUMBER(1,0) NULL,
+   reg_todolist_edit NUMBER(1,0) NULL,
+   reg_todo_edit NUMBER(1,0) NULL,
+   reg_todo_comment NUMBER(1,0) NULL,
+   reg_time_view NUMBER(1,0) NULL,
+   reg_time_edit NUMBER(1,0) NULL,
+   reg_bill_view NUMBER(1,0) NULL,
+   reg_bill_edit NUMBER(1,0) NULL,
+   reg_bill_rates NUMBER(1,0) NULL,
+   reg_bill_invoices NUMBER(1,0) NULL,
+   reg_bill_markpaid NUMBER(1,0) NULL
    );
 update pt_projects set tab_billing = 0;
 update pt_projects set issue_svn_link = 1;

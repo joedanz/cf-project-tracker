@@ -143,6 +143,52 @@ ALTER TABLE [dbo].[pt_projects] ADD [issue_timetrack] [tinyint] NULL
 GO
 UPDATE [dbo].[pt_projects] SET issue_timetrack = 1
 GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_file_view] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_file_edit] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_issue_view] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_issue_edit] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_issue_accept] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_issue_comment] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_msg_view] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_msg_edit] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_msg_comment] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_mstone_view] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_mstone_edit] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_mstone_comment] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_todolist_view] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_todolist_edit] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_todo_edit] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_todo_comment] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_time_view] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_time_edit] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_bill_view] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_bill_edit] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_bill_rates] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_bill_invoices] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_bill_markpaid] [tinyint] NULL
+GO
 
 /* pt_settings */
 INSERT INTO [dbo].[pt_settings](settingID,setting,settingValue) values('1E5ED63A-C938-2FE9-C60035D81F955266','company_name','')
