@@ -39,6 +39,8 @@ ALTER TABLE [dbo].[pt_project_users] ADD [file_view] [tinyint] NULL
 GO
 ALTER TABLE [dbo].[pt_project_users] ADD [file_edit] [tinyint] NULL
 GO
+ALTER TABLE [dbo].[pt_project_users] ADD [file_comment] [tinyint] NULL
+GO
 ALTER TABLE [dbo].[pt_project_users] ADD [issue_view] [tinyint] NULL
 GO
 ALTER TABLE [dbo].[pt_project_users] ADD [issue_edit] [tinyint] NULL
@@ -84,6 +86,8 @@ GO
 UPDATE [dbo].[pt_project_users] SET file_view = 0
 GO
 UPDATE [dbo].[pt_project_users] SET file_edit = 0
+GO
+UPDATE [dbo].[pt_project_users] SET file_comment = 0
 GO
 UPDATE [dbo].[pt_project_users] SET issue_view = 0
 GO
@@ -146,6 +150,8 @@ GO
 ALTER TABLE [dbo].[pt_projects] ADD [reg_file_view] [tinyint] NULL
 GO
 ALTER TABLE [dbo].[pt_projects] ADD [reg_file_edit] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_file_comment] [tinyint] NULL
 GO
 ALTER TABLE [dbo].[pt_projects] ADD [reg_issue_view] [tinyint] NULL
 GO
@@ -216,16 +222,46 @@ GO
 CREATE TABLE [dbo].[pt_user_notify] (
 	[userID] [char] (35) NOT NULL ,
 	[projectID] [char] (35) NOT NULL ,
-	[email_files] [tinyint] NULL ,
-	[mobile_files] [tinyint] NULL ,
-	[email_issues] [tinyint] NULL ,
-	[mobile_issues] [tinyint] NULL ,
-	[email_msgs] [tinyint] NULL ,
-	[mobile_msgs] [tinyint] NULL ,
-	[email_mstones] [tinyint] NULL ,
-	[mobile_mstones] [tinyint] NULL ,
-	[email_todos] [tinyint] NULL ,
-	[mobile_todos] [tinyint] NULL
+	[email_file_new] [tinyint] NULL ,
+	[mobile_file_new] [tinyint] NULL ,
+	[email_file_upd] [tinyint] NULL ,	
+	[mobile_file_upd] [tinyint] NULL ,
+	[email_file_com] [tinyint] NULL ,	
+	[mobile_file_com] [tinyint] NULL ,
+	[email_issue_new] [tinyint] NULL ,
+	[mobile_issue_new] [tinyint] NULL ,
+	[email_issue_upd] [tinyint] NULL ,
+	[mobile_issue_upd] [tinyint] NULL ,
+	[email_issue_com] [tinyint] NULL ,
+	[mobile_issue_com] [tinyint] NULL ,
+	[email_msg_new] [tinyint] NULL ,
+	[mobile_msg_new] [tinyint] NULL ,
+	[email_msg_upd] [tinyint] NULL ,
+	[mobile_msg_upd] [tinyint] NULL ,
+	[email_msg_com] [tinyint] NULL ,
+	[mobile_msg_com] [tinyint] NULL ,
+	[email_mstone_new] [tinyint] NULL ,
+	[mobile_mstone_new] [tinyint] NULL ,
+	[email_mstone_upd] [tinyint] NULL ,
+	[mobile_mstone_upd] [tinyint] NULL ,
+	[email_mstone_com] [tinyint] NULL ,
+	[mobile_mstone_com] [tinyint] NULL ,
+	[email_todo_new] [tinyint] NULL ,
+	[mobile_todo_new] [tinyint] NULL ,
+	[email_todo_upd] [tinyint] NULL ,
+	[mobile_todo_upd] [tinyint] NULL ,	
+	[email_todo_com] [tinyint] NULL ,
+	[mobile_todo_com] [tinyint] NULL ,	
+	[email_time_new] [tinyint] NULL ,
+	[mobile_time_new] [tinyint] NULL ,
+	[email_time_upd] [tinyint] NULL ,
+	[mobile_time_upd] [tinyint] NULL ,	
+	[email_bill_new] [tinyint] NULL ,
+	[mobile_bill_new] [tinyint] NULL ,
+	[email_bill_upd] [tinyint] NULL ,
+	[mobile_bill_upd] [tinyint] NULL ,	
+	[email_bill_paid] [tinyint] NULL ,
+	[mobile_bill_paid] [tinyint] NULL
 ) ON [PRIMARY]
 GO
 

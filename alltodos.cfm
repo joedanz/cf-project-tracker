@@ -21,7 +21,7 @@
 </cfif>
 <cfset visible_project_list = "">
 <cfloop query="projects">
-	<cfif todos gt 0>
+	<cfif todolist_view>
 		<cfset visible_project_list = listAppend(visible_project_list,projectID)>
 	</cfif>
 </cfloop>

@@ -19,7 +19,7 @@
 <cfset files = application.file.get(projectID=url.p,categoryID=url.c,orderBy=session.user.fileorder)>
 <cfset categories = application.category.get(url.p,'file')>
 
-<cfif not session.user.admin and project.files eq 0>
+<cfif not project.file_view and not session.user.admin>
 	<cfoutput><h2>You do not have permission to access files!!!</h2></cfoutput>
 	<cfabort>
 </cfif>
@@ -119,7 +119,7 @@
 			<img src="#application.settings.userFilesMapping#/projects/#project.logo_img#" border="0" alt="#project.name#" /><br />
 		</cfif>
 	
-		<cfif project.files gt 1>
+		<cfif project.file_edit>
 		<h3><a href="editFile.cfm?p=#url.p#" class="add">Upload a new file</a></h3><br />
 		</cfif>	
 		

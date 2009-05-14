@@ -7,7 +7,7 @@
 	<cfset project = application.project.get(session.user.userid,url.p)>
 </cfif>
 
-<cfif not session.user.admin and project.mstones eq 0>
+<cfif not project.mstone_view and not session.user.admin>
 	<cfoutput><h2>You do not have permission to access milestones!!!</h2></cfoutput>
 	<cfabort>
 </cfif>
@@ -59,7 +59,7 @@
 							<div class="milestone">
 							<div class="date late"><span class="b"><cfif daysago eq 0>Today<cfelseif daysago eq 1>Yesterday<cfelse>#daysago# days ago</cfif></span> (#DateFormat(dueDate,"dddd, d mmmm, yyyy")#)<cfif userid neq 0><span style="color:##666;"> - Assigned to #firstName# #lastName#</span></cfif></div>
 							<div id="m#milestoneid#" style="display:none;" class="markcomplete">Moving to Completed - just a second...</div>
-							<cfif project.mstones eq 2>
+							<cfif project.mstone_edit>
 								<h3><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&c=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;" /> <a href="milestone.cfm?p=#url.p#&m=#milestoneid#">#name#</a> <span style="font-size:.65em;font-weight:normal;">[<a href="editMilestone.cfm?p=#url.p#&m=#milestoneid#" class="edit">edit</a> / <a href="#cgi.script_name#?p=#url.p#&d=#milestoneID#" class="delete" onclick="return confirm('Are you sure you wish to delete this milestone?');">delete</a>]</span></h3>
 							<cfelse>
 								<h3>#name#</h3>
@@ -201,10 +201,10 @@
 							<div class="milestone">
 							<div class="date late"><span class="completed b">#DateFormat(dueDate,"dddd, mmmm d, yyyy")#</span><cfif userid neq 0><span style="color:##666;"> - Assigned to #firstName# #lastName#</span></cfif></div>
 							<div id="m#milestoneid#" style="display:none;" class="markcomplete">Moving to <cfif DateDiff("d",dueDate,Now())>Late<cfelse>Upcoming</cfif> - just a second...</div>
-							<cfif project.mstones eq 1>
-								<h3>#name#</h3>
-							<cfelse>
+							<cfif project.mstone_edit>
 								<h3><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&a=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;" checked="checked" /> <a href="milestone.cfm?p=#url.p#&m=#milestoneid#">#name#</a> <span style="font-size:.65em;font-weight:normal;">[<a href="editMilestone.cfm?p=#url.p#&m=#milestoneid#">edit</a>]</span></h3>
+							<cfelse>
+								<h3>#name#</h3>
 							</cfif>
 							<cfif compare(description,'')><div class="desc">#description#</div></cfif>
 							
@@ -282,7 +282,7 @@
 			<img src="#application.settings.userFilesMapping#/projects/#project.logo_img#" border="0" alt="#project.name#" /><br />
 		</cfif>
 
-		<cfif project.mstones gt 1>
+		<cfif project.mstone_edit>
 		<h3><a href="editMilestone.cfm?p=#url.p#" class="add">Add a new milestone</a></h3><br />
 		</cfif>	
 	</div>

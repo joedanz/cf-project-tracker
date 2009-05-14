@@ -8,14 +8,14 @@
 	<cfset project = application.project.get(session.user.userid,url.p)>
 </cfif>
 
-<cfif project.timetrack eq 0 and not session.user.admin>
+<cfif not project.time_view and not session.user.admin>
 	<cfoutput><h2>You do not have permission to access time tracking!!!</h2></cfoutput>
 	<cfabort>
 </cfif>
 
 <cfset projectUsers = application.project.projectUsers(url.p,'0','firstName, lastName')>
 <cfset timelines = application.timetrack.get(projectID=url.p)>
-<cfif project.tab_billing and project.billing eq 2>
+<cfif project.tab_billing and project.bill_edit>
 	<cfset rates = application.client.getRates(project.clientID)>
 </cfif>
 <cfset totalHours = 0>
@@ -97,14 +97,14 @@
 								<th class="first">Date</th>
 								<th>Person</th>
 								<th>Hours</th>
-								<cfif project.tab_billing and project.billing gt 0>
+								<cfif project.tab_billing and project.bill_edit>
 									<th>Billing Category</th>
 									<th>Fee</th>
 								</cfif>
 								<th>Description</th>
-								<cfif project.timetrack eq 2 or session.user.admin><th></th></cfif>
+								<cfif project.time_edit or session.user.admin><th></th></cfif>
 							</tr>
-							<cfif project.timetrack eq 2 or session.user.admin>
+							<cfif project.time_edit or session.user.admin>
 							<tr class="input">
 								<td class="first"><input type="text" name="datestamp" id="datestamp" class="shortest date-pick" /></td>
 								<td>
@@ -115,7 +115,7 @@
 									</select>
 								</td>
 								<td><input type="text" name="hours" id="hrs" class="tiny" /></td>
-								<cfif project.tab_billing and project.billing eq 2>
+								<cfif project.tab_billing and project.bill_edit>
 									<td>
 										<select name="rateID" id="rateID">
 											<option value="">None</option>
@@ -140,13 +140,13 @@
 								<td class="first">#DateFormat(dateStamp,"mmm d, yyyy")#</td>
 								<td>#firstName# #lastName#</td>
 								<td class="b">#numberFormat(hours,"0.00")#</td>
-								<cfif project.tab_billing and project.billing gt 0>
+								<cfif project.tab_billing and project.bill_edit>
 									<td><cfif compare(category,'') and not compareNoCase(clientID,project.clientID)>#category# ($#NumberFormat(rate,"0")#/hr)</cfif></td>
 									<td><cfif isNumeric(rate) and not compareNoCase(clientID,project.clientID)>$#NumberFormat(rate*hours,"0")#</cfif></td>
 								</cfif>
 								<td><cfif compare(itemType,'')><span class="catbox #itemtype#">#itemtype#</span> <a href="todos.cfm?p=#projectID###id_#replace(todolistID,'-','','all')#">#task#</a><cfif compare(description,'')> - </cfif></cfif>#description#</td>
-								<cfif project.timetrack eq 2 or session.user.admin>
-									<td class="tac"><a href="##" onclick="edit_time_row('#projectid#','#timetrackid#','#project.tab_billing#','#project.billing#','#project.clientID#','','','time'); return false;">Edit</a> &nbsp;&nbsp; <a href="##" onclick="delete_time('#projectID#','#timetrackID#','time',''); return false;" class="delete"></a></td>
+								<cfif project.time_edit or session.user.admin>
+									<td class="tac"><a href="##" onclick="edit_time_row('#projectid#','#timetrackid#','#project.tab_billing#','#project.bill_edit#','#project.clientID#','','','time'); return false;">Edit</a> &nbsp;&nbsp; <a href="##" onclick="delete_time('#projectID#','#timetrackID#','time',''); return false;" class="delete"></a></td>
 								</cfif>
 							</tr>
 							<cfset totalHours = totalHours + hours>
@@ -159,7 +159,7 @@
 							<tr class="last">
 								<td colspan="2" class="tar b">TOTAL:&nbsp;&nbsp;&nbsp;</td>
 								<td class="b"><span id="totalhours">#NumberFormat(totalHours,"0.00")#</span></td>
-								<cfif project.tab_billing and project.billing gt 0>
+								<cfif project.tab_billing and project.bill_edit>
 									<td class="tar b">TOTAL FEE:&nbsp;&nbsp;&nbsp;</td>
 									<td class="b"><span id="totalrate">$#NumberFormat(totalFee,"0")#</span></td>
 								</cfif>

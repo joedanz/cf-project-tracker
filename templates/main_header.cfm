@@ -16,9 +16,9 @@
 <link rel="shortcut icon" href="#application.settings.mapping#/images/favicon.ico" />
 
 <!-- CSS -->
+<link rel="stylesheet" href="#application.settings.mapping#/css/smoothness/jquery-ui-1.7.1.custom.css" media="screen,projection" type="text/css" />
 <link rel="stylesheet" href="#application.settings.mapping#/css/header/#session.style#.css" media="screen,projection" type="text/css" />
 <link rel="stylesheet" href="#application.settings.mapping#/css/all_styles.css" media="screen,projection" type="text/css" />
-<link rel="stylesheet" href="#application.settings.mapping#/css/smoothness/jquery-ui-1.7.1.custom.css" media="screen,projection" type="text/css" />
 
 <!-- JavaScript -->
 <script type="text/javascript" src="#application.settings.mapping#/js/jquery-1.3.2.min.js"></script>
@@ -88,28 +88,28 @@
 			<cfif compare(attributes.projectid,'')>
 				<cfset project = application.project.getDistinct(attributes.projectid)>
 				<li><a href="#application.settings.mapping#/project.cfm?p=#attributes.projectid#" title="Overview"<cfif find('/project.cfm',cgi.script_name)> class="current"</cfif>>Overview</a></li>
-				<cfif project.tab_msgs eq 1 and (userRole.msgs gt 0 or userRole.admin or session.user.admin)>
+				<cfif project.tab_msgs eq 1 and (userRole.msg_view or userRole.admin or session.user.admin)>
 					<li><a href="#application.settings.mapping#/messages.cfm?p=#attributes.projectid#" title="Messages"<cfif find('/messages.cfm',cgi.script_name) or find('/editMessage.cfm',cgi.script_name) or find('/message.cfm',cgi.script_name)> class="current"</cfif>>Messages</a></li>
 				</cfif>
-				<cfif project.tab_todos eq 1 and (userRole.todos gt 0 or userRole.admin or session.user.admin)>
+				<cfif project.tab_todos eq 1 and (userRole.todolist_view or userRole.admin or session.user.admin)>
 					<li><a href="#application.settings.mapping#/todos.cfm?p=#attributes.projectid#" title="To-Dos"<cfif find('/todos.cfm',cgi.script_name) or find('/editTodolist.cfm',cgi.script_name)> class="current"</cfif>>To-Do</a></li>
 				</cfif>
-				<cfif project.tab_mstones eq 1 and (userRole.mstones gt 0 or userRole.admin or session.user.admin)>
+				<cfif project.tab_mstones eq 1 and (userRole.mstone_view or userRole.admin or session.user.admin)>
 					<li><a href="#application.settings.mapping#/milestones.cfm?p=#attributes.projectid#" title="Milestones"<cfif find('/milestone',cgi.script_name) or find('/editMilestone.cfm',cgi.script_name)> class="current"</cfif>>Milestones</a></li>
 				</cfif>
-				<cfif project.tab_issues eq 1 and (userRole.issues gt 0 or userRole.admin or session.user.admin)>
+				<cfif project.tab_issues eq 1 and (userRole.issue_view or userRole.admin or session.user.admin)>
 					<li><a href="#application.settings.mapping#/issues.cfm?p=#attributes.projectid#" title="Issues"<cfif find('/issue',cgi.script_name) or find('/editIssue.cfm',cgi.script_name)> class="current"</cfif>>Issues</a></li>
 				</cfif>
-				<cfif project.tab_time eq 1 and (userRole.timetrack gt 0 or userRole.admin or session.user.admin)>
+				<cfif project.tab_time eq 1 and (userRole.time_view or userRole.admin or session.user.admin)>
 					<li><a href="#application.settings.mapping#/time.cfm?p=#attributes.projectid#" title="Time"<cfif find('/time.cfm',cgi.script_name)> class="current"</cfif>>Time</a></li>
 				</cfif>
-				<cfif project.tab_billing eq 1 and (userRole.billing gt 0 or userRole.admin or session.user.admin)>
+				<cfif project.tab_billing eq 1 and (userRole.bill_view or userRole.admin or session.user.admin)>
 					<li><a href="#application.settings.mapping#/billing.cfm?p=#attributes.projectid#" title="Billing"<cfif find('/billing.cfm',cgi.script_name)> class="current"</cfif>>Billing</a></li>
 				</cfif>
-				<cfif project.tab_files eq 1 and (userRole.files gt 0 or userRole.admin or session.user.admin)>
+				<cfif project.tab_files eq 1 and (userRole.file_view or userRole.admin or session.user.admin)>
 					<li><a href="#application.settings.mapping#/files.cfm?p=#attributes.projectid#" title="Files"<cfif find('/files.cfm',cgi.script_name) or find('/editFile.cfm',cgi.script_name)> class="current"</cfif>>Files</a></li>
 				</cfif>
-				<cfif project.tab_svn eq 1 and compare(attributes.svnurl,'') and (userRole.svn gt 0 or userRole.admin or session.user.admin)>
+				<cfif project.tab_svn eq 1 and compare(attributes.svnurl,'') and (userRole.svn or userRole.admin or session.user.admin)>
 				<li><a href="#application.settings.mapping#/svnBrowse.cfm?p=#attributes.projectid#" title="SVN"<cfif find('/svn',cgi.script_name)> class="current"</cfif>>SVN</a></li>
 				</cfif>
 			<cfelse>

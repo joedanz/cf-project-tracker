@@ -211,7 +211,7 @@ function add_existing(pid) {
     $.ajax({
 		type: 'get',
 		url: './ajax/proj_users.cfm',
-		data: 'p=' + pid + '&e=' + $('#userID').val() + '&a=' + $('#a_existing:checked').val() + '&f=' + $('#f_existing').val() + '&i=' + $('#i_existing').val() + '&m=' + $('#m_existing').val() + '&ms=' + $('#ms_existing').val() + '&t=' + $('#t_existing').val() + '&tt=' + $('#tt_existing').val() + '&b=' + $('#b_existing').val() + '&s=' + $('#s_existing:checked').val(),
+		data: 'p=' + pid + '&u=' + $('#userID').val(),
 		success: function(txt){
 	     $('#replace').html(txt);
 		}
@@ -224,7 +224,7 @@ function add_new(pid) {
     $.ajax({
 		type: 'post',
 		url: './ajax/proj_users.cfm',
-		data: 'addnew=1&p=' + pid + '&fn=' + $('#fname').val() + '&ln=' + $('#lname').val() + '&ph=' + $('#phone').val() + '&un=' + $('#username').val() + '&pw=' + $('#password').val() + '&adm=' + $('#admin').val() + '&e=' + $('#email').val() + '&a=' + $('#a_new:checked').val() + '&f=' + $('#f_new').val() + '&i=' + $('#i_new').val() + '&m=' + $('#m_new').val() + '&ms=' + $('#ms_new').val() + '&t=' + $('#t_new').val() + '&tt=' + $('#tt_new').val() + '&b=' + $('#b_new').val() + '&s=' + $('#s_new:checked').val(),
+		data: 'addnew=1&p=' + pid + '&fn=' + $('#fname').val() + '&ln=' + $('#lname').val() + '&ph=' + $('#phone').val() + '&un=' + $('#username').val() + '&pw=' + $('#password').val() + '&adm=' + $('#admin').val() + '&e=' + $('#email').val(),
 		success: function(txt){
 	     $('#replace').html(txt);
 		}
@@ -240,18 +240,6 @@ function remove_user(pid,uid,lname,fname) {
 	$("#userID").addOption(uid, lname + ', ' + fname);
 	if (document.getElementById("userID").length >= 1) $('#existing').show();
 	proj_admins(pid);
-}
-function save_permissions(pid,uid,strippedid) {
-    $.ajax({
-		type: 'get',
-		url: './ajax/user_permissions.cfm',
-		data: 'p=' + pid + '&u=' + uid + '&a=' + $('#a_'+strippedid+':checked').val() + '&f=' + $('#f_'+strippedid).val() + '&i=' + $('#i_'+strippedid).val() + '&m=' + $('#m_'+strippedid).val() + '&ms=' + $('#ms_'+strippedid).val() + '&t=' + $('#t_'+strippedid).val() + '&tt=' + $('#tt_'+strippedid).val() + '&b=' + $('#b_'+strippedid).val() + '&s=' + $('#s_'+strippedid+':checked').val(),
-		success: function(txt){
-	     $('#up_'+strippedid).slideUp();
-		 if ($('#a_'+strippedid+':checked').val() == 1) {$('#ut_'+strippedid).html('Admin')} else {$('#ut_'+strippedid).html('User')};
-		 proj_admins(pid);
-	  }
-	});
 }
 
 // *** SETTINGS ***

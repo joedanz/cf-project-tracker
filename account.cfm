@@ -15,21 +15,6 @@
 	<cfset session.user.phone = form.phone>
 	<cfset session.user.mobile = form.mobile>
 	<cfset session.user.carrierID = form.carrierID>
-<cfelseif StructKeyExists(form,"notifysub")>
-	<cfloop list="#notify_proj_ids#" index="i">
-		<cfparam name="form.email_files_#replace(i,'-','','ALL')#" default="0">
-		<cfparam name="form.mobile_files_#replace(i,'-','','ALL')#" default="0">
-		<cfparam name="form.email_issues_#replace(i,'-','','ALL')#" default="0">
-		<cfparam name="form.mobile_issues_#replace(i,'-','','ALL')#" default="0">
-		<cfparam name="form.email_msgs_#replace(i,'-','','ALL')#" default="0">
-		<cfparam name="form.mobile_msgs_#replace(i,'-','','ALL')#" default="0">
-		<cfparam name="form.email_mstones_#replace(i,'-','','ALL')#" default="0">
-		<cfparam name="form.mobile_mstones_#replace(i,'-','','ALL')#" default="0">
-		<cfparam name="form.email_todos_#replace(i,'-','','ALL')#" default="0">
-		<cfparam name="form.mobile_todos_#replace(i,'-','','ALL')#" default="0">
-		<cfset application.notify.update(session.user.userid,i,Evaluate("form.email_files_"&replace(i,'-','','ALL')),Evaluate("form.mobile_files_"&replace(i,'-','','ALL')),Evaluate("form.email_issues_"&replace(i,'-','','ALL')),Evaluate("form.mobile_issues_"&replace(i,'-','','ALL')),Evaluate("form.email_msgs_"&replace(i,'-','','ALL')),Evaluate("form.mobile_msgs_"&replace(i,'-','','ALL')),Evaluate("form.email_mstones_"&replace(i,'-','','ALL')),Evaluate("form.mobile_mstones_"&replace(i,'-','','ALL')),Evaluate("form.email_todos_"&replace(i,'-','','ALL')),Evaluate("form.mobile_todos_"&replace(i,'-','','ALL')))>
-	</cfloop>
-	<cfset whichTab = 3>	
 <cfelseif StructKeyExists(form,"submit2")>
 	<cfif not compareNoCase(form.pass1,form.pass2)>
 		<cfset newPass = form.pass1>
@@ -38,7 +23,7 @@
 	</cfif>
 	<cfset application.user.acctUpdate(session.user.userID,form.username,newPass)>
 	<cfset session.user.username = form.username>
-	<cfset whichTab = 4>
+	<cfset whichTab = 3>
 <cfelseif StructKeyExists(form,"submitimage")>
 	<!--- this include prevents invalid tag error from on earlier versions --->
 	<cfif application.isCF8 or application.isRailo>
@@ -46,7 +31,7 @@
 	<cfelseif application.isBD>
 		<cfinclude template="img_proc_acct_bd.cfm">
 	</cfif>
-	<cfset whichTab = 5>
+	<cfset whichTab = 4>
 <cfelseif StructKeyExists(url,"rmvimg")>
 	<cftry>
 	<cffile action="delete" file="#application.userFilesPath#avatars/#session.user.userid#_72.jpg">
@@ -56,16 +41,16 @@
 	<cfcatch></cfcatch>
 	</cftry>
 	<cfset application.user.setImage(session.user.userID,0)>
-	<cfset whichTab = 5>
+	<cfset whichTab = 4>
 <cfelseif StructKeyExists(form,"style")>
 	<cfset session.style = form.style>
 	<cfset application.user.setStyle(session.user.userID,form.style)>
-	<cfset whichTab = 6>
+	<cfset whichTab = 5>
 	<cfif not application.isCF8 and not application.isBD and not application.isRailo>
 		<cfset whichTab = whichTab - 1>
 	</cfif>
 <cfelseif StructKeyExists(url,"editStyle")>
-	<cfset whichTab = 6>
+	<cfset whichTab = 5>
 	<cfif not application.isCF8 and not application.isBD and not application.isRailo>
 		<cfset whichTab = whichTab - 1>
 	</cfif>
@@ -103,6 +88,8 @@
 </script>
 <script type='text/javascript' src='#application.settings.mapping#/js/jquery.history_remote.pack.js'></script>
 <script type='text/javascript' src='#application.settings.mapping#/js/jquery.tabs.pack.js'></script>
+<script type='text/javascript' src='#application.settings.mapping#/js/jquery.hoverIntent.js'></script>
+<script type='text/javascript' src='#application.settings.mapping#/js/jquery.cluetip.js'></script>
 <link rel='stylesheet' href='#application.settings.mapping#/css/jquery.tabs.css' media='screen,projection' type='text/css' />
 <!--[if lte IE 7]>
 <link rel='stylesheet' href='#application.settings.mapping#/css/jquery.tabs-ie.css' type='text/css' media='projection, screen' />
@@ -110,6 +97,15 @@
 <script type='text/javascript'>
 	$(function() {
 		$('##container1').tabs(#whichTab#);
+		$('a.jt').cluetip({
+		  cluetipClass: 'jtip',
+		  width:440,
+		  local:true, 
+		  cursor: 'pointer',
+		  arrows: true, 
+		  dropShadow: false, 
+		  hoverIntent: false
+		});
 	});
 </script>
 ">
@@ -139,7 +135,6 @@
 		            <ul>
 		                <li><a href="##user"><span>General Info</span></a></li>
 		                <li><a href="##projects"><span>Projects</span></a></li>
-		                <li><a href="##notifications"><span>Notifications</span></a></li>
 						<li><a href="##account"><span>Account Info</span></a></li>
 		                <cfif application.isCF8 or application.isBD or application.isRailo>
 							<li><a href="##avatar"><span>Avatar</span></a></li>
@@ -192,86 +187,404 @@
 							<th>Project</th>
 							<th class="tac">Owner</th>
 							<th class="tac">Admin</th>
-							<th class="tac">Files</th>
-							<th class="tac">Issues</th>
-							<th class="tac">Messages</th>
-							<th class="tac">Milestones</th>
-							<th class="tac">To-Dos</th>
-							<th class="tac">Time</th>
-							<th class="tac">Billing</th>
-							<th class="tac">SVN</th>
+							<th class="tac">Permissions</th>
+							<th class="tac">Notifications</th>
 							<th class="tac">Remove</th>
 						</tr>
 						<cfloop query="projects">
-						<tr>
+						<tr id="r#currentRow#">
 							<td>#name#</td>
 							<td class="tac"><img src="./images/<cfif not compareNoCase(session.user.userid,ownerid)>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(compareNoCase(session.user.userid,ownerid))#" /></td>
-							<td class="tac"><img src="./images/<cfif admin eq 1>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(admin)#" /></td>
-							<td class="tac"><cfif files eq 2>Full Access<cfelseif files eq 1>Read-Only<cfelseif files eq 0>None</cfif></td>
-							<td class="tac"><cfif issues eq 2>Full Access<cfelseif issues eq 1>Read-Only<cfelseif issues eq 0>None</cfif></td>
-							<td class="tac"><cfif msgs eq 2>Full Access<cfelseif msgs eq 1>Read-Only<cfelseif msgs eq 0>None</cfif></td>
-							<td class="tac"><cfif mstones eq 2>Full Access<cfelseif mstones eq 1>Read-Only<cfelseif mstones eq 0>None</cfif></td>
-							<td class="tac"><cfif todos eq 2>Full Access<cfelseif todos eq 1>Read-Only<cfelseif todos eq 0>None</cfif></td>
-							<td class="tac"><cfif timetrack eq 2>Full Access<cfelseif timetrack eq 1>Read-Only<cfelseif timetrack eq 0>None</cfif></td>
-							<td class="tac"><cfif billing eq 2>Full Access<cfelseif billing eq 1>Read-Only<cfelseif billing eq 0>None</cfif></td>
-							<td class="tac"><img src="./images/<cfif svn eq 1>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(svn)#" /></td>
+							<td class="tac">#YesNoIcon('admin')#</td>
+							<td class="tac">[<a href="##p#currentRow#" rel="##p#currentRow#" title="#name# Permissions" class="jt">Show Popup</a>]</td>
+							<td class="tac"><a href="">[<a href="##n#currentRow#" rel="##n#currentRow#" title="#name# Notifications" class="jt">Show Popup</a> / <a href="projectNotify.cfm?p=#projectID#">Edit</a>]</a></td>
 							<td class="tac">[<a href="#cgi.script_name#?rp=#projectid###projects" onclick="return confirm('Are you sure you wish to remove yourself from this project?')">remove</a>]</td>
 						</tr>
 						</cfloop>
-						</table>			
-					</div>
-		            <div id="notifications">
-			            <form action="#cgi.script_name#" method="post" name="edit">
-							<table class="clean admin full mb10">
-							<tr>
-								<th width="25%">Project</th>
-								<th class="tac" width="15%">Files</th>
-								<th class="tac" width="15%">Issues</th>
-								<th class="tac" width="15%">Messages</th>
-								<th class="tac" width="15%">Milestones</th>
-								<th class="tac" width="15%">To-Dos</th>
-	
-							</tr>
-							<cfloop query="notifications">
-								<tr>
-									<td class="tal">#name#</td>
-									<td class="tac">
-										<input type="checkbox" name="email_files_#replace(projectID,'-','','ALL')#" id="e_f_#projectID#" value="1"<cfif email_files> checked="checked"</cfif> />
-										<label for="e_f_#projectID#"><img src="./images/email.png" height="16" width="16" border="0" alt="Email" /></label> &nbsp;
-										<label for="m_f_#projectID#"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile" /></label><input type="checkbox" name="mobile_files_#replace(projectID,'-','','ALL')#" id="m_f_#projectID#" value="1"<cfif mobile_files> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> />				
-									</td>
-									<td class="tac">
-										<input type="checkbox" name="email_issues_#replace(projectID,'-','','ALL')#" id="e_i_#projectID#" value="1"<cfif email_issues> checked="checked"</cfif> />
-										<label for="e_i_#projectID#"><img src="./images/email.png" height="16" width="16" border="0" alt="Email" /></label> &nbsp;
-										<label for="m_i_#projectID#"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile" /></label><input type="checkbox" name="mobile_issues_#replace(projectID,'-','','ALL')#" id="m_i_#projectID#" value="1"<cfif mobile_issues> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> />
-									</td>
-									<td class="tac">
-										<input type="checkbox" name="email_msgs_#replace(projectID,'-','','ALL')#" id="e_msg_#projectID#" value="1"<cfif email_msgs> checked="checked"</cfif> />
-										<label for="e_msg_#projectID#"><img src="./images/email.png" height="16" width="16" border="0" alt="Email" /></label> &nbsp;
-										<label for="m_msg_#projectID#"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile" /></label><input type="checkbox" name="mobile_msgs_#replace(projectID,'-','','ALL')#" id="m_msg_#projectID#" value="1"<cfif mobile_msgs> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> />
-									</td>
-									<td class="tac">
-										<input type="checkbox" name="email_mstones_#replace(projectID,'-','','ALL')#" id="e_m_#projectID#" value="1"<cfif email_mstones> checked="checked"</cfif> />
-										<label for="e_m_#projectID#"><img src="./images/email.png" height="16" width="16" border="0" alt="Email" /></label> &nbsp;
-										<label for="m_m_#projectID#"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile" /></label><input type="checkbox" name="mobile_mstones_#replace(projectID,'-','','ALL')#" id="m_m_#projectID#" value="1"<cfif mobile_mstones> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> />
-									</td>
-									<td class="tac">
-										<input type="checkbox" name="email_todos_#replace(projectID,'-','','ALL')#" id="e_t_#projectID#" value="1"<cfif email_todos> checked="checked"</cfif> />
-										<label for="e_t_#projectID#"><img src="./images/email.png" height="16" width="16" border="0" alt="Email" /></label> &nbsp;
-										<label for="m_t_#projectID#"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile" /></label><input type="checkbox" name="mobile_todos_#replace(projectID,'-','','ALL')#" id="m_t_#projectID#" value="1"<cfif mobile_todos> checked="checked"</cfif><cfif not isNumeric(user.mobile)> disabled="disabled"</cfif> />
-									<input type="hidden" name="notify_proj_ids" value="#projectid#" />
-									</td>
-								</tr>
-							</cfloop>
-							</table>
+						</table>
+						
+						<cfloop query="projects">
+							<div id="p#currentRow#" style="display:none;">
+								<table>
+								<tr valign="top"><td width="50%">
+								<table class="permspop">
+									<thead>
+										<tr>
+											<th class="b" colspan="2">Files</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>View files</td>
+											<td class="tac">#YesNoIcon('file_view')#</td>
+										</tr>
+										<tr>
+											<td>Upload/edit files</td>
+											<td class="tac">#YesNoIcon('file_edit')#</td>
+										</tr>
+										<tr>
+											<td>Comment on files</td>
+											<td class="tac">#YesNoIcon('file_comment')#</td>
+										</tr>
+									</tbody>
+								</table>
+
+								<table class="permspop">
+									<thead>
+										<tr>
+											<th class="b" colspan="2">Issues</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>View issues</td>
+											<td class="tac">#YesNoIcon('issue_view')#</td>
+										</tr>
+										<tr>
+											<td>Add/edit issues</td>
+											<td class="tac">#YesNoIcon('issue_edit')#</td>
+										</tr>
+										<tr>
+											<td>Accept tickets for issues</td>
+											<td class="tac">#YesNoIcon('issue_accept')#</td>
+										</tr>
+										<tr>
+											<td>Comment on issues</td>
+											<td class="tac">#YesNoIcon('issue_comment')#</td>
+										</tr>
+									</tbody>
+								</table>
 			
-							<input type="submit" class="button" name="notifysub" id="submit5" value="Update Notifications" />
+								<table class="permspop">
+									<thead>
+										<tr>
+											<th class="b" colspan="2">Messages</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>View messages</td>
+											<td class="tac">#YesNoIcon('msg_view')#</td>
+										</tr>
+										<tr>
+											<td>Post/edit messages</td>
+											<td class="tac">#YesNoIcon('msg_edit')#</td>
+										</tr>
+										<tr>
+											<td>Comment on messages</td>
+											<td class="tac">#YesNoIcon('msg_comment')#</td>
+										</tr>
+									</tbody>
+								</table>
+			
+								<table class="permspop">
+									<thead>
+										<tr>
+											<th class="b" colspan="2">Milestones</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>View milestones</td>
+											<td class="tac">#YesNoIcon('mstone_view')#</td>
+										</tr>
+										<tr>
+											<td>Add/edit milestones</td>
+											<td class="tac">#YesNoIcon('mstone_edit')#</td>
+										</tr>
+										<tr>
+											<td>Comment on milestones</td>
+											<td class="tac">#YesNoIcon('mstone_comment')#</td>
+										</tr>
+									</tbody>
+								</table>
+								
+								</td><td width="50%">
+								
+								<table class="permspop">
+									<thead>
+										<tr>
+											<th class="b" colspan="2">To-Dos</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>View to-do lists</td>
+											<td class="tac">#YesNoIcon('todolist_view')#</td>
+										</tr>
+										<tr>
+											<td>Add/edit to-do lists</td>
+											<td class="tac">#YesNoIcon('todolist_edit')#</td>
+										</tr>
+										<tr>
+											<td>Add/edit to-do items</td>
+											<td class="tac">#YesNoIcon('todo_edit')#</td>
+										</tr>
+										<tr>
+											<td>Comment on to-do items</td>
+											<td class="tac">#YesNoIcon('todo_comment')#</td>
+										</tr>							
+									</tbody>
+								</table>
+			
+								<table class="permspop">
+									<thead>
+										<tr>
+											<th class="b" colspan="2">Time Tracking</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>View time tracking</td>
+											<td class="tac">#YesNoIcon('time_view')#</td>
+										</tr>
+										<tr>
+											<td>Add/edit time tracking</td>
+											<td class="tac">#YesNoIcon('time_edit')#</td>
+										</tr>
+									</tbody>
+								</table>
+								
+								<table class="permspop">
+									<thead>
+										<tr>
+											<th class="b" colspan="2">Billing</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>View billing</td>
+											<td class="tac">#YesNoIcon('bill_view')#</td>
+										</tr>
+										<tr>
+											<td>Add/edit billing</td>
+											<td class="tac">#YesNoIcon('bill_edit')#</td>
+										</tr>
+										<tr>
+											<td>Manage billing rates</td>
+											<td class="tac">#YesNoIcon('bill_rates')#</td>
+										</tr>
+										<tr>
+											<td>Generate invoices</td>
+											<td class="tac">#YesNoIcon('bill_invoices')#</td>
+										</tr>
+										<tr>
+											<td>Mark items paid</td>
+											<td class="tac">#YesNoIcon('bill_markpaid')#</td>
+										</tr>
+									</tbody>
+								</table>
+								
+								<table class="permspop">
+									<thead>
+										<tr>
+											<th class="b" colspan="2">Subversion</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>Access Subversion repository</td>
+											<td class="tac">#YesNoIcon('svn')#</td>
+										</tr>
+									</tbody>
+								</table>
+								</td></tr>
+								</table>
+								</div>
+								
+								<div id="n#currentRow#" style="display:none;">
+								<table>
+								<tr valign="top"><td width="50%">
+								<table class="notifypop">
+									<thead>
+										<tr>
+											<th class="b">Files</th>
+											<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
+											<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>New file</td>
+											<td class="tac">#YesNoIcon('email_file_new')#</td>
+											<td class="tac">#YesNoIcon('mobile_file_new')#</td>
+										</tr>
+										<tr>
+											<td>Updated file</td>
+											<td class="tac">#YesNoIcon('email_file_upd')#</td>
+											<td class="tac">#YesNoIcon('mobile_file_upd')#</td>
+										</tr>
+										<tr>
+											<td>Comment on file</td>
+											<td class="tac">#YesNoIcon('email_file_com')#</td>
+											<td class="tac">#YesNoIcon('mobile_file_com')#</td>
+										</tr>
+									</tbody>
+								</table>
+
+								<table class="notifypop">
+									<thead>
+										<tr>
+											<th class="b">Issues</th>
+											<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
+											<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>New issue</td>
+											<td class="tac">#YesNoIcon('email_issue_new')#</td>
+											<td class="tac">#YesNoIcon('mobile_issue_new')#</td>
+										</tr>
+										<tr>
+											<td>Updated issue</td>
+											<td class="tac">#YesNoIcon('email_issue_upd')#</td>
+											<td class="tac">#YesNoIcon('mobile_issue_upd')#</td>
+										</tr>
+										<tr>
+											<td>Comment on issue</td>
+											<td class="tac">#YesNoIcon('email_issue_com')#</td>
+											<td class="tac">#YesNoIcon('mobile_issue_com')#</td>
+										</tr>
+									</tbody>
+								</table>
 							
-							<cfif not isNumeric(user.mobile)>
-								<h6 class="b r i mt20">Note: You must have a valid mobile number to enable Mobile Notifications.</h6>
-							</cfif>
-						</form>
-					</div>		            
+								<table class="notifypop">
+									<thead>
+										<tr>
+											<th class="b">Messages</th>
+											<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
+											<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>New message</td>
+											<td class="tac">#YesNoIcon('email_msg_new')#</td>
+											<td class="tac">#YesNoIcon('mobile_msg_new')#</td>
+										</tr>
+										<tr>
+											<td>Updated message</td>
+											<td class="tac">#YesNoIcon('email_msg_upd')#</td>
+											<td class="tac">#YesNoIcon('mobile_msg_upd')#</td>
+										</tr>
+										<tr>
+											<td>Comment on message</td>
+											<td class="tac">#YesNoIcon('email_msg_com')#</td>
+											<td class="tac">#YesNoIcon('mobile_msg_com')#</td>
+										</tr>
+									</tbody>
+								</table>
+			
+								<table class="notifypop">
+									<thead>
+										<tr>
+											<th class="b">Milestones</th>
+											<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
+											<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>New milestone</td>
+											<td class="tac">#YesNoIcon('email_mstone_new')#</td>
+											<td class="tac">#YesNoIcon('mobile_mstone_new')#</td>
+										</tr>
+										<tr>
+											<td>Updated milestone</td>
+											<td class="tac">#YesNoIcon('email_mstone_upd')#</td>
+											<td class="tac">#YesNoIcon('mobile_mstone_upd')#</td>
+										</tr>
+										<tr>
+											<td>Comment on milestone</td>
+											<td class="tac">#YesNoIcon('email_mstone_com')#</td>
+											<td class="tac">#YesNoIcon('mobile_mstone_com')#</td>
+										</tr>
+									</tbody>
+								</table>
+								
+								</td><td width="50%">
+								
+								<table class="notifypop">
+									<thead>
+										<tr>
+											<th class="b">To-Dos</th>
+											<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
+											<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>New to-do item</td>
+											<td class="tac">#YesNoIcon('email_todo_new')#</td>
+											<td class="tac">#YesNoIcon('mobile_todo_new')#</td>
+										</tr>
+										<tr>
+											<td>Updated to-do item</td>
+											<td class="tac">#YesNoIcon('email_todo_upd')#</td>
+											<td class="tac">#YesNoIcon('mobile_todo_upd')#</td>
+										</tr>
+										<tr>
+											<td>Comment on to-do item</td>
+											<td class="tac">#YesNoIcon('email_todo_com')#</td>
+											<td class="tac">#YesNoIcon('mobile_todo_com')#</td>
+										</tr>							
+									</tbody>
+								</table>
+			
+								<table class="notifypop">
+									<thead>
+										<tr>
+											<th class="b">Time Tracking</th>
+											<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
+											<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>New time tracking item</td>
+											<td class="tac">#YesNoIcon('email_time_new')#</td>
+											<td class="tac">#YesNoIcon('mobile_time_new')#</td>
+										</tr>
+										<tr>
+											<td>Updated time tracking</td>
+											<td class="tac">#YesNoIcon('email_time_upd')#</td>
+											<td class="tac">#YesNoIcon('mobile_time_upd')#</td>
+										</tr>
+									</tbody>
+								</table>
+								
+								<table class="notifypop">
+									<thead>
+										<tr>
+											<th class="b">Billing</th>
+											<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
+											<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>New billing item</td>
+											<td class="tac">#YesNoIcon('email_bill_new')#</td>
+											<td class="tac">#YesNoIcon('mobile_bill_new')#</td>
+										</tr>
+										<tr>
+											<td>Updated billing item</td>
+											<td class="tac">#YesNoIcon('email_bill_upd')#</td>
+											<td class="tac">#YesNoIcon('mobile_bill_upd')#</td>
+										</tr>
+										<tr>
+											<td>Billing item marked paid</td>
+											<td class="tac">#YesNoIcon('email_bill_paid')#</td>
+											<td class="tac">#YesNoIcon('mobile_bill_paid')#</td>
+										</tr>
+									</tbody>
+								</table>
+								</td></tr>
+								</table>
+								</div>
+						</cfloop>
+					</div>            
 		            <div id="account">            
 						<form action="#cgi.script_name#" method="post" name="editacct" class="frm">
 							<p>
@@ -347,5 +660,10 @@
 </cfoutput>
 
 </cfmodule>
+
+<cffunction name="YesNoIcon">
+	<cfargument name="fieldName" type="string" required="true">
+	<cfoutput><img src="./images/<cfif Evaluate(arguments.fieldName) eq 1>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(Evaluate(arguments.fieldName))#" /></cfoutput>
+</cffunction>
 
 <cfsetting enablecfoutputonly="false">

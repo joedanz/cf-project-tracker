@@ -139,7 +139,7 @@
 									<td><cfif isNumeric(rate)>$#NumberFormat(rate*hours,"0")#</cfif></td>
 								</cfif>
 								<td><cfif compare(itemType,'')><span class="catbox #itemtype#">#itemtype#</span> <a href="todos.cfm?p=#projectID###id_#replace(todolistID,'-','','all')#">#task#</a><cfif compare(description,'')> - </cfif></cfif>#description#</td>
-								<td class="tac"><a href="##" onclick="edit_time_row('#projectid#','#timetrackid#','#project.tab_billing#','#project.billing#','#project.clientID#','','','timereport'); return false;">Edit</a> &nbsp;&nbsp; <a href="##" onclick="delete_time('#projectID#','#timetrackID#','timereport',''); return false;" class="delete"></a></td>
+								<td class="tac"><a href="##" onclick="edit_time_row('#projectid#','#timetrackid#','#project.tab_billing#','#project.bill_edit#','#project.clientID#','','','timereport'); return false;">Edit</a> &nbsp;&nbsp; <a href="##" onclick="delete_time('#projectID#','#timetrackID#','timereport',''); return false;" class="delete"></a></td>
 							</tr>
 							<cfset totalHours = totalHours + hours>
 							<cfif isNumeric(rate)>

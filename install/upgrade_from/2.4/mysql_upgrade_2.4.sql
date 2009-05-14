@@ -23,6 +23,7 @@ UPDATE `pt_milestones` set `paid` = 0;
 /* pt_project_users */
 ALTER TABLE `pt_project_users` ADD `file_view` int(1) default NULL;
 ALTER TABLE `pt_project_users` ADD `file_edit` int(1) default NULL;
+ALTER TABLE `pt_project_users` ADD `file_comment` int(1) default NULL;
 ALTER TABLE `pt_project_users` ADD `issue_view` int(1) default NULL;
 ALTER TABLE `pt_project_users` ADD `issue_edit` int(1) default NULL;
 ALTER TABLE `pt_project_users` ADD `issue_accept` int(1) default NULL;
@@ -46,6 +47,7 @@ ALTER TABLE `pt_project_users` ADD `bill_invoices` int(1) default NULL;
 ALTER TABLE `pt_project_users` ADD `bill_markpaid` int(1) default NULL;
 UPDATE `pt_project_users` set `file_view` = 0;
 UPDATE `pt_project_users` set `file_edit` = 0;
+UPDATE `pt_project_users` set `file_comment` = 0;
 UPDATE `pt_project_users` set `issue_view` = 0;
 UPDATE `pt_project_users` set `issue_edit` = 0;
 UPDATE `pt_project_users` set `issue_accept` = 0;
@@ -78,6 +80,7 @@ ALTER TABLE `pt_projects` ADD `issue_timetrack` int(1) default NULL;
 UPDATE `pt_projects` set `issue_timetrack` = 1;
 ALTER TABLE `pt_projects` ADD `reg_file_view` int(1) default NULL;
 ALTER TABLE `pt_projects` ADD `reg_file_edit` int(1) default NULL;
+ALTER TABLE `pt_projects` ADD `reg_file_comment` int(1) default NULL;
 ALTER TABLE `pt_projects` ADD `reg_issue_view` int(1) default NULL;
 ALTER TABLE `pt_projects` ADD `reg_issue_edit` int(1) default NULL;
 ALTER TABLE `pt_projects` ADD `reg_issue_accept` int(1) default NULL;
@@ -117,15 +120,45 @@ UPDATE `pt_timetrack` set `paid` = 0;
 CREATE TABLE `pt_user_notify` (
   `userID` char(35) NOT NULL,
   `projectID` char(35) NOT NULL,
-  `email_files` tinyint(1) default NULL,
-  `mobile_files` tinyint(1) default NULL,
-  `email_issues` tinyint(1) default NULL,
-  `mobile_issues` tinyint(1) default NULL,
-  `email_msgs` tinyint(1) default NULL,
-  `mobile_msgs` tinyint(1) default NULL,
-  `email_mstones` tinyint(1) default NULL,
-  `mobile_mstones` tinyint(1) default NULL,
-  `email_todos` tinyint(1) default NULL,
-  `mobile_todos` tinyint(1) default NULL,
+  `email_file_new` tinyint(1) default NULL,
+  `mobile_file_new` tinyint(1) default NULL,
+  `email_file_upd` tinyint(1) default NULL,
+  `mobile_file_upd` tinyint(1) default NULL,
+  `email_file_com` tinyint(1) default NULL,
+  `mobile_file_com` tinyint(1) default NULL,
+  `email_issue_new` tinyint(1) default NULL,
+  `mobile_issue_new` tinyint(1) default NULL,
+  `email_issue_upd` tinyint(1) default NULL,
+  `mobile_issue_upd` tinyint(1) default NULL,
+  `email_issue_com` tinyint(1) default NULL,
+  `mobile_issue_com` tinyint(1) default NULL,
+  `email_msg_new` tinyint(1) default NULL,
+  `mobile_msg_new` tinyint(1) default NULL,
+  `email_msg_upd` tinyint(1) default NULL,
+  `mobile_msg_upd` tinyint(1) default NULL,
+  `email_msg_com` tinyint(1) default NULL,
+  `mobile_msg_com` tinyint(1) default NULL,
+  `email_mstone_new` tinyint(1) default NULL,
+  `mobile_mstone_new` tinyint(1) default NULL,
+  `email_mstone_upd` tinyint(1) default NULL,
+  `mobile_mstone_upd` tinyint(1) default NULL,
+  `email_mstone_com` tinyint(1) default NULL,
+  `mobile_mstone_com` tinyint(1) default NULL,
+  `email_todo_new` tinyint(1) default NULL,
+  `mobile_todo_new` tinyint(1) default NULL,
+  `email_todo_upd` tinyint(1) default NULL,
+  `mobile_todo_upd` tinyint(1) default NULL,
+  `email_todo_com` tinyint(1) default NULL,
+  `mobile_todo_com` tinyint(1) default NULL,
+  `email_time_new` tinyint(1) default NULL,
+  `mobile_time_new` tinyint(1) default NULL,
+  `email_time_upd` tinyint(1) default NULL,
+  `mobile_time_upd` tinyint(1) default NULL,
+  `email_bill_new` tinyint(1) default NULL,
+  `mobile_bill_new` tinyint(1) default NULL,
+  `email_bill_upd` tinyint(1) default NULL,
+  `mobile_bill_upd` tinyint(1) default NULL,
+  `email_bill_paid` tinyint(1) default NULL,
+  `mobile_bill_paid` tinyint(1) default NULL,
   PRIMARY KEY  (`userID`,`projectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

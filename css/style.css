@@ -336,3 +336,93 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 .searchresult+.odd { background-color:#f5f5f5; }
 .searchresult h4 { font-weight:bold; }
 div#report { background-color:#f5f5f5; }
+
+
+/* cluetip global */
+#cluetip-close img {
+  border: 0;
+}
+#cluetip-title {
+  overflow: hidden;
+}
+#cluetip-title #cluetip-close {
+  float: right;
+  position: relative;
+}
+#cluetip-waitimage {
+  width: 43px;
+  height: 11px;
+  position: absolute;
+  background-image: url(../images/cluetip/wait.gif);
+}
+.cluetip-arrows {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: -11px;
+  height: 22px;
+  width: 11px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+}
+#cluetip-extra {
+  display: none;
+}
+
+/***************************************
+   =cluetipClass: 'jtip'
+-------------------------------------- */
+.cluetip-jtip {
+  background-color: transparent;
+}
+.cluetip-jtip #cluetip-outer {
+  border: 2px solid #ccc;
+  position: relative;
+  background-color: #fff;
+}
+
+.cluetip-jtip h3#cluetip-title {
+  margin: 0 0 5px;
+  padding: 2px 5px;
+  font-size: 14px;
+  font-weight: normal;
+  background-color: #ccc;
+  color: #333;
+}
+
+.cluetip-jtip #cluetip-inner {
+  padding: 0 5px 5px;
+  display: inline-block;
+}
+.cluetip-jtip div#cluetip-close { 
+  text-align: right;
+  margin: 0 5px 5px;
+  color: #900;
+}
+
+/* jtip arrows */
+
+.clue-right-jtip .cluetip-arrows {
+  background-image: url(../images/cluetip/arrowleft.gif);
+}
+.clue-left-jtip .cluetip-arrows {
+  background-image: url(../images/cluetip/arrowright.gif);
+  left: 100%;
+  margin-right: -11px;
+}
+.clue-top-jtip .cluetip-arrows {
+  background-image: url(../images/cluetip/arrowdown.gif);
+  top: 100%;
+  left: 50%;
+  margin-left: -11px;
+  height: 11px;
+  width: 22px;  
+}  
+.clue-bottom-jtip .cluetip-arrows {
+  background-image: url(../images/cluetip/arrowup.gif);
+  top: -11px;
+  left: 50%;
+  margin-left: -11px;
+  height: 11px;
+  width: 22px;
+}

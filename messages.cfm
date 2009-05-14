@@ -7,7 +7,7 @@
 	<cfset project = application.project.get(session.user.userid,url.p)>
 </cfif>
 
-<cfif not session.user.admin and project.msgs eq 0>
+<cfif not project.msg_view and not session.user.admin>
 	<cfoutput><h2>You do not have permission to access messages!!!</h2></cfoutput>
 	<cfabort>
 </cfif>
@@ -84,7 +84,7 @@
 					<cfif compare(name,'')><div class="ms">Milestone: #name#</div></cfif>
 					<div class="byline">
 						Posted by #firstName# #lastName# in <a href="#cgi.script_name#?p=#url.p#&c=#categoryID#">#category#</a>
-						<cfif project.msgs gt 1 or userID eq session.user.userID or session.user.admin> | <a href="editMessage.cfm?p=#url.p#&m=#messageID#&mh=#hash(messageID)#" class="edit">Edit</a>
+						<cfif project.msg_edit or userID eq session.user.userID or session.user.admin> | <a href="editMessage.cfm?p=#url.p#&m=#messageID#&mh=#hash(messageID)#" class="edit">Edit</a>
 						 | <a href="messages.cfm?p=#url.p#&dm=#messageID#&dmh=#hash(messageID)#" class="delete" onclick="return confirm('Are you sure you wish to delete this message and all associated comments?')">Delete</a></cfif>
 						<cfif allowComments> | <a href="message.cfm?p=#url.p#&m=#messageID###comments" class="comment"><cfif not commentCount>Post the first comment<cfelse>#commentCount# comment<cfif commentCount gt 1>s</cfif> posted</cfif></a></cfif>
 						<cfif attachcount gt 0> | <a href="message.cfm?p=#url.p#&m=#messageID###attach" class="attach">#attachcount# file<cfif attachcount gt 1>s</cfif> attached</a></cfif>
@@ -149,7 +149,7 @@
 			<img src="#application.settings.userFilesMapping#/projects/#project.logo_img#" border="0" alt="#project.name#" /><br />
 		</cfif>
 				
-		<cfif project.msgs gt 1>
+		<cfif project.msg_edit>
 		<h3><a href="editMessage.cfm?p=#url.p#" class="add">Post a new message</a></h3><br />
 		</cfif>
 		

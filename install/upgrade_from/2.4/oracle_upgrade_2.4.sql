@@ -37,6 +37,7 @@ add
    (
    file_view NUMBER(1,0) NULL,
    file_edit NUMBER(1,0) NULL,
+   file_comment NUMBER(1,0) NULL,
    issue_view NUMBER(1,0) NULL,
    issue_edit NUMBER(1,0) NULL,
    issue_accept NUMBER(1,0) NULL,
@@ -61,6 +62,7 @@ add
    );
 update pt_project_users set file_view = 0;
 update pt_project_users set file_edit = 0;
+update pt_project_users set file_comment = 0;
 update pt_project_users set issue_view = 0;
 update pt_project_users set issue_edit = 0;
 update pt_project_users set issue_accept = 0;
@@ -94,6 +96,7 @@ add
    issue_timetrack NUMBER(1,0) NULL,
    reg_file_view NUMBER(1,0) NULL,
    reg_file_edit NUMBER(1,0) NULL,
+   reg_file_comment NUMBER(1,0) NULL,
    reg_issue_view NUMBER(1,0) NULL,
    reg_issue_edit NUMBER(1,0) NULL,
    reg_issue_accept NUMBER(1,0) NULL,
@@ -146,16 +149,46 @@ update pt_timetrack set paid = 0;
 CREATE TABLE  "PT_USER_NOTIFY" 
    (	"USERID" CHAR(35) NOT NULL ENABLE, 
 	"PROJECTID" CHAR(35) NOT NULL ENABLE, 
-	"EMAIL_FILES" NUMBER(1,0), 
-	"MOBILE_FILES" NUMBER(1,0), 
-	"EMAIL_ISSUES" NUMBER(1,0), 
-	"MOBILE_ISSUES" NUMBER(1,0), 
-	"EMAIL_MSGS" NUMBER(1,0), 
-	"MOBILE_MSGS" NUMBER(1,0), 
-	"EMAIL_MSTONES" NUMBER(1,0), 
-	"MOBILE_MSTONES" NUMBER(1,0), 
-	"EMAIL_TODOS" NUMBER(1,0), 
-	"MOBILE_TODOS" NUMBER(1,0), 
+	"EMAIL_FILE_NEW" NUMBER(1,0), 
+	"MOBILE_FILE_NEW" NUMBER(1,0), 
+	"EMAIL_FILE_UPD" NUMBER(1,0), 
+	"MOBILE_FILE_UPD" NUMBER(1,0), 
+	"EMAIL_FILE_COM" NUMBER(1,0), 
+	"MOBILE_FILE_COM" NUMBER(1,0), 
+	"EMAIL_ISSUE_NEW" NUMBER(1,0), 
+	"MOBILE_ISSUE_NEW" NUMBER(1,0), 
+	"EMAIL_ISSUE_UPD" NUMBER(1,0), 
+	"MOBILE_ISSUE_UPD" NUMBER(1,0), 
+	"EMAIL_ISSUE_COM" NUMBER(1,0), 
+	"MOBILE_ISSUE_COM" NUMBER(1,0), 
+	"EMAIL_MSG_NEW" NUMBER(1,0), 
+	"MOBILE_MSG_NEW" NUMBER(1,0), 
+	"EMAIL_MSG_UPD" NUMBER(1,0), 
+	"MOBILE_MSG_UPD" NUMBER(1,0), 
+	"EMAIL_MSG_COM" NUMBER(1,0), 
+	"MOBILE_MSG_COM" NUMBER(1,0), 
+	"EMAIL_MSTONE_NEW" NUMBER(1,0), 
+	"MOBILE_MSTONE_NEW" NUMBER(1,0), 
+	"EMAIL_MSTONE_UPD" NUMBER(1,0), 
+	"MOBILE_MSTONE_UPD" NUMBER(1,0), 
+	"EMAIL_MSTONE_COM" NUMBER(1,0), 
+	"MOBILE_MSTONE_COM" NUMBER(1,0), 
+	"EMAIL_TODO_NEW" NUMBER(1,0), 
+	"MOBILE_TODO_NEW" NUMBER(1,0), 
+	"EMAIL_TODO_UPD" NUMBER(1,0), 
+	"MOBILE_TODO_UPD" NUMBER(1,0), 
+	"EMAIL_TODO_COM" NUMBER(1,0), 
+	"MOBILE_TODO_COM" NUMBER(1,0), 
+	"EMAIL_TIME_NEW" NUMBER(1,0), 
+	"MOBILE_TIME_NEW" NUMBER(1,0), 
+	"EMAIL_TIME_UPD" NUMBER(1,0), 
+	"MOBILE_TIME_UPD" NUMBER(1,0), 
+	"EMAIL_BILL_NEW" NUMBER(1,0), 
+	"MOBILE_BILL_NEW" NUMBER(1,0), 
+	"EMAIL_BILL_UPD" NUMBER(1,0), 
+	"MOBILE_BILL_UPD" NUMBER(1,0), 
+	"EMAIL_BILL_PAID" NUMBER(1,0), 
+	"MOBILE_BILL_PAID" NUMBER(1,0), 
 	 CONSTRAINT "PK_PT_USER_NOTIFY" PRIMARY KEY ("USERID", "PROJECTID") ENABLE
    );
 

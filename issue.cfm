@@ -8,7 +8,7 @@
 	<cfset project = application.project.get(session.user.userid,url.p)>
 </cfif>
 
-<cfif project.issues eq 2>
+<cfif project.issue_edit>
 	<cfif project.tab_svn eq 1 and project.svn gt 0 and compare(project.svnurl,'')>
 		<cfset svn = createObject("component", "cfcs.SVNBrowser").init(project.svnurl,project.svnuser,project.svnpass)>
 		<cfset log = svn.getLog(numEntries=1000)>
@@ -77,7 +77,7 @@
 <cfset screenshots = application.screenshot.get(url.i)>
 <cfset activity = application.activity.get(type='Issue',id=url.i)>
 
-<cfif project.issues eq 0 and not session.user.admin>
+<cfif not project.issue_view and not session.user.admin>
 	<cfoutput><h2>You do not have permission to access issues!!!</h2></cfoutput>
 	<cfabort>
 </cfif>
@@ -102,13 +102,15 @@
 		<div class="main">
 
 				<div class="header" style="margin-bottom:0;">
-				<cfif project.issues eq 2>
+				<cfif project.issue_edit>
 				<span class="rightmenu">
 					<a href="editIssue.cfm?p=#url.p#&i=#url.i#" class="edit">Edit</a> 
-					<cfif not compare(issue.assignedTo,'')>
-						| <a href="#cgi.script_name#?p=#url.p#&i=#url.i#&acc=1" class="accept">Accept Ticket</a>
-					<cfelseif compare(issue.status,'Closed')>
-						| <a href="#cgi.script_name#?p=#url.p#&i=#url.i#&unacc=1" class="cancel">Unaccept Ticket</a>
+					<cfif project.issue_accept>
+						<cfif not compare(issue.assignedTo,'')>
+							| <a href="#cgi.script_name#?p=#url.p#&i=#url.i#&acc=1" class="accept">Accept Ticket</a>
+						<cfelseif compare(issue.status,'Closed')>
+							| <a href="#cgi.script_name#?p=#url.p#&i=#url.i#&unacc=1" class="cancel">Unaccept Ticket</a>
+						</cfif>
 					</cfif>
 					<cfif not compare(issue.status,'Accepted')>
 						| <a href="##" onclick="$('##resolve').slideToggle(300);return false;" class="close">Resolve Ticket</a>
@@ -239,7 +241,7 @@
 						</table>	
 
 						<div class="attachbar">
-							<cfif project.issues eq 2><span style="float:right;margin-top:2px;"><a href="editScreen.cfm?p=#url.p#&i=#url.i#" class="button2 nounder">Upload Screenshot</a></span></cfif>
+							<cfif project.issue_edit><span style="float:right;margin-top:2px;"><a href="editScreen.cfm?p=#url.p#&i=#url.i#" class="button2 nounder">Upload Screenshot</a></span></cfif>
 							Screenshots (#screenshots.recordCount#)
 						</div>						
 						<cfif screenshots.recordCount>
@@ -272,10 +274,10 @@
 						</table>
 						</cfif>
 
-						<cfif project.tab_time eq 1 and project.timetrack gt 0 and project.issue_timetrack>
+						<cfif project.tab_time eq 1 and project.time_view and project.issue_timetrack>
 							<cfset projectUsers = application.project.projectUsers(url.p,'0','firstName, lastName')>
 							<cfset timelines = application.timetrack.get(itemID=url.i)>
-							<cfif project.tab_billing and project.billing eq 2>
+							<cfif project.tab_billing and project.bill_edit>
 								<cfset rates = application.client.getRates(project.clientID)>
 							</cfif>
 							<cfset totalHours = 0>						
@@ -289,15 +291,15 @@
 										<th>Date</th>
 										<th>Person</th>
 										<th>Hours</th>
-										<cfif project.tab_billing and project.billing gt 0>
+										<cfif project.tab_billing and project.bill_view>
 											<th>Billing Category</th>
 										</cfif>
 										<th>Description</th>
-										<cfif project.timetrack eq 2 or session.user.admin>
+										<cfif project.time_edit or session.user.admin>
 											<th></th>
 										</cfif>
 									</tr>
-									<cfif project.timetrack eq 2 or session.user.admin>
+									<cfif project.time_edit or session.user.admin>
 									<tr class="input">
 										<td class="first"><input type="text" name="datestamp" id="datestamp" class="shortest date-pick" /></td>
 										<td>
@@ -308,7 +310,7 @@
 											</select>
 										</td>
 										<td><input type="text" name="hours" id="hrs" class="tiny" /></td>
-										<cfif project.tab_billing and project.billing eq 2>
+										<cfif project.tab_billing and project.bill_edit>
 											<td>
 												<select name="rateID" id="rateID">
 													<option value="">None</option>
@@ -331,12 +333,12 @@
 											<td class="first">#DateFormat(dateStamp,"mmm d, yyyy")#</td>
 											<td>#firstName# #lastName#</td>
 											<td>#numberFormat(hours,"0.00")#</td>
-											<cfif project.tab_billing and project.billing gt 0>
+											<cfif project.tab_billing and project.bill_view>
 												<td>#category#<cfif compare(category,'')> ($#NumberFormat(rate,"0")#/hr)</cfif></td>
 											</cfif>
 											<td>#description#</td>
-											<cfif project.timetrack eq 2 or session.user.admin>
-												<td class="tac"><a href="##" onclick="edit_time_row('#projectid#','#timetrackid#','#project.tab_billing#','#project.billing#','#project.clientID#','issue','#url.i#','issue'); return false;">Edit</a> &nbsp;&nbsp; <a href="##" onclick="delete_time('#projectID#','#timetrackID#','issue','#url.i#'); return false;" class="delete"></a></td>
+											<cfif project.time_edit or session.user.admin>
+												<td class="tac"><a href="##" onclick="edit_time_row('#projectid#','#timetrackid#','#project.tab_billing#','#project.bill_edit#','#project.clientID#','issue','#url.i#','issue'); return false;">Edit</a> &nbsp;&nbsp; <a href="##" onclick="delete_time('#projectID#','#timetrackID#','issue','#url.i#'); return false;" class="delete"></a></td>
 											</cfif>
 										</tr>
 										<cfset totalHours = totalHours + hours>
@@ -346,7 +348,7 @@
 									<tr class="last">
 										<td colspan="2" class="tar b">TOTAL:&nbsp;&nbsp;&nbsp;</td>
 										<td class="b"><span id="totalhours">#NumberFormat(totalHours,"0.00")#</span></td>
-										<td colspan="<cfif project.tab_billing and project.billing gt 0>3<cfelse>2</cfif>">&nbsp;</td>
+										<td colspan="<cfif project.tab_billing and project.bill_view>3<cfelse>2</cfif>">&nbsp;</td>
 									</tr>
 								</tfoot>
 							</table>
@@ -360,7 +362,7 @@
 							<table>
 								<tr>
 									<td>
-									<cfif project.issues eq 2>
+									<cfif project.issue_edit>
 										<cfquery name="reverselog" dbtype="query">
 											select * from log order by revision asc
 										</cfquery>
@@ -460,7 +462,7 @@
 						</div>
 						</cfloop>						
 						
-						<cfif project.issues eq 2>
+						<cfif project.issue_comment>
 						<form action="#cgi.script_name#?p=#url.p#&i=#url.i#" method="post" name="add" id="add" class="frm" onsubmit="return confirm_comment();">
 						<div class="b">Post a new comment...</div>
 						<cfscript>

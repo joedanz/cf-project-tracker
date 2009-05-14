@@ -23,10 +23,10 @@
 <cfset visible_project_list = "">
 <cfset visible_project_billlist = "">
 <cfloop query="projects">
-	<cfif timetrack gt 0>
+	<cfif time_view gt 0>
 		<cfset visible_project_list = listAppend(visible_project_list,projectID)>
 	</cfif>
-	<cfif billing gt 0>
+	<cfif bill_view gt 0>
 		<cfset visible_project_billlist = listAppend(visible_project_billlist,projectID)>
 	</cfif>
 </cfloop>

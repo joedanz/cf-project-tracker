@@ -25,7 +25,7 @@
 		<cfset var theMessage = "">
 		
 		<cfloop query="qProjectUsers">		
-			<cfif email_files and request.udf.isEmail(email)>
+			<cfif email_file_new and request.udf.isEmail(email)>
 				
 				<cfsavecontent variable="theMessage">
 				<cfoutput>A new #qProject.name# file has been added:
@@ -47,7 +47,7 @@ To view file details or to download, visit this link:
 						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
 				</cfif>
 			</cfif>
-			<cfif mobile_files and isNumeric(mobile)>
+			<cfif mobile_file_new and isNumeric(mobile)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>New #qProject.name# file:
@@ -76,7 +76,7 @@ To view file details or to download, visit this link:
 		<cfset var qFile = application.file.get(arguments.projectID,arguments.fileID)>
 		<cfset var theMessage = "">
 		<cfloop query="qProjectUsers">		
-			<cfif email_files and request.udf.isEmail(email)>
+			<cfif email_file_upd and request.udf.isEmail(email)>
 				
 				<cfsavecontent variable="theMessage">
 				<cfoutput>The following #qProject.name# issue has been updated:
@@ -98,7 +98,7 @@ To view file details or to download, visit this link:
 						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
 				</cfif>
 			</cfif>
-			<cfif mobile_files and isNumeric(mobile)>
+			<cfif mobile_file_upd and isNumeric(mobile)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>Updated #qProject.name# file:
@@ -127,7 +127,7 @@ To view file details or to download, visit this link:
 		<cfset var qIssue = application.issue.get(arguments.projectID,arguments.issueID)>
 		<cfset var theMessage = "">
 		<cfloop query="qProjectUsers">		
-			<cfif email_issues and request.udf.isEmail(email)>
+			<cfif email_issue_new and request.udf.isEmail(email)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>A new #qProject.name# issue has been added:
@@ -151,7 +151,7 @@ To view file details or to download, visit this link:
 						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
 				</cfif>
 			</cfif>
-			<cfif mobile_issues and isNumeric(mobile)>
+			<cfif mobile_issue_new and isNumeric(mobile)>
 
 				<cfsavecontent variable="theMessage">
 				<cfoutput>New #qProject.name# issue:
@@ -179,7 +179,7 @@ To view file details or to download, visit this link:
 		<cfset var qIssue = application.issue.get(arguments.projectID,arguments.issueID)>
 		<cfset var theMessage = "">
 		<cfloop query="qProjectUsers">		
-			<cfif email_issues and request.udf.isEmail(email)>
+			<cfif email_issue_upd and request.udf.isEmail(email)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>The following #qProject.name# issue has been updated:
@@ -205,7 +205,7 @@ Status: #qIssue.status#
 						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
 				</cfif>
 			</cfif>
-			<cfif mobile_issues and isNumeric(mobile)>
+			<cfif mobile_issue_new and isNumeric(mobile)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>Updated #qProject.name# issue:
@@ -235,7 +235,7 @@ Status: #qIssue.status#
 		<cfset var qMailNotifyUsers = application.project.userNotify('',arguments.notifyList,arguments.projectID)>
 		<cfset var theMessage = "">
 		<cfloop query="qMailNotifyUsers">
-			<cfif email_msgs and request.udf.isEmail(email)>
+			<cfif email_msg_new and request.udf.isEmail(email)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput><cfif compare(userID,arguments.addedBy)>A new #qProject.name# message has been posted<cfelse>You have posted a new #qProject.name# message</cfif>:
@@ -258,7 +258,7 @@ Use the following link to view or edit the message and to make comments:</cfif>
 						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
 				</cfif>
 			</cfif>
-			<cfif mobile_msgs and isNumeric(mobile)>
+			<cfif mobile_msg_new and isNumeric(mobile)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>New #qProject.name# message:
@@ -289,7 +289,7 @@ Use the following link to view or edit the message and to make comments:</cfif>
 		<cfset var qMailNotifyUsers = application.project.userNotify('',arguments.notifyList,arguments.projectID)>
 		<cfset var theMessage = "">
 		<cfloop query="qMailNotifyUsers">		
-			<cfif email_msgs and request.udf.isEmail(email)>
+			<cfif email_msg_upd and request.udf.isEmail(email)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput><cfif compare(userID,arguments.updatedBy)>The following #qProject.name# message has been updated<cfelse>You have updated a #qProject.name# message</cfif>:
@@ -311,7 +311,7 @@ Use the following link to view or edit the message and to make comments:</cfif>
 						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
 				</cfif>
 			</cfif>
-			<cfif mobile_msgs and isNumeric(mobile)>
+			<cfif mobile_msg_upd and isNumeric(mobile)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>Updated #qProject.name# message:
@@ -340,7 +340,7 @@ Use the following link to view or edit the message and to make comments:</cfif>
 		<cfset var qNotifyList = application.message.getNotifyList(arguments.projectID,arguments.messageID)>
 		<cfset var theMessage = "">
 		<cfloop query="qNotifyList">		
-			<cfif email_msgs and request.udf.isEmail(email)>
+			<cfif email_msg_com and request.udf.isEmail(email)>
 				
 				<cfsavecontent variable="theMessage">
 				<cfoutput>A new #qProject.name# comment has been posted on the message in #qMessage.category# entitled:
@@ -360,7 +360,7 @@ To view the full message and leave comments, visit this link:
 						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
 				</cfif>
 			</cfif>
-			<cfif mobile_msgs and isNumeric(mobile)>
+			<cfif mobile_msg_com and isNumeric(mobile)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>New comment on: #qMessage.title#
@@ -388,7 +388,7 @@ To view the full message and leave comments, visit this link:
 		<cfset var qMilestone = application.milestone.get(arguments.projectID,arguments.milestoneID)>
 		<cfset var theMessage = "">
 		<cfloop query="qProjectUsers">
-			<cfif email_mstones and request.udf.isEmail(email)>
+			<cfif email_mstone_new and request.udf.isEmail(email)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>A new #qProject.name# milestone has been added:
@@ -410,7 +410,7 @@ To view the full message and leave comments, visit this link:
 						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
 				</cfif>
 			</cfif>
-			<cfif mobile_mstones and isNumeric(mobile)>
+			<cfif mobile_mstone_new and isNumeric(mobile)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>New #qProject.name# file:
@@ -441,7 +441,7 @@ Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
 		<cfset var qMilestone = application.milestone.get(arguments.projectID,arguments.milestoneID)>
 		<cfset var theMessage = "">
 		<cfloop query="qProjectUsers">		
-			<cfif email_mstones and request.udf.isEmail(email)>
+			<cfif email_mstone_upd and request.udf.isEmail(email)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>The following #qProject.name# milestone has been updated:
@@ -465,7 +465,7 @@ Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
 						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
 				</cfif>
 			</cfif>
-			<cfif mobile_mstones and isNumeric(mobile)>
+			<cfif mobile_mstone_upd and isNumeric(mobile)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>Updated #qProject.name# milestone:
@@ -496,7 +496,7 @@ Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
 		<cfset var qTodo = application.todo.get(projectID=arguments.projectID,todolistID=arguments.todolistID,todoID=arguments.todoID)>
 		<cfset var theMessage = "">
 		<cfloop query="qProjectUsers">		
-			<cfif email_todos and request.udf.isEmail(email)>
+			<cfif email_todo_new and request.udf.isEmail(email)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>A new #qProject.name# to-do has been added to list #qTodolist.title#:
@@ -516,7 +516,7 @@ Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
 						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
 				</cfif>
 			</cfif>
-			<cfif mobile_todos and isNumeric(mobile)>
+			<cfif mobile_todo_new and isNumeric(mobile)>
 				
 				<cfsavecontent variable="theMessage">
 				<cfoutput>New #qProject.name# to-do:
@@ -547,7 +547,7 @@ List: #qTodolist.title#
 		<cfset var qTodo = application.todo.get(projectID=arguments.projectID,todolistID=arguments.todolistID,todoID=arguments.todoID)>
 		<cfset var theMessage = "">
 		<cfloop query="qProjectUsers">		
-			<cfif email_todos and request.udf.isEmail(email)>
+			<cfif email_todo_edit and request.udf.isEmail(email)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>The following #qProject.name# to-do has been updated in list #qTodolist.title#:
@@ -567,7 +567,7 @@ List: #qTodolist.title#
 						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
 				</cfif>
 			</cfif>
-			<cfif mobile_todos and isNumeric(mobile)>
+			<cfif mobile_todo_upd and isNumeric(mobile)>
 				
 				<cfsavecontent variable="theMessage">
 				<cfoutput>Updated #qProject.name# to-do:
@@ -591,66 +591,192 @@ List: #qTodolist.title#
 				hint="Updates a user's notification settings.">
 		<cfargument name="userID" type="string" required="true">
 		<cfargument name="projectID" type="string" required="true">
-		<cfargument name="email_files" type="numeric" required="true">
-		<cfargument name="mobile_files" type="numeric" required="true">
-		<cfargument name="email_issues" type="numeric" required="true">
-		<cfargument name="mobile_issues" type="numeric" required="true">
-		<cfargument name="email_msgs" type="numeric" required="true">
-		<cfargument name="mobile_msgs" type="numeric" required="true">
-		<cfargument name="email_mstones" type="numeric" required="true">
-		<cfargument name="mobile_mstones" type="numeric" required="true">
-		<cfargument name="email_todos" type="numeric" required="true">
-		<cfargument name="mobile_todos" type="numeric" required="true">
+		<cfargument name="email_file_new" type="numeric" required="false" default="0">
+		<cfargument name="mobile_file_new" type="numeric" required="false" default="0">
+		<cfargument name="email_file_upd" type="numeric" required="false" default="0">
+		<cfargument name="mobile_file_upd" type="numeric" required="false" default="0">
+		<cfargument name="email_file_com" type="numeric" required="false" default="0">
+		<cfargument name="mobile_file_com" type="numeric" required="false" default="0">
+		<cfargument name="email_issue_new" type="numeric" required="false" default="0">
+		<cfargument name="mobile_issue_new" type="numeric" required="false" default="0">
+		<cfargument name="email_issue_upd" type="numeric" required="false" default="0">
+		<cfargument name="mobile_issue_upd" type="numeric" required="false" default="0">
+		<cfargument name="email_issue_com" type="numeric" required="false" default="0">
+		<cfargument name="mobile_issue_com" type="numeric" required="false" default="0">		
+		<cfargument name="email_msg_new" type="numeric" required="false" default="0">
+		<cfargument name="mobile_msg_new" type="numeric" required="false" default="0">
+		<cfargument name="email_msg_upd" type="numeric" required="false" default="0">
+		<cfargument name="mobile_msg_upd" type="numeric" required="false" default="0">
+		<cfargument name="email_msg_com" type="numeric" required="false" default="0">
+		<cfargument name="mobile_msg_com" type="numeric" required="false" default="0">
+		<cfargument name="email_mstone_new" type="numeric" required="false" default="0">
+		<cfargument name="mobile_mstone_new" type="numeric" required="false" default="0">
+		<cfargument name="email_mstone_upd" type="numeric" required="false" default="0">
+		<cfargument name="mobile_mstone_upd" type="numeric" required="false" default="0">
+		<cfargument name="email_mstone_com" type="numeric" required="false" default="0">
+		<cfargument name="mobile_mstone_com" type="numeric" required="false" default="0">
+		<cfargument name="email_todo_new" type="numeric" required="false" default="0">
+		<cfargument name="mobile_todo_new" type="numeric" required="false" default="0">
+		<cfargument name="email_todo_upd" type="numeric" required="false" default="0">
+		<cfargument name="mobile_todo_upd" type="numeric" required="false" default="0">
+		<cfargument name="email_todo_com" type="numeric" required="false" default="0">
+		<cfargument name="mobile_todo_com" type="numeric" required="false" default="0">
+		<cfargument name="email_time_new" type="numeric" required="false" default="0">
+		<cfargument name="mobile_time_new" type="numeric" required="false" default="0">
+		<cfargument name="email_time_upd" type="numeric" required="false" default="0">
+		<cfargument name="mobile_time_upd" type="numeric" required="false" default="0">
+		<cfargument name="email_bill_new" type="numeric" required="false" default="0">
+		<cfargument name="mobile_bill_new" type="numeric" required="false" default="0">
+		<cfargument name="email_bill_upd" type="numeric" required="false" default="0">
+		<cfargument name="mobile_bill_upd" type="numeric" required="false" default="0">
+		<cfargument name="email_bill_paid" type="numeric" required="false" default="0">
+		<cfargument name="mobile_bill_paid" type="numeric" required="false" default="0">
 		
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			INSERT INTO #variables.tableprefix#user_notify (userID, projectID, email_files, mobile_files,
-				email_issues, mobile_issues, email_msgs, mobile_msgs, email_mstones, mobile_mstones, 
-				email_todos, mobile_todos)
+			INSERT INTO #variables.tableprefix#user_notify (userID, projectID, email_file_new, mobile_file_new,
+				email_file_upd, mobile_file_upd, email_file_com, mobile_file_com, email_issue_new, mobile_issue_new,
+				email_issue_upd, mobile_issue_upd, email_issue_com, mobile_issue_com, email_msg_new, mobile_msg_new,
+				email_msg_upd, mobile_msg_upd, email_msg_com, mobile_msg_com, email_mstone_new, mobile_mstone_new,
+				email_mstone_upd, mobile_mstone_upd, email_mstone_com, mobile_mstone_com, email_todo_new, 
+				mobile_todo_new, email_todo_upd, mobile_todo_upd, email_todo_com, mobile_todo_com,
+				email_time_new, mobile_time_new, email_time_upd, mobile_time_upd, email_bill_new, 
+				mobile_bill_new, email_bill_upd, mobile_bill_upd, email_bill_paid, mobile_bill_paid)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">,
-					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_files#">, 
-					 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_files#">,
-					 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_issues#">, 
-					 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_issues#">,
-					 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_msgs#">, 
-					 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_msgs#">,
-					 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_mstones#">, 
-					 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_mstones#">,
-					 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todos#">, 
-					 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todos#">
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_file_new#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_file_new#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_file_upd#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_file_upd#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_file_com#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_file_com#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_issue_new#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_issue_new#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_issue_upd#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_issue_upd#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_issue_com#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_issue_com#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_msg_new#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_msg_new#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_msg_upd#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_msg_upd#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_msg_com#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_msg_com#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_mstone_new#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_mstone_new#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_mstone_upd#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_mstone_upd#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_mstone_com#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_mstone_com#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todo_new#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todo_new#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todo_upd#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todo_upd#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todo_com#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todo_com#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_time_new#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_time_new#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_time_upd#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_time_upd#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_bill_new#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_bill_new#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_bill_upd#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_bill_upd#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_bill_paid#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_bill_paid#">
 					)
 		</cfquery>		
 	</cffunction>
 	
 	<cffunction name="update" access="public" returntype="void" output="false"
-				hint="Updates a user's notification settings.">
+				hint="Sets notifications for a project user.">
 		<cfargument name="userID" type="string" required="true">
 		<cfargument name="projectID" type="string" required="true">
-		<cfargument name="email_files" type="numeric" required="true">
-		<cfargument name="mobile_files" type="numeric" required="true">
-		<cfargument name="email_issues" type="numeric" required="true">
-		<cfargument name="mobile_issues" type="numeric" required="true">
-		<cfargument name="email_msgs" type="numeric" required="true">
-		<cfargument name="mobile_msgs" type="numeric" required="true">
-		<cfargument name="email_mstones" type="numeric" required="true">
-		<cfargument name="mobile_mstones" type="numeric" required="true">
-		<cfargument name="email_todos" type="numeric" required="true">
-		<cfargument name="mobile_todos" type="numeric" required="true">
+		<cfargument name="email_file_new" type="numeric" required="true">
+		<cfargument name="mobile_file_new" type="numeric" required="true">
+		<cfargument name="email_file_upd" type="numeric" required="true">
+		<cfargument name="mobile_file_upd" type="numeric" required="true">
+		<cfargument name="email_file_com" type="numeric" required="true">
+		<cfargument name="mobile_file_com" type="numeric" required="true">
+		<cfargument name="email_issue_new" type="numeric" required="true">
+		<cfargument name="mobile_issue_new" type="numeric" required="true">
+		<cfargument name="email_issue_upd" type="numeric" required="true">
+		<cfargument name="mobile_issue_upd" type="numeric" required="true">
+		<cfargument name="email_issue_com" type="numeric" required="true">
+		<cfargument name="mobile_issue_com" type="numeric" required="true">		
+		<cfargument name="email_msg_new" type="numeric" required="true">
+		<cfargument name="mobile_msg_new" type="numeric" required="true">
+		<cfargument name="email_msg_upd" type="numeric" required="true">
+		<cfargument name="mobile_msg_upd" type="numeric" required="true">
+		<cfargument name="email_msg_com" type="numeric" required="true">
+		<cfargument name="mobile_msg_com" type="numeric" required="true">
+		<cfargument name="email_mstone_new" type="numeric" required="true">
+		<cfargument name="mobile_mstone_new" type="numeric" required="true">
+		<cfargument name="email_mstone_upd" type="numeric" required="true">
+		<cfargument name="mobile_mstone_upd" type="numeric" required="true">
+		<cfargument name="email_mstone_com" type="numeric" required="true">
+		<cfargument name="mobile_mstone_com" type="numeric" required="true">
+		<cfargument name="email_todo_new" type="numeric" required="true">
+		<cfargument name="mobile_todo_new" type="numeric" required="true">
+		<cfargument name="email_todo_upd" type="numeric" required="true">
+		<cfargument name="mobile_todo_upd" type="numeric" required="true">
+		<cfargument name="email_todo_com" type="numeric" required="true">
+		<cfargument name="mobile_todo_com" type="numeric" required="true">
+		<cfargument name="email_time_new" type="numeric" required="true">
+		<cfargument name="mobile_time_new" type="numeric" required="true">
+		<cfargument name="email_time_upd" type="numeric" required="true">
+		<cfargument name="mobile_time_upd" type="numeric" required="true">
+		<cfargument name="email_bill_new" type="numeric" required="true">
+		<cfargument name="mobile_bill_new" type="numeric" required="true">
+		<cfargument name="email_bill_upd" type="numeric" required="true">
+		<cfargument name="mobile_bill_upd" type="numeric" required="true">
+		<cfargument name="email_bill_paid" type="numeric" required="true">
+		<cfargument name="mobile_bill_paid" type="numeric" required="true">
+		
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			UPDATE #variables.tableprefix#user_notify SET
-				email_files = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_files#">, 
-				mobile_files = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_files#">,
-				email_issues = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_issues#">, 
-				mobile_issues = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_issues#">,
-				email_msgs = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_msgs#">, 
-				mobile_msgs = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_msgs#">,
-				email_mstones = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_mstones#">, 
-				mobile_mstones = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_mstones#">,
-				email_todos = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todos#">, 
-				mobile_todos = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todos#"> 
-			WHERE userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
-				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">			
-		</cfquery>		
+			UPDATE #variables.tableprefix#user_notify
+			SET email_file_new = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_file_new#" maxlength="1">,
+				mobile_file_new = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_file_new#" maxlength="1">,
+				email_file_upd = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_file_upd#" maxlength="1">,
+				mobile_file_upd = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_file_upd#" maxlength="1">,
+				email_file_com = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_file_com#" maxlength="1">,
+				mobile_file_com = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_file_com#" maxlength="1">,
+				email_issue_new = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_issue_new#" maxlength="1">,
+				mobile_issue_new = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_issue_new#" maxlength="1">,
+				email_issue_upd = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_issue_upd#" maxlength="1">,
+				mobile_issue_upd = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_issue_upd#" maxlength="1">,
+				email_issue_com = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_issue_com#" maxlength="1">,
+				mobile_issue_com = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_issue_com#" maxlength="1">,
+				email_msg_new = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_msg_new#" maxlength="1">,
+				mobile_msg_new = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_msg_new#" maxlength="1">,
+				email_msg_upd = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_msg_upd#" maxlength="1">,
+				mobile_msg_upd = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_msg_upd#" maxlength="1">,
+				email_msg_com = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_msg_com#" maxlength="1">,
+				mobile_msg_com = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_msg_com#" maxlength="1">,
+				email_mstone_new = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_mstone_new#" maxlength="1">,
+				mobile_mstone_new = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_mstone_new#" maxlength="1">,
+				email_mstone_upd = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_mstone_upd#" maxlength="1">,
+				mobile_mstone_upd = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_mstone_upd#" maxlength="1">,
+				email_mstone_com = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_mstone_com#" maxlength="1">,
+				mobile_mstone_com = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_mstone_com#" maxlength="1">,
+				email_todo_new = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todo_new#" maxlength="1">,
+				mobile_todo_new = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todo_new#" maxlength="1">,
+				email_todo_upd = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todo_upd#" maxlength="1">,
+				mobile_todo_upd = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todo_upd#" maxlength="1">,
+				email_todo_com = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todo_com#" maxlength="1">,
+				mobile_todo_com = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todo_com#" maxlength="1">,
+				email_time_new = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_time_new#" maxlength="1">,
+				mobile_time_new = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_time_new#" maxlength="1">,
+				email_time_upd = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_time_upd#" maxlength="1">,
+				mobile_time_upd = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_time_upd#" maxlength="1">,
+				email_bill_new = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_bill_new#" maxlength="1">,
+				mobile_bill_new = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_bill_new#" maxlength="1">,
+				email_bill_upd = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_bill_upd#" maxlength="1">,
+				mobile_bill_upd = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_bill_upd#" maxlength="1">,
+				email_bill_paid = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_bill_paid#" maxlength="1">,
+				mobile_bill_paid = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_bill_paid#" maxlength="1">
+			WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				AND userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35"> 
+		</cfquery>
 	</cffunction>
 		
 	<cffunction name="remove" access="public" returnType="boolean" output="false"

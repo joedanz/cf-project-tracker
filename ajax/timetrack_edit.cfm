@@ -14,7 +14,7 @@
 		</select>
 	</td>
 	<td><input type="text" name="hours" id="hrs#timeline.timetrackid#" value="#numberFormat(timeline.hours,"0.00")#" class="tiny" /></td>
-	<cfif url.tb and url.b eq 2>
+	<cfif url.tb and url.b>
 		<cfset rates = application.client.getRates(url.c)>
 		<cfset thisRateID = timeline.rateID>
 		<td>

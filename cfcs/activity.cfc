@@ -27,7 +27,7 @@
 			SELECT a.activityID,a.projectID,a.type,a.id,a.name,a.activity,a.stamp,
 				u.userid,u.firstName,u.lastName,p.projectID,p.name as projectName, 'red' as thiscolor
 				<cfif compare(arguments.projectIDlist,'')>
-					, pu.files, pu.issues, pu.msgs, pu.mstones, pu.todos
+					, pu.file_view, pu.issue_view, pu.msg_view, pu.mstone_view, pu.todolist_view
 				</cfif>
 			FROM #variables.tableprefix#activity a 
 				INNER JOIN #variables.tableprefix#projects p ON a.projectID = p.projectID

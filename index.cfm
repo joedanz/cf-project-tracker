@@ -35,12 +35,12 @@
 <cfset visible_project_list_mstones = "">
 <cfset visible_project_list_issues = "">
 <cfloop query="projects">
-	<cfif mstones gt 0>
+	<cfif mstone_view gt 0>
 		<cfset visible_project_list_mstones = listAppend(visible_project_list_mstones,projectID)>
 	</cfif>
 </cfloop>
 <cfloop query="projects">
-	<cfif issues gt 0>
+	<cfif issue_view gt 0>
 		<cfset visible_project_list_issues = listAppend(visible_project_list_issues,projectID)>
 	</cfif>
 </cfloop>
@@ -290,7 +290,7 @@ $(document).ready(function(){
 							
 						<cfset thisRow = 1>
 						<cfloop query="activity">
-							<cfif not ((not compareNoCase(type,'issue') and issues eq 0) or (not compareNoCase(type,'message') and msgs eq 0) or (not compareNoCase(type,'milestone') and mstones eq 0) or (not compareNoCase(type,'to-do list') and todos eq 0) or (not compareNoCase(type,'file') and files eq 0))>
+							<cfif not ((not compareNoCase(type,'issue') and not issue_view) or (not compareNoCase(type,'message') and not msg_view) or (not compareNoCase(type,'milestone') and not mstone_view) or (not compareNoCase(type,'to-do list') and not todolist_view) or (not compareNoCase(type,'file') and not file_view))>
 							<tr>
 								<td><a href="project.cfm?p=#projectID#" title="#projectName#">#projectName#</a></td>
 								<td><div class="catbox

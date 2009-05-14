@@ -72,6 +72,36 @@ table#alltodos tr td { border-top:1px solid #ccc; padding:5px; vertical-align:to
 table#alltodos tr td:first-child { background-color:#eee; text-align:right; width:28%; font-weight:bold; }
 table#alltodos li { list-style-type:none; margin-bottom:5px; }
 
+table.perms {
+	width:350px;
+	margin-left:30px;
+}
+table.permspop, table.notifypop {
+	width:200px;
+	margin-left:10px;
+}
+table.perms th, table.perms td, table.permspop th, table.permspop td, table.notifypop th, table.notifypop td {
+	border-bottom:1px solid #ccc;
+	padding:2px;
+	font-size:.9em;
+}
+table.permspop td.tac {
+	width:20px;
+}
+table.permspop th, table.notifypop th, table.notifylist th, #permsinfo th {
+	background-color:#eee;	
+}
+table.notifylist td.tac {
+	width:50px;
+}
+table.notifypop td.tac {
+	width:25px;
+}
+
+.yes, .no {
+	width:50px;
+}
+
 tr.input td {
 	padding:10px;
 	background-color:#eee;

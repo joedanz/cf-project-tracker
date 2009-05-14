@@ -152,6 +152,7 @@
 				<field ColumnName="admin" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="file_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="file_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="file_comment" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="issue_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="issue_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="issue_accept" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
@@ -196,9 +197,9 @@
 				<field ColumnName="ownerID" CF_DataType="CF_SQL_CHAR" Length="35" />
 				<field ColumnName="logo_img" CF_DataType="CF_SQL_VARCHAR" Length="150" />
 				<field ColumnName="allow_reg" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
-				<field ColumnName="reg_active" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="reg_file_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="reg_file_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_file_comment" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="reg_issue_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="reg_issue_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="reg_issue_accept" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />

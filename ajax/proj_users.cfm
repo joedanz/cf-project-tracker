@@ -1,8 +1,9 @@
 <cfsetting enablecfoutputonly="true" showdebugoutput="false">
 
 <cfif StructKeyExists(url,"a")>
-	<cfset application.role.add(url.p,url.e,url.a,url.f,url.i,url.m,url.ms,url.t,url.tt,url.b,url.s)>
-	<cfset application.notify.add(url.e,url.p,'0','0','0','0','0','0','0','0','0','0')>
+	<cfset def = application.project.getDistinct(url.p)>
+	<cfset application.role.add(url.p,url.u,'0',def.reg_file_view,def.reg_file_edit,def.reg_file_comment,def.reg_issue_view,def.reg_issue_edit,def.reg_issue_accept,def.reg_issue_comment,def.reg_msg_view,def.reg_msg_edit,def.reg_msg_comment,def.reg_mstone_view,def.reg_mstone_edit,def.reg_mstone_comment,def.reg_todolist_view,def.reg_todolist_edit,def.reg_todo_edit,def.reg_todo_comment,def.reg_time_view,def.reg_time_edit,def.reg_bill_view,def.reg_bill_edit,def.reg_bill_rates,def.reg_bill_invoices,def.reg_bill_markpaid,def.reg_svn)>
+	<cfset application.notify.add(url.u,url.p)>
 	<cfset thread = CreateObject("java", "java.lang.Thread")>
 	<cfset thread.sleep(250)>	
 <cfelseif StructKeyExists(form,"addnew")>
@@ -11,9 +12,10 @@
 		<cfset error = "Username already exists!">
 	<cfelse>
 		<cfset newID = createUUID()>
+		<cfset def = application.project.getDistinct(form.p)>
 		<cfset application.user.create(newID,form.fn,form.ln,form.e,form.ph,form.un,form.pw,form.adm)>
-		<cfset application.role.add(form.p,newID,form.a,form.f,form.i,form.m,form.ms,form.t,form.tt,form.b,form.s)>
-		<cfset application.notify.add(newID,form.p,'0','0','0','0','0','0','0','0','0','0')>
+		<cfset application.role.add(form.p,newID,'0',def.reg_file_view,def.reg_file_edit,def.reg_file_comment,def.reg_issue_view,def.reg_issue_edit,def.reg_issue_accept,def.reg_issue_comment,def.reg_msg_view,def.reg_msg_edit,def.reg_msg_comment,def.reg_mstone_view,def.reg_mstone_edit,def.reg_mstone_comment,def.reg_todolist_view,def.reg_todolist_edit,def.reg_todo_edit,def.reg_todo_comment,def.reg_time_view,def.reg_time_edit,def.reg_bill_view,def.reg_bill_edit,def.reg_bill_rates,def.reg_bill_invoices,def.reg_bill_markpaid,def.reg_svn)>
+		<cfset application.notify.add(newID,form.p)>
 		<cfset thread = CreateObject("java", "java.lang.Thread")>
 		<cfset thread.sleep(250)>
 	</cfif>
@@ -54,89 +56,13 @@
  		
  		<cfif admin or session.user.admin>
 	 		<div style="font-size:.9em;margin-top:3px;">[
-		 		<a href="##" onclick="$('##up_#replace(userid,'-','','ALL')#').slideToggle(300);return false;">edit permissions</a> /
+		 		<a href="userPermissions.cfm?u=#userID#&p=#url.p#">edit permissions</a> /
 		 		<a href="##" onclick="remove_user('#url.p#','#userID#','#lastName#','#firstName#');$('###userID#').fadeOut(500);return false;">remove from project</a>	
 		 	<cfif userid neq project.ownerid> / <a href="people.cfm?p=#url.p#&mo=#userID#">make owner</a></cfif>
 		 	]</div>
  		</cfif>
- 		
-		<table class="clean full mt5 permissions" style="display:none;" id="up_#replace(userid,'-','','ALL')#">
-		<tr>
-			<th class="tac">Admin</th>
-			<th class="tac">Files</th>
-			<th class="tac">Issues</th>
-			<th class="tac">Messages</th>
-			<th class="tac">Milestones</th>
-			<th class="tac">To-Dos</th>
-			<th class="tac">Time Tracking</th>
-			<th class="tac">Billing</th>
-			<th class="tac">SVN</th>
-			<th rowspan="2" class="tac"><input type="button" value="Save" class="button" onclick="save_permissions('#url.p#','#userid#','#replace(userid,'-','','ALL')#')" /></th>
-		</tr>
-		<tr>
-			<td class="tac"><input type="checkbox" name="admin" id="a_#replace(userid,'-','','ALL')#" value="1" class="cb"<cfif admin> checked="checked"</cfif> /></td>
-		<td class="tac">
-			<select name="files" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="f_#replace(userid,'-','','ALL')#">
-				<option value="2"<cfif files eq 2> selected="selected"</cfif>>Full Access</option>
-				<option value="1"<cfif files eq 1> selected="selected"</cfif>>Read-Only</option>
-				<option value="0"<cfif files eq 0> selected="selected"</cfif>>None</option>
-			</select>
-		</td>
-		<td class="tac">
-			<select name="issues" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="i_#replace(userid,'-','','ALL')#">
-				<option value="2"<cfif issues eq 2> selected="selected"</cfif>>Full Access</option>
-				<option value="1"<cfif issues eq 1> selected="selected"</cfif>>Read-Only</option>
-				<option value="0"<cfif issues eq 0> selected="selected"</cfif>>None</option>
-			</select>							
-		</td>
-		<td class="tac">
-			<select name="msgs" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="m_#replace(userid,'-','','ALL')#">
-				<option value="2"<cfif msgs eq 2> selected="selected"</cfif>>Full Access</option>
-				<option value="1"<cfif msgs eq 1> selected="selected"</cfif>>Read-Only</option>
-				<option value="0"<cfif msgs eq 0> selected="selected"</cfif>>None</option>
-			</select>							
-		</td>
-		<td class="tac">
-			<select name="mstones" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="ms_#replace(userid,'-','','ALL')#">
-				<option value="2"<cfif mstones eq 2> selected="selected"</cfif>>Full Access</option>
-				<option value="1"<cfif mstones eq 1> selected="selected"</cfif>>Read-Only</option>
-				<option value="0"<cfif mstones eq 0> selected="selected"</cfif>>None</option>
-			</select>							
-		</td>
-		<td class="tac">
-			<select name="todos" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="t_#replace(userid,'-','','ALL')#">
-				<option value="2"<cfif todos eq 2> selected="selected"</cfif>>Full Access</option>
-				<option value="1"<cfif todos eq 1> selected="selected"</cfif>>Read-Only</option>
-				<option value="0"<cfif todos eq 0> selected="selected"</cfif>>None</option>
-			</select>							
-		</td>
-		<td class="tac">
-			<select name="timetrack" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="tt_#replace(userid,'-','','ALL')#">
-				<option value="2"<cfif timetrack eq 2> selected="selected"</cfif>>Full Access</option>
-				<option value="1"<cfif timetrack eq 1> selected="selected"</cfif>>Read-Only</option>
-				<option value="0"<cfif timetrack eq 0> selected="selected"</cfif>>None</option>
-			</select>							
-		</td>
-		<td class="tac">
-			<select name="billing" onchange="if (this.selectedIndex > 0) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');" id="b_#replace(userid,'-','','ALL')#">
-				<option value="2"<cfif timetrack eq 2> selected="selected"</cfif>>Full Access</option>
-				<option value="1"<cfif timetrack eq 1> selected="selected"</cfif>>Read-Only</option>
-				<option value="0"<cfif timetrack eq 0> selected="selected"</cfif>>None</option>
-			</select>							
-		</td>
-		<td class="tac"><input type="checkbox" name="svn" id="s_#replace(userid,'-','','ALL')#" value="1" id="p_#replace(url.p,'-','','ALL')#" class="cb" onchange="if (this.checked == false) $('##a_#replace(url.p,'-','','ALL')#').attr('checked','');"<cfif svn> checked="checked"</cfif> /></td>
-		</table>
  	</div>
 	</cfloop>
 </cfoutput>
-
-<cfif StructKeyExists(url,"a")>
-	<cfoutput>
-	<script type="text/javascript">
-		$('###url.a#').animate({backgroundColor:'##ffffb7'},200).animate({backgroundColor:'##f7f7f7'},2000);
-	</script>
-	</cfoutput>	
-</cfif>
-
 
 <cfsetting enablecfoutputonly="false">

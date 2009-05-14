@@ -46,8 +46,8 @@
 
 /* Component containers
 ----------------------------------*/
-.ui-widget { font-family: Verdana,Arial,sans-serif; font-size: 1.1em; }
-.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Verdana,Arial,sans-serif; font-size: 1em; }
+.ui-widget { font-family: Verdana,Arial,sans-serif; font-size: 1em; }
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Verdana,Arial,sans-serif; font-size: .9em; }
 .ui-widget-content { border: 1px solid #aaaaaa; background: #ffffff url(images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x; color: #222222; }
 .ui-widget-content a { color: #222222; }
 .ui-widget-header { border: 1px solid #aaaaaa; background: #cccccc url(images/ui-bg_highlight-soft_75_cccccc_1x100.png) 50% 50% repeat-x; color: #222222; font-weight: bold; }
@@ -283,7 +283,7 @@
 .ui-accordion .ui-accordion-header { cursor: pointer; position: relative; margin-top: 1px; zoom: 1; }
 .ui-accordion .ui-accordion-li-fix { display: inline; }
 .ui-accordion .ui-accordion-header-active { border-bottom: 0 !important; }
-.ui-accordion .ui-accordion-header a { display: block; font-size: 1em; padding: .5em .5em .5em 2.2em; }
+.ui-accordion .ui-accordion-header a { display: block; font-size: .8em; padding: .5em .5em .5em 2.2em; }
 .ui-accordion .ui-accordion-header .ui-icon { position: absolute; left: .5em; top: 50%; margin-top: -8px; }
 .ui-accordion .ui-accordion-content { padding: 1em 2.2em; border-top: 0; margin-top: -2px; position: relative; top: 1px; margin-bottom: 2px; overflow: auto; display: none; }
 .ui-accordion .ui-accordion-content-active { display: block; }/* Datepicker

@@ -111,23 +111,49 @@
 
 		<!--- INSERT PER PROJECT NOTIFICATIONS --->
 		<cfquery datasource="#application.settings.dsn#">
-			insert into #application.settings.tableprefix#user_notify (userID, projectID, email_files, 
-				mobile_files, email_issues, mobile_issues, email_msgs, mobile_msgs, email_mstones, 
-				mobile_mstones, email_todos, mobile_todos) 
+			insert into #application.settings.tableprefix#user_notify (userID, projectID, email_file_new,
+				mobile_file_new, email_file_upd, mobile_file_upd, email_file_com, mobile_file_com, 
+				email_issue_new, mobile_issue_new, email_issue_upd, mobile_issue_upd, email_issue_com, 
+				mobile_issue_com, email_msg_new, mobile_msg_new, email_msg_upd, mobile_msg_upd, 
+				email_msg_com, mobile_msg_com, email_mstone_new, mobile_mstone_new, email_mstone_upd, 
+				mobile_mstone_upd, email_mstone_com, mobile_mstone_com, email_todo_new, mobile_todo_new, 
+				email_todo_upd, mobile_todo_upd, email_todo_com, mobile_todo_com, email_time_new, 
+				mobile_time_new, email_time_upd, mobile_time_upd, email_bill_new, mobile_bill_new, 
+				email_bill_upd, mobile_bill_upd, email_bill_paid, mobile_bill_paid) 
 			values (
 				<cfqueryparam cfsqltype="cf_sql_char" value="#userID#" maxlength="35">,
 				<cfqueryparam cfsqltype="cf_sql_char" value="#projectID#" maxlength="35">,
 				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_email_files#">,
-				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_mobile_files#">,						
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_mobile_files#">,
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_email_files#">,
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_mobile_files#">,
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_email_files#">,
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_mobile_files#">,
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_email_issues#">,
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_mobile_issues#">,
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_email_issues#">,
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_mobile_issues#">,
 				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_email_issues#">,
 				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_mobile_issues#">,
 				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_email_msgs#">,
 				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_mobile_msgs#">,
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_email_msgs#">,
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_mobile_msgs#">,
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_email_msgs#">,
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_mobile_msgs#">,
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_email_mstones#">,
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_mobile_mstones#">,
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_email_mstones#">,
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_mobile_mstones#">,
 				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_email_mstones#">,
 				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_mobile_mstones#">,
 				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_email_todos#">,
-				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_mobile_todos#">
-				)
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_mobile_todos#">,
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_email_todos#">,
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_mobile_todos#">,
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_email_todos#">,
+				<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this_mobile_todos#">,
+				0,0,0,0,0,0,0,0,0,0)
 		</cfquery>
 	</cfloop>
 </cfloop>
@@ -198,6 +224,7 @@
 			reg_bill_invoices = 0, reg_bill_markpaid = 0,
 			reg_file_view = <cfif reg_files gte 1>1<cfelse>0</cfif>,
 			reg_file_edit = <cfif reg_files eq 2>1<cfelse>0</cfif>,
+			reg_file_comment = <cfif reg_files eq 2>1<cfelse>0</cfif>,
 			reg_issue_view = <cfif reg_issues gte 1>1<cfelse>0</cfif>,
 			<cfif reg_issues eq 2>
 				reg_issue_edit = 1, reg_issue_accept = 1, reg_issue_comment = 1,
@@ -229,6 +256,9 @@
 </cfloop>
 
 <!--- REMOVE OLD COLUMNS FROM PROJECTS TABLE --->
+<cfquery datasource="#application.settings.dsn#">
+	ALTER TABLE #application.settings.tableprefix#projects DROP COLUMN reg_active
+</cfquery>
 <cfquery datasource="#application.settings.dsn#">
 	ALTER TABLE #application.settings.tableprefix#projects DROP COLUMN reg_files
 </cfquery>

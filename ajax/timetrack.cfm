@@ -42,7 +42,7 @@
 			</cfif>
 		</cfif>
 		<td><cfif compare(timeline.itemType,'') and not (not compareNoCase(url.f,'issue') and not compareNoCase(timeline.itemType,'issue'))><span class="catbox #timeline.itemtype#">#timeline.itemtype#</span> <a href="todos.cfm?p=#timeline.projectID###id_#replace(timeline.todolistID,'-','','all')#">#timeline.task#</a><cfif compare(timeline.description,'')> - </cfif></cfif>#timeline.description#</td>
-		<td class="tac"><a href="##" onclick="edit_time_row('#timeline.projectid#','#timeline.timetrackid#','#project.tab_billing#','#project.billing#','#project.clientID#','#url.type#','#url.i#','#url.f#'); return false;">Edit</a> &nbsp;&nbsp; <a href="##" onclick="delete_time('#timeline.projectID#','#timeline.timetrackID#','#url.f#','#url.i#'); return false;" class="delete"></a></td>
+		<td class="tac"><a href="##" onclick="edit_time_row('#timeline.projectid#','#timeline.timetrackid#','#project.tab_billing#','#project.bill_edit#','#project.clientID#','#url.type#','#url.i#','#url.f#'); return false;">Edit</a> &nbsp;&nbsp; <a href="##" onclick="delete_time('#timeline.projectID#','#timeline.timetrackID#','#url.f#','#url.i#'); return false;" class="delete"></a></td>
 	</tr>
 </cfif>
 <cfif compare(url.act,'cancel')>

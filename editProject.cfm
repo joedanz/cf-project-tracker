@@ -16,13 +16,30 @@
 <cfparam name="form.from" default="">
 <cfparam name="form.logo_img" default="">
 <cfparam name="form.allow_reg" default="0">
-<cfparam name="form.reg_active" default="0">
-<cfparam name="form.reg_files" default="0">
-<cfparam name="form.reg_issues" default="0">
-<cfparam name="form.reg_msgs" default="0">
-<cfparam name="form.reg_mstones" default="0">
-<cfparam name="form.reg_todos" default="0">
-<cfparam name="form.reg_time" default="0">
+<cfparam name="form.reg_file_view" default="0">
+<cfparam name="form.reg_file_edit" default="0">
+<cfparam name="form.reg_file_comment" default="0">
+<cfparam name="form.reg_issue_view" default="0">
+<cfparam name="form.reg_issue_edit" default="0">
+<cfparam name="form.reg_issue_accept" default="0">
+<cfparam name="form.reg_issue_comment" default="0">
+<cfparam name="form.reg_msg_view" default="0">
+<cfparam name="form.reg_msg_edit" default="0">
+<cfparam name="form.reg_msg_comment" default="0">
+<cfparam name="form.reg_mstone_view" default="0">
+<cfparam name="form.reg_mstone_edit" default="0">
+<cfparam name="form.reg_mstone_comment" default="0">
+<cfparam name="form.reg_todolist_view" default="0">
+<cfparam name="form.reg_todolist_edit" default="0">
+<cfparam name="form.reg_todo_edit" default="0">
+<cfparam name="form.reg_todo_comment" default="0">
+<cfparam name="form.reg_time_view" default="0">
+<cfparam name="form.reg_time_edit" default="0">
+<cfparam name="form.reg_bill_view" default="0">
+<cfparam name="form.reg_bill_edit" default="0">
+<cfparam name="form.reg_bill_rates" default="0">
+<cfparam name="form.reg_bill_invoices" default="0">
+<cfparam name="form.reg_bill_markpaid" default="0">
 <cfparam name="form.reg_svn" default="0">
 <cfparam name="form.tab_files" default="0">
 <cfparam name="form.tab_issues" default="0">
@@ -40,16 +57,22 @@
 </cfif>
 
 
-<cfif (StructKeyExists(form,"submit") and not compare(form.submit,'Update Project')) or (StructKeyExists(form,"submit") and not compare(form.submit,'Add Project')) and compare(form.logo_img,'')>
+<cfif (StructKeyExists(form,"submit") and not compare(form.submit,'Update Project') and compare(form.imagefile,'')) or (StructKeyExists(form,"submit") and not compare(form.submit,'Add Project') and compare(form.imagefile,''))>
+	<cfif compare(form.old_image,'')>
+		<cftry>
+			<cffile action="delete" file="#application.userFilesPath#projects/#form.old_image#">
+			<cfcatch></cfcatch>
+		</cftry>
+	</cfif>
 	<cffile action="upload" accept="image/gif,image/jpg,image/jpeg,image/png" filefield="imagefile"
 		destination = "#application.userFilesPath#projects" nameConflict = "MakeUnique">		
 	<cfset logoimg = cffile.serverFile>
 <cfelse>
-	<cfset logoimg = "">
+	<cfset logoimg = "NOCHANGE">
 </cfif>
 	
 <cfif StructKeyExists(form,"submit") and not compare(form.submit,'Update Project')> <!--- update project --->
-	<cfset application.project.update(form.projectid,form.ownerID,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,logoimg,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_time,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,form.issue_timetrack)>
+	<cfset application.project.update(form.projectid,form.ownerID,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,logoimg,form.allow_reg,form.reg_file_view,form.reg_file_edit,form.reg_file_comment,form.reg_issue_view,form.reg_issue_edit,form.reg_issue_accept,form.reg_issue_comment,form.reg_msg_view,form.reg_msg_edit,form.reg_msg_comment,form.reg_mstone_view,form.reg_mstone_edit,form.reg_mstone_comment,form.reg_todolist_view,form.reg_todolist_edit,form.reg_todo_edit,form.reg_todo_comment,form.reg_time_view,form.reg_time_edit,form.reg_bill_view,form.reg_bill_edit,form.reg_bill_rates,form.reg_bill_invoices,form.reg_bill_markpaid,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,form.issue_timetrack)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'edited')>
 	<cfif not compare(form.from,'admin')>
 		<cflocation url="./admin/projects.cfm" addtoken="false">
@@ -57,7 +80,7 @@
 		<cflocation url="project.cfm?p=#form.projectID#" addtoken="false">
 	</cfif>
 <cfelseif StructKeyExists(form,"submit") and not compare(form.submit,'Add Project')> <!--- add project --->
-	<cfset application.project.add(form.projectID,form.ownerid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,logoimg,form.allow_reg,form.reg_active,form.reg_files,form.reg_issues,form.reg_msgs,form.reg_mstones,form.reg_todos,form.reg_time,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,form.issue_timetrack,session.user.userid)>
+	<cfset application.project.add(form.projectID,form.ownerid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,logoimg,form.allow_reg,form.reg_file_view,form.reg_file_edit,form.reg_file_comment,form.reg_issue_view,form.reg_issue_edit,form.reg_issue_accept,form.reg_issue_comment,form.reg_msg_view,form.reg_msg_edit,form.reg_msg_comment,form.reg_mstone_view,form.reg_mstone_edit,form.reg_mstone_comment,form.reg_todolist_view,form.reg_todolist_edit,form.reg_todo_edit,form.reg_todo_comment,form.reg_time_view,form.reg_time_edit,form.reg_bill_view,form.reg_bill_edit,form.reg_bill_rates,form.reg_bill_invoices,form.reg_bill_markpaid,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,form.issue_timetrack,session.user.userid)>
 	<cfset application.role.add(form.projectID,session.user.userid,'1','2','2','2','2','2','2','2','1')>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'added')>
 	<cfset session.user.projects = application.project.get(session.user.userid)>
@@ -100,14 +123,32 @@
 	<cfset form.svnuser = thisProject.svnuser>
 	<cfset form.svnpass = thisProject.svnpass>
 	<cfset form.logo_img = thisProject.logo_img>
+	<cfset form.old_image = thisProject.logo_img>
 	<cfset form.allow_reg = thisProject.allow_reg>
-	<cfset form.reg_active = thisProject.reg_active>
-	<cfset form.reg_files = thisProject.reg_files>
-	<cfset form.reg_issues = thisProject.reg_issues>
-	<cfset form.reg_msgs = thisProject.reg_msgs>
-	<cfset form.reg_mstones = thisProject.reg_mstones>
-	<cfset form.reg_time = thisProject.reg_time>
-	<cfset form.reg_todos = thisProject.reg_todos>
+	<cfset form.reg_file_view = thisProject.reg_file_view>
+	<cfset form.reg_file_edit = thisProject.reg_file_edit>
+	<cfset form.reg_file_comment = thisProject.reg_file_comment>
+	<cfset form.reg_issue_view = thisProject.reg_issue_view>
+	<cfset form.reg_issue_edit = thisProject.reg_issue_edit>
+	<cfset form.reg_issue_accept = thisProject.reg_issue_accept>
+	<cfset form.reg_issue_comment = thisProject.reg_issue_comment>
+	<cfset form.reg_msg_view = thisProject.reg_msg_view>
+	<cfset form.reg_msg_edit = thisProject.reg_msg_edit>
+	<cfset form.reg_msg_comment = thisProject.reg_msg_comment>
+	<cfset form.reg_mstone_view = thisProject.reg_mstone_view>
+	<cfset form.reg_mstone_edit = thisProject.reg_mstone_edit>
+	<cfset form.reg_mstone_comment = thisProject.reg_mstone_comment>
+	<cfset form.reg_todolist_view = thisProject.reg_todolist_view>
+	<cfset form.reg_todolist_edit = thisProject.reg_todolist_edit>
+	<cfset form.reg_todo_edit = thisProject.reg_todo_edit>
+	<cfset form.reg_todo_comment = thisProject.reg_todo_comment>
+	<cfset form.reg_time_view = thisProject.reg_time_view>
+	<cfset form.reg_time_edit = thisProject.reg_time_edit>
+	<cfset form.reg_bill_view = thisProject.reg_bill_view>
+	<cfset form.reg_bill_edit = thisProject.reg_bill_edit>
+	<cfset form.reg_bill_rates = thisProject.reg_bill_rates>
+	<cfset form.reg_bill_invoices = thisProject.reg_bill_invoices>
+	<cfset form.reg_bill_markpaid = thisProject.reg_bill_markpaid>
 	<cfset form.reg_svn = thisProject.reg_svn>
 	<cfset form.tab_files = thisProject.tab_files>
 	<cfset form.tab_issues = thisProject.tab_issues>
@@ -128,6 +169,7 @@
 <cfelse>
 	<cfset form.display = 1>
 	<cfset form.logo_img = "">
+	<cfset form.old_image = "">
 	<cfset form.tab_files = 1>
 	<cfset form.tab_issues = 1>
 	<cfset form.tab_msgs = 1>
@@ -244,11 +286,12 @@
 							<cfif compare(logo_img,'')>
 								<p>
 								<label for="img">&nbsp;</label>
-								<img src="#application.settings.userFilesMapping#/projects/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" style="border:1px solid ##666;" />
+								<img src="#application.settings.userFilesMapping#/projects/#logo_img#" border="0" alt="#application.settings.company_name#" style="border:1px solid ##666;" />
 								<a href="#cgi.script_name#?rmvimg">remove</a>
 								</p>
 							</cfif>
 							<p>
+							<input type="hidden" name="old_image" value="#old_image#" />
 						</div>
 						</fieldset>
 						
@@ -268,7 +311,7 @@
 								<th width="10%">SVN</th>
 							</tr>
 							<tr>
-								<td class="b">Feature Enabled</td>
+								<td class="b">Feature</td>
 								<td><input type="checkbox" name="tab_files" value="1" class="cb"<cfif form.tab_files eq 1> checked="checked"</cfif> /></td>
 								<td><input type="checkbox" name="tab_issues" value="1" class="cb"<cfif form.tab_issues eq 1> checked="checked"</cfif> /></td>
 								<td><input type="checkbox" name="tab_msgs" value="1" class="cb"<cfif form.tab_msgs eq 1> checked="checked"</cfif> /></td>
@@ -434,72 +477,243 @@
 						</fieldset>
 
 						<fieldset class="settings">
-						<legend><a href="##" onclick="section_toggle('gr');return false;" class="collapsed" id="grlink"> Self Registrations</a></legend>
-						<div id="grinfo" style="display:none;">
+						<legend><a href="##" onclick="section_toggle('sr');return false;" class="collapsed" id="srlink"> Self Registrations</a></legend>
+						<div id="srinfo" style="display:none;">
 							<p>
-							<label for="allowreg" class="full">Allow users to self-register for this project?</label>
-							<input type="checkbox" name="allow_reg" id="allowreg" class="checkbox" value="1"<cfif form.allow_reg eq 1> checked="checked"</cfif> />
+							<label for="allowreg" class="full b">Allow users to self-register for this project?</label>
+							<input type="checkbox" name="allow_reg" id="allowreg" class="checkbox" value="1"<cfif form.allow_reg eq 1> checked="checked"</cfif> /> (uses default permissions)
 							</p>
+						</div>
+						</fieldset>
 
-							<table class="clean full mb15 permissions">
-							<tr>
-								<th>&nbsp;</th>
-								<th>Active</th>
-								<th>Files</th>
-								<th>Issues</th>
-								<th>Messages</th>
-								<th>Milestones</th>
-								<th>To-Dos</th>
-								<th>Time Tracking</th>
-								<th>SVN</th>
-							</tr>
-							<tr>
-								<td class="b">Default Permissions</td>
-								<td><input type="checkbox" name="reg_active" value="1" class="cb"<cfif form.reg_active eq 1> checked="checked"</cfif> /></td>
-								<td>
-									<select name="reg_files">
-										<option value="2"<cfif form.reg_files eq 2> selected="selected"</cfif>>Full Access</option>
-										<option value="1"<cfif form.reg_files eq 1> selected="selected"</cfif>>Read-Only</option>
-										<option value="0"<cfif form.reg_files eq 0> selected="selected"</cfif>>None</option>
-									</select>
-								</td>
-								<td>
-									<select name="reg_issues">
-										<option value="2"<cfif form.reg_issues eq 2> selected="selected"</cfif>>Full Access</option>
-										<option value="1"<cfif form.reg_issues eq 1> selected="selected"</cfif>>Read-Only</option>
-										<option value="0"<cfif form.reg_issues eq 0> selected="selected"</cfif>>None</option>
-									</select>							
-								</td>
-								<td>
-									<select name="reg_msgs">
-										<option value="2"<cfif form.reg_msgs eq 2> selected="selected"</cfif>>Full Access</option>
-										<option value="1"<cfif form.reg_msgs eq 1> selected="selected"</cfif>>Read-Only</option>
-										<option value="0"<cfif form.reg_msgs eq 0> selected="selected"</cfif>>None</option>
-									</select>							
-								</td>
-								<td>
-									<select name="reg_mstones">
-										<option value="2"<cfif form.reg_mstones eq 2> selected="selected"</cfif>>Full Access</option>
-										<option value="1"<cfif form.reg_mstones eq 1> selected="selected"</cfif>>Read-Only</option>
-										<option value="0"<cfif form.reg_mstones eq 0> selected="selected"</cfif>>None</option>
-									</select>							
-								</td>
-								<td>
-									<select name="reg_todos">
-										<option value="2"<cfif form.reg_todos eq 2> selected="selected"</cfif>>Full Access</option>
-										<option value="1"<cfif form.reg_todos eq 1> selected="selected"</cfif>>Read-Only</option>
-										<option value="0"<cfif form.reg_todos eq 0> selected="selected"</cfif>>None</option>
-									</select>							
-								</td>
-								<td>
-									<select name="reg_time">
-										<option value="2"<cfif form.reg_time eq 2> selected="selected"</cfif>>Full Access</option>
-										<option value="1"<cfif form.reg_time eq 1> selected="selected"</cfif>>Read-Only</option>
-										<option value="0"<cfif form.reg_time eq 0> selected="selected"</cfif>>None</option>
-									</select>							
-								</td>
-								<td><input type="checkbox" name="reg_svn" value="1" class="cb"<cfif form.reg_svn eq 1> checked="checked"</cfif> /></td>
-							</tr>
+						<fieldset class="settings">
+						<legend><a href="##" onclick="section_toggle('perms');return false;" class="collapsed" id="permslink"> Default Permissions</a></legend>
+						<div id="permsinfo"<cfif not StructKeyExists(url,'showdef')> style="display:none;"</cfif>>
+							<table>
+							<tr valign="top"><td width="50%">
+							<table class="perms full mb10">
+								<thead>
+									<tr>
+										<th class="b">Files</th>
+										<th class="tac b yes">Yes</th>
+										<th class="tac b no">No</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>View files</td>
+										<td class="tac"><input type="radio" name="reg_file_view" value="1"<cfif reg_file_view> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_file_view" value="0"<cfif not reg_file_view> checked="checked"</cfif> /></td>
+									</tr>
+									<tr>
+										<td>Upload/edit files</td>
+										<td class="tac"><input type="radio" name="reg_file_edit" value="1"<cfif reg_file_edit> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_file_edit" value="0"<cfif not reg_file_edit> checked="checked"</cfif> /></td>
+									</tr>
+									<tr>
+										<td>Comment on files</td>
+										<td class="tac"><input type="radio" name="reg_file_comment" value="1"<cfif reg_file_comment> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_file_comment" value="0"<cfif not reg_file_comment> checked="checked"</cfif> /></td>
+									</tr>
+								</tbody>
+							</table>
+		
+							<table class="perms full mb10">
+								<thead>
+									<tr>
+										<th class="b">Issues</th>
+										<th class="tac b yes">Yes</th>
+										<th class="tac b no">No</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>View issues</td>
+										<td class="tac"><input type="radio" name="reg_issue_view" value="1"<cfif reg_issue_view> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_issue_view" value="0"<cfif not reg_issue_view> checked="checked"</cfif> /></td>
+									</tr>
+									<tr>
+										<td>Add/edit issues</td>
+										<td class="tac"><input type="radio" name="reg_issue_edit" value="1"<cfif reg_issue_edit> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_issue_edit" value="0"<cfif not reg_issue_edit> checked="checked"</cfif> /></td>
+									</tr>
+									<tr>
+										<td>Accept tickets for issues</td>
+										<td class="tac"><input type="radio" name="reg_issue_accept" value="1"<cfif reg_issue_accept> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_issue_accept" value="0"<cfif not reg_issue_accept> checked="checked"</cfif> /></td>
+									</tr>
+									<tr>
+										<td>Comment on issues</td>
+										<td class="tac"><input type="radio" name="reg_issue_comment" value="1"<cfif reg_issue_comment> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_issue_comment" value="0"<cfif not reg_issue_comment> checked="checked"</cfif> /></td>
+									</tr>
+								</tbody>
+							</table>
+		
+							<table class="perms full mb10">
+								<thead>
+									<tr>
+										<th class="b">Messages</th>
+										<th class="tac b yes">Yes</th>
+										<th class="tac b no">No</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>View messages</td>
+										<td class="tac"><input type="radio" name="reg_msg_view" value="1"<cfif reg_msg_view> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_msg_view" value="0"<cfif not reg_msg_view> checked="checked"</cfif> /></td>
+									</tr>
+									<tr>
+										<td>Post/edit messages</td>
+										<td class="tac"><input type="radio" name="reg_msg_edit" value="1"<cfif reg_msg_edit> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_msg_edit" value="0"<cfif not reg_msg_edit> checked="checked"</cfif> /></td>
+									</tr>
+									<tr>
+										<td>Comment on messages</td>
+										<td class="tac"><input type="radio" name="reg_msg_comment" value="1"<cfif reg_msg_comment> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_msg_comment" value="0"<cfif not reg_msg_comment> checked="checked"</cfif> /></td>
+									</tr>
+								</tbody>
+							</table>
+		
+							<table class="perms full mb10">
+								<thead>
+									<tr>
+										<th class="b">Milestones</th>
+										<th class="tac b yes">Yes</th>
+										<th class="tac b no">No</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>View milestones</td>
+										<td class="tac"><input type="radio" name="reg_mstone_view" value="1"<cfif reg_mstone_view> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_mstone_view" value="0"<cfif not reg_mstone_view> checked="checked"</cfif> /></td>
+									</tr>
+									<tr>
+										<td>Add/edit milestones</td>
+										<td class="tac"><input type="radio" name="reg_mstone_edit" value="1"<cfif reg_mstone_edit> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_mstone_edit" value="0"<cfif not reg_mstone_edit> checked="checked"</cfif> /></td>
+									</tr>
+									<tr>
+										<td>Comment on milestones</td>
+										<td class="tac"><input type="radio" name="reg_mstone_comment" value="1"<cfif reg_mstone_comment> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_mstone_comment" value="0"<cfif not reg_mstone_comment> checked="checked"</cfif> /></td>
+									</tr>
+								</tbody>
+							</table>
+							
+							</td><td width="50%">
+							
+							<table class="perms full mb10">
+								<thead>
+									<tr>
+										<th class="b">To-Dos</th>
+										<th class="tac b yes">Yes</th>
+										<th class="tac b no">No</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>View to-do lists</td>
+										<td class="tac"><input type="radio" name="reg_todolist_view" value="1"<cfif reg_todolist_view> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_todolist_view" value="0"<cfif not reg_todolist_view> checked="checked"</cfif> /></td>
+									</tr>
+									<tr>
+										<td>Add/edit to-do lists</td>
+										<td class="tac"><input type="radio" name="reg_todolist_edit" value="1"<cfif reg_todolist_edit> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_todolist_edit" value="0"<cfif not reg_todolist_edit> checked="checked"</cfif> /></td>
+									</tr>
+									<tr>
+										<td>Add/edit to-do items</td>
+										<td class="tac"><input type="radio" name="reg_todo_edit" value="1"<cfif reg_todo_edit> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_todo_edit" value="0"<cfif not reg_todo_edit> checked="checked"</cfif> /></td>
+									</tr>
+									<tr>
+										<td>Comment on to-do items</td>
+										<td class="tac"><input type="radio" name="reg_todo_comment" value="1"<cfif reg_todo_comment> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_todo_comment" value="0"<cfif not reg_todo_comment> checked="checked"</cfif> /></td>
+									</tr>							
+								</tbody>
+							</table>
+		
+							<table class="perms full mb10">
+								<thead>
+									<tr>
+										<th class="b">Time Tracking</th>
+										<th class="tac b yes">Yes</th>
+										<th class="tac b no">No</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>View time tracking</td>
+										<td class="tac"><input type="radio" name="reg_time_view" value="1"<cfif reg_time_view> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_time_view" value="0"<cfif not reg_time_view> checked="checked"</cfif> /></td>
+									</tr>
+									<tr>
+										<td>Add/edit time tracking</td>
+										<td class="tac"><input type="radio" name="reg_time_edit" value="1"<cfif reg_time_edit> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_time_edit" value="0"<cfif not reg_time_edit> checked="checked"</cfif> /></td>
+									</tr>
+								</tbody>
+							</table>
+							
+							<table class="perms full mb10">
+								<thead>
+									<tr>
+										<th class="b">Billing</th>
+										<th class="tac b yes">Yes</th>
+										<th class="tac b no">No</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>View billing</td>
+										<td class="tac"><input type="radio" name="reg_bill_view" value="1"<cfif reg_bill_view> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_bill_view" value="0"<cfif not reg_bill_view> checked="checked"</cfif> /></td>
+									</tr>
+									<tr>
+										<td>Add/edit billing</td>
+										<td class="tac"><input type="radio" name="reg_bill_edit" value="1"<cfif reg_bill_edit> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_bill_edit" value="0"<cfif not reg_bill_edit> checked="checked"</cfif> /></td>
+									</tr>
+									<tr>
+										<td>Manage billing rates</td>
+										<td class="tac"><input type="radio" name="reg_bill_rates" value="1"<cfif reg_bill_rates> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_bill_rates" value="0"<cfif not reg_bill_rates> checked="checked"</cfif> /></td>
+									</tr>
+									<tr>
+										<td>Generate invoices</td>
+										<td class="tac"><input type="radio" name="reg_bill_invoices" value="1"<cfif reg_bill_invoices> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_bill_invoices" value="0"<cfif not reg_bill_invoices> checked="checked"</cfif> /></td>
+									</tr>
+									<tr>
+										<td>Mark items paid</td>
+										<td class="tac"><input type="radio" name="reg_bill_markpaid" value="1"<cfif reg_bill_markpaid> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_bill_markpaid" value="0"<cfif not reg_bill_markpaid> checked="checked"</cfif> /></td>
+									</tr>
+								</tbody>
+							</table>
+							
+							<table class="perms full mb10">
+								<thead>
+									<tr>
+										<th class="b">Subversion</th>
+										<th class="tac b yes">Yes</th>
+										<th class="tac b no">No</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Access Subversion repository</td>
+										<td class="tac"><input type="radio" name="reg_svn" value="1"<cfif reg_svn> checked="checked"</cfif> /></td>
+										<td class="tac"><input type="radio" name="reg_svn" value="0"<cfif not reg_svn> checked="checked"</cfif> /></td>
+									</tr>
+								</tbody>
+							</table>
+							</td></tr>
 							</table>
 						</div>
 						</fieldset>	
