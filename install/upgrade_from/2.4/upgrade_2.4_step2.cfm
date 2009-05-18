@@ -35,6 +35,7 @@
 					SET file_view = 1
 				<cfif files gt 1>
 					, file_edit = 1
+					, file_comment = 1
 				</cfif>
 				where userid = <cfqueryparam cfsqltype="cf_sql_char" value="#userID#" maxlength="35">
 			</cfquery>
