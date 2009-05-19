@@ -25,7 +25,7 @@
 	<cfset project = application.project.get(session.user.userid,url.p)>
 </cfif>
 
-<cfif not session.user.admin and project.issues lt 2>
+<cfif not session.user.admin and not project.issue_edit>
 	<cfoutput><h2>You do not have permission to <cfif StructKeyExists(url,"f")>edit<cfelse>add</cfif> screenshots!!!</h2></cfoutput>
 	<cfabort>
 </cfif>

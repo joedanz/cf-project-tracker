@@ -27,7 +27,8 @@
 		<cfset var qGetMilestones = "">
 		<cfquery name="qGetMilestones" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT milestoneid, m.projectID, m.name, m.description, m.dueDate, m.completed,
-				m.forid, m.userid, m.rate, m.billed, m.paid, u.firstName, u.lastName, p.name as projName
+				m.forid, m.userid, m.rate, m.billed, m.paid, u.firstName, u.lastName, p.name as projName,
+				(SELECT count(commentID) FROM #variables.tableprefix#comments c where m.milestoneid = c.itemid and type = 'mstone') as commentcount
 				FROM #variables.tableprefix#milestones m
 				LEFT JOIN #variables.tableprefix#users u ON m.forid = u.userid
 				LEFT JOIN #variables.tableprefix#projects p ON m.projectID = p.projectID

@@ -55,7 +55,7 @@
 <cfparam name="title" default="">
 
 <cfif StructKeyExists(url,"i")>
-	<cfif project.issues lt 2 and not session.user.admin>
+	<cfif not session.user.admin and not project.issue_edit>
 		<cfoutput><h2>You do not have permission to edit issues!!!</h2></cfoutput>
 		<cfabort>
 	</cfif>

@@ -21,7 +21,7 @@
 </cfif>
 <cfset milestones = application.milestone.get(url.p)>
 
-<cfif not session.user.admin and project.todos lt 2>
+<cfif not session.user.admin and not project.todolist_edit>
 	<cfoutput><h2>You do not have permission to <cfif StructKeyExists(url,"t")>edit<cfelse>add</cfif> to-do lists!!!</h2></cfoutput>
 	<cfabort>
 </cfif>

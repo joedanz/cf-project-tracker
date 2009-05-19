@@ -11,6 +11,11 @@
 <cfset todolist = application.todolist.get(url.p,url.tl)>
 <cfset todo = application.todo.get(todoID=url.t)>
 <cfset comments = application.comment.get(url.p,'todo',url.t)>
+<cfset talkList = valueList(comments.userID)>
+<cfif not listLen(talkList)>
+	<cfset talkList = listAppend(talkList,'000')>
+</cfif>
+<cfset usersTalking = application.user.get(userIDlist=talkList)>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; #project.name#" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
@@ -31,7 +36,7 @@
 		<div class="main">
 
 				<div class="header">
-					<cfif project.todos gt 1>
+					<cfif project.todolist_view>
 					<span class="rightmenu">
 						<a href="todos.cfm?p=#url.p#&t=#url.tl#" class="back">View complete to-do list</a>
 					</span>
@@ -63,7 +68,7 @@
 					</div>
 					</cfloop>						
 					
-					<cfif project.todos eq 2>
+					<cfif project.todo_comment>
 					<form action="#cgi.script_name#?#cgi.query_string#" method="post" name="add" id="add" class="frm" onsubmit="return confirm_comment();">
 					<div class="b">Leave a comment...</div>
 					<cfscript>
@@ -109,12 +114,20 @@
 			<img src="#application.settings.userFilesMapping#/projects/#project.logo_img#" border="0" alt="#project.name#" /><br />
 		</cfif>
 			
-		<div class="header"><h3>Comment Notification</h3></div>
+		<div class="header"><h3>Who's talking in this thread?</h3></div>
 		<div class="content">
-			<ul>
-				
-			</ul>
-			<p>If you post a comment, you'll automatically be<br />subscribed to receive email notifications.</p>
+			<cfif not usersTalking.recordCount>
+				<ul>
+					<li>No Comments Yet</li>
+				</ul>
+			<cfelse>
+				<ul class="people">
+					<cfloop query="usersTalking">
+					<li<cfif currentRow neq recordCount> class="mb10"</cfif>><div class="b">#firstName# #lastName#</div>
+					#email#<br /><cfif compare(phone,'')>#phone#</cfif></li>
+					</cfloop>
+				</ul>			
+			</cfif>
 		</div>
 	</div>
 <cfelse>

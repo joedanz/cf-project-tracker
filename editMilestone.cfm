@@ -26,7 +26,7 @@
 </cfif>
 <cfset projectUsers = application.project.projectUsers(url.p)>
 
-<cfif not session.user.admin and project.mstones lt 2>
+<cfif not session.user.admin and not project.mstone_edit>
 	<cfoutput><h2>You do not have permission to <cfif StructKeyExists(url,"m")>edit<cfelse>add</cfif> milestones!!!</h2></cfoutput>
 	<cfabort>
 </cfif>

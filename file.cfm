@@ -1,9 +1,7 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfif StructKeyExists(form,"submit")>
-	<cfset application.comment.add(createUUID(),url.p,'msg',url.m,session.user.userid,form.comment)>
-<cfelseif StructKeyExists(url,"rn")>
-	<cfset application.message.removeNotify(url.p,url.m,url.rn)>
+	<cfset application.comment.add(createUUID(),url.p,'file',url.f,session.user.userid,form.comment)>
 </cfif>
 
 <cfparam name="url.p" default="">
@@ -12,15 +10,16 @@
 <cfelse>
 	<cfset project = application.project.get(session.user.userid,url.p)>
 </cfif>
-<cfset message = application.message.get(url.p,url.m)>
-<cfset comments = application.comment.get(url.p,'msg',url.m)>
-<cfset attachments = application.file.getFileList(url.p,url.m,'msg')>
-<cfset notifyList = application.message.getNotifyList(url.p,url.m)>
-<cfset talkList = listAppend(valueList(comments.userID),message.userID)>
+<cfset file = application.file.get(url.p,url.f)>
+<cfset comments = application.comment.get(url.p,'file',url.f)>
+<cfset talkList = valueList(comments.userID)>
+<cfif not listLen(talkList)>
+	<cfset talkList = listAppend(talkList,'000')>
+</cfif>
 <cfset usersTalking = application.user.get(userIDlist=talkList)>
 
-<cfif not session.user.admin and not project.msg_view>
-	<cfoutput><h2>You do not have permission to access messages!!!</h2></cfoutput>
+<cfif not session.user.admin and not project.file_view>
+	<cfoutput><h2>You do not have permission to access files!!!</h2></cfoutput>
 	<cfabort>
 </cfif>
 
@@ -36,34 +35,23 @@
 
 			<div class="header">
 				<span class="rightmenu">
-					<a href="messages.cfm?p=#url.p#" class="back">Back</a>
-					<cfif message.userID eq session.user.userID or session.user.admin>
-						| <a href="editMessage.cfm?p=#url.p#&m=#url.m#&mh=#hash(url.m)#" class="edit">Edit</a>
-						| <a href="messages.cfm?p=#url.p#&dm=#url.m#&dmh=#hash(url.m)#" class="delete" onclick="return confirm('Are you sure you wish to delete this message and all associated comments?')">Delete</a>
+					<a href="files.cfm?p=#url.p#" class="back">Back</a>
+					<cfif file.uploadedBy eq session.user.userID or session.user.admin>
+						| <a href="editFile.cfm?p=#url.p#&f=#url.f#&fh=#hash(url.f)#" class="edit">Edit</a>
+						| <a href="files.cfm?p=#url.p#&df=#url.f#&dfh=#hash(url.f)#" class="delete" onclick="return confirm('Are you sure you wish to delete this file and all associated comments?')">Delete</a>
 					</cfif>
 				</span>
 				
-				<h2 class="msg">#message.title#</h2>
-				<h4>posted by #message.firstName# #message.lastName# in <a href="messages.cfm?p=#url.p#&c=#message.categoryID#">#message.category#</a> on #DateFormat(message.stamp,"ddd, d mmm")# at <cfif application.settings.clockHours eq 12>#TimeFormat(message.stamp,"h:mmtt")#<cfelse>#TimeFormat(message.stamp,"HH:mm")#</cfif></h4>
+				<h2 class="files">#file.title#</h2>
+				<h4>posted by #file.firstName# #file.lastName# in <a href="files.cfm?p=#url.p#&c=#file.categoryID#">#file.category#</a> on #DateFormat(file.uploaded,"ddd, d mmm")# at <cfif application.settings.clockHours eq 12>#TimeFormat(file.uploaded,"h:mmtt")#<cfelse>#TimeFormat(file.uploaded,"HH:mm")#</cfif></h4>
 				
 			</div>
 			<div class="content">
 				<div class="wrapper msg">
 				
 					<div id="fs12">
-					#message.message#
-					<cfif compare(message.name,'')><div class="ms">Milestone: #message.name#</div></cfif>
+					#file.description#
 					</div>
-					
-					<cfif attachments.recordCount>
-					<a name="attach"></a>
-					<div class="commentbar">#attachments.recordCount# project file<cfif attachments.recordCount neq 1>s are<cfelse> is</cfif> associated with this message</div>
-					<ul class="filelist">
-						<cfloop query="attachments">
-						<li><a href="download.cfm?p=#url.p#&f=#fileID#" class="#lcase(filetype)#">#filename#</a> in &quot;#category#&quot; <span class="g i">(#ceiling(filesize/1024)#K - #dateFormat(uploaded,"medium")#)</span></li>
-						</cfloop>
-					</ul>
-					</cfif>
 					
 					<a name="comments"></a>
 					<div class="commentbar"><span id="cnum">#comments.recordCount#</span> comment<cfif comments.recordCount neq 1>s</cfif> so far</div>
@@ -83,8 +71,8 @@
 					</div>
 					</cfloop>
 					
-					<cfif project.msg_edit or session.user.admin>
-					<form action="#cgi.script_name#?p=#url.p#&m=#url.m#" method="post" name="add" id="add" class="frm" onsubmit="return confirm_comment();">
+					<cfif project.file_edit or session.user.admin>
+					<form action="#cgi.script_name#?p=#url.p#&f=#url.f#" method="post" name="add" id="add" class="frm" onsubmit="return confirm_comment();">
 					<div class="b">Post a new comment...</div>
 					<cfscript>
 						basePath = 'includes/fckeditor/';
@@ -125,29 +113,20 @@
 			<img src="#application.settings.userFilesMapping#/projects/#project.logo_img#" border="0" alt="#project.name#" /><br />
 		</cfif>
 
-		<div class="header"><h3>Comment notification</h3></div>
-		<div class="content">
-			The following people will receive email notification when new comments are posted.
-			<ul style="margin-top:5px;">
-				<cfif listFind(valueList(notifyList.userID),session.user.userID)>
-				<li>You (<a href="#cgi.script_name#?p=#url.p#&m=#url.m#&rn=#session.user.userID#">remove</a>)</li>
-				</cfif>
-				<cfloop query="notifyList">
-					<cfif userID neq session.user.userID>
-						<li>#firstName# #lastName#</li>
-					</cfif>
-				</cfloop>
-			</ul>
-		</div>
-
 		<div class="header"><h3>Who's talking in this thread?</h3></div>
 		<div class="content">
-			<ul class="people">
-				<cfloop query="usersTalking">
-				<li<cfif currentRow neq recordCount> class="mb10"</cfif>><div class="b">#firstName# #lastName#</div>
-				#email#<br /><cfif compare(phone,'')>#phone#</cfif></li>
-				</cfloop>
-			</ul>
+			<cfif not usersTalking.recordCount>
+				<ul>
+					<li>No Comments Yet</li>
+				</ul>
+			<cfelse>
+				<ul class="people">
+					<cfloop query="usersTalking">
+					<li<cfif currentRow neq recordCount> class="mb10"</cfif>><div class="b">#firstName# #lastName#</div>
+					#email#<br /><cfif compare(phone,'')>#phone#</cfif></li>
+					</cfloop>
+				</ul>			
+			</cfif>
 		</div>
 	</div>
 <cfelse>

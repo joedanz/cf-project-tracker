@@ -26,7 +26,7 @@
 </cfif>
 <cfset categories = application.category.get(url.p,'file')>
 
-<cfif not session.user.admin and project.files lt 2>
+<cfif not session.user.admin and not project.file_edit>
 	<cfoutput><h2>You do not have permission to <cfif StructKeyExists(url,"f")>edit<cfelse>add</cfif> files!!!</h2></cfoutput>
 	<cfabort>
 </cfif>

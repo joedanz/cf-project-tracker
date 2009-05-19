@@ -7,7 +7,7 @@
 	<cfset project = application.project.get(session.user.userid,url.p)>
 </cfif>
 
-<cfif not session.user.admin and project.mstones eq 0>
+<cfif not session.user.admin and not project.mstone_view>
 	<cfoutput><h2>You do not have permission to access milestones!!!</h2></cfoutput>
 	<cfabort>
 </cfif>
@@ -30,6 +30,11 @@
 <cfset todolists = application.todolist.get(url.p,'','',url.m)>
 <cfset issues = application.issue.get(projectID=url.p,milestoneID=url.m)>
 <cfset comments = application.comment.get(url.p,'mstone',url.m)>
+<cfset talkList = valueList(comments.userID)>
+<cfif not listLen(talkList)>
+	<cfset talkList = listAppend(talkList,'000')>
+</cfif>
+<cfset usersTalking = application.user.get(userIDlist=talkList)>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#project.name# &raquo; Milestone Detail" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
@@ -42,8 +47,9 @@
 		<div class="main">
 
 				<div class="header">
-					<cfif project.mstones eq 2>
+					<cfif project.mstone_edit>
 					<span class="rightmenu">
+						<a href="milestones.cfm?p=#url.p#" class="back">Back</a> | 
 						<a href="editMilestone.cfm?p=#url.p#&m=#url.m#" class="edit">Edit Milestone</a>
 					</span>
 					</cfif>
@@ -61,11 +67,7 @@
 							<div class="milestone">
 							<div class="date <cfif isDate(milestone.completed)>completed<cfelseif daysago gte 1>late<cfelse>upcoming</cfif>"><span class="b"><cfif daysago eq 0>Today<cfelseif daysago eq 1>Yesterday<cfelseif daysAgo gt 1>#daysago# days ago<cfelseif daysAgo eq -1>Tomorrow<cfelse>#Abs(daysago)# days away</cfif></span> (#DateFormat(dueDate,"dddd, d mmmm, yyyy")#)<cfif userid neq 0><span style="color:##666;"> - For #firstName# #lastName#</span></cfif></div>
 							<div id="m#milestoneid#" style="display:none;" class="markcomplete">Moving to <cfif not isDate(milestone.completed)>Completed<cfelseif DateDiff("d",dueDate,Now())>Late<cfelse>Upcoming</cfif> - just a second...</div>
-							<cfif project.mstones eq 1>
-								<h3>#name#</h3>
-							<cfelse>
-								<h3><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&<cfif isDate(milestone.completed)>a<cfelse>c</cfif>=1&m=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;"<cfif isDate(milestone.completed)> checked="checked"</cfif> /> #name# <span style="font-size:.65em;font-weight:normal;">[<a href="editMilestone.cfm?p=#url.p#&m=#milestoneid#&one=1">edit</a>]</span></h3>
-							</cfif>
+							<h3><cfif project.mstone_edit><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&<cfif isDate(milestone.completed)>a<cfelse>c</cfif>=1&m=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;"<cfif isDate(milestone.completed)> checked="checked"</cfif> /> </cfif>#name# <span style="font-size:.65em;font-weight:normal;">[<a href="editMilestone.cfm?p=#url.p#&m=#milestoneid#&one=1">edit</a>]</span></h3>
 							<cfif compare(description,'')><div class="desc">#description#</div></cfif>
 							
 							<cfquery name="msgs" dbtype="query">
@@ -127,7 +129,7 @@
 						</div>
 						</cfloop>						
 						
-						<cfif project.mstones eq 2>
+						<cfif project.mstone_comment>
 						<form action="#cgi.script_name#?#cgi.query_string#" method="post" name="add" id="add" class="frm" onsubmit="return confirm_comment();">
 						<div class="b">Post a new comment...</div>
 						<cfscript>
@@ -168,6 +170,22 @@
 		<cfif compare(project.logo_img,'')>
 			<img src="#application.settings.userFilesMapping#/projects/#project.logo_img#" border="0" alt="#project.name#" /><br />
 		</cfif>
+		
+		<div class="header"><h3>Who's talking in this thread?</h3></div>
+		<div class="content">
+			<cfif not usersTalking.recordCount>
+				<ul>
+					<li>No Comments Yet</li>
+				</ul>
+			<cfelse>
+				<ul class="people">
+					<cfloop query="usersTalking">
+					<li<cfif currentRow neq recordCount> class="mb10"</cfif>><div class="b">#firstName# #lastName#</div>
+					#email#<br /><cfif compare(phone,'')>#phone#</cfif></li>
+					</cfloop>
+				</ul>
+			</cfif>
+		</div>
 	</div>
 <cfelse>
 	<div class="alert">Project Not Found.</div>

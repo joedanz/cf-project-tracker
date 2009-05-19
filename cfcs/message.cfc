@@ -54,8 +54,16 @@
 		<cfset var qGetNotifyList = "">
 		<cfquery name="qGetNotifyList" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT u.userID, u.firstName, u.lastName, u.email, u.mobile,
-				un.email_files, un.mobile_files, un.email_issues, un.mobile_issues, un.email_msgs,
-				un.mobile_msgs, un.email_mstones, un.mobile_mstones, un.email_todos, un.mobile_todos,
+				un.email_file_new, un.mobile_file_new, un.email_file_upd, un.mobile_file_upd, 
+				un.email_file_com, un.mobile_file_com, un.email_issue_new, un.mobile_issue_new, 
+				un.email_issue_upd, un.mobile_issue_upd, un.email_issue_com, un.mobile_issue_com, 
+				un.email_msg_new, un.mobile_msg_new, un.email_msg_upd, un.mobile_msg_upd, 
+				un.email_msg_com, un.mobile_msg_com, un.email_mstone_new, un.mobile_mstone_new, 
+				un.email_mstone_upd, un.mobile_mstone_upd, un.email_mstone_com, un.mobile_mstone_com, 
+				un.email_todo_new, un.mobile_todo_new, un.email_todo_upd, un.mobile_todo_upd, 
+				un.email_todo_com, un.mobile_todo_com, un.email_time_new, un.mobile_time_new, 
+				un.email_time_upd, un.mobile_time_upd, un.email_bill_new, un.mobile_bill_new, 
+				un.email_bill_upd, un.mobile_bill_upd, un.email_bill_paid, un.mobile_bill_paid,
 				c.carrier, c.prefix, c.suffix
 			FROM #variables.tableprefix#message_notify m
 				LEFT JOIN #variables.tableprefix#users u ON m.userID = u.userID

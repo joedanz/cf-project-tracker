@@ -1,6 +1,6 @@
 <cfsetting enablecfoutputonly="true">
 
-<cfif StructKeyExists(url,"df")>
+<cfif StructKeyExists(url,"df") and not compare(hash(url.df),url.dfh)>
 	<cfset application.file.delete(url.p,url.df,session.user.userID)>
 </cfif>
 
@@ -90,11 +90,13 @@
 							<cfelse>
 							#Int(filesize/1024)#K,
 							</cfif>
-							uploaded to <a href="#cgi.script_name#?p=#url.p#&c=#categoryID#">#category#</a> by #firstName# #lastName# on #DateFormat(uploaded,"mmm d")# @ <cfif application.settings.clockHours eq 12>#TimeFormat(uploaded,"h:mmtt")#<cfelse>#TimeFormat(uploaded,"HH:mm")#</cfif> | <a href="download.cfm?p=#url.p#&f=#fileID#" class="download">Download file</a>
+							uploaded to <a href="#cgi.script_name#?p=#url.p#&c=#categoryID#">#category#</a> by #firstName# #lastName# on #DateFormat(uploaded,"mmm d")#
+							| <a href="download.cfm?p=#url.p#&f=#fileID#" class="download">Download</a>
 							<cfif session.user.userID eq uploadedBy or session.user.admin>
-							| <a href="editFile.cfm?p=#url.p#&f=#fileID#" class="edit">Edit details</a>
-							| <a href="#cgi.script_name#?p=#url.p#&df=#fileID#" class="delete" onclick="return confirm('<cfif attached.recordCount>This file is currently attached to <cfif isDefined("msgAttached") and isDefined("issueAttached")> a message and issue<cfelseif isDefined("msgAttached")>a message<cfelseif isDefined("issueAttached")>an issue</cfif>.\n</cfif>Are you sure you wish to delete this file?');">Delete File</a>
+							| <a href="editFile.cfm?p=#url.p#&f=#fileID#" class="edit">Edit</a>
+							| <a href="#cgi.script_name#?p=#url.p#&df=#fileID#" class="delete" onclick="return confirm('<cfif attached.recordCount>This file is currently attached to <cfif isDefined("msgAttached") and isDefined("issueAttached")> a message and issue<cfelseif isDefined("msgAttached")>a message<cfelseif isDefined("issueAttached")>an issue</cfif>.\n</cfif>Are you sure you wish to delete this file?');">Delete</a>
 							</cfif>
+							| <a href="file.cfm?p=#url.p#&f=#fileID#" class="comment"><cfif commentCount gt 0>#commentCount# Comments<cfelse>Post the first comment</cfif></a>
 							</div>
 							</div>
 							</cfoutput>

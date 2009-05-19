@@ -28,7 +28,8 @@
 
 		<cfquery name="qGetFiles" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT f.fileID, f.title, f.categoryID, f.description, f.filename, f.serverfilename, f.filetype,
-				f.filesize,f.uploaded,f.uploadedBy,u.firstName, u.lastName, fc.category
+				f.filesize,f.uploaded,f.uploadedBy,u.firstName, u.lastName, fc.category,
+					(SELECT count(commentID) FROM #variables.tableprefix#comments c where f.fileid = c.itemid and type = 'file') as commentcount
 			FROM #variables.tableprefix#files f 
 				LEFT JOIN #variables.tableprefix#users u ON f.uploadedBy = u.userID
 				LEFT JOIN #variables.tableprefix#categories fc on f.categoryID = fc.categoryID
