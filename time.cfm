@@ -46,6 +46,7 @@
 			<div class="content">
 			 	<div class="wrapper">
 					
+					<cfif project.time_edit or session.user.admin>
 					<form action="timeReport.cfm?p=#url.p#" method="post" class="frm">
 					<div id="report" class="p10" style="display:none;">
 						<span class="b">
@@ -90,6 +91,7 @@
 						<input type="submit" value="Create Report" /> or <a href="##" onclick="$('##report').slideUp();return false;">Cancel</a>
 					</div>
 					</form>
+					</cfif>
 					
 				 	<table class="clean full" id="time">
 					 	<thead>
