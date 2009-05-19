@@ -14,6 +14,7 @@
 
 <!-- Favicon -->
 <link rel="shortcut icon" href="#application.settings.mapping#/images/favicon.ico" />
+<link rel="icon" type="image/ico" href="#application.settings.mapping#/images/favicon.ico" />
 
 <!-- CSS -->
 <link rel="stylesheet" href="#application.settings.mapping#/css/smoothness/jquery-ui-1.7.1.custom.css" media="screen,projection" type="text/css" />
