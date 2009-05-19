@@ -125,12 +125,23 @@
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="todolistID" type="uuid" required="true">
 		<cfargument name="todoID" type="string" required="false" default="">
+		<cfset var qTodos = "">
+		<cfif not compare(arguments.todoID,'')>
+			<cfset qTodos = get(arguments.projectID,arguments.todolistID)>
+		</cfif>
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#todos
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				AND todolistID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">
 				<cfif compare(arguments.todoID,'')>AND todoID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todoID#" maxlength="35"></cfif>
 		</cfquery>
+		<cfif compare(arguments.todoID,'')>
+			<cfset application.comment.delete(itemID=arguments.todoID,type='todo')>
+		<cfelse>
+			<cfloop query="qTodos">
+				<cfset application.comment.delete(itemID=todoID,type='todo')>
+			</cfloop>
+		</cfif>
 		<cfreturn true>
 	</cffunction>
 	

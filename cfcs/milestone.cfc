@@ -124,7 +124,7 @@
 		<cfreturn true>
 	</cffunction>	
 	
-	<cffunction name="remove" access="public" returnType="boolean" output="false"
+	<cffunction name="delete" access="public" returnType="boolean" output="false"
 				hint="Deletes a milestone.">
 		<cfargument name="milestoneID" type="uuid" required="true">
 		<cfargument name="projectID" type="uuid" required="true">
@@ -133,6 +133,7 @@
 			WHERE milestoneID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.milestoneID#" maxlength="35">
 				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
+		<cfset application.comment.delete(itemID=arguments.milestoneID,type='mstone')>
 		<cfset application.activity.delete(arguments.projectID,'Milestone',arguments.milestoneID)>
 		<cfreturn true>
 	</cffunction>		

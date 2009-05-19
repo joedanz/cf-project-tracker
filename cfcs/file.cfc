@@ -151,7 +151,9 @@
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#file_attach 
 				WHERE fileID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.fileID#" maxlength="35">
-		</cfquery>				
+		</cfquery>
+		<cfset application.comment.delete(itemID=arguments.fileID,type='file')>
+		<cfset application.activity.delete(arguments.projectID,'File',arguments.fileID)>	
 	</cffunction>
 
 	<cffunction name="getFileList" access="public" returnType="query" output="false"

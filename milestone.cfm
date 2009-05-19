@@ -21,7 +21,7 @@
 	<cfset application.milestone.markActive(url.m,url.p)>
 	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Milestone',url.m,url.ms,'reactivated')>
 <cfelseif StructKeyExists(url,"d")> <!--- delete --->
-	<cfset application.milestone.remove(url.d,url.p)>
+	<cfset application.milestone.delete(url.d,url.p)>
 	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Milestone',url.d,url.ms,'deleted')>
 </cfif>
 
@@ -47,12 +47,13 @@
 		<div class="main">
 
 				<div class="header">
-					<cfif project.mstone_edit>
 					<span class="rightmenu">
-						<a href="milestones.cfm?p=#url.p#" class="back">Back</a> | 
-						<a href="editMilestone.cfm?p=#url.p#&m=#url.m#" class="edit">Edit Milestone</a>
+						<a href="milestones.cfm?p=#url.p#" class="back">Back to Milestones</a>
+						<cfif project.mstone_edit>
+							| <a href="editMilestone.cfm?p=#url.p#&m=#url.m#" class="edit">Edit Milestone</a>
+							| <a href="milestones.cfm?p=#url.p#&d=#url.m#" class="delete" onclick="return confirm('Are you sure you wish to delete this milestone?');">Delete Milestone</a>
+						</cfif>
 					</span>
-					</cfif>
 					
 					<h2 class="milestone">Milestone Detail</h2>
 				</div>
@@ -67,7 +68,7 @@
 							<div class="milestone">
 							<div class="date <cfif isDate(milestone.completed)>completed<cfelseif daysago gte 1>late<cfelse>upcoming</cfif>"><span class="b"><cfif daysago eq 0>Today<cfelseif daysago eq 1>Yesterday<cfelseif daysAgo gt 1>#daysago# days ago<cfelseif daysAgo eq -1>Tomorrow<cfelse>#Abs(daysago)# days away</cfif></span> (#DateFormat(dueDate,"dddd, d mmmm, yyyy")#)<cfif userid neq 0><span style="color:##666;"> - For #firstName# #lastName#</span></cfif></div>
 							<div id="m#milestoneid#" style="display:none;" class="markcomplete">Moving to <cfif not isDate(milestone.completed)>Completed<cfelseif DateDiff("d",dueDate,Now())>Late<cfelse>Upcoming</cfif> - just a second...</div>
-							<h3><cfif project.mstone_edit><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&<cfif isDate(milestone.completed)>a<cfelse>c</cfif>=1&m=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;"<cfif isDate(milestone.completed)> checked="checked"</cfif> /> </cfif>#name# <span style="font-size:.65em;font-weight:normal;">[<a href="editMilestone.cfm?p=#url.p#&m=#milestoneid#&one=1">edit</a>]</span></h3>
+							<h3><cfif project.mstone_edit><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&<cfif isDate(milestone.completed)>a<cfelse>c</cfif>=1&m=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;"<cfif isDate(milestone.completed)> checked="checked"</cfif> /> </cfif>#name#</h3>
 							<cfif compare(description,'')><div class="desc">#description#</div></cfif>
 							
 							<cfquery name="msgs" dbtype="query">

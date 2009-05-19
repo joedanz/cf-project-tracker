@@ -19,7 +19,7 @@
 	<cfset application.milestone.markActive(url.a,url.p)>
 	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Milestone',url.a,url.ms,'reactivated')>
 <cfelseif StructKeyExists(url,"d")> <!--- delete --->
-	<cfset application.milestone.remove(url.d,url.p)>
+	<cfset application.milestone.delete(url.d,url.p)>
 	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Milestone',url.d,url.d,'deleted')>
 </cfif>
 

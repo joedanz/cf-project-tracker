@@ -65,12 +65,25 @@
 	
 	<cffunction name="delete" access="public" returnType="boolean" output="false"
 				hint="Add a message comment.">
-		<cfargument name="userID" type="uuid" required="true">
-		<cfargument name="commentID" type="uuid" required="true">
+		<cfargument name="userID" type="string" required="false" default="">
+		<cfargument name="commentID" type="string" required="false" default="">
+		<cfargument name="itemID" type="string" required="false" default="">
+		<cfargument name="type" type="string" required="false" default="">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			DELETE FROM #variables.tableprefix#comments
-				WHERE userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
+			WHERE 0=0
+				<cfif compare(arguments.userID,'')>
+					AND userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
+				</cfif>
+				<cfif compare(arguments.commentID,'')>
 					AND commentID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.commentID#" maxlength="35">
+				</cfif>
+				<cfif compare(arguments.itemID,'')>
+					AND itemID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.itemID#" maxlength="35">
+				</cfif>
+				<cfif compare(arguments.type,'')>
+					AND type = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="6">
+				</cfif>				
 		</cfquery>
 		<cfreturn true>
 	</cffunction>			

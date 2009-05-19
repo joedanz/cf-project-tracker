@@ -231,7 +231,8 @@
 			WHERE itemID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
 				AND type = 'msg'
 		</cfquery>
-		<cfset application.activity.delete(arguments.projectID,'Message',arguments.messageID)>		
+		<cfset application.activity.delete(arguments.projectID,'Message',arguments.messageID)>
+		<cfset application.comment.delete(itemID=arguments.messageID,type='msg')>
 		<cfreturn true>
 	</cffunction>		
 
