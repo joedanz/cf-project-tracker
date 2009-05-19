@@ -123,7 +123,7 @@
 							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> (#status# #type# / #severity#) - Added #DateFormat(created,"d mmm, yyyy")#<cfif compare(assignedFirstName,'') or compare(assignedLastName,'')> for #assignedFirstName# #assignedLastName#</cfif></li>
 							</cfloop>
 							</ul>	
-							</cfif>						
+							</cfif>			
 							
 							</div>	
 						</cfloop>
@@ -272,7 +272,7 @@
 							<cfif iss1.recordCount>
 							<h5 class="sub">New/Open Issues:</h5>
 							<ul class="sub">
-							<cfloop query="iss">
+							<cfloop query="iss1">
 							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> (#status# #type# / #severity#) - Added #DateFormat(created,"d mmm, yyyy")#<cfif compare(assignedFirstName,'') or compare(assignedLastName,'')> for #assignedFirstName# #assignedLastName#</cfif></li>
 							</cfloop>
 							</ul>	
@@ -280,7 +280,7 @@
 							<cfif iss2.recordCount>
 							<h5 class="sub">Resolved/Closed Issues:</h5>
 							<ul class="sub">
-							<cfloop query="iss">
+							<cfloop query="iss2">
 							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> (#status# #type# / #severity#) - Added #DateFormat(created,"d mmm, yyyy")#<cfif compare(assignedFirstName,'') or compare(assignedLastName,'')> for #assignedFirstName# #assignedLastName#</cfif></li>
 							</cfloop>
 							</ul>	

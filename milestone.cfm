@@ -95,18 +95,30 @@
 							</ul>	
 							</cfif>
 
-							<cfquery name="iss" dbtype="query">
+							<cfquery name="iss1" dbtype="query">
 								select issueID, shortID, issue, status, type, severity, created, assignedFirstName, assignedLastName
-								from issues where milestoneid = '#milestoneid#'
+								from issues where milestoneid = '#milestoneid#' and status in ('New','Open','Accepted')
 							</cfquery>
-							<cfif iss.recordCount>
-							<h5 class="sub">Issues:</h5>
+							<cfquery name="iss2" dbtype="query">
+								select issueID, shortID, issue, status, type, severity, created, assignedFirstName, assignedLastName
+								from issues where milestoneid = '#milestoneid#' and status in ('Resolved','Closed')
+							</cfquery>
+							<cfif iss1.recordCount>
+							<h5 class="sub">New/Open Issues:</h5>
 							<ul class="sub">
-							<cfloop query="iss">
+							<cfloop query="iss1">
 							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> (#status# #type# / #severity#) - Added #DateFormat(created,"d mmm, yyyy")#<cfif compare(assignedFirstName,'') or compare(assignedLastName,'')> for #assignedFirstName# #assignedLastName#</cfif></li>
 							</cfloop>
 							</ul>	
-							</cfif>	
+							</cfif>						
+							<cfif iss2.recordCount>
+							<h5 class="sub">Resolved/Closed Issues:</h5>
+							<ul class="sub">
+							<cfloop query="iss2">
+							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> (#status# #type# / #severity#) - Added #DateFormat(created,"d mmm, yyyy")#<cfif compare(assignedFirstName,'') or compare(assignedLastName,'')> for #assignedFirstName# #assignedLastName#</cfif></li>
+							</cfloop>
+							</ul>	
+							</cfif>
 							
 							</div>
 						</cfloop>
