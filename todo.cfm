@@ -1,5 +1,9 @@
 <cfsetting enablecfoutputonly="true">
 
+<cfif StructKeyExists(form,"submit")>
+	<cfset application.comment.add(createUUID(),url.p,'todo',url.t,session.user.userid,form.comment)>
+</cfif>
+
 <cfparam name="url.p" default="">
 <cfparam name="url.t" default="">
 <cfif session.user.admin>

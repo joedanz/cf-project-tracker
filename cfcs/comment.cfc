@@ -59,7 +59,23 @@
 						<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.comment#">,
 						#Now()#)
 		</cfquery>
-		<cfset application.notify.messageComment(arguments.projectID,arguments.itemID,arguments.comment)>		
+		<cfswitch expression="#arguments.type#">
+			<cfcase value="msg">
+				<cfset application.notify.messageComment(arguments.projectID,arguments.itemID,arguments.comment)>
+			</cfcase>
+			<cfcase value="issue">
+				<cfset application.notify.issueComment(arguments.projectID,arguments.itemID,arguments.comment)>
+			</cfcase>
+			<cfcase value="file">
+				<cfset application.notify.fileComment(arguments.projectID,arguments.itemID,arguments.comment)>
+			</cfcase>
+			<cfcase value="mstone">
+				<cfset application.notify.milestoneComment(arguments.projectID,arguments.itemID,arguments.comment)>
+			</cfcase>
+			<cfcase value="todo">
+				<cfset application.notify.todoComment(arguments.projectID,arguments.itemID,arguments.comment)>
+			</cfcase>
+		</cfswitch>
 		<cfreturn true>
 	</cffunction>		
 	

@@ -303,3 +303,8 @@
 	<cfdirectory action="delete" directory="#ExpandPath('../../../images/')#avatars">
 	<cfcatch></cfcatch>
 </cftry>
+
+<!--- CHANGE DATABASE VALUE --->
+<cfquery datasource="#application.settings.dsn#">
+	UPDATE #application.settings.tableprefix#timetrack SET itemType = 'todo' WHERE itemType = 'to-do'
+</cfquery>

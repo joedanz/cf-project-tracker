@@ -149,7 +149,7 @@
 								<td><cfif compare(itemType,'')><span class="catbox #itemtype#">#itemtype#</span> 
 									<cfswitch expression="#itemtype#">
 										<cfcase value="issue"><a href="issue.cfm?p=#projectID#&i=#itemID#">#shortID#</a></cfcase>
-										<cfcase value="to-do"><a href="todos.cfm?p=#projectID###id_#replace(todolistID,'-','','all')#">#task#</a></cfcase>
+										<cfcase value="todo"><a href="todos.cfm?p=#projectID###id_#replace(todolistID,'-','','all')#">#task#</a></cfcase>
 									</cfswitch>
 									<cfif compare(description,'')> - </cfif>
 								</cfif>

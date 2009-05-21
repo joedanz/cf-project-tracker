@@ -107,7 +107,7 @@
 					<cfelse>
 						<h3>Time tracking log for #timelines.itemType[1]# item: 
 							<cfswitch expression="#timelines.itemType[1]#">
-								<cfcase value="to-do">#timelines.task[1]#</cfcase>
+								<cfcase value="todo">#timelines.task[1]#</cfcase>
 							</cfswitch>
 						</h3> 
 					</cfif>
