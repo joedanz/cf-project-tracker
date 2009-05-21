@@ -12,7 +12,7 @@
 	<cfset milestones_upcoming = application.milestone.get(url.p,'','upcoming','1')>
 </cfif>
 <cfif project.issue_view>
-	<cfset issues = application.issue.get(url.p,'','New|Accepted')>
+	<cfset issues = application.issue.get(url.p,'','New|Accepted|Assigned')>
 </cfif>
 <cfset activity = application.activity.get(url.p,'','true')>
 
@@ -40,7 +40,7 @@ $(document).ready(function(){
             return false; // return false so this parser is not auto detected
         }, 
         format: function(s) { 
-            return s.toLowerCase().replace(/closed/,3).replace(/resolved/,2).replace(/accepted/,1).replace(/new/,0); 
+            return s.toLowerCase().replace(/closed/,3).replace(/resolved/,2).replace(/assigned/,1).replace(/accepted/,1).replace(/new/,0); 
         }, 
         type: 'numeric' 
     });

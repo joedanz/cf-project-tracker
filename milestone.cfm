@@ -97,7 +97,7 @@
 
 							<cfquery name="iss1" dbtype="query">
 								select issueID, shortID, issue, status, type, severity, created, assignedFirstName, assignedLastName
-								from issues where milestoneid = '#milestoneid#' and status in ('New','Open','Accepted')
+								from issues where milestoneid = '#milestoneid#' and status in ('New','Open','Accepted','Assigned')
 							</cfquery>
 							<cfquery name="iss2" dbtype="query">
 								select issueID, shortID, issue, status, type, severity, created, assignedFirstName, assignedLastName

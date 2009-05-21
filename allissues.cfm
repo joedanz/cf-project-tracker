@@ -3,7 +3,7 @@
 <cfparam name="form.projectIDfilter" default="">
 <cfparam name="form.type" default="">
 <cfparam name="form.severity" default="">
-<cfparam name="form.status" default="New|Accepted">
+<cfparam name="form.status" default="New|Accepted|Assigned">
 <cfparam name="form.assignedTo" default="">
 
 <cfset projects = application.project.get(session.user.userid)>
@@ -53,7 +53,7 @@ $(document).ready(function(){
             return false; // return false so this parser is not auto detected
         }, 
         format: function(s) { 
-            return s.toLowerCase().replace(/closed/,3).replace(/resolved/,2).replace(/accepted/,1).replace(/new/,0); 
+            return s.toLowerCase().replace(/closed/,3).replace(/resolved/,2).replace(/assigned/,1).replace(/accepted/,1).replace(/new/,0); 
         }, 
         type: 'numeric' 
     });
@@ -117,7 +117,7 @@ $(document).ready(function(){
 						 	<select name="status">
 						 		<option value="">Status</option>
 						 		<option value="New"<cfif not compare(form.status,'New')> selected="selected"</cfif>>New</option>
-						 		<option value="Accepted"<cfif not compare(form.status,'Accepted')> selected="selected"</cfif>>Accepted</option>
+						 		<option value="Assigned"<cfif not compare(form.status,'Assigned')> selected="selected"</cfif>>Assigned</option>
 						 		<option value="Resolved"<cfif not compare(form.status,'Resolved')> selected="selected"</cfif>>Resolved</option>
 						 		<option value="Closed"<cfif not compare(form.status,'Closed')> selected="selected"</cfif>>Closed</option>						 		
 						 	</select>
@@ -130,7 +130,7 @@ $(document).ready(function(){
 					 	<cfif issues.recordCount>
 					 	<div style="border:1px solid ##ddd;" class="mb20">
 					 	<table class="activity full tablesorter" id="issues">
-						<caption class="plain"><cfif compare(form.status,'New|Accepted')>#form.status#<cfelse>Open</cfif> Issues</caption>
+						<caption class="plain"><cfif compare(form.status,'New|Accepted|Assigned')>#form.status#<cfelse>Open</cfif> Issues</caption>
 						<thead>
 							<tr>
 								<th>ID</th>

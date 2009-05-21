@@ -38,8 +38,8 @@
 						<cfelse>	
 							<cfset project_admin = 0>	
 						</cfif>
-						<cfset project = application.project.get(projectID=i)>
-						<cfset application.role.add(i,newID,project_admin,project.file_view,project.file_edit,project.issue_view,project.issue_edit,project.issue_accept,project.issue_comment,project.msg_view,project.msg_edit,project.msg_comment,project.mstone_view,project.mstone_edit,project.mstone_comment,project.todolist_view,project.todolist_edit,project.todo_edit,project.todo_comment,project.time_view,project.time_edit,project.bill_view,project.bill_edit,project.bill_rates,project.bill_invoices,project.bill_markpaid,project.svn)>
+						<cfset project = application.project.getDistinct(i)>
+						<cfset application.role.add(i,newID,project_admin,project.reg_file_view,project.reg_file_edit,project.reg_issue_view,project.reg_issue_edit,project.reg_issue_assign,project.reg_issue_resolve,project.reg_issue_close,project.reg_issue_comment,project.reg_msg_view,project.reg_msg_edit,project.reg_msg_comment,project.reg_mstone_view,project.reg_mstone_edit,project.reg_mstone_comment,project.reg_todolist_view,project.reg_todolist_edit,project.reg_todo_edit,project.reg_todo_comment,project.reg_time_view,project.reg_time_edit,project.reg_bill_view,project.reg_bill_edit,project.reg_bill_rates,project.reg_bill_invoices,project.reg_bill_markpaid,project.reg_svn)>
 						<cfif find(i,form.projectids)>
 							<cfif request.udf.isEmail(trim(form.email))>
 								<cfset application.notify.add(newID,i,'1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0')>
@@ -138,7 +138,7 @@
 				</ul>
 				<div class="content">
 					
-				 	<h3 class="mb10 ml20"><cfif StructKeyExists(url,"u")>Edit<cfelse>Add New</cfif> User</h3>
+				 	<h3 class="mb10 ml20"><cfif StructKeyExists(url,"u")>Edit User &raquo; #form.firstName# #form.lastName#<cfelse>Add New User</cfif></h3>
 
 				 	<cfif compare(variables.errors,'')>
 				 	<div class="wrapper">

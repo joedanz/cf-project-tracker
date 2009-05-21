@@ -45,7 +45,11 @@ ALTER TABLE [dbo].[pt_project_users] ADD [issue_view] [tinyint] NULL
 GO
 ALTER TABLE [dbo].[pt_project_users] ADD [issue_edit] [tinyint] NULL
 GO
-ALTER TABLE [dbo].[pt_project_users] ADD [issue_accept] [tinyint] NULL
+ALTER TABLE [dbo].[pt_project_users] ADD [issue_assign] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [issue_resolve] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_project_users] ADD [issue_close] [tinyint] NULL
 GO
 ALTER TABLE [dbo].[pt_project_users] ADD [issue_comment] [tinyint] NULL
 GO
@@ -93,7 +97,11 @@ UPDATE [dbo].[pt_project_users] SET issue_view = 0
 GO
 UPDATE [dbo].[pt_project_users] SET issue_edit = 0
 GO
-UPDATE [dbo].[pt_project_users] SET issue_accept = 0
+UPDATE [dbo].[pt_project_users] SET issue_assign = 0
+GO
+UPDATE [dbo].[pt_project_users] SET issue_resolve = 0
+GO
+UPDATE [dbo].[pt_project_users] SET issue_close = 0
 GO
 UPDATE [dbo].[pt_project_users] SET issue_comment = 0
 GO
@@ -157,7 +165,11 @@ ALTER TABLE [dbo].[pt_projects] ADD [reg_issue_view] [tinyint] NULL
 GO
 ALTER TABLE [dbo].[pt_projects] ADD [reg_issue_edit] [tinyint] NULL
 GO
-ALTER TABLE [dbo].[pt_projects] ADD [reg_issue_accept] [tinyint] NULL
+ALTER TABLE [dbo].[pt_projects] ADD [reg_issue_assign] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_issue_resolve] [tinyint] NULL
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_issue_close] [tinyint] NULL
 GO
 ALTER TABLE [dbo].[pt_projects] ADD [reg_issue_comment] [tinyint] NULL
 GO

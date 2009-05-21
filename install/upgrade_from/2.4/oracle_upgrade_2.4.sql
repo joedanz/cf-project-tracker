@@ -40,7 +40,9 @@ add
    file_comment NUMBER(1,0) NULL,
    issue_view NUMBER(1,0) NULL,
    issue_edit NUMBER(1,0) NULL,
-   issue_accept NUMBER(1,0) NULL,
+   issue_assign NUMBER(1,0) NULL,
+   issue_resolve NUMBER(1,0) NULL,
+   issue_close NUMBER(1,0) NULL,
    issue_comment NUMBER(1,0) NULL,
    msg_view NUMBER(1,0) NULL,
    msg_edit NUMBER(1,0) NULL,
@@ -65,7 +67,9 @@ update pt_project_users set file_edit = 0;
 update pt_project_users set file_comment = 0;
 update pt_project_users set issue_view = 0;
 update pt_project_users set issue_edit = 0;
-update pt_project_users set issue_accept = 0;
+update pt_project_users set issue_assign = 0;
+update pt_project_users set issue_resolve = 0;
+update pt_project_users set issue_close = 0;
 update pt_project_users set issue_comment = 0;
 update pt_project_users set msg_view = 0;
 update pt_project_users set msg_edit = 0;
@@ -99,7 +103,9 @@ add
    reg_file_comment NUMBER(1,0) NULL,
    reg_issue_view NUMBER(1,0) NULL,
    reg_issue_edit NUMBER(1,0) NULL,
-   reg_issue_accept NUMBER(1,0) NULL,
+   reg_issue_assign NUMBER(1,0) NULL,
+   reg_issue_resolve NUMBER(1,0) NULL,
+   reg_issue_close NUMBER(1,0) NULL,
    reg_issue_comment NUMBER(1,0) NULL,
    reg_msg_view NUMBER(1,0) NULL,
    reg_msg_edit NUMBER(1,0) NULL,

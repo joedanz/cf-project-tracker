@@ -3,7 +3,7 @@
 <cfparam name="form.projectIDfilter" default="">
 <cfparam name="form.type" default="">
 <cfparam name="form.severity" default="">
-<cfparam name="form.status" default="New|Accepted">
+<cfparam name="form.status" default="New|Accepted|Assigned">
 <cfparam name="form.assignedTo" default="">
 
 <cfset projects = application.project.get(session.user.userid)>

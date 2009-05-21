@@ -27,10 +27,10 @@
 				p.tab_time, p.tab_svn, p.issue_svn_link, p.issue_timetrack,
 				<cfif compare(arguments.userID,'')> 
 					pu.admin, pu.file_view, pu.file_edit, pu.file_comment, pu.issue_view, pu.issue_edit, 
-					pu.issue_accept, pu.issue_comment, pu.msg_view, pu.msg_edit, pu.msg_comment, pu.mstone_view, 
-					pu.mstone_edit, pu.mstone_comment, pu.todolist_view, pu.todolist_edit, pu.todo_edit, 
-					pu.todo_comment, pu.time_view, pu.time_edit, pu.bill_view, pu.bill_edit, pu.bill_rates, 
-					pu.bill_invoices, pu.bill_markpaid, pu.svn,
+					pu.issue_assign, pu.issue_resolve, pu.issue_close, pu.issue_comment, pu.msg_view, 
+					pu.msg_edit, pu.msg_comment, pu.mstone_view, pu.mstone_edit, pu.mstone_comment, 
+					pu.todolist_view, pu.todolist_edit, pu.todo_edit, pu.todo_comment, pu.time_view, pu.time_edit, 
+					pu.bill_view, pu.bill_edit, pu.bill_rates, pu.bill_invoices, pu.bill_markpaid, pu.svn,
 					un.email_file_new, un.mobile_file_new, un.email_file_upd, un.mobile_file_upd, 
 					un.email_file_com, un.mobile_file_com, un.email_issue_new, un.mobile_issue_new, 
 					un.email_issue_upd, un.mobile_issue_upd, un.email_issue_com, un.mobile_issue_com,
@@ -43,11 +43,11 @@
 					un.email_bill_upd, un.mobile_bill_upd, un.email_bill_paid, un.mobile_bill_paid,  
 				<cfelse>
 					1 as admin, 1 as file_view, 1 as file_edit, 1 as file_comment, 1 as issue_view, 
-					1 as issue_edit, 1 as issue_accept, 1 as issue_comment, 1 as msg_view, 1 as msg_edit, 
-					1 as msg_comment, 1 as mstone_view, 1 as mstone_edit, 1 as mstone_comment, 
-					1 as todolist_view, 1 as todolist_edit,	1 as todo_edit, 1 as todo_comment, 
-					1 as time_view, 1 as time_edit, 1 as bill_view, 1 as bill_edit, 1 as bill_rates, 
-					1 as bill_invoices, 1 as bill_markpaid, 1 as svn,
+					1 as issue_edit, 1 as issue_assign, 1 as issue_resolve, 1 as issue_close, 
+					1 as issue_comment, 1 as msg_view, 1 as msg_edit, 1 as msg_comment, 1 as mstone_view, 
+					1 as mstone_edit, 1 as mstone_comment, 1 as todolist_view, 1 as todolist_edit, 
+					1 as todo_edit, 1 as todo_comment, 1 as time_view, 1 as time_edit, 1 as bill_view, 
+					1 as bill_edit, 1 as bill_rates, 1 as bill_invoices, 1 as bill_markpaid, 1 as svn,
 					0 as email_file_new, 0 as mobile_file_new, 0 as email_file_upd, 0 as mobile_file_upd, 
 					0 as email_file_com, 0 as mobile_file_com, 0 as email_issue_new, 0 as mobile_issue_new, 
 					0 as email_issue_upd, 0 as mobile_issue_upd, 0 as email_issue_com, 0 as mobile_issue_com,
@@ -89,11 +89,11 @@
 			SELECT p.projectID, p.ownerID, p.clientID, p.name, p.description, p.display, p.added, 
 				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, p.logo_img, p.allow_reg, 
 				p.reg_file_view, p.reg_file_edit, p.reg_file_comment, p.reg_issue_view, p.reg_issue_edit, 
-				p.reg_issue_accept, p.reg_issue_comment, p.reg_msg_view, p.reg_msg_edit, p.reg_msg_comment, 
-				p.reg_mstone_view, p.reg_mstone_edit, p.reg_mstone_comment, p.reg_todolist_view, 
-				p.reg_todolist_edit, p.reg_todo_edit, p.reg_todo_comment,  p.reg_time_view, p.reg_time_edit,
-				p.reg_bill_view, p.reg_bill_edit, p.reg_bill_rates, p.reg_bill_invoices, p.reg_bill_markpaid, 
-				p.reg_svn, p.tab_billing, p.tab_files, p.tab_issues, p.tab_msgs, 
+				p.reg_issue_assign, p.reg_issue_resolve, p.reg_issue_close, p.reg_issue_comment, p.reg_msg_view, 
+				p.reg_msg_edit, p.reg_msg_comment, p.reg_mstone_view, p.reg_mstone_edit, p.reg_mstone_comment, 
+				p.reg_todolist_view, p.reg_todolist_edit, p.reg_todo_edit, p.reg_todo_comment, p.reg_time_view, 
+				p.reg_time_edit, p.reg_bill_view, p.reg_bill_edit, p.reg_bill_rates, p.reg_bill_invoices, 
+				p.reg_bill_markpaid, p.reg_svn, p.tab_billing, p.tab_files, p.tab_issues, p.tab_msgs, 
 				p.tab_mstones, p.tab_todos, p.tab_time, p.tab_svn, p.issue_svn_link, p.issue_timetrack,
 				c.name as clientName, u.firstName as ownerFirstName, u.lastName as ownerLastName
 			FROM #variables.tableprefix#projects p
@@ -168,7 +168,9 @@
 		<cfargument name="reg_file_comment" type="numeric" required="true">
 		<cfargument name="reg_issue_view" type="numeric" required="true">
 		<cfargument name="reg_issue_edit" type="numeric" required="true">
-		<cfargument name="reg_issue_accept" type="numeric" required="true">
+		<cfargument name="reg_issue_assign" type="numeric" required="true">
+		<cfargument name="reg_issue_resolve" type="numeric" required="true">
+		<cfargument name="reg_issue_close" type="numeric" required="true">
 		<cfargument name="reg_issue_comment" type="numeric" required="true">
 		<cfargument name="reg_msg_view" type="numeric" required="true">
 		<cfargument name="reg_msg_edit" type="numeric" required="true">
@@ -200,7 +202,7 @@
 		<cfargument name="issue_timetrack" type="numeric" required="true">
 		<cfargument name="addedBy" type="string" required="true">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			INSERT INTO #variables.tableprefix#projects (projectID,ownerID,name,description,display,added,addedBy,clientID,status,ticketPrefix,svnurl,svnuser,svnpass,logo_img,allow_reg,reg_file_view,reg_file_edit,reg_file_comment,reg_issue_view,reg_issue_edit,reg_issue_accept,reg_issue_comment,reg_msg_view,reg_msg_edit,reg_msg_comment,reg_mstone_view,reg_mstone_edit,reg_mstone_comment,reg_todolist_view,reg_todolist_edit,reg_todo_edit,reg_todo_comment,reg_time_view,reg_time_edit,reg_bill_view,reg_bill_edit,reg_bill_rates,reg_bill_invoices,reg_bill_markpaid,reg_svn,tab_files,tab_issues,tab_msgs,tab_mstones,tab_todos,tab_time,tab_billing,tab_svn,issue_svn_link,issue_timetrack)
+			INSERT INTO #variables.tableprefix#projects (projectID,ownerID,name,description,display,added,addedBy,clientID,status,ticketPrefix,svnurl,svnuser,svnpass,logo_img,allow_reg,reg_file_view,reg_file_edit,reg_file_comment,reg_issue_view,reg_issue_edit,reg_issue_assign,reg_issue_resolve,reg_issue_close,reg_issue_comment,reg_msg_view,reg_msg_edit,reg_msg_comment,reg_mstone_view,reg_mstone_edit,reg_mstone_comment,reg_todolist_view,reg_todolist_edit,reg_todo_edit,reg_todo_comment,reg_time_view,reg_time_edit,reg_bill_view,reg_bill_edit,reg_bill_rates,reg_bill_invoices,reg_bill_markpaid,reg_svn,tab_files,tab_issues,tab_msgs,tab_mstones,tab_todos,tab_time,tab_billing,tab_svn,issue_svn_link,issue_timetrack)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.ownerID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
@@ -220,7 +222,9 @@
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_file_comment#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_issue_view#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_issue_edit#" maxlength="1">,
-					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_issue_accept#" maxlength="1">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_issue_assign#" maxlength="1">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_issue_resolve#" maxlength="1">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_issue_close#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_issue_comment#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_msg_view#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_msg_edit#" maxlength="1">,
@@ -274,7 +278,9 @@
 		<cfargument name="reg_file_comment" type="numeric" required="true">
 		<cfargument name="reg_issue_view" type="numeric" required="true">
 		<cfargument name="reg_issue_edit" type="numeric" required="true">
-		<cfargument name="reg_issue_accept" type="numeric" required="true">
+		<cfargument name="reg_issue_assign" type="numeric" required="true">
+		<cfargument name="reg_issue_resolve" type="numeric" required="true">
+		<cfargument name="reg_issue_close" type="numeric" required="true">
 		<cfargument name="reg_issue_comment" type="numeric" required="true">
 		<cfargument name="reg_msg_view" type="numeric" required="true">
 		<cfargument name="reg_msg_edit" type="numeric" required="true">
@@ -325,7 +331,9 @@
 					reg_file_comment = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_file_comment#" maxlength="1">,
 					reg_issue_view = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_issue_view#" maxlength="1">,
 					reg_issue_edit = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_issue_edit#" maxlength="1">,
-					reg_issue_accept = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_issue_accept#" maxlength="1">,
+					reg_issue_assign = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_issue_assign#" maxlength="1">,
+					reg_issue_resolve = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_issue_resolve#" maxlength="1">,
+					reg_issue_close = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_issue_close#" maxlength="1">,
 					reg_issue_comment = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_issue_comment#" maxlength="1">,
 					reg_msg_view = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_msg_view#" maxlength="1">,
 					reg_msg_edit = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_msg_edit#" maxlength="1">,
@@ -453,10 +461,11 @@
 				un.email_time_upd, un.mobile_time_upd, un.email_bill_new, un.mobile_bill_new, 
 				un.email_bill_upd, un.mobile_bill_upd, un.email_bill_paid, un.mobile_bill_paid,  
 				pu.projectID, pu.admin, pu.file_view, pu.file_edit, pu.file_comment, pu.issue_view, 
-				pu.issue_edit, pu.issue_accept, pu.issue_comment, pu.msg_view, pu.msg_edit, pu.msg_comment,
-				pu.mstone_view, pu.mstone_edit, pu.mstone_comment, pu.todolist_view, pu.todolist_edit,
-				pu.todo_edit, pu.todo_comment, pu.time_view, pu.time_edit, pu.bill_view, pu.bill_edit,
-				pu.bill_rates, pu.bill_invoices, pu.bill_markpaid, pu.svn
+				pu.issue_edit, pu.issue_assign, pu.issue_resolve, pu.issue_close, pu.issue_comment, 
+				pu.msg_view, pu.msg_edit, pu.msg_comment, pu.mstone_view, pu.mstone_edit, 
+				pu.mstone_comment, pu.todolist_view, pu.todolist_edit, pu.todo_edit, pu.todo_comment, 
+				pu.time_view, pu.time_edit, pu.bill_view, pu.bill_edit, pu.bill_rates, pu.bill_invoices, 
+				pu.bill_markpaid, pu.svn
 			FROM #variables.tableprefix#users u 
 				INNER JOIN #variables.tableprefix#project_users pu ON u.userID = pu.userID
 				INNER JOIN pt_user_notify un ON pu.userID = un.userID

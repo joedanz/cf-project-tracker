@@ -155,7 +155,9 @@
 				<field ColumnName="file_comment" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="issue_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="issue_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
-				<field ColumnName="issue_accept" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="issue_assign" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="issue_resolve" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="issue_close" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="issue_comment" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="msg_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="msg_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
@@ -202,7 +204,9 @@
 				<field ColumnName="reg_file_comment" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="reg_issue_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="reg_issue_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
-				<field ColumnName="reg_issue_accept" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_issue_assign" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_issue_resolve" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="reg_issue_close" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="reg_issue_comment" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="reg_msg_view" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="reg_msg_edit" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />

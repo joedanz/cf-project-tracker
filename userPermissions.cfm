@@ -10,7 +10,7 @@
 <cfif StructKeyExists(form,"submit")>
 	<cfparam name="form.admin" default="0">
 	<cfset application.role.remove(projectID=url.p,userID=url.u)>
-	<cfset application.role.add(url.p,url.u,form.admin,form.file_view,form.file_edit,form.file_comment,form.issue_view,form.issue_edit,form.issue_accept,form.issue_comment,form.msg_view,form.msg_edit,form.msg_comment,form.mstone_view,form.mstone_edit,form.mstone_comment,form.todolist_view,form.todolist_edit,form.todo_edit,form.todo_comment,form.time_view,form.time_edit,form.bill_view,form.bill_edit,form.bill_rates,form.bill_invoices,form.bill_markpaid,form.svn)>
+	<cfset application.role.add(url.p,url.u,form.admin,form.file_view,form.file_edit,form.file_comment,form.issue_view,form.issue_edit,form.issue_assign,form.issue_resolve,form.issue_close,form.issue_comment,form.msg_view,form.msg_edit,form.msg_comment,form.mstone_view,form.mstone_edit,form.mstone_comment,form.todolist_view,form.todolist_edit,form.todo_edit,form.todo_comment,form.time_view,form.time_edit,form.bill_view,form.bill_edit,form.bill_rates,form.bill_invoices,form.bill_markpaid,form.svn)>
 	<cfif not compareNoCase(form.from,'admin')>
 		<cflocation url="editUser.cfm?u=#url.u###projects" addtoken="false">
 	<cfelse>
@@ -59,228 +59,241 @@
 					<div id="fullperms"<cfif project.admin eq 1> style="display:none;"</cfif>>
 					<table>
 					<tr valign="top"><td width="50%">
-					<table class="perms full mb10">
-						<thead>
-							<tr>
-								<th class="b">Files</th>
-								<th class="tac b yes">Yes</th>
-								<th class="tac b no">No</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>View files</td>
-								<td class="tac"><input type="radio" name="file_view" value="1"<cfif project.file_view> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="file_view" value="0"<cfif not project.file_view> checked="checked"</cfif> /></td>
-							</tr>
-							<tr>
-								<td>Upload/edit files</td>
-								<td class="tac"><input type="radio" name="file_edit" value="1"<cfif project.file_edit> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="file_edit" value="0"<cfif not project.file_edit> checked="checked"</cfif> /></td>
-							</tr>
-							<tr>
-								<td>Comment on files</td>
-								<td class="tac"><input type="radio" name="file_comment" value="1"<cfif project.file_comment> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="file_comment" value="0"<cfif not project.file_comment> checked="checked"</cfif> /></td>
-							</tr>
-						</tbody>
-					</table>
-
-					<table class="perms full mb10">
-						<thead>
-							<tr>
-								<th class="b">Issues</th>
-								<th class="tac b yes">Yes</th>
-								<th class="tac b no">No</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>View issues</td>
-								<td class="tac"><input type="radio" name="issue_view" value="1"<cfif project.issue_view> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="issue_view" value="0"<cfif not project.issue_view> checked="checked"</cfif> /></td>
-							</tr>
-							<tr>
-								<td>Add/edit issues</td>
-								<td class="tac"><input type="radio" name="issue_edit" value="1"<cfif project.issue_edit> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="issue_edit" value="0"<cfif not project.issue_edit> checked="checked"</cfif> /></td>
-							</tr>
-							<tr>
-								<td>Accept tickets for issues</td>
-								<td class="tac"><input type="radio" name="issue_accept" value="1"<cfif project.issue_accept> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="issue_accept" value="0"<cfif not project.issue_accept> checked="checked"</cfif> /></td>
-							</tr>
-							<tr>
-								<td>Comment on issues</td>
-								<td class="tac"><input type="radio" name="issue_comment" value="1"<cfif project.issue_comment> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="issue_comment" value="0"<cfif not project.issue_comment> checked="checked"</cfif> /></td>
-							</tr>
-						</tbody>
-					</table>
-
-					<table class="perms full mb10">
-						<thead>
-							<tr>
-								<th class="b">Messages</th>
-								<th class="tac b yes">Yes</th>
-								<th class="tac b no">No</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>View messages</td>
-								<td class="tac"><input type="radio" name="msg_view" value="1"<cfif project.msg_view> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="msg_view" value="0"<cfif not project.msg_view> checked="checked"</cfif> /></td>
-							</tr>
-							<tr>
-								<td>Post/edit messages</td>
-								<td class="tac"><input type="radio" name="msg_edit" value="1"<cfif project.msg_edit> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="msg_edit" value="0"<cfif not project.msg_edit> checked="checked"</cfif> /></td>
-							</tr>
-							<tr>
-								<td>Comment on messages</td>
-								<td class="tac"><input type="radio" name="msg_comment" value="1"<cfif project.msg_comment> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="msg_comment" value="0"<cfif not project.msg_comment> checked="checked"</cfif> /></td>
-							</tr>
-						</tbody>
-					</table>
-
-					<table class="perms full mb10">
-						<thead>
-							<tr>
-								<th class="b">Milestones</th>
-								<th class="tac b yes">Yes</th>
-								<th class="tac b no">No</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>View milestones</td>
-								<td class="tac"><input type="radio" name="mstone_view" value="1"<cfif project.mstone_view> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="mstone_view" value="0"<cfif not project.mstone_view> checked="checked"</cfif> /></td>
-							</tr>
-							<tr>
-								<td>Add/edit milestones</td>
-								<td class="tac"><input type="radio" name="mstone_edit" value="1"<cfif project.mstone_edit> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="mstone_edit" value="0"<cfif not project.mstone_edit> checked="checked"</cfif> /></td>
-							</tr>
-							<tr>
-								<td>Comment on milestones</td>
-								<td class="tac"><input type="radio" name="mstone_comment" value="1"<cfif project.mstone_comment> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="mstone_comment" value="0"<cfif not project.mstone_comment> checked="checked"</cfif> /></td>
-							</tr>
-						</tbody>
-					</table>
 					
+						<table class="perms full mb10">
+							<thead>
+								<tr>
+									<th class="b">Messages</th>
+									<th class="tac b yes">Yes</th>
+									<th class="tac b no">No</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>View messages</td>
+									<td class="tac"><input type="radio" name="msg_view" value="1"<cfif project.msg_view> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="msg_view" value="0"<cfif not project.msg_view> checked="checked"</cfif> /></td>
+								</tr>
+								<tr>
+									<td>Post/edit messages</td>
+									<td class="tac"><input type="radio" name="msg_edit" value="1"<cfif project.msg_edit> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="msg_edit" value="0"<cfif not project.msg_edit> checked="checked"</cfif> /></td>
+								</tr>
+								<tr>
+									<td>Comment on messages</td>
+									<td class="tac"><input type="radio" name="msg_comment" value="1"<cfif project.msg_comment> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="msg_comment" value="0"<cfif not project.msg_comment> checked="checked"</cfif> /></td>
+								</tr>
+							</tbody>
+						</table>
+	
+						<table class="perms full mb10">
+							<thead>
+								<tr>
+									<th class="b">To-Dos</th>
+									<th class="tac b yes">Yes</th>
+									<th class="tac b no">No</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>View to-do lists</td>
+									<td class="tac"><input type="radio" name="todolist_view" value="1"<cfif project.todolist_view> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="todolist_view" value="0"<cfif not project.todolist_view> checked="checked"</cfif> /></td>
+								</tr>
+								<tr>
+									<td>Add/edit to-do lists</td>
+									<td class="tac"><input type="radio" name="todolist_edit" value="1"<cfif project.todolist_edit> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="todolist_edit" value="0"<cfif not project.todolist_edit> checked="checked"</cfif> /></td>
+								</tr>
+								<tr>
+									<td>Add/edit to-do items</td>
+									<td class="tac"><input type="radio" name="todo_edit" value="1"<cfif project.todo_edit> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="todo_edit" value="0"<cfif not project.todo_edit> checked="checked"</cfif> /></td>
+								</tr>
+								<tr>
+									<td>Comment on to-do items</td>
+									<td class="tac"><input type="radio" name="todo_comment" value="1"<cfif project.todo_comment> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="todo_comment" value="0"<cfif not project.todo_comment> checked="checked"</cfif> /></td>
+								</tr>							
+							</tbody>
+						</table>
+		
+	
+						<table class="perms full mb10">
+							<thead>
+								<tr>
+									<th class="b">Milestones</th>
+									<th class="tac b yes">Yes</th>
+									<th class="tac b no">No</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>View milestones</td>
+									<td class="tac"><input type="radio" name="mstone_view" value="1"<cfif project.mstone_view> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="mstone_view" value="0"<cfif not project.mstone_view> checked="checked"</cfif> /></td>
+								</tr>
+								<tr>
+									<td>Add/edit milestones</td>
+									<td class="tac"><input type="radio" name="mstone_edit" value="1"<cfif project.mstone_edit> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="mstone_edit" value="0"<cfif not project.mstone_edit> checked="checked"</cfif> /></td>
+								</tr>
+								<tr>
+									<td>Comment on milestones</td>
+									<td class="tac"><input type="radio" name="mstone_comment" value="1"<cfif project.mstone_comment> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="mstone_comment" value="0"<cfif not project.mstone_comment> checked="checked"</cfif> /></td>
+								</tr>
+							</tbody>
+						</table>
+	
+						<table class="perms full mb10">
+							<thead>
+								<tr>
+									<th class="b">Files</th>
+									<th class="tac b yes">Yes</th>
+									<th class="tac b no">No</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>View files</td>
+									<td class="tac"><input type="radio" name="file_view" value="1"<cfif project.file_view> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="file_view" value="0"<cfif not project.file_view> checked="checked"</cfif> /></td>
+								</tr>
+								<tr>
+									<td>Upload/edit files</td>
+									<td class="tac"><input type="radio" name="file_edit" value="1"<cfif project.file_edit> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="file_edit" value="0"<cfif not project.file_edit> checked="checked"</cfif> /></td>
+								</tr>
+								<tr>
+									<td>Comment on files</td>
+									<td class="tac"><input type="radio" name="file_comment" value="1"<cfif project.file_comment> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="file_comment" value="0"<cfif not project.file_comment> checked="checked"</cfif> /></td>
+								</tr>
+							</tbody>
+						</table>
+
 					</td><td width="50%">
 					
-					<table class="perms full mb10">
-						<thead>
-							<tr>
-								<th class="b">To-Dos</th>
-								<th class="tac b yes">Yes</th>
-								<th class="tac b no">No</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>View to-do lists</td>
-								<td class="tac"><input type="radio" name="todolist_view" value="1"<cfif project.todolist_view> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="todolist_view" value="0"<cfif not project.todolist_view> checked="checked"</cfif> /></td>
-							</tr>
-							<tr>
-								<td>Add/edit to-do lists</td>
-								<td class="tac"><input type="radio" name="todolist_edit" value="1"<cfif project.todolist_edit> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="todolist_edit" value="0"<cfif not project.todolist_edit> checked="checked"</cfif> /></td>
-							</tr>
-							<tr>
-								<td>Add/edit to-do items</td>
-								<td class="tac"><input type="radio" name="todo_edit" value="1"<cfif project.todo_edit> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="todo_edit" value="0"<cfif not project.todo_edit> checked="checked"</cfif> /></td>
-							</tr>
-							<tr>
-								<td>Comment on to-do items</td>
-								<td class="tac"><input type="radio" name="todo_comment" value="1"<cfif project.todo_comment> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="todo_comment" value="0"<cfif not project.todo_comment> checked="checked"</cfif> /></td>
-							</tr>							
-						</tbody>
-					</table>
+						<table class="perms full mb10">
+							<thead>
+								<tr>
+									<th class="b">Issues</th>
+									<th class="tac b yes">Yes</th>
+									<th class="tac b no">No</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>View issues</td>
+									<td class="tac"><input type="radio" name="issue_view" value="1"<cfif project.issue_view> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="issue_view" value="0"<cfif not project.issue_view> checked="checked"</cfif> /></td>
+								</tr>
+								<tr>
+									<td>Add/edit issues</td>
+									<td class="tac"><input type="radio" name="issue_edit" value="1"<cfif project.issue_edit> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="issue_edit" value="0"<cfif not project.issue_edit> checked="checked"</cfif> /></td>
+								</tr>
+								<tr>
+									<td>Assign issues</td>
+									<td class="tac"><input type="radio" name="issue_assign" value="1"<cfif project.issue_assign> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="issue_assign" value="0"<cfif not project.issue_assign> checked="checked"</cfif> /></td>
+								</tr>
+								<tr>
+									<td>Resolve issues</td>
+									<td class="tac"><input type="radio" name="issue_resolve" value="1"<cfif project.issue_resolve> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="issue_resolve" value="0"<cfif not project.issue_resolve> checked="checked"</cfif> /></td>
+								</tr>
+								<tr>
+									<td>Close issues</td>
+									<td class="tac"><input type="radio" name="issue_close" value="1"<cfif project.issue_close> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="issue_close" value="0"<cfif not project.issue_close> checked="checked"</cfif> /></td>
+								</tr>
+								<tr>
+									<td>Comment on issues</td>
+									<td class="tac"><input type="radio" name="issue_comment" value="1"<cfif project.issue_comment> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="issue_comment" value="0"<cfif not project.issue_comment> checked="checked"</cfif> /></td>
+								</tr>
+							</tbody>
+						</table>
+	
+						<table class="perms full mb10">
+							<thead>
+								<tr>
+									<th class="b">Time Tracking</th>
+									<th class="tac b yes">Yes</th>
+									<th class="tac b no">No</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>View time tracking</td>
+									<td class="tac"><input type="radio" name="time_view" value="1"<cfif project.time_view> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="time_view" value="0"<cfif not project.time_view> checked="checked"</cfif> /></td>
+								</tr>
+								<tr>
+									<td>Add/edit time tracking</td>
+									<td class="tac"><input type="radio" name="time_edit" value="1"<cfif project.time_edit> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="time_edit" value="0"<cfif not project.time_edit> checked="checked"</cfif> /></td>
+								</tr>
+							</tbody>
+						</table>
+						
+						<table class="perms full mb10">
+							<thead>
+								<tr>
+									<th class="b">Billing</th>
+									<th class="tac b yes">Yes</th>
+									<th class="tac b no">No</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>View billing</td>
+									<td class="tac"><input type="radio" name="bill_view" value="1"<cfif project.bill_view> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="bill_view" value="0"<cfif not project.bill_view> checked="checked"</cfif> /></td>
+								</tr>
+								<tr>
+									<td>Add/edit billing</td>
+									<td class="tac"><input type="radio" name="bill_edit" value="1"<cfif project.bill_edit> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="bill_edit" value="0"<cfif not project.bill_edit> checked="checked"</cfif> /></td>
+								</tr>
+								<tr>
+									<td>Manage billing rates</td>
+									<td class="tac"><input type="radio" name="bill_rates" value="1"<cfif project.bill_rates> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="bill_rates" value="0"<cfif not project.bill_rates> checked="checked"</cfif> /></td>
+								</tr>
+								<tr>
+									<td>Generate invoices</td>
+									<td class="tac"><input type="radio" name="bill_invoices" value="1"<cfif project.bill_invoices> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="bill_invoices" value="0"<cfif not project.bill_invoices> checked="checked"</cfif> /></td>
+								</tr>
+								<tr>
+									<td>Mark items paid</td>
+									<td class="tac"><input type="radio" name="bill_markpaid" value="1"<cfif project.bill_markpaid> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="bill_markpaid" value="0"<cfif not project.bill_markpaid> checked="checked"</cfif> /></td>
+								</tr>
+							</tbody>
+						</table>
 
-					<table class="perms full mb10">
-						<thead>
-							<tr>
-								<th class="b">Time Tracking</th>
-								<th class="tac b yes">Yes</th>
-								<th class="tac b no">No</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>View time tracking</td>
-								<td class="tac"><input type="radio" name="time_view" value="1"<cfif project.time_view> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="time_view" value="0"<cfif not project.time_view> checked="checked"</cfif> /></td>
-							</tr>
-							<tr>
-								<td>Add/edit time tracking</td>
-								<td class="tac"><input type="radio" name="time_edit" value="1"<cfif project.time_edit> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="time_edit" value="0"<cfif not project.time_edit> checked="checked"</cfif> /></td>
-							</tr>
-						</tbody>
-					</table>
-					
-					<table class="perms full mb10">
-						<thead>
-							<tr>
-								<th class="b">Billing</th>
-								<th class="tac b yes">Yes</th>
-								<th class="tac b no">No</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>View billing</td>
-								<td class="tac"><input type="radio" name="bill_view" value="1"<cfif project.bill_view> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="bill_view" value="0"<cfif not project.bill_view> checked="checked"</cfif> /></td>
-							</tr>
-							<tr>
-								<td>Add/edit billing</td>
-								<td class="tac"><input type="radio" name="bill_edit" value="1"<cfif project.bill_edit> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="bill_edit" value="0"<cfif not project.bill_edit> checked="checked"</cfif> /></td>
-							</tr>
-							<tr>
-								<td>Manage billing rates</td>
-								<td class="tac"><input type="radio" name="bill_rates" value="1"<cfif project.bill_rates> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="bill_rates" value="0"<cfif not project.bill_rates> checked="checked"</cfif> /></td>
-							</tr>
-							<tr>
-								<td>Generate invoices</td>
-								<td class="tac"><input type="radio" name="bill_invoices" value="1"<cfif project.bill_invoices> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="bill_invoices" value="0"<cfif not project.bill_invoices> checked="checked"</cfif> /></td>
-							</tr>
-							<tr>
-								<td>Mark items paid</td>
-								<td class="tac"><input type="radio" name="bill_markpaid" value="1"<cfif project.bill_markpaid> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="bill_markpaid" value="0"<cfif not project.bill_markpaid> checked="checked"</cfif> /></td>
-							</tr>
-						</tbody>
-					</table>
-					
-					<table class="perms full mb10">
-						<thead>
-							<tr>
-								<th class="b">Subversion</th>
-								<th class="tac b yes">Yes</th>
-								<th class="tac b no">No</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Access Subversion repository</td>
-								<td class="tac"><input type="radio" name="svn" value="1"<cfif project.svn> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="radio" name="svn" value="0"<cfif not project.svn> checked="checked"</cfif> /></td>
-							</tr>
-						</tbody>
-					</table>
+						<table class="perms full mb10">
+							<thead>
+								<tr>
+									<th class="b">Subversion</th>
+									<th class="tac b yes">Yes</th>
+									<th class="tac b no">No</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Access Subversion repository</td>
+									<td class="tac"><input type="radio" name="svn" value="1"<cfif project.svn> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="svn" value="0"<cfif not project.svn> checked="checked"</cfif> /></td>
+								</tr>
+							</tbody>
+						</table>
+						
 					</td></tr>
 					</table>
 					</div>

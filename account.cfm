@@ -207,379 +207,390 @@
 							<div id="p#currentRow#" style="display:none;">
 								<table>
 								<tr valign="top"><td width="50%">
-								<table class="permspop">
-									<thead>
-										<tr>
-											<th class="b" colspan="2">Files</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>View files</td>
-											<td class="tac">#YesNoIcon('file_view')#</td>
-										</tr>
-										<tr>
-											<td>Upload/edit files</td>
-											<td class="tac">#YesNoIcon('file_edit')#</td>
-										</tr>
-										<tr>
-											<td>Comment on files</td>
-											<td class="tac">#YesNoIcon('file_comment')#</td>
-										</tr>
-									</tbody>
-								</table>
 
-								<table class="permspop">
-									<thead>
-										<tr>
-											<th class="b" colspan="2">Issues</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>View issues</td>
-											<td class="tac">#YesNoIcon('issue_view')#</td>
-										</tr>
-										<tr>
-											<td>Add/edit issues</td>
-											<td class="tac">#YesNoIcon('issue_edit')#</td>
-										</tr>
-										<tr>
-											<td>Accept tickets for issues</td>
-											<td class="tac">#YesNoIcon('issue_accept')#</td>
-										</tr>
-										<tr>
-											<td>Comment on issues</td>
-											<td class="tac">#YesNoIcon('issue_comment')#</td>
-										</tr>
-									</tbody>
-								</table>
+									<table class="permspop">
+										<thead>
+											<tr>
+												<th class="b" colspan="2">Messages</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>View messages</td>
+												<td class="tac">#YesNoIcon('msg_view')#</td>
+											</tr>
+											<tr>
+												<td>Post/edit messages</td>
+												<td class="tac">#YesNoIcon('msg_edit')#</td>
+											</tr>
+											<tr>
+												<td>Comment on messages</td>
+												<td class="tac">#YesNoIcon('msg_comment')#</td>
+											</tr>
+										</tbody>
+									</table>
+
+									<table class="permspop">
+										<thead>
+											<tr>
+												<th class="b" colspan="2">To-Dos</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>View to-do lists</td>
+												<td class="tac">#YesNoIcon('todolist_view')#</td>
+											</tr>
+											<tr>
+												<td>Add/edit to-do lists</td>
+												<td class="tac">#YesNoIcon('todolist_edit')#</td>
+											</tr>
+											<tr>
+												<td>Add/edit to-do items</td>
+												<td class="tac">#YesNoIcon('todo_edit')#</td>
+											</tr>
+											<tr>
+												<td>Comment on to-do items</td>
+												<td class="tac">#YesNoIcon('todo_comment')#</td>
+											</tr>							
+										</tbody>
+									</table>
 			
-								<table class="permspop">
-									<thead>
-										<tr>
-											<th class="b" colspan="2">Messages</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>View messages</td>
-											<td class="tac">#YesNoIcon('msg_view')#</td>
-										</tr>
-										<tr>
-											<td>Post/edit messages</td>
-											<td class="tac">#YesNoIcon('msg_edit')#</td>
-										</tr>
-										<tr>
-											<td>Comment on messages</td>
-											<td class="tac">#YesNoIcon('msg_comment')#</td>
-										</tr>
-									</tbody>
-								</table>
+									<table class="permspop">
+										<thead>
+											<tr>
+												<th class="b" colspan="2">Milestones</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>View milestones</td>
+												<td class="tac">#YesNoIcon('mstone_view')#</td>
+											</tr>
+											<tr>
+												<td>Add/edit milestones</td>
+												<td class="tac">#YesNoIcon('mstone_edit')#</td>
+											</tr>
+											<tr>
+												<td>Comment on milestones</td>
+												<td class="tac">#YesNoIcon('mstone_comment')#</td>
+											</tr>
+										</tbody>
+									</table>
+	
+									<table class="permspop">
+										<thead>
+											<tr>
+												<th class="b" colspan="2">Files</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>View files</td>
+												<td class="tac">#YesNoIcon('file_view')#</td>
+											</tr>
+											<tr>
+												<td>Upload/edit files</td>
+												<td class="tac">#YesNoIcon('file_edit')#</td>
+											</tr>
+											<tr>
+												<td>Comment on files</td>
+												<td class="tac">#YesNoIcon('file_comment')#</td>
+											</tr>
+										</tbody>
+									</table>
 			
-								<table class="permspop">
-									<thead>
-										<tr>
-											<th class="b" colspan="2">Milestones</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>View milestones</td>
-											<td class="tac">#YesNoIcon('mstone_view')#</td>
-										</tr>
-										<tr>
-											<td>Add/edit milestones</td>
-											<td class="tac">#YesNoIcon('mstone_edit')#</td>
-										</tr>
-										<tr>
-											<td>Comment on milestones</td>
-											<td class="tac">#YesNoIcon('mstone_comment')#</td>
-										</tr>
-									</tbody>
-								</table>
-								
 								</td><td width="50%">
 								
-								<table class="permspop">
-									<thead>
-										<tr>
-											<th class="b" colspan="2">To-Dos</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>View to-do lists</td>
-											<td class="tac">#YesNoIcon('todolist_view')#</td>
-										</tr>
-										<tr>
-											<td>Add/edit to-do lists</td>
-											<td class="tac">#YesNoIcon('todolist_edit')#</td>
-										</tr>
-										<tr>
-											<td>Add/edit to-do items</td>
-											<td class="tac">#YesNoIcon('todo_edit')#</td>
-										</tr>
-										<tr>
-											<td>Comment on to-do items</td>
-											<td class="tac">#YesNoIcon('todo_comment')#</td>
-										</tr>							
-									</tbody>
-								</table>
-			
-								<table class="permspop">
-									<thead>
-										<tr>
-											<th class="b" colspan="2">Time Tracking</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>View time tracking</td>
-											<td class="tac">#YesNoIcon('time_view')#</td>
-										</tr>
-										<tr>
-											<td>Add/edit time tracking</td>
-											<td class="tac">#YesNoIcon('time_edit')#</td>
-										</tr>
-									</tbody>
-								</table>
+									<table class="permspop">
+										<thead>
+											<tr>
+												<th class="b" colspan="2">Issues</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>View issues</td>
+												<td class="tac">#YesNoIcon('issue_view')#</td>
+											</tr>
+											<tr>
+												<td>Add/edit issues</td>
+												<td class="tac">#YesNoIcon('issue_edit')#</td>
+											</tr>
+											<tr>
+												<td>Assign issues</td>
+												<td class="tac">#YesNoIcon('issue_assign')#</td>
+											</tr>
+											<tr>
+												<td>Resolve issues</td>
+												<td class="tac">#YesNoIcon('issue_resolve')#</td>
+											</tr>
+											<tr>
+												<td>Close issues</td>
+												<td class="tac">#YesNoIcon('issue_close')#</td>
+											</tr>
+											<tr>
+												<td>Comment on issues</td>
+												<td class="tac">#YesNoIcon('issue_comment')#</td>
+											</tr>
+										</tbody>
+									</table>
+				
+									<table class="permspop">
+										<thead>
+											<tr>
+												<th class="b" colspan="2">Time Tracking</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>View time tracking</td>
+												<td class="tac">#YesNoIcon('time_view')#</td>
+											</tr>
+											<tr>
+												<td>Add/edit time tracking</td>
+												<td class="tac">#YesNoIcon('time_edit')#</td>
+											</tr>
+										</tbody>
+									</table>
+									
+									<table class="permspop">
+										<thead>
+											<tr>
+												<th class="b" colspan="2">Billing</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>View billing</td>
+												<td class="tac">#YesNoIcon('bill_view')#</td>
+											</tr>
+											<tr>
+												<td>Add/edit billing</td>
+												<td class="tac">#YesNoIcon('bill_edit')#</td>
+											</tr>
+											<tr>
+												<td>Manage billing rates</td>
+												<td class="tac">#YesNoIcon('bill_rates')#</td>
+											</tr>
+											<tr>
+												<td>Generate invoices</td>
+												<td class="tac">#YesNoIcon('bill_invoices')#</td>
+											</tr>
+											<tr>
+												<td>Mark items paid</td>
+												<td class="tac">#YesNoIcon('bill_markpaid')#</td>
+											</tr>
+										</tbody>
+									</table>
+									
+									<table class="permspop">
+										<thead>
+											<tr>
+												<th class="b" colspan="2">Subversion</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>Access Subversion repository</td>
+												<td class="tac">#YesNoIcon('svn')#</td>
+											</tr>
+										</tbody>
+									</table>
 								
-								<table class="permspop">
-									<thead>
-										<tr>
-											<th class="b" colspan="2">Billing</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>View billing</td>
-											<td class="tac">#YesNoIcon('bill_view')#</td>
-										</tr>
-										<tr>
-											<td>Add/edit billing</td>
-											<td class="tac">#YesNoIcon('bill_edit')#</td>
-										</tr>
-										<tr>
-											<td>Manage billing rates</td>
-											<td class="tac">#YesNoIcon('bill_rates')#</td>
-										</tr>
-										<tr>
-											<td>Generate invoices</td>
-											<td class="tac">#YesNoIcon('bill_invoices')#</td>
-										</tr>
-										<tr>
-											<td>Mark items paid</td>
-											<td class="tac">#YesNoIcon('bill_markpaid')#</td>
-										</tr>
-									</tbody>
-								</table>
-								
-								<table class="permspop">
-									<thead>
-										<tr>
-											<th class="b" colspan="2">Subversion</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>Access Subversion repository</td>
-											<td class="tac">#YesNoIcon('svn')#</td>
-										</tr>
-									</tbody>
-								</table>
 								</td></tr>
 								</table>
 								</div>
-								
+									
 								<div id="n#currentRow#" style="display:none;">
 								<table>
 								<tr valign="top"><td width="50%">
-								<table class="notifypop">
-									<thead>
-										<tr>
-											<th class="b">Files</th>
-											<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
-											<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>New file</td>
-											<td class="tac">#YesNoIcon('email_file_new')#</td>
-											<td class="tac">#YesNoIcon('mobile_file_new')#</td>
-										</tr>
-										<tr>
-											<td>Updated file</td>
-											<td class="tac">#YesNoIcon('email_file_upd')#</td>
-											<td class="tac">#YesNoIcon('mobile_file_upd')#</td>
-										</tr>
-										<tr>
-											<td>Comment on file</td>
-											<td class="tac">#YesNoIcon('email_file_com')#</td>
-											<td class="tac">#YesNoIcon('mobile_file_com')#</td>
-										</tr>
-									</tbody>
-								</table>
+								
+									<table class="notifypop">
+										<thead>
+											<tr>
+												<th class="b">Messages</th>
+												<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
+												<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>New message</td>
+												<td class="tac">#YesNoIcon('email_msg_new')#</td>
+												<td class="tac">#YesNoIcon('mobile_msg_new')#</td>
+											</tr>
+											<tr>
+												<td>Updated message</td>
+												<td class="tac">#YesNoIcon('email_msg_upd')#</td>
+												<td class="tac">#YesNoIcon('mobile_msg_upd')#</td>
+											</tr>
+											<tr>
+												<td>Comment on message</td>
+												<td class="tac">#YesNoIcon('email_msg_com')#</td>
+												<td class="tac">#YesNoIcon('mobile_msg_com')#</td>
+											</tr>
+										</tbody>
+									</table>
 
-								<table class="notifypop">
-									<thead>
-										<tr>
-											<th class="b">Issues</th>
-											<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
-											<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>New issue</td>
-											<td class="tac">#YesNoIcon('email_issue_new')#</td>
-											<td class="tac">#YesNoIcon('mobile_issue_new')#</td>
-										</tr>
-										<tr>
-											<td>Updated issue</td>
-											<td class="tac">#YesNoIcon('email_issue_upd')#</td>
-											<td class="tac">#YesNoIcon('mobile_issue_upd')#</td>
-										</tr>
-										<tr>
-											<td>Comment on issue</td>
-											<td class="tac">#YesNoIcon('email_issue_com')#</td>
-											<td class="tac">#YesNoIcon('mobile_issue_com')#</td>
-										</tr>
-									</tbody>
-								</table>
-							
-								<table class="notifypop">
-									<thead>
-										<tr>
-											<th class="b">Messages</th>
-											<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
-											<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>New message</td>
-											<td class="tac">#YesNoIcon('email_msg_new')#</td>
-											<td class="tac">#YesNoIcon('mobile_msg_new')#</td>
-										</tr>
-										<tr>
-											<td>Updated message</td>
-											<td class="tac">#YesNoIcon('email_msg_upd')#</td>
-											<td class="tac">#YesNoIcon('mobile_msg_upd')#</td>
-										</tr>
-										<tr>
-											<td>Comment on message</td>
-											<td class="tac">#YesNoIcon('email_msg_com')#</td>
-											<td class="tac">#YesNoIcon('mobile_msg_com')#</td>
-										</tr>
-									</tbody>
-								</table>
-			
-								<table class="notifypop">
-									<thead>
-										<tr>
-											<th class="b">Milestones</th>
-											<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
-											<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>New milestone</td>
-											<td class="tac">#YesNoIcon('email_mstone_new')#</td>
-											<td class="tac">#YesNoIcon('mobile_mstone_new')#</td>
-										</tr>
-										<tr>
-											<td>Updated milestone</td>
-											<td class="tac">#YesNoIcon('email_mstone_upd')#</td>
-											<td class="tac">#YesNoIcon('mobile_mstone_upd')#</td>
-										</tr>
-										<tr>
-											<td>Comment on milestone</td>
-											<td class="tac">#YesNoIcon('email_mstone_com')#</td>
-											<td class="tac">#YesNoIcon('mobile_mstone_com')#</td>
-										</tr>
-									</tbody>
-								</table>
+									<table class="notifypop">
+										<thead>
+											<tr>
+												<th class="b">To-Dos</th>
+												<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
+												<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>New to-do item</td>
+												<td class="tac">#YesNoIcon('email_todo_new')#</td>
+												<td class="tac">#YesNoIcon('mobile_todo_new')#</td>
+											</tr>
+											<tr>
+												<td>Updated to-do item</td>
+												<td class="tac">#YesNoIcon('email_todo_upd')#</td>
+												<td class="tac">#YesNoIcon('mobile_todo_upd')#</td>
+											</tr>
+											<tr>
+												<td>Comment on to-do item</td>
+												<td class="tac">#YesNoIcon('email_todo_com')#</td>
+												<td class="tac">#YesNoIcon('mobile_todo_com')#</td>
+											</tr>							
+										</tbody>
+									</table>
+				
+									<table class="notifypop">
+										<thead>
+											<tr>
+												<th class="b">Milestones</th>
+												<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
+												<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>New milestone</td>
+												<td class="tac">#YesNoIcon('email_mstone_new')#</td>
+												<td class="tac">#YesNoIcon('mobile_mstone_new')#</td>
+											</tr>
+											<tr>
+												<td>Updated milestone</td>
+												<td class="tac">#YesNoIcon('email_mstone_upd')#</td>
+												<td class="tac">#YesNoIcon('mobile_mstone_upd')#</td>
+											</tr>
+											<tr>
+												<td>Comment on milestone</td>
+												<td class="tac">#YesNoIcon('email_mstone_com')#</td>
+												<td class="tac">#YesNoIcon('mobile_mstone_com')#</td>
+											</tr>
+										</tbody>
+									</table>
+									
+									<table class="notifypop">
+										<thead>
+											<tr>
+												<th class="b">Files</th>
+												<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
+												<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>New file</td>
+												<td class="tac">#YesNoIcon('email_file_new')#</td>
+												<td class="tac">#YesNoIcon('mobile_file_new')#</td>
+											</tr>
+											<tr>
+												<td>Updated file</td>
+												<td class="tac">#YesNoIcon('email_file_upd')#</td>
+												<td class="tac">#YesNoIcon('mobile_file_upd')#</td>
+											</tr>
+											<tr>
+												<td>Comment on file</td>
+												<td class="tac">#YesNoIcon('email_file_com')#</td>
+												<td class="tac">#YesNoIcon('mobile_file_com')#</td>
+											</tr>
+										</tbody>
+									</table>
 								
 								</td><td width="50%">
 								
-								<table class="notifypop">
-									<thead>
-										<tr>
-											<th class="b">To-Dos</th>
-											<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
-											<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>New to-do item</td>
-											<td class="tac">#YesNoIcon('email_todo_new')#</td>
-											<td class="tac">#YesNoIcon('mobile_todo_new')#</td>
-										</tr>
-										<tr>
-											<td>Updated to-do item</td>
-											<td class="tac">#YesNoIcon('email_todo_upd')#</td>
-											<td class="tac">#YesNoIcon('mobile_todo_upd')#</td>
-										</tr>
-										<tr>
-											<td>Comment on to-do item</td>
-											<td class="tac">#YesNoIcon('email_todo_com')#</td>
-											<td class="tac">#YesNoIcon('mobile_todo_com')#</td>
-										</tr>							
-									</tbody>
-								</table>
-			
-								<table class="notifypop">
-									<thead>
-										<tr>
-											<th class="b">Time Tracking</th>
-											<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
-											<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>New time tracking item</td>
-											<td class="tac">#YesNoIcon('email_time_new')#</td>
-											<td class="tac">#YesNoIcon('mobile_time_new')#</td>
-										</tr>
-										<tr>
-											<td>Updated time tracking</td>
-											<td class="tac">#YesNoIcon('email_time_upd')#</td>
-											<td class="tac">#YesNoIcon('mobile_time_upd')#</td>
-										</tr>
-									</tbody>
-								</table>
-								
-								<table class="notifypop">
-									<thead>
-										<tr>
-											<th class="b">Billing</th>
-											<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
-											<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>New billing item</td>
-											<td class="tac">#YesNoIcon('email_bill_new')#</td>
-											<td class="tac">#YesNoIcon('mobile_bill_new')#</td>
-										</tr>
-										<tr>
-											<td>Updated billing item</td>
-											<td class="tac">#YesNoIcon('email_bill_upd')#</td>
-											<td class="tac">#YesNoIcon('mobile_bill_upd')#</td>
-										</tr>
-										<tr>
-											<td>Billing item marked paid</td>
-											<td class="tac">#YesNoIcon('email_bill_paid')#</td>
-											<td class="tac">#YesNoIcon('mobile_bill_paid')#</td>
-										</tr>
-									</tbody>
-								</table>
+									<table class="notifypop">
+										<thead>
+											<tr>
+												<th class="b">Issues</th>
+												<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
+												<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>New issue</td>
+												<td class="tac">#YesNoIcon('email_issue_new')#</td>
+												<td class="tac">#YesNoIcon('mobile_issue_new')#</td>
+											</tr>
+											<tr>
+												<td>Updated issue</td>
+												<td class="tac">#YesNoIcon('email_issue_upd')#</td>
+												<td class="tac">#YesNoIcon('mobile_issue_upd')#</td>
+											</tr>
+											<tr>
+												<td>Comment on issue</td>
+												<td class="tac">#YesNoIcon('email_issue_com')#</td>
+												<td class="tac">#YesNoIcon('mobile_issue_com')#</td>
+											</tr>
+										</tbody>
+									</table>
+				
+									<table class="notifypop">
+										<thead>
+											<tr>
+												<th class="b">Time Tracking</th>
+												<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
+												<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>New time tracking item</td>
+												<td class="tac">#YesNoIcon('email_time_new')#</td>
+												<td class="tac">#YesNoIcon('mobile_time_new')#</td>
+											</tr>
+											<tr>
+												<td>Updated time tracking</td>
+												<td class="tac">#YesNoIcon('email_time_upd')#</td>
+												<td class="tac">#YesNoIcon('mobile_time_upd')#</td>
+											</tr>
+										</tbody>
+									</table>
+									
+									<table class="notifypop">
+										<thead>
+											<tr>
+												<th class="b">Billing</th>
+												<th class="tac"><img src="./images/email.png" height="16" width="16" border="0" alt="Email Notifications" /></th>
+												<th class="tac"><img src="./images/phone.png" height="16" width="16" border="0" alt="Mobile Notifications" /></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>New billing item</td>
+												<td class="tac">#YesNoIcon('email_bill_new')#</td>
+												<td class="tac">#YesNoIcon('mobile_bill_new')#</td>
+											</tr>
+											<tr>
+												<td>Updated billing item</td>
+												<td class="tac">#YesNoIcon('email_bill_upd')#</td>
+												<td class="tac">#YesNoIcon('mobile_bill_upd')#</td>
+											</tr>
+											<tr>
+												<td>Billing item marked paid</td>
+												<td class="tac">#YesNoIcon('email_bill_paid')#</td>
+												<td class="tac">#YesNoIcon('mobile_bill_paid')#</td>
+											</tr>
+										</tbody>
+									</table>
 								</td></tr>
 								</table>
 								</div>

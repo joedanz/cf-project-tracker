@@ -2,7 +2,7 @@
 
 <cfif StructKeyExists(url,"a")>
 	<cfset def = application.project.getDistinct(url.p)>
-	<cfset application.role.add(url.p,url.u,'0',def.reg_file_view,def.reg_file_edit,def.reg_file_comment,def.reg_issue_view,def.reg_issue_edit,def.reg_issue_accept,def.reg_issue_comment,def.reg_msg_view,def.reg_msg_edit,def.reg_msg_comment,def.reg_mstone_view,def.reg_mstone_edit,def.reg_mstone_comment,def.reg_todolist_view,def.reg_todolist_edit,def.reg_todo_edit,def.reg_todo_comment,def.reg_time_view,def.reg_time_edit,def.reg_bill_view,def.reg_bill_edit,def.reg_bill_rates,def.reg_bill_invoices,def.reg_bill_markpaid,def.reg_svn)>
+	<cfset application.role.add(url.p,url.u,'0',def.reg_file_view,def.reg_file_edit,def.reg_file_comment,def.reg_issue_view,def.reg_issue_edit,def.reg_issue_assign,def.reg_issue_resolve,def.reg_issue_close,def.reg_issue_comment,def.reg_msg_view,def.reg_msg_edit,def.reg_msg_comment,def.reg_mstone_view,def.reg_mstone_edit,def.reg_mstone_comment,def.reg_todolist_view,def.reg_todolist_edit,def.reg_todo_edit,def.reg_todo_comment,def.reg_time_view,def.reg_time_edit,def.reg_bill_view,def.reg_bill_edit,def.reg_bill_rates,def.reg_bill_invoices,def.reg_bill_markpaid,def.reg_svn)>
 	<cfset application.notify.add(url.u,url.p)>
 	<cfset thread = CreateObject("java", "java.lang.Thread")>
 	<cfset thread.sleep(250)>	
@@ -14,7 +14,7 @@
 		<cfset newID = createUUID()>
 		<cfset def = application.project.getDistinct(form.p)>
 		<cfset application.user.create(newID,form.fn,form.ln,form.e,form.ph,form.un,form.pw,form.adm)>
-		<cfset application.role.add(form.p,newID,'0',def.reg_file_view,def.reg_file_edit,def.reg_file_comment,def.reg_issue_view,def.reg_issue_edit,def.reg_issue_accept,def.reg_issue_comment,def.reg_msg_view,def.reg_msg_edit,def.reg_msg_comment,def.reg_mstone_view,def.reg_mstone_edit,def.reg_mstone_comment,def.reg_todolist_view,def.reg_todolist_edit,def.reg_todo_edit,def.reg_todo_comment,def.reg_time_view,def.reg_time_edit,def.reg_bill_view,def.reg_bill_edit,def.reg_bill_rates,def.reg_bill_invoices,def.reg_bill_markpaid,def.reg_svn)>
+		<cfset application.role.add(form.p,newID,'0',def.reg_file_view,def.reg_file_edit,def.reg_file_comment,def.reg_issue_view,def.reg_issue_edit,def.reg_issue_assign,def.reg_issue_resolve,def.reg_issue_close,def.reg_issue_comment,def.reg_msg_view,def.reg_msg_edit,def.reg_msg_comment,def.reg_mstone_view,def.reg_mstone_edit,def.reg_mstone_comment,def.reg_todolist_view,def.reg_todolist_edit,def.reg_todo_edit,def.reg_todo_comment,def.reg_time_view,def.reg_time_edit,def.reg_bill_view,def.reg_bill_edit,def.reg_bill_rates,def.reg_bill_invoices,def.reg_bill_markpaid,def.reg_svn)>
 		<cfset application.notify.add(newID,form.p)>
 		<cfset thread = CreateObject("java", "java.lang.Thread")>
 		<cfset thread.sleep(250)>

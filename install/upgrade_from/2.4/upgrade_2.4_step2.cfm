@@ -46,7 +46,9 @@
 					SET issue_view = 1
 				<cfif issues gt 1>
 					, issue_edit = 1
-					, issue_accept = 1
+					, issue_assign = 1
+					, issue_resolve = 1
+					, issue_close = 1
 					, issue_comment = 1
 				</cfif>
 				where userid = <cfqueryparam cfsqltype="cf_sql_char" value="#userID#" maxlength="35">
@@ -228,9 +230,9 @@
 			reg_file_comment = <cfif reg_files eq 2>1<cfelse>0</cfif>,
 			reg_issue_view = <cfif reg_issues gte 1>1<cfelse>0</cfif>,
 			<cfif reg_issues eq 2>
-				reg_issue_edit = 1, reg_issue_accept = 1, reg_issue_comment = 1,
+				reg_issue_edit = 1, reg_issue_assign = 1, reg_issue_resolve = 1, reg_issue_close = 1, reg_issue_comment = 1,
 			<cfelse>
-				reg_issue_edit = 0, reg_issue_accept = 0, reg_issue_comment = 0,
+				reg_issue_edit = 0, reg_issue_assign = 0, reg_issue_resolve = 0, reg_issue_close = 0, reg_issue_comment = 0,
 			</cfif>
 			reg_msg_view = <cfif reg_msgs gte 1>1<cfelse>0</cfif>,
 			<cfif reg_msgs eq 2>

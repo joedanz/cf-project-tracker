@@ -50,7 +50,7 @@
 	<cfset milestones_upcoming = application.milestone.get('','','upcoming','1',visible_project_list_mstones)>
 </cfif>
 <cfif listLen(visible_project_list_issues)>
-	<cfset issues = application.issue.get('','','New|Accepted',visible_project_list_issues)>
+	<cfset issues = application.issue.get('','','New|Accepted|Assigned',visible_project_list_issues)>
 </cfif>
 
 <!--- Loads header/footer --->
@@ -77,7 +77,7 @@ $(document).ready(function(){
             return false; // return false so this parser is not auto detected
         }, 
         format: function(s) { 
-            return s.toLowerCase().replace(/closed/,3).replace(/resolved/,2).replace(/accepted/,1).replace(/new/,0); 
+            return s.toLowerCase().replace(/closed/,3).replace(/resolved/,2).replace(/assigned/,1).replace(/accepted/,1).replace(/new/,0); 
         }, 
         type: 'numeric' 
     });

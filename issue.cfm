@@ -33,12 +33,12 @@
 		<cfset issue = application.issue.get(url.p,url.i)>
 		<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Issue',url.i,issue.issue,'closed')>
 		<cfset application.notify.issueUpdate(url.p,url.i)>
-	<cfelseif StructKeyExists(url,"acc")>
-		<cfset application.issue.accept(url.i,url.p,session.user.userid)>
+	<cfelseif StructKeyExists(url,"assign")>
+		<cfset application.issue.assign(url.i,url.p,url.u)>
 		<cfset issue = application.issue.get(url.p,url.i)>
-		<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Issue',url.i,issue.issue,'accepted')>
+		<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Issue',url.i,issue.issue,'assigned')>
 		<cfset application.notify.issueUpdate(url.p,url.i)>
-	<cfelseif StructKeyExists(url,"unacc")>
+	<cfelseif StructKeyExists(url,"unaccept")>
 		<cfset application.issue.unaccept(url.i,url.p,session.user.userid)>
 		<cfset issue = application.issue.get(url.p,url.i)>
 		<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Issue',url.i,issue.issue,'unaccepted')>
@@ -76,6 +76,7 @@
 <cfset attachments = application.file.getFileList(url.p,url.i,'issue')>
 <cfset screenshots = application.screenshot.get(url.i)>
 <cfset activity = application.activity.get(type='Issue',id=url.i)>
+<cfset projectUsers = application.project.projectUsers(url.p,'0','firstName, lastName')>
 
 <cfif not project.issue_view and not session.user.admin>
 	<cfoutput><h2>You do not have permission to access issues!!!</h2></cfoutput>
@@ -105,16 +106,25 @@
 				<cfif project.issue_edit>
 				<span class="rightmenu">
 					<a href="editIssue.cfm?p=#url.p#&i=#url.i#" class="edit">Edit</a> 
-					<cfif project.issue_accept>
+					<cfif project.issue_assign>
 						<cfif not compare(issue.assignedTo,'')>
-							| <a href="#cgi.script_name#?p=#url.p#&i=#url.i#&acc=1" class="accept">Accept Ticket</a>
-						<cfelseif compare(issue.status,'Closed')>
-							| <a href="#cgi.script_name#?p=#url.p#&i=#url.i#&unacc=1" class="cancel">Unaccept Ticket</a>
+							| <span style="position:relative;"><a href="##" onclick="$('##assignmenu').slideToggle();return false;" class="assign">Assign Ticket To...</a>
+								<ul id="assignmenu">
+									<li><a href="#cgi.script_name#?p=#url.p#&i=#url.i#&u=#session.user.userID#&assign=1" class="b">Myself</a></li>
+									<cfloop query="projectUsers">
+									<cfif compare(userID,session.user.userID)>
+										<li><a href="#cgi.script_name#?p=#url.p#&i=#url.i#&u=#userID#&assign=1">#firstName# #lastName#</a></li>
+									</cfif>
+									</cfloop>
+								</ul>
+							  </span>
+						<cfelseif not listFind('Closed,Resolved',issue.status) and not compare(issue.assignedTo,session.user.userid)>
+							| <a href="#cgi.script_name#?p=#url.p#&i=#url.i#&unaccept=1" class="cancel">Unaccept Ticket</a>
 						</cfif>
 					</cfif>
-					<cfif not compare(issue.status,'Accepted')>
+					<cfif listFind('Accepted,Assigned',issue.status) and project.issue_resolve>
 						| <a href="##" onclick="$('##resolve').slideToggle(300);return false;" class="close">Resolve Ticket</a>
-					<cfelseif not compare(issue.status,'Resolved')>
+					<cfelseif not compare(issue.status,'Resolved') and project.issue_close>
 						| <a href="#cgi.script_name#?p=#url.p#&i=#url.i#&close=1" class="close">Close Ticket</a>
 					<cfelseif not compare(issue.status,'Closed')>
 						| <a href="#cgi.script_name#?p=#url.p#&i=#url.i#&reopen=1" class="close">Reopen Ticket</a>
@@ -127,7 +137,7 @@
 				
 				<div id="resolve" style="padding:10px 20px;display:none;background-color:##f5f5f5;">
 					<form action="#cgi.script_name#?#cgi.query_string#" method="post">
-					<span style="float:left;margin-right:30px;">
+					<span style="float:left;margin-right:30px;width:180px;">
 					<label for="res" class="b">Resolution:</label><br />
 					<select name="resolution" id="res">
 						<option value="Fixed">Fixed</option>
@@ -136,9 +146,11 @@
 						<option value="Duplicate">Duplicate</option>
 						<option value="Will not fix">Will not fix</option>
 						<option value="Invalid">Invalid</option>
-					</select><br /><br />
+					</select>
+					<cfif project.issue_close><br /><br />
 					<input type="checkbox" name="closealso" value="true" id="closealso">
 					<label for="closealso">Close Ticket Simultaneously</label>
+					</cfif>
 					</span>
 					
 					<label for="res_desc" class="b">Description of Resolution:</label><br />
@@ -153,8 +165,8 @@
 				 	<div class="wrapper">
 					 	
 					    <ul id="issueStatus">
-					      <li class="<cfif not compare(issue.status,'New')>current<cfelseif not compare(issue.status,'Accepted')>lastDone<cfelse>done</cfif>"><a title=""><em>New</em></a></li>
-					      <li<cfif not compare(issue.status,'Accepted') or not compare(issue.status,'Open')> class="current"<cfelseif not compare(issue.status,'Resolved')> class="lastDone"<cfelseif compare(issue.status,'New')> class="done"</cfif>><a title=""><em>Accepted</em></a></li>
+					      <li class="<cfif not compare(issue.status,'New')>current<cfelseif listFind('Accepted,Assigned',issue.status)>lastDone<cfelse>done</cfif>"><a title=""><em>New</em></a></li>
+					      <li<cfif listFind('Accepted,Assigned',issue.status) or not compare(issue.status,'Open')> class="current"<cfelseif not compare(issue.status,'Resolved')> class="lastDone"<cfelseif compare(issue.status,'New')> class="done"</cfif>><a title=""><em>Assigned</em></a></li>
 					      <li<cfif not compare(issue.status,'Resolved')> class="current"<cfelseif not compare(issue.status,'Closed')> class="lastDone"</cfif>><a title=""><em>Resolved</em></a></li>
 						  <li class="issueStatusNoBg<cfif not compare(issue.status,'Closed')> current</cfif>"><a title=""><em>Closed</em></a></li>
 					    </ul>
@@ -275,7 +287,6 @@
 						</cfif>
 
 						<cfif project.tab_time eq 1 and project.time_view and project.issue_timetrack>
-							<cfset projectUsers = application.project.projectUsers(url.p,'0','firstName, lastName')>
 							<cfset timelines = application.timetrack.get(itemID=url.i)>
 							<cfif project.tab_billing and project.bill_edit>
 								<cfset rates = application.client.getRates(project.clientID)>
@@ -323,7 +334,7 @@
 											<td><input type="hidden" name="rateID" value="" /></td>
 										</cfif>
 										<td><input type="text" name="description" id="desc" class="short2" /></td>
-										<td class="tac"><input type="submit" value="Add to log" onclick="add_time_row('#url.p#','issue','#url.i#','issue');" class="sm" /></td>
+										<td class="tac"><input type="submit" value="Add" onclick="add_time_row('#url.p#','issue','#url.i#','issue');" class="sm" /></td>
 									</tr>
 									</cfif>
 								</thead>
@@ -338,7 +349,7 @@
 											</cfif>
 											<td>#description#</td>
 											<cfif project.time_edit or session.user.admin>
-												<td class="tac"><a href="##" onclick="edit_time_row('#projectid#','#timetrackid#','#project.tab_billing#','#project.bill_edit#','#project.clientID#','issue','#url.i#','issue'); return false;">Edit</a> &nbsp;&nbsp; <a href="##" onclick="delete_time('#projectID#','#timetrackID#','issue','#url.i#'); return false;" class="delete"></a></td>
+												<td class="tac"><a href="##" onclick="edit_time_row('#projectid#','#timetrackid#','#project.tab_billing#','#project.bill_edit#','#project.clientID#','issue','#url.i#','issue'); return false;">Edit</a>&nbsp;&nbsp;<a href="##" onclick="delete_time('#projectID#','#timetrackID#','issue','#url.i#'); return false;" class="delete"></a></td>
 											</cfif>
 										</tr>
 										<cfset totalHours = totalHours + hours>

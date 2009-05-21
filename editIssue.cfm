@@ -161,18 +161,18 @@
 						<label for="dueDate">Due Date:</label>
 						<input type="text" name="dueDate" id="dueDate" value="#DateFormat(dueDate,"mm/dd/yyyy")#" size="8" class="date-pick shortest" />
 						</p>
-						<cfif StructKeyExists(url,"i")>
-						<p>
-						<label for="forwho">Assign To:</label>
-						<select name="assignedTo" id="forwho">
-							<option value=""></option>
-							<cfloop query="projectUsers">
-							<option value="#userID#"<cfif not compare(assignedTo,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>
-							</cfloop>
-						</select>
-						</p>
+						<cfif project.issue_assign>
+							<p>
+							<label for="forwho">Assign To:</label>
+							<select name="assignedTo" id="forwho">
+								<option value=""></option>
+								<cfloop query="projectUsers">
+								<option value="#userID#"<cfif not compare(assignedTo,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>
+								</cfloop>
+							</select>
+							</p>
 						<cfelse>
-							<input type="hidden" name="assignedTo" value="">
+							<input type="hidden" name="assignedTo" id="forwho" value="#assignedTo#">
 						</cfif>
 						<p>
 						<label for="milestone">Milestone:</label>

@@ -21,10 +21,10 @@
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			SELECT admin, file_view, file_edit, file_comment, issue_view, issue_edit, issue_accept, issue_comment,
-					msg_view, msg_edit, msg_comment, mstone_view, mstone_edit, mstone_comment, todolist_view, 
-					todolist_edit, todo_edit, todo_comment, time_view, time_edit, bill_view, bill_edit, 
-					bill_rates, bill_invoices, bill_markpaid, svn
+			SELECT admin, file_view, file_edit, file_comment, issue_view, issue_edit, issue_assign, issue_resolve, 
+					issue_close, issue_comment, msg_view, msg_edit, msg_comment, mstone_view, mstone_edit, 
+					mstone_comment, todolist_view, todolist_edit, todo_edit, todo_comment, time_view, 
+					time_edit, bill_view, bill_edit, bill_rates, bill_invoices, bill_markpaid, svn
 			FROM #variables.tableprefix#project_users
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				AND userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
@@ -42,7 +42,9 @@
 		<cfargument name="file_comment" type="numeric" required="true">
 		<cfargument name="issue_view" type="numeric" required="true">
 		<cfargument name="issue_edit" type="numeric" required="true">
-		<cfargument name="issue_accept" type="numeric" required="true">
+		<cfargument name="issue_assign" type="numeric" required="true">
+		<cfargument name="issue_resolve" type="numeric" required="true">
+		<cfargument name="issue_close" type="numeric" required="true">
 		<cfargument name="issue_comment" type="numeric" required="true">
 		<cfargument name="msg_view" type="numeric" required="true">
 		<cfargument name="msg_edit" type="numeric" required="true">
@@ -68,7 +70,9 @@
 			<cfset arguments.file_comment = 1>
 			<cfset arguments.issue_view = 1>
 			<cfset arguments.issue_edit = 1>
-			<cfset arguments.issue_accept = 1>
+			<cfset arguments.issue_assign = 1>
+			<cfset arguments.issue_resolve = 1>
+			<cfset arguments.issue_close = 1>
 			<cfset arguments.issue_comment = 1>
 			<cfset arguments.msg_view = 1>
 			<cfset arguments.msg_edit = 1>
@@ -91,10 +95,10 @@
 		</cfif>
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#project_users (projectID, userID, admin, file_view, file_edit, 
-				file_comment, issue_view, issue_edit, issue_accept, issue_comment, msg_view, msg_edit, 
-				msg_comment, mstone_view, mstone_edit, mstone_comment, todolist_view, todolist_edit, 
-				todo_edit, todo_comment, time_view, time_edit, bill_view, bill_edit, bill_rates, 
-				bill_invoices, bill_markpaid, svn)
+				file_comment, issue_view, issue_edit, issue_assign, issue_resolve, issue_close, issue_comment, 
+				msg_view, msg_edit, msg_comment, mstone_view, mstone_edit, mstone_comment, todolist_view, 
+				todolist_edit, todo_edit, todo_comment, time_view, time_edit, bill_view, bill_edit, 
+				bill_rates, bill_invoices, bill_markpaid, svn)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#IIF(isNumeric(arguments.admin),arguments.admin,'0')#">,
@@ -103,7 +107,9 @@
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.file_comment#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.issue_view#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.issue_edit#">,
-					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.issue_accept#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.issue_assign#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.issue_resolve#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.issue_close#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.issue_comment#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.msg_view#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.msg_edit#">,

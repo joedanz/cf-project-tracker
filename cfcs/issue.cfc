@@ -55,6 +55,9 @@
 				AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.status,'')>
+				<cfif not compare(arguments.status,'Assigned')>
+					<cfset arguments.status = 'Accepted|Assigned'>
+				</cfif>
 				AND i.status IN (<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.status#" list="Yes" separator="|">)
 			</cfif>
 			<cfif compare(arguments.type,'')>
@@ -67,7 +70,12 @@
 				AND i.assignedTo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.assignedTo#" maxlength="35">
 			</cfif>
 			<cfif compare(arguments.milestoneID,'')>
-				AND i.milestoneID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">
+				AND i.milestoneID = 
+					<cfif not compare(arguments.milestoneID,'None')>
+						''
+					<cfelse>
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">
+					</cfif>
 			</cfif>
 			<cfif compare(arguments.componentID,'')>
 				AND i.componentID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.componentID#" maxlength="35">
@@ -124,7 +132,7 @@
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.componentID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.versionID#" maxlength="35">,
 						<cfif isDate(arguments.dueDate)>#CreateODBCDateTime(arguments.dueDate)#<cfelse>NULL</cfif>,
-						'<cfif not compare(arguments.assignedTo,'')>New<cfelse>Accepted</cfif>', 
+						'<cfif not compare(arguments.assignedTo,'')>New<cfelse>Assigned</cfif>', 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.assignedTo#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.relevantURL#" maxlength="255">,
@@ -180,7 +188,7 @@
 				dueDate = <cfif isDate(arguments.dueDate)>#CreateODBCDateTime(arguments.dueDate)#<cfelse>NULL</cfif>,
 				assignedTo = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.assignedTo#" maxlength="35">,
 				<cfif not compare(previous.assignedTo,'') and compare(arguments.assignedTo,'')>
-					status = 'Accepted',
+					status = 'Assigned',
 				<cfelseif compare(previous.assignedTo,'') and not compare(arguments.assignedTo,'')>
 					status = 'New',
 				</cfif>
@@ -194,14 +202,14 @@
 		
 	</cffunction>
 	
-	<cffunction name="accept" access="public" returntype="void" output="false"
-				HINT="Accept a ticket.">
+	<cffunction name="assign" access="public" returntype="void" output="false"
+				HINT="Assign a ticket.">
 		<cfargument name="issueID" type="string" required="true">
 		<cfargument name="projectID" type="string" required="true">
 		<cfargument name="userID" type="string" required="true">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#issues 
-			SET status = 'Accepted',
+			SET status = 'Assigned',
 				assignedTo = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">,
 				updated = #CreateODBCDateTime(Now())#, 
 				updatedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
@@ -265,7 +273,7 @@
 		<cfargument name="userID" type="string" required="true">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#issues 
-				SET	status = 'Accepted', updated = #CreateODBCDateTime(Now())#, 
+				SET	status = 'Assigned', updated = #CreateODBCDateTime(Now())#, 
 				updatedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 				AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#">
