@@ -29,11 +29,12 @@
 		<cfquery name="qGet" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT tt.timetrackID, tt.projectID, tt.userID, tt.dateStamp, tt.hours, tt.description,
 					tt.itemID, tt.itemType,	tt.billed, tt.paid, u.firstName, u.lastName, 
-					t.todolistID, t.task, cr.clientID, cr.rateID, cr.category, cr.rate,
-					p.clientID as projClientID, p.name
+					t.todolistID, t.task, i.shortID, p.clientID as projClientID, p.name, 
+					cr.clientID, cr.rateID, cr.category, cr.rate
 				FROM #variables.tableprefix#timetrack tt 
 					LEFT JOIN #variables.tableprefix#users u on tt.userid = u.userid
 					LEFT JOIN #variables.tableprefix#todos t ON tt.itemID = t.todoID
+					LEFT JOIN #variables.tableprefix#issues i ON tt.itemID = i.issueID
 					LEFT JOIN #variables.tableprefix#projects p ON tt.projectID = p.projectID
 					LEFT JOIN #variables.tableprefix#client_rates cr ON tt.rateID = cr.rateID
 				WHERE 0 = 0

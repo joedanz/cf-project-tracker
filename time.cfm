@@ -146,7 +146,14 @@
 									<td><cfif compare(category,'') and not compareNoCase(clientID,project.clientID)>#category# ($#NumberFormat(rate,"0")#/hr)</cfif></td>
 									<td><cfif isNumeric(rate) and not compareNoCase(clientID,project.clientID)>$#NumberFormat(rate*hours,"0")#</cfif></td>
 								</cfif>
-								<td><cfif compare(itemType,'')><span class="catbox #itemtype#">#itemtype#</span> <a href="todos.cfm?p=#projectID###id_#replace(todolistID,'-','','all')#">#task#</a><cfif compare(description,'')> - </cfif></cfif>#description#</td>
+								<td><cfif compare(itemType,'')><span class="catbox #itemtype#">#itemtype#</span> 
+									<cfswitch expression="#itemtype#">
+										<cfcase value="issue"><a href="issue.cfm?p=#projectID#&i=#itemID#">#shortID#</a></cfcase>
+										<cfcase value="to-do"><a href="todos.cfm?p=#projectID###id_#replace(todolistID,'-','','all')#">#task#</a></cfcase>
+									</cfswitch>
+									<cfif compare(description,'')> - </cfif>
+								</cfif>
+								#description#</td>
 								<cfif project.time_edit or session.user.admin>
 									<td class="tac"><a href="##" onclick="edit_time_row('#projectid#','#timetrackid#','#project.tab_billing#','#project.bill_edit#','#project.clientID#','','','time'); return false;">Edit</a> &nbsp;&nbsp; <a href="##" onclick="delete_time('#projectID#','#timetrackID#','time',''); return false;" class="delete"></a></td>
 								</cfif>
