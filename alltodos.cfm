@@ -25,6 +25,9 @@
 		<cfset visible_project_list = listAppend(visible_project_list,projectID)>
 	</cfif>
 </cfloop>
+<cfif not listLen(visible_project_list)>
+	<cfset visible_project_list = "NONE">
+</cfif>
 <cfset todos = application.todo.get('','','false','p.name,tl.title,t.task',session.assignedTo,visible_project_list,'','true')>
 <cfset projectUsers = application.project.projectUsers(projectIDlist=visible_project_list,useList=true)>
 <cfif compare(session.assignedTo,'')>

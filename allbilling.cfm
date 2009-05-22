@@ -26,7 +26,9 @@
 		<cfset visible_project_list = listAppend(visible_project_list,projectID)>
 	</cfif>
 </cfloop>
-
+<cfif not listLen(visible_project_list)>
+	<cfset visible_project_list = "NONE">
+</cfif>
 <cfset projectUsers = application.project.projectUsers('','0','firstName, lastName',visible_project_list)>
 <cfset milestones_completed = application.milestone.get(withRate=true,type='completed',projectIDlist=visible_project_list,forID=form.assignedTo)>
 <cfset milestones_incomplete = application.milestone.get(withRate=true,type='incomplete',projectIDlist=visible_project_list,forID=form.assignedTo)>

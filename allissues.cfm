@@ -26,6 +26,9 @@
 		<cfset visible_project_list = listAppend(visible_project_list,projectID)>
 	</cfif>
 </cfloop>
+<cfif not listLen(visible_project_list)>
+	<cfset visible_project_list = "NONE">
+</cfif>
 <cfset projectUsers = application.project.projectUsers('','0','lastName, firstName',visible_project_list)>
 <cfset issues = application.issue.get(form.projectIDfilter,'',form.status,visible_project_list,form.type,form.severity,form.assignedTo)>
 

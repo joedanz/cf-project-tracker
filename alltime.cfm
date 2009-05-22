@@ -30,6 +30,12 @@
 		<cfset visible_project_billlist = listAppend(visible_project_billlist,projectID)>
 	</cfif>
 </cfloop>
+<cfif not listLen(visible_project_list)>
+	<cfset visible_project_list = "NONE">
+</cfif>
+<cfif not listLen(visible_project_billlist)>
+	<cfset visible_project_billlist = "NONE">
+</cfif>
 <cfset projectUsers = application.project.projectUsers('','0','lastName, firstName',visible_project_list)>
 <cfset timelines = application.timetrack.get(projectIDlist=visible_project_list,userID=form.assignedTo)>
 <cfset totalHours = 0>
