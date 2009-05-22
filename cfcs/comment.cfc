@@ -35,6 +35,8 @@
 			<cfif listFindNoCase('issue,msg,mstone,todo,file',arguments.type)> 
 				AND c.itemID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.itemID#" maxlength="35">
 				AND c.type = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#" maxlength="6">
+			<cfelseif compare(arguments.itemID,'')>
+				AND c.itemID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.itemID#" maxlength="35">
 			</cfif>
 			ORDER BY c.stamp <cfif arguments.lastOnly>desc</cfif>
 		</cfquery>
@@ -59,23 +61,7 @@
 						<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.comment#">,
 						#Now()#)
 		</cfquery>
-		<cfswitch expression="#arguments.type#">
-			<cfcase value="msg">
-				<cfset application.notify.messageComment(arguments.projectID,arguments.itemID,arguments.comment)>
-			</cfcase>
-			<cfcase value="issue">
-				<cfset application.notify.issueComment(arguments.projectID,arguments.itemID,arguments.comment)>
-			</cfcase>
-			<cfcase value="file">
-				<cfset application.notify.fileComment(arguments.projectID,arguments.itemID,arguments.comment)>
-			</cfcase>
-			<cfcase value="mstone">
-				<cfset application.notify.milestoneComment(arguments.projectID,arguments.itemID,arguments.comment)>
-			</cfcase>
-			<cfcase value="todo">
-				<cfset application.notify.todoComment(arguments.projectID,arguments.itemID,arguments.comment)>
-			</cfcase>
-		</cfswitch>
+		<cfset application.notify.comment(arguments.type,arguments.projectID,arguments.itemID,arguments.commentID)>
 		<cfreturn true>
 	</cffunction>		
 	

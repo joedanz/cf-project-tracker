@@ -15,6 +15,126 @@
 		<cfreturn this>
 	</cffunction>
 
+	<cffunction name="comment" access="public" returnType="void" output="false"
+				hint="Notification of new comment.">
+		<cfargument name="type" type="string" required="true">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="itemID" type="uuid" required="true">
+		<cfargument name="commentID" type="uuid" required="true">
+		<cfset var qProject = application.project.get('',arguments.projectID)>
+		<cfset var qComment = application.comment.get(itemID=arguments.commentID)>
+		<cfset var qItem = "">
+		<cfset var qNotifyList = "">
+		<cfset var theMessage = "">
+		<cfset var emailSubject = "">
+		<cfset var mobileSubject = "">
+		
+		<cfif not compare(arguments.type,'msg')>	
+			<cfset qItem = application.message.get(arguments.projectID,arguments.itemID)>
+			<cfset qNotifyList = application.message.getNotifyList(arguments.projectID,arguments.itemID)>
+		<cfelse>
+			<cfswitch expression="#arguments.type#">
+				<cfcase value="issue,file,mstone">
+					<cfset qItem = application.message.get(arguments.projectID,arguments.itemID)>
+				</cfcase>
+				<cfcase value="todo">
+					<cfset qItem = application.message.get(projectID=arguments.projectID,todoID=arguments.itemID,fullJoin='true')>
+				</cfcase>				
+			</cfswitch>
+			<cfset qNotifyList = application.project.projectUsers(arguments.projectID)>
+		</cfif>
+		<cfloop query="qNotifyList">		
+			<cfif ((not compare(arguments.type,'msg') and email_msg_com) or (not compare(arguments.type,'issue') and email_issue_com) or (not compare(arguments.type,'file') and email_file_com) or (not compare(arguments.type,'mstone') and email_mstone_com) or (not compare(arguments.type,'todo') and email_todo_com)) and request.udf.isEmail(email)>
+				
+				<cfsavecontent variable="theMessage">
+				<cfoutput>A new comment has been posted on the #qProject.name# <cfswitch expression="#arguments.type#">
+					<cfcase value="msg">message in #qItem.category# entitled:
+#qItem.title#</cfcase>
+					<cfcase value="issue">issue entitled:
+#qItem.issue#</cfcase>
+					<cfcase value="file">file in #qItem.category# entitled:
+#qItem.title#</cfcase>
+					<cfcase value="mstone">milestone entitled:
+#qItem.name#</cfcase>
+					<cfcase value="todo">to-do on list #qItem.title# entitled:
+#qItem.task#</cfcase>
+				</cfswitch>
+
+#request.udf.CleanText(qComment.commentText)#
+
+To view the full message and leave comments, visit this link:
+#application.settings.rootURL##application.settings.mapping#/message.cfm?p=#arguments.projectID#&m=#arguments.itemID#
+				</cfoutput>
+				</cfsavecontent>
+				
+				<cfswitch expression="#arguments.type#">
+					<cfcase value="msg">
+						<cfset emailSubject = "#application.settings.email_subject_prefix#[Comment] on Message '#qItem.title#'#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#">
+					</cfcase>
+					<cfcase value="issue">
+						<cfset emailSubject = "#application.settings.email_subject_prefix#[Comment] on Issue '#qItem.issue#'#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#">
+					</cfcase>
+					<cfcase value="file">
+						<cfset emailSubject = "#application.settings.email_subject_prefix#[Comment] on File '#qItem.title#'#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#">
+					</cfcase>
+					<cfcase value="mstone">
+						<cfset emailSubject = "#application.settings.email_subject_prefix#[Comment] on Milestone '#qItem.name#'#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#">
+					</cfcase>
+					<cfcase value="todo">
+						<cfset emailSubject = "#application.settings.email_subject_prefix#[Comment] on To-Do '#qItem.task#'#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#">
+					</cfcase>
+				</cfswitch>
+				
+				<cfif not compare(application.settings.mailServer,'')>
+					<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#emailSubject#">#theMessage#</cfmail>
+				<cfelse>
+					<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#emailSubject#"
+						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
+				</cfif>
+			</cfif>
+			<cfif ((not compare(arguments.type,'msg') and mobile_msg_com) or (not compare(arguments.type,'issue') and mobile_issue_com) or (not compare(arguments.type,'file') and mobile_file_com) or (not compare(arguments.type,'mstone') and mobile_mstone_com) or (not compare(arguments.type,'todo') and mobile_todo_com)) and isNumeric(mobile)>
+			
+				<cfsavecontent variable="theMessage">
+				<cfoutput>New comment on <cfswitch expression="#arguments.type#">
+					<cfcase value="msg">message: #qItem.title#</cfcase>
+					<cfcase value="issue">issue: #qItem.issue#</cfcase>
+					<cfcase value="file">file: #qItem.title#</cfcase>
+					<cfcase value="mstone">milestone: #qItem.name#</cfcase>
+					<cfcase value="todo">to-do: #qItem.task#</cfcase>
+				</cfswitch>
+
+#Left(request.udf.CleanText(arguments.comment),100)#<cfif len(request.udf.CleanText(arguments.comment)) gt 100>...</cfif>
+				</cfoutput>
+				</cfsavecontent>
+				
+				<cfswitch expression="#arguments.type#">
+					<cfcase value="msg">
+						<cfset mobileSubject = "#application.settings.sms_subject_prefix#[Comment] on Message#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#">
+					</cfcase>
+					<cfcase value="issue">
+						<cfset mobileSubject = "#application.settings.sms_subject_prefix#[Comment] on Issue#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#">
+					</cfcase>
+					<cfcase value="file">
+						<cfset mobileSubject = "#application.settings.sms_subject_prefix#[Comment] on File#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#">
+					</cfcase>
+					<cfcase value="mstone">
+						<cfset mobileSubject = "#application.settings.sms_subject_prefix#[Comment] on Milestone#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#">
+					</cfcase>
+					<cfcase value="todo">
+						<cfset mobileSubject = "#application.settings.sms_subject_prefix#[Comment] on To-Do#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#">
+					</cfcase>
+				</cfswitch>
+				
+				<cfif not compare(application.settings.mailServer,'')>
+					<cfmail from="#application.settings.adminEmail#" 
+							to="#prefix##mobile##suffix#" subject="#mobileSubject#">#theMessage#</cfmail>
+				<cfelse>
+					<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#mobileSubject#" server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
+				</cfif>			
+			</cfif>
+		</cfloop>
+	</cffunction>
+
 	<cffunction name="fileNew" access="public" returnType="void" output="false"
 				hint="Notification of new file.">
 		<cfargument name="projectID" type="uuid" required="true">
@@ -324,55 +444,6 @@ Use the following link to view or edit the message and to make comments:</cfif>
 					<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#[Updated] Message#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#">#theMessage#</cfmail>
 				<cfelse>
 					<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#[Updated] Message#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#"
-						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
-				</cfif>			
-			</cfif>
-		</cfloop>
-	</cffunction>
-
-	<cffunction name="messageComment" access="public" returnType="void" output="false"
-				hint="Notification of new comment.">
-		<cfargument name="projectID" type="uuid" required="true">
-		<cfargument name="messageID" type="string" required="true">
-		<cfargument name="comment" type="string" required="true">
-		<cfset var qProject = application.project.get('',arguments.projectID)>
-		<cfset var qMessage = application.message.get(arguments.projectID,arguments.messageID)>
-		<cfset var qNotifyList = application.message.getNotifyList(arguments.projectID,arguments.messageID)>
-		<cfset var theMessage = "">
-		<cfloop query="qNotifyList">		
-			<cfif email_msg_com and request.udf.isEmail(email)>
-				
-				<cfsavecontent variable="theMessage">
-				<cfoutput>A new #qProject.name# comment has been posted on the message in #qMessage.category# entitled:
-#qMessage.title#
-
-#request.udf.CleanText(arguments.comment)#
-
-To view the full message and leave comments, visit this link:
-#application.settings.rootURL##application.settings.mapping#/message.cfm?p=#arguments.projectID#&m=#arguments.messageID#
-				</cfoutput>
-				</cfsavecontent>
-				
-				<cfif not compare(application.settings.mailServer,'')>
-					<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#[New] Comment on '#qMessage.title#'#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#">#theMessage#</cfmail>
-				<cfelse>
-					<cfmail from="#application.settings.adminEmail#" to="#email#" subject="#application.settings.email_subject_prefix#[New] Comment on '#qMessage.title#'#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#"
-						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
-				</cfif>
-			</cfif>
-			<cfif mobile_msg_com and isNumeric(mobile)>
-			
-				<cfsavecontent variable="theMessage">
-				<cfoutput>New comment on: #qMessage.title#
-
-#Left(request.udf.CleanText(arguments.comment),100)#<cfif len(request.udf.CleanText(arguments.comment)) gt 100>...</cfif>
-				</cfoutput>
-				</cfsavecontent>
-				
-				<cfif not compare(application.settings.mailServer,'')>
-					<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#[New] Msg Comment#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#">#theMessage#</cfmail>
-				<cfelse>
-					<cfmail from="#application.settings.adminEmail#" to="#prefix##mobile##suffix#" subject="#application.settings.sms_subject_prefix#[New] Msg Comment#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#"
 						server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
 				</cfif>			
 			</cfif>
