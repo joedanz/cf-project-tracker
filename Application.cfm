@@ -61,7 +61,10 @@
 			<cfset application.user = createObject("component","cfcs.user").init(settings)>
 			
 			<!--- DataMgr --->
-			<cfset application.DataMgr = createObject("component","cfcs.DataMgr.DataMgr").init(settings.dsn)>
+			<cftry>
+				<cfset application.DataMgr = createObject("component","cfcs.DataMgr.DataMgr").init(settings.dsn)>
+				<cfcatch></cfcatch>
+			</cftry>
 
 			<!--- stored queries --->
 			<cftry>

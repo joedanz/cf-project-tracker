@@ -16,30 +16,7 @@
 					<div class="wrapper">
 
 						<cfif StructKeyExists(form,"submit")>
-							
 							<cftry>
-								
-								<!---<cfset DataMgr.loadTable("pt_activity")>
-								<cfset DataMgr.loadTable("pt_carriers")>
-								<cfset DataMgr.loadTable("pt_categories")>
-								<cfset DataMgr.loadTable("pt_clients")>
-								<cfset DataMgr.loadTable("pt_comments")>
-								<cfset DataMgr.loadTable("pt_file_attach")>
-								<cfset DataMgr.loadTable("pt_files")>
-								<cfset DataMgr.loadTable("pt_issues")>
-								<cfset DataMgr.loadTable("pt_message_notify")>
-								<cfset DataMgr.loadTable("pt_messages")>
-								<cfset DataMgr.loadTable("pt_milestones")>
-								<cfset DataMgr.loadTable("pt_project_users")>
-								<cfset DataMgr.loadTable("pt_projects")>
-								<cfset DataMgr.loadTable("pt_screenshots")>
-								<cfset DataMgr.loadTable("pt_settings")>
-								<cfset DataMgr.loadTable("pt_tags")>
-								<cfset DataMgr.loadTable("pt_todolists")>
-								<cfset DataMgr.loadTable("pt_todos")>
-								<cfset DataMgr.loadTable("pt_users")>
-								<pre>#XmlFormat(DataMgr.getXML())#</pre>--->
-								
 								<cfset CreateObject("component","db_structure").init(application.DataMgr,application.settings.tableprefix)>
 								<h4><em><strong>Tables Created Successfully!</strong><br /><br /><a href="../../index.cfm?reinit">Click here to continue</em></h4>
 								<cfcatch>
