@@ -65,7 +65,7 @@
 									select * from todos where todolistID = '#todolistID#' and completed IS NULL
 								</cfquery>
 								<cfquery name="check_permission" dbtype="query">
-									select todos from projectUsers 
+									select todo_edit from projectUsers 
 									where projectID = '#projectID#' and userID = '#session.user.userid#'
 								</cfquery>
 								<cfif todos_notcompleted.recordCount>
@@ -74,7 +74,7 @@
 									<td>
 										<ul>
 										<cfoutput>
-										<li id="cb#todoID#"><cfif check_permission.todos gt 1><input type="checkbox" name="todoID" value="#todoID#" onclick="all_mark_complete('#projectID#','#todolistID#','#todoID#');" /></cfif> #task#<cfif not compare(session.assignedTo,'') and compare(lastname,'')> <span class="g">(#firstName# #lastName#)</span></cfif></li>
+										<li id="cb#todoID#"><cfif check_permission.todo_edit><input type="checkbox" name="todoID" value="#todoID#" onclick="all_mark_complete('#projectID#','#todolistID#','#todoID#');" /></cfif> #task#<cfif not compare(session.assignedTo,'') and compare(lastname,'')> <span class="g">(#firstName# #lastName#)</span></cfif></li>
 										</cfoutput>
 										</ul>							
 									</td>
