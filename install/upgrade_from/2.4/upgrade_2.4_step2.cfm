@@ -98,19 +98,15 @@
 				where userid = <cfqueryparam cfsqltype="cf_sql_char" value="#userID#" maxlength="35">
 			</cfquery>	
 		</cfif>
-		<cfif billing gt 0>
-			<cfquery datasource="#application.settings.dsn#">
-				UPDATE #application.settings.tableprefix#project_users
-					SET bill_view = 1
-				<cfif billing gt 1>
-					, bill_edit = 1
-					, bill_rates = 1
-					, bill_invoices = 1
-					, bill_markpaid = 1
-				</cfif>
-				where userid = <cfqueryparam cfsqltype="cf_sql_char" value="#userID#" maxlength="35">
-			</cfquery>	
-		</cfif>
+		<cfquery datasource="#application.settings.dsn#">
+			UPDATE #application.settings.tableprefix#project_users
+				SET bill_view = 0
+					, bill_edit = 0
+					, bill_rates = 0
+					, bill_invoices = 0
+					, bill_markpaid = 0
+			where userid = <cfqueryparam cfsqltype="cf_sql_char" value="#userID#" maxlength="35">
+		</cfquery>
 
 		<!--- INSERT PER PROJECT NOTIFICATIONS --->
 		<cfquery datasource="#application.settings.dsn#">
