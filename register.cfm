@@ -40,7 +40,7 @@
 			<!--- get project default roles --->
 			<cfset project = application.project.getDistinct(i)>
 			<!--- assign default project roles --->
-			<cfset application.role.add(i,newID,'0',project.reg_files,project.reg_issues,project.reg_msgs,project.reg_mstones,project.reg_todos,project.reg_svn)>
+			<cfset application.role.add(i,newID,'0',project.reg_file_view,project.reg_file_edit,project.reg_file_comment,project.reg_issue_view,project.reg_issue_edit,project.reg_issue_assign,project.reg_issue_resolve,project.reg_issue_close,project.reg_issue_comment,project.reg_msg_view,project.reg_msg_edit,project.reg_msg_comment,project.reg_mstone_view,project.reg_mstone_edit,project.reg_mstone_comment,project.reg_todolist_view,project.reg_todolist_edit,project.reg_todo_edit,project.reg_todo_comment,project.reg_time_view,project.reg_time_edit,project.reg_bill_view,project.reg_bill_edit,project.reg_bill_rates,project.reg_bill_invoices,project.reg_bill_markpaid,project.reg_svn)>
 		</cfloop>
 		<cflocation url="confirm.cfm" addtoken="false">
 	</cfif>

@@ -3,7 +3,7 @@
 <cfif StructKeyExists(url,"reg")>
 	<cfset project = application.project.getDistinct(url.p)>
 	<cfif project.allow_reg>
-		<cfset application.role.add(url.p,session.user.userid,'0',project.reg_files,project.reg_issues,project.reg_msgs,project.reg_mstones,project.reg_todos,project.reg_time,project.reg_svn)>
+		<cfset application.role.add(url.p,session.user.userid,'0',project.reg_file_view,project.reg_file_edit,project.reg_file_comment,project.reg_issue_view,project.reg_issue_edit,project.reg_issue_assign,project.reg_issue_resolve,project.reg_issue_close,project.reg_issue_comment,project.reg_msg_view,project.reg_msg_edit,project.reg_msg_comment,project.reg_mstone_view,project.reg_mstone_edit,project.reg_mstone_comment,project.reg_todolist_view,project.reg_todolist_edit,project.reg_todo_edit,project.reg_todo_comment,project.reg_time_view,project.reg_time_edit,project.reg_bill_view,project.reg_bill_edit,project.reg_bill_rates,project.reg_bill_invoices,project.reg_bill_markpaid,project.reg_svn)>
 	</cfif>
 </cfif>
 
@@ -48,9 +48,14 @@
 <cfif listLen(visible_project_list_mstones)>
 	<cfset milestones_overdue = application.milestone.get('','','overdue','',visible_project_list_mstones)>
 	<cfset milestones_upcoming = application.milestone.get('','','upcoming','1',visible_project_list_mstones)>
+<cfelse>
+	<cfset milestones_overdue = QueryNew("milestoneID,dueDate","VarChar,Date")>
+	<cfset milestones_upcoming = QueryNew("milestoneID,dueDate","VarChar,Date")>
 </cfif>
 <cfif listLen(visible_project_list_issues)>
 	<cfset issues = application.issue.get('','','New|Accepted|Assigned',visible_project_list_issues)>
+<cfelse>
+	<cfset issues = QueryNew("issueID,dueDate","VarChar,Date")>
 </cfif>
 
 <!--- Loads header/footer --->

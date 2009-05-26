@@ -83,7 +83,7 @@
 	</cfif>
 <cfelseif StructKeyExists(form,"submit") and not compare(form.submit,'Add Project')> <!--- add project --->
 	<cfset application.project.add(form.projectID,form.ownerid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,logoimg,form.allow_reg,form.reg_file_view,form.reg_file_edit,form.reg_file_comment,form.reg_issue_view,form.reg_issue_edit,form.reg_issue_assign,form.reg_issue_resolve,form.reg_issue_close,form.reg_issue_comment,form.reg_msg_view,form.reg_msg_edit,form.reg_msg_comment,form.reg_mstone_view,form.reg_mstone_edit,form.reg_mstone_comment,form.reg_todolist_view,form.reg_todolist_edit,form.reg_todo_edit,form.reg_todo_comment,form.reg_time_view,form.reg_time_edit,form.reg_bill_view,form.reg_bill_edit,form.reg_bill_rates,form.reg_bill_invoices,form.reg_bill_markpaid,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,form.issue_timetrack,session.user.userid)>
-	<cfset application.role.add(form.projectID,session.user.userid,'1','2','2','2','2','2','2','2','1')>
+	<cfset application.role.add(form.projectID,session.user.userid,'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1')>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'added')>
 	<cfset session.user.projects = application.project.get(session.user.userid)>
 	<cfif not compare(form.from,'admin')>
