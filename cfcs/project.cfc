@@ -468,7 +468,7 @@
 				pu.bill_markpaid, pu.svn
 			FROM #variables.tableprefix#users u 
 				INNER JOIN #variables.tableprefix#project_users pu ON u.userID = pu.userID
-				INNER JOIN pt_user_notify un ON pu.userID = un.userID
+				INNER JOIN #variables.tableprefix#user_notify un ON pu.userID = un.userID
 				LEFT JOIN #variables.tableprefix#carriers c on u.carrierID = c.carrierID
 			WHERE u.active = 1
 			<cfif compare(arguments.projectID,'')>
