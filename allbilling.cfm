@@ -29,10 +29,10 @@
 <cfif not listLen(visible_project_list)>
 	<cfset visible_project_list = "NONE">
 </cfif>
-<cfset projectUsers = application.project.projectUsers(projectIDlist=visible_project_list,useList=true)>
-<cfset milestones_completed = application.milestone.get(withRate=true,type='completed',projectIDlist=visible_project_list,forID=form.assignedTo)>
-<cfset milestones_incomplete = application.milestone.get(withRate=true,type='incomplete',projectIDlist=visible_project_list,forID=form.assignedTo)>
-<cfset timelines = application.timetrack.get(projectIDlist=visible_project_list,userID=form.assignedTo)>
+<cfset projectUsers = application.project.allProjectUsers(visible_project_list)>
+<cfset milestones_completed = application.milestone.get(withRate=true,type='completed',projectIDlist=visible_project_list,forID=session.assignedTo)>
+<cfset milestones_incomplete = application.milestone.get(withRate=true,type='incomplete',projectIDlist=visible_project_list,forID=session.assignedTo)>
+<cfset timelines = application.timetrack.get(projectIDlist=visible_project_list,userID=session.assignedTo)>
 
 <cfset totalIncMSFee = 0>
 <cfset totalComMSFee = 0>
@@ -214,7 +214,7 @@
 				 	</cfif>
 
 					<cfif milestones_incomplete.recordCount eq 0 and milestones_completed.recordCount eq 0 and (timelines.recordCount eq 0 or not showTimelines)>
-			 			<div class="warn">No billing information is available.</div>
+			 			<div class="warn">No billing information is available<cfif compare(session.assignedTo,'')> for this user</cfif>.</div>
 					</cfif>
 					 
 					</div>
@@ -230,7 +230,7 @@
 	<!--- right column --->
 	<div class="right">
 		<cfif compare(application.settings.company_logo,'')>
-			<img src="#application.settings.userFilesMapping#/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" /><br />
+			<img src="#application.settings.userFilesMapping#/company/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" /><br />
 		</cfif>
 
 		<form action="#cgi.script_name#" method="post">

@@ -484,6 +484,22 @@
 		</cfquery>		
 		<cfreturn qRecords>
 	</cffunction>	
+
+	<cffunction name="allProjectUsers" access="public" returntype="query" output="false"
+				hint="Returns project users.">
+		<cfargument name="projectIDlist" type="string" required="false" default="">
+		
+		<cfset var qRecords = "">
+		<cfquery name="qRecords" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
+			SELECT distinct u.userID, u.firstName, u.lastName
+			FROM #variables.tableprefix#users u 
+				INNER JOIN #variables.tableprefix#project_users pu ON u.userID = pu.userID
+			WHERE u.active = 1
+				AND pu.projectID IN (<cfqueryparam value="#arguments.projectIDlist#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
+			ORDER BY lastName, firstName
+		</cfquery>		
+		<cfreturn qRecords>
+	</cffunction>	
 	
 	<cffunction name="nonProjectUsers" access="public" returntype="query" output="false"
 				hint="Returns project users.">				

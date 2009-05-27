@@ -29,8 +29,8 @@
 <cfif not listLen(visible_project_list)>
 	<cfset visible_project_list = "NONE">
 </cfif>
-<cfset projectUsers = application.project.projectUsers(projectIDlist=visible_project_list,useList=true)>
-<cfset issues = application.issue.get(form.projectIDfilter,'',form.status,visible_project_list,form.type,form.severity,form.assignedTo)>
+<cfset projectUsers = application.project.allProjectUsers(visible_project_list)>
+<cfset issues = application.issue.get(form.projectIDfilter,'',form.status,visible_project_list,form.type,form.severity,session.assignedTo)>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; All Issues">
@@ -185,7 +185,7 @@ $(document).ready(function(){
 	<!--- right column --->
 	<div class="right">
 		<cfif compare(application.settings.company_logo,'')>
-			<img src="#application.settings.userFilesMapping#/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" /><br />
+			<img src="#application.settings.userFilesMapping#/company/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" /><br />
 		</cfif>
 
 		<form action="#cgi.script_name#" method="post">

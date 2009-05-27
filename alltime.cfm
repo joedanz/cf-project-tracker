@@ -36,8 +36,8 @@
 <cfif not listLen(visible_project_billlist)>
 	<cfset visible_project_billlist = "NONE">
 </cfif>
-<cfset projectUsers = application.project.projectUsers(projectIDlist=visible_project_list,useList=true)>
-<cfset timelines = application.timetrack.get(projectIDlist=visible_project_list,userID=form.assignedTo)>
+<cfset projectUsers = application.project.allProjectUsers(visible_project_list)>
+<cfset timelines = application.timetrack.get(projectIDlist=visible_project_list,userID=session.assignedTo)>
 <cfset totalHours = 0>
 <cfset totalFee = 0>
 
@@ -107,7 +107,7 @@
 							</table>
 
 						<cfelse>
-							<div class="warn">No time tracking info available.</div>
+							<div class="warn">No time tracking info available<cfif compare(session.assignedTo,'')> for this user</cfif>.</div>
 						</cfif>					 	
 					 	
 					</div>
@@ -123,7 +123,7 @@
 	<!--- right column --->
 	<div class="right">	
 		<cfif compare(application.settings.company_logo,'')>
-			<img src="#application.settings.userFilesMapping#/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" /><br />
+			<img src="#application.settings.userFilesMapping#/company/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" /><br />
 		</cfif>
 		
 		<form action="#cgi.script_name#" method="post">

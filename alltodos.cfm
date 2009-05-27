@@ -29,7 +29,7 @@
 	<cfset visible_project_list = "NONE">
 </cfif>
 <cfset todos = application.todo.get('','','false','p.name,tl.title,t.task',session.assignedTo,visible_project_list,'','true')>
-<cfset projectUsers = application.project.projectUsers(projectIDlist=visible_project_list,useList=true)>
+<cfset projectUsers = application.project.allProjectUsers(visible_project_list)>
 <cfif compare(session.assignedTo,'')>
 	<cfset user = application.user.get(session.assignedTo)>
 </cfif>
@@ -91,7 +91,7 @@
 					</cfoutput>
 
 					<cfelse>
-						<cfoutput><div class="warn">There are no to-do items.</div></cfoutput> 	
+						<cfoutput><div class="warn">There are no to-do items<cfif compare(session.assignedTo,'')> for this user</cfif>.</div></cfoutput> 	
 					</cfif>					 	
 					 	
 					<cfoutput>
@@ -108,7 +108,7 @@
 	<!--- right column --->
 	<div class="right">
 		<cfif compare(application.settings.company_logo,'')>
-			<img src="#application.settings.userFilesMapping#/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" /><br />
+			<img src="#application.settings.userFilesMapping#/company/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" /><br />
 		</cfif>
 
 		<form action="#cgi.script_name#" method="post">

@@ -30,7 +30,7 @@
 </cfif>
 <cfset milestones_overdue = application.milestone.get('','','overdue','',visible_project_list,session.assignedTo)>
 <cfset milestones_upcoming = application.milestone.get('','','upcoming','',visible_project_list,session.assignedTo)>
-<cfset projectUsers = application.project.projectUsers(projectIDlist=visible_project_list,useList=true)>
+<cfset projectUsers = application.project.allProjectUsers(visible_project_list)>
 <cfif compare(session.assignedTo,'')>
 	<cfset user = application.user.get(session.assignedTo)>
 </cfif>
@@ -161,7 +161,7 @@
 							</cfif>						
 	
 						 <cfelse>	
-							<div class="warn">No milestones have been added.</div>
+							<div class="warn">No milestones are active<cfif compare(session.assignedTo,'')> for this user</cfif>.</div>
 						</cfif>
 					</div>
 				</div>
@@ -176,7 +176,7 @@
 	<!--- right column --->
 	<div class="right">
 		<cfif compare(application.settings.company_logo,'')>
-			<img src="#application.settings.userFilesMapping#/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" /><br />
+			<img src="#application.settings.userFilesMapping#/company/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" /><br />
 		</cfif>
 
 		<form action="#cgi.script_name#" method="post">
