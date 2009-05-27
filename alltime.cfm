@@ -36,7 +36,7 @@
 <cfif not listLen(visible_project_billlist)>
 	<cfset visible_project_billlist = "NONE">
 </cfif>
-<cfset projectUsers = application.project.projectUsers('','0','lastName, firstName',visible_project_list)>
+<cfset projectUsers = application.project.projectUsers(projectIDlist=visible_project_list,useList=true)>
 <cfset timelines = application.timetrack.get(projectIDlist=visible_project_list,userID=form.assignedTo)>
 <cfset totalHours = 0>
 <cfset totalFee = 0>
