@@ -1,0 +1,26 @@
+This is a guide to upgrading from previous versions of Project Tracker to version 2.5.
+---------------------------------------------------------------------------------------
+The first thing all users should do is backup the current database and code!  There
+are a lot of changes in this new version and something will very possibly go wrong.
+You may want to reference your old settings, or may want to try the upgrade again if
+unsuccessful.
+
+If you are running anything less than version 2.4.0, you need to first run the upgrade 
+scripts for your version to catch up to speed.  This guide assumes you are working off 
+of 2.4.x.
+
+If you have run a previous version of the beta (prior to R3), you need to first run
+the fixBeta.cfm script found in the "install/upgrade_from/2.4" directory.  This script
+makes database modifications to match the latest changes to the "pt_user_notify" table.
+
+The next thing all users need to do is to run the appropriate upgrade script for your 
+database engine.  This will make a number of database changes, and will add some new 
+tables.  If you receive any errors, please verify that the changes were made to the 
+tables as specified in the update.
+
+Lastly, all users should run the "upgrade_2.4_step2.cfm" script which sets permissions
+and notifications per project for each user based upon the user's previous settings.
+This should only be done once the upgrade script from the last step has completed
+successfully.
+
+Any questions, please email me at joe@ajaxcf.com.
