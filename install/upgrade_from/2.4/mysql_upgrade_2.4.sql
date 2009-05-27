@@ -1,6 +1,6 @@
 /* UPGRADE FROM 2.4 */
 
-/* pt_client_rates */
+/* pt_client_rates - add table + index */
 CREATE TABLE `pt_client_rates` (
   `rateID` char(35) NOT NULL,
   `clientID` char(35) NOT NULL,
@@ -9,18 +9,18 @@ CREATE TABLE `pt_client_rates` (
   PRIMARY KEY  (`rateID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/* pt_clients */
+/* pt_clients - add columns */
 ALTER TABLE `pt_clients` ADD `contactEmail` varchar(150) default NULL;
 ALTER TABLE `pt_clients` ADD `website` varchar(150) default NULL;
 
-/* pt_milestones */
+/* pt_milestones - add columns */
 ALTER TABLE `pt_milestones` ADD `rate` decimal(8,2) default NULL;
 ALTER TABLE `pt_milestones` ADD `billed` tinyint(1) default NULL;
 UPDATE `pt_milestones` set `billed` = 0;
 ALTER TABLE `pt_milestones` ADD `paid` tinyint(1) default NULL;
 UPDATE `pt_milestones` set `paid` = 0;
 
-/* pt_project_users */
+/* pt_project_users - add fine grained permissions and default everything to off */
 ALTER TABLE `pt_project_users` ADD `file_view` int(1) default NULL;
 ALTER TABLE `pt_project_users` ADD `file_edit` int(1) default NULL;
 ALTER TABLE `pt_project_users` ADD `file_comment` int(1) default NULL;
@@ -74,7 +74,7 @@ UPDATE `pt_project_users` set `bill_rates` = 0;
 UPDATE `pt_project_users` set `bill_invoices` = 0;
 UPDATE `pt_project_users` set `bill_markpaid` = 0;
 
-/* pt_projects */
+/* pt_projects - add new columns + columns for default permissions */
 ALTER TABLE `pt_projects` ADD `logo_img` varchar(150) default NULL;
 ALTER TABLE `pt_projects` ADD `tab_billing` int(1) default NULL;
 UPDATE `pt_projects` set `tab_billing` = 0;
@@ -109,20 +109,20 @@ ALTER TABLE `pt_projects` ADD `reg_bill_rates` int(1) default NULL;
 ALTER TABLE `pt_projects` ADD `reg_bill_invoices` int(1) default NULL;
 ALTER TABLE `pt_projects` ADD `reg_bill_markpaid` int(1) default NULL;
 
-/* pt_settings */
+/* pt_settings - add new settings */
 INSERT INTO `pt_settings` values ('1E5ED63A-C938-2FE9-C60035D81F955266','company_name','');
 INSERT INTO `pt_settings` values ('1E77669A-963D-735E-C7C22FA82FABC398','company_logo','');
 INSERT INTO `pt_settings` values ('5D717D09-1372-7975-6F21844EACDAFC54','invoice_logo','');
 INSERT INTO `pt_settings` values ('3D72D1F7-CD23-8BE3-60F9614093F89CCF','hourly_rate','');
 
-/* pt_timetrack */
+/* pt_timetrack - add new columns */
 ALTER TABLE `pt_timetrack` ADD `rateID` varchar(35) default NULL;
 ALTER TABLE `pt_timetrack` ADD `billed` tinyint(1) default NULL;
 UPDATE `pt_timetrack` set `billed` = 0;
 ALTER TABLE `pt_timetrack` ADD `paid` tinyint(1) default NULL;
 UPDATE `pt_timetrack` set `paid` = 0;
 
-/* pt_user_notify */
+/* pt_user_notify - add per project notifications table + index */
 CREATE TABLE `pt_user_notify` (
   `userID` char(35) NOT NULL,
   `projectID` char(35) NOT NULL,

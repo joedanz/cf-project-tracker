@@ -16,11 +16,12 @@ makes database modifications to match the latest changes to the "pt_user_notify"
 The next thing all users need to do is to run the appropriate upgrade script for your 
 database engine.  This will make a number of database changes, and will add some new 
 tables.  If you receive any errors, please verify that the changes were made to the 
-tables as specified in the update.
+tables as specified in the update.  You may want to look through the script as each
+area is commented and will give you an idea of what needs to be done.
 
 Lastly, all users should run the "upgrade_2.4_step2.cfm" script which sets permissions
 and notifications per project for each user based upon the user's previous settings.
 This should only be done once the upgrade script from the last step has completed
-successfully.
+successfully.  This file is also commented and you may want to review before upgrading.
 
 Any questions, please email me at joe@ajaxcf.com.

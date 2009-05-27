@@ -1,6 +1,6 @@
 /* UPGRADE FROM 2.4 */
 
-/* pt_client_rates */
+/* pt_client_rates - add table + index */
 CREATE TABLE  "PT_CLIENT_RATES" 
    (	"RATEID" CHAR(35) NOT NULL ENABLE, 
     "CLIENTID" CHAR(35) NOT NULL ENABLE, 
@@ -9,7 +9,7 @@ CREATE TABLE  "PT_CLIENT_RATES"
 	 CONSTRAINT "PK_PT_CLIENT_RATES" PRIMARY KEY ("RATEID") ENABLE
    );
 
-/* pt_clients */
+/* pt_clients - add columns */
 alter table
    pt_clients
 add
@@ -18,7 +18,7 @@ add
    WEBSITE varchar2(150) NULL
    );
    
-/* pt_milestones */
+/* pt_milestones - add columns */
 alter table
    pt_milestones
 add
@@ -30,7 +30,7 @@ add
 update pt_milestones set billed = 0;
 update pt_milestones set paid = 0;
 
-/* pt_project_users */
+/* pt_project_users - add fine grained permissions and default everything to off */
 alter table
    pt_project_users
 add
@@ -89,7 +89,7 @@ update pt_project_users set bill_rates = 0;
 update pt_project_users set bill_invoices = 0;
 update pt_project_users set bill_markpaid = 0;
 
-/* pt_projects */
+/* pt_projects - add new columns + columns for default permissions */
 alter table
    pt_projects
 add
@@ -129,7 +129,7 @@ update pt_projects set tab_billing = 0;
 update pt_projects set issue_svn_link = 1;
 update pt_projects set issue_timetrack = 1;
 
-/* pt_settings */
+/* pt_settings - add new settings */
 INSERT INTO pt_settings (settingid,setting,settingvalue) values 
 ('1E5ED63A-C938-2FE9-C60035D81F955266','company_name','');
 INSERT INTO pt_settings (settingid,setting,settingvalue) values 
@@ -139,7 +139,7 @@ INSERT INTO pt_settings (settingid,setting,settingvalue) values
 INSERT INTO pt_settings (settingid,setting,settingvalue) values 
 ('3D72D1F7-CD23-8BE3-60F9614093F89CCF','hourly_rate','');
 
-/* pt_timetrack */
+/* pt_timetrack - add new columns */
 alter table
    pt_timetrack
 add
@@ -151,7 +151,7 @@ add
 update pt_timetrack set billed = 0;
 update pt_timetrack set paid = 0;
 
-/* pt_user_notify */
+/* pt_user_notify - add per project notifications table + index */
 CREATE TABLE  "PT_USER_NOTIFY" 
    (	"USERID" CHAR(35) NOT NULL ENABLE, 
 	"PROJECTID" CHAR(35) NOT NULL ENABLE, 

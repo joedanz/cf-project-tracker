@@ -1,6 +1,6 @@
 /* UPGRADE FROM 2.4 */
 
-/* pt_client_rates */
+/* pt_client_rates - add table + index */
 CREATE TABLE [dbo].[pt_client_rates] (
 	[rateID] [char] (35) NOT NULL ,
 	[clientID] [char] (35) NOT NULL ,
@@ -16,13 +16,13 @@ ALTER TABLE [dbo].[pt_client_rates] WITH NOCHECK ADD
 	)  ON [PRIMARY] 
 GO
 
-/* pt_clients */
+/* pt_clients - add columns */
 ALTER TABLE [dbo].[pt_clients] ADD [contactEmail] [nvarchar] (150) NULL
 GO
 ALTER TABLE [dbo].[pt_clients] ADD [website] [nvarchar] (150) NULL
 GO
 
-/* pt_milestones */
+/* pt_milestones - add columns */
 ALTER TABLE [dbo].[pt_milestones] ADD [rate] numeric (8,2) NULL
 GO
 ALTER TABLE [dbo].[pt_milestones] ADD [billed] [tinyint] NULL
@@ -34,7 +34,7 @@ GO
 UPDATE [dbo].[pt_milestones] SET paid = 0
 GO
 
-/* pt_project_users */
+/* pt_project_users - add fine grained permissions and default everything to off */
 ALTER TABLE [dbo].[pt_project_users] ADD [file_view] [tinyint] NULL
 GO
 ALTER TABLE [dbo].[pt_project_users] ADD [file_edit] [tinyint] NULL
@@ -140,7 +140,7 @@ GO
 UPDATE [dbo].[pt_project_users] SET bill_markpaid = 0
 GO
 
-/* pt_projects */
+/* pt_projects - add new columns + columns for default permissions */
 ALTER TABLE [dbo].[pt_projects] ADD [logo_img] [nvarchar] (150) NULL
 GO
 ALTER TABLE [dbo].[pt_projects] ADD [tab_billing] [tinyint] NULL
@@ -208,7 +208,7 @@ GO
 ALTER TABLE [dbo].[pt_projects] ADD [reg_bill_markpaid] [tinyint] NULL
 GO
 
-/* pt_settings */
+/* pt_settings - add new settings */
 INSERT INTO [dbo].[pt_settings](settingID,setting,settingValue) values('1E5ED63A-C938-2FE9-C60035D81F955266','company_name','')
 GO
 INSERT INTO [dbo].[pt_settings](settingID,setting,settingValue) values('1E77669A-963D-735E-C7C22FA82FABC398','company_logo','')
@@ -218,7 +218,7 @@ GO
 INSERT INTO [dbo].[pt_settings](settingID,setting,settingValue) values('3D72D1F7-CD23-8BE3-60F9614093F89CCF','hourly_rate','')
 GO
 
-/* pt_timetrack */
+/* pt_timetrack - add new columns */
 ALTER TABLE [dbo].[pt_timetrack] ADD [rateID] [nvarchar] (35) NULL
 GO
 ALTER TABLE [dbo].[pt_timetrack] ADD [billed] [tinyint] NULL
@@ -230,7 +230,7 @@ GO
 UPDATE [dbo].[pt_timetrack] SET paid = 0
 GO
 
-/* pt_user_notify */
+/* pt_user_notify - add per project notifications table + index */
 CREATE TABLE [dbo].[pt_user_notify] (
 	[userID] [char] (35) NOT NULL ,
 	[projectID] [char] (35) NOT NULL ,
