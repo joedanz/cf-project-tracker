@@ -58,6 +58,13 @@
 	<cfset form.from = url.from>
 </cfif>
 
+<cfif StructKeyExists(url,"rmvimg")>
+	<cftry>
+			<cffile action="delete" file="#application.userFilesPath#projects/#form.old_image#">
+			<cfcatch></cfcatch>
+	</cftry>
+	<cfset application.project.removeLogo(url.p)>
+</cfif>
 
 <cfif (StructKeyExists(form,"submit") and not compare(form.submit,'Update Project') and compare(form.imagefile,'')) or (StructKeyExists(form,"submit") and not compare(form.submit,'Add Project') and compare(form.imagefile,''))>
 	<cfif compare(form.old_image,'')>
@@ -70,7 +77,7 @@
 		destination = "#application.userFilesPath#projects" nameConflict = "MakeUnique">		
 	<cfset logoimg = cffile.serverFile>
 <cfelse>
-	<cfset logoimg = "NOCHANGE">
+	<cfset logoimg = "">
 </cfif>
 	
 <cfif StructKeyExists(form,"submit") and not compare(form.submit,'Update Project')> <!--- update project --->
@@ -83,7 +90,8 @@
 	</cfif>
 <cfelseif StructKeyExists(form,"submit") and not compare(form.submit,'Add Project')> <!--- add project --->
 	<cfset application.project.add(form.projectID,form.ownerid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,logoimg,form.allow_reg,form.reg_file_view,form.reg_file_edit,form.reg_file_comment,form.reg_issue_view,form.reg_issue_edit,form.reg_issue_assign,form.reg_issue_resolve,form.reg_issue_close,form.reg_issue_comment,form.reg_msg_view,form.reg_msg_edit,form.reg_msg_comment,form.reg_mstone_view,form.reg_mstone_edit,form.reg_mstone_comment,form.reg_todolist_view,form.reg_todolist_edit,form.reg_todo_edit,form.reg_todo_comment,form.reg_time_view,form.reg_time_edit,form.reg_bill_view,form.reg_bill_edit,form.reg_bill_rates,form.reg_bill_invoices,form.reg_bill_markpaid,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,form.issue_timetrack,session.user.userid)>
-	<cfset application.role.add(form.projectID,session.user.userid,'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1')>
+	<cfset application.role.add(form.projectID,session.user.userid,'1')>
+	<cfset application.notify.add(session.user.userid,form.projectID)>	
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'added')>
 	<cfset session.user.projects = application.project.get(session.user.userid)>
 	<cfif not compare(form.from,'admin')>
@@ -171,6 +179,7 @@
 	<cfset components = application.project.component(url.p)>
 	<cfset versions = application.project.version(url.p)>
 <cfelse>
+	<cfset form.ownerID = session.user.userID>
 	<cfset form.display = 1>
 	<cfset form.logo_img = "">
 	<cfset form.old_image = "">
@@ -291,7 +300,7 @@
 								<p>
 								<label for="img">&nbsp;</label>
 								<img src="#application.settings.userFilesMapping#/projects/#logo_img#" border="0" alt="#application.settings.company_name#" style="border:1px solid ##666;" />
-								<a href="#cgi.script_name#?rmvimg">remove</a>
+								<a href="#cgi.script_name#?p=#url.p#&rmvimg">remove</a>
 								</p>
 							</cfif>
 							<p>
@@ -757,7 +766,7 @@
 	<!--- right column --->
 	<div class="right">
 		<cfif compare(form.logo_img,'')>
-			<img src="#application.settings.userFilesMapping#/projects/#form.logo_img#" border="0" alt="#form.name#" /><br />
+			<img src="#application.settings.userFilesMapping#/projects/#form.logo_img#" border="0" alt="#form.name#" class="projlogo" />
 		</cfif>
 
 		<cfif StructKeyExists(url,"p")>

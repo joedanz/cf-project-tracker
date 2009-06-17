@@ -22,7 +22,7 @@
 		<cfargument name="itemID" type="uuid" required="true">
 		<cfargument name="commentID" type="uuid" required="true">
 		<cfset var qProject = application.project.get('',arguments.projectID)>
-		<cfset var qComment = application.comment.get(itemID=arguments.commentID)>
+		<cfset var qComment = application.comment.get(projectID=arguments.projectID,itemID=arguments.commentID)>
 		<cfset var qItem = "">
 		<cfset var qNotifyList = "">
 		<cfset var theMessage = "">
@@ -34,11 +34,17 @@
 			<cfset qNotifyList = application.message.getNotifyList(arguments.projectID,arguments.itemID)>
 		<cfelse>
 			<cfswitch expression="#arguments.type#">
-				<cfcase value="issue,file,mstone">
-					<cfset qItem = application.message.get(arguments.projectID,arguments.itemID)>
+				<cfcase value="issue">
+					<cfset qItem = application.issue.get(arguments.projectID,arguments.itemID)>
+				</cfcase>
+				<cfcase value="file">
+					<cfset qItem = application.file.get(arguments.projectID,arguments.itemID)>
+				</cfcase>
+				<cfcase value="mstone">
+					<cfset qItem = application.milestone.get(arguments.projectID,arguments.itemID)>
 				</cfcase>
 				<cfcase value="todo">
-					<cfset qItem = application.message.get(projectID=arguments.projectID,todoID=arguments.itemID,fullJoin='true')>
+					<cfset qItem = application.todo.get(projectID=arguments.projectID,todoID=arguments.itemID,fullJoin='true')>
 				</cfcase>				
 			</cfswitch>
 			<cfset qNotifyList = application.project.projectUsers(arguments.projectID)>
@@ -618,7 +624,7 @@ List: #qTodolist.title#
 		<cfset var qTodo = application.todo.get(projectID=arguments.projectID,todolistID=arguments.todolistID,todoID=arguments.todoID)>
 		<cfset var theMessage = "">
 		<cfloop query="qProjectUsers">		
-			<cfif email_todo_edit and request.udf.isEmail(email)>
+			<cfif email_todo_upd and request.udf.isEmail(email)>
 			
 				<cfsavecontent variable="theMessage">
 				<cfoutput>The following #qProject.name# to-do has been updated in list #qTodolist.title#:

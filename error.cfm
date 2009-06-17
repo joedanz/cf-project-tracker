@@ -3,7 +3,7 @@
 <cfparam name="application.settings.app_title" default="Project Tracker">
 
 <!--- Loads header/footer --->
-<cfmodule template="tags/layout.cfm" templatename="main" title=" &raquo; Error">
+<cfmodule template="tags/layout.cfm" templatename="main" title="An Error Has Occurred">
 
 <cfoutput>
 <div id="container">

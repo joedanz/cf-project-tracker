@@ -181,7 +181,7 @@
 	<!--- right column --->
 	<div class="right">
 		<cfif compare(project.logo_img,'')>
-			<img src="#application.settings.userFilesMapping#/projects/#project.logo_img#" border="0" alt="#project.name#" /><br />
+			<img src="#application.settings.userFilesMapping#/projects/#project.logo_img#" border="0" alt="#project.name#" class="projlogo" />
 		</cfif>
 			
 		<form action="#cgi.script_name#?p=#url.p#" method="post">

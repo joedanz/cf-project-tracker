@@ -95,7 +95,7 @@ $(document).ready(function(){
 			<div class="content">
 				<div class="wrapper">
 				
-				<cfif project.display><div class="fs12 mb20">#project.description#</div></cfif>
+				<cfif project.display and compare(project.description,'') and compare(project.description,'<br />')><div class="fs12 mb20">#project.description#</div></cfif>
 				
 				<cfif project.mstone_view or project.issue_view>
 					<!--- due in next 14 days calendar --->
@@ -311,7 +311,7 @@ $(document).ready(function(){
 	<!--- right column --->
 	<div class="right">
 		<cfif compare(project.logo_img,'')>
-			<img src="#application.settings.userFilesMapping#/projects/#project.logo_img#" border="0" alt="#project.name#" /><br />
+			<img src="#application.settings.userFilesMapping#/projects/#project.logo_img#" border="0" alt="#project.name#" class="projlogo" />
 		</cfif>
 			
 		<cfif compare(project.clientID,'')>

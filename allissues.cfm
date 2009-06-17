@@ -6,7 +6,12 @@
 <cfparam name="form.status" default="New|Accepted|Assigned">
 <cfparam name="form.assignedTo" default="">
 
-<cfset projects = application.project.get(session.user.userid)>
+<cfif session.user.admin>
+	<cfset projects = application.project.get()>
+<cfelse>
+	<cfset projects = application.project.get(session.user.userid)>
+</cfif>
+
 <cfquery name="active_projects" dbtype="query">
 	select * from projects where status = 'Active'
 </cfquery>

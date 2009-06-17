@@ -36,34 +36,34 @@
 				hint="Sets user role.">
 		<cfargument name="projectID" type="uuid" required="true">		
 		<cfargument name="userID" type="uuid" required="true">
-		<cfargument name="admin" type="string" required="true">
-		<cfargument name="file_view" type="numeric" required="true">
-		<cfargument name="file_edit" type="numeric" required="true">
-		<cfargument name="file_comment" type="numeric" required="true">
-		<cfargument name="issue_view" type="numeric" required="true">
-		<cfargument name="issue_edit" type="numeric" required="true">
-		<cfargument name="issue_assign" type="numeric" required="true">
-		<cfargument name="issue_resolve" type="numeric" required="true">
-		<cfargument name="issue_close" type="numeric" required="true">
-		<cfargument name="issue_comment" type="numeric" required="true">
-		<cfargument name="msg_view" type="numeric" required="true">
-		<cfargument name="msg_edit" type="numeric" required="true">
-		<cfargument name="msg_comment" type="numeric" required="true">
-		<cfargument name="mstone_view" type="numeric" required="true">
-		<cfargument name="mstone_edit" type="numeric" required="true">
-		<cfargument name="mstone_comment" type="numeric" required="true">
-		<cfargument name="todolist_view" type="numeric" required="true">
-		<cfargument name="todolist_edit" type="numeric" required="true">
-		<cfargument name="todo_edit" type="numeric" required="true">
-		<cfargument name="todo_comment" type="numeric" required="true">
-		<cfargument name="time_view" type="numeric" required="true">
-		<cfargument name="time_edit" type="numeric" required="true">
-		<cfargument name="bill_view" type="string" required="true">
-		<cfargument name="bill_edit" type="string" required="true">
-		<cfargument name="bill_rates" type="string" required="true">
-		<cfargument name="bill_invoices" type="string" required="true">
-		<cfargument name="bill_markpaid" type="string" required="true">
-		<cfargument name="svn" type="string" required="true">
+		<cfargument name="admin" type="string" required="false" default="0">
+		<cfargument name="file_view" type="numeric" required="false" default="0">
+		<cfargument name="file_edit" type="numeric" required="false" default="0">
+		<cfargument name="file_comment" type="numeric" required="false" default="0">
+		<cfargument name="issue_view" type="numeric" required="false" default="0">
+		<cfargument name="issue_edit" type="numeric" required="false" default="0">
+		<cfargument name="issue_assign" type="numeric" required="false" default="0">
+		<cfargument name="issue_resolve" type="numeric" required="false" default="0">
+		<cfargument name="issue_close" type="numeric" required="false" default="0">
+		<cfargument name="issue_comment" type="numeric" required="false" default="0">
+		<cfargument name="msg_view" type="numeric" required="false" default="0">
+		<cfargument name="msg_edit" type="numeric" required="false" default="0">
+		<cfargument name="msg_comment" type="numeric" required="false" default="0">
+		<cfargument name="mstone_view" type="numeric" required="false" default="0">
+		<cfargument name="mstone_edit" type="numeric" required="false" default="0">
+		<cfargument name="mstone_comment" type="numeric" required="false" default="0">
+		<cfargument name="todolist_view" type="numeric" required="false" default="0">
+		<cfargument name="todolist_edit" type="numeric" required="false" default="0">
+		<cfargument name="todo_edit" type="numeric" required="false" default="0">
+		<cfargument name="todo_comment" type="numeric" required="false" default="0">
+		<cfargument name="time_view" type="numeric" required="false" default="0">
+		<cfargument name="time_edit" type="numeric" required="false" default="0">
+		<cfargument name="bill_view" type="string" required="false" default="0">
+		<cfargument name="bill_edit" type="string" required="false" default="0">
+		<cfargument name="bill_rates" type="string" required="false" default="0">
+		<cfargument name="bill_invoices" type="string" required="false" default="0">
+		<cfargument name="bill_markpaid" type="string" required="false" default="0">
+		<cfargument name="svn" type="string" required="false" default="0">
 		<cfif isNumeric(arguments.admin) and arguments.admin>
 			<cfset arguments.file_view = 1>
 			<cfset arguments.file_edit = 1>

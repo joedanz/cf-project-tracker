@@ -110,7 +110,7 @@
 	<!--- right column --->
 	<div class="right">
 		<cfif compare(project.logo_img,'')>
-			<img src="#application.settings.userFilesMapping#/projects/#project.logo_img#" border="0" alt="#project.name#" /><br />
+			<img src="#application.settings.userFilesMapping#/projects/#project.logo_img#" border="0" alt="#project.name#" class="projlogo" />
 		</cfif>
 
 		<div class="header"><h3>Who's talking in this thread?</h3></div>

@@ -29,7 +29,8 @@
 	<cfset visible_project_list = "NONE">
 </cfif>
 <cfset todos = application.todo.get('','','false','p.name,tl.title,t.task',session.assignedTo,visible_project_list,'','true')>
-<cfset projectUsers = application.project.allProjectUsers(visible_project_list)>
+<cfset projectUsers = application.project.projectUsers(projectIDlist=visible_project_list,useList='true')>
+<cfset distinctProjectUsers = application.project.allProjectUsers(visible_project_list)>
 <cfif compare(session.assignedTo,'')>
 	<cfset user = application.user.get(session.assignedTo)>
 </cfif>
@@ -116,7 +117,7 @@
 		<select name="assignedTo" onchange="this.form.submit();">
 			<option value="">Anyone</a>
 			<option value="#session.user.userid#"<cfif not compare(session.assignedTo,session.user.userID)> selected="selected"</cfif>>Me (#session.user.firstName# #session.user.lastName#)</a>
-			<cfloop query="projectUsers">
+			<cfloop query="distinctProjectUsers">
 				<cfif compare(session.user.userid,userID)>
 				<option value="#userID#"<cfif not compare(session.assignedTo,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>
 				</cfif>

@@ -94,18 +94,18 @@
 						<tbody>
 							<tr>
 								<td>New file</td>
-								<td class="tac"><input type="checkbox" name="email_file_new" value="1"<cfif user.email_file_new> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_file_new" value="1"<cfif user.mobile_file_new> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="email_file_new" value="1"<cfif user.email_file_new eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_file_new" value="1"<cfif user.mobile_file_new eq 1> checked="checked"</cfif> /></td>
 							</tr>
 							<tr>
 								<td>Updated file</td>
-								<td class="tac"><input type="checkbox" name="email_file_upd" value="1"<cfif user.email_file_upd> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_file_upd" value="1"<cfif user.mobile_file_upd> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="email_file_upd" value="1"<cfif user.email_file_upd eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_file_upd" value="1"<cfif user.mobile_file_upd eq 1> checked="checked"</cfif> /></td>
 							</tr>
 							<tr>
 								<td>Comment on file</td>
-								<td class="tac"><input type="checkbox" name="email_file_com" value="1"<cfif user.email_file_upd> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_file_com" value="1"<cfif user.mobile_file_upd> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="email_file_com" value="1"<cfif user.email_file_upd eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_file_com" value="1"<cfif user.mobile_file_upd eq 1> checked="checked"</cfif> /></td>
 							</tr>
 						</tbody>
 					</table>
@@ -121,18 +121,18 @@
 						<tbody>
 							<tr>
 								<td>New issue</td>
-								<td class="tac"><input type="checkbox" name="email_issue_new" value="1"<cfif user.email_issue_new> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_issue_new" value="1"<cfif user.mobile_issue_new> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="email_issue_new" value="1"<cfif user.email_issue_new eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_issue_new" value="1"<cfif user.mobile_issue_new eq 1> checked="checked"</cfif> /></td>
 							</tr>
 							<tr>
 								<td>Updated issue</td>
-								<td class="tac"><input type="checkbox" name="email_issue_upd" value="1"<cfif user.email_issue_upd> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_issue_upd" value="1"<cfif user.mobile_issue_upd> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="email_issue_upd" value="1"<cfif user.email_issue_upd eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_issue_upd" value="1"<cfif user.mobile_issue_upd eq 1> checked="checked"</cfif> /></td>
 							</tr>
 							<tr>
 								<td>Comment on issue</td>
-								<td class="tac"><input type="checkbox" name="email_issue_com" value="1"<cfif user.email_issue_com> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_issue_com" value="1"<cfif user.mobile_issue_com> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="email_issue_com" value="1"<cfif user.email_issue_com eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_issue_com" value="1"<cfif user.mobile_issue_com eq 1> checked="checked"</cfif> /></td>
 							</tr>
 						</tbody>
 					</table>
@@ -148,18 +148,18 @@
 						<tbody>
 							<tr>
 								<td>New message</td>
-								<td class="tac"><input type="checkbox" name="email_msg_new" value="1"<cfif user.email_msg_new> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_msg_new" value="1"<cfif user.mobile_msg_new> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="email_msg_new" value="1"<cfif user.email_msg_new eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_msg_new" value="1"<cfif user.mobile_msg_new eq 1> checked="checked"</cfif> /></td>
 							</tr>
 							<tr>
 								<td>Updated message</td>
-								<td class="tac"><input type="checkbox" name="email_msg_upd" value="1"<cfif user.email_msg_upd> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_msg_upd" value="1"<cfif user.mobile_msg_upd> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="email_msg_upd" value="1"<cfif user.email_msg_upd eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_msg_upd" value="1"<cfif user.mobile_msg_upd eq 1> checked="checked"</cfif> /></td>
 							</tr>
 							<tr>
 								<td>Comment on message</td>
-								<td class="tac"><input type="checkbox" name="email_msg_com" value="1"<cfif user.email_msg_com> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_msg_com" value="1"<cfif user.mobile_msg_com> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="email_msg_com" value="1"<cfif user.email_msg_com eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_msg_com" value="1"<cfif user.mobile_msg_com eq 1> checked="checked"</cfif> /></td>
 							</tr>
 						</tbody>
 					</table>
@@ -175,18 +175,18 @@
 						<tbody>
 							<tr>
 								<td>New milestone</td>
-								<td class="tac"><input type="checkbox" name="email_mstone_new" value="1"<cfif user.email_mstone_new> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_mstone_new" value="1"<cfif user.mobile_mstone_new> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="email_mstone_new" value="1"<cfif user.email_mstone_new eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_mstone_new" value="1"<cfif user.mobile_mstone_new eq 1> checked="checked"</cfif> /></td>
 							</tr>
 							<tr>
 								<td>Updated milestone</td>
-								<td class="tac"><input type="checkbox" name="email_mstone_upd" value="1"<cfif user.email_mstone_upd> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_mstone_upd" value="1"<cfif user.mobile_mstone_upd> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="email_mstone_upd" value="1"<cfif user.email_mstone_upd eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_mstone_upd" value="1"<cfif user.mobile_mstone_upd eq 1> checked="checked"</cfif> /></td>
 							</tr>
 							<tr>
 								<td>Comment on milestone</td>
-								<td class="tac"><input type="checkbox" name="email_mstone_com" value="1"<cfif user.email_mstone_com> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_mstone_com" value="1"<cfif user.mobile_mstone_com> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="email_mstone_com" value="1"<cfif user.email_mstone_com eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_mstone_com" value="1"<cfif user.mobile_mstone_com eq 1> checked="checked"</cfif> /></td>
 							</tr>
 						</tbody>
 					</table>
@@ -204,18 +204,18 @@
 						<tbody>
 							<tr>
 								<td>New to-do item</td>
-								<td class="tac"><input type="checkbox" name="email_todo_new" value="1"<cfif user.email_todo_new> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_todo_new" value="1"<cfif user.mobile_todo_new> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="email_todo_new" value="1"<cfif user.email_todo_new eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_todo_new" value="1"<cfif user.mobile_todo_new eq 1> checked="checked"</cfif> /></td>
 							</tr>
 							<tr>
 								<td>Updated to-do item</td>
-								<td class="tac"><input type="checkbox" name="email_todo_upd" value="1"<cfif user.email_todo_upd> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_todo_upd" value="1"<cfif user.mobile_todo_upd> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="email_todo_upd" value="1"<cfif user.email_todo_upd eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_todo_upd" value="1"<cfif user.mobile_todo_upd eq 1> checked="checked"</cfif> /></td>
 							</tr>
 							<tr>
 								<td>Comment on to-do item</td>
-								<td class="tac"><input type="checkbox" name="email_todo_com" value="1"<cfif user.email_todo_com> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_todo_com" value="1"<cfif user.mobile_todo_com> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="email_todo_com" value="1"<cfif user.email_todo_com eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_todo_com" value="1"<cfif user.mobile_todo_com eq 1> checked="checked"</cfif> /></td>
 							</tr>							
 						</tbody>
 					</table>
@@ -231,13 +231,13 @@
 						<tbody>
 							<tr>
 								<td>New time tracking item</td>
-								<td class="tac"><input type="checkbox" name="email_time_new" value="1"<cfif user.email_time_new> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_time_new" value="1"<cfif user.mobile_time_new> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="email_time_new" value="1"<cfif user.email_time_new eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_time_new" value="1"<cfif user.mobile_time_new eq 1> checked="checked"</cfif> /></td>
 							</tr>
 							<tr>
 								<td>Updated time tracking</td>
-								<td class="tac"><input type="checkbox" name="email_time_upd" value="1"<cfif user.email_time_upd> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_time_upd" value="1"<cfif user.mobile_time_upd> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="email_time_upd" value="1"<cfif user.email_time_upd eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_time_upd" value="1"<cfif user.mobile_time_upd eq 1> checked="checked"</cfif> /></td>
 							</tr>
 						</tbody>
 					</table>
@@ -253,18 +253,18 @@
 						<tbody>
 							<tr>
 								<td>New billing item</td>
-								<td class="tac"><input type="checkbox" name="email_bill_new" value="1"<cfif user.email_bill_new> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_bill_new" value="1"<cfif user.mobile_bill_new> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="email_bill_new" value="1"<cfif user.email_bill_new eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_bill_new" value="1"<cfif user.mobile_bill_new eq 1> checked="checked"</cfif> /></td>
 							</tr>
 							<tr>
 								<td>Updated billing item</td>
-								<td class="tac"><input type="checkbox" name="email_bill_upd" value="1"<cfif user.email_bill_upd> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_bill_upd" value="1"<cfif user.mobile_bill_upd> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="email_bill_upd" value="1"<cfif user.email_bill_upd eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_bill_upd" value="1"<cfif user.mobile_bill_upd eq 1> checked="checked"</cfif> /></td>
 							</tr>
 							<tr>
 								<td>Billing item marked paid</td>
-								<td class="tac"><input type="checkbox" name="email_bill_paid" value="1"<cfif user.email_bill_paid> checked="checked"</cfif> /></td>
-								<td class="tac"><input type="checkbox" name="mobile_bill_paid" value="1"<cfif user.mobile_bill_paid> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="email_bill_paid" value="1"<cfif user.email_bill_paid eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_bill_paid" value="1"<cfif user.mobile_bill_paid eq 1> checked="checked"</cfif> /></td>
 							</tr>
 						</tbody>
 					</table>

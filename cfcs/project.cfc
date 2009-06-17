@@ -112,7 +112,7 @@
 	</cffunction>	
 
 	<cffunction name="userNotify" access="public" returntype="query" output="false"
-				hint="Returns 'project notification settings.">				
+				hint="Returns project notification settings.">				
 		<cfargument name="userID" type="string" required="true">
 		<cfargument name="userIDlist" type="string" required="false" default="">
 		<cfargument name="projectID" type="string" required="false" default="">
@@ -322,7 +322,7 @@
 					svnurl = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnurl#" maxlength="100">,
 					svnuser = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnuser#" maxlength="20">,
 					svnpass = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnpass#" maxlength="20">,
-					<cfif compare(arguments.logo_img,'NOCHANGE')>
+					<cfif compare(arguments.logo_img,'')>
 						logo_img = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.logo_img#" maxlength="150">,
 					</cfif>
 					allow_reg = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.allow_reg#" maxlength="1">,
@@ -366,7 +366,18 @@
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
-	</cffunction>		
+	</cffunction>
+
+	<cffunction name="removeLogo" access="public" returnType="boolean" output="false"
+				hint="Updates a project.">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
+			UPDATE #variables.tableprefix#projects 
+				SET logo_img = ''
+				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+		</cfquery>
+		<cfreturn true>
+	</cffunction>
 	
 	<cffunction name="delete" access="public" returntype="void" output="false"
 				hint="Deletes a project record.">
