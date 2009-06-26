@@ -18,11 +18,12 @@
 	<cffunction name="comments" access="public" returnType="query" output="false"
 				hint="Returns message comments.">
 		<cfargument name="searchText" type="string" required="true">
+		<cfargument name="projectid" type="string" required="true">
 		<cfargument name="admin" type="boolean" required="true">
 		<cfset var qComments = "">
 		
 		<cfquery name="qComments" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			SELECT c.commentID, c.itemID, c.commentText, c.stamp, m.messageID, m.title, i.issueID, i.issue,
+			SELECT c.commentID, c.itemID, c.type, c.commentText, c.stamp, m.messageID, m.title, i.issueID, i.issue,
 				u.userID, u.firstName, u.lastName, u.avatar, p.projectID, p.name as projName
 				FROM #variables.tableprefix#comments c 
 					INNER JOIN #variables.tableprefix#projects p ON c.projectID = p.projectID
@@ -30,7 +31,9 @@
 					LEFT JOIN #variables.tableprefix#issues i ON c.itemID = i.issueID AND c.type = 'issue'
 					LEFT JOIN #variables.tableprefix#users u ON c.userid = u.userid
 			WHERE c.commentText like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
-				<cfif not arguments.admin>
+				<cfif compare(arguments.projectid,'')>
+					AND p.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				<cfelseif not arguments.admin>
 					AND p.projectID IN (<cfqueryparam value="#ValueList(session.user.projects.projectID)#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 				</cfif>
 			ORDER BY c.stamp desc
@@ -41,6 +44,7 @@
 	<cffunction name="files" access="public" returnType="query" output="false"
 				hint="Returns projects.">
 		<cfargument name="searchText" type="string" required="true">
+		<cfargument name="projectid" type="string" required="true">
 		<cfargument name="admin" type="boolean" required="true">
 		<cfset var qFiles = "">
 		<cfset var datesOnly = arrayNew(1)>
@@ -57,7 +61,9 @@
 			WHERE fc.type = 'file' AND
 				(f.title like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
 				OR f.description like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">)
-				<cfif not arguments.admin>
+				<cfif compare(arguments.projectid,'')>
+					AND p.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				<cfelseif not arguments.admin>
 					AND p.projectID IN (<cfqueryparam value="#ValueList(session.user.projects.projectID)#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 				</cfif>
 			ORDER BY f.title asc
@@ -76,15 +82,12 @@
 	<cffunction name="issues" access="public" returntype="query" output="false"
 				HINT="Returns issues.">				
 		<cfargument name="searchText" type="string" required="true">
+		<cfargument name="projectid" type="string" required="true">
 		<cfargument name="admin" type="boolean" required="true">
 		<cfset var qIssues = "">
 		<cfquery name="qIssues" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			SELECT issueID, i.projectID, i.shortID, i.issue, i.detail, i.type, i.severity, i.status, 
-				i.created, i.createdBy,	i.assignedTo, i.milestoneID, i.relevantURL, i.updated, i.updatedBy, 
-				i.resolution, i.resolutionDesc, p.projectID, p.name as projName, 
-				c.firstName as createdFirstName, c.lastName as createdLastName, u.firstName as updatedFirstName, 
-				u.lastName as updatedLastName, a.firstName as assignedFirstName, 
-				a.lastName as assignedLastName,	m.name as milestone
+			SELECT issueID, i.shortID, i.issue, i.detail, i.type, i.severity, i.status, i.created, i.createdBy,	
+				i.assignedTo, i.updated, i.updatedBy, p.projectID, p.name as projName
 			FROM #variables.tableprefix#issues i 
 				INNER JOIN #variables.tableprefix#projects p ON i.projectID = p.projectID
 				LEFT JOIN #variables.tableprefix#users c ON i.createdBy = c.userID
@@ -93,7 +96,9 @@
 				LEFT JOIN #variables.tableprefix#milestones m ON i.milestoneID = m.milestoneID
 			WHERE (i.issue like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
 				OR i.detail like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">)
-				<cfif not arguments.admin>
+				<cfif compare(arguments.projectid,'')>
+					AND p.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				<cfelseif not arguments.admin>
 					AND p.projectID IN (<cfqueryparam value="#ValueList(session.user.projects.projectID)#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 				</cfif>
 		</cfquery>		
@@ -103,21 +108,21 @@
 	<cffunction name="messages" access="public" returnType="query" output="false"
 				hint="Returns messages.">
 		<cfargument name="searchText" type="string" required="true">
+		<cfargument name="projectid" type="string" required="true">
 		<cfargument name="admin" type="boolean" required="true">
 		<cfset var qMessages = "">
 		<cfquery name="qMessages" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			SELECT u.userID,u.firstName,u.lastName,u.avatar,m.messageID,m.categoryID,m.milestoneID,m.title,m.message,
-					m.allowcomments,m.stamp,ms.name,mc.category, p.projectID, p.name as projName,
-					(SELECT count(commentID) FROM #variables.tableprefix#comments c where m.messageid = c.itemid and type = 'msg') as commentcount,
-					(SELECT count(fileID) FROM #variables.tableprefix#file_attach fa where m.messageid = fa.itemid and fa.type = 'msg') as attachcount
+			SELECT m.messageID, m.categoryID, m.milestoneID, m.title, m.message, m.stamp, ms.name, mc.category, 
+					p.projectID, p.name as projName
 			FROM #variables.tableprefix#messages m 
 				INNER JOIN #variables.tableprefix#projects p ON m.projectID = p.projectID
 				LEFT JOIN #variables.tableprefix#categories mc ON m.categoryID = mc.categoryID
-				LEFT JOIN #variables.tableprefix#users u ON u.userID = m.userID 
 				LEFT JOIN #variables.tableprefix#milestones ms ON m.milestoneid = ms.milestoneid
 			WHERE mc.type = 'msg' AND (m.title like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
 				OR m.message like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">)
-				<cfif not arguments.admin>
+				<cfif compare(arguments.projectid,'')>
+					AND p.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				<cfelseif not arguments.admin>
 					AND p.projectID IN (<cfqueryparam value="#ValueList(session.user.projects.projectID)#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 				</cfif>
 			ORDER BY m.stamp desc
@@ -128,17 +133,20 @@
 	<cffunction name="milestones" access="public" returnType="query" output="false"
 				hint="Returns milestones.">
 		<cfargument name="searchText" type="string" required="true">
+		<cfargument name="projectid" type="string" required="true">
 		<cfargument name="admin" type="boolean" required="true">
 		<cfset var qMilestones = "">
 		<cfquery name="qMilestones" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			SELECT milestoneid, m.projectID, m.name, m.description, dueDate, completed,
+			SELECT milestoneid, m.name, m.description, dueDate, completed,
 				m.forid, m.userid, u.firstName, u.lastName, p.projectID, p.name as projName
 			FROM #variables.tableprefix#milestones m
 				INNER JOIN #variables.tableprefix#projects p ON m.projectID = p.projectID
 				LEFT JOIN #variables.tableprefix#users u ON m.forid = u.userid
 			WHERE (m.name like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
 				OR m.description like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">)
-				<cfif not arguments.admin>
+				<cfif compare(arguments.projectid,'')>
+					AND p.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				<cfelseif not arguments.admin>
 					AND p.projectID IN (<cfqueryparam value="#ValueList(session.user.projects.projectID)#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 				</cfif>
 		</cfquery>
@@ -148,6 +156,7 @@
 	<cffunction name="projects" access="public" returntype="query" output="false"
 				hint="Returns project records.">				
 		<cfargument name="searchText" type="string" required="true">
+		<cfargument name="projectid" type="string" required="true">
 		<cfargument name="admin" type="boolean" required="true">
 		<cfset var qProjects = "">
 		<cfquery name="qProjects" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
@@ -158,7 +167,9 @@
 				LEFT JOIN #variables.tableprefix#clients c on p.clientID = c.clientID 
 			WHERE (p.name like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
 				OR p.description like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">)
-				<cfif not arguments.admin>
+				<cfif compare(arguments.projectid,'')>
+					AND p.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				<cfelseif not arguments.admin>
 					AND p.projectID IN (<cfqueryparam value="#ValueList(session.user.projects.projectID)#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 				</cfif>
 				ORDER BY p.name
@@ -169,11 +180,12 @@
 	<cffunction name="screenshots" access="public" returnType="query" output="false"
 				hint="Returns projects.">
 		<cfargument name="searchText" type="string" required="true">
+		<cfargument name="projectid" type="string" required="true">
 		<cfargument name="admin" type="boolean" required="true">
 		<cfset var qScreenshots = "">
 		<cfquery name="qScreenshots" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT s.fileID, s.issueID, s.title, s.description, s.filename, s.serverfilename, s.filetype,
-				s.filesize,s.uploaded,s.uploadedBy,u.firstName, u.lastName, p.projectID, p.name as projName
+				p.projectID, p.name as projName
 			FROM #variables.tableprefix#screenshots s
 				INNER JOIN #variables.tableprefix#issues i ON s.issueID = i.issueID
 				INNER JOIN #variables.tableprefix#projects p ON i.projectID = p.projectID 
@@ -181,7 +193,9 @@
 			WHERE (s.title like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
 				OR s.filename like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
 				OR s.description like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">)
-				<cfif not arguments.admin>
+				<cfif compare(arguments.projectid,'')>
+					AND p.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				<cfelseif not arguments.admin>
 					AND p.projectID IN (<cfqueryparam value="#ValueList(session.user.projects.projectID)#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 				</cfif>
 		</cfquery>
@@ -191,10 +205,11 @@
 	<cffunction name="todos" access="public" returnType="query" output="false"
 				hint="Returns task list.">
 		<cfargument name="searchText" type="string" required="true">
+		<cfargument name="projectid" type="string" required="true">
 		<cfargument name="admin" type="boolean" required="true">
 		<cfset var qTodoLists = "">
 		<cfquery name="qTodoLists" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			SELECT t.todoID, t.todolistID, t.projectID, t.task, t.userID, t.rank, t.due, t.completed, 
+			SELECT t.todoID, t.todolistID, t.task, t.userID, t.rank, t.due, t.completed, 
 					tl.title, tl.description, u.firstName, u.lastName, p.projectID, p.name as projName
 				FROM #variables.tableprefix#todos t 
 					INNER JOIN #variables.tableprefix#projects p ON t.projectID = p.projectID
@@ -203,7 +218,9 @@
 			WHERE (t.task like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
 				OR tl.title like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
 				OR tl.description like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">)
-				<cfif not arguments.admin>
+				<cfif compare(arguments.projectid,'')>
+					AND p.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+				<cfelseif not arguments.admin>
 					AND p.projectID IN (<cfqueryparam value="#ValueList(session.user.projects.projectID)#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 				</cfif>
 			ORDER BY tl.rank,tl.added,t.added

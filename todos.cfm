@@ -18,7 +18,7 @@
 <cfset todos = application.todo.get(url.p,url.t,'','rank,added',form.assignedTo)>
 
 <!--- Loads header/footer --->
-<cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; #project.name#" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
+<cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#project.name# &raquo; To-Dos" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
 
 <cfhtmlhead text='<script type="text/javascript">
 	$(document).ready(function(){

@@ -1,3 +1,6 @@
+<cfsetting enablecfoutputonly="true">
+
+<cfoutput>
 <li><a href="#application.settings.mapping#/admin/users.cfm"<cfif findNoCase('/admin/editUser.cfm',cgi.script_name) or findNoCase('/admin/user',cgi.script_name) or findNoCase('/userPermissions.cfm',cgi.script_name)> class="current"</cfif>>Users</a></li>
 <li><a href="#application.settings.mapping#/admin/projects.cfm"<cfif findNoCase('/admin/projects.cfm',cgi.script_name)> class="current"</cfif>>Projects</a></li>
 <li><a href="#application.settings.mapping#/admin/clients.cfm"<cfif findNoCase('/admin/clients.cfm',cgi.script_name) or findNoCase('/admin/editClient.cfm',cgi.script_name) or findNoCase('/admin/billRates.cfm',cgi.script_name)> class="current"</cfif>>Clients</a></li>
@@ -6,3 +9,6 @@
 <li><a href="#application.settings.mapping#/admin/notifications.cfm"<cfif findNoCase('/admin/notifications.cfm',cgi.script_name)> class="current"</cfif>>Notifications</a></li>
 <li><a href="#application.settings.mapping#/admin/carriers.cfm"<cfif findNoCase('/admin/carriers.cfm',cgi.script_name) or findNoCase('/admin/editCarrier.cfm',cgi.script_name)> class="current"</cfif>>SMS Carriers</a></li>
 <li><a href="#application.settings.mapping#/admin/api.cfm"<cfif findNoCase('/admin/api.cfm',cgi.script_name)> class="current"</cfif>>API</a></li>
+</cfoutput>
+
+<cfsetting enablecfoutputonly="false">

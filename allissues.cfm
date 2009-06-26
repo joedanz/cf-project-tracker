@@ -27,7 +27,7 @@
 </cfif>
 <cfset visible_project_list = "">
 <cfloop query="projects">
-	<cfif issue_view gt 0>
+	<cfif issue_view eq 1>
 		<cfset visible_project_list = listAppend(visible_project_list,projectID)>
 	</cfif>
 </cfloop>

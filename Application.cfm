@@ -22,13 +22,13 @@
 			<cfset application.settings = settings>
 			
 			<!--- determine userfiles directory if custom from config file --->
-			<cfif compare(settings.userFilesCustom,'') and len(settings.userFilesCustom)>
+			<cfif len(trim(settings.userFilesCustom))>
 				<cfset application.userFilesPath = settings.userFilesCustom>
 				<cfif compare(right(settings.userFilesCustom,1),'/')>
 					<cfset application.userFilesPath = application.userFilesPath & '/'>
 				</cfif>
 			<cfelse>
-				<cfset application.userFilesPath = ExpandPath('./userfiles/')>
+				<cfset application.userFilesPath = ExpandPath('#settings.mapping#/userfiles/')>
 			</cfif>
 			<!--- create userfiles directory if it doesn't exist --->
 			<cftry>

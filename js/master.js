@@ -213,7 +213,7 @@ function add_existing(pid) {
     $.ajax({
 		type: 'get',
 		url: './ajax/proj_users.cfm',
-		data: 'p=' + pid + '&u=' + $('#userID').val(),
+		data: 'addex=1&p=' + pid + '&u=' + $('#userID').val(),
 		success: function(txt){
 	     $('#replace').html(txt);
 		}
