@@ -66,13 +66,11 @@
 			<table name="#arguments.tablePrefix#comments">
 				<field ColumnName="commentID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
 				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" Length="35" />
-				<field ColumnName="messageID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
-				<field ColumnName="issueID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
+				<field ColumnName="type" CF_DataType="CF_SQL_VARCHAR" Length="6" />
+				<field ColumnName="itemID" CF_DataType="CF_SQL_CHAR" Length="35" />
 				<field ColumnName="userID" CF_DataType="CF_SQL_CHAR" Length="35" />
 				<field ColumnName="commentText" CF_DataType="CF_SQL_LONGVARCHAR" />
 				<field ColumnName="stamp" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
-				<field ColumnName="type" CF_DataType="CF_SQL_VARCHAR" Length="6" />
-				<field ColumnName="itemID" CF_DataType="CF_SQL_CHAR" Length="35" />
 			</table>
 			<table name="#arguments.tablePrefix#file_attach">
 				<field ColumnName="itemID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
@@ -82,6 +80,7 @@
 			<table name="#arguments.tablePrefix#files">
 				<field ColumnName="fileID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
 				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" Length="35" />
+				<field ColumnName="categoryID" CF_DataType="CF_SQL_CHAR" Length="35" />
 				<field ColumnName="title" CF_DataType="CF_SQL_VARCHAR" Length="200" />
 				<field ColumnName="description" CF_DataType="CF_SQL_LONGVARCHAR" />
 				<field ColumnName="filename" CF_DataType="CF_SQL_VARCHAR" Length="150" />
@@ -90,7 +89,7 @@
 				<field ColumnName="filesize" CF_DataType="CF_SQL_BIGINT" Precision="19" Scale="0" />
 				<field ColumnName="uploaded" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 				<field ColumnName="uploadedBy" CF_DataType="CF_SQL_CHAR" Length="35" />
-				<field ColumnName="categoryID" CF_DataType="CF_SQL_CHAR" Length="35" />
+				
 			</table>
 			<table name="#arguments.tablePrefix#issues">
 				<field ColumnName="issueID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
@@ -123,12 +122,12 @@
 				<field ColumnName="messageID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
 				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" Length="35" />
 				<field ColumnName="milestoneID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
+				<field ColumnName="categoryID" CF_DataType="CF_SQL_CHAR" Length="35" />
 				<field ColumnName="userID" CF_DataType="CF_SQL_CHAR" Length="35" />
 				<field ColumnName="title" CF_DataType="CF_SQL_VARCHAR" Length="120" />
 				<field ColumnName="message" CF_DataType="CF_SQL_LONGVARCHAR" />
 				<field ColumnName="allowcomments" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 				<field ColumnName="stamp" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
-				<field ColumnName="categoryID" CF_DataType="CF_SQL_CHAR" Length="35" />
 			</table>
 			<table name="#arguments.tablePrefix#milestones">
 				<field ColumnName="milestoneID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
@@ -140,6 +139,8 @@
 				<field ColumnName="dueDate" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 				<field ColumnName="completed" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 				<field ColumnName="rate" CF_DataType="CF_SQL_NUMERIC" Precision="8" Scale="2" />
+				<field ColumnName="billed" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="paid" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 			</table>
 			<table name="#arguments.tablePrefix#project_components">
 				<field ColumnName="componentID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
@@ -278,6 +279,8 @@
 				<field ColumnName="itemID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
 				<field ColumnName="itemType" CF_DataType="CF_SQL_VARCHAR" Length="10" />
 				<field ColumnName="rateID" CF_DataType="CF_SQL_VARCHAR" Length="35" />				
+				<field ColumnName="billed" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="paid" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 			</table>
 			<table name="#arguments.tablePrefix#todolists">
 				<field ColumnName="todolistID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />
@@ -298,22 +301,52 @@
 				<field ColumnName="task" CF_DataType="CF_SQL_VARCHAR" Length="300" />
 				<field ColumnName="rank" CF_DataType="CF_SQL_INTEGER" Precision="10" Scale="0" />
 				<field ColumnName="added" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
-				<field ColumnName="completed" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 				<field ColumnName="due" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
+				<field ColumnName="completed" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 			</table>
 			<table name="#arguments.tablePrefix#user_notify">
 				<field ColumnName="userID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
 				<field ColumnName="projectID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
-				<field ColumnName="email_files" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-				<field ColumnName="mobile_files" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-				<field ColumnName="email_issues" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-				<field ColumnName="mobile_issues" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-				<field ColumnName="email_msgs" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-				<field ColumnName="mobile_msgs" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-				<field ColumnName="email_mstones" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-				<field ColumnName="mobile_mstones" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-				<field ColumnName="email_todos" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
-				<field ColumnName="mobile_todos" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_file_new" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_file_new" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_file_upd" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_file_upd" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_file_com" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_file_com" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_issue_new" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_issue_new" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_issue_upd" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_issue_upd" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_issue_com" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_issue_com" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_msg_new" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_msg_new" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_msg_upd" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_msg_upd" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_msg_com" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_msg_com" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_mstone_new" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_mstone_new" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_mstone_upd" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_mstone_upd" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_mstone_com" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_mstone_com" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_todo_new" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_todo_new" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_todo_upd" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_todo_upd" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_todo_com" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_todo_com" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_time_new" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_time_new" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_time_upd" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_time_upd" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_bill_new" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_bill_new" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_bill_upd" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_bill_upd" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_bill_paid" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_bill_paid" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 			</table>
 			<table name="#arguments.tablePrefix#users">
 				<field ColumnName="userID" CF_DataType="CF_SQL_VARCHAR" PrimaryKey="true" Length="35" />

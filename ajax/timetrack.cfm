@@ -35,7 +35,7 @@
 		<td class="first">#DateFormat(timeline.dateStamp,"mmm d, yyyy")#</td>
 		<td>#timeline.firstName# #timeline.lastName#</td>
 		<td<cfif compareNoCase(url.f,'issue')> class="b"</cfif>>#numberFormat(timeline.hours,"0.00")#</td>
-		<cfif project.tab_billing and project.billing gt 0>
+		<cfif project.tab_billing and project.bill_view>
 			<td>#timeline.category#<cfif compare(timeline.category,'')> ($#NumberFormat(timeline.rate,"0")#/hr)</cfif></td>
 			<cfif compareNoCase(url.f,'issue')>
 				<td><cfif isNumeric(timeline.rate)>$#NumberFormat(timeline.rate*timeline.hours,"0")#</cfif></td>

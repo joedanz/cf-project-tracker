@@ -12,8 +12,8 @@
 	<cfset project = application.project.get(session.user.userid,url.p)>
 </cfif>
 <cfset projectUsers = application.project.projectUsers(url.p)>
-<cfset todolist = application.todolist.get(url.p,url.tl)>
 <cfset todo = application.todo.get(todoID=url.t)>
+<cfset todolist = application.todolist.get(url.p,todo.todolistid)>
 <cfset comments = application.comment.get(url.p,'todo',url.t)>
 <cfset talkList = valueList(comments.userID)>
 <cfif not listLen(talkList)>
@@ -42,16 +42,16 @@
 				<div class="header">
 					<cfif project.todolist_view>
 					<span class="rightmenu">
-						<a href="todos.cfm?p=#url.p#&t=#url.tl#" class="back">View complete to-do list</a>
+						<a href="todos.cfm?p=#url.p#&t=#todo.todolistid#" class="back">View complete to-do list</a>
 					</span>
 					</cfif>
 					
-					<h2 class="comments">Comments on this to-do from <a href="todos.cfm?p=#url.p#&t=#url.tl#">#todolist.title#</a></h2>
+					<h2 class="comments">Comments on this to-do from <a href="todos.cfm?p=#url.p#&t=#todo.todolistid#">#todolist.title#</a></h2>
 				</div>
 				<div class="content">
 				 	<div class="wrapper">
 					
-					<h3 class="pl30"><input type="checkbox" name="todoID" id="c#url.t#" value="1" onclick="mark_todo('#url.t#','#url.tl#');"<cfif isDate(todo.completed)> checked="checked"</cfif> /> <span id="t#url.t#"><cfif isDate(todo.completed)><strike>#todo.task#</strike><cfelse>#todo.task#</cfif></span></h3>
+					<h3 class="pl30"><input type="checkbox" name="todoID" id="c#url.t#" value="1" onclick="mark_todo('#url.t#','#todo.todolistid#');"<cfif isDate(todo.completed)> checked="checked"</cfif> /> <span id="t#url.t#"><cfif isDate(todo.completed)><strike>#todo.task#</strike><cfelse>#todo.task#</cfif></span></h3>
 					<h4 class="pl50"><cfif compare(todo.lastname,'')> <span class="g">#todo.firstName# #todo.lastName#</span></cfif><cfif isDate(todo.due)> - due on #DateFormat(todo.due,"mmm d, yyyy")#</cfif></h4>
 
 					<a name="comments" />

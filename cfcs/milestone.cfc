@@ -104,7 +104,7 @@
 		<cfargument name="milestoneID" type="uuid" required="true">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="name" type="string" required="true">
-		<cfargument name="dueDate" type="string" required="true">
+		<cfargument name="dueDate" type="date" required="true">
 		<cfargument name="description" type="string" required="true">
 		<cfargument name="forID" type="uuid" required="true">
 		<cfargument name="rate" type="string" required="true">

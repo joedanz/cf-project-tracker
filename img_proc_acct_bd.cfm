@@ -12,6 +12,9 @@
 	<cfimage height="16" width="16" nameconflict="overwrite"
 		srcfile="#application.userFilesPath#avatars/#serverFile#"
 		destfile="#application.userFilesPath#avatars/#session.user.userid#_16.jpg">
-	<cffile action="delete" file="#application.userFilesPath#avatars/#serverFile#">
+	<cftry>
+		<cffile action="delete" file="#application.userFilesPath#avatars/#serverFile#">
+		<cfcatch></cfcatch>
+	</cftry>
 	<cfset application.user.setImage(session.user.userID,1)>
 	<cfset session.user.avatar = 1>

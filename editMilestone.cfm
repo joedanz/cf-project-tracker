@@ -154,7 +154,7 @@
 						</select>
 						</div>
 						
-						<cfif project.tab_billing and project.billing eq 2>
+						<cfif project.tab_billing and project.bill_edit>
 							<div>
 							<label for="rate">Rate:</label>
 							$ <input type="text" name="rate" id="rate" value="#HTMLEditFormat(rate)#" maxlength="8" style="width:100px;padding:2px;" />

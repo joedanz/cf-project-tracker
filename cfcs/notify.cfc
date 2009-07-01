@@ -67,9 +67,28 @@
 				</cfswitch>
 
 #request.udf.CleanText(qComment.commentText)#
-
-To view the full message and leave comments, visit this link:
+<cfswitch expression="#arguments.type#">
+	<cfcase value="msg">
+To view the message and leave comments, visit this link:
 #application.settings.rootURL##application.settings.mapping#/message.cfm?p=#arguments.projectID#&m=#arguments.itemID#
+	</cfcase>
+	<cfcase value="issue">
+To view the issue and leave comments, visit this link:
+#application.settings.rootURL##application.settings.mapping#/issue.cfm?p=#arguments.projectID#&i=#arguments.itemID#
+	</cfcase>
+	<cfcase value="file">
+To view the file and leave comments, visit this link:
+#application.settings.rootURL##application.settings.mapping#/files.cfm?p=#arguments.projectID#&f=#arguments.itemID#
+	</cfcase>
+	<cfcase value="mstone">
+To view the milestone and leave comments, visit this link:
+#application.settings.rootURL##application.settings.mapping#/milestones.cfm?p=#arguments.projectID#&m=#arguments.itemID#
+	</cfcase>
+	<cfcase value="todo">
+To view the to-do and leave comments, visit this link:
+#application.settings.rootURL##application.settings.mapping#/todo.cfm?p=#arguments.projectID#&t=#arguments.itemID#
+	</cfcase>
+</cfswitch>
 				</cfoutput>
 				</cfsavecontent>
 				
@@ -582,7 +601,7 @@ Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
 <cfif isDate(qTodo.due)>Due Date: #DateFormat(qTodo.due,"ddd, mmmm d, yyyy")#
 
 </cfif>To view file details or to download, visit this link:
-#application.settings.rootURL##application.settings.mapping#/todos.cfm?p=#arguments.projectID#&t=#arguments.todolistID#
+#application.settings.rootURL##application.settings.mapping#/todo.cfm?p=#arguments.projectID#&t=#arguments.todoID#
 				</cfoutput>
 				</cfsavecontent>
 			
@@ -633,7 +652,7 @@ List: #qTodolist.title#
 <cfif isDate(qTodo.due)>Due Date: #DateFormat(qTodo.due,"ddd, mmmm d, yyyy")#
 
 </cfif>To view file details or to download, visit this link:
-#application.settings.rootURL##application.settings.mapping#/todos.cfm?p=#arguments.projectID#&t=#arguments.todolistID#
+#application.settings.rootURL##application.settings.mapping#/todos.cfm?p=#arguments.projectID#&t=#arguments.todoID#
 				</cfoutput>
 				</cfsavecontent>
 			

@@ -96,7 +96,7 @@
 </cfif>
 
 <!--- Loads header/footer --->
-<cfmodule template="tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Search" project="#IIf(isDefined("project.name"),'project.name','')#" projectid="#url.p#" svnurl="#IIf(isDefined("project.svnurl"),'project.svnurl','')#">
+<cfmodule template="tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Search" project="#IIf(compare(url.p,''),'project.name','')#" projectid="#url.p#" svnurl="#IIf(compare(url.p,''),'project.svnurl','')#">
 
 <cfsavecontent variable="js">
 <cfoutput>
@@ -313,7 +313,7 @@ $(document).ready(function(){
 	<!--- right column --->
 	<div class="right">
 		<cfif not compare(url.p,'') and compare(application.settings.company_logo,'')>
-			<img src="#application.settings.userFilesMapping#/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" /><br />
+			<img src="#application.settings.userFilesMapping#/company/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" /><br />
 		<cfelseif compare(url.p,'') and compare(project.logo_img,'')>
 			<img src="#application.settings.userFilesMapping#/projects/#project.logo_img#" border="0" alt="#project.name#" class="projlogo" />		
 		</cfif>

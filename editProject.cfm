@@ -516,18 +516,18 @@
 									<tbody>
 										<tr>
 											<td>View messages</td>
-											<td class="tac"><input type="radio" name="reg_msg_view" value="1"<cfif reg_msg_view> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_msg_view" value="0"<cfif not reg_msg_view> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_msg_view" value="1"<cfif reg_msg_view eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_msg_view" value="0"<cfif reg_msg_view eq 0> checked="checked"</cfif> /></td>
 										</tr>
 										<tr>
 											<td>Post/edit messages</td>
-											<td class="tac"><input type="radio" name="reg_msg_edit" value="1"<cfif reg_msg_edit> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_msg_edit" value="0"<cfif not reg_msg_edit> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_msg_edit" value="1"<cfif reg_msg_edit eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_msg_edit" value="0"<cfif reg_msg_edit eq 0> checked="checked"</cfif> /></td>
 										</tr>
 										<tr>
 											<td>Comment on messages</td>
-											<td class="tac"><input type="radio" name="reg_msg_comment" value="1"<cfif reg_msg_comment> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_msg_comment" value="0"<cfif not reg_msg_comment> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_msg_comment" value="1"<cfif reg_msg_comment eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_msg_comment" value="0"<cfif reg_msg_comment eq 0> checked="checked"</cfif> /></td>
 										</tr>
 									</tbody>
 								</table>
@@ -543,23 +543,23 @@
 									<tbody>
 										<tr>
 											<td>View to-do lists</td>
-											<td class="tac"><input type="radio" name="reg_todolist_view" value="1"<cfif reg_todolist_view> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_todolist_view" value="0"<cfif not reg_todolist_view> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_todolist_view" value="1"<cfif reg_todolist_view eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_todolist_view" value="0"<cfif reg_todolist_view eq 0> checked="checked"</cfif> /></td>
 										</tr>
 										<tr>
 											<td>Add/edit to-do lists</td>
-											<td class="tac"><input type="radio" name="reg_todolist_edit" value="1"<cfif reg_todolist_edit> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_todolist_edit" value="0"<cfif not reg_todolist_edit> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_todolist_edit" value="1"<cfif reg_todolist_edit eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_todolist_edit" value="0"<cfif reg_todolist_edit eq 0> checked="checked"</cfif> /></td>
 										</tr>
 										<tr>
 											<td>Add/edit to-do items</td>
-											<td class="tac"><input type="radio" name="reg_todo_edit" value="1"<cfif reg_todo_edit> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_todo_edit" value="0"<cfif not reg_todo_edit> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_todo_edit" value="1"<cfif reg_todo_edit eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_todo_edit" value="0"<cfif reg_todo_edit eq 0> checked="checked"</cfif> /></td>
 										</tr>
 										<tr>
 											<td>Comment on to-do items</td>
-											<td class="tac"><input type="radio" name="reg_todo_comment" value="1"<cfif reg_todo_comment> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_todo_comment" value="0"<cfif not reg_todo_comment> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_todo_comment" value="1"<cfif reg_todo_comment eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_todo_comment" value="0"<cfif reg_todo_comment eq 0> checked="checked"</cfif> /></td>
 										</tr>							
 									</tbody>
 								</table>
@@ -575,18 +575,18 @@
 									<tbody>
 										<tr>
 											<td>View milestones</td>
-											<td class="tac"><input type="radio" name="reg_mstone_view" value="1"<cfif reg_mstone_view> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_mstone_view" value="0"<cfif not reg_mstone_view> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_mstone_view" value="1"<cfif reg_mstone_view eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_mstone_view" value="0"<cfif reg_mstone_view eq 0> checked="checked"</cfif> /></td>
 										</tr>
 										<tr>
 											<td>Add/edit milestones</td>
-											<td class="tac"><input type="radio" name="reg_mstone_edit" value="1"<cfif reg_mstone_edit> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_mstone_edit" value="0"<cfif not reg_mstone_edit> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_mstone_edit" value="1"<cfif reg_mstone_edit eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_mstone_edit" value="0"<cfif reg_mstone_edit eq 0> checked="checked"</cfif> /></td>
 										</tr>
 										<tr>
 											<td>Comment on milestones</td>
-											<td class="tac"><input type="radio" name="reg_mstone_comment" value="1"<cfif reg_mstone_comment> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_mstone_comment" value="0"<cfif not reg_mstone_comment> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_mstone_comment" value="1"<cfif reg_mstone_comment eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_mstone_comment" value="0"<cfif reg_mstone_comment eq 0> checked="checked"</cfif> /></td>
 										</tr>
 									</tbody>
 								</table>
@@ -602,18 +602,18 @@
 									<tbody>
 										<tr>
 											<td>View files</td>
-											<td class="tac"><input type="radio" name="reg_file_view" value="1"<cfif reg_file_view> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_file_view" value="0"<cfif not reg_file_view> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_file_view" value="1"<cfif reg_file_view eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_file_view" value="0"<cfif reg_file_view eq 0> checked="checked"</cfif> /></td>
 										</tr>
 										<tr>
 											<td>Upload/edit files</td>
-											<td class="tac"><input type="radio" name="reg_file_edit" value="1"<cfif reg_file_edit> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_file_edit" value="0"<cfif not reg_file_edit> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_file_edit" value="1"<cfif reg_file_edit eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_file_edit" value="0"<cfif reg_file_edit eq 0> checked="checked"</cfif> /></td>
 										</tr>
 										<tr>
 											<td>Comment on files</td>
-											<td class="tac"><input type="radio" name="reg_file_comment" value="1"<cfif reg_file_comment> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_file_comment" value="0"<cfif not reg_file_comment> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_file_comment" value="1"<cfif reg_file_comment eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_file_comment" value="0"<cfif reg_file_comment eq 0> checked="checked"</cfif> /></td>
 										</tr>
 									</tbody>
 								</table>
@@ -631,33 +631,33 @@
 									<tbody>
 										<tr>
 											<td>View issues</td>
-											<td class="tac"><input type="radio" name="reg_issue_view" value="1"<cfif reg_issue_view> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_issue_view" value="0"<cfif not reg_issue_view> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_issue_view" value="1"<cfif reg_issue_view eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_issue_view" value="0"<cfif reg_issue_view eq 0> checked="checked"</cfif> /></td>
 										</tr>
 										<tr>
 											<td>Add/edit issues</td>
-											<td class="tac"><input type="radio" name="reg_issue_edit" value="1"<cfif reg_issue_edit> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_issue_edit" value="0"<cfif not reg_issue_edit> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_issue_edit" value="1"<cfif reg_issue_edit eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_issue_edit" value="0"<cfif reg_issue_edit eq 0> checked="checked"</cfif> /></td>
 										</tr>
 										<tr>
 											<td>Assign issues</td>
-											<td class="tac"><input type="radio" name="reg_issue_assign" value="1"<cfif reg_issue_assign> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_issue_assign" value="0"<cfif not reg_issue_assign> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_issue_assign" value="1"<cfif reg_issue_assign eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_issue_assign" value="0"<cfif reg_issue_assign eq 0> checked="checked"</cfif> /></td>
 										</tr>
 										<tr>
 											<td>Resolve issues</td>
-											<td class="tac"><input type="radio" name="reg_issue_resolve" value="1"<cfif reg_issue_resolve> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_issue_resolve" value="0"<cfif not reg_issue_resolve> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_issue_resolve" value="1"<cfif reg_issue_resolve eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_issue_resolve" value="0"<cfif reg_issue_resolve eq 0> checked="checked"</cfif> /></td>
 										</tr>
 										<tr>
 											<td>Close issues</td>
-											<td class="tac"><input type="radio" name="reg_issue_close" value="1"<cfif reg_issue_close> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_issue_close" value="0"<cfif not reg_issue_close> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_issue_close" value="1"<cfif reg_issue_close eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_issue_close" value="0"<cfif reg_issue_close eq 0> checked="checked"</cfif> /></td>
 										</tr>
 										<tr>
 											<td>Comment on issues</td>
-											<td class="tac"><input type="radio" name="reg_issue_comment" value="1"<cfif reg_issue_comment> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_issue_comment" value="0"<cfif not reg_issue_comment> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_issue_comment" value="1"<cfif reg_issue_comment eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_issue_comment" value="0"<cfif reg_issue_comment eq 0> checked="checked"</cfif> /></td>
 										</tr>
 									</tbody>
 								</table>
@@ -673,13 +673,13 @@
 									<tbody>
 										<tr>
 											<td>View time tracking</td>
-											<td class="tac"><input type="radio" name="reg_time_view" value="1"<cfif reg_time_view> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_time_view" value="0"<cfif not reg_time_view> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_time_view" value="1"<cfif reg_time_view eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_time_view" value="0"<cfif reg_time_view eq 0> checked="checked"</cfif> /></td>
 										</tr>
 										<tr>
 											<td>Add/edit time tracking</td>
-											<td class="tac"><input type="radio" name="reg_time_edit" value="1"<cfif reg_time_edit> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_time_edit" value="0"<cfif not reg_time_edit> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_time_edit" value="1"<cfif reg_time_edit eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_time_edit" value="0"<cfif reg_time_edit eq 0> checked="checked"</cfif> /></td>
 										</tr>
 									</tbody>
 								</table>
@@ -695,28 +695,28 @@
 									<tbody>
 										<tr>
 											<td>View billing</td>
-											<td class="tac"><input type="radio" name="reg_bill_view" value="1"<cfif reg_bill_view> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_bill_view" value="0"<cfif not reg_bill_view> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_bill_view" value="1"<cfif reg_bill_view eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_bill_view" value="0"<cfif reg_bill_view eq 0> checked="checked"</cfif> /></td>
 										</tr>
 										<tr>
 											<td>Add/edit billing</td>
-											<td class="tac"><input type="radio" name="reg_bill_edit" value="1"<cfif reg_bill_edit> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_bill_edit" value="0"<cfif not reg_bill_edit> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_bill_edit" value="1"<cfif reg_bill_edit eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_bill_edit" value="0"<cfif reg_bill_edit eq 0> checked="checked"</cfif> /></td>
 										</tr>
 										<tr>
 											<td>Manage billing rates</td>
-											<td class="tac"><input type="radio" name="reg_bill_rates" value="1"<cfif reg_bill_rates> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_bill_rates" value="0"<cfif not reg_bill_rates> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_bill_rates" value="1"<cfif reg_bill_rates eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_bill_rates" value="0"<cfif reg_bill_rates eq 0> checked="checked"</cfif> /></td>
 										</tr>
 										<tr>
 											<td>Generate invoices</td>
-											<td class="tac"><input type="radio" name="reg_bill_invoices" value="1"<cfif reg_bill_invoices> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_bill_invoices" value="0"<cfif not reg_bill_invoices> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_bill_invoices" value="1"<cfif reg_bill_invoices eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_bill_invoices" value="0"<cfif reg_bill_invoices eq 0> checked="checked"</cfif> /></td>
 										</tr>
 										<tr>
 											<td>Mark items paid</td>
-											<td class="tac"><input type="radio" name="reg_bill_markpaid" value="1"<cfif reg_bill_markpaid> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_bill_markpaid" value="0"<cfif not reg_bill_markpaid> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_bill_markpaid" value="1"<cfif reg_bill_markpaid eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_bill_markpaid" value="0"<cfif reg_bill_markpaid eq 0> checked="checked"</cfif> /></td>
 										</tr>
 									</tbody>
 								</table>
@@ -732,8 +732,8 @@
 									<tbody>
 										<tr>
 											<td>Access Subversion repository</td>
-											<td class="tac"><input type="radio" name="reg_svn" value="1"<cfif reg_svn> checked="checked"</cfif> /></td>
-											<td class="tac"><input type="radio" name="reg_svn" value="0"<cfif not reg_svn> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_svn" value="1"<cfif reg_svn eq 1> checked="checked"</cfif> /></td>
+											<td class="tac"><input type="radio" name="reg_svn" value="0"<cfif reg_svn eq 0> checked="checked"</cfif> /></td>
 										</tr>
 									</tbody>
 								</table>

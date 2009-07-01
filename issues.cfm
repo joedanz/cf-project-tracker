@@ -31,6 +31,16 @@
 <cfhtmlhead text="<script type='text/javascript'>
 $(document).ready(function(){
     $.tablesorter.addParser({ 
+        id: 'shortid', 
+        is: function(s) {  
+            return false; // return false so this parser is not auto detected
+        }, 
+        format: function(s) { 
+            return s.toLowerCase().replace(/#LCase(project.ticketPrefix)#/,''); 
+        }, 
+        type: 'numeric' 
+    });
+	$.tablesorter.addParser({ 
         id: 'severity', 
         is: function(s) {  
             return false; // return false so this parser is not auto detected
@@ -64,7 +74,7 @@ $(document).ready(function(){
 	$('##issues').tablesorter({
 			cssHeader: 'theader',
 			sortList: [[0,0]],
-			headers: { 2: { sorter:'severity' }, 3: { sorter:'status' }, 6: { sorter:'text' }, 8: { sorter:'usLongDate' }, 9: { sorter:'usLongDate' }, 10: { sorter:'usLongDate' } },
+			headers: { 0: { sorter:'shortid' }, 2: { sorter:'severity' }, 3: { sorter:'status' }, 6: { sorter:'text' }, 8: { sorter:'usLongDate' }, 9: { sorter:'usLongDate' }, 10: { sorter:'usLongDate' } },
 			widgets: ['zebra'] 
 	});
 });

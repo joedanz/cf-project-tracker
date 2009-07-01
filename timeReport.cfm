@@ -119,7 +119,7 @@
 								<th class="first">Date</th>
 								<th>Person</th>
 								<th>Hours</th>
-								<cfif project.tab_billing and project.billing eq 2>
+								<cfif project.tab_billing and project.bill_edit>
 									<th>Billing Category</th>
 									<th>Fee</th>
 								</cfif>
@@ -134,7 +134,7 @@
 								<td class="first">#DateFormat(dateStamp,"mmm d, yyyy")#</td>
 								<td>#firstName# #lastName#</td>
 								<td class="b">#numberFormat(hours,"0.00")#</td>
-								<cfif project.tab_billing and project.billing gt 0>
+								<cfif project.tab_billing and project.bill_view>
 									<td>#category#<cfif compare(category,'')> ($#NumberFormat(rate,"0")#/hr)</cfif></td>
 									<td><cfif isNumeric(rate)>$#NumberFormat(rate*hours,"0")#</cfif></td>
 								</cfif>
@@ -151,7 +151,7 @@
 							<tr class="last">
 								<td colspan="2" class="tar b">TOTAL:&nbsp;&nbsp;&nbsp;</td>
 								<td class="b"><span id="totalhours">#NumberFormat(totalHours,"0.00")#</span></td>
-								<cfif project.tab_billing and project.billing gt 0>
+								<cfif project.tab_billing and project.bill_view>
 									<td class="tar b">TOTAL FEE:&nbsp;&nbsp;&nbsp;</td>
 									<td class="b">$#NumberFormat(totalFee,"0")#</td>
 								</cfif>

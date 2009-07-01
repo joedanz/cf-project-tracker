@@ -156,7 +156,6 @@
 	<cffunction name="projects" access="public" returntype="query" output="false"
 				hint="Returns project records.">				
 		<cfargument name="searchText" type="string" required="true">
-		<cfargument name="projectid" type="string" required="true">
 		<cfargument name="admin" type="boolean" required="true">
 		<cfset var qProjects = "">
 		<cfquery name="qProjects" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
@@ -167,9 +166,7 @@
 				LEFT JOIN #variables.tableprefix#clients c on p.clientID = c.clientID 
 			WHERE (p.name like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">
 				OR p.description like <cfqueryparam cfsqltype="cf_sql_varchar" value="%#arguments.searchText#%">)
-				<cfif compare(arguments.projectid,'')>
-					AND p.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
-				<cfelseif not arguments.admin>
+				<cfif not arguments.admin>
 					AND p.projectID IN (<cfqueryparam value="#ValueList(session.user.projects.projectID)#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 				</cfif>
 				ORDER BY p.name
