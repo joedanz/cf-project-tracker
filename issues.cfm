@@ -172,7 +172,7 @@ $(document).ready(function(){
 						<cfif issues.recordCount>
 					 	<div style="border:1px solid ##ddd;" class="mb20">
 					 	<table class="activity full tablesorter" id="issues">
-						<caption class="plain">#replace(form.status,'|',' &amp; ')# Issues</caption>
+						<caption class="plain"><cfif not compareNoCase(form.status,'New|Accepted|Assigned')>New, Accepted &amp; Assiged<cfelse>#replace(form.status,'|',' &amp; ')#</cfif> Issues</caption>
 						<thead>
 							<tr>
 								<th>ID</th>
