@@ -95,7 +95,7 @@
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_date" value="#createODBCDate(arguments.dateStamp)#">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#hoursConverted#" maxlength="6">,
+					<cfqueryparam cfsqltype="cf_sql_numeric" value="#hoursConverted#" maxlength="7" scale="2">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="255">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.itemid#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.itemtype#" maxlength="10">,
@@ -113,12 +113,22 @@
 		<cfargument name="hours" type="string" required="true">
 		<cfargument name="description" type="string" required="true">
 		<cfargument name="rateID" type="string" required="false" default="">
+		<cfset var hoursConverted = "">
+		<cfset var hrs = "">
+		<cfset var min = "">
+		<cfif find(':',arguments.hours)>
+			<cfset hrs = left(arguments.hours,find(':',arguments.hours)-1)>
+			<cfset min = right(arguments.hours,len(arguments.hours)-find(':',arguments.hours)) / 60>
+			<cfset hoursConverted = left(hrs+min,6)>
+		<cfelse>
+			<cfset hoursConverted = arguments.hours>
+		</cfif>
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#timetrack 
 				SET projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					dateStamp = <cfqueryparam cfsqltype="cf_sql_date" value="#createODBCDate(arguments.dateStamp)#">,
-					hours = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.hours#" maxlength="6">,
+					hours = <cfqueryparam cfsqltype="cf_sql_numeric" value="#hoursConverted#" maxlength="7" scale="2">,
 					description = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.description#" maxlength="255">,
 					rateID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.rateID#" maxlength="35">
 				WHERE timetrackID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.timetrackID#" maxlength="35">
