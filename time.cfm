@@ -128,7 +128,7 @@
 									</td>
 									<td>&nbsp;</td>
 								<cfelse>
-									<td colspan="2"><input type="hidden" name="rateID" value="" /></td>
+									<input type="hidden" name="rateID" id="rateID" value="" />
 								</cfif>
 								<td><input type="text" name="description" id="desc" class="short" /></td>
 								<td class="tac"><input type="submit" value="Add to log" onclick="add_time_row('#url.p#','','','time');" /></td>
@@ -142,7 +142,7 @@
 								<td class="first">#DateFormat(dateStamp,"mmm d, yyyy")#</td>
 								<td>#firstName# #lastName#</td>
 								<td class="b">#numberFormat(hours,"0.00")#</td>
-								<cfif project.tab_billing and project.bill_edit>
+								<cfif project.tab_billing and project.bill_view>
 									<td><cfif compare(category,'') and not compareNoCase(clientID,project.clientID)>#category# ($#NumberFormat(rate,"0")#/hr)</cfif></td>
 									<td><cfif isNumeric(rate) and not compareNoCase(clientID,project.clientID)>$#NumberFormat(rate*hours,"0")#</cfif></td>
 								</cfif>
