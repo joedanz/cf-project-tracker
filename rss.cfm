@@ -1,5 +1,6 @@
 <cfsetting enablecfoutputonly="true" showdebugoutput="false">
 
+<cfset tzOffset = application.timezone.getTZOffset(tz=application.settings_default_timezone)>
 <cfset site_url = application.settings.rootURL & application.settings.mapping>
 <cfset meta = structNew()>
 
@@ -17,11 +18,11 @@
 				<cfset queryAddRow(data,1)>
 				<cfset querySetCell(data,"title","#type# #activity#: #name#")>
 				<cfif application.settings.clockHours eq 12>
-					<cfset formattedTime = timeFormat(stamp,"h:mmtt")>
+					<cfset formattedTime = timeFormat(DateAdd("h",tzOffset,stamp),"h:mmtt")>
 				<cfelse>
-					<cfset formattedTime = timeFormat(stamp,"HH:mm")>
+					<cfset formattedTime = timeFormat(DateAdd("h",tzOffset,stamp),"HH:mm")>
 				</cfif>
-				<cfset querySetCell(data,"body","#activity# by #firstName# #lastName# on #DateFormat(stamp,"d mmm")# @ #formattedTime#")>
+				<cfset querySetCell(data,"body","#activity# by #firstName# #lastName# on #DateFormat(DateAdd("h",tzOffset,stamp),"d mmm")# @ #formattedTime#")>
 				
 				<cfswitch expression="#type#">
 					<cfcase value="Issue"><cfset querySetCell(data,"link","#site_url#/issues.cfm?p=#url.p#&i=#id#")></cfcase>		
@@ -34,7 +35,7 @@
 				</cfswitch>			
 				
 				<cfset querySetCell(data,"subject","Recent Activity")>
-				<cfset querySetCell(data,"date",stamp)>
+				<cfset querySetCell(data,"date",DateAdd("h",tzOffset,stamp))>
 			</cfoutput>
 		</cfif>
 	</cfcase>
@@ -50,11 +51,11 @@
 			<cfset queryAddRow(data,1)>
 			<cfset querySetCell(data,"title","#projectName#: #type# #activity#: #name#")>
 			<cfif application.settings.clockHours eq 12>
-				<cfset formattedTime = timeFormat(stamp,"h:mmtt")>
+				<cfset formattedTime = timeFormat(DateAdd("h",tzOffset,stamp),"h:mmtt")>
 			<cfelse>
-				<cfset formattedTime = timeFormat(stamp,"HH:mm")>
+				<cfset formattedTime = timeFormat(DateAdd("h",tzOffset,stamp),"HH:mm")>
 			</cfif>			
-			<cfset querySetCell(data,"body","#activity# by #firstName# #lastName# on #DateFormat(stamp,"d mmm")# @ #formattedTime#")>
+			<cfset querySetCell(data,"body","#activity# by #firstName# #lastName# on #DateFormat(DateAdd("h",tzOffset,stamp),"d mmm")# @ #formattedTime#")>
 			
 			<cfswitch expression="#type#">
 				<cfcase value="Issue"><cfset querySetCell(data,"link","#site_url#/issues.cfm?p=#projectID#&i=#id#")></cfcase>		
@@ -67,7 +68,7 @@
 			</cfswitch>			
 			
 			<cfset querySetCell(data,"subject","Recent Activity")>
-			<cfset querySetCell(data,"date",stamp)>
+			<cfset querySetCell(data,"date",DateAdd("h",tzOffset,stamp))>
 		</cfoutput>
 	</cfcase>	
 </cfswitch>

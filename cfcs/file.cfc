@@ -91,7 +91,7 @@
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.serverfilename#" maxlength="150">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.filetype#" maxlength="4">, 
 						<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.filesize#">, 
-						#Now()#, 
+						<cfqueryparam cfsqltype="cf_sql_timestamp" value="#DateConvert("local2Utc",Now())#">, 
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.uploadedBy#" maxlength="35">		
 						)
 		</cfquery>		

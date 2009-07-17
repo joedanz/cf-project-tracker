@@ -64,7 +64,6 @@
 				</cfif> 
 				t.todoID,t.todolistID,t.projectID,t.task,t.userID,t.rank,t.added,t.due,
 				t.completed,u.firstName,u.lastName
-				
 			ORDER BY #arguments.order_by#
 		</cfquery>
 		<cfreturn qGetTodos>
@@ -85,7 +84,8 @@
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.task#" maxlength="300">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
-					999,#Now()#,
+					999,
+					<cfqueryparam cfsqltype="cf_sql_timestamp" value="#DateConvert("local2Utc",Now())#">,
 					<cfif isDate(arguments.due)>
 						<cfqueryparam cfsqltype="cf_sql_date" value="#arguments.due#">
 					<cfelse>

@@ -94,7 +94,9 @@
 					<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.description#">,
 					<cfqueryparam cfsqltype="cf_sql_date" value="#arguments.dueDate#">,
 					<cfif isNumeric(arguments.rate)><cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.rate#"><cfelse>NULL</cfif>,
-					<cfif arguments.completed>#CreateODBCDateTime(Now())#<cfelse>NULL</cfif>)
+					<cfif arguments.completed>
+						<cfqueryparam cfsqltype="cf_sql_timestamp" value="#DateConvert("local2Utc",Now())#">
+					<cfelse>NULL</cfif>)
 		</cfquery>
 		<cfreturn true>
 	</cffunction>
@@ -117,7 +119,13 @@
 					dueDate = <cfqueryparam cfsqltype="cf_sql_date" value="#arguments.dueDate#">,
 					forID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.forID#" maxlength="35">,
 					rate = <cfif isNumeric(arguments.rate)><cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.rate#"><cfelse>NULL</cfif>,
-					completed = <cfif arguments.completed><cfif isDate(original.completed)>#CreateODBCDateTime(original.completed)#<cfelse>#CreateODBCDateTime(Now())#</cfif><cfelse>NULL</cfif>
+					completed = <cfif arguments.completed>
+							<cfif isDate(original.completed)>
+								<cfqueryparam cfsqltype="cf_sql_timestamp" value="#CreateODBCDateTime(original.completed)#">
+							<cfelse>
+								<cfqueryparam cfsqltype="cf_sql_timestamp" value="#DateConvert("local2Utc",Now())#">
+							</cfif>
+						<cfelse>NULL</cfif>
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 					AND milestoneID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.milestoneID#" maxlength="35">
 		</cfquery>
@@ -143,7 +151,8 @@
 		<cfargument name="milestoneID" type="uuid" required="true">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			UPDATE #variables.tableprefix#milestones SET completed = #Now()#
+			UPDATE #variables.tableprefix#milestones 
+			SET completed = <cfqueryparam cfsqltype="cf_sql_timestamp" value="#DateConvert("local2Utc",Now())#">
 			WHERE milestoneID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.milestoneID#" maxlength="35">
 				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
@@ -155,7 +164,8 @@
 		<cfargument name="milestoneID" type="uuid" required="true">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			UPDATE #variables.tableprefix#milestones SET completed = NULL
+			UPDATE #variables.tableprefix#milestones 
+			SET completed = NULL
 			WHERE milestoneID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.milestoneID#" maxlength="35">
 				AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>

@@ -6,6 +6,11 @@
 <cfparam name="application.settings.showDebug" default="false">
 <cfsetting showdebugoutput="#application.settings.showDebug#">
 
+<!--- G18N - everything in/out to unicode --->
+<cfset setEncoding('URL','UTF-8')>
+<cfset setEncoding('Form','UTF-8')>
+<cfcontent type="text/html; charset=UTF-8">
+
 <!--- double check lock, so we don't do this twice --->
 <cfif not StructKeyExists(application,"init") or StructKeyExists(url,"reinit")>
 	<cflock name="init.#applicationName#" timeout="120">
@@ -56,6 +61,7 @@
 			<cfset application.search = createObject("component","cfcs.search").init(settings)>
 			<cfset application.svn = createObject("component","cfcs.svn").init(settings)>
 			<cfset application.timetrack = createObject("component","cfcs.timetrack").init(settings)>
+			<cfset application.timezone = createObject("component","cfcs.timezone").init()>
 			<cfset application.todo = createObject("component","cfcs.todo").init(settings)>
 			<cfset application.todolist = createObject("component","cfcs.todolist").init(settings)>
 			<cfset application.user = createObject("component","cfcs.user").init(settings)>
@@ -71,6 +77,10 @@
 				<cfset application.carriers = application.carrier.get(activeOnly=true)>
 				<cfcatch></cfcatch>
 			</cftry>
+			<cfset application.timezones = application.timezone.getAvailableTZ()>
+
+			<!--- geolocation stuff --->
+			<cfset application.settings.default_offset = application.timezone.getTZOffset(tz=application.settings.default_timezone)>
 
 			<!--- check for Blue Dragon --->
 			<cfset application.isBD = StructKeyExists(server,"bluedragon")>
@@ -190,6 +200,9 @@
 					</cfif>
 					<cfset session.user = thisUser>
 					<cfset session.style = thisUser.style>
+					<cfset session.locale = thisUser.locale>
+					<cfset session.timezone = thisUser.timezone>
+					<cfset session.tzOffset = application.timezone.getTZOffset(tz=thisUser.timezone)>
 					<cfset session.loggedin = true>
 					<cfset session.assignedTo = "">
 					<!--- set last login stamp --->
@@ -207,6 +220,11 @@
 		</cfif>
 	
 	</cflogin>
+</cfif>
+
+<!--- set locale if user is logged in --->
+<cfif StructKeyExists(session,"loggedin") and session.loggedin>
+	<cfset setLocale(session.user.locale)>
 </cfif>
 
 <cfif StructKeyExists(form,"assignedTo")>

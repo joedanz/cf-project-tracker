@@ -44,7 +44,7 @@
 				AND a.projectID IN (<cfqueryparam value="#arguments.projectIDlist#" cfsqltype="CF_SQL_VARCHAR" list="Yes" separator=",">)
 			</cfif>			
 			<cfif arguments.recentOnly>
-				AND a.stamp > #DateAdd("m",-1,Now())#
+				AND a.stamp > #DateAdd("m",-1,DateConvert("local2utc",Now()))#
 			</cfif>
 			<cfif compare(arguments.type,'')>
 				AND a.type = 
@@ -81,7 +81,7 @@
 			<cfif compare(arguments.projectID,'')>AND a.projectID = 
 				<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35"></cfif>
 			<cfif arguments.recentOnly>
-				AND a.stamp > #DateAdd("m",-1,Now())#
+				AND a.stamp > #DateAdd("m",-1,DateConvert("local2utc",Now()))#
 			</cfif>
 			ORDER BY 
 					<cfif len(arguments.sortcol)><cfif not compareNoCase(arguments.sortcol,'NAME')>a.</cfif>[#arguments.sortcol#]<cfelse>stamp</cfif>
@@ -111,7 +111,7 @@
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.id#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.activity#">,
-					#Now()#)
+					<cfqueryparam cfsqltype="cf_sql_timestamp" value="#DateConvert("local2Utc",Now())#">)
 		</cfquery>
 		<cfreturn true>
 	</cffunction>

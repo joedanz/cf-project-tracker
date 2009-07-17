@@ -9,7 +9,7 @@
 		<id>#todoid#</id>
 		<task>#xmlFormat(task)#</task>
 		<position>#rank#</position>
-		<completed><cfif isDate(completed)>#DateFormat(completed,"yyyy-mm-dd")#T#TimeFormat(completed,"HH:mm:ss")#Z</cfif></completed>
+		<completed><cfif isDate(completed)>#DateFormat(DateAdd("h",application.settings.default_offset,completed),"yyyy-mm-dd")#T#TimeFormat(DateAdd("h",application.settings.default_offset,completed),"HH:mm:ss")#Z</cfif></completed>
 		<due><cfif isDate(due)>#DateFormat(due,"yyyy-mm-dd")#T#TimeFormat(due,"HH:mm:ss")#Z</cfif></due>
 	</todo></cfloop>
 </todos>

@@ -61,7 +61,8 @@
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.timetrack#" maxlength="1">, 
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
-					#Now()#,1)
+					<cfqueryparam cfsqltype="cf_sql_timestamp" value="#DateConvert("local2Utc",Now())#">,
+					1)
 		</cfquery>
 		<cfreturn true>
 	</cffunction>

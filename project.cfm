@@ -227,8 +227,8 @@ $(document).ready(function(){
 							<td>#status#</td>
 							<td><a href="issue.cfm?p=#url.p#&i=#issueID#">#issue#</a></td>
 							<td>#assignedFirstName# #assignedLastName#</td>
-							<td>#DateFormat(created,"mmm dd, yyyy")#</td>
-							<td>#DateFormat(updated,"mmm dd, yyyy")#</td>
+							<td>#DateFormat(DateAdd("h",session.tzOffset,created),"mmm dd, yyyy")#</td>
+							<td><cfif isDate(updated)>#DateFormat(DateAdd("h",session.tzOffset,updated),"mmm dd, yyyy")#</cfif></td>
 							<td>#DateFormat(dueDate,"mmm dd, yyyy")#</td>
 						</tr>
 						<cfset thisRow = thisRow + 1>
@@ -284,7 +284,7 @@ $(document).ready(function(){
 							</td>
 						<td class="g">#activity# by</td>
 						<td>#firstName# #lastName#</td>
-						<td>#DateFormat(stamp,"mmm d, yyyy")# <cfif application.settings.clockHours eq 12>#TimeFormat(stamp,"h:mmtt")#<cfelse>#TimeFormat(stamp,"HH:mm")#</cfif></td>
+						<td>#DateFormat(DateAdd("h",session.tzOffset,stamp),"mmm d, yyyy")# <cfif application.settings.clockHours eq 12>#TimeFormat(DateAdd("h",session.tzOffset,stamp),"h:mmtt")#<cfelse>#TimeFormat(DateAdd("h",session.tzOffset,stamp),"HH:mm")#</cfif></td>
 						</tr>
 						<cfset thisRow = thisRow + 1>
 						</cfif>

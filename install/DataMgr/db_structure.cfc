@@ -361,6 +361,8 @@
 				<field ColumnName="lastLogin" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 				<field ColumnName="avatar" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 				<field ColumnName="style" CF_DataType="CF_SQL_VARCHAR" Length="20" />
+				<field ColumnName="locale" CF_DataType="CF_SQL_VARCHAR" Length="32" />
+				<field ColumnName="timezone" CF_DataType="CF_SQL_VARCHAR" Length="32" />
 				<field ColumnName="admin" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 				<field ColumnName="active" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 			</table>
@@ -379,6 +381,8 @@
 				<row settingID="1E77669A-963D-735E-C7C22FA82FABC398" setting="company_logo" settingValue="" />
 				<row settingID="5D717D09-1372-7975-6F21844EACDAFC54" setting="invoice_logo" settingValue="" />
 				<row settingID="3D72D1F7-CD23-8BE3-60F9614093F89CCF" setting="hourly_rate" settingValue="" />
+				<row settingID="89DDF566-1372-7975-6F192B9AFBDB218A" setting="default_locale" settingValue="English (US)" />
+				<row settingID="89B9B664-1372-7975-6F7D802298571968" setting="default_timezone" settingValue="US/Eastern" />
 			</data>
 			<data table="#arguments.tablePrefix#carriers">
 				<row carrierID="8464AB28-1372-7975-6F2E9747CA6E4693" carrier="AT&amp;T" countryCode="US" country="United States" prefix="" suffix="@txt.att.net" active="1" />

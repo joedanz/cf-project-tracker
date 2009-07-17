@@ -136,7 +136,7 @@
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.assignedTo#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.relevantURL#" maxlength="255">,
-						#Now()#, 
+						<cfqueryparam cfsqltype="cf_sql_timestamp" value="#DateConvert("local2Utc",Now())#">, 
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.createdBy#" maxlength="35">
 						)
 		</CFQUERY>
@@ -194,7 +194,7 @@
 				</cfif>
 				milestoneID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.milestoneID#" maxlength="35">,
 				relevantURL = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.relevantURL#" maxlength="255">, 
-				updated = #Now()#, 
+				updated = <cfqueryparam cfsqltype="cf_sql_timestamp" value="#DateConvert("local2Utc",Now())#">, 
 				updatedBy = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.updatedBy#" maxlength="35">
 			WHERE 0=0
 				AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#">			
@@ -211,7 +211,7 @@
 			UPDATE #variables.tableprefix#issues 
 			SET status = 'Assigned',
 				assignedTo = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">,
-				updated = #CreateODBCDateTime(Now())#, 
+				updated = <cfqueryparam cfsqltype="cf_sql_timestamp" value="#DateConvert("local2Utc",Now())#">, 
 				updatedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 				AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#">
@@ -225,7 +225,8 @@
 		<cfargument name="userID" type="string" required="true">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#issues 
-			SET status = 'New', assignedTo = '', updated = #CreateODBCDateTime(Now())#, 
+			SET status = 'New', assignedTo = '', 
+				updated = <cfqueryparam cfsqltype="cf_sql_timestamp" value="#DateConvert("local2Utc",Now())#">, 
 				updatedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 				AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#">
@@ -245,7 +246,7 @@
 			SET status = 'Resolved',
 				resolution = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.resolution#" maxlength="12">,
 				resolutionDesc = <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.resolutionDesc#">,
-				updated = #CreateODBCDateTime(Now())#, 
+				updated = <cfqueryparam cfsqltype="cf_sql_timestamp" value="#DateConvert("local2Utc",Now())#">, 
 				updatedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 				AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#">
@@ -259,8 +260,9 @@
 		<cfargument name="userID" type="string" required="true">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#issues 
-				SET	status = 'Closed', updated = #CreateODBCDateTime(Now())#, 
-				updatedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
+				SET	status = 'Closed', 
+					updated = <cfqueryparam cfsqltype="cf_sql_timestamp" value="#DateConvert("local2Utc",Now())#">, 
+					updatedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 				AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#">
 		</cfquery>		
@@ -273,8 +275,9 @@
 		<cfargument name="userID" type="string" required="true">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#issues 
-				SET	status = 'Assigned', updated = #CreateODBCDateTime(Now())#, 
-				updatedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
+				SET	status = 'Assigned', 
+					updated = <cfqueryparam cfsqltype="cf_sql_timestamp" value="#DateConvert("local2Utc",Now())#">, 
+					updatedBy = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#">
 				AND issueID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.issueID#">
 		</cfquery>		

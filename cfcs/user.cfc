@@ -24,7 +24,8 @@
 		<cfset var sLogin = StructNew()>
 		<cfset var qProjects = "">
 		<cfquery name="qLogin" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			SELECT userID, firstName, lastName, username, email, phone, lastLogin, avatar, style, admin, active
+			SELECT userID, firstName, lastName, username, email, phone, lastLogin, avatar, style, locale, timezone, 
+				admin, active
 			FROM #variables.tableprefix#users
 			WHERE username = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#" maxlength="35">
 			<cfif not cookieLogin>
@@ -42,6 +43,8 @@
 				sLogin.lastLogin = qLogin.lastLogin;
 				sLogin.avatar = qLogin.avatar;
 				sLogin.style = qLogin.style;
+				sLogin.locale = qLogin.locale;
+				sLogin.timezone = qLogin.timezone;
 				sLogin.admin = qLogin.admin;
 				sLogin.active = qLogin.active;
 				sLogin.projects = application.project.get(qLogin.userID);
@@ -354,7 +357,21 @@ You must confirm this account before using it by clicking here:
 				WHERE userid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
-	</cffunction>		
+	</cffunction>
+	
+	<cffunction name="setLocaleTimezone" access="public" returnType="boolean" output="false"
+				hint="Sets timezone for user.">
+		<cfargument name="userid" type="uuid" required="true">
+		<cfargument name="locale" type="string" required="true">
+		<cfargument name="timezone" type="string" required="true">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
+			UPDATE #variables.tableprefix#users 
+				SET locale = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.locale#" maxlength="32">,
+					timezone = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.timezone#" maxlength="32">
+				WHERE userid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
+		</cfquery>
+		<cfreturn true>
+	</cffunction>
 	
 	<cffunction name="delete" access="public" returntype="void" output="false"
 				hint="Deletes a users record.">

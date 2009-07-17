@@ -67,7 +67,7 @@
 						
 							<div class="milestone">
 							<div class="date <cfif isDate(milestone.completed)>completed<cfelseif daysago gte 1>late<cfelse>upcoming</cfif>"><span class="b"><cfif daysago eq 0>Today<cfelseif daysago eq 1>Yesterday<cfelseif daysAgo gt 1>#daysago# days ago<cfelseif daysAgo eq -1>Tomorrow<cfelse>#Abs(daysago)# days away</cfif></span> (#DateFormat(dueDate,"dddd, d mmmm, yyyy")#)<cfif userid neq 0><span style="color:##666;"> - For #firstName# #lastName#</span></cfif></div>
-							<div id="m#milestoneid#" style="display:none;" class="markcomplete">Moving to <cfif not isDate(milestone.completed)>Completed<cfelseif DateDiff("d",dueDate,Now())>Late<cfelse>Upcoming</cfif> - just a second...</div>
+							<div id="m#milestoneid#" style="display:none;" class="markcomplete">Moving to <cfif not isDate(milestone.completed)>Completed<cfelseif DateDiff("d",dueDate,DateConvert("local2Utc",Now()))>Late<cfelse>Upcoming</cfif> - just a second...</div>
 							<h3><cfif project.mstone_edit><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&<cfif isDate(milestone.completed)>a<cfelse>c</cfif>=1&m=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;"<cfif isDate(milestone.completed)> checked="checked"</cfif> /> </cfif>#name#</h3>
 							<cfif compare(description,'')><div class="desc">#description#</div></cfif>
 							
@@ -78,7 +78,7 @@
 							<h5 class="sub">Messages:</h5>
 							<ul class="sub">
 							<cfloop query="msgs">
-							<li class="sub"><a href="message.cfm?p=#url.p#&m=#messageid#">#title#</a> - Posted #DateFormat(stamp,"d mmm, yyyy")# by #firstName# #lastName#<cfif commentcount gt 0> <span class="i">(#commentcount# comments)</span></cfif></li>
+							<li class="sub"><a href="message.cfm?p=#url.p#&m=#messageid#">#title#</a> - Posted #DateFormat(DateAdd("h",session.tzOffset,stamp),"d mmm, yyyy")# by #firstName# #lastName#<cfif commentcount gt 0> <span class="i">(#commentcount# comments)</span></cfif></li>
 							</cfloop>
 							</ul>
 							</cfif>
@@ -90,7 +90,7 @@
 							<h5 class="sub">To-Do Lists:</h5>
 							<ul class="sub">
 							<cfloop query="tl">
-							<li class="sub"><a href="todos.cfm?p=#url.p#&tlid=#todolistid#">#title#</a> - Added #DateFormat(added,"d mmm, yyyy")#<cfif compare(firstName,'') or compare(lastName,'')> for #firstName# #lastName#</cfif></li>
+							<li class="sub"><a href="todos.cfm?p=#url.p#&tlid=#todolistid#">#title#</a> - Added #DateFormat(DateAdd("h",session.tzOffset,added),"d mmm, yyyy")#<cfif compare(firstName,'') or compare(lastName,'')> for #firstName# #lastName#</cfif></li>
 							</cfloop>
 							</ul>	
 							</cfif>
@@ -107,7 +107,7 @@
 							<h5 class="sub">New/Open Issues:</h5>
 							<ul class="sub">
 							<cfloop query="iss1">
-							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> (#status# #type# / #severity#) - Added #DateFormat(created,"d mmm, yyyy")#<cfif compare(assignedFirstName,'') or compare(assignedLastName,'')> for #assignedFirstName# #assignedLastName#</cfif></li>
+							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> (#status# #type# / #severity#) - Added #DateFormat(DateAdd("h",session.tzOffset,created),"d mmm, yyyy")#<cfif compare(assignedFirstName,'') or compare(assignedLastName,'')> for #assignedFirstName# #assignedLastName#</cfif></li>
 							</cfloop>
 							</ul>	
 							</cfif>						
@@ -115,7 +115,7 @@
 							<h5 class="sub">Resolved/Closed Issues:</h5>
 							<ul class="sub">
 							<cfloop query="iss2">
-							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> (#status# #type# / #severity#) - Added #DateFormat(created,"d mmm, yyyy")#<cfif compare(assignedFirstName,'') or compare(assignedLastName,'')> for #assignedFirstName# #assignedLastName#</cfif></li>
+							<li class="sub"><a href="issue.cfm?p=#url.p#&i=#issueid#">#shortid# - #issue#</a> (#status# #type# / #severity#) - Added #DateFormat(DateAdd("h",session.tzOffset,created),"d mmm, yyyy")#<cfif compare(assignedFirstName,'') or compare(assignedLastName,'')> for #assignedFirstName# #assignedLastName#</cfif></li>
 							</cfloop>
 							</ul>	
 							</cfif>
@@ -136,7 +136,7 @@
 						<img src="<cfif avatar>#application.settings.userFilesMapping#/avatars/#userID#_48.jpg<cfelse>./images/noavatar48.gif</cfif>" height="48" width="48" border="0" style="float:left;border:1px solid ##ddd;" />
 						</cfif>
 						<div class="commentbody">
-						<span class="b">#firstName# #lastName#</span> said on #DateFormat(stamp,"ddd, mmm d")# at <cfif application.settings.clockHours eq 12>#TimeFormat(stamp,"h:mmtt")#<cfelse>#TimeFormat(stamp,"HH:mm")#</cfif><br />
+						<span class="b">#firstName# #lastName#</span> said on #DateFormat(DateAdd("h",session.tzOffset,stamp),"ddd, mmm d")# at <cfif application.settings.clockHours eq 12>#TimeFormat(DateAdd("h",session.tzOffset,stamp),"h:mmtt")#<cfelse>#TimeFormat(DateAdd("h",session.tzOffset,stamp),"HH:mm")#</cfif><br />
 						#commentText#
 						</div>
 						</div>

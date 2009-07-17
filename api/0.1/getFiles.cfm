@@ -13,7 +13,7 @@
 		<filesize>#filesize#</filesize>
 		<filename>#xmlFormat(filename)#</filename>
 		<server-filename>#serverfilename#</server-filename>
-		<uploaded>#DateFormat(uploaded,"yyyy-mm-dd")#T#TimeFormat(uploaded,"HH:mm:ss")#Z</uploaded>
+		<uploaded>#DateFormat(DateAdd("h",application.settings.default_offset,uploaded),"yyyy-mm-dd")#T#TimeFormat(DateAdd("h",application.settings.default_offset,uploaded),"HH:mm:ss")#Z</uploaded>
 	</file></cfloop>
 </files>
 </cfoutput>

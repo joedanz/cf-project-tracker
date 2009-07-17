@@ -114,6 +114,8 @@ INSERT INTO `pt_settings` values ('1E5ED63A-C938-2FE9-C60035D81F955266','company
 INSERT INTO `pt_settings` values ('1E77669A-963D-735E-C7C22FA82FABC398','company_logo','');
 INSERT INTO `pt_settings` values ('5D717D09-1372-7975-6F21844EACDAFC54','invoice_logo','');
 INSERT INTO `pt_settings` values ('3D72D1F7-CD23-8BE3-60F9614093F89CCF','hourly_rate','');
+INSERT INTO `pt_settings` values ('89DDF566-1372-7975-6F192B9AFBDB218A','default_locale','English (US)');
+INSERT INTO `pt_settings` values ('89B9B664-1372-7975-6F7D802298571968','default_timezone','US/Eastern');
 
 /* pt_timetrack - add new columns */
 ALTER TABLE `pt_timetrack` ADD `rateID` varchar(35) default NULL;
@@ -168,3 +170,9 @@ CREATE TABLE `pt_user_notify` (
   `mobile_bill_paid` tinyint(1) default NULL,
   PRIMARY KEY  (`userID`,`projectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/* pt_timetrack - add new column */
+ALTER TABLE `pt_users` ADD `locale` varchar(32) default NULL;
+UPDATE `pt_users` set `locale` = 'English (US)';
+ALTER TABLE `pt_users` ADD `timezone` varchar(32) default NULL;
+UPDATE `pt_users` set `timezone` = 'US/Eastern';

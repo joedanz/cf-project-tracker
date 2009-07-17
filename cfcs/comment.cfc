@@ -59,7 +59,7 @@
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.itemID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#arguments.comment#">,
-						#Now()#)
+						<cfqueryparam cfsqltype="cf_sql_timestamp" value="#DateConvert("local2Utc",Now())#">)
 		</cfquery>
 		<cfset application.notify.comment(arguments.type,arguments.projectID,arguments.itemID,arguments.commentID)>
 		<cfreturn true>

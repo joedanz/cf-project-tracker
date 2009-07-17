@@ -150,9 +150,9 @@
 							</cfif>
 
 							<div class="liststamp">
-								<cfset daysago = DateDiff("d",added,Now())>
+								<cfset daysago = DateDiff("d",DateAdd("h",session.tzOffset,added),Now())>
 								<cfif compare(name,'')><div class="ms mstone">Milestone: #name#</div></cfif>
-								<div class="posted">Posted by #firstName# #lastName# on #DateFormat(added,"dddd, mmmm d, yyyy")# (<cfif daysago eq 0>Today<cfelse>#daysago# Day<cfif daysago neq 1>s</cfif> Ago</cfif>)</div>
+								<div class="posted">Posted by #firstName# #lastName# on #DateFormat(DateAdd("h",session.tzOffset,added),"dddd, mmmm d, yyyy")# (<cfif daysago eq 0>Today<cfelse>#daysago# Day<cfif daysago neq 1>s</cfif> Ago</cfif>)</div>
 							</div>
 
 						</div>

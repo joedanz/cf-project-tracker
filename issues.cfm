@@ -200,8 +200,8 @@ $(document).ready(function(){
 							<td>#component#</td>
 							<td>#version#</td>
 							<td>#assignedFirstName# #assignedLastName#</td>
-							<td>#DateFormat(created,"mmm dd, yyyy")#</td>
-							<td>#DateFormat(updated,"mmm dd, yyyy")#</td>
+							<td>#DateFormat(DateAdd("h",session.tzOffset,created),"mmm dd, yyyy")#</td>
+							<td><cfif isDate(updated)>#DateFormat(DateAdd("h",session.tzOffset,updated),"mmm dd, yyyy")#</cfif></td>
 							<td>#DateFormat(dueDate,"mmm dd, yyyy")#</td>
 						</tr>
 						<cfset thisRow = thisRow + 1>

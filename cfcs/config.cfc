@@ -16,6 +16,8 @@
 				hint="Sets application settings.">
 		<cfargument name="app_title" type="string" required="true">
 		<cfargument name="default_style" type="string" required="true">
+		<cfargument name="default_locale" type="string" required="true">
+		<cfargument name="default_timezone" type="string" required="true">
 		
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #application.settings.tableprefix#settings
@@ -26,6 +28,16 @@
 			UPDATE #application.settings.tableprefix#settings
 				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.default_style#">
 					WHERE setting = 'default_style'
+		</cfquery>
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
+			UPDATE #application.settings.tableprefix#settings
+				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.default_locale#">
+					WHERE setting = 'default_locale'
+		</cfquery>
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
+			UPDATE #application.settings.tableprefix#settings
+				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.default_timezone#">
+					WHERE setting = 'default_timezone'
 		</cfquery>
 		
 		<cfreturn true>

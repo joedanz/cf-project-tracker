@@ -9,7 +9,7 @@
 		<id>#messageid#</id>	
 		<title>#xmlFormat(title)#</title>
 		<category>#xmlFormat(category)#</category>
-		<posted>#DateFormat(stamp,"yyyy-mm-dd")#T#TimeFormat(stamp,"HH:mm:ss")#Z</posted>
+		<posted>#DateFormat(DateAdd("h",application.settings.default_offset,stamp),"yyyy-mm-dd")#T#TimeFormat(DateAdd("h",application.settings.default_offset,stamp),"HH:mm:ss")#Z</posted>
 		<comments>#commentcount#</comments>
 		<attachments>#attachcount#</attachments>
 	</post></cfloop>

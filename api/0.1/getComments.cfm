@@ -9,7 +9,7 @@
 		<id>#commentid#</id>	
 		<author_id>#userid#</author_id>
 		<body>#xmlFormat(comment)#</body>
-		<posted>#DateFormat(stamp,"yyyy-mm-dd")#T#TimeFormat(stamp,"HH:mm:ss")#Z</posted>
+		<posted>#DateFormat(DateAdd("h",application.settings.default_offset,stamp),"yyyy-mm-dd")#T#TimeFormat(DateAdd("h",application.settings.default_offset,stamp),"HH:mm:ss")#Z</posted>
 	</comment></cfloop>
 </comments>
 </cfoutput>

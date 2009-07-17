@@ -43,7 +43,7 @@
 				</span>
 				
 				<h2 class="files">#file.title#</h2>
-				<h4>posted by #file.firstName# #file.lastName# in <a href="files.cfm?p=#url.p#&c=#file.categoryID#">#file.category#</a> on #DateFormat(file.uploaded,"ddd, d mmm")# at <cfif application.settings.clockHours eq 12>#TimeFormat(file.uploaded,"h:mmtt")#<cfelse>#TimeFormat(file.uploaded,"HH:mm")#</cfif></h4>
+				<h4>posted by #file.firstName# #file.lastName# in <a href="files.cfm?p=#url.p#&c=#file.categoryID#">#file.category#</a> on #DateFormat(DateAdd("h",session.tzOffset,file.uploaded),"ddd, d mmm")# at <cfif application.settings.clockHours eq 12>#TimeFormat(DateAdd("h",session.tzOffset,file.uploaded),"h:mmtt")#<cfelse>#TimeFormat(DateAdd("h",session.tzOffset,file.uploaded),"HH:mm")#</cfif></h4>
 				
 			</div>
 			<div class="content">
@@ -65,7 +65,7 @@
 					<img src="<cfif avatar>#application.settings.userFilesMapping#/avatars/#userID#_48.jpg<cfelse>./images/noavatar48.gif</cfif>" height="48" width="48" border="0" style="float:left;border:1px solid ##ddd;" />
 					</cfif>
 					<div class="commentbody">
-					<span class="b">#firstName# #lastName#</span> said on #DateFormat(stamp,"ddd, mmm d")# at <cfif application.settings.clockHours eq 12>#TimeFormat(stamp,"h:mmtt")#<cfelse>#TimeFormat(stamp,"HH:mm")#</cfif><br />
+					<span class="b">#firstName# #lastName#</span> said on #DateFormat(DateAdd("h",session.tzOffset,stamp),"ddd, mmm d")# at <cfif application.settings.clockHours eq 12>#TimeFormat(DateAdd("h",session.tzOffset,stamp),"h:mmtt")#<cfelse>#TimeFormat(DateAdd("h",session.tzOffset,stamp),"HH:mm")#</cfif><br />
 					#commentText#
 					</div>
 					</div>

@@ -54,6 +54,14 @@
 	<cfif not application.isCF8 and not application.isBD and not application.isRailo>
 		<cfset whichTab = whichTab - 1>
 	</cfif>
+<cfelseif StructKeyExists(form,"tz")>
+	<cfset application.user.setLocaleTimezone(session.user.userID,form.locale,form.timezone)>
+	<cfset session.locale = form.locale>
+	<cfset session.timezone = form.timezone>
+	<cfset whichTab = 6>
+	<cfif not application.isCF8 and not application.isBD and not application.isRailo>
+		<cfset whichTab = whichTab - 1>
+	</cfif>	
 <cfelseif StructKeyExists(url,"rp")>
 	<cfset application.role.remove(url.rp,session.user.userid)>
 </cfif>
@@ -140,6 +148,7 @@
 							<li><a href="##avatar"><span>Avatar</span></a></li>
 						</cfif>
 		                <li><a href="##skin"><span>Style</span></a></li>
+		                <li><a href="##locale"><span>Locale / Timezone</span></a></li>
 		            </ul>
 		            <div id="user">   
 						<form action="#cgi.script_name#" method="post" name="edit" class="frm">
@@ -638,7 +647,7 @@
 		            <div id="skin">
 						<form action="#cgi.script_name#" method="post" name="edit" class="frm">
 							<p>
-							<label for="headstyle">Set Style:</label>
+							<label for="headstyle">Your Style:</label>
 							<select name="style" id="headstyle">
 								<option value="blue"<cfif not compare(user.style,'blue')> selected="selected"</cfif>>Blue</option>
 								<option value="green"<cfif not compare(user.style,'green')> selected="selected"</cfif>>Green</option>
@@ -649,6 +658,28 @@
 							</p>
 							<label for="submit4">&nbsp;</label>					
 							<input type="submit" class="button" name="skinsub" id="submit4" value="Set Style" />				
+						</form>
+		            </div>
+		            <div id="locale">
+						<form action="#cgi.script_name#" method="post" name="edit" class="frm">
+							<p>
+							<label for="locale">Your Locale:</label>
+							<select name="locale" id="locale">
+							<cfloop list="#Server.Coldfusion.SupportedLocales#" index="i">
+								<option value="#i#"<cfif not compare(i,session.user.locale)> selected="selected"</cfif>>#i#</option>
+							</cfloop>				
+							</select>
+							</p>
+							<p>
+							<label for="timezone">Your Timezone:</label>
+							<select name="timezone" id="timezone" size="10">
+							<cfloop from="1" to="#ArrayLen(application.timezones)#" index="i">
+								<option value="#application.timezones[i]#"<cfif not compare(application.timezones[i],session.user.timezone)> selected="selected"</cfif>>#application.timezones[i]#</option>
+							</cfloop>				
+							</select>
+							</p>
+							<label for="submit5">&nbsp;</label>					
+							<input type="submit" class="button" name="tz" id="submit5" value="Set Timezone" />				
 						</form>
 		            </div>
 		        </div>							
