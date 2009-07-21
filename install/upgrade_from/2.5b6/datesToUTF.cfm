@@ -131,3 +131,18 @@ TODO RECORDS CONVERTED...<br />
 	</cfquery>
 </cfloop>
 TODOLIST RECORDS CONVERTED...<br />
+
+<cfquery name="getUsers" datasource="#application.settings.dsn#">
+	SELECT userID, lastLogin FROM #application.settings.tableprefix#users
+	ORDER BY lastLogin DESC
+</cfquery>
+<cfloop query="getUsers">
+	<cfif isDate(lastLogin)>
+		<cfquery datasource="#application.settings.dsn#">
+			UPDATE #application.settings.tableprefix#users
+			SET lastLogin = #DateConvert("local2utc",lastLogin)#
+			WHERE userID = '#userID#'
+		</cfquery>
+	</cfif>
+</cfloop>
+USER RECORDS CONVERTED...<br />
