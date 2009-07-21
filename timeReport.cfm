@@ -9,7 +9,7 @@
 	<cfset project = application.project.get(session.user.userid,url.p)>
 </cfif>
 
-<cfif project.timetrack eq 0 and not session.user.admin>
+<cfif not session.user.admin and not project.timetrack eq 1>
 	<cfoutput><h2>You do not have permission to access time tracking!!!</h2></cfoutput>
 	<cfabort>
 </cfif>
@@ -119,12 +119,12 @@
 								<th class="first">Date</th>
 								<th>Person</th>
 								<th>Hours</th>
-								<cfif project.tab_billing and project.bill_edit>
+								<cfif project.tab_billing and (session.user.admin or project.bill_edit eq 1)>
 									<th>Billing Category</th>
 									<th>Fee</th>
 								</cfif>
 								<th>Description</th>
-								<th>&nbsp;</th>
+								<cfif session.user.admin or project.time_edit eq 1><th></th></cfif>
 							</tr>
 						</thead>
 						<tbody>	
@@ -134,12 +134,14 @@
 								<td class="first">#DateFormat(dateStamp,"mmm d, yyyy")#</td>
 								<td>#firstName# #lastName#</td>
 								<td class="b">#numberFormat(hours,"0.00")#</td>
-								<cfif project.tab_billing and project.bill_view>
+								<cfif project.tab_billing and (session.user.admin or project.bill_view eq 1)>
 									<td>#category#<cfif compare(category,'')> ($#NumberFormat(rate,"0")#/hr)</cfif></td>
 									<td><cfif isNumeric(rate)>$#NumberFormat(rate*hours,"0")#</cfif></td>
 								</cfif>
 								<td><cfif compare(itemType,'')><span class="catbox #itemtype#">#itemtype#</span> <a href="todos.cfm?p=#projectID###id_#replace(todolistID,'-','','all')#">#task#</a><cfif compare(description,'')> - </cfif></cfif>#description#</td>
+								<cfif session.user.admin or project.time_edit eq 1>
 								<td class="tac"><a href="##" onclick="edit_time_row('#projectid#','#timetrackid#','#project.tab_billing#','#project.bill_edit#','#project.clientID#','','','timereport'); return false;">Edit</a> &nbsp;&nbsp; <a href="##" onclick="delete_time('#projectID#','#timetrackID#','timereport',''); return false;" class="delete"></a></td>
+								</cfif>
 							</tr>
 							<cfset totalHours = totalHours + hours>
 							<cfif isNumeric(rate)>
@@ -151,7 +153,7 @@
 							<tr class="last">
 								<td colspan="2" class="tar b">TOTAL:&nbsp;&nbsp;&nbsp;</td>
 								<td class="b"><span id="totalhours">#NumberFormat(totalHours,"0.00")#</span></td>
-								<cfif project.tab_billing and project.bill_view>
+								<cfif project.tab_billing and (session.user.admin or project.bill_view eq 1)>
 									<td class="tar b">TOTAL FEE:&nbsp;&nbsp;&nbsp;</td>
 									<td class="b">$#NumberFormat(totalFee,"0")#</td>
 								</cfif>

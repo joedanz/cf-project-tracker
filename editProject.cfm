@@ -6,7 +6,7 @@
 	<cfelse>
 		<cfset userRole = application.role.get(session.user.userid,form.projectid)>
 	</cfif>
-	<cfif not session.user.admin and (userRole.admin eq 0 or userRole.admin is '')>
+	<cfif not session.user.admin and not userRole.admin eq 1>
 		<cfoutput><h2>Admin Access Only!!!</h2></cfoutput>
 		<cfabort>
 	</cfif>

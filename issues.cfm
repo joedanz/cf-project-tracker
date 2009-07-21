@@ -20,7 +20,7 @@
 <cfset issues = application.issue.get(url.p,'',form.status,'',form.type,form.severity,form.assignedTo,form.milestone,form.componentID,form.versionID)>
 <cfset milestones = application.milestone.get(url.p)>
 
-<cfif not project.issue_view and not session.user.admin>
+<cfif not session.user.admin and not project.issue_view eq 1>
 	<cfoutput><h2>You do not have permission to access issues!!!</h2></cfoutput>
 	<cfabort>
 </cfif>
@@ -91,7 +91,7 @@ $(document).ready(function(){
 				<div class="header">
 					
 					<span class="rightmenu">
-					<cfif project.issue_edit>
+					<cfif session.user.admin or project.issue_edit eq 1>
 						<a href="editIssue.cfm?p=#url.p#" class="add b">Submit New Issue</a>
 					</cfif>
 					</span>

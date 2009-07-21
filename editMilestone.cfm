@@ -26,7 +26,7 @@
 </cfif>
 <cfset projectUsers = application.project.projectUsers(url.p)>
 
-<cfif not session.user.admin and not project.mstone_edit>
+<cfif not session.user.admin and not project.mstone_edit eq 1>
 	<cfoutput><h2>You do not have permission to <cfif StructKeyExists(url,"m")>edit<cfelse>add</cfif> milestones!!!</h2></cfoutput>
 	<cfabort>
 </cfif>
@@ -154,7 +154,7 @@
 						</select>
 						</div>
 						
-						<cfif project.tab_billing and project.bill_edit>
+						<cfif project.tab_billing and (session.user.admin or project.bill_edit eq 1)>
 							<div>
 							<label for="rate">Rate:</label>
 							$ <input type="text" name="rate" id="rate" value="#HTMLEditFormat(rate)#" maxlength="8" style="width:100px;padding:2px;" />

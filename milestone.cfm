@@ -7,7 +7,7 @@
 	<cfset project = application.project.get(session.user.userid,url.p)>
 </cfif>
 
-<cfif not session.user.admin and not project.mstone_view>
+<cfif not session.user.admin and not project.mstone_view eq 1>
 	<cfoutput><h2>You do not have permission to access milestones!!!</h2></cfoutput>
 	<cfabort>
 </cfif>
@@ -49,7 +49,7 @@
 				<div class="header">
 					<span class="rightmenu">
 						<a href="milestones.cfm?p=#url.p#" class="back">Back to Milestones</a>
-						<cfif project.mstone_edit>
+						<cfif session.user.admin or project.mstone_edit eq 1>
 							| <a href="editMilestone.cfm?p=#url.p#&m=#url.m#" class="edit">Edit Milestone</a>
 							| <a href="milestones.cfm?p=#url.p#&d=#url.m#" class="delete" onclick="return confirm('Are you sure you wish to delete this milestone?');">Delete Milestone</a>
 						</cfif>
@@ -68,7 +68,7 @@
 							<div class="milestone">
 							<div class="date <cfif isDate(milestone.completed)>completed<cfelseif daysago gte 1>late<cfelse>upcoming</cfif>"><span class="b"><cfif daysago eq 0>Today<cfelseif daysago eq 1>Yesterday<cfelseif daysAgo gt 1>#daysago# days ago<cfelseif daysAgo eq -1>Tomorrow<cfelse>#Abs(daysago)# days away</cfif></span> (#DateFormat(dueDate,"dddd, d mmmm, yyyy")#)<cfif userid neq 0><span style="color:##666;"> - For #firstName# #lastName#</span></cfif></div>
 							<div id="m#milestoneid#" style="display:none;" class="markcomplete">Moving to <cfif not isDate(milestone.completed)>Completed<cfelseif DateDiff("d",dueDate,DateConvert("local2Utc",Now()))>Late<cfelse>Upcoming</cfif> - just a second...</div>
-							<h3><cfif project.mstone_edit><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&<cfif isDate(milestone.completed)>a<cfelse>c</cfif>=1&m=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;"<cfif isDate(milestone.completed)> checked="checked"</cfif> /> </cfif>#name#</h3>
+							<h3><cfif session.user.admin or project.mstone_edit eq 1><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&<cfif isDate(milestone.completed)>a<cfelse>c</cfif>=1&m=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;"<cfif isDate(milestone.completed)> checked="checked"</cfif> /> </cfif>#name#</h3>
 							<cfif compare(description,'')><div class="desc">#description#</div></cfif>
 							
 							<cfquery name="msgs" dbtype="query">
@@ -142,7 +142,7 @@
 						</div>
 						</cfloop>						
 						
-						<cfif project.mstone_comment>
+						<cfif session.user.admin or project.mstone_comment eq 1>
 						<form action="#cgi.script_name#?#cgi.query_string#" method="post" name="add" id="add" class="frm" onsubmit="return confirm_comment();">
 						<div class="b">Post a new comment...</div>
 						<cfscript>

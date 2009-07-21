@@ -8,7 +8,7 @@
 	<cfset project = application.project.get(session.user.userid,url.p)>
 </cfif>
 
-<cfif not project.bill_view and not session.user.admin>
+<cfif not session.user.admin and not project.bill_view eq 1>
 	<cfoutput><h2>You do not have permission to access billing!!!</h2></cfoutput>
 	<cfabort>
 </cfif>

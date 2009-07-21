@@ -1,7 +1,7 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfset userRole = application.role.get(session.user.userid,url.p)>
-<cfif not session.user.admin and not userRole.admin>
+<cfif not session.user.admin and not userRole.admin eq 1>
 	<cfoutput><h2>Admin Access Only!!!</h2></cfoutput>
 	<cfabort>
 </cfif>

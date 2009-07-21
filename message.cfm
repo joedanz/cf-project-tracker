@@ -19,7 +19,7 @@
 <cfset talkList = listAppend(valueList(comments.userID),message.userID)>
 <cfset usersTalking = application.user.get(userIDlist=talkList)>
 
-<cfif not session.user.admin and not project.msg_view>
+<cfif not session.user.admin and not project.msg_view eq 1>
 	<cfoutput><h2>You do not have permission to access messages!!!</h2></cfoutput>
 	<cfabort>
 </cfif>
@@ -83,7 +83,7 @@
 					</div>
 					</cfloop>
 					
-					<cfif project.msg_edit or session.user.admin>
+					<cfif session.user.admin or project.msg_edit eq 1>
 					<form action="#cgi.script_name#?p=#url.p#&m=#url.m#" method="post" name="add" id="add" class="frm" onsubmit="return confirm_comment();">
 					<div class="b">Post a new comment...</div>
 					<cfscript>

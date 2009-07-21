@@ -40,7 +40,7 @@
 		<div class="main">
 
 				<div class="header">
-					<cfif project.todolist_view>
+					<cfif session.user.admin or project.todolist_view eq 1>
 					<span class="rightmenu">
 						<a href="todos.cfm?p=#url.p#&t=#todo.todolistid#" class="back">View complete to-do list</a>
 					</span>
@@ -72,7 +72,7 @@
 					</div>
 					</cfloop>						
 					
-					<cfif project.todo_comment>
+					<cfif session.user.admin or project.todo_comment eq 1>
 					<form action="#cgi.script_name#?#cgi.query_string#" method="post" name="add" id="add" class="frm" onsubmit="return confirm_comment();">
 					<div class="b">Leave a comment...</div>
 					<cfscript>

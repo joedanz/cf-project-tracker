@@ -15,7 +15,7 @@
 </cfif>
 
 <cfset projects_reg = application.project.getDistinct(allowReg=true)>
-<cfif projects.recordCount eq 1 and not session.user.admin>
+<cfif not session.user.admin and projects.recordCount eq 1>
 	<cflocation url="project.cfm?p=#projects.projectid#" addtoken="false">
 	<cfabort>
 </cfif>
@@ -301,7 +301,7 @@ $(document).ready(function(){
 							
 						<cfset thisRow = 1>
 						<cfloop query="activity">
-							<cfif not ((not compareNoCase(type,'issue') and not issue_view) or (not compareNoCase(type,'message') and not msg_view) or (not compareNoCase(type,'milestone') and not mstone_view) or (not compareNoCase(type,'to-do list') and not todolist_view) or (not compareNoCase(type,'file') and not file_view))>
+							<cfif session.user.admin or ((not compareNoCase(type,'issue') and issue_view eq 1) or (not compareNoCase(type,'message') and msg_view eq 1) or (not compareNoCase(type,'milestone') and mstone_view eq 1) or (not compareNoCase(type,'to-do list') and todolist_view eq 1) or (not compareNoCase(type,'file') and file_view eq 1))>
 							<tr>
 								<td><a href="project.cfm?p=#projectID#" title="#projectName#">#projectName#</a></td>
 								<td><div class="catbox

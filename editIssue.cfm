@@ -55,7 +55,7 @@
 <cfparam name="title" default="">
 
 <cfif StructKeyExists(url,"i")>
-	<cfif not session.user.admin and not project.issue_edit>
+	<cfif not session.user.admin and not project.issue_edit eq 1>
 		<cfoutput><h2>You do not have permission to edit issues!!!</h2></cfoutput>
 		<cfabort>
 	</cfif>
@@ -161,7 +161,7 @@
 						<label for="dueDate">Due Date:</label>
 						<input type="text" name="dueDate" id="dueDate" value="#DateFormat(dueDate,"mm/dd/yyyy")#" size="8" class="date-pick shortest" />
 						</p>
-						<cfif project.issue_assign>
+						<cfif session.user.admin or project.issue_assign eq 1>
 							<p>
 							<label for="forwho">Assign To:</label>
 							<select name="assignedTo" id="forwho">

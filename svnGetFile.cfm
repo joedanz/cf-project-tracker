@@ -5,7 +5,7 @@
 <cfelse>
 	<cfset project = application.project.get(session.user.userid,url.p)>
 </cfif>
-<cfif not session.user.admin and project.svn eq 0>
+<cfif not session.user.admin and not project.svn eq 1>
 	<cfoutput><h2>You do not have permission to access the repository!!!</h2></cfoutput>
 	<cfabort>
 </cfif>

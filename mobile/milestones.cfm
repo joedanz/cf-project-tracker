@@ -7,7 +7,7 @@
 	<cfset project = application.project.get(session.user.userid,url.p)>
 </cfif>
 
-<cfif not session.user.admin and project.mstones eq 0>
+<cfif not session.user.admin and not project.mstones eq 1>
 	<cfoutput><h2>You do not have permission to access milestones!!!</h2></cfoutput>
 	<cfabort>
 </cfif>

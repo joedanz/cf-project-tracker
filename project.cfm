@@ -7,11 +7,11 @@
 	<cfset project = application.project.get(session.user.userid,url.p)>
 </cfif>
 <cfset projectUsers = application.project.projectUsers(url.p,'0','lastLogin desc')>
-<cfif project.mstone_view>
+<cfif session.user.admin or project.mstone_view eq 1>
 	<cfset milestones_overdue = application.milestone.get(url.p,'','overdue')>
 	<cfset milestones_upcoming = application.milestone.get(url.p,'','upcoming','1')>
 </cfif>
-<cfif project.issue_view>
+<cfif session.user.admin or project.issue_view eq 1>
 	<cfset issues = application.issue.get(url.p,'','New|Accepted|Assigned')>
 </cfif>
 <cfset activity = application.activity.get(url.p,'','true')>
@@ -76,16 +76,16 @@ $(document).ready(function(){
 
 			<div class="header">
 				<span class="rightmenu">
-					<cfif project.msg_edit>
+					<cfif session.user.admin or project.msg_edit eq 1>
 					<a href="editMessage.cfm?p=#url.p#" class="add">Message</a>
 					</cfif>
-					<cfif project.todolist_edit>
+					<cfif session.user.admin or project.todolist_edit eq 1>
 						| <a href="editTodolist.cfm?p=#url.p#" class="add">To-do list</a>
 					</cfif>
-					<cfif project.mstone_edit>
+					<cfif session.user.admin or project.mstone_edit eq 1>
 						| <a href="editMilestone.cfm?p=#url.p#" class="add">Milestone</a>
 					</cfif>
-					<cfif project.issue_edit>
+					<cfif session.user.admin or project.issue_edit eq 1>
 						| <a href="editIssue.cfm?p=#url.p#" class="add">Issue</a>
 					</cfif>
 				</span>					
@@ -258,7 +258,7 @@ $(document).ready(function(){
 					<cfset thisRow = 1>
 					
 					<cfloop query="activity">						
-						<cfif not ((not compareNoCase(type,'issue') and not project.issue_view) or (not compareNoCase(type,'message') and not project.msg_view) or (not compareNoCase(type,'milestone') and not project.mstone_view) or (not compareNoCase(type,'to-do list') and not project.todolist_view) or (not compareNoCase(type,'file') and not project.file_view))>
+						<cfif session.user.admin or ((not compareNoCase(type,'issue') and project.issue_view eq 1) or (not compareNoCase(type,'message') and project.msg_view eq 1) or (not compareNoCase(type,'milestone') and project.mstone_view eq 1) or (not compareNoCase(type,'to-do list') and project.todolist_view eq 1) or (not compareNoCase(type,'file') and project.file_view eq 1))>
 						<tr><td><div class="catbox
 							<cfswitch expression="#type#">
 								<cfcase value="Issue">issue">Issue</cfcase>		
@@ -343,17 +343,7 @@ $(document).ready(function(){
 				<cfloop query="projectUsers">
 				<li><div class="b">#firstName# #lastName#<cfif admin> (admin)</cfif></div>
 				<div class="sm g norm"><cfif compare(userID,session.user.userID)><cfif isDate(lastLogin)>Last login 
-					<cfif DateDiff("n",lastLogin,Now()) lt 60>
-						#DateDiff("n",lastLogin,Now())# minutes
-					<cfelseif DateDiff("h",lastLogin,Now()) lt 24>
-						#DateDiff("h",lastLogin,Now())# hours
-					<cfelseif DateDiff("d",lastLogin,Now()) lt 31>
-						#DateDiff("d",lastLogin,Now())# days
-					<cfelseif DateDiff("m",lastLogin,Now()) lt 12>
-						#DateDiff("m",lastLogin,Now())# months
-					<cfelse>
-						#DateDiff("y",lastLogin,Now())# year<cfif DateDiff("y",lastLogin,Now()) gt 1>s</cfif>
-					</cfif> ago
+						#request.udf.relativeTime(DateAdd("h",session.tzOffset,lastLogin))#
 					<cfelse>Never logged in</cfif><cfelse>Currently logged in</cfif></div></li>
 				</cfloop>
 			</ul>

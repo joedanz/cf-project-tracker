@@ -75,7 +75,7 @@
 									<td>
 										<ul>
 										<cfoutput>
-										<li id="cb#todoID#"><cfif check_permission.todo_edit><input type="checkbox" name="todoID" value="#todoID#" onclick="all_mark_complete('#projectID#','#todolistID#','#todoID#');" /></cfif> #task#<cfif not compare(session.assignedTo,'') and compare(lastname,'')> <span class="g">(#firstName# #lastName#)</span></cfif></li>
+										<li id="cb#todoID#"><cfif session.user.admin or check_permission.todo_edit eq 1><input type="checkbox" name="todoID" value="#todoID#" onclick="all_mark_complete('#projectID#','#todolistID#','#todoID#');" /></cfif> #task#<cfif not compare(session.assignedTo,'') and compare(lastname,'')> <span class="g">(#firstName# #lastName#)</span></cfif></li>
 										</cfoutput>
 										</ul>							
 									</td>
