@@ -116,6 +116,13 @@ SCREENSHOT RECORDS CONVERTED...<br />
 		SET added = #DateConvert("local2utc",added)#
 		WHERE todoID = '#todoID#'
 	</cfquery>
+	<cfif isDate(completed)>
+		<cfquery datasource="#application.settings.dsn#">
+			UPDATE #application.settings.tableprefix#todos
+			SET completed = #DateConvert("local2utc",completed)#
+			WHERE todoID = '#todoID#'
+		</cfquery>	
+	</cfif>
 </cfloop>
 TODO RECORDS CONVERTED...<br />
 
