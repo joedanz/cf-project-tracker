@@ -65,7 +65,7 @@
 						<cfoutput query="files" group="#sortfield#">
 							<div class="stamp">
 							<cfif not compareNoCase(session.user.fileorder,'date')>
-								#DateFormat(uploaddate,"dddd, d mmmm")#
+								#DateFormat(DateAdd("h",session.tzOffset,uploaddate),"dddd, d mmmm")#
 							<cfelseif not compareNoCase(session.user.fileorder,'alpha')>
 								#leftChar#
 							</cfif>
@@ -90,7 +90,7 @@
 							<cfelse>
 							#Int(filesize/1024)#K,
 							</cfif>
-							uploaded to <a href="#cgi.script_name#?p=#url.p#&c=#categoryID#">#category#</a> by #firstName# #lastName# on #DateFormat(DateAdd("h",session.tzOffset,uploaded),"mmm d")#
+							uploaded to <a href="#cgi.script_name#?p=#url.p#&c=#categoryID#">#category#</a> by #firstName# #lastName# on #LSDateFormat(DateAdd("h",session.tzOffset,uploaded),"mmm d")#
 							| <a href="download.cfm?p=#url.p#&f=#fileID#" class="download">Download</a>
 							<cfif session.user.userID eq uploadedBy or session.user.admin>
 							| <a href="editFile.cfm?p=#url.p#&f=#fileID#" class="edit">Edit</a>

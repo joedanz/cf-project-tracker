@@ -45,7 +45,7 @@
 						
 					</span>
 					
-					<h2 class="milestone">All milestones &nbsp;<span style="font-size:.75em;font-weight:normal;color:##666;">Today is #DateFormat(Now(),"d mmm")#</h2>
+					<h2 class="milestone">All milestones &nbsp;<span style="font-size:.75em;font-weight:normal;color:##666;">Today is #LSDateFormat(DateAdd("h",session.tzOffset,DateConvert("local2Utc",Now())),"d mmm")#</span></h2>
 				</div>
 				<div class="content">
 					<div class="wrapper">

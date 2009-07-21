@@ -70,7 +70,7 @@
 		  </cfquery>
 		  
 		  <cfloop query="qFiles">
-			  <cfset datesOnly[currentRow] = DateFormat(uploaded)>
+			  <cfset datesOnly[currentRow] = LSDateFormat(uploaded)>
 			  <cfset leftChar[currentRow] = left(title,1)>
 		  </cfloop>
 		  <cfset queryAddColumn(qFiles,"uploadDate",datesOnly)>

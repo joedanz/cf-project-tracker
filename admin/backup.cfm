@@ -42,7 +42,7 @@
 							<cffile action="write" file="#expandPath("./backup/temp/data.packet")#" output="#packet#">
 						
 							<!--- file to store zip --->
-							<cfset zfile = expandPath("./backup/#UCase(DateFormat(Now(),"yyyymmmdd"))#_#TimeFormat(now(),"HHMMSS")#_backup.zip")>
+							<cfset zfile = expandPath("./backup/#UCase(LSDateFormat(DateConvert("local2Utc",Now()),"yyyymmmdd"))#_#LSTimeFormat(DateConvert("local2Utc",Now()),"HHMMSS")#_backup.zip")>
 						
 							<!--- zip up data --->
 							<cfzip action="zip" file="#zfile#" overwrite="true" source="#expandPath("./backup/temp/")#">
@@ -110,7 +110,7 @@
 										<tr>
 											<td>#currentRow#)</td>
 											<td><a href="#cgi.script_name#?action=restore&file=#URLEncodedFormat(name)#" onclick="return confirm('Are you sure you wish to restore this backup?\nThis will permanently delete all current data in the application.')">#name#</a></td>
-											<td>#DateFormat(datelastmodified,"mmmm d, yyyy")# @ #TimeFormat(datelastmodified,"h:mmtt")#</td>
+											<td>#LSDateFormat(DateAdd("h",session.tzOffset,datelastmodified),"long")# @ #LSTimeFormat(datelastmodified,"h:mmtt")#</td>
 											<td>#numberFormat(size)#</td>
 											<td class="tac"><a href="#cgi.script_name#?action=choose&rmv=#URLEncodedFormat(name)#" onclick="return confirm('Are you sure you wish to delete this backup file?')" class="delete"></a></td>
 										</tr>

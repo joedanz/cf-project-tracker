@@ -182,10 +182,10 @@ $(document).ready(function(){
 								<cfelse>
 									<cfif todays_ms.recordCount or todays_issues.recordCount>
 										<td class="active"><span class="b"><cfif i eq 1 or DatePart("d",DateAdd("d",i,Now())) eq 1>#Left(MonthAsString(Month(DateAdd("d",i,Now()))),3)#</cfif>
-										#DateFormat(DateAdd("d",i,Now()),"d")#</span>
+										#LSDateFormat(DateAdd("d",i,Now()),"d")#</span>
 									<cfelse>
 										<td><cfif i eq 1 or DatePart("d",DateAdd("d",i,Now())) eq 1>#Left(MonthAsString(Month(DateAdd("d",i,Now()))),3)#</cfif>
-										#DateFormat(DateAdd("d",i,Now()),"d")#
+										#LSDateFormat(DateAdd("d",i,Now()),"d")#
 									</cfif>
 								</cfif>
 								<ul class="cal_ms">
@@ -269,9 +269,9 @@ $(document).ready(function(){
 						<td>#status#</td>
 						<td><a href="issue.cfm?p=#projectID#&i=#issueID#">#issue#</a></td>
 						<td>#assignedFirstName# #assignedLastName#</td>
-						<td>#DateFormat(DateAdd("h",session.tzOffset,created),"mmm dd, yyyy")#</td>
+						<td>#LSDateFormat(DateAdd("h",session.tzOffset,created),"mmm dd, yyyy")#</td>
 						<td><cfif isDate(updated)>#DateFormat(DateAdd("h",session.tzOffset,updated),"mmm dd, yyyy")#</cfif></td>
-						<td>#DateFormat(dueDate,"mmm dd, yyyy")#</td>
+						<td>#LSDateFormat(dueDate,"mmm dd, yyyy")#</td>
 					</tr>
 					<cfset thisRow = thisRow + 1>
 					</cfloop>
@@ -329,7 +329,7 @@ $(document).ready(function(){
 								</td>
 							<td class="g">#activity# by</td>
 							<td>#firstName# #lastName#</td>
-							<td>#DateFormat(DateAdd("h",session.tzOffset,stamp),"mmm d, yyyy")# <cfif application.settings.clockHours eq 12>#TimeFormat(DateAdd("h",session.tzOffset,stamp),"h:mm tt")#<cfelse>#TimeFormat(DateAdd("h",session.tzOffset,stamp),"HH:mm")#</cfif></td>
+							<td>#LSDateFormat(DateAdd("h",session.tzOffset,stamp),"mmm d, yyyy")# <cfif application.settings.clockHours eq 12>#LSTimeFormat(DateAdd("h",session.tzOffset,stamp),"h:mm tt")#<cfelse>#LSTimeFormat(DateAdd("h",session.tzOffset,stamp),"HH:mm")#</cfif></td>
 							</tr>
 							<cfset thisRow = thisRow + 1>
 							</cfif>

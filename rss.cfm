@@ -18,11 +18,11 @@
 				<cfset queryAddRow(data,1)>
 				<cfset querySetCell(data,"title","#type# #activity#: #name#")>
 				<cfif application.settings.clockHours eq 12>
-					<cfset formattedTime = timeFormat(DateAdd("h",tzOffset,stamp),"h:mmtt")>
+					<cfset formattedTime = LSTimeFormat(DateAdd("h",tzOffset,stamp),"h:mmtt")>
 				<cfelse>
-					<cfset formattedTime = timeFormat(DateAdd("h",tzOffset,stamp),"HH:mm")>
+					<cfset formattedTime = LSTimeFormat(DateAdd("h",tzOffset,stamp),"HH:mm")>
 				</cfif>
-				<cfset querySetCell(data,"body","#activity# by #firstName# #lastName# on #DateFormat(DateAdd("h",tzOffset,stamp),"d mmm")# @ #formattedTime#")>
+				<cfset querySetCell(data,"body","#activity# by #firstName# #lastName# on #LSDateFormat(DateAdd("h",tzOffset,stamp),"d mmm")# @ #formattedTime#")>
 				
 				<cfswitch expression="#type#">
 					<cfcase value="Issue"><cfset querySetCell(data,"link","#site_url#/issues.cfm?p=#url.p#&i=#id#")></cfcase>		
@@ -51,11 +51,11 @@
 			<cfset queryAddRow(data,1)>
 			<cfset querySetCell(data,"title","#projectName#: #type# #activity#: #name#")>
 			<cfif application.settings.clockHours eq 12>
-				<cfset formattedTime = timeFormat(DateAdd("h",tzOffset,stamp),"h:mmtt")>
+				<cfset formattedTime = LSTimeFormat(DateAdd("h",tzOffset,stamp),"h:mmtt")>
 			<cfelse>
-				<cfset formattedTime = timeFormat(DateAdd("h",tzOffset,stamp),"HH:mm")>
+				<cfset formattedTime = LSTimeFormat(DateAdd("h",tzOffset,stamp),"HH:mm")>
 			</cfif>			
-			<cfset querySetCell(data,"body","#activity# by #firstName# #lastName# on #DateFormat(DateAdd("h",tzOffset,stamp),"d mmm")# @ #formattedTime#")>
+			<cfset querySetCell(data,"body","#activity# by #firstName# #lastName# on #LSDateFormat(DateAdd("h",tzOffset,stamp),"d mmm")# @ #formattedTime#")>
 			
 			<cfswitch expression="#type#">
 				<cfcase value="Issue"><cfset querySetCell(data,"link","#site_url#/issues.cfm?p=#projectID#&i=#id#")></cfcase>		

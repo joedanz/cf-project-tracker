@@ -222,9 +222,11 @@
 	</cflogin>
 </cfif>
 
-<!--- set locale if user is logged in --->
+<!--- set locale --->
 <cfif StructKeyExists(session,"loggedin") and session.loggedin>
 	<cfset setLocale(session.user.locale)>
+<cfelse>
+	<cfset setLocale(application.settings.default_locale)>
 </cfif>
 
 <cfif StructKeyExists(form,"assignedTo")>

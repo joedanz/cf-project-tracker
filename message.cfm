@@ -44,7 +44,7 @@
 				</span>
 				
 				<h2 class="msg">#message.title#</h2>
-				<h4>posted by #message.firstName# #message.lastName# in <a href="messages.cfm?p=#url.p#&c=#message.categoryID#">#message.category#</a> on #DateFormat(DateAdd("h",session.tzOffset,message.stamp),"ddd, d mmm")# at <cfif application.settings.clockHours eq 12>#TimeFormat(DateAdd("h",session.tzOffset,message.stamp),"h:mmtt")#<cfelse>#TimeFormat(DateAdd("h",session.tzOffset,message.stamp),"HH:mm")#</cfif></h4>
+				<h4>posted by #message.firstName# #message.lastName# in <a href="messages.cfm?p=#url.p#&c=#message.categoryID#">#message.category#</a> on #LSDateFormat(DateAdd("h",session.tzOffset,message.stamp),"ddd, d mmm")# at <cfif application.settings.clockHours eq 12>#LSTimeFormat(DateAdd("h",session.tzOffset,message.stamp),"h:mmtt")#<cfelse>#LSTimeFormat(DateAdd("h",session.tzOffset,message.stamp),"HH:mm")#</cfif></h4>
 				
 			</div>
 			<div class="content">
@@ -60,7 +60,7 @@
 					<div class="commentbar">#attachments.recordCount# project file<cfif attachments.recordCount neq 1>s are<cfelse> is</cfif> associated with this message</div>
 					<ul class="filelist">
 						<cfloop query="attachments">
-						<li><a href="download.cfm?p=#url.p#&f=#fileID#" class="#lcase(filetype)#">#filename#</a> in &quot;#category#&quot; <span class="g i">(#ceiling(filesize/1024)#K - #dateFormat(uploaded,"medium")#)</span></li>
+						<li><a href="download.cfm?p=#url.p#&f=#fileID#" class="#lcase(filetype)#">#filename#</a> in &quot;#category#&quot; <span class="g i">(#ceiling(filesize/1024)#K - #LSDateFormat(DateAdd("h",session.tzOffset,uploaded),"medium")#)</span></li>
 						</cfloop>
 					</ul>
 					</cfif>
@@ -77,7 +77,7 @@
 					<img src="<cfif avatar>#application.settings.userFilesMapping#/avatars/#userID#_48.jpg<cfelse>./images/noavatar48.gif</cfif>" height="48" width="48" border="0" style="float:left;border:1px solid ##ddd;" />
 					</cfif>
 					<div class="commentbody">
-					<span class="b">#firstName# #lastName#</span> said on #DateFormat(DateAdd("h",session.tzOffset,stamp),"ddd, mmm d")# at <cfif application.settings.clockHours eq 12>#TimeFormat(DateAdd("h",session.tzOffset,stamp),"h:mmtt")#<cfelse>#TimeFormat(DateAdd("h",session.tzOffset,stamp),"HH:mm")#</cfif><br />
+					<span class="b">#firstName# #lastName#</span> said on #LSDateFormat(DateAdd("h",session.tzOffset,stamp),"ddd, mmm d")# at <cfif application.settings.clockHours eq 12>#LSTimeFormat(DateAdd("h",session.tzOffset,stamp),"h:mmtt")#<cfelse>#LSTimeFormat(DateAdd("h",session.tzOffset,stamp),"HH:mm")#</cfif><br />
 					#commentText#
 					</div>
 					</div>

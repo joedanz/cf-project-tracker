@@ -666,7 +666,7 @@
 							<label for="locale">Your Locale:</label>
 							<select name="locale" id="locale">
 							<cfloop list="#Server.Coldfusion.SupportedLocales#" index="i">
-								<option value="#i#"<cfif not compare(i,session.user.locale)> selected="selected"</cfif>>#i#</option>
+								<option value="#i#"<cfif not compare(i,session.locale)> selected="selected"</cfif>>#i#</option>
 							</cfloop>				
 							</select>
 							</p>
@@ -674,12 +674,12 @@
 							<label for="timezone">Your Timezone:</label>
 							<select name="timezone" id="timezone" size="10">
 							<cfloop from="1" to="#ArrayLen(application.timezones)#" index="i">
-								<option value="#application.timezones[i]#"<cfif not compare(application.timezones[i],session.user.timezone)> selected="selected"</cfif>>#application.timezones[i]#</option>
+								<option value="#application.timezones[i]#"<cfif not compare(application.timezones[i],session.timezone)> selected="selected"</cfif>>#application.timezones[i]#</option>
 							</cfloop>				
 							</select>
 							</p>
 							<label for="submit5">&nbsp;</label>					
-							<input type="submit" class="button" name="tz" id="submit5" value="Set Timezone" />				
+							<input type="submit" class="button" name="tz" id="submit5" value="Set Locale / Timezone" />				
 						</form>
 		            </div>
 		        </div>							

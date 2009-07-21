@@ -396,8 +396,9 @@ You must confirm this account before using it by clicking here:
 				hint="Sets last login stamp for user.">
 		<cfargument name="userid" type="uuid" required="true">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			UPDATE #variables.tableprefix#users SET lastLogin = #Now()# 
-				WHERE userid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
+			UPDATE #variables.tableprefix#users 
+			SET lastLogin = #DateConvert("local2Utc",Now())#
+			WHERE userid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
 	</cffunction>	

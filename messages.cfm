@@ -68,7 +68,7 @@
 				 	<cfif not compare(session.user.msgview,'full')> <!--- expanded view --->
 				 	<cfloop query="messages">
 					<span class="stamp">
-					#DateFormat(DateAdd("h",session.tzOffset,stamp),"dddd, d mmmm")#
+					#LSDateFormat(DateAdd("h",session.tzOffset,stamp),"dddd, d mmmm")#
 					</span>
 					 	
 					<div class="wrapper itemlist">
@@ -77,7 +77,7 @@
 						<cfset comment = application.comment.get(url.p,'msg',messageID,'1')>
 						<a class="b" href="message.cfm?p=#url.p#&m=#messageID###comments">#commentCount# comment<cfif commentCount gt 1>s</cfif></a>
 						<span style="color:##666;">
-						&nbsp;Last by #comment.firstName# #comment.lastName# on #DateFormat(DateAdd("h",session.tzOffset,comment.stamp),"ddd, mmm d")# at <cfif application.settings.clockHours eq 12>#TimeFormat(DateAdd("h",session.tzOffset,comment.stamp),"h:mmtt")#<cfelse>#TimeFormat(DateAdd("h",session.tzOffset,comment.stamp),"HH:mm")#</cfif>
+						&nbsp;Last by #comment.firstName# #comment.lastName# on #LSDateFormat(DateAdd("h",session.tzOffset,comment.stamp),"ddd, mmm d")# at <cfif application.settings.clockHours eq 12>#LSTimeFormat(DateAdd("h",session.tzOffset,comment.stamp),"h:mmtt")#<cfelse>#LSTimeFormat(DateAdd("h",session.tzOffset,comment.stamp),"HH:mm")#</cfif>
 						</span>
 					</cfif>
 					<p>#message#</p>
@@ -112,7 +112,7 @@
 					</div>
 						
 					<a href="message.cfm?p=#url.p#&m=#messageID#" class="fs12">#title#</a><br />
-					by #firstName# #lastName# on #dateFormat(DateAdd("h",session.tzOffset,stamp),"ddd, d mmm")# at <cfif application.settings.clockHours eq 12>#timeFormat(DateAdd("h",session.tzOffset,stamp),"h:mmtt")#<cfelse>#timeFormat(DateAdd("h",session.tzOffset,stamp),"HH:mm")#</cfif>
+					by #firstName# #lastName# on #LSDateFormat(DateAdd("h",session.tzOffset,stamp),"ddd, d mmm")# at <cfif application.settings.clockHours eq 12>#LSTimeFormat(DateAdd("h",session.tzOffset,stamp),"h:mmtt")#<cfelse>#LSTimeFormat(DateAdd("h",session.tzOffset,stamp),"HH:mm")#</cfif>
 					</div>
 					</cfloop>
 					</div>

@@ -139,7 +139,7 @@
 						<cfloop query="timelines">
 							<cfset thisUserID = userid>
 							<tr id="r#timetrackid#">
-								<td class="first">#DateFormat(dateStamp,"mmm d, yyyy")#</td>
+								<td class="first">#LSDateFormat(dateStamp,"mmm d, yyyy")#</td>
 								<td>#firstName# #lastName#</td>
 								<td class="b">#numberFormat(hours,"0.00")#</td>
 								<cfif project.tab_billing and (session.user.admin or project.bill_view eq 1)>

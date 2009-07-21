@@ -68,7 +68,7 @@
 							<td>#fileQ.name#</td>
 							<td>#NumberFormat(fileQ.size)#</td>
 							<!---<cfset dt = DateConvertISO8601(logEntries[i].date,-getTimeZoneInfo().utcHourOffset)>--->
-							<td>#DateFormat(fileQ.date,"ddd mmm d 'yy")# @ <cfif application.settings.clockHours eq 12>#TimeFormat(fileQ.date,"h:mmtt")#<cfelse>#TimeFormat(fileQ.date,"HH:mm")#</cfif></td>
+							<td>#LSDateFormat(fileQ.date,"ddd mmm d 'yy")# @ <cfif application.settings.clockHours eq 12>#LSTimeFormat(fileQ.date,"h:mmtt")#<cfelse>#LSTimeFormat(fileQ.date,"HH:mm")#</cfif></td>
 							<td>#fileQ.revision#</td>
 							<td>#fileQ.author#</td>
 							<td><a href="svnGetFile.cfm?p=#url.p#&wd=#url.wd#&f=#url.f#&r=#url.r#" class="nounder">download file</a></td>

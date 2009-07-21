@@ -52,7 +52,7 @@
 				 	<div class="wrapper">
 					
 					<h3 class="pl30"><input type="checkbox" name="todoID" id="c#url.t#" value="1" onclick="mark_todo('#url.t#','#todo.todolistid#');"<cfif isDate(todo.completed)> checked="checked"</cfif> /> <span id="t#url.t#"><cfif isDate(todo.completed)><strike>#todo.task#</strike><cfelse>#todo.task#</cfif></span></h3>
-					<h4 class="pl50"><cfif compare(todo.lastname,'')> <span class="g">#todo.firstName# #todo.lastName#</span></cfif><cfif isDate(todo.due)> - due on #DateFormat(todo.due,"mmm d, yyyy")#</cfif></h4>
+					<h4 class="pl50"><cfif compare(todo.lastname,'')> <span class="g">#todo.firstName# #todo.lastName#</span></cfif><cfif isDate(todo.due)> - due on #LSDateFormat(todo.due,"mmm d, yyyy")#</cfif></h4>
 
 					<a name="comments" />
 					<div class="commentbar">Comments (<span id="cnum">#comments.recordCount#</span>)</div>
@@ -66,7 +66,7 @@
 					<img src="<cfif avatar>#application.settings.userFilesMapping#/avatars/#userID#_48.jpg<cfelse>./images/noavatar48.gif</cfif>" height="48" width="48" border="0" style="float:left;border:1px solid ##ddd;" />
 					</cfif>
 					<div class="commentbody">
-					<span class="b">#firstName# #lastName#</span> said on #DateFormat(DateAdd("h",session.tzOffset,stamp),"ddd, mmm d")# at <cfif application.settings.clockHours eq 12>#TimeFormat(DateAdd("h",session.tzOffset,stamp),"h:mmtt")#<cfelse>#TimeFormat(DateAdd("h",session.tzOffset,stamp),"HH:mm")#</cfif><br />
+					<span class="b">#firstName# #lastName#</span> said on #LSDateFormat(DateAdd("h",session.tzOffset,stamp),"ddd, mmm d")# at <cfif application.settings.clockHours eq 12>#LSTimeFormat(DateAdd("h",session.tzOffset,stamp),"h:mmtt")#<cfelse>#LSTimeFormat(DateAdd("h",session.tzOffset,stamp),"HH:mm")#</cfif><br />
 					#commentText#
 					</div>
 					</div>

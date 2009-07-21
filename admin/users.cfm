@@ -35,7 +35,7 @@
 							<td class="tac b">#currentRow#)</td>
 							<td>#lastName#, #firstName#</td>
 							<td>#username#</td>
-							<td>#DateFormat(lastLogin,"m/d/yyyy")#</td>
+							<td><cfif isDate(lastLogin)>#DateFormat(DateAdd("h",session.tzOffset,lastLogin),"m/d/yyyy")#</cfif></td>
 							<td class="tac"><cfif admin><img src="../images/close.gif" height="16" width="16" border="0" alt="#YesNoFormat(admin)#" /><cfelse>&nbsp;</cfif></td>
 							<td class="tac"><img src="../images/<cfif active>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(active)#" /></td>
 							<td class="tac"><a href="editUser.cfm?u=#userid#">edit</a></td>

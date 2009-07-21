@@ -64,7 +64,7 @@
 								<td>#revision#</td>
 								<td><div id="r#revision#view">&nbsp;#message#</div></td>
 								<!---<cfset dt = request.udf.DateConvertISO8601(logEntries[i].date,-getTimeZoneInfo().utcHourOffset)>--->
-								<td>#DateFormat(date,"ddd mmm d 'yy")# @ <cfif application.settings.clockHours eq 12>#TimeFormat(date,"h:mmtt")#<cfelse>#TimeFormat(date,"HH:mm")#</cfif></td>
+								<td>#LSDateFormat(date,"ddd mmm d 'yy")# @ <cfif application.settings.clockHours eq 12>#LSTimeFormat(date,"h:mmtt")#<cfelse>#LSTimeFormat(date,"HH:mm")#</cfif></td>
 								<td>#author#</td>
 								
 								<td class="tac"><a href="##" onclick="$('##files#currentRow#').toggle();return false;" class="nounder">#StructCount(path)# files</a></td>

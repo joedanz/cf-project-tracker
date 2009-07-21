@@ -166,7 +166,9 @@
 		<cfargument name="isCompleted" type="boolean" required="true">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#todos
-			SET completed = <cfif arguments.isCompleted>#Now()#<cfelse>NULL</cfif>
+			SET completed = <cfif arguments.isCompleted>
+					<cfqueryparam cfsqltype="cf_sql_timestamp" value="#DateConvert("local2Utc",Now())#">
+				<cfelse>NULL</cfif>
 			WHERE todoID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todoID#" maxlength="35">
 				AND todolistID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">			
 		</cfquery>

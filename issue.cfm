@@ -176,11 +176,11 @@
 					 	<table class="bug" style="float:right;margin-right:20px;">
 							<tr>
 								<td class="label">Created:</td>
-								<td>#DateFormat(DateAdd("h",session.tzOffset,issue.created),"mmm d, yyyy")# @ <cfif application.settings.clockHours eq 12>#TimeFormat(DateAdd("h",session.tzOffset,issue.created),"h:mmtt")#<cfelse>#TimeFormat(DateAdd("h",session.tzOffset,issue.created),"HH:mm")#</cfif> by #issue.createdFirstName# #issue.createdLastName#</td>
+								<td>#LSDateFormat(DateAdd("h",session.tzOffset,issue.created),"mmm d, yyyy")# @ <cfif application.settings.clockHours eq 12>#LSTimeFormat(DateAdd("h",session.tzOffset,issue.created),"h:mmtt")#<cfelse>#LSTimeFormat(DateAdd("h",session.tzOffset,issue.created),"HH:mm")#</cfif> by #issue.createdFirstName# #issue.createdLastName#</td>
 							</tr>
 							<tr>
 								<td class="label"><cfif not compare(issue.status,'Closed')>Closed<cfelse>Updated</cfif>:</td>
-								<td><cfif isDate(issue.updated)>#DateFormat(DateAdd("h",session.tzOffset,issue.updated),"mmm d, yyyy")# @ <cfif application.settings.clockHours eq 12>#TimeFormat(DateAdd("h",session.tzOffset,issue.updated),"h:mmtt")#<cfelse>#TimeFormat(DateAdd("h",session.tzOffset,issue.updated),"HH:mm")#</cfif> by #issue.updatedFirstName# #issue.updatedLastName#<cfelse><span class="g">&lt;none&gt;</span></cfif></td>
+								<td><cfif isDate(issue.updated)>#LSDateFormat(DateAdd("h",session.tzOffset,issue.updated),"mmm d, yyyy")# @ <cfif application.settings.clockHours eq 12>#LSTimeFormat(DateAdd("h",session.tzOffset,issue.updated),"h:mmtt")#<cfelse>#LSTimeFormat(DateAdd("h",session.tzOffset,issue.updated),"HH:mm")#</cfif> by #issue.updatedFirstName# #issue.updatedLastName#<cfelse><span class="g">&lt;none&gt;</span></cfif></td>
 							</tr>
 							<tr>
 								<td class="label">Assigned To:</td>
@@ -188,7 +188,7 @@
 							</tr>
 							<tr>
 								<td class="label">Due Date:</td>
-								<td><cfif isDate(issue.dueDate)>#DateFormat(issue.dueDate,"mmmm d, yyyy")#<cfelse><span class="g">&lt;none&gt;</span></cfif></td>
+								<td><cfif isDate(issue.dueDate)>#LSDateFormat(issue.dueDate,"mmmm d, yyyy")#<cfelse><span class="g">&lt;none&gt;</span></cfif></td>
 							</tr>
 							<tr>
 								<td class="label">Milestone:</td>
@@ -275,7 +275,7 @@
 										<td>#title#</td>
 										<td><a href="#application.settings.userFilesMapping#/#url.p#/#filename#" class="#lcase(filetype)#" rel="prettyPhoto" title="#title#">#filename#</a></td>
 										<td>#ceiling(filesize/1024)#K</td>
-										<td>#dateFormat(DateAdd("h",session.tzOffset,uploaded),"medium")#</td>
+										<td>#LSDateFormat(DateAdd("h",session.tzOffset,uploaded),"medium")#</td>
 										<cfif not compareNoCase(session.user.userID,uploadedBy) or session.user.admin>
 											<td><a href="editScreen.cfm?p=#url.p#&i=#url.i#&f=#fileID#" class="edit">Edit</a></td>
 											<td><a href="#cgi.script_name#?p=#url.p#&i=#url.i#&ds=#fileID#" class="delete" onclick="return confirm('Are you sure you wish to delete this screenshot?');">Delete</a></td>										
@@ -341,7 +341,7 @@
 								<tbody>
 									<cfloop query="timelines">
 										<tr id="r#timetrackid#">
-											<td class="first">#DateFormat(dateStamp,"mmm d, yyyy")#</td>
+											<td class="first">#LSDateFormat(dateStamp,"mmm d, yyyy")#</td>
 											<td>#firstName# #lastName#</td>
 											<td>#numberFormat(hours,"0.00")#</td>
 											<cfif project.tab_billing and (session.user.admin or project.bill_view eq 1)>
@@ -448,7 +448,7 @@
 										<td><a href="download.cfm?p=#url.p#&f=#fileID#" class="#lcase(filetype)#">#filename#</a></td>
 										<td>#category#</td>
 										<td>#ceiling(filesize/1024)#K</td>
-										<td>#dateFormat(uploaded,"medium")#</td>
+										<td>#LSDateFormat(uploaded,"medium")#</td>
 									</tr>
 								</cfloop>
 							</tbody>
@@ -467,7 +467,7 @@
 						<img src="<cfif avatar>#application.settings.userFilesMapping#/avatars/#userID#_48.jpg<cfelse>./images/noavatar48.gif</cfif>" height="48" width="48" border="0" style="float:left;border:1px solid ##ddd;" />
 						</cfif>
 						<div class="commentbody">
-						<span class="b">#firstName# #lastName#</span> said on #DateFormat(DateAdd("h",session.tzOffset,stamp),"ddd, mmm d")# at <cfif application.settings.clockHours eq 12>#TimeFormat(DateAdd("h",session.tzOffset,stamp),"h:mmtt")#<cfelse>#TimeFormat(DateAdd("h",session.tzOffset,stamp),"HH:mm")#</cfif><br />
+						<span class="b">#firstName# #lastName#</span> said on #LSDateFormat(DateAdd("h",session.tzOffset,stamp),"ddd, mmm d")# at <cfif application.settings.clockHours eq 12>#LSTimeFormat(DateAdd("h",session.tzOffset,stamp),"h:mmtt")#<cfelse>#LSTimeFormat(DateAdd("h",session.tzOffset,stamp),"HH:mm")#</cfif><br />
 						#commentText#
 						</div>
 						</div>

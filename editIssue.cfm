@@ -159,7 +159,7 @@
 						</p>
 						<p>
 						<label for="dueDate">Due Date:</label>
-						<input type="text" name="dueDate" id="dueDate" value="#DateFormat(dueDate,"mm/dd/yyyy")#" size="8" class="date-pick shortest" />
+						<input type="text" name="dueDate" id="dueDate" value="#LSDateFormat(dueDate,"mm/dd/yyyy")#" size="8" class="date-pick shortest" />
 						</p>
 						<cfif session.user.admin or project.issue_assign eq 1>
 							<p>

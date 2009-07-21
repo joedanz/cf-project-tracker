@@ -176,7 +176,7 @@
 		<title>#xmlFormat(arguments.data.title)#</title>
 		<description>#xmlFormat(arguments.data.body)#</description>
 		<link>#xmlFormat(arguments.data.link)#</link>
-		<dc:date>#dateFormat(arguments.data.date,"yyyy-mm-dd")#T#timeFormat(arguments.data.date,"HH:mm:ss")#<cfif z.utcHourOffSet lt 0>+#numberFormat(z.utcHourOffset,"00")*-1#<cfelse>-#numberFormat(z.utcHourOffset,"00")#</cfif>:00</dc:date>
+		<dc:date>#LSDateFormat(arguments.data.date,"yyyy-mm-dd")#T#LSTimeFormat(arguments.data.date,"HH:mm:ss")#<cfif z.utcHourOffSet lt 0>+#numberFormat(z.utcHourOffset,"00")*-1#<cfelse>-#numberFormat(z.utcHourOffset,"00")#</cfif>:00</dc:date>
 		<dc:subject>#xmlFormat(arguments.data.subject)#</dc:subject>
 		</item>
 		</cfoutput>

@@ -90,7 +90,7 @@
 							</cfif>
 							#name#</a></td>
 							<!---<cfset dt = request.udf.DateConvertISO8601(date,-getTimeZoneInfo().utcHourOffset)>--->
-							<td>#DateFormat(date,"mm-dd-yyyy")# @ <cfif application.settings.clockHours eq 12>#TimeFormat(date,"hh:mm:ss tt")#<cfelse>#TimeFormat(date,"HH:mm:ss")#</cfif></td>
+							<td>#LSDateFormat(date,"mm-dd-yyyy")# @ <cfif application.settings.clockHours eq 12>#LSTimeFormat(date,"hh:mm:ss tt")#<cfelse>#LSTimeFormat(date,"HH:mm:ss")#</cfif></td>
 							<td class="tac">#NumberFormat(revision)#</td>
 							
 							

@@ -512,7 +512,7 @@ Use the following link to view or edit the message and to make comments:</cfif>
 				<cfoutput>New #qProject.name# file:
 #qMilestone.name#
 
-Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
+Due Date: #LSDateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
 
 #Left(request.udf.CleanText(qMilestone.description),100)#<cfif len(request.udf.CleanText(qMilestone.description)) gt 100>...</cfif>
 				</cfoutput>
