@@ -224,7 +224,7 @@
 
 <!--- set locale --->
 <cfif StructKeyExists(session,"loggedin") and session.loggedin>
-	<cfset setLocale(session.user.locale)>
+	<cfset setLocale(session.locale)>
 <cfelse>
 	<cfset setLocale(application.settings.default_locale)>
 </cfif>
