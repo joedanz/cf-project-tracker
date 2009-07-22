@@ -1,9 +1,10 @@
 <cfsetting enablecfoutputonly="true">
 
-<cfset rates = application.client.getRates(defaultOnly='true')>
+<cfset client = application.client.get(url.c)>
+<cfset rates = application.client.getRates(clientID=url.c,clientOnly='true')>
 
 <!--- Loads header/footer --->
-<cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Admin &raquo; Default Bill Rates">
+<cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Admin &raquo; Clients &raquo; Bill Rates">
 
 <cfoutput>
 <div id="container">
@@ -19,7 +20,7 @@
 				</ul>
 				<div class="content">
 					<div class="wrapper">
-					<h3>Default Billing Rates</h3>
+					<h3>#client.name# &raquo; Billing Rates</h3>
 
 					<cfif rates.recordCount>
 					<ul id="client_rates" class="mt15 ml40">
@@ -45,7 +46,7 @@
 								<tr>
 									<td><input type="text" name="category" id="category" class="short" /></td>
 									<td><input type="text" name="rate" id="rate" class="tiny" /></td>
-									<td><input type="button" class="button2" value="Add" onclick="add_default_rate();" /> or <a href="##" onclick="$('##add').slideUp();return false;">Cancel</a></td>
+									<td><input type="button" class="button2" value="Add" onclick="add_client_rate('#url.c#');" /> or <a href="##" onclick="$('##add').slideUp();return false;">Cancel</a></td>
 								</tr>
 							</tbody>
 						</table>

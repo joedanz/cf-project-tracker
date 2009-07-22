@@ -380,7 +380,6 @@
 				<row settingID="1E5ED63A-C938-2FE9-C60035D81F955266" setting="company_name" settingValue="" />
 				<row settingID="1E77669A-963D-735E-C7C22FA82FABC398" setting="company_logo" settingValue="" />
 				<row settingID="5D717D09-1372-7975-6F21844EACDAFC54" setting="invoice_logo" settingValue="" />
-				<row settingID="3D72D1F7-CD23-8BE3-60F9614093F89CCF" setting="hourly_rate" settingValue="" />
 				<row settingID="89DDF566-1372-7975-6F192B9AFBDB218A" setting="default_locale" settingValue="English (US)" />
 				<row settingID="89B9B664-1372-7975-6F7D802298571968" setting="default_timezone" settingValue="US/Eastern" />
 			</data>

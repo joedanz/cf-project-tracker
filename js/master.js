@@ -59,7 +59,19 @@ function add_client_rate(clientid) {
 		}
 	});
 }
-function delete_client_rate(rateid) {
+function add_default_rate() {
+    $.ajax({
+		type: 'get',
+		url: '../ajax/client_rate.cfm',
+		data: 'a=adddef&cat=' + escape($('#category').val()) + '&r=' + escape($('#rate').val()),
+		success: function(txt){
+	     $('#client_rates').html(txt);
+		 $('#category').val('');
+		 $('#rate').val('');
+		}
+	});
+}
+function delete_rate(rateid) {
     $('#r' + rateid).fadeOut(600, function(){ $(this).remove(); });
 	$.ajax({
 		type: 'get',

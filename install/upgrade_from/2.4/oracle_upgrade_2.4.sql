@@ -137,8 +137,6 @@ INSERT INTO pt_settings (settingid,setting,settingvalue) values
 INSERT INTO pt_settings (settingid,setting,settingvalue) values 
 ('5D717D09-1372-7975-6F21844EACDAFC54','invoice_logo','');
 INSERT INTO pt_settings (settingid,setting,settingvalue) values 
-('3D72D1F7-CD23-8BE3-60F9614093F89CCF','hourly_rate','');
-INSERT INTO pt_settings (settingid,setting,settingvalue) values 
 ('89DDF566-1372-7975-6F192B9AFBDB218A','default_locale','English (US)');
 INSERT INTO pt_settings (settingid,setting,settingvalue) values 
 ('89B9B664-1372-7975-6F7D802298571968','default_timezone','US/Eastern');

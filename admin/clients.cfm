@@ -38,7 +38,7 @@
 								<td>#contactName#</td>
 								<td class="tac">#NumberFormat(numProjects)#</td>
 								<td class="tac"><img src="../images/<cfif active>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(active)#" /></td>
-								<td class="tac"><a href="billRates.cfm?c=#clientid#">rates</a></td>
+								<td class="tac"><a href="clientBillRates.cfm?c=#clientid#">rates</a></td>
 								<td class="tac"><a href="editClient.cfm?c=#clientid#">edit</a></td>
 							</tr>
 						</cfloop>

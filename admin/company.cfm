@@ -1,9 +1,8 @@
 <cfsetting enablecfoutputonly="true">
 
 <cfif StructKeyExists(form,"submit")>
-	<cfset application.config.saveCompany(form.company_name,form.hourly_rate)>
+	<cfset application.config.saveCompany(form.company_name)>
 	<cfset application.settings.company_name = form.company_name>
-	<cfset application.settings.hourly_rate = form.hourly_rate>
 	<cfif compare(form.imagefile,'')>
 		<cfif compare(application.settings.company_logo,'')>
 			<cftry>
@@ -89,11 +88,7 @@
 							<img src="#application.settings.userFilesMapping#/company/#application.settings.invoice_logo#" border="0" alt="#application.settings.company_name#" style="border:1px solid ##666;" />
 							<a href="#cgi.script_name#?rmvinvimg">remove</a>
 							</p>
-						</cfif>
-						<p>
-						<label for="hourly_rate">Base Hourly Rate:</label>
-						$ <input type="text" name="hourly_rate" id="hourly_rate" class="tiny" value="#application.settings.hourly_rate#" />
-						</p>			
+						</cfif>		
 	
 						<label for="submit">&nbsp;</label>
 						<input type="submit" class="button" name="submit" id="submit" value="Update Company" />				

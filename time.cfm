@@ -143,7 +143,7 @@
 								<td>#firstName# #lastName#</td>
 								<td class="b">#numberFormat(hours,"0.00")#</td>
 								<cfif project.tab_billing and (session.user.admin or project.bill_view eq 1)>
-									<td><cfif compare(category,'') and not compareNoCase(clientID,project.clientID)>#category# ($#NumberFormat(rate,"0")#/hr)</cfif></td>
+									<td><cfif compare(rateID,'')>#category# ($#NumberFormat(rate,"0")#/hr)</cfif></td>
 									<td><cfif isNumeric(rate) and not compareNoCase(clientID,project.clientID)>$#NumberFormat(rate*hours,"0")#</cfif></td>
 								</cfif>
 								<td><cfif compare(itemType,'')><span class="catbox #itemtype#">#itemtype#</span> 

@@ -116,16 +116,30 @@
 	
 	<cffunction name="getRates" access="public" returnType="query" output="false"
 				hint="Returns mobile carriers.">
-		<cfargument name="clientID" type="string" required="true">
+		<cfargument name="clientID" type="string" required="false" default="">
+		<cfargument name="clientOnly" type="boolean" required="false" default="false">
+		<cfargument name="defaultOnly" type="boolean" required="false" default="false">
 		<cfset var qGetRates = "">
 
 		<cfquery name="qGetRates" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
+			<cfif not arguments.defaultOnly>
 			SELECT r.rateID, r.category, r.rate, count(tt.rateID) as numLines
 				FROM #variables.tableprefix#client_rates r 
 					LEFT JOIN #variables.tableprefix#timetrack tt ON r.rateID = tt.rateID
 				WHERE clientID = 
 						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.clientID#" maxlength="35">
 			GROUP BY r.rateID, r.category, r.rate
+			</cfif>
+			<cfif not arguments.defaultOnly and not arguments.clientOnly>
+				UNION
+			</cfif>
+			<cfif not arguments.clientOnly>
+			SELECT r.rateID, r.category, r.rate, count(tt.rateID) as numLines
+				FROM pt_client_rates r 
+					LEFT JOIN pt_timetrack tt ON r.rateID = tt.rateID
+				WHERE clientID IS NULL
+			GROUP BY r.rateID, r.category, r.rate
+			</cfif>
 			ORDER BY r.category
 		</cfquery>
 		<cfreturn qGetRates>
@@ -134,13 +148,15 @@
 	<cffunction name="addRate" access="public" returnType="boolean" output="false"
 				hint="Adds a client rate.">	
 		<cfargument name="rateID" type="string" required="true">
-		<cfargument name="clientID" type="string" required="true">
 		<cfargument name="category" type="string" required="true">
 		<cfargument name="rate" type="numeric" required="true">
+		<cfargument name="clientID" type="string" required="false" default="">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#client_rates (rateID, clientID, category, rate )
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.rateID#" maxlength="35">,
-					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.clientID#" maxlength="35">,
+					<cfif compare(arguments.clientID,'')>
+						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.clientID#" maxlength="35">
+					<cfelse>NULL</cfif>,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.category#" maxlength="50">,
 					<cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.rate#">)
 		</cfquery>
