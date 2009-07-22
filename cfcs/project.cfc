@@ -21,7 +21,7 @@
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			SELECT p.projectID, p.ownerID, p.clientID, p.name, p.description, p.display, p.added, 
+			SELECT p.projectID, p.ownerID, p.clientID, p.name, p.description, p.display, p.added, p.allow_def_rates,
 				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, p.logo_img,
 				p.tab_billing, p.tab_files, p.tab_issues, p.tab_msgs, p.tab_mstones,p.tab_todos, 
 				p.tab_time, p.tab_svn, p.issue_svn_link, p.issue_timetrack,
@@ -88,6 +88,7 @@
 		<cfquery name="qRecords" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT p.projectID, p.ownerID, p.clientID, p.name, p.description, p.display, p.added, 
 				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, p.logo_img, p.allow_reg, 
+				p.allow_def_rates, 
 				p.reg_file_view, p.reg_file_edit, p.reg_file_comment, p.reg_issue_view, p.reg_issue_edit, 
 				p.reg_issue_assign, p.reg_issue_resolve, p.reg_issue_close, p.reg_issue_comment, p.reg_msg_view, 
 				p.reg_msg_edit, p.reg_msg_comment, p.reg_mstone_view, p.reg_mstone_edit, p.reg_mstone_comment, 
@@ -163,6 +164,7 @@
 		<cfargument name="svnpass" type="string" required="true">
 		<cfargument name="logo_img" type="string" required="true">
 		<cfargument name="allow_reg" type="numeric" required="true">
+		<cfargument name="allow_def_rates" type="numeric" required="true">
 		<cfargument name="reg_file_view" type="numeric" required="true">
 		<cfargument name="reg_file_edit" type="numeric" required="true">
 		<cfargument name="reg_file_comment" type="numeric" required="true">
@@ -202,7 +204,7 @@
 		<cfargument name="issue_timetrack" type="numeric" required="true">
 		<cfargument name="addedBy" type="string" required="true">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			INSERT INTO #variables.tableprefix#projects (projectID,ownerID,name,description,display,added,addedBy,clientID,status,ticketPrefix,svnurl,svnuser,svnpass,logo_img,allow_reg,reg_file_view,reg_file_edit,reg_file_comment,reg_issue_view,reg_issue_edit,reg_issue_assign,reg_issue_resolve,reg_issue_close,reg_issue_comment,reg_msg_view,reg_msg_edit,reg_msg_comment,reg_mstone_view,reg_mstone_edit,reg_mstone_comment,reg_todolist_view,reg_todolist_edit,reg_todo_edit,reg_todo_comment,reg_time_view,reg_time_edit,reg_bill_view,reg_bill_edit,reg_bill_rates,reg_bill_invoices,reg_bill_markpaid,reg_svn,tab_files,tab_issues,tab_msgs,tab_mstones,tab_todos,tab_time,tab_billing,tab_svn,issue_svn_link,issue_timetrack)
+			INSERT INTO #variables.tableprefix#projects (projectID,ownerID,name,description,display,added,addedBy,clientID,status,ticketPrefix,svnurl,svnuser,svnpass,logo_img,allow_reg,allow_def_rates,reg_file_view,reg_file_edit,reg_file_comment,reg_issue_view,reg_issue_edit,reg_issue_assign,reg_issue_resolve,reg_issue_close,reg_issue_comment,reg_msg_view,reg_msg_edit,reg_msg_comment,reg_mstone_view,reg_mstone_edit,reg_mstone_comment,reg_todolist_view,reg_todolist_edit,reg_todo_edit,reg_todo_comment,reg_time_view,reg_time_edit,reg_bill_view,reg_bill_edit,reg_bill_rates,reg_bill_invoices,reg_bill_markpaid,reg_svn,tab_files,tab_issues,tab_msgs,tab_mstones,tab_todos,tab_time,tab_billing,tab_svn,issue_svn_link,issue_timetrack)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.ownerID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
@@ -218,6 +220,7 @@
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.svnpass#" maxlength="20">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.logo_img#" maxlength="150">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.allow_reg#" maxlength="1">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.allow_def_rates#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_file_view#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_file_edit#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_file_comment#" maxlength="1">,
@@ -274,6 +277,7 @@
 		<cfargument name="svnpass" type="string" required="true">
 		<cfargument name="logo_img" type="string" required="true">
 		<cfargument name="allow_reg" type="numeric" required="true">
+		<cfargument name="allow_def_rates" type="numeric" required="true">
 		<cfargument name="reg_file_view" type="numeric" required="true">
 		<cfargument name="reg_file_edit" type="numeric" required="true">
 		<cfargument name="reg_file_comment" type="numeric" required="true">
@@ -327,6 +331,7 @@
 						logo_img = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.logo_img#" maxlength="150">,
 					</cfif>
 					allow_reg = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.allow_reg#" maxlength="1">,
+					allow_def_rates = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.allow_def_rates#" maxlength="1">,
 					reg_file_view = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_file_view#" maxlength="1">,
 					reg_file_edit = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_file_edit#" maxlength="1">,
 					reg_file_comment = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.reg_file_comment#" maxlength="1">,

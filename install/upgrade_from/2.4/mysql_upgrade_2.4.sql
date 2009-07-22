@@ -3,7 +3,7 @@
 /* pt_client_rates - add table + index */
 CREATE TABLE `pt_client_rates` (
   `rateID` char(35) NOT NULL,
-  `clientID` char(35) NOT NULL,
+  `clientID` char(35) default NULL,
   `category` varchar(150) default NULL,
   `rate` decimal(6,2) default NULL,  
   PRIMARY KEY  (`rateID`)

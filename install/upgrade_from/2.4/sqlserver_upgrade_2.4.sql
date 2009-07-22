@@ -3,7 +3,7 @@
 /* pt_client_rates - add table + index */
 CREATE TABLE [dbo].[pt_client_rates] (
 	[rateID] [char] (35) NOT NULL ,
-	[clientID] [char] (35) NOT NULL ,
+	[clientID] [char] (35) NULL ,
 	[category] [nvarchar] (50) NULL ,
 	[rate] numeric (6,2) NULL
 ) ON [PRIMARY]

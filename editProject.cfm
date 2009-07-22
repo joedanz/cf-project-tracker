@@ -16,6 +16,7 @@
 <cfparam name="form.from" default="">
 <cfparam name="form.logo_img" default="">
 <cfparam name="form.allow_reg" default="0">
+<cfparam name="form.allow_def_rates" default="0">
 <cfparam name="form.reg_file_view" default="0">
 <cfparam name="form.reg_file_edit" default="0">
 <cfparam name="form.reg_file_comment" default="0">
@@ -81,7 +82,7 @@
 </cfif>
 	
 <cfif StructKeyExists(form,"submit") and not compare(form.submit,'Update Project')> <!--- update project --->
-	<cfset application.project.update(form.projectid,form.ownerID,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,logoimg,form.allow_reg,form.reg_file_view,form.reg_file_edit,form.reg_file_comment,form.reg_issue_view,form.reg_issue_edit,form.reg_issue_assign,form.reg_issue_resolve,form.reg_issue_close,form.reg_issue_comment,form.reg_msg_view,form.reg_msg_edit,form.reg_msg_comment,form.reg_mstone_view,form.reg_mstone_edit,form.reg_mstone_comment,form.reg_todolist_view,form.reg_todolist_edit,form.reg_todo_edit,form.reg_todo_comment,form.reg_time_view,form.reg_time_edit,form.reg_bill_view,form.reg_bill_edit,form.reg_bill_rates,form.reg_bill_invoices,form.reg_bill_markpaid,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,form.issue_timetrack)>
+	<cfset application.project.update(form.projectid,form.ownerID,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,logoimg,form.allow_reg,form.allow_def_rates,form.reg_file_view,form.reg_file_edit,form.reg_file_comment,form.reg_issue_view,form.reg_issue_edit,form.reg_issue_assign,form.reg_issue_resolve,form.reg_issue_close,form.reg_issue_comment,form.reg_msg_view,form.reg_msg_edit,form.reg_msg_comment,form.reg_mstone_view,form.reg_mstone_edit,form.reg_mstone_comment,form.reg_todolist_view,form.reg_todolist_edit,form.reg_todo_edit,form.reg_todo_comment,form.reg_time_view,form.reg_time_edit,form.reg_bill_view,form.reg_bill_edit,form.reg_bill_rates,form.reg_bill_invoices,form.reg_bill_markpaid,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,form.issue_timetrack)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'edited')>
 	<cfif not compare(form.from,'admin')>
 		<cflocation url="./admin/projects.cfm" addtoken="false">
@@ -89,7 +90,7 @@
 		<cflocation url="project.cfm?p=#form.projectID#" addtoken="false">
 	</cfif>
 <cfelseif StructKeyExists(form,"submit") and not compare(form.submit,'Add Project')> <!--- add project --->
-	<cfset application.project.add(form.projectID,form.ownerid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,logoimg,form.allow_reg,form.reg_file_view,form.reg_file_edit,form.reg_file_comment,form.reg_issue_view,form.reg_issue_edit,form.reg_issue_assign,form.reg_issue_resolve,form.reg_issue_close,form.reg_issue_comment,form.reg_msg_view,form.reg_msg_edit,form.reg_msg_comment,form.reg_mstone_view,form.reg_mstone_edit,form.reg_mstone_comment,form.reg_todolist_view,form.reg_todolist_edit,form.reg_todo_edit,form.reg_todo_comment,form.reg_time_view,form.reg_time_edit,form.reg_bill_view,form.reg_bill_edit,form.reg_bill_rates,form.reg_bill_invoices,form.reg_bill_markpaid,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,form.issue_timetrack,session.user.userid)>
+	<cfset application.project.add(form.projectID,form.ownerid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,logoimg,form.allow_reg,form.allow_def_rates,form.reg_file_view,form.reg_file_edit,form.reg_file_comment,form.reg_issue_view,form.reg_issue_edit,form.reg_issue_assign,form.reg_issue_resolve,form.reg_issue_close,form.reg_issue_comment,form.reg_msg_view,form.reg_msg_edit,form.reg_msg_comment,form.reg_mstone_view,form.reg_mstone_edit,form.reg_mstone_comment,form.reg_todolist_view,form.reg_todolist_edit,form.reg_todo_edit,form.reg_todo_comment,form.reg_time_view,form.reg_time_edit,form.reg_bill_view,form.reg_bill_edit,form.reg_bill_rates,form.reg_bill_invoices,form.reg_bill_markpaid,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,form.issue_timetrack,session.user.userid)>
 	<cfset application.role.add(form.projectID,session.user.userid,'1')>
 	<cfset application.notify.add(session.user.userid,form.projectID)>	
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'added')>
@@ -135,6 +136,7 @@
 	<cfset form.logo_img = thisProject.logo_img>
 	<cfset form.old_image = thisProject.logo_img>
 	<cfset form.allow_reg = thisProject.allow_reg>
+	<cfset form.allow_def_rates = thisProject.allow_def_rates>
 	<cfset form.reg_file_view = thisProject.reg_file_view>
 	<cfset form.reg_file_edit = thisProject.reg_file_edit>
 	<cfset form.reg_file_comment = thisProject.reg_file_comment>
@@ -183,6 +185,7 @@
 	<cfset form.display = 1>
 	<cfset form.logo_img = "">
 	<cfset form.old_image = "">
+	<cfset form.allow_def_rates = 1>
 	<cfset form.tab_files = 1>
 	<cfset form.tab_issues = 1>
 	<cfset form.tab_msgs = 1>
@@ -335,6 +338,9 @@
 								<td><input type="checkbox" name="tab_svn" value="1" class="cb"<cfif form.tab_svn eq 1> checked="checked"</cfif> /></td>
 							</tr>
 						</table>
+						<label for="def">&nbsp;</label>
+						<input type="checkbox" name="allow_def_rates" id="allow_def_rates" value="1" class="checkbox"<cfif form.allow_def_rates> checked="checked"</cfif> />
+						<label for="allow_def_rates" class="wide">Enable default billing rates for this project</label>
 						</div>
 						</fieldset>
 
