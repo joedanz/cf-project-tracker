@@ -1,5 +1,5 @@
-<!--- 2.2.0.1 (Build 148) --->
-<!--- Last Updated: 2009-04-24 --->
+<!--- 2.2.0.2 (Build 151) --->
+<!--- Last Updated: 2009-06-13 --->
 <!--- Created by Steve Bryant 2004-12-08 --->
 <cfcomponent extends="DataMgr" displayname="Data Manager for MS Access" hint="I manage data interactions with the MS Access database. I can be used to handle inserts/updates.">
 

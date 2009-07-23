@@ -1,9 +1,9 @@
-<!--- 2.2.0.1 (Build 148) --->
-<!--- Last Updated: 2009-04-24 --->
+<!--- 2.2.0.2 (Build 151) --->
+<!--- Last Updated: 2009-06-13 --->
 <!--- Created by Steve Bryant 2004-12-08 --->
 <!--- Information: sebtools.com --->
 <cfcomponent displayname="Data Manager" hint="I manage data interactions with the database. I can be used to handle inserts/updates.">
-<cfset variables.DataMgrVersion = "2.2.0.1">
+<cfset variables.DataMgrVersion = "2.2.0.2">
 <cffunction name="init" access="public" returntype="DataMgr" output="no" hint="I instantiate and return this object.">
 	<cfargument name="datasource" type="string" required="yes">
 	<cfargument name="database" type="string" required="no">
@@ -71,7 +71,7 @@
 	
 	<cfscript>
 	for (key in arguments.Struct) {
-		if ( Len(key) AND isSimpleValue(arguments.Struct[key]) ) {
+		if ( Len(key) AND StructKeyExists(arguments.Struct,key) AND isSimpleValue(arguments.Struct[key]) ) {
 			// Trim the field value. -- Don't do it! This causes trouble with encrypted strings
 			//sResult[key] = Trim(sResult[key]);
 			// Replace the special characters that Microsoft uses.
