@@ -128,7 +128,7 @@ To view the to-do and leave comments, visit this link:
 					<cfcase value="todo">to-do: #qItem.task#</cfcase>
 				</cfswitch>
 
-#Left(request.udf.CleanText(arguments.comment),100)#<cfif len(request.udf.CleanText(arguments.comment)) gt 100>...</cfif>
+#Left(request.udf.CleanText(qComment.commentText),100)#<cfif len(request.udf.CleanText(qComment.commentText)) gt 100>...</cfif>
 				</cfoutput>
 				</cfsavecontent>
 				
