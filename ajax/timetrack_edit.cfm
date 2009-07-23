@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true" showdebugoutput="false">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfset projectUsers = application.project.projectUsers(url.p,'0','firstName, lastName')>
 <cfset timeline = application.timetrack.get(url.tt)>

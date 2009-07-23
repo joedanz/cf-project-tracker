@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true" showdebugoutput="false">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfset tzOffset = application.timezone.getTZOffset(tz=application.settings_default_timezone)>
 <cfset site_url = application.settings.rootURL & application.settings.mapping>

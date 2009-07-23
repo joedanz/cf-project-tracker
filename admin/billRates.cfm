@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfset rates = application.client.getRates(defaultOnly='true')>
 

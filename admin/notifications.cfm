@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfif StructKeyExists(form,"submit")>
 	<cfset application.config.saveNotification(form.email_subject_prefix,form.sms_subject_prefix)>

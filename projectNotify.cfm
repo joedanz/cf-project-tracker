@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfif StructKeyExists(form,"submit")>
 	<cfparam name="form.email_file_new" default="0">

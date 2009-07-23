@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfif StructKeyExists(form,"submit")>
 	<cfset application.config.saveCompany(form.company_name)>

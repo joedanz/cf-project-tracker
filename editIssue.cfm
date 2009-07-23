@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfparam name="form.display" default="0">
 <cfparam name="form.fileslist" default="">

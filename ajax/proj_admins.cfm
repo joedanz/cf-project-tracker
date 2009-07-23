@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true" showdebugoutput="false">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfif session.user.admin>
 	<cfset project = application.project.get(projectID=url.p)>

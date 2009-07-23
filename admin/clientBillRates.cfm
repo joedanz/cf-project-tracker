@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfset client = application.client.get(url.c)>
 <cfset rates = application.client.getRates(clientID=url.c,clientOnly='true')>

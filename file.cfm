@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfif StructKeyExists(form,"submit")>
 	<cfset application.comment.add(createUUID(),url.p,'file',url.f,session.user.userid,form.comment)>

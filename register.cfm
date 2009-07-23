@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfif not application.settings.allowRegister>
 	<cfoutput><h2>No Auto-Registration Allowed!</h2></cfoutput>

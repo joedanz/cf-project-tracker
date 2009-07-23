@@ -1,4 +1,6 @@
 <cfsetting enablecfoutputonly=true>
+<cfprocessingdirective pageencoding="utf-8">
+
 <!---
 	Purpose		 : Loads up templates. Will look in a subdirectory for templates, 
 				   and will load #attributes.template#_header.cfm and 

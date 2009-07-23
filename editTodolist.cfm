@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfif StructKeyExists(form,"todolistID")> <!--- update todo list --->
 	<cfparam name="form.timetrack" default="0">

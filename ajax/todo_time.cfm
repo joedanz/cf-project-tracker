@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true" showdebugoutput="false">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfif StructKeyExists(url,"d")>
 	<cfset application.timetrack.add(createUUID(),url.p,url.u,url.d,url.h,url.note,url.t,'todo')>

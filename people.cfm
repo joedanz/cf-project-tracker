@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfset userRole = application.role.get(session.user.userid,url.p)>
 <cfif not session.user.admin and not userRole.admin eq 1>

@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfif StructKeyExists(form,"fileID")> <!--- update file --->
 	<cfset application.screenshot.update(form.fileID,form.issueid,form.title,form.description)>

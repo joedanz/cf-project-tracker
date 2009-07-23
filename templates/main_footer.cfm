@@ -1,4 +1,6 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
+
 <!---
 	Purpose		 : Display main template footer
 --->

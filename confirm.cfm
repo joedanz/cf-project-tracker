@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <!--- Loads header/footer --->
 <cfmodule template="tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Confirm Registration">

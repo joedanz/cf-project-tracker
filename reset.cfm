@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfparam name="form.password" default="">
 <cfparam name="form.password2" default="">

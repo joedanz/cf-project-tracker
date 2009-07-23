@@ -1,15 +1,12 @@
+<cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
+
 <!---
 	Filename: 		invoicePDF.cfm
 	Designers:		Emilie McGregor
 	Created: 		1/29/2009 10:30:41 AM
 	Description:	File for generating pdfs.
 --->
-
-
-
-
-
-<cfsetting enablecfoutputonly="true">
 
 <cfparam name="form.c" default="">
 <cfparam name="form.p" default="">

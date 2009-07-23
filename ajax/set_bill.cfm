@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true" showdebugoutput="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfif not compare(left(url.p,1),'p')>
 	<cfset itemWhich = "paid">

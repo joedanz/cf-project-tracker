@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfif StructKeyExists(url,"df") and not compare(hash(url.df),url.dfh)>
 	<cfset application.file.delete(url.p,url.df,session.user.userID)>

@@ -1,10 +1,10 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfoutput>
 	<cfif compare(application.settings.company_logo,'')>
 		<img src="#application.settings.userFilesMapping#/company/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" /><br />
 	</cfif>
-
 
 	<cfif not application.isBD and StructKeyExists(application,"DataMgr")>
 		<!--- no backup on blue dragon - cfzip doesn't work the same way --->

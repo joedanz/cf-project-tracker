@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfoutput>
 <li><a href="#application.settings.mapping#/admin/users.cfm"<cfif findNoCase('/admin/editUser.cfm',cgi.script_name) or findNoCase('/admin/user',cgi.script_name) or findNoCase('/userPermissions.cfm',cgi.script_name)> class="current"</cfif>>Users</a></li>

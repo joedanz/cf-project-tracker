@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfparam name="form.projectIDfilter" default="">
 <cfparam name="form.type" default="">

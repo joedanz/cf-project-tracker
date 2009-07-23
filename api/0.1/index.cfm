@@ -1,4 +1,6 @@
 <cfsetting enablecfoutputonly="true" showdebugoutput="false">
+<cfprocessingdirective pageencoding="utf-8">
+
 <!--- API Version 0.1 --->
 
 <!--- Ensure that API is enabled --->

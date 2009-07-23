@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfparam name="form.completed" default="0">
 <cfif StructKeyExists(form,"milestoneID")> <!--- update milestone --->

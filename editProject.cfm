@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfif StructKeyExists(url,"p") or StructKeyExists(form,"projectid")>
 	<cfif StructKeyExists(url,"p")>
