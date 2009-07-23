@@ -17,4 +17,4 @@ mailPassword=
 showDebug=true
 errorPage=false
 showError=true
-version=2.5 Beta R6
+version=2.5 Beta R7
