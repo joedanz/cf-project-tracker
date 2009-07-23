@@ -175,3 +175,7 @@ ALTER TABLE `pt_users` ADD `locale` varchar(32) default NULL;
 UPDATE `pt_users` set `locale` = 'English (US)';
 ALTER TABLE `pt_users` ADD `timezone` varchar(32) default NULL;
 UPDATE `pt_users` set `timezone` = 'US/Eastern';
+ALTER TABLE `pt_users` ADD `report` tinyint(1) default NULL;
+UPDATE `pt_users` set `report` = 0;
+ALTER TABLE `pt_users` ADD `invoice` tinyint(1) default NULL;
+UPDATE `pt_users` set `invoice` = 0;

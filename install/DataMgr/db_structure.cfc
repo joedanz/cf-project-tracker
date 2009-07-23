@@ -177,6 +177,7 @@
 				<field ColumnName="bill_rates" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="bill_invoices" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="bill_markpaid" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="report" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="svn" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 			</table>
 			<table name="#arguments.tablePrefix#project_versions">
@@ -365,6 +366,8 @@
 				<field ColumnName="locale" CF_DataType="CF_SQL_VARCHAR" Length="32" />
 				<field ColumnName="timezone" CF_DataType="CF_SQL_VARCHAR" Length="32" />
 				<field ColumnName="admin" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="report" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="invoice" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 				<field ColumnName="active" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 			</table>
 			<data table="#arguments.tablePrefix#users">

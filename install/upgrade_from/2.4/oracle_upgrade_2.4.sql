@@ -200,13 +200,17 @@ CREATE TABLE  "PT_USER_NOTIFY"
 	 CONSTRAINT "PK_PT_USER_NOTIFY" PRIMARY KEY ("USERID", "PROJECTID") ENABLE
    );
 
-/* pt_users - add new column */
+/* pt_users - add new columns */
 alter table
    pt_users
 add
    (
    locale varchar2(32) NULL,
-   timezone varchar2(32) NULL
+   timezone varchar2(32) NULL,
+   report NUMBER(1,0) NULL, 
+   invoice NUMBER(1,0) NULL
    );
 update pt_users set locale = 'English (US)';
 update pt_users set timezone = 'US/Eastern';
+update pt_users set report = 0;
+update pt_users set invoice = 0;

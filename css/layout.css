@@ -31,6 +31,7 @@ ul.nobullet li { margin-bottom:5px; }
 .tac { text-align:center; }
 .tal { text-align:left !important }
 .tar { text-align:right; }
+.vam { vertical-align:middle; }
 
 .error, .success { padding:10px; margin-bottom:10px; }
 .error ul, .success ul { margin:10px 30px;}

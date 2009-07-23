@@ -9,6 +9,8 @@
 
 <cfif StructKeyExists(form,"submit")>
 	<cfparam name="form.admin" default="0">
+	<cfparam name="form.report" default="0">
+	<cfparam name="form.invoice" default="0">
 	<cfparam name="form.active" default="0">
 	<cfparam name="form.projectids" default="">
 	<cfparam name="form.adminids" default="">
@@ -31,7 +33,7 @@
 				<cfset qCheckUser = application.user.get('','',form.username)>
 				<cfif not qCheckUser.recordCount>
 					<cfset newID = createUUID()>
-					<cfset application.user.adminCreate(newID,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.admin,form.active)>
+					<cfset application.user.adminCreate(newID,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.admin,form.report,form.invoice,form.active)>
 					<cfloop list="#form.projectids#" index="i">
 						<cfif listFind(form.adminids,i)>
 							<cfset project_admin = 1>
@@ -60,7 +62,7 @@
 		</cfcase>
 		<cfcase value="Update User">
 			<cfif not compare(errors,'')>
-				<cfset application.user.adminUpdate(form.userid,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.admin,form.active)>
+				<cfset application.user.adminUpdate(form.userid,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.admin,form.report,form.invoice,form.active)>
 				<cfif not compare(form.from,'admin')>
 					<cflocation url="users.cfm" addtoken="false">
 				<cfelse>
@@ -80,6 +82,8 @@
 <cfparam name="form.mobile" default="">
 <cfparam name="form.carrierID" default="">
 <cfparam name="form.admin" default="0">
+<cfparam name="form.report" default="0">
+<cfparam name="form.invoice" default="0">
 <cfparam name="form.active" default="0">
 
 <cfif StructKeyExists(url,"u")>
@@ -93,6 +97,8 @@
 	<cfset form.mobile = user.mobile>
 	<cfset form.carrierID = user.carrierID>
 	<cfset form.admin = user.admin>
+	<cfset form.report = user.report>
+	<cfset form.invoice = user.invoice>
 	<cfset form.active = user.active>
 	<cfset user_projects = application.project.get(url.u)>
 	<cfset notifications = application.project.userNotify(url.u)>
@@ -204,6 +210,14 @@
 						<p>
 						<label for="admin">Global Admin?</label>
 						<input type="checkbox" name="admin" id="admin" value="1" class="checkbox"<cfif form.admin> checked="checked"</cfif> />
+						</p>
+						<p>
+						<label for="report">Global Reporting?</label>
+						<input type="checkbox" name="report" id="report" value="1" class="checkbox"<cfif form.report> checked="checked"</cfif> />
+						</p>
+						<p>
+						<label for="invoice">Global Invoicing?</label>
+						<input type="checkbox" name="invoice" id="invoice" value="1" class="checkbox"<cfif form.invoice> checked="checked"</cfif> />
 						</p>
 						<p>
 						<label for="active">Active?</label>

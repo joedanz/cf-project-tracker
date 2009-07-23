@@ -70,11 +70,11 @@
 					</label>
 					
 					<label for="lname">Last
-						<input type="text" name="lastName" id="lname" size="8" />
+						<input type="text" name="lastName" id="lname" size="6" />
 					</label>
 					
 					<label for="email">Email
-						<input type="text" name="email" id="email" size="20" />
+						<input type="text" name="email" id="email" size="16" />
 					</label>
 										
 					<label for="phone">Phone
@@ -90,14 +90,28 @@
 					</label>
 					
 					<cfif session.user.admin>
-						<label for="globaladmin">SysAdmin?
+						<label for="globaladmin">Admin?
 							<select name="admin" id="admin" class="block">
+								<option value="0">No
+								<option value="1">Yes
+							</select>
+						</label>
+						<label for="report">Report?
+							<select name="report" id="report" class="block">
+								<option value="0">No
+								<option value="1">Yes
+							</select>
+						</label>
+						<label for="invoice">Invoice?
+							<select name="invoice" id="invoice" class="block">
 								<option value="0">No
 								<option value="1">Yes
 							</select>
 						</label>
 					<cfelse>
 						<input type="hidden" name="admin" id="admin" value="0" />
+						<input type="hidden" name="report" id="report" value="0" />
+						<input type="hidden" name="invoice" id="invoice" value="0" />
 					</cfif>
 					
 					<br style="clear:both;" />

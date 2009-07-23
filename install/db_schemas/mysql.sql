@@ -213,6 +213,7 @@ CREATE TABLE `pt_project_users` (
   `bill_rates` int(1) default NULL,
   `bill_invoices` int(1) default NULL,
   `bill_markpaid` int(1) default NULL,
+  `report` int(1) default NULL,
   `svn` int(1) default NULL,
   PRIMARY KEY  (`userID`,`projectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -434,6 +435,8 @@ CREATE TABLE `pt_users` (
   `locale` varchar(32) default NULL,
   `timezone` varchar(32) default NULL,
   `admin` tinyint(1) default NULL,
+  `report` tinyint(1) default NULL,
+  `invoice` tinyint(1) default NULL,
   `active` tinyint(1) default NULL,
   PRIMARY KEY  (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

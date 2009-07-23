@@ -30,7 +30,8 @@
 					pu.issue_assign, pu.issue_resolve, pu.issue_close, pu.issue_comment, pu.msg_view, 
 					pu.msg_edit, pu.msg_comment, pu.mstone_view, pu.mstone_edit, pu.mstone_comment, 
 					pu.todolist_view, pu.todolist_edit, pu.todo_edit, pu.todo_comment, pu.time_view, pu.time_edit, 
-					pu.bill_view, pu.bill_edit, pu.bill_rates, pu.bill_invoices, pu.bill_markpaid, pu.svn,
+					pu.bill_view, pu.bill_edit, pu.bill_rates, pu.bill_invoices, pu.bill_markpaid, pu.report, 
+					pu.svn,
 					un.email_file_new, un.mobile_file_new, un.email_file_upd, un.mobile_file_upd, 
 					un.email_file_com, un.mobile_file_com, un.email_issue_new, un.mobile_issue_new, 
 					un.email_issue_upd, un.mobile_issue_upd, un.email_issue_com, un.mobile_issue_com,
@@ -47,7 +48,8 @@
 					1 as issue_comment, 1 as msg_view, 1 as msg_edit, 1 as msg_comment, 1 as mstone_view, 
 					1 as mstone_edit, 1 as mstone_comment, 1 as todolist_view, 1 as todolist_edit, 
 					1 as todo_edit, 1 as todo_comment, 1 as time_view, 1 as time_edit, 1 as bill_view, 
-					1 as bill_edit, 1 as bill_rates, 1 as bill_invoices, 1 as bill_markpaid, 1 as svn,
+					1 as bill_edit, 1 as bill_rates, 1 as bill_invoices, 1 as bill_markpaid, 1 as report, 
+					1 as svn,
 					0 as email_file_new, 0 as mobile_file_new, 0 as email_file_upd, 0 as mobile_file_upd, 
 					0 as email_file_com, 0 as mobile_file_com, 0 as email_issue_new, 0 as mobile_issue_new, 
 					0 as email_issue_upd, 0 as mobile_issue_upd, 0 as email_issue_com, 0 as mobile_issue_com,
@@ -482,7 +484,7 @@
 				pu.msg_view, pu.msg_edit, pu.msg_comment, pu.mstone_view, pu.mstone_edit, 
 				pu.mstone_comment, pu.todolist_view, pu.todolist_edit, pu.todo_edit, pu.todo_comment, 
 				pu.time_view, pu.time_edit, pu.bill_view, pu.bill_edit, pu.bill_rates, pu.bill_invoices, 
-				pu.bill_markpaid, pu.svn
+				pu.bill_markpaid, pu.report, pu.svn
 			FROM #variables.tableprefix#users u 
 				INNER JOIN #variables.tableprefix#project_users pu ON u.userID = pu.userID
 				INNER JOIN #variables.tableprefix#user_notify un ON pu.userID = un.userID
@@ -544,36 +546,6 @@
 			UPDATE #variables.tableprefix#projects
 			SET ownerID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
 			WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
-		</cfquery>
-	</cffunction>
-
-	<cffunction name="setUserPermissions" access="public" returntype="void" output="false"
-				hint="Sets permissions for a project user.">
-		<cfargument name="projectID" type="string" required="true">
-		<cfargument name="userID" type="string" required="true">
-		<cfargument name="admin" type="string" required="true">
-		<cfargument name="files" type="numeric" required="true">
-		<cfargument name="issues" type="numeric" required="true">
-		<cfargument name="msgs" type="numeric" required="true">
-		<cfargument name="mstones" type="numeric" required="true">
-		<cfargument name="todos" type="numeric" required="true">
-		<cfargument name="timetrack" type="numeric" required="true">
-		<cfargument name="billing" type="numeric" required="true">
-		<cfargument name="svn" type="string" required="true">
-		
-		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			UPDATE #variables.tableprefix#project_users
-			SET admin = <cfif isNumeric(arguments.admin)>1<cfelse>0</cfif>,
-				files = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.files#" maxlength="1">,
-				issues = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.issues#" maxlength="1">,
-				msgs = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.msgs#" maxlength="1">,
-				mstones = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mstones#" maxlength="1">,
-				todos = <cfif isNumeric(arguments.todos)><cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.todos#" maxlength="1"><cfelse>0</cfif>,
-				timetrack = <cfif isNumeric(arguments.timetrack)><cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.timetrack#" maxlength="1"><cfelse>0</cfif>,
-				billing = <cfif isNumeric(arguments.billing)><cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.billing#" maxlength="1"><cfelse>0</cfif>,
-				svn = <cfif isNumeric(arguments.svn) and arguments.svn eq 1>1<cfelse>0</cfif>
-			WHERE projectid = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
-				AND userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35"> 
 		</cfquery>
 	</cffunction>
 

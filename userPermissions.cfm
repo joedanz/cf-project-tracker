@@ -10,7 +10,7 @@
 <cfif StructKeyExists(form,"submit")>
 	<cfparam name="form.admin" default="0">
 	<cfset application.role.remove(projectID=url.p,userID=url.u)>
-	<cfset application.role.add(url.p,url.u,form.admin,form.file_view,form.file_edit,form.file_comment,form.issue_view,form.issue_edit,form.issue_assign,form.issue_resolve,form.issue_close,form.issue_comment,form.msg_view,form.msg_edit,form.msg_comment,form.mstone_view,form.mstone_edit,form.mstone_comment,form.todolist_view,form.todolist_edit,form.todo_edit,form.todo_comment,form.time_view,form.time_edit,form.bill_view,form.bill_edit,form.bill_rates,form.bill_invoices,form.bill_markpaid,form.svn)>
+	<cfset application.role.add(url.p,url.u,form.admin,form.file_view,form.file_edit,form.file_comment,form.issue_view,form.issue_edit,form.issue_assign,form.issue_resolve,form.issue_close,form.issue_comment,form.msg_view,form.msg_edit,form.msg_comment,form.mstone_view,form.mstone_edit,form.mstone_comment,form.todolist_view,form.todolist_edit,form.todo_edit,form.todo_comment,form.time_view,form.time_edit,form.bill_view,form.bill_edit,form.bill_rates,form.bill_invoices,form.bill_markpaid,form.report,form.svn)>
 	<cfif not compareNoCase(form.from,'admin')>
 		<cflocation url="admin/editUser.cfm?u=#url.u###projects" addtoken="false">
 	<cfelse>
@@ -174,6 +174,23 @@
 							</tbody>
 						</table>
 
+						<table class="perms full mb10">
+							<thead>
+								<tr>
+									<th class="b">Subversion</th>
+									<th class="tac b yes">Yes</th>
+									<th class="tac b no">No</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Access Subversion repository</td>
+									<td class="tac"><input type="radio" name="svn" value="1"<cfif project.svn eq 1> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="svn" value="0"<cfif project.svn eq 0> checked="checked"</cfif> /></td>
+								</tr>
+							</tbody>
+						</table>
+
 					</td><td width="50%">
 					
 						<table class="perms full mb10">
@@ -243,6 +260,23 @@
 						<table class="perms full mb10">
 							<thead>
 								<tr>
+									<th class="b">Reporting</th>
+									<th class="tac b yes">Yes</th>
+									<th class="tac b no">No</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Allow reporting</td>
+									<td class="tac"><input type="radio" name="report" value="1"<cfif project.report eq 1> checked="checked"</cfif> /></td>
+									<td class="tac"><input type="radio" name="report" value="0"<cfif project.report eq 0> checked="checked"</cfif> /></td>
+								</tr>
+							</tbody>
+						</table>
+						
+						<table class="perms full mb10">
+							<thead>
+								<tr>
 									<th class="b">Billing</th>
 									<th class="tac b yes">Yes</th>
 									<th class="tac b no">No</th>
@@ -277,22 +311,7 @@
 							</tbody>
 						</table>
 
-						<table class="perms full mb10">
-							<thead>
-								<tr>
-									<th class="b">Subversion</th>
-									<th class="tac b yes">Yes</th>
-									<th class="tac b no">No</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>Access Subversion repository</td>
-									<td class="tac"><input type="radio" name="svn" value="1"<cfif project.svn eq 1> checked="checked"</cfif> /></td>
-									<td class="tac"><input type="radio" name="svn" value="0"<cfif project.svn eq 0> checked="checked"</cfif> /></td>
-								</tr>
-							</tbody>
-						</table>
+
 						
 					</td></tr>
 					</table>

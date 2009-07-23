@@ -238,7 +238,7 @@ function add_new(pid) {
     $.ajax({
 		type: 'post',
 		url: './ajax/proj_users.cfm',
-		data: 'addnew=1&p=' + pid + '&fn=' + $('#fname').val() + '&ln=' + $('#lname').val() + '&ph=' + $('#phone').val() + '&un=' + $('#username').val() + '&pw=' + $('#password').val() + '&adm=' + $('#admin').val() + '&e=' + $('#email').val(),
+		data: 'addnew=1&p=' + pid + '&fn=' + $('#fname').val() + '&ln=' + $('#lname').val() + '&ph=' + $('#phone').val() + '&un=' + $('#username').val() + '&pw=' + $('#password').val() + '&adm=' + $('#admin').val() + '&rep=' + $('#report').val() + '&inv=' + $('#invoice').val() + '&e=' + $('#email').val(),
 		success: function(txt){
 	     $('#replace').html(txt);
 		}

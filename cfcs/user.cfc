@@ -25,7 +25,7 @@
 		<cfset var qProjects = "">
 		<cfquery name="qLogin" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT userID, firstName, lastName, username, email, phone, lastLogin, avatar, style, locale, timezone, 
-				admin, active
+				admin, report, invoice, active
 			FROM #variables.tableprefix#users
 			WHERE username = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#" maxlength="35">
 			<cfif not cookieLogin>
@@ -46,6 +46,8 @@
 				sLogin.locale = qLogin.locale;
 				sLogin.timezone = qLogin.timezone;
 				sLogin.admin = qLogin.admin;
+				sLogin.report = qLogin.report;
+				sLogin.invoice = qLogin.invoice;
 				sLogin.active = qLogin.active;
 				sLogin.projects = application.project.get(qLogin.userID);
 			</cfscript>
@@ -63,7 +65,7 @@
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT u.userID, u.firstName, u.lastName, u.username, u.email, u.phone, u.mobile, u.carrierID, 
-				u.lastLogin, u.avatar, u.style, u.admin, u.active, c.prefix, c.suffix
+				u.lastLogin, u.avatar, u.style, u.admin, u.report, u.invoice, u.active, c.prefix, c.suffix
 			FROM #variables.tableprefix#users u
 				LEFT JOIN #variables.tableprefix#carriers c ON u.carrierID = c.carrierID
 			WHERE 0=0
@@ -94,6 +96,8 @@
 		<cfargument name="username" type="string" required="true">
 		<cfargument name="password" type="string" required="true">
 		<cfargument name="admin" type="numeric" required="true">
+		<cfargument name="report" type="numeric" required="true">
+		<cfargument name="invoice" type="numeric" required="true">
 		<cfargument name="active" type="numeric" required="false" default="1">
 		<cfset var newUsername = left(lcase(ARGUMENTS.firstName),1) & lcase(ARGUMENTS.lastName)>
 		<cfset var validUsername = false>
@@ -111,7 +115,8 @@
 			</cfif>
 		</cfloop>
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, phone, avatar, style, admin, active)
+			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, 
+					phone, avatar, style, admin, report, invoice, active)
 				VALUES(<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.firstName#" maxlength="12">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.lastName#" maxlength="20">, 
@@ -121,7 +126,9 @@
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.phone#" maxlength="15">,
 						0,
 						'#application.settings.default_style#',
-						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.admin#">, 
+						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.admin#">,
+						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.report#">, 
+						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.invoice#">,  
 						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.active#">		
 						)
 		</cfquery>
@@ -164,11 +171,14 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfargument name="mobile" type="string" required="true">
 		<cfargument name="carrierID" type="string" required="true">
 		<cfargument name="admin" type="numeric" required="true">
+		<cfargument name="report" type="numeric" required="true">
+		<cfargument name="invoice" type="numeric" required="true">
 		<cfargument name="active" type="numeric" required="false" default="1">
 		<cfset var emailFrom = "">
 		<cfset var theMessage = "">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, phone, mobile, carrierID, avatar, style, admin, active)
+			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, 
+					phone, mobile, carrierID, avatar, style, admin, report, invoice, active)
 				VALUES(<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.firstName#" maxlength="12">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.lastName#" maxlength="20">, 
@@ -181,6 +191,8 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 						0,
 						'#application.settings.default_style#',
 						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.admin#">, 
+						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.report#">,
+						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.invoice#">,
 						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.active#">		
 						)
 		</cfquery>
@@ -221,14 +233,14 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfargument name="email" type="string" required="true">
 		<cfset var theMessage = "">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, avatar, style, admin, active)
+			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, avatar, style, admin, report, invoice, active)
 				VALUES(<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.firstName#" maxlength="12">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.lastName#" maxlength="20">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#" maxlength="30">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#hash(arguments.password)#" maxlength="32">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" maxlength="120">, 
-						0,'#application.settings.default_style#',0,0		
+						0,'#application.settings.default_style#',0,0,0,0		
 						)
 		</cfquery>
 
@@ -301,6 +313,8 @@ You must confirm this account before using it by clicking here:
 		<cfargument name="mobile" type="string" required="true">
 		<cfargument name="carrierID" type="string" required="true">
 		<cfargument name="admin" type="numeric" required="true">
+		<cfargument name="report" type="numeric" required="true">
+		<cfargument name="invoice" type="numeric" required="true">
 		<cfargument name="active" type="numeric" required="true">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#users SET
@@ -315,6 +329,8 @@ You must confirm this account before using it by clicking here:
 				mobile = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.mobile#" maxlength="15">,
 				carrierID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.carrierID#" maxlength="35">,
 				admin = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.admin#">,
+				report = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.report#">,
+				invoice = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.invoice#">,
 				active = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.active#">
 			WHERE userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">			
 		</cfquery>		

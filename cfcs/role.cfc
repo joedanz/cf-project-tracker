@@ -24,7 +24,7 @@
 			SELECT admin, file_view, file_edit, file_comment, issue_view, issue_edit, issue_assign, issue_resolve, 
 					issue_close, issue_comment, msg_view, msg_edit, msg_comment, mstone_view, mstone_edit, 
 					mstone_comment, todolist_view, todolist_edit, todo_edit, todo_comment, time_view, 
-					time_edit, bill_view, bill_edit, bill_rates, bill_invoices, bill_markpaid, svn
+					time_edit, bill_view, bill_edit, bill_rates, bill_invoices, bill_markpaid, report, svn
 			FROM #variables.tableprefix#project_users
 			WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				AND userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">
@@ -63,6 +63,7 @@
 		<cfargument name="bill_rates" type="string" required="false" default="0">
 		<cfargument name="bill_invoices" type="string" required="false" default="0">
 		<cfargument name="bill_markpaid" type="string" required="false" default="0">
+		<cfargument name="report" type="string" required="false" default="0">
 		<cfargument name="svn" type="string" required="false" default="0">
 		<cfif isNumeric(arguments.admin) and arguments.admin>
 			<cfset arguments.file_view = 1>
@@ -91,6 +92,7 @@
 			<cfset arguments.bill_rates = 1>
 			<cfset arguments.bill_invoices = 1>
 			<cfset arguments.bill_markpaid = 1>
+			<cfset arguments.report = 1>
 			<cfset arguments.svn = 1>
 		</cfif>
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
@@ -98,7 +100,7 @@
 				file_comment, issue_view, issue_edit, issue_assign, issue_resolve, issue_close, issue_comment, 
 				msg_view, msg_edit, msg_comment, mstone_view, mstone_edit, mstone_comment, todolist_view, 
 				todolist_edit, todo_edit, todo_comment, time_view, time_edit, bill_view, bill_edit, 
-				bill_rates, bill_invoices, bill_markpaid, svn)
+				bill_rates, bill_invoices, bill_markpaid, report, svn)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#IIF(isNumeric(arguments.admin),arguments.admin,'0')#">,
@@ -128,6 +130,7 @@
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.bill_rates#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.bill_invoices#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.bill_markpaid#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.report#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#IIF(isNumeric(arguments.svn),arguments.svn,'0')#">)
 		</cfquery>
 		<cfreturn true>

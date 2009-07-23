@@ -295,3 +295,11 @@ ALTER TABLE [dbo].[pt_users] ADD [timezone] [nvarchar] (32) NULL
 GO
 UPDATE [dbo].[pt_users] SET timezone = 'US/Eastern'
 GO
+ALTER TABLE [dbo].[pt_users] ADD [report] [tinyint] NULL
+GO
+UPDATE [dbo].[pt_users] SET report = 0
+GO
+ALTER TABLE [dbo].[pt_users] ADD [invoice] [tinyint] NULL
+GO
+UPDATE [dbo].[pt_users] SET invoice = 0
+GO

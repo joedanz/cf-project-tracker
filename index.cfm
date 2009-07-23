@@ -1,4 +1,5 @@
 <cfsetting enablecfoutputonly="true">
+<cfprocessingdirective pageencoding="utf-8">
 
 <cfif StructKeyExists(url,"reg")>
 	<cfset project = application.project.getDistinct(url.p)>

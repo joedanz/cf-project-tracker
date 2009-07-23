@@ -1,5 +1,11 @@
 /* UPGRADE FROM 2.5 beta 6 */
 
+/* pt_project_users - add new column */
+ALTER TABLE [dbo].[pt_project_users] ADD [report] [tinyint] NULL
+GO
+UPDATE [dbo].[pt_project_users] SET report = 0
+GO
+
 /* pt_projects - add new column */
 ALTER TABLE [dbo].[pt_projects] ADD [allow_def_rates] [tinyint] NULL
 GO
@@ -20,4 +26,12 @@ GO
 ALTER TABLE [dbo].[pt_users] ADD [timezone] [nvarchar] (32) NULL
 GO
 UPDATE [dbo].[pt_users] SET timezone = 'US/Eastern'
+GO
+ALTER TABLE [dbo].[pt_users] ADD [report] [tinyint] NULL
+GO
+UPDATE [dbo].[pt_users] SET report = 0
+GO
+ALTER TABLE [dbo].[pt_users] ADD [invoice] [tinyint] NULL
+GO
+UPDATE [dbo].[pt_users] SET invoice = 0
 GO

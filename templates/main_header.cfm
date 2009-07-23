@@ -80,8 +80,14 @@
 				</cfif>
 			</cfif>
 			<li><a href="#application.settings.mapping#/search.cfm<cfif StructKeyExists(url,"p")>?p=#url.p#</cfif>" title="Search"<cfif find('/search.cfm',cgi.script_name)> class="current"</cfif>>Search</a></li>
+			<cfif session.user.admin or session.user.report or (compare(attributes.projectid,'') and userRole.report)>
+				<li><a href="#application.settings.mapping#/report.cfm<cfif StructKeyExists(url,"p")>?p=#url.p#</cfif>" title="Report"<cfif find('/report.cfm',cgi.script_name)> class="current"</cfif>>Report</a></li>
+			</cfif>
+			<cfif session.user.admin or session.user.invoice or (compare(attributes.projectid,'') and userRole.bill_invoices)>
+				<li><a href="#application.settings.mapping#/invoice.cfm<cfif StructKeyExists(url,"p")>?p=#url.p#</cfif>" title="Invoice"<cfif find('/invoice.cfm',cgi.script_name)> class="current"</cfif>>Invoice</a></li>
+			</cfif>
 			<cfif session.user.admin>
-			<li><a href="#application.settings.mapping#/admin/users.cfm" title="Admin"<cfif find('/admin/',cgi.script_name)> class="current"</cfif>>Admin</a></li>
+				<li><a href="#application.settings.mapping#/admin/users.cfm" title="Admin"<cfif find('/admin/',cgi.script_name)> class="current"</cfif>>Admin</a></li>
 			</cfif>
 		</ul>
 
