@@ -133,7 +133,11 @@
 						<table style="width:100%;">
 							<tr>
 								<td style="text-align:left; vertical-align:top;">
-									<img src="#application.settings.userFilesMapping#/company/#application.settings.invoice_logo#" alt="#application.settings.company_name# Company Logo" />
+									<cfif compare(application.settings.invoice_logo,'')>
+										<img src="#application.settings.userFilesMapping#/company/#application.settings.invoice_logo#" alt="#application.settings.company_name# Company Logo" />
+									<cfelse>
+										<h1>#application.settings.company_name#</h1>
+									</cfif>
 									<br/><br/>
 								</td>
 								<td style="text-align:right; vertical-align:top;">
