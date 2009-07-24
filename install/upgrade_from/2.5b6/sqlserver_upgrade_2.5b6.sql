@@ -18,7 +18,7 @@ GO
 INSERT INTO [dbo].[pt_settings](settingID,setting,settingValue) values('89B9B664-1372-7975-6F7D802298571968','default_timezone','US/Eastern')
 GO
 
-/* pt_users - add new column */
+/* pt_users - add new columns */
 ALTER TABLE [dbo].[pt_users] ADD [locale] [nvarchar] (32) NULL
 GO
 UPDATE [dbo].[pt_users] SET locale = 'English (US)'

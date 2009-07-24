@@ -371,8 +371,8 @@
 				<field ColumnName="active" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 			</table>
 			<data table="#arguments.tablePrefix#users">
-				<row userID="FCDCF4CD-16E6-58DE-13EDC6A2B362B22C" firstName="Admin" lastName="User" username="admin" password="21232F297A57A5A743894A0E4A801FC3" email="" phone="" mobile="" carrierID="" lastLogin="" avatar="0" style="blue" email_files="0" mobile_files="0" email_issues="0" mobile_issues="0" email_msgs="0" mobile_msgs="0" email_mstones="0" mobile_mstones="0" email_todos="0" mobile_todos="0" admin="1" active="1" />
-				<row userID="7F16CA08-1372-7975-6F7F9DA33EBD6A09" firstName="Guest" lastName="User" username="guest" password="084E0343A0486FF05530DF6C705C8BB4" email="" phone="" mobile="" carrierID="" lastLogin="" avatar="0" style="blue" email_files="0" mobile_files="0" email_issues="0" mobile_issues="0" email_msgs="0" mobile_msgs="0" email_mstones="0" mobile_mstones="0" email_todos="0" mobile_todos="0" admin="0" active="1" />
+				<row userID="FCDCF4CD-16E6-58DE-13EDC6A2B362B22C" firstName="Admin" lastName="User" username="admin" password="21232F297A57A5A743894A0E4A801FC3" avatar="0" style="blue" locale="English (US)" timezone="US/Eastern" admin="1" report="1" invoice="1" active="1" />
+				<row userID="7F16CA08-1372-7975-6F7F9DA33EBD6A09" firstName="Guest" lastName="User" username="guest" password="084E0343A0486FF05530DF6C705C8BB4" avatar="0" style="blue" locale="English (US)" timezone="US/Eastern" admin="0" report="0" invoice="0" active="1" />
 			</data>
 			<data table="#arguments.tablePrefix#settings">
 				<row settingID="FC3D187C-16E6-58DE-133C5098C58225D3" setting="app_title" settingValue="Project Tracker" />

@@ -201,9 +201,18 @@
 					</cfif>
 					<cfset session.user = thisUser>
 					<cfset session.style = thisUser.style>
-					<cfset session.locale = thisUser.locale>
-					<cfset session.timezone = thisUser.timezone>
-					<cfset session.tzOffset = application.timezone.getTZOffset(tz=thisUser.timezone)>
+					<cfif compare(thisUser.locale,'')>
+						<cfset session.locale = thisUser.locale>
+					<cfelse>
+						<cfset session.locale = application.settings.default_locale>
+					</cfif>
+					<cfif compare(thisUser.timezone,'')>
+						<cfset session.timezone = thisUser.timezone>
+						<cfset session.tzOffset = application.timezone.getTZOffset(tz=thisUser.timezone)>
+					<cfelse>
+						<cfset session.timezone = application.settings.default_timezone>
+						<cfset session.tzOffset = application.timezone.getTZOffset(tz=application.settings.default_timezone)>
+					</cfif>
 					<cfset session.loggedin = true>
 					<cfset session.assignedTo = "">
 					<!--- set last login stamp --->

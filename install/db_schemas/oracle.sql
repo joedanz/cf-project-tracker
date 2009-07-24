@@ -487,13 +487,13 @@ INSERT INTO pt_settings (settingid,setting,settingvalue) values
 ('89B9B664-1372-7975-6F7D802298571968','default_timezone','US/Eastern');
 
 INSERT INTO pt_users
-(userID,firstName,lastName,username,password,style,avatar,admin,active) 
-values('FCDCF4CD-16E6-58DE-13EDC6A2B362B22C','Admin','User','admin','21232F297A57A5A743894A0E4A801FC3','blue',0,1,1
+(userID,firstName,lastName,username,password,style,avatar,locale,timezone,admin,report,invoice,active) 
+values('FCDCF4CD-16E6-58DE-13EDC6A2B362B22C','Admin','User','admin','21232F297A57A5A743894A0E4A801FC3','blue',0,'English (US)','US/Eastern',1,1,1,1
 );
 
 INSERT INTO pt_users
-(userID,firstName,lastName,username,password,style,avatar,admin,active) 
-values('7F16CA08-1372-7975-6F7F9DA33EBD6A09','Guest','User','guest','084E0343A0486FF05530DF6C705C8BB4','blue',0,0,1
+(userID,firstName,lastName,username,password,style,avatar,locale,timezone,admin,report,invoice,active) 
+values('7F16CA08-1372-7975-6F7F9DA33EBD6A09','Guest','User','guest','084E0343A0486FF05530DF6C705C8BB4','blue',0,'English (US)','US/Eastern',0,0,0,1
 );
 
 create or replace function month(v_date in date) return varchar2 is

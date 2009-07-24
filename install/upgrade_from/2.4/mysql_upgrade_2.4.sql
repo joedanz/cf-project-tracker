@@ -170,7 +170,7 @@ CREATE TABLE `pt_user_notify` (
   PRIMARY KEY  (`userID`,`projectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/* pt_timetrack - add new column */
+/* pt_users - add new columns */
 ALTER TABLE `pt_users` ADD `locale` varchar(32) default NULL;
 UPDATE `pt_users` set `locale` = 'English (US)';
 ALTER TABLE `pt_users` ADD `timezone` varchar(32) default NULL;
