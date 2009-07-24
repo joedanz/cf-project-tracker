@@ -204,14 +204,25 @@
 					<cfif compare(thisUser.locale,'')>
 						<cfset session.locale = thisUser.locale>
 					<cfelse>
-						<cfset session.locale = application.settings.default_locale>
+						<cftry>
+							<cfset session.locale = application.settings.default_locale>
+							<cfcatch>
+								<cfset session.locale = 'English (US)'>
+							</cfcatch>
+						</cftry>
 					</cfif>
 					<cfif compare(thisUser.timezone,'')>
 						<cfset session.timezone = thisUser.timezone>
 						<cfset session.tzOffset = application.timezone.getTZOffset(tz=thisUser.timezone)>
 					<cfelse>
-						<cfset session.timezone = application.settings.default_timezone>
-						<cfset session.tzOffset = application.timezone.getTZOffset(tz=application.settings.default_timezone)>
+						<cftry>
+							<cfset session.timezone = application.settings.default_timezone>
+							<cfset session.tzOffset = application.timezone.getTZOffset(tz=application.settings.default_timezone)>
+							<cfcatch>
+								<cfset session.timezone = 'US/Eastern'>
+								<cfset session.tzOffset = application.timezone.getTZOffset(tz='US/Eastern')>
+							</cfcatch>
+						</cftry>
 					</cfif>
 					<cfset session.loggedin = true>
 					<cfset session.assignedTo = "">
