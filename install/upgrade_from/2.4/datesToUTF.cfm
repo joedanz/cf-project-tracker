@@ -107,7 +107,7 @@ PROJECT RECORDS CONVERTED...<br />
 SCREENSHOT RECORDS CONVERTED...<br />
 
 <cfquery name="getTodos" datasource="#application.settings.dsn#">
-	SELECT todoID, added FROM #application.settings.tableprefix#todos
+	SELECT todoID, added, completed FROM #application.settings.tableprefix#todos
 	ORDER BY added DESC
 </cfquery>
 <cfloop query="getTodos">
