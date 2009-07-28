@@ -1,4 +1,4 @@
-<cfsetting enablecfoutputonly="true">
+<cfsetting enablecfoutputonly="true" requesttimeout="300">
 <cfprocessingdirective pageencoding="utf-8">
 
 <cfparam name="url.action" default="backup">
@@ -91,7 +91,9 @@
 				 			
 							<cfdirectory action="list" directory="#expandPath('./backup')#" name="backup_files">
 							<cfquery name="backups" dbtype="query">
-								select * from backup_files where name != 'temp' order by datelastmodified desc
+								select * from backup_files 
+								where name not in ('temp','.svn') 
+								order by datelastmodified desc
 							</cfquery>
 				 			<cfif backups.recordCount eq 0>
 								<div class="alert">There are no backup files.</div>
