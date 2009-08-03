@@ -59,7 +59,7 @@
 		<td style="text-align:right; vertical-align:top;">
 			<h2>Invoice</h2>
 			<cfif compare(form.startDate,'') AND compare(form.endDate,'') >
-			<h4>Services Redered</h4>
+			<h4>Services Rendered</h4>
 			<h4>#startDate# - #endDate#</h4>
 			</cfif>
 		</td>
