@@ -116,7 +116,7 @@ FCKConfig.ToolbarSets["Default"] = [
 ] ;
 
 FCKConfig.ToolbarSets["Basic"] = [
-	['Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink','-','About']
+	['Bold','Italic','-','OrderedList','UnorderedList','Outdent','Indent','-','Link','Unlink','-','Source','About']
 ] ;
 
 FCKConfig.EnterMode = 'br' ;			// p | div | br
