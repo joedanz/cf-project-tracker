@@ -123,7 +123,8 @@ add
    reg_bill_edit NUMBER(1,0) NULL,
    reg_bill_rates NUMBER(1,0) NULL,
    reg_bill_invoices NUMBER(1,0) NULL,
-   reg_bill_markpaid NUMBER(1,0) NULL
+   reg_bill_markpaid NUMBER(1,0) NULL,
+   reg_report NUMBER(1,0) NULL
    );
 update pt_projects set tab_billing = 0;
 update pt_projects set issue_svn_link = 1;

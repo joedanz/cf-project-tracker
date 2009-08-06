@@ -108,6 +108,7 @@ ALTER TABLE `pt_projects` ADD `reg_bill_edit` int(1) default NULL;
 ALTER TABLE `pt_projects` ADD `reg_bill_rates` int(1) default NULL;
 ALTER TABLE `pt_projects` ADD `reg_bill_invoices` int(1) default NULL;
 ALTER TABLE `pt_projects` ADD `reg_bill_markpaid` int(1) default NULL;
+ALTER TABLE `pt_projects` ADD `reg_report` int(1) default NULL;
 
 /* pt_settings - add new settings */
 INSERT INTO `pt_settings` values ('1E5ED63A-C938-2FE9-C60035D81F955266','company_name','');

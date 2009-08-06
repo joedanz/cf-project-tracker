@@ -207,6 +207,8 @@ ALTER TABLE [dbo].[pt_projects] ADD [reg_bill_invoices] [tinyint] NULL
 GO
 ALTER TABLE [dbo].[pt_projects] ADD [reg_bill_markpaid] [tinyint] NULL
 GO
+ALTER TABLE [dbo].[pt_projects] ADD [reg_report] [tinyint] NULL
+GO
 
 /* pt_settings - add new settings */
 INSERT INTO [dbo].[pt_settings](settingID,setting,settingValue) values('1E5ED63A-C938-2FE9-C60035D81F955266','company_name','')

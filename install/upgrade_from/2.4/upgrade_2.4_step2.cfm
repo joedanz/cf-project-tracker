@@ -249,7 +249,8 @@
 				reg_todolist_edit = 0, reg_todo_edit = 0, reg_todo_comment = 0,
 			</cfif>
 			reg_time_view = <cfif reg_time gte 1>1<cfelse>0</cfif>,
-			reg_time_edit = <cfif reg_time eq 2>1<cfelse>0</cfif>
+			reg_time_edit = <cfif reg_time eq 2>1<cfelse>0</cfif>,
+			reg_report = 0
 		WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#projectID#" maxlength="35">
 	</cfquery>
 </cfloop>

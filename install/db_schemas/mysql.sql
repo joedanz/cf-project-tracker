@@ -272,6 +272,7 @@ CREATE TABLE `pt_projects` (
   `reg_bill_rates` int(1) default NULL,
   `reg_bill_invoices` int(1) default NULL,
   `reg_bill_markpaid` int(1) default NULL,
+  `reg_report` int(1) default NULL,
   `reg_svn` int(1) default NULL,
   `tab_billing` int(1) default NULL,
   `tab_files` int(1) default NULL,

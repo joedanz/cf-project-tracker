@@ -96,7 +96,7 @@
 				p.reg_msg_edit, p.reg_msg_comment, p.reg_mstone_view, p.reg_mstone_edit, p.reg_mstone_comment, 
 				p.reg_todolist_view, p.reg_todolist_edit, p.reg_todo_edit, p.reg_todo_comment, p.reg_time_view, 
 				p.reg_time_edit, p.reg_bill_view, p.reg_bill_edit, p.reg_bill_rates, p.reg_bill_invoices, 
-				p.reg_bill_markpaid, p.reg_svn, p.tab_billing, p.tab_files, p.tab_issues, p.tab_msgs, 
+				p.reg_bill_markpaid, p.reg_report, p.reg_svn, p.tab_billing, p.tab_files, p.tab_issues, p.tab_msgs, 
 				p.tab_mstones, p.tab_todos, p.tab_time, p.tab_svn, p.issue_svn_link, p.issue_timetrack,
 				c.name as clientName, u.firstName as ownerFirstName, u.lastName as ownerLastName
 			FROM #variables.tableprefix#projects p

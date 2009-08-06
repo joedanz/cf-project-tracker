@@ -42,7 +42,7 @@
 							<cfset project_admin = 0>	
 						</cfif>
 						<cfset project = application.project.getDistinct(i)>
-						<cfset application.role.add(i,newID,project_admin,project.reg_file_view,project.reg_file_edit,project.reg_issue_view,project.reg_issue_edit,project.reg_issue_assign,project.reg_issue_resolve,project.reg_issue_close,project.reg_issue_comment,project.reg_msg_view,project.reg_msg_edit,project.reg_msg_comment,project.reg_mstone_view,project.reg_mstone_edit,project.reg_mstone_comment,project.reg_todolist_view,project.reg_todolist_edit,project.reg_todo_edit,project.reg_todo_comment,project.reg_time_view,project.reg_time_edit,project.reg_bill_view,project.reg_bill_edit,project.reg_bill_rates,project.reg_bill_invoices,project.reg_bill_markpaid,project.reg_svn)>
+						<cfset application.role.add(i,newID,project_admin,project.reg_file_view,project.reg_file_edit,project.reg_file_comment,project.reg_issue_view,project.reg_issue_edit,project.reg_issue_assign,project.reg_issue_resolve,project.reg_issue_close,project.reg_issue_comment,project.reg_msg_view,project.reg_msg_edit,project.reg_msg_comment,project.reg_mstone_view,project.reg_mstone_edit,project.reg_mstone_comment,project.reg_todolist_view,project.reg_todolist_edit,project.reg_todo_edit,project.reg_todo_comment,project.reg_time_view,project.reg_time_edit,project.reg_bill_view,project.reg_bill_edit,project.reg_bill_rates,project.reg_bill_invoices,project.reg_bill_markpaid,project.reg_report,project.reg_svn)>
 						<cfif find(i,form.projectids)>
 							<cfif request.udf.isEmail(trim(form.email))>
 								<cfset application.notify.add(newID,i,'1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0')>
@@ -74,19 +74,6 @@
 	</cfswitch>
 </cfif>
 
-<cfparam name="form.firstName" default="">
-<cfparam name="form.lastName" default="">
-<cfparam name="form.username" default="">
-<cfparam name="form.password" default="">
-<cfparam name="form.email" default="">
-<cfparam name="form.phone" default="">
-<cfparam name="form.mobile" default="">
-<cfparam name="form.carrierID" default="">
-<cfparam name="form.admin" default="0">
-<cfparam name="form.report" default="0">
-<cfparam name="form.invoice" default="0">
-<cfparam name="form.active" default="0">
-
 <cfif StructKeyExists(url,"u")>
 	<cfset user = application.user.get(url.u)>
 	<cfset projects = application.project.get(url.u)>
@@ -108,6 +95,18 @@
 	</cfquery>
 <cfelse> <!--- new user --->
 	<cfset projects = application.project.get()>
+	<cfset form.firstName = "">
+	<cfset form.lastName = "">
+	<cfset form.username = "">
+	<cfset form.password = "">
+	<cfset form.email = "">
+	<cfset form.phone = "">
+	<cfset form.mobile = "">
+	<cfset form.carrierID = "">
+	<cfset form.admin = 0>
+	<cfset form.report = 0>
+	<cfset form.invoice = 0>
+	<cfset form.active = 1>
 </cfif>
 
 <cfif not isDefined("application.carriers")>
@@ -155,6 +154,8 @@
 						</div>
 					</div>
 				 	</cfif>
+
+					<form action="#cgi.script_name#?#cgi.query_string#" method="post" class="frm">
 			 	
 				 	<div id="container1">
 		            <ul>
@@ -162,8 +163,7 @@
 		                <li><a href="##projects"><span>Projects</span></a></li>
 				 	</ul>
 				 	<div id="user">
-						
-						<form action="#cgi.script_name#?#cgi.query_string#" method="post" class="frm">						 	
+
 						<p>
 						<label for="firstName">First Name:</label> 
 						<input type="text" name="firstName" id="firstName" value="#HTMLEditFormat(form.firstName)#" maxlength="12" class="shorter" />
@@ -224,20 +224,8 @@
 						<label for="active">Active?</label>
 						<input type="checkbox" name="active" id="active" value="1" class="checkbox"<cfif form.active> checked="checked"</cfif> />
 						</p>
-
-						<p><label>&nbsp;</label>
-						<input type="submit" name="submit" value="<cfif StructKeyExists(url,"u")>Update<cfelse>Add</cfif> User" class="button shorter" />
-						or <a href="<cfif not compare(form.from,'admin')>users.cfm<cfelse>../people.cfm?p=#url.p#</cfif>">Cancel</a>
-						</p>
-						<cfif StructKeyExists(url,"u")>
-							<input type="hidden" name="userid" value="#url.u#" />
-						</cfif>
-						<input type="hidden" name="from" value="#form.from#" />						
-				 	
-						</form>						
+					
 					</div>
-					
-					
 					
 					<div id="projects" class="wrapper">
 
@@ -270,10 +258,20 @@
 						
 						</table>
 				 	</div>
+				</div>
 			
+				<p><label>&nbsp;</label>
+				<input type="submit" name="submit" value="<cfif StructKeyExists(url,"u")>Update<cfelse>Add</cfif> User" class="button shorter" />
+				or <a href="<cfif not compare(form.from,'admin')>users.cfm<cfelse>../people.cfm?p=#url.p#</cfif>">Cancel</a>
+				</p>
+				<cfif StructKeyExists(url,"u")>
+					<input type="hidden" name="userid" value="#url.u#" />
+				</cfif>
+				<input type="hidden" name="from" value="#form.from#" />
+
+				</form>&nbsp;
+
 			</div>
-			</div>
-			
 		</div>
 		<div class="bottom">&nbsp;</div>
 		<div class="footer">
