@@ -49,10 +49,10 @@
 				
 			</div>
 			<div class="content">
-				<div class="wrapper msg">
+				<div class="wrapper itemlist">
 				
 					<div id="fs12">
-					#message.message#
+					<p>#message.message#</p>
 					<cfif compare(message.name,'')><div class="ms">Milestone: #message.name#</div></cfif>
 					</div>
 					
