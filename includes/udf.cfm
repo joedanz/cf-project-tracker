@@ -188,4 +188,22 @@ function relativeTime(pastdate) {
 request.udf.relativeTime = relativeTime;
 </cfscript>
 
+<cffunction name="sendEmail" access="public" hint="generates email based on settings" returntype="void">
+	<cfargument name="emailFrom" type="string" required="true">
+	<cfargument name="emailTo" type="string" required="true">
+	<cfargument name="emailSubject" type="string" required="true">
+	<cfargument name="emailBody" type="string" required="true">
+	<cfif not compare(application.settings.mailServer,'')> <!--- use settings from administrator --->
+		<cfmail to="#arguments.emailTo#" from="#arguments.emailFrom#" 
+			subject="#arguments.emailSubject#">#arguments.emailBody#</cfmail>
+	<cfelse> <!--- use settings from config file --->
+		<cfif application.isCF8 or application.isRailo>
+			<cfinclude template="sendMailCF8Railo.cfm">
+		<cfelse> <!--- blue dragon and CF6, CF7 do not support SSL/TLS --->
+			<cfinclude template="sendMailOther.cfm">
+		</cfif>
+	</cfif>
+</cffunction>
+<cfset request.udf.sendEmail = sendEmail>
+
 <cfsetting enablecfoutputonly=false>

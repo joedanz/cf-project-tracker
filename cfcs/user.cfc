@@ -103,7 +103,7 @@
 		<cfset var validUsername = false>
 		<cfset var qCheckUser = "">
 		<cfset var startRec = 1>
-		<cfset var emailFrom = 1>
+		<cfset var emailFrom = "">
 		<cfset var theMessage = "">
 		<cfloop condition="validUsername is false">
 			<cfset qCheckUser = application.user.get('','',newUsername)>
@@ -149,12 +149,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 			</cfoutput>
 			</cfsavecontent>
 			
-			<cfif not compare(application.settings.mailServer,'')>
-				<cfmail to="#arguments.email#" from="#emailFrom#" subject="New #application.settings.app_title# Account">#theMessage#</cfmail>
-			<cfelse>
-				<cfmail to="#arguments.email#" from="#emailFrom#" subject="New #application.settings.app_title# Account"
-					server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
-			</cfif>	
+			<cfset request.udf.sendEmail(emailFrom,arguments.email,'New #application.settings.app_title# Account',theMessage)>
 				
 		</cfif>
 	</cffunction>
@@ -213,12 +208,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 			</cfoutput>
 			</cfsavecontent>
 
-			<cfif not compare(application.settings.mailServer,'')>
-				<cfmail to="#arguments.email#" from="#emailFrom#" subject="New #application.settings.app_title# Account">#theMessage#</cfmail>
-			<cfelse>
-				<cfmail to="#arguments.email#" from="#emailFrom#" subject="New #application.settings.app_title# Account"
-					server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
-			</cfif>
+			<cfset request.udf.sendEmail(emailFrom,arguments.email,'New #application.settings.app_title# Account',theMessage)>
 				
 		</cfif>
 	</cffunction>
@@ -252,12 +242,7 @@ You must confirm this account before using it by clicking here:
 		</cfoutput>
 		</cfsavecontent>
 
-		<cfif not compare(application.settings.mailServer,'')>
-			<cfmail to="#arguments.email#" from="#application.settings.adminEmail#" subject="New #application.settings.app_title# Account">#theMessage#</cfmail>
-		<cfelse>
-			<cfmail to="#arguments.email#" from="#application.settings.adminEmail#" subject="New #application.settings.app_title# Account"
-				server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
-		</cfif>
+		<cfset request.udf.sendEmail(application.settings.adminEmail,arguments.email,'New #application.settings.app_title# Account',theMessage)>
 
 	</cffunction>
 

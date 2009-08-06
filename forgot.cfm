@@ -17,12 +17,7 @@ Please visit the following link to reset your #application.settings.app_title# p
 		</cfoutput>
 		</cfsavecontent>
 		
-		<cfif not compare(application.settings.mailServer,'')>
-			<cfmail to="#findPassword.email#" from="#application.settings.adminEmail#" subject="#application.settings.app_title# | Your Password">#theMessage#</cfmail>
-		<cfelse>
-			<cfmail to="#findPassword.email#" from="#application.settings.adminEmail#" subject="#application.settings.app_title# | Your Password"
-				server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
-		</cfif>
+		<cfset request.udf.sendEmail(application.settings.adminEmail,findPassword.email,'#application.settings.app_title# | Your Password',theMessage)>
 		
 		<cfset form.username = ''>
 	<cfelse>
@@ -50,12 +45,7 @@ You can login at:
 			</cfoutput>
 			</cfsavecontent>
 			
-			<cfif not compare(application.settings.mailServer,'')>
-				<cfmail to="#form.email#" from="#application.settings.adminEmail#" subject="#application.settings.app_title# | Your Username">#theMessage#</cfmail>
-			<cfelse>
-				<cfmail to="#form.email#" from="#application.settings.adminEmail#" subject="#application.settings.app_title# | Your Username"
-					server="#application.settings.mailServer#" username="#application.settings.mailUsername#" password="#application.settings.mailPassword#">#theMessage#</cfmail>
-			</cfif>	
+			<cfset request.udf.sendEmail(application.settings.adminEmail,form.email,'#application.settings.app_title# | Your Username',theMessage)>
 				
 			<cfset form.email = ''>
 		<cfelse>
