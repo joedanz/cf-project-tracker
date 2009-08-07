@@ -269,13 +269,14 @@ $(document).ready(function(){
 								<cfcase value="File">file">File</cfcase>
 								<cfcase value="Project">project">Project</cfcase>
 								<cfcase value="Screenshot">screenshot">Screenshot</cfcase>
-								<cfdefaultcase>>#type#</cfdefaultcase>
+								<cfdefaultcase>#type#">#type#</cfdefaultcase>
 							</cfswitch>	
 						</div></td>
 						<td><cfswitch expression="#type#">
 								<cfcase value="Issue"><a href="issue.cfm?p=#url.p#&i=#id#">#name#</a></cfcase>		
 								<cfcase value="Message"><a href="message.cfm?p=#url.p#&m=#id#">#name#</a></cfcase>
 								<cfcase value="Milestone"><a href="milestones.cfm?p=#url.p#&m=#id#">#name#</a></cfcase>
+								<cfcase value="To-Do"><a href="todos.cfm?p=#url.p###id_#id#">#name#</a></cfcase>
 								<cfcase value="To-Do List"><a href="todos.cfm?p=#url.p#&t=#id#">#name#</a></cfcase>
 								<cfcase value="File"><a href="files.cfm?p=#url.p#&f=#id#">#name#</a></cfcase>
 								<cfcase value="Project"><a href="project.cfm?p=#url.p#">#name#</a></cfcase>

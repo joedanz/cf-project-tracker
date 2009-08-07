@@ -5,6 +5,7 @@
 	<cfcase value="add">
 		<cfset newID = createUUID()>
 		<cfset application.todo.add(newID,form.l,form.p,form.t,form.fw,form.d)>
+		<cfset application.activity.add(createUUID(),form.p,session.user.userid,'To-Do',newID,form.t,'added')>
 		<cfset application.notify.todoNew(form.p,form.l,newID)>
 	</cfcase>
 	<cfcase value="edit">
@@ -56,6 +57,7 @@
 	</cfcase>
 	<cfcase value="update">
 		<cfset application.todo.update(form.t,form.tl,form.p,form.task,form.fw,form.d)>
+		<cfset application.activity.add(createUUID(),form.p,session.user.userid,'To-Do',form.t,form.task,'edited')>
 		<cfset application.notify.todoUpdate(form.p,form.tl,form.t)>
 		<cfif session.user.admin>
 			<cfset project = application.project.get(projectID=form.p)>
