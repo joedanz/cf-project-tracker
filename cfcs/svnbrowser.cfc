@@ -215,7 +215,7 @@
 
 	<cffunction name="initJavaLoader" hint="initialised the JavaLoder as neccessary" access="private" returntype="void" output="false">
 		<cfscript>
-			var path = getDirectoryFromPath(getMetaData(this).path) & "/../includes/svnkit-1.2.1.5297/";
+			var path = getDirectoryFromPath(getMetaData(this).path) & "/../includes/svnkit-1.3.0.5847/";
 			var qFiles = 0;
 			var paths = ArrayNew(1);
 
