@@ -140,7 +140,7 @@
 				WHERE clientID IS NULL
 			GROUP BY r.rateID, r.category, r.rate
 			</cfif>
-			ORDER BY r.category
+			ORDER BY category
 		</cfquery>
 		<cfreturn qGetRates>
 	</cffunction>
