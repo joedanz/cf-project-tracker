@@ -20,7 +20,7 @@
 	 	<cfswitch expression="#invoiceType#">		 			
 		 	<cfcase value="date">
 			 	<cfquery name="timelinesByDate" dbtype="query">
-				 	SELECT SUM(hours) as hours, dateStamp
+				 	SELECT SUM(CAST(hours as DECIMAL)) as hours, dateStamp
 				 	FROM timelines
 				 	GROUP BY dateStamp
 			 	</cfquery>
@@ -49,7 +49,7 @@
 		 	</cfcase>		
 			<cfcase value="category">
 		 		<cfquery name="timelinesByCategory" dbtype="query">
-				 	SELECT SUM(hours) as hours, category
+				 	SELECT SUM(CAST(hours as DECIMAL)) as hours, category
 				 	FROM timelines
 				 	GROUP BY category
 			 	</cfquery>
