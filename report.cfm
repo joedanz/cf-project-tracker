@@ -197,7 +197,7 @@
 
 								<cfif session.user.admin or session.user.report>
 								<cfquery name="byClient" dbtype="query">
-									SELECT		SUM(hours) as totalHours, client
+									SELECT		SUM(CAST(hours as DECIMAL)) as totalHours, client
 									FROM 		timelines
 									GROUP BY	client
 								</cfquery>
@@ -246,7 +246,7 @@
 					
 								<cfif session.user.admin or session.user.report and not compare(url.p,'')>
 								<cfquery name="byProject" dbtype="query">
-									SELECT		SUM(hours) as totalHours, name
+									SELECT		SUM(CAST(hours as DECIMAL)) as totalHours, name
 									FROM 		timelines
 									GROUP BY	name
 								</cfquery>
@@ -290,7 +290,7 @@
 								</cfif>
 											
 								<cfquery name="byUser" dbtype="query">
-									SELECT		SUM(hours) as totalHours, firstName, lastName
+									SELECT		SUM(CAST(hours as DECIMAL)) as totalHours, firstName, lastName
 									FROM 		timelines
 									GROUP BY	firstName, lastName
 								</cfquery>
@@ -341,7 +341,7 @@
 								</tr>
 									
 								<cfquery name="byCategory" dbtype="query">
-									SELECT		category, SUM(hours) as totalHours
+									SELECT		category, SUM(CAST(hours as DECIMAL)) as totalHours
 									FROM 		timelines
 									GROUP BY	category
 								</cfquery>

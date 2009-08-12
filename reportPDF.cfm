@@ -77,7 +77,7 @@
 	<cfset timelines = application.timetrack.get(projectID=form.p,userID=form.u,clientID=form.c,startDate=form.startDate,endDate=form.endDate) />
 	
 	<cfquery name="byClient" dbtype="query">
-		SELECT		SUM(hours) as totalHours, client
+		SELECT		SUM(CAST(hours as DECIMAL)) as totalHours, client
 		FROM 		timelines
 		GROUP BY	client
 	</cfquery>
@@ -124,7 +124,7 @@
 	</tr>	
 		
 	<cfquery name="byProject" dbtype="query">
-		SELECT		SUM(hours) as totalHours, name
+		SELECT		SUM(CAST(hours as DECIMAL)) as totalHours, name
 		FROM 		timelines
 		GROUP BY	name
 	</cfquery>										
@@ -171,7 +171,7 @@
 	</tr>
 		
 	<cfquery name="byUser" dbtype="query">
-		SELECT		SUM(hours) as totalHours, firstName, lastName
+		SELECT		SUM(CAST(hours as DECIMAL)) as totalHours, firstName, lastName
 		FROM 		timelines
 		GROUP BY	firstName, lastName
 	</cfquery>
@@ -222,7 +222,7 @@
 	</tr>
 	
 	<cfquery name="byCategory" dbtype="query">
-		SELECT		SUM(hours) as totalHours, category
+		SELECT		SUM(CAST(hours as DECIMAL)) as totalHours, category
 		FROM 		timelines
 		GROUP BY	category
 	</cfquery>
