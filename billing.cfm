@@ -165,7 +165,7 @@
 											<td>#firstName# #lastName#</td>
 											<td class="b">#numberFormat(hours,"0.00")#</td>
 											<td>#category#<cfif compare(category,'')> ($#NumberFormat(rate,"0")#/hr)</cfif></td>
-											<td><cfif isNumeric(rate)>$#NumberFormat(rate*hours,"0")#</cfif></td>
+											<td><cfif isNumeric(rate)>$#NumberFormat(rate*hours,"0")#<cfelse></cfif></td>
 											<td class="tac"><input type="checkbox" id="b_#timetrackid#" value="1"<cfif billed eq 1> checked="checked"</cfif> onclick="set_bill('#timetrackid#','timetrack','b_');" /></td>
 											<td class="tac"><input type="checkbox" id="p_#timetrackid#" value="1"<cfif paid eq 1> checked="checked"</cfif> onclick="set_bill('#timetrackid#','timetrack','p_');" /></td>
 											<td><cfif compare(itemType,'')><span class="catbox #itemtype#">#itemtype#</span> <a href="todos.cfm?p=#projectID###id_#replace(todolistID,'-','','all')#">#task#</a><cfif compare(description,'')> - </cfif></cfif>#description#</td>

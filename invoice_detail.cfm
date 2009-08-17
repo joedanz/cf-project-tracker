@@ -16,6 +16,7 @@
 <br/>
 <cfif timelines.RecordCount >
 	<cfset totalHours = 0>
+	<cfset totalAmount = 0>
  	<table class="clean full" id="time" style="border-top:2px solid ##000;"> 	
 	 	<cfswitch expression="#invoiceType#">		 			
 		 	<cfcase value="date">
@@ -86,8 +87,9 @@
 					<tr>
 						<th class="first" style="width:15%;">Date</th>
 						<th style="width:15%;">Category</th>
-						<th style="width:60%;">Description</th>
-						<th style="width:10%;">Hours</th>
+						<th style="width:50%;">Description</th>
+						<th style="width:10%;" class="tar">Rate</th>
+						<th style="width:10%;" class="tar">Hours</th>
 					</tr>
 				</thead>
 				<tbody>	
@@ -95,16 +97,16 @@
 					<tr>
 						<td class="first">#DateFormat(dateStamp,"mmm d, yyyy")#</td>
 						<td>
-							<cfif category IS NOT "">
+							<cfif compare(category,'')>
 								#category#
 							<cfelse>
-								Miscellaneous
+								Unassigned
 							</cfif>
 						</td>
 						<td>
 						<cfif compare(itemType,'')><span class="catbox #itemtype#">#itemtype#</span> 
 						<cfswitch expression="#itemType#">
-							<cfcase value="todo">
+							<cfcase value="todo,to-do">
 								<a href="todos.cfm?p=#projectID###id_#replace(todolistID,'-','','all')#">#task#</a>		
 							</cfcase>		
 							<cfcase value="issue">
@@ -112,15 +114,18 @@
 							</cfcase>	
 						</cfswitch>
 						</cfif>#description#</td>
-						<td class="b">#numberFormat(hours,"0.00")#</td>
+						<td class="tar">#numberFormat(hours,"0.00")#</td>
+						<td class="tar"><cfif compare(category,'')>#DollarFormat(rate)#<cfelse>$0.00</cfif></td>
 					</tr>
 					<cfset totalHours = totalHours + hours>
+					<cfif compare(category,'')><cfset totalAmount = totalAmount + (rate * hours)></cfif>
 				</cfloop>
 				</tbody>
 				<tfoot>
 					<tr class="last">
 						<td colspan="3" class="tar b">TOTAL:&nbsp;&nbsp;&nbsp;</td>
-						<td class="b"><span id="totalhours">#NumberFormat(totalHours,"0.00")#</span></td>
+						<td class="b tar"><span id="totalhours">#NumberFormat(totalHours,"0.00")#</span></td>
+						<td class="b tar"><span id="totalamount">#NumberFormat(totalAmount,"0.00")#</span></td>
 					</tr>
 				</tfoot>
 		 	</cfcase>	 	

@@ -81,7 +81,7 @@ a.subactive { font-size:125%; font-weight:bold; text-decoration:none; }
 .issue { background-color:#c00; color:#fff; }
 .message { background-color:#00f; color:#fff; }
 .milestone { background-color:#ff0; }
-.to-do, .To-Do, .todolist { background-color:#f90; }
+.to-do, .To-Do, .todolist, span.todo { background-color:#f90; }
 .file { background-color:#ffc; }
 .project { background-color:#9c3; }
 .screenshot { background:#033; color:#fff; }
