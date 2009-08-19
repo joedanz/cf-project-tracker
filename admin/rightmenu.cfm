@@ -6,6 +6,8 @@
 		<img src="#application.settings.userFilesMapping#/company/#application.settings.company_logo#" border="0" alt="#application.settings.company_name#" /><br />
 	</cfif>
 
+	<div class="header"><h3 class="megaphone"><a href="broadcast.cfm" class="nounder">Broadcast Message</a></h3></div>
+
 	<cfif not application.isBD and StructKeyExists(application,"DataMgr")>
 		<!--- no backup on blue dragon - cfzip doesn't work the same way --->
 		<div class="header"><h3 class="save">Backup / Restore</h3></div>
