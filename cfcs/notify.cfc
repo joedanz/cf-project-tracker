@@ -53,7 +53,7 @@
 			<cfif ((not compare(arguments.type,'msg') and email_msg_com) or (not compare(arguments.type,'issue') and email_issue_com) or (not compare(arguments.type,'file') and email_file_com) or (not compare(arguments.type,'mstone') and email_mstone_com) or (not compare(arguments.type,'todo') and email_todo_com)) and request.udf.isEmail(email)>
 				
 				<cfsavecontent variable="theMessage">
-				<cfoutput>A new comment has been posted on the #qProject.name# <cfswitch expression="#arguments.type#">
+				<cfoutput>A new comment has been posted by #qComment.firstName# #qComment.lastName# on the #qProject.name# <cfswitch expression="#arguments.type#">
 					<cfcase value="msg">message in #qItem.category# entitled:
 #qItem.title#</cfcase>
 					<cfcase value="issue">issue entitled:
