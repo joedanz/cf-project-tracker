@@ -14,7 +14,7 @@
 <br/>	
 <h4>#name# - Work Breakdown</h4>
 <br/>
-<cfif timelines.RecordCount >
+<cfif timelines.RecordCount>
 	<cfset totalHours = 0>
 	<cfset totalAmount = 0>
  	<table class="clean full" id="time" style="border-top:2px solid ##000;"> 	
@@ -27,24 +27,23 @@
 			 	</cfquery>
 			 		<thead>
 					<tr>
-						<th class="first">Date</th>
-						<th>Hours</th>
+						<th class="first" style="width:88%;">Date</th>
+						<th class="tar">Hours</th>
 					</tr>
 				</thead>
 				<tbody>	
-				<cfloop query="timelinesByDate">
-				
+				<cfloop query="timelinesByDate">			
 					<tr>
 						<td class="first">#DateFormat(dateStamp,"mmm d, yyyy")#</td>
-						<td class="b">#numberFormat(hours,"0.00")#</td>
+						<td class="tar b">#numberFormat(hours,"0.00")#</td>
 					</tr>
 					<cfset totalHours = totalHours + hours>
 				</cfloop>
 				</tbody>
 				<tfoot>
 					<tr class="last">
-						<td class="tar b">TOTAL:&nbsp;&nbsp;&nbsp;</td>
-						<td class="b"><span id="totalhours">#NumberFormat(totalHours,"0.00")#</span></td>
+						<td class="first tar b">TOTAL:</td>
+						<td class="tar b"><span id="totalhours">#NumberFormat(totalHours,"0.00")#</span></td>
 					</tr>
 				</tfoot>
 		 	</cfcase>		
@@ -56,29 +55,28 @@
 			 	</cfquery>
 			 		<thead>
 					<tr>
-						<th class="first">Category</th>
-						<th>Hours</th>
+						<th class="first" style="width:88%;">Category</th>
+						<th class="tar">Hours</th>
 					</tr>
 				</thead>
 				<tbody>	
 				<cfloop query="timelinesByCategory">
-				
 					<tr>
 						<td class="first">
 							<cfif category IS NOT "">#category#
 							<cfelse>
-							Miscellaneous
+							Unfiled
 							</cfif>
 						</td>
-						<td class="b">#numberFormat(hours,"0.00")#</td>
+						<td class="tar b">#numberFormat(hours,"0.00")#</td>
 					</tr>
 					<cfset totalHours = totalHours + hours>
 				</cfloop>
 				</tbody>
 				<tfoot>
 					<tr class="last">
-						<td class="tar b">TOTAL:&nbsp;&nbsp;&nbsp;</td>
-						<td class="b"><span id="totalhours">#NumberFormat(totalHours,"0.00")#</span></td>
+						<td class="tar b">TOTAL:</td>
+						<td class="tar b"><span id="totalhours">#NumberFormat(totalHours,"0.00")#</span></td>
 					</tr>
 				</tfoot>
 		 	</cfcase>		
@@ -123,9 +121,9 @@
 				</tbody>
 				<tfoot>
 					<tr class="last">
-						<td colspan="3" class="tar b">TOTAL:&nbsp;&nbsp;&nbsp;</td>
+						<td colspan="3" class="tar b">TOTALS:</td>
 						<td class="b tar"><span id="totalhours">#NumberFormat(totalHours,"0.00")#</span></td>
-						<td class="b tar"><span id="totalamount">#NumberFormat(totalAmount,"0.00")#</span></td>
+						<td class="b tar"><span id="totalamount">#DollarFormat(totalAmount)#</span></td>
 					</tr>
 				</tfoot>
 		 	</cfcase>	 	

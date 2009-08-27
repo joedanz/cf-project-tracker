@@ -16,27 +16,20 @@
 <cfparam name="form.endDate" default="">
 <cfparam name="form.invoiceType" default="full">
 
-
 <cfif compare(form.p,'')>
-
 	<cfset projects = application.project.get(projectID=form.p) />			
 	<cfset invoiceClient = application.client.get(clientID=projects.clientID) />
-
 <cfelse>
-
 	<cfset clients = application.client.get() />
-	
 	<cfif compare(form.Invoice,'')  >
 		<cfset invoiceClient = application.client.get(clientID=form.c) />
 		<cfset projects = application.project.get(clientID=form.c) />
 	</cfif>
-	
 </cfif>
 
 <cfif compare(form.Invoice,'')  AND  NOT compare(form.endDate,'') >
 	<cfset form.endDate = #DateFormat(Now(), "mm/dd/yyyy")#>
 </cfif>
-
 
 <cfdocument format="pdf">
 	
@@ -102,22 +95,6 @@
 	<tr>
 		<td colspan="2">
 			
-			<cfset timelines = application.timetrack.get(projectID=form.p,clientID=form.c,userID=form.u,startDate=form.startDate,endDate=form.endDate) />
-			<cfset totalAmount = 0>
-			<cfloop query="timelines">
-				<cfif compare(category,'')><cfset totalAmount = totalAmount + (rate * hours)></cfif>
-			</cfloop>
-			<cfquery name="projectSummary" dbtype="query">
-				SELECT 	SUM(CAST(hours as DECIMAL)) as totalHours, name
-				FROM 	timelines
-				GROUP BY name
-			</cfquery>
-			<cfquery name="total" dbtype="query">
-				SELECT 	SUM(CAST(totalHours as DECIMAL)) as hours
-				FROM 	projectSummary
-			</cfquery>
-			<br/>
-			
 			<h4>Summary</h4>
 			<br/>
 			<table class="clean full" id="time" style="border-top:2px solid ##000;">
@@ -129,19 +106,34 @@
 					</tr>
 				</thead>
 				<tbody>	
-				<cfloop query="projects">
-					<cfquery name="theHours" dbtype="query">
-						SELECT 	totalHours
-						FROM 	projectSummary
-						WHERE name = <cfqueryparam cfsqltype="cf_sql_varchar" value="#name#" />
-					</cfquery>
-					<tr>
-						<td>#name#</td>
-						<td>#theHours.totalHours#</td>
-						<td>#DollarFormat(totalAmount)#</td>
-					</tr>
-				</cfloop>
+					<cfset allProjHours = 0>
+					<cfset allProjAmount = 0>
+					<cfloop query="projects">
+						<cfset timelines = application.timetrack.get(projectid=projectID,clientID=form.c,userID=form.u,startDate=form.startDate,endDate=form.endDate) />
+						<cfquery name="hours" dbtype="query">
+							SELECT 	SUM(CAST(hours as DECIMAL)) as totalHours
+							FROM 	timelines
+						</cfquery>
+						<cfset totalAmount = 0>
+						<cfloop query="timelines">
+							<cfif compare(category,'')><cfset totalAmount = totalAmount + (rate * hours)></cfif>
+						</cfloop>											
+						<tr>
+							<td>#name#</td>
+							<td><cfif compare(hours.totalHours,'')>#hours.totalHours#<cfelse>0.0</cfif></td>
+							<td>#DollarFormat(totalAmount)#</td>
+						</tr>
+						<cfset allProjHours = allProjHours + hours.totalHours>
+						<cfset allProjAmount = allProjAmount + totalAmount>
+					</cfloop>
 				</tbody>
+				<tfoot>
+					<tr class="last">
+						<td class="tar b">TOTALS:</td>
+						<td class="b tar"><span id="totalhours">#NumberFormat(allProjHours,"0.00")#</span></td>
+						<td class="b tar"><span id="totalamount">#DollarFormat(allProjAmount)#</span></td>
+					</tr>
+				</tfoot>
 			</table>
 
 		</td>

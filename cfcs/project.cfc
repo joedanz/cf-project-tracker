@@ -19,6 +19,7 @@
 				hint="Returns project records.">				
 		<cfargument name="userID" type="string" required="false" default="">
 		<cfargument name="projectID" type="string" required="false" default="">
+		<cfargument name="clientID" type="string" required="false" default="">
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT p.projectID, p.ownerID, p.clientID, p.name, p.description, p.display, p.added, p.allow_def_rates,
@@ -72,6 +73,9 @@
 			WHERE 0=0
 			  <cfif compare(ARGUMENTS.projectID,'')>
 				  AND p.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
+			  </cfif>
+			  <cfif compare(ARGUMENTS.clientID,'')>
+				  AND p.clientID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.clientID#" maxlength="35">
 			  </cfif>
 			  <cfif compare(ARGUMENTS.userID,'')>
 				  AND pu.userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">

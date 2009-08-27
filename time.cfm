@@ -145,7 +145,7 @@
 								<td class="b">#numberFormat(hours,"0.00")#</td>
 								<cfif project.tab_billing and (session.user.admin or project.bill_view eq 1)>
 									<td><cfif compare(rateID,'')>#category# ($#NumberFormat(rate,"0")#/hr)</cfif></td>
-									<td><cfif isNumeric(rate) and not compareNoCase(clientID,project.clientID)>$#NumberFormat(rate*hours,"0")#</cfif></td>
+									<td><cfif isNumeric(rate)>$#NumberFormat(rate*hours,"0")#</cfif></td>
 								</cfif>
 								<td><cfif compare(itemType,'')><span class="catbox #itemtype#">#itemtype#</span> 
 									<cfswitch expression="#itemtype#">
@@ -160,7 +160,7 @@
 								</cfif>
 							</tr>
 							<cfset totalHours = totalHours + hours>
-							<cfif isNumeric(rate) and not compareNoCase(clientID,project.clientID)>
+							<cfif isNumeric(rate)>
 								<cfset totalFee = totalFee + (rate*hours)>
 							</cfif>
 						</cfloop>

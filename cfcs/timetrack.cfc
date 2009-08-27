@@ -178,10 +178,9 @@
 			SELECT sum(t.hours*cr.rate) as sumRate 
 			FROM #variables.tableprefix#timetrack t 
 				LEFT JOIN #variables.tableprefix#client_rates cr ON t.rateID = cr.rateID
-				LEFT JOIN #variables.tableprefix#clients c on cr.clientID = c.clientID
 				LEFT JOIN #variables.tableprefix#projects p on t.projectID = p.projectID
 			WHERE t.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
-				AND t.rateID != '' AND p.clientID = cr.clientID
+				AND t.rateID != ''
 		</cfquery>
 		<cfreturn qSumRate>
 	</cffunction>
