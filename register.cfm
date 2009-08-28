@@ -47,7 +47,7 @@
 	</cfif>
 </cfif>
 
-<cfset projects = application.project.getDistinct(allowReg=false)>
+<cfset projects = application.project.getDistinct(allowReg=true)>
 
 <!--- Loads header/footer --->
 <cfmodule template="tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Register">
