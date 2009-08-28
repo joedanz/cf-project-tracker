@@ -47,6 +47,10 @@ a:link, a:visited {color:##00f;}</style>
 </div>	
 <a href="forgot.cfm">Lost your username or password?</a>
 
+<cfif application.settings.allowRegister>
+	<br/><br/><a href="#application.settings.mapping#/register.cfm" title="Logout">Register for an account</a>
+</cfif>
+
 <script type="text/javascript">
 	document.forms[0].username.focus();
 </script>
