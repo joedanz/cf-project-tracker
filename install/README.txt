@@ -8,6 +8,15 @@ This application was inspired by Basecamp (http://www.basecamphq.com)
 put out by the 37signals crew.  Not too much documentation but 
 hopefully most should be self explanatory.
 
+DONATIONS:
+This software is free for the taking, but donations are most appreciated! 
+Those who wish to support development with a donation can give to my  
+MacBook Fund located @ http://www.createafund.com/JoeDanziger/MacBook
+Thanks in advance for your generosity!!!
+
+My Amazon Wishlist, should you be so inclined, is located at:
+http://amazon.com/gp/registry/wishlist/1X4EGLWAC43FJ/102-5824999-1765764
+
 INSTALLATION:
 You need to edit the settings files in the config directory.
 One is called when using the built in dev server on 127.0.0.1,
@@ -46,7 +55,7 @@ end of a URL.
 
 DEMO VERSION:
 A demo of this app can currently be found at http://ajaxcf.com/project
-This version if running on ColdFusion MX 7 - so no image stuff.  
+This version if running on Open BlueDragon.  
 You can login with username "admin" and password "admin".
 
 ABOUT ROLES:
@@ -56,8 +65,8 @@ to projects.  Project users can contribute to any project they have been
 assigned to (by an admin or project owner). 
 
 REQUIREMENTS:
-ColdFusion or BlueDragon
-CF8/BD7 required for avatars
+ColdFusion, BlueDragon, or Railo
+CF8/BD/Railo required for avatars
 mySQL, SQL Server, or Oracle
 
 AUTO-LOGIN MODIFICATION:
@@ -75,8 +84,6 @@ To Jason Dean for getting things going on Oracle.
 
 FEEDBACK?
 Please email joe@ajaxcf.com with any suggestions or other feedback.
-My Amazon Wishlist, should you be so inclined, is located at:
-http://amazon.com/gp/registry/wishlist/1X4EGLWAC43FJ/102-5824999-1765764
 
 PROJECT HOME:
 http://projecttracker.riaforge.com 
