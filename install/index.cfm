@@ -1,7 +1,7 @@
 <cfsetting enablecfoutputonly="true">
 
 <!--- Loads header/footer --->
-<cfmodule template="../tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Install">
+<cfmodule template="../tags/layout.cfm" templatename="main" title="Project Tracker &raquo; Install">
 
 <cfoutput>
 <div id="container">
@@ -18,7 +18,7 @@
 						<p>In order to use the Project Tracker, a copy of the database must be setup on your server.</p>
 						<cfif StructKeyExists(application,"DataMgr")>
 							<p>To do this automatically, run the <a href="./DataMgr/db_install.cfm">database install script</a> which uses Steve Bryant's <a href="http://datamgr.riaforge.org">DataMgr</a> to install the tables for you.</p>
-							<p>You can also do this by manually running
+							<p>You can also do this manually by running
 						<cfelse>	
 							<p>You must manually run
 						</cfif>

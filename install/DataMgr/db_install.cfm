@@ -34,11 +34,11 @@
 							</h4>
 							
 							<form action="#cgi.script_name#?reinit" method="post">
-								To refresh settings after making changes, <input type="submit" name="refresh" value="Click Here" />.
+								If these are incorrect, change the settings files in the config directory, and <input type="submit" name="refresh" value="Click Here To Refresh" />.
 							</form><br />
 							
 							<form action="#cgi.script_name#" method="post">
-								To create tables with these settings, <input type="submit" name="submit" value="Click Here" />.
+								<input type="submit" name="submit" value="Click Here To Create Tables With These Settings" class="p10 b" />
 							</form>			
 						</cfif>
 											

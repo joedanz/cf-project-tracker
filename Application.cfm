@@ -81,8 +81,13 @@
 			<cfset application.timezones = application.timezone.getAvailableTZ()>
 
 			<!--- geolocation stuff --->
-			<cfset application.settings.default_offset = application.timezone.getTZOffset(tz=application.settings.default_timezone)>
-
+			<cftry>
+				<cfset application.settings.default_offset = application.timezone.getTZOffset(tz=application.settings.default_timezone)>
+				<cfcatch>
+					<cfset application.settings.default_offset = application.timezone.getTZOffset(tz='US/Eastern')>
+				</cfcatch>
+			</cftry>
+			
 			<!--- check for Blue Dragon --->
 			<cfset application.isBD = StructKeyExists(server,"bluedragon")>
 
@@ -247,7 +252,12 @@
 <cfif StructKeyExists(session,"loggedin") and session.loggedin>
 	<cfset setLocale(session.locale)>
 <cfelse>
-	<cfset setLocale(application.settings.default_locale)>
+	<cftry>
+		<cfset setLocale(application.settings.default_locale)>
+		<cfcatch>
+			<cfset setLocale('English (US)')>
+		</cfcatch>
+	</cftry>
 </cfif>
 
 <cfif StructKeyExists(form,"assignedTo")>
