@@ -22,7 +22,7 @@
 						<cfelse>	
 							<p>You must manually run
 						</cfif>
-							 the included install script for your system from <a href="./db_schemas/">this directory</a>.<br /><a href="./db_schemas/sqlserver.sql">SQL Server</a>, <a href="./db_schemas/mysql.sql">mySQL</a>, and <a href="./db_schemas/oracle.sql">Oracle</a> scripts are included.</p>  
+							 the included install script for your system from <a href="./db_schemas/">this directory</a>.<br /><a href="./db_schemas/sqlserver.sql">SQL Server</a>, <a href="./db_schemas/mysql.sql">mySQL</a>, <a href="./db_schemas/oracle.sql">Oracle</a>, and <a href="./db_schemas/postgres.sql">PostgreSQL</a> scripts are included.</p>  
 						<p>You may want to install the database manually if you are using international character sets.<p>
 						<p>If you are upgrading, <a href="./upgrade_from/">check the upgrade directory</a> for install scripts to get your version caught up.</p>
 				 	</div>
