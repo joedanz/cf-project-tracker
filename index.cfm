@@ -7,6 +7,7 @@
 		<cfset application.role.add(url.p,session.user.userid,'0',project.reg_file_view,project.reg_file_edit,project.reg_file_comment,project.reg_issue_view,project.reg_issue_edit,project.reg_issue_assign,project.reg_issue_resolve,project.reg_issue_close,project.reg_issue_comment,project.reg_msg_view,project.reg_msg_edit,project.reg_msg_comment,project.reg_mstone_view,project.reg_mstone_edit,project.reg_mstone_comment,project.reg_todolist_view,project.reg_todolist_edit,project.reg_todo_edit,project.reg_todo_comment,project.reg_time_view,project.reg_time_edit,project.reg_bill_view,project.reg_bill_edit,project.reg_bill_rates,project.reg_bill_invoices,project.reg_bill_markpaid,project.reg_svn)>
 		<cfset application.notify.add(session.user.userid,url.p)>
 	</cfif>
+	<cflocation url="index.cfm" addtoken="false">
 </cfif>
 
 <cfif session.user.admin>
@@ -33,7 +34,6 @@
 <cfquery name="allow_reg_projects" dbtype="query">
 	select * from projects_reg where projectid not in (
 	<cfif active_projects.recordCount>'#replace(ValueList(active_projects.projectid),",","','","ALL")#'<cfelse>''</cfif>)
-	AND status != 'Archived'
 </cfquery>
 <cfif not projects.recordCount>
 	<cfset QueryAddRow(projects)>
@@ -425,7 +425,7 @@ $(document).ready(function(){
 		</cfif>
 		
 	</div>
-		
+
 </div>
 </cfoutput>
 

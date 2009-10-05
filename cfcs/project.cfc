@@ -111,7 +111,7 @@
 				  AND projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 			  </cfif>
 			  <cfif ARGUMENTS.allowReg>
-				  AND allow_reg = 1
+				  AND (allow_reg = 1 AND status = 'Active')
 			  </cfif>
 			ORDER BY p.name
 		</cfquery>		
