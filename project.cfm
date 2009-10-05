@@ -3,10 +3,23 @@
 
 <cfparam name="url.p" default="">
 <cfif session.user.admin>
-	<cfset project = application.project.get(projectID=url.p)>
+	<cfset projects = application.project.get()>
 <cfelse>
 	<cfset project = application.project.get(session.user.userid,url.p)>
+	<cfset projects = application.project.get(session.user.userid)>
+	<cfif projects.recordCount eq 1>
+		<cfset projects_reg = application.project.getDistinct(allowReg=true)>
+		<cfquery name="active_projects" dbtype="query">
+			select * from projects where status = 'Active'
+		</cfquery>
+		<cfquery name="allow_reg_projects" dbtype="query">
+			select * from projects_reg where projectid not in (
+			<cfif active_projects.recordCount>'#replace(ValueList(active_projects.projectid),",","','","ALL")#'<cfelse>''</cfif>)
+			AND status != 'Archived'
+		</cfquery>	
+	</cfif>
 </cfif>
+
 <cfset projectUsers = application.project.projectUsers(url.p,'0','lastLogin desc')>
 <cfif session.user.admin or project.mstone_view eq 1>
 	<cfset milestones_overdue = application.milestone.get(url.p,'','overdue')>
@@ -350,6 +363,18 @@ $(document).ready(function(){
 				</cfloop>
 			</ul>
 		</div>
+		
+		<cfif not session.user.admin and allow_reg_projects.recordCount>
+		<div class="header"><h3>Projects you can join</h3></div>
+		<div class="content">
+			<ul>
+				<cfloop query="allow_reg_projects">
+					<li><a href="index.cfm?reg=1&p=#projectID#">#name#</a></li>
+				</cfloop>
+			</ul>
+		</div>
+		</cfif>		
+		
 	</div>
 <cfelse>
 	<img src="./images/alert.gif" height="16" width="16" alt="Alert!" style="vertical-align:middle;" /> Project Not Found.

@@ -15,11 +15,12 @@
 	<cfset projects = application.project.get(session.user.userid)>
 </cfif>
 
-<cfset projects_reg = application.project.getDistinct(allowReg=true)>
 <cfif not session.user.admin and projects.recordCount eq 1>
 	<cflocation url="project.cfm?p=#projects.projectid#" addtoken="false">
 	<cfabort>
 </cfif>
+
+<cfset projects_reg = application.project.getDistinct(allowReg=true)>
 <cfquery name="active_projects" dbtype="query">
 	select * from projects where status = 'Active'
 </cfquery>
@@ -35,9 +36,13 @@
 	AND status != 'Archived'
 </cfquery>
 <cfif not projects.recordCount>
-	<cfset newInstall = true>
 	<cfset QueryAddRow(projects)>
 	<cfset QuerySetCell(projects, "projectID", "0")>
+	<cfif session.user.admin>
+		<cfset newInstall = true>
+	<cfelse>
+		<cfset noProjects = true>
+	</cfif>
 </cfif>
 <cfset visible_project_list_mstones = "">
 <cfset visible_project_list_issues = "">
@@ -122,18 +127,24 @@ $(document).ready(function(){
 	<div class="left">
 		<div class="main">
 
-			<cfif isDefined("newInstall")>
+			<cfif isDefined("newInstall") or isDefined("noProjects")>
 			<div class="header">
 				<h2 class="activity full">Welcome to the #application.settings.app_title#!</h2>
 			</div>
 			<div class="content">
 				<div class="wrapper">
-					<h4>It appears that this is your first time running the application.</h4><br />
-					<cfif session.user.admin>
-						<h4>The first thing you'll want to do is to <a href="editProject.cfm">create a new project</a>.</h4><br />
-						<h4>You may want to <a href="./admin/editClient.cfm">add a client</a> first if the project applies to one.</h4>
+					
+					<cfif isDefined("newInstall")>
+						<h4 class="alert">It appears that this is your first time running the application.</h4><br />
+						<cfif session.user.admin>
+							<h4>The first thing you'll want to do is to <a href="editProject.cfm">create a new project</a>.</h4><br />
+							<h4>You may want to <a href="./admin/editClient.cfm">add a client</a> first if the project applies to one.</h4>
+						<cfelse>
+							<p>Please have an administrator login to create the first project.</p>
+						</cfif>
 					<cfelse>
-						<p>Please have an administrator login to create the first project.</p>
+						<h4 class="alert">You are not currently assigned to any projects.</h4><br />
+						You must be added by an administrator<cfif allow_reg_projects.recordCount> or you may join one of the projects at right</cfif>.
 					</cfif>
 			 	</div>
 			</div>
@@ -400,8 +411,7 @@ $(document).ready(function(){
 				</cfloop>
 			</ul>
 		</div>
-		</cfif>		
-		
+		</cfif>
 		
 		<cfif allow_reg_projects.recordCount>
 		<div class="header"><h3>Projects you can join</h3></div>
@@ -412,7 +422,7 @@ $(document).ready(function(){
 				</cfloop>
 			</ul>
 		</div>
-		</cfif>		
+		</cfif>
 		
 	</div>
 		
