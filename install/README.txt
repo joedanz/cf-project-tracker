@@ -2,19 +2,15 @@ Project Tracker v2.5
 by Joe Danziger (joe@ajaxcf.com)
 
 Initial Release: June 5, 2007
-Current Release: September 16, 2009
+Current Release: October 15, 2009
 
 This application was inspired by Basecamp (http://www.basecamphq.com) 
 put out by the 37signals crew.  Not too much documentation but 
 hopefully most should be self explanatory.
 
 DONATIONS:
-This software is free for the taking, but donations are most appreciated! 
-Those who wish to support development with a donation can give to my  
-MacBook Fund located @ http://www.createafund.com/JoeDanziger/MacBook
-Thanks in advance for your generosity!!!
-
-My Amazon Wishlist, should you be so inclined, is located at:
+This software is free for the taking, but those wishing to support
+development can make a purchase from my Amazon Wishlist located at:
 http://amazon.com/gp/registry/wishlist/1X4EGLWAC43FJ/102-5824999-1765764
 
 INSTALLATION:
