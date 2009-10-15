@@ -143,7 +143,7 @@
 <!--- check for logout --->
 <cfif StructKeyExists(url,"logout") or not isDefined("session.user.userid")>
 	<cfset structDelete(session, "user")>
-	<cfif StructKeyExists(cookie,"ptuser")>
+	<cfif StructKeyExists(cookie,"ptuser") and StructKeyExists(url,"logout")>
 		<cfif compare(application.settings.mapping,'')>
 			<cfcookie name="ptuser" expires="now" domain="#replaceNoCase(replaceNoCase(application.settings.rootURL,'http://',''),'https://','')#" path="#application.settings.mapping#">
 		<cfelse>
