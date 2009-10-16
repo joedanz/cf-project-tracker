@@ -2,7 +2,7 @@ Project Tracker v2.5
 by Joe Danziger (joe@ajaxcf.com)
 
 Initial Release: June 5, 2007
-Current Release: October 15, 2009
+Current Release: October 16, 2009
 
 This application was inspired by Basecamp (http://www.basecamphq.com) 
 put out by the 37signals crew.  Not too much documentation but 
@@ -23,10 +23,13 @@ slash or directories - just the http:// plus the hostname or
 IP address.  The mapping should be set to "/project" or wherever
 you've placed the application - also with no trailing slash.
 
-You also need to install the database tables (scripts are included).  
-The scripts add an admin and a guest user, plus 2 entries for default 
-settings.  You can name your database whatever you'd like but make
-sure to match the settings in the config files.
+You also need to install the database tables.  This can be done through
+an automated install script which is included in the root of the install
+directory.  Manual install scripts are also included.  
+
+The user table includes an admin and a guest user, plus 2 entries for 
+default settings.  You can name your database whatever you'd like but 
+make sure to match the settings in the config files.
 
 If you change setting in the config files, you'll need to add 
 "&reinit=1" at the end of any URL to refresh the system settings.
