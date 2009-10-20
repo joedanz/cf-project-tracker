@@ -115,30 +115,33 @@
 	</cffunction>		
 	
 	<cffunction name="getRates" access="public" returnType="query" output="false"
-				hint="Returns mobile carriers.">
+				hint="Returns client rates.">
 		<cfargument name="clientID" type="string" required="false" default="">
-		<cfargument name="clientOnly" type="boolean" required="false" default="false">
 		<cfargument name="defaultOnly" type="boolean" required="false" default="false">
+		<cfargument name="allowDefaultRates" type="boolean" required="false" default="false">
 		<cfset var qGetRates = "">
 
 		<cfquery name="qGetRates" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			<cfif not arguments.defaultOnly>
-			SELECT r.rateID, r.category, r.rate, count(tt.rateID) as numLines
-				FROM #variables.tableprefix#client_rates r 
-					LEFT JOIN #variables.tableprefix#timetrack tt ON r.rateID = tt.rateID
-				WHERE clientID = 
-						<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.clientID#" maxlength="35">
-			GROUP BY r.rateID, r.category, r.rate
-			</cfif>
-			<cfif not arguments.defaultOnly and not arguments.clientOnly>
-				UNION
-			</cfif>
-			<cfif not arguments.clientOnly>
-			SELECT r.rateID, r.category, r.rate, count(tt.rateID) as numLines
-				FROM pt_client_rates r 
-					LEFT JOIN pt_timetrack tt ON r.rateID = tt.rateID
-				WHERE clientID IS NULL
-			GROUP BY r.rateID, r.category, r.rate
+			<cfif arguments.defaultOnly>
+				SELECT r.rateID, r.category, r.rate, count(tt.rateID) as numLines
+					FROM #variables.tableprefix#client_rates r 
+						LEFT JOIN #variables.tableprefix#timetrack tt ON r.rateID = tt.rateID
+					WHERE clientID IS NULL
+				GROUP BY r.rateID, r.category, r.rate
+			<cfelse>
+				SELECT r.rateID, r.category, r.rate, count(tt.rateID) as numLines
+					FROM #variables.tableprefix#client_rates r 
+						LEFT JOIN #variables.tableprefix#timetrack tt ON r.rateID = tt.rateID
+					WHERE clientID = 
+							<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.clientID#" maxlength="35">
+				GROUP BY r.rateID, r.category, r.rate
+				<cfif arguments.allowDefaultRates>
+					UNION
+				SELECT r.rateID, r.category, r.rate, count(tt.rateID) as numLines
+					FROM #variables.tableprefix#client_rates r 
+						LEFT JOIN #variables.tableprefix#timetrack tt ON r.rateID = tt.rateID
+					WHERE clientID IS NULL
+				GROUP BY r.rateID, r.category, r.rate
 			</cfif>
 			ORDER BY category
 		</cfquery>

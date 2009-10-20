@@ -5,7 +5,7 @@
 	<cfcase value="add">
 		<cfset newID = createUUID()>
 		<cfset application.client.addRate(newID,url.cat,url.r,url.c)>
-		<cfset rates = application.client.getRates(clientID=url.c,clientOnly='true')>
+		<cfset rates = application.client.getRates(clientID=url.c,allowDefaultRates='false')>
 		<cfoutput query="rates">
 			<li id="r#rateID#"<cfif not compare(newID,rateID)> class="cur_rate"</cfif>>#category# - #DollarFormat(rate)#/hr&nbsp;<cfif numLines eq 0> <a href="##" class="x" onclick="delete_rate('#rateID#');return false;"></a><cfelse> <small class="g">(#numLines# time tracking items)</small></cfif></li>
 		</cfoutput>

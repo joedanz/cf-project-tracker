@@ -17,7 +17,7 @@
 <cfset projectUsers = application.project.projectUsers(url.p,'0','firstName, lastName')>
 <cfset timelines = application.timetrack.get(projectID=url.p)>
 <cfif project.tab_billing and (session.user.admin or project.bill_edit eq 1)>
-	<cfset rates = application.client.getRates(clientID=project.clientID,clientOnly=!project.allow_def_rates)>
+	<cfset rates = application.client.getRates(clientID=project.clientID,allowDefaultRates=project.allow_def_rates)>
 </cfif>
 <cfset totalHours = 0>
 <cfset totalFee = 0>

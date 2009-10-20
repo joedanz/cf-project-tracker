@@ -2,7 +2,7 @@
 <cfprocessingdirective pageencoding="utf-8">
 
 <cfset client = application.client.get(url.c)>
-<cfset rates = application.client.getRates(clientID=url.c,clientOnly='true')>
+<cfset rates = application.client.getRates(clientID=url.c,allowDefaultRates='false')>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Admin &raquo; Clients &raquo; Bill Rates">
