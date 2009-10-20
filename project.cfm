@@ -3,6 +3,7 @@
 
 <cfparam name="url.p" default="">
 <cfif session.user.admin>
+	<cfset project = application.project.get(projectID=url.p)>
 	<cfset projects = application.project.get()>
 <cfelse>
 	<cfset project = application.project.get(session.user.userid,url.p)>
