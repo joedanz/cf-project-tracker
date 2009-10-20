@@ -364,7 +364,7 @@ $(document).ready(function(){
 			</ul>
 		</div>
 		
-		<cfif not session.user.admin and allow_reg_projects.recordCount>
+		<cfif not session.user.admin and projects.recordCount eq 1 and allow_reg_projects.recordCount>
 		<div class="header"><h3>Projects you can join</h3></div>
 		<div class="content">
 			<ul>
