@@ -142,6 +142,7 @@
 						LEFT JOIN #variables.tableprefix#timetrack tt ON r.rateID = tt.rateID
 					WHERE clientID IS NULL
 				GROUP BY r.rateID, r.category, r.rate
+				</cfif>
 			</cfif>
 			ORDER BY category
 		</cfquery>
