@@ -65,7 +65,8 @@
 		<cfset var qRecords = "">
 		<cfquery name="qRecords" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT u.userID, u.firstName, u.lastName, u.username, u.email, u.phone, u.mobile, u.carrierID, 
-				u.lastLogin, u.avatar, u.style, u.admin, u.report, u.invoice, u.active, c.prefix, c.suffix
+				u.locale, u.timezone, u.lastLogin, u.avatar, u.style, u.admin, u.report, u.invoice, u.active, 
+				c.prefix, c.suffix
 			FROM #variables.tableprefix#users u
 				LEFT JOIN #variables.tableprefix#carriers c ON u.carrierID = c.carrierID
 			WHERE 0=0
@@ -165,6 +166,8 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfargument name="phone" type="string" required="true">
 		<cfargument name="mobile" type="string" required="true">
 		<cfargument name="carrierID" type="string" required="true">
+		<cfargument name="locale" type="string" required="true">
+		<cfargument name="timezone" type="string" required="true">
 		<cfargument name="admin" type="numeric" required="true">
 		<cfargument name="report" type="numeric" required="true">
 		<cfargument name="invoice" type="numeric" required="true">
@@ -173,7 +176,7 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 		<cfset var theMessage = "">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			INSERT INTO #variables.tableprefix#users (userID, firstName, lastName, username, password, email, 
-					phone, mobile, carrierID, avatar, style, admin, report, invoice, active)
+					phone, mobile, carrierID, locale, timezone, avatar, style, admin, report, invoice, active)
 				VALUES(<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.firstName#" maxlength="12">, 
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.lastName#" maxlength="20">, 
@@ -183,6 +186,8 @@ You can login at #application.settings.rootURL##application.settings.mapping#
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.phone#" maxlength="15">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.mobile#" maxlength="15">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.carrierID#" maxlength="35">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.locale#" maxlength="32">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.timezone#" maxlength="32">,
 						0,
 						'#application.settings.default_style#',
 						<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.admin#">, 
@@ -297,6 +302,8 @@ You must confirm this account before using it by clicking here:
 		<cfargument name="phone" type="string" required="true">
 		<cfargument name="mobile" type="string" required="true">
 		<cfargument name="carrierID" type="string" required="true">
+		<cfargument name="locale" type="string" required="true">
+		<cfargument name="timezone" type="string" required="true">
 		<cfargument name="admin" type="numeric" required="true">
 		<cfargument name="report" type="numeric" required="true">
 		<cfargument name="invoice" type="numeric" required="true">
@@ -313,6 +320,8 @@ You must confirm this account before using it by clicking here:
 				phone = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.phone#" maxlength="15">,
 				mobile = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.mobile#" maxlength="15">,
 				carrierID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.carrierID#" maxlength="35">,
+				locale = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.locale#" maxlength="32">,
+				timezone = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.timezone#" maxlength="32">,
 				admin = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.admin#">,
 				report = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.report#">,
 				invoice = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.invoice#">,

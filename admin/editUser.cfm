@@ -34,7 +34,7 @@
 				<cfset qCheckUser = application.user.get('','',form.username)>
 				<cfif not qCheckUser.recordCount>
 					<cfset newID = createUUID()>
-					<cfset application.user.adminCreate(newID,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.admin,form.report,form.invoice,form.active)>
+					<cfset application.user.adminCreate(newID,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.locale,form.timezone,form.admin,form.report,form.invoice,form.active)>
 					<cfloop list="#form.projectids#" index="i">
 						<cfif listFind(form.adminids,i)>
 							<cfset project_admin = 1>
@@ -63,7 +63,7 @@
 		</cfcase>
 		<cfcase value="Update User">
 			<cfif not compare(errors,'')>
-				<cfset application.user.adminUpdate(form.userid,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.admin,form.report,form.invoice,form.active)>
+				<cfset application.user.adminUpdate(form.userid,form.firstName,form.lastName,form.username,form.password,trim(form.email),request.udf.NumbersOnly(form.phone),request.udf.NumbersOnly(form.mobile),form.carrierID,form.locale,form.timezone,form.admin,form.report,form.invoice,form.active)>
 				<cfif not compare(form.from,'admin')>
 					<cflocation url="users.cfm" addtoken="false">
 				<cfelse>
@@ -84,6 +84,8 @@
 	<cfset form.phone = user.phone>
 	<cfset form.mobile = user.mobile>
 	<cfset form.carrierID = user.carrierID>
+	<cfset form.locale = user.locale>
+	<cfset form.timezone = user.timezone>
 	<cfset form.admin = user.admin>
 	<cfset form.report = user.report>
 	<cfset form.invoice = user.invoice>
@@ -103,6 +105,8 @@
 	<cfset form.phone = "">
 	<cfset form.mobile = "">
 	<cfset form.carrierID = "">
+	<cfset form.locale = "">
+	<cfset form.timezone = "">
 	<cfset form.admin = 0>
 	<cfset form.report = 0>
 	<cfset form.invoice = 0>
@@ -207,7 +211,23 @@
 						
 						<cfoutput>
 							</select> <span style="font-size:85%;" class="i">(used for SMS notifications)
-						</p>				
+						</p>
+						<p>
+						<label for="locale">Locale:</label>
+						<select name="locale" id="locale">
+						<cfloop list="#Server.Coldfusion.SupportedLocales#" index="i">
+							<option value="#i#"<cfif not compare(i,form.locale)> selected="selected"</cfif>>#i#</option>
+						</cfloop>				
+						</select>
+						</p>
+						<p>
+						<label for="timezone">Timezone:</label>
+						<select name="timezone" id="timezone" size="10">
+						<cfloop from="1" to="#ArrayLen(application.timezones)#" index="i">
+							<option value="#application.timezones[i]#"<cfif not compare(application.timezones[i],form.timezone)> selected="selected"</cfif>>#application.timezones[i]#</option>
+						</cfloop>				
+						</select>
+						</p>		
 						<p>
 						<label for="admin">Global Admin?</label>
 						<input type="checkbox" name="admin" id="admin" value="1" class="checkbox"<cfif form.admin> checked="checked"</cfif> />
