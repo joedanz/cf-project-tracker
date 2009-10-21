@@ -51,7 +51,7 @@ function add_client_rate(clientid) {
     $.ajax({
 		type: 'get',
 		url: '../ajax/client_rate.cfm',
-		data: 'a=add&c=' + clientid + '&cat=' + escape($('#category').val()) + '&r=' + escape($('#rate').val()),
+		data: 'a=add&c=' + clientid + '&cat=' + encodeURIComponent($('#category').val()) + '&r=' + escape($('#rate').val()),
 		success: function(txt){
 	     $('#client_rates').html(txt);
 		 $('#category').val('');
@@ -63,7 +63,7 @@ function add_default_rate() {
     $.ajax({
 		type: 'get',
 		url: '../ajax/client_rate.cfm',
-		data: 'a=adddef&cat=' + escape($('#category').val()) + '&r=' + escape($('#rate').val()),
+		data: 'a=adddef&cat=' + encodeURIComponent($('#category').val()) + '&r=' + escape($('#rate').val()),
 		success: function(txt){
 	     $('#client_rates').html(txt);
 		 $('#category').val('');
@@ -389,7 +389,7 @@ function add_time_row(projectid,type,itemid,from) {
 		$.ajax({
 			type: 'get',
 			url: './ajax/timetrack.cfm',
-			data: 'act=add&p=' + projectid + '&u=' + $('#userid').val() + '&t=' + $('#datestamp').val() + '&h=' + escape($('#hrs').val()) + '&r=' + $('#rateID').val() + '&d=' + escape($('#desc').val()) + '&type=' + type + '&i=' + itemid + '&f=' + from,
+			data: 'act=add&p=' + projectid + '&u=' + $('#userid').val() + '&t=' + $('#datestamp').val() + '&h=' + escape($('#hrs').val()) + '&r=' + $('#rateID').val() + '&d=' + encodeURIComponent($('#desc').val()) + '&type=' + type + '&i=' + itemid + '&f=' + from,
 			success: function(txt){
 				$('#time tbody').prepend(txt);
 				$('#hrs').val('');
@@ -424,7 +424,7 @@ function save_time_edit(projectid,timetrackid,type,itemid,from) {
 	$.ajax({
 		type: 'get',
 		url: './ajax/timetrack.cfm',
-		data: 'act=update&p=' + projectid + '&tt=' + timetrackid + '&u=' + $('#userid'+timetrackid).val() + '&t=' + $('#datestamp'+timetrackid).val() + '&h=' + escape($('#hrs'+timetrackid).val()) + '&d=' + escape($('#desc'+timetrackid).val()) + '&r=' + $('#rateID'+timetrackid).val() + '&type=' + type + '&i=' + itemid + '&f=' + from,
+		data: 'act=update&p=' + projectid + '&tt=' + timetrackid + '&u=' + $('#userid'+timetrackid).val() + '&t=' + $('#datestamp'+timetrackid).val() + '&h=' + escape($('#hrs'+timetrackid).val()) + '&d=' + encodeURIComponent($('#desc'+timetrackid).val()) + '&r=' + $('#rateID'+timetrackid).val() + '&type=' + type + '&i=' + itemid + '&f=' + from,
 		success: function(txt){
 			$('#r'+timetrackid).replaceWith(txt);
 			$('#r'+timetrackid).animate({backgroundColor:'#ffffb7'},100).animate({backgroundColor:'#fff'},1500);
@@ -510,7 +510,7 @@ function add_todo_ajax(projectid,todolistid,newitem,forwho,due) {
     $.ajax({
 		type: 'post',
 		url: './ajax/todo.cfm?action=add',
-		data: 'action=add&p=' + projectid + '&l=' + todolistid + '&t=' + escape(newitem) + '&fw=' + forwho + '&d=' + due
+		data: 'action=add&p=' + projectid + '&l=' + todolistid + '&t=' + encodeURIComponent(newitem) + '&fw=' + forwho + '&d=' + due
 	});	
 }
 
@@ -545,7 +545,7 @@ function update_item(projectid,todolistid,todoid) {
 	$.ajax({
 		type: 'post',
 		url: './ajax/todo.cfm',
-		data: 'action=update&p=' + projectid + '&tl=' + todolistid + '&t=' + todoid + '&task=' + escape(newitem) + '&fw=' + forwho + '&fwfull=' + escape(forwhofull) + '&d=' + due + '&c=' + completed,
+		data: 'action=update&p=' + projectid + '&tl=' + todolistid + '&t=' + todoid + '&task=' + encodeURIComponent(newitem) + '&fw=' + forwho + '&fwfull=' + escape(forwhofull) + '&d=' + due + '&c=' + completed,
 		success: function(txt){
 			$('#edit'+todoid).html(txt);
 		}
@@ -570,7 +570,7 @@ function delete_todo_ajax(projectid,todolistid,todoid) {
 function todo_time(action,projectid,todolistid,todoid,todoidstripped,completed) {
 	var data = 'p=' + projectid + '&tl=' + todolistid + '&t=' + todoid + '&c=' + completed;
 	if (action == 'edit') data = data + '&edit=1';
-	if (action == 'save') data = data + '&d=' + escape($('#datestamp' + todoid).val()) + '&u=' + $('#person' + todoid).val() + '&h=' + escape($('#hours' + todoid).val()) + '&note=' + escape($('#note' + todoid).val());
+	if (action == 'save') data = data + '&d=' + escape($('#datestamp' + todoid).val()) + '&u=' + $('#person' + todoid).val() + '&h=' + escape($('#hours' + todoid).val()) + '&note=' + encodeURIComponent($('#note' + todoid).val());
 	if ((action == 'save') && (($('#datestamp'+todoid).val() == '') || ($('#hrs'+todoid).val() == '') || ($('#desc'+todoid).val() == ''))) {
 		alert('You must enter the date, number of hours, and a description.')
 	} else 
