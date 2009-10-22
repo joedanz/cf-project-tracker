@@ -25,7 +25,7 @@
 					</select>
 				</td>
 				<td class="pad">Due Date:<br />
-					<input type="text" name="due" id="due#url.t#" value="#LSDateFormat(due,"mm/dd/yyyy")#" size="8" class="date-pick" />
+					<input type="text" name="due" id="due#url.t#" value="<cfif isDate(due)>#LSDateFormat(due,"mm/dd/yyyy")#</cfif>" size="8" class="date-pick" />
 				</td>
 			</tr>
 			<tr>
@@ -103,7 +103,7 @@
 				<tr>
 					<td class="cb#todolistID#"><cfif project.todo_edit><input type="checkbox" name="todoID" value="#todoID#" checked="checked" onclick="mark_incomplete('#url.p#','#todolistID#','#todoID#');" /></cfif></td>
 					<td class="t#todolistID#"><cfif project.todo_edit and project.time_edit and todolist.timetrack eq 1><img src="./images/time<cfif numTimeTracks gt 0>3<cfelse>2</cfif>.gif" height="16" width="16" onclick="todo_time('edit','#url.p#','#todolistID#','#todoID#','1');" /></cfif></td>
-					<td id="edit#todoID#" class="sm"<cfif numComments eq 0> onmouseover="$('##c#todoID#').show();" onmouseout="$('##c#todoID#').hide();"</cfif>>#LSDateFormat(DateAdd("h",session.tzOffset,completed),"mmm d")# <strike>#task#</strike><cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)<cfif isDate(due)> - due on #LSDateFormat(due,"mmm d, yyyy")#</cfif></span></cfif><cfif project.todo_edit> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="edit_item('#url.p#','#todolistID#','#todoID#');return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#url.p#','#todolistID#','#todoID#');return false;" /> <a href="todo.cfm?p=#url.p#&tl=#todolistID#&t=#todoID#" class="nounder" id="c#todoID#"<cfif numComments eq 0> style="display:none;"</cfif>><img src="./images/comment.png" height="11" width="14" alt="Comments" class="link" /><cfif numComments gt 0> #numComments#</cfif></a></span></cfif></td>
+					<td id="edit#todoID#" class="sm"<cfif numComments eq 0> onmouseover="$('##c#todoID#').show();" onmouseout="$('##c#todoID#').hide();"</cfif>><cfif isDate(completed)>#LSDateFormat(DateAdd("h",session.tzOffset,completed),"mmm d")# </cfif><strike>#task#</strike><cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)<cfif isDate(due)> - due on #LSDateFormat(due,"mmm d, yyyy")#</cfif></span></cfif><cfif project.todo_edit> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="edit_item('#url.p#','#todolistID#','#todoID#');return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#url.p#','#todolistID#','#todoID#');return false;" /> <a href="todo.cfm?p=#url.p#&tl=#todolistID#&t=#todoID#" class="nounder" id="c#todoID#"<cfif numComments eq 0> style="display:none;"</cfif>><img src="./images/comment.png" height="11" width="14" alt="Comments" class="link" /><cfif numComments gt 0> #numComments#</cfif></a></span></cfif></td>
 				</tr>
 			</table>
 		</li>

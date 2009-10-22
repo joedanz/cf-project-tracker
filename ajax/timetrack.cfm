@@ -33,7 +33,7 @@
 <cfoutput>
 <cfif compareNoCase(url.act,'delete')>
 	<tr id="r#timeline.timetrackid#">
-		<td class="first">#LSDateFormat(timeline.dateStamp,"mmm d, yyyy")#</td>
+		<td class="first"><cfif isDate(timeline.dateStamp)>#LSDateFormat(timeline.dateStamp,"mmm d, yyyy")#</cfif></td>
 		<td>#timeline.firstName# #timeline.lastName#</td>
 		<td<cfif compareNoCase(url.f,'issue')> class="b"</cfif>>#numberFormat(timeline.hours,"0.00")#</td>
 		<cfif project.tab_billing and project.bill_view>

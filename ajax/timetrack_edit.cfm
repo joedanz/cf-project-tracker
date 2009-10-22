@@ -6,7 +6,7 @@
 
 <cfoutput>
 <tr id="r#timeline.timetrackid#" class="input">
-	<td class="first"><input type="text" name="datestamp" id="datestamp#timeline.timetrackid#" value="#LSDateFormat(timeline.dateStamp,"mm/dd/yyyy")#" class="shortest date-pick" /></td>
+	<td class="first"><input type="text" name="datestamp" id="datestamp#timeline.timetrackid#" value="<cfif isDate(timeline.dateStamp)>#LSDateFormat(timeline.dateStamp,"mm/dd/yyyy")#</cfif>" class="shortest date-pick" /></td>
 	<td>
 		<select name="userID" id="userid#timeline.timetrackid#">
 			<cfloop query="projectUsers">

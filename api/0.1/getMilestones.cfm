@@ -10,7 +10,7 @@
 		<id>#milestoneid#</id>	
 		<name>#xmlFormat(name)#</name>
 		<description>#xmlFormat(description)#</description>
-		<dueDate>#LSDateFormat(dueDate,"yyyy-mm-dd")#T#LSTimeFormat(dueDate,"HH:mm:ss")#Z</dueDate>
+		<dueDate><cfif isDate(dueDate)>#LSDateFormat(dueDate,"yyyy-mm-dd")#T#LSTimeFormat(dueDate,"HH:mm:ss")#Z</cfif></dueDate>
 	</milestone></cfloop>
 </milestones>
 </cfoutput>

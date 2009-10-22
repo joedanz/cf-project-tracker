@@ -83,7 +83,7 @@
 				</select>
 			</td>
 			<td class="pad">Due Date:<br />
-				<input type="text" name="due" id="due#todoID#" value="#LSDateFormat(due,"mm/dd/yyyy")#" size="8" class="date-pick" />
+				<input type="text" name="due" id="due#todoID#" value="<cfif isDate(due)>#LSDateFormat(due,"mm/dd/yyyy")#</cfif>" size="8" class="date-pick" />
 			</td>
 		</tr>
 		<tr>

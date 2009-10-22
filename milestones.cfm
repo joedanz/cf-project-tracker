@@ -58,7 +58,7 @@
 						<cfloop query="milestones1">
 						<cfset daysago = DateDiff("d",dueDate,Now())>
 							<div class="milestone">
-							<div class="date late"><span class="b"><cfif daysago eq 0>Today<cfelseif daysago eq 1>Yesterday<cfelse>#daysago# days ago</cfif></span> (#LSDateFormat(dueDate,"dddd, d mmmm, yyyy")#)<cfif userid neq 0><span style="color:##666;"> - Assigned to #firstName# #lastName#</span></cfif></div>
+							<div class="date late"><span class="b"><cfif daysago eq 0>Today<cfelseif daysago eq 1>Yesterday<cfelse>#daysago# days ago</cfif></span><cfif isDate(dueDate)> (#LSDateFormat(dueDate,"dddd, d mmmm, yyyy")#)</cfif><cfif userid neq 0><span style="color:##666;"> - Assigned to #firstName# #lastName#</span></cfif></div>
 							<div id="m#milestoneid#" style="display:none;" class="markcomplete">Moving to Completed - just a second...</div>
 							<cfif session.user.admin or project.mstone_edit eq 1>
 								<h3><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&c=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;" /> 
@@ -139,7 +139,7 @@
 						<cfloop query="milestones2">
 						<cfset daysago = DateDiff("d",CreateDate(year(Now()),month(Now()),day(Now())),dueDate)>
 							<div class="milestone">
-							<div class="date upcoming"><span class=" b"><cfif daysago eq 0>Today<cfelseif daysago eq 1>Tomorrow<cfelse>#daysago# days away</cfif></span> (#LSDateFormat(dueDate,"dddd, d mmmm, yyyy")#) <cfif userid neq 0><span style="color:##666;"> - Assigned to #firstName# #lastName#</span></cfif></div>
+							<div class="date upcoming"><span class=" b"><cfif daysago eq 0>Today<cfelseif daysago eq 1>Tomorrow<cfelse>#daysago# days away</cfif></span><cfif isDate(dueDate)> (#LSDateFormat(dueDate,"dddd, d mmmm, yyyy")#)</cfif><cfif userid neq 0><span style="color:##666;"> - Assigned to #firstName# #lastName#</span></cfif></div>
 							<div id="m#milestoneid#" style="display:none;" class="markcomplete">Moving to Completed - just a second...</div>
 							<cfif session.user.admin or project.mstone_edit eq 1>
 								<h3><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&c=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;" /> 
@@ -219,7 +219,7 @@
 						<div class="header completed">Completed</div>
 						<cfloop query="milestones3">
 							<div class="milestone">
-							<div class="date late"><span class="completed b">#LSDateFormat(dueDate,"dddd, mmmm d, yyyy")#</span><cfif userid neq 0><span style="color:##666;"> - Assigned to #firstName# #lastName#</span></cfif></div>
+							<div class="date late"><span class="completed b"><cfif isDate(dueDate)>#LSDateFormat(dueDate,"dddd, mmmm d, yyyy")#</cfif></span><cfif userid neq 0><span style="color:##666;"> - Assigned to #firstName# #lastName#</span></cfif></div>
 							<div id="m#milestoneid#" style="display:none;" class="markcomplete">Moving to <cfif DateDiff("d",dueDate,Now())>Late<cfelse>Upcoming</cfif> - just a second...</div>
 							<cfif session.user.admin or project.mstone_edit eq 1>
 								<h3><input type="checkbox" name="milestoneid" value="#milestoneid#" onclick="$('##m#milestoneid#').show();window.location='#cgi.script_name#?p=#url.p#&a=#milestoneid#&ms=#URLEncodedFormat(name)#';" style="vertical-align:middle;" checked="checked" /> 

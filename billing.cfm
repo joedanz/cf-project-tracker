@@ -66,7 +66,7 @@
 									<cfif isNumeric(rate)>
 										<cfset thisUserID = userid>
 										<tr id="r#milestoneid#">
-											<td class="first">#LSDateFormat(dueDate,"mmm d, yyyy")#</td>
+											<td class="first"><cfif isDate(dueDate)>#LSDateFormat(dueDate,"mmm d, yyyy")#</cfif></td>
 											<td>#name#</td>
 											<td>#firstName# #lastName#</td>
 											<td>$#NumberFormat(rate,"0")#</td>
@@ -113,7 +113,7 @@
 									<cfif isNumeric(rate)>
 										<cfset thisUserID = userid>
 										<tr id="r#milestoneid#">
-											<td class="first">#LSDateFormat(dueDate,"mmm d, yyyy")#</td>
+											<td class="first"><cfif isDate(dueDate)>#LSDateFormat(dueDate,"mmm d, yyyy")#</cfif></td>
 											<td>#name#</td>
 											<td>#firstName# #lastName#</td>
 											<td>$#NumberFormat(rate,"0")#</td>
