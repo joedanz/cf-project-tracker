@@ -28,7 +28,10 @@
 	<cflocation url="index.cfm" addtoken="false">
 </cfif>
 
-<cfparam name="url.p" default="">
+<cfif not StructKeyExists(url,'p')>
+	<cfoutput><h2>No Project Selected!</h2></cfoutput><cfabort>
+</cfif>
+
 <cfif session.user.admin>
 	<cfset project = application.project.get(projectID=url.p)>
 <cfelse>

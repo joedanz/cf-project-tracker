@@ -5,7 +5,10 @@
 	<cfset application.comment.add(createUUID(),url.p,'todo',url.t,session.user.userid,form.comment)>
 </cfif>
 
-<cfparam name="url.p" default="">
+<cfif not StructKeyExists(url,'p')>
+	<cfoutput><h2>No Project Selected!</h2></cfoutput><cfabort>
+</cfif>
+
 <cfparam name="url.t" default="">
 <cfif session.user.admin>
 	<cfset project = application.project.get(projectID=url.p)>

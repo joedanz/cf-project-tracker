@@ -1,6 +1,10 @@
 <cfsetting enablecfoutputonly="true">
 <cfprocessingdirective pageencoding="utf-8">
 
+<cfif not StructKeyExists(url,'p')>
+	<cfoutput><h2>No Project Selected!</h2></cfoutput><cfabort>
+</cfif>
+
 <cfif session.user.admin>
 	<cfset project = application.project.get(projectID=url.p)>
 <cfelse>
@@ -10,9 +14,6 @@
 	<cfoutput><h2>You do not have permission to access the repository!!!</h2></cfoutput>
 	<cfabort>
 </cfif>
-
-<cfparam name="url.p" default="">
-<cfset project = application.project.get(session.user.userid,url.p)>
 
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; #project.name#" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">

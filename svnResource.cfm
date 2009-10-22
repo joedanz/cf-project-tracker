@@ -1,6 +1,10 @@
 <cfsetting enablecfoutputonly="true">
 <cfprocessingdirective pageencoding="utf-8">
 
+<cfif not StructKeyExists(url,'p')>
+	<cfoutput><h2>No Project Selected!</h2></cfoutput><cfabort>
+</cfif>
+
 <cfif session.user.admin>
 	<cfset project = application.project.get(projectID=url.p)>
 <cfelse>
@@ -11,7 +15,6 @@
 	<cfabort>
 </cfif>
 
-<cfparam name="url.p" default="">
 <cfset project = application.project.get(session.user.userid,url.p)>
 <cfset numFiles = 0>
 <cfset totalFileSize = 0>

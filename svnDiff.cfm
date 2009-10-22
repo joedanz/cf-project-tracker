@@ -1,6 +1,10 @@
 <cfsetting enablecfoutputonly="true">
 <cfprocessingdirective pageencoding="utf-8">
 
+<cfif not StructKeyExists(url,'p')>
+	<cfoutput><h2>No Project Selected!</h2></cfoutput><cfabort>
+</cfif>
+
 <cfif session.user.admin>
 	<cfset project = application.project.get(projectID=url.p)>
 <cfelse>
@@ -12,7 +16,6 @@
 </cfif>
 
 <cfparam name="url.act" default="browse">
-<cfparam name="url.p" default="">
 <cfparam name="url.wd" default="">
 <cfset project = application.project.get(session.user.userid,url.p)>
 <cfset Diffable="cfc,cfm,cfml,txt,plx,php,php4,php5,asp,aspx,xml,html,htm,sql,css,js">

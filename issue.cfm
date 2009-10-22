@@ -1,7 +1,10 @@
 <cfsetting enablecfoutputonly="true">
 <cfprocessingdirective pageencoding="utf-8">
 
-<cfparam name="url.p" default="">
+<cfif not StructKeyExists(url,'p')>
+	<cfoutput><h2>No Project Selected!</h2></cfoutput><cfabort>
+</cfif>
+
 <cfparam name="fileupload" default="">
 <cfif session.user.admin>
 	<cfset project = application.project.get(projectID=url.p)>

@@ -1,12 +1,15 @@
 <cfsetting enablecfoutputonly="true">
 <cfprocessingdirective pageencoding="utf-8">
 
+<cfif not StructKeyExists(url,'p')>
+	<cfoutput><h2>No Project Selected!</h2></cfoutput><cfabort>
+</cfif>
+
 <cfif StructKeyExists(url,"del")>
 	<cfset application.todolist.delete(url.p,url.del)>
 	<cfset application.todo.delete(url.p,url.del)>
 </cfif>
 
-<cfparam name="url.p" default="">
 <cfparam name="url.t" default="">
 <cfparam name="form.assignedTo" default="">
 <cfif session.user.admin>

@@ -21,6 +21,10 @@
 <cfparam name="form.endDate" default="">
 <cfparam name="form.invoiceType" default="full">
 
+<cfif not session.user.admin and not session.user.report and not (compare(attributes.projectid,'') and userRole.report)>
+	<cfoutput><h2>No Permissions for Reporting!</h2></cfoutput><cfabort>
+</cfif>
+
 <cfset projects = application.project.get(projectID=url.p,clientID=form.c,userID=form.u)>
 <cfif compare(url.p,'')>
 	<cfset project = projects>

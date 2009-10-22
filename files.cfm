@@ -1,6 +1,10 @@
 <cfsetting enablecfoutputonly="true">
 <cfprocessingdirective pageencoding="utf-8">
 
+<cfif not StructKeyExists(url,'p')>
+	<cfoutput><h2>No Project Selected!</h2></cfoutput><cfabort>
+</cfif>
+
 <cfif StructKeyExists(url,"df") and not compare(hash(url.df),url.dfh)>
 	<cfset application.file.delete(url.p,url.df,session.user.userID)>
 </cfif>
@@ -9,7 +13,6 @@
 	<cfset session.user.fileorder = url.o>
 </cfif>
 
-<cfparam name="url.p" default="">
 <cfparam name="url.c" default="">
 <cfparam name="session.user.fileorder" default="date">
 <cfif session.user.admin>
