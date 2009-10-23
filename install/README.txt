@@ -1,16 +1,20 @@
-Project Tracker v2.5
+Project Tracker v2.5.1
 by Joe Danziger (joe@ajaxcf.com)
 
 Initial Release: June 5, 2007
-Current Release: October 16, 2009
+Current Release: October 23, 2009
 
 This application was inspired by Basecamp (http://www.basecamphq.com) 
 put out by the 37signals crew.  Not too much documentation but 
 hopefully most should be self explanatory.
 
 DONATIONS:
-This software is free for the taking, but those wishing to support
-development can make a purchase from my Amazon Wishlist located at:
+This software is completely free for use and modification under the
+Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0).
+Those wishing to support development with a donation can do so at:
+https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9084437
+
+You can also make a purchase from my Amazon Wishlist located at:
 http://amazon.com/gp/registry/wishlist/1X4EGLWAC43FJ/102-5824999-1765764
 
 INSTALLATION:
