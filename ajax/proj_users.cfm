@@ -45,7 +45,7 @@
 	<div class="user" id="#userID#">
 
  		<h4 class="b">#firstName# #lastName#&nbsp;
-			<span style="font-weight:normal;font-size:.9em;">(<span id="ut_#replace(userid,'-','','ALL')#"><cfif admin>Admin<cfelse>User</cfif></span>)<cfif session.user.admin>&nbsp; [<a href="./admin/editUser.cfm?from=people&p=#url.p#&u=#userid#">edit</a>]</cfif></span>
+			<span style="font-weight:normal;font-size:.9em;">(<span id="ut_#replace(userid,'-','','ALL')#"><cfif admin>Admin<cfelse>User</cfif></span>)<cfif session.user.admin>&nbsp; [<a href="./admin/editUser.cfm?from=people&amp;p=#url.p#&amp;u=#userid#">edit</a>]</cfif></span>
 		</h4>
  		<cfif compare(email,'')><a href="mailto:#email#">#email#</a><br /></cfif>
  		<cfif compare(phone,'')>#request.udf.phoneFormat(phone,"(xxx) xxx-xxxx")#
@@ -57,9 +57,9 @@
  		
  		<cfif admin or session.user.admin>
 	 		<div style="font-size:.9em;margin-top:3px;">[
-		 		<a href="userPermissions.cfm?u=#userID#&p=#url.p#">edit permissions</a> /
+		 		<a href="userPermissions.cfm?u=#userID#&amp;p=#url.p#">edit permissions</a> /
 		 		<cfif userid neq project.ownerid><a href="##" onclick="remove_user('#url.p#','#userID#','#lastName#','#firstName#');$('###userID#').fadeOut(500);return false;">remove from project</a>	
-		 	 	/ <a href="people.cfm?p=#url.p#&mo=#userID#">make owner</a></cfif>
+		 	 	/ <a href="people.cfm?p=#url.p#&amp;mo=#userID#">make owner</a></cfif>
 		 	]</div>
  		</cfif>
  	</div>

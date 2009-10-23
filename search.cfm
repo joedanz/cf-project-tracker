@@ -128,15 +128,15 @@ $(document).ready(function(){
 						Show <a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#"<cfif not compare(url.f,'')> class="b"</cfif>>All (#comments.recordCount+files.recordCount+issues.recordCount+messages.recordCount+mstones.recordCount+todos.recordCount#)</a>
 								 or
 							<cfif not compare(url.p,'')>
-								<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&f=project">Projects (#projects.recordCount#)</a>,
+								<a href="#cgi.script_name#?s=#URLEncodedFormat(form.search)#&amp;f=project">Projects (#projects.recordCount#)</a>,
 							</cfif>
-							<a href="#cgi.script_name#?p=#url.p#&s=#URLEncodedFormat(form.search)#&f=msgs"<cfif not compare(url.f,'msgs')> class="b"</cfif>>Messages (#messages.recordCount#)</a>, 
-							<a href="#cgi.script_name#?p=#url.p#&s=#URLEncodedFormat(form.search)#&f=comments"<cfif not compare(url.f,'comments')> class="b"</cfif>>Comments (#comments.recordCount#)</a>, 
-							<a href="#cgi.script_name#?p=#url.p#&s=#URLEncodedFormat(form.search)#&f=todos"<cfif not compare(url.f,'todos')> class="b"</cfif>>To-Dos (#todos.recordCount#)</a>, 
-							<a href="#cgi.script_name#?p=#url.p#&s=#URLEncodedFormat(form.search)#&f=files"<cfif not compare(url.f,'files')> class="b"</cfif>>Files (#files.recordCount#)</a>, 
-							<a href="#cgi.script_name#?p=#url.p#&s=#URLEncodedFormat(form.search)#&f=mstones"<cfif not compare(url.f,'mstones')> class="b"</cfif>>Milestones (#mstones.recordCount#)</a>, 
-							<a href="#cgi.script_name#?p=#url.p#&s=#URLEncodedFormat(form.search)#&f=issues"<cfif not compare(url.f,'issues')> class="b"</cfif>>Issues (#issues.recordCount#)</a>,
-							<a href="#cgi.script_name#?p=#url.p#&s=#URLEncodedFormat(form.search)#&f=screen"<cfif not compare(url.f,'screen')> class="b"</cfif>>Screenshots (#screenshots.recordCount#)</a>					
+							<a href="#cgi.script_name#?p=#url.p#&amp;s=#URLEncodedFormat(form.search)#&amp;f=msgs"<cfif not compare(url.f,'msgs')> class="b"</cfif>>Messages (#messages.recordCount#)</a>, 
+							<a href="#cgi.script_name#?p=#url.p#&amp;s=#URLEncodedFormat(form.search)#&amp;f=comments"<cfif not compare(url.f,'comments')> class="b"</cfif>>Comments (#comments.recordCount#)</a>, 
+							<a href="#cgi.script_name#?p=#url.p#&amp;s=#URLEncodedFormat(form.search)#&amp;f=todos"<cfif not compare(url.f,'todos')> class="b"</cfif>>To-Dos (#todos.recordCount#)</a>, 
+							<a href="#cgi.script_name#?p=#url.p#&amp;s=#URLEncodedFormat(form.search)#&amp;f=files"<cfif not compare(url.f,'files')> class="b"</cfif>>Files (#files.recordCount#)</a>, 
+							<a href="#cgi.script_name#?p=#url.p#&amp;s=#URLEncodedFormat(form.search)#&amp;f=mstones"<cfif not compare(url.f,'mstones')> class="b"</cfif>>Milestones (#mstones.recordCount#)</a>, 
+							<a href="#cgi.script_name#?p=#url.p#&amp;s=#URLEncodedFormat(form.search)#&amp;f=issues"<cfif not compare(url.f,'issues')> class="b"</cfif>>Issues (#issues.recordCount#)</a>,
+							<a href="#cgi.script_name#?p=#url.p#&amp;s=#URLEncodedFormat(form.search)#&amp;f=screen"<cfif not compare(url.f,'screen')> class="b"</cfif>>Screenshots (#screenshots.recordCount#)</a>					
 					</div>
 				</cfif>
 				<div class="content">
@@ -170,7 +170,7 @@ $(document).ready(function(){
 												<cfif not compare(url.p,'')>
 													<a href="project.cfm?p=#projectID#">#projName#</a> : 
 												</cfif>
-												<a href="message.cfm?p=#projectID#&m=#messageID#">#title#</a>
+												<a href="message.cfm?p=#projectID#&amp;m=#messageID#">#title#</a>
 											</h4>
 											<cfif compare(message,'')><p>#left(message,200)#<cfif len(message) gt 200>...</cfif></p></cfif>
 										</div>
@@ -194,9 +194,9 @@ $(document).ready(function(){
 													<a href="project.cfm?p=#projectID#">#projName#</a> : 
 												</cfif>
 												<cfif compare(messageID,'')>
-													<a href="message.cfm?p=#projectID#&m=#messageID#">#title#</a>
+													<a href="message.cfm?p=#projectID#&amp;m=#messageID#">#title#</a>
 												<cfelseif compare(issueID,'')>
-													<a href="issue.cfm?p=#projectID#&m=#issueID#">#issue#</a>
+													<a href="issue.cfm?p=#projectID#&amp;m=#issueID#">#issue#</a>
 												</cfif>
 											</h4>
 											<cfif compare(commentText,'')><p>#left(commentText,200)#<cfif len(commentText) gt 200>...</cfif></p></cfif>
@@ -264,7 +264,7 @@ $(document).ready(function(){
 												<cfif not compare(url.p,'')>
 													<a href="project.cfm?p=#projectID#">#projName#</a> : 
 												</cfif>
-												<a href="issue.cfm?p=#projectID#&i=#issueID#">#issue#</a>
+												<a href="issue.cfm?p=#projectID#&amp;i=#issueID#">#issue#</a>
 											</h4>
 											<cfif compare(detail,'')><p>#left(detail,200)#<cfif len(detail) gt 200>...</cfif></p></cfif>
 										</div>
@@ -281,7 +281,7 @@ $(document).ready(function(){
 												<cfif not compare(url.p,'')>
 													<a href="project.cfm?p=#projectID#">#projName#</a> : 
 												</cfif>
-												<a href="issue.cfm?p=#projectID#&i=#issueID#">#title#</a>
+												<a href="issue.cfm?p=#projectID#&amp;i=#issueID#">#title#</a>
 											</h4>
 											<cfif compare(description,'')><p>#left(description,200)#<cfif len(description) gt 200>...</cfif></p></cfif>
 										</div>

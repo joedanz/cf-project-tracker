@@ -48,7 +48,7 @@
 				<div class="content">
 	
 				<div id="slidediv" style="display:none;">
-				<form class="frm">
+				<form action="" class="frm">
 
 				<div id="existing"<cfif not people.recordCount> style="display:none;"</cfif>>
 				<fieldset>
@@ -58,7 +58,7 @@
 					<option value="#userID#"><cfif compare(lastName,'')>#lastName#, </cfif>#firstName#</option>
 				</cfloop>
 				</select>
-				with the <a href="editProject.cfm?p=#url.p#&showdef">default project permissions</a>
+				with the <a href="editProject.cfm?p=#url.p#&amp;showdef">default project permissions</a>
 				<input type="button" value="Add" class="button" onclick="add_existing('#url.p#');return false;" /> or <a href="##" onclick="$('##slidediv').slideUp(1000);return false;">cancel</a>
 				
 				</fieldset>
@@ -120,7 +120,7 @@
 					
 					<br style="clear:both;" />
 					
-					with the <a href="editProject.cfm?p=#url.p#&showdef">default project permissions</a>
+					with the <a href="editProject.cfm?p=#url.p#&amp;showdef">default project permissions</a>
 					<input type="button" value="Add" class="button" onclick="add_new('#url.p#');return false;" /> or <a href="##" onclick="$('##slidediv').slideUp(1000);return false;">cancel</a>
 
 				</fieldset>
@@ -132,10 +132,10 @@
 					<div class="wrapper" id="replace">
 
 				 		<cfloop query="projectUsers">
-						<div class="user" id="#userID#">
+						<div class="user" id="u#userID#">
 		 		
 					 		<h4 class="b">#firstName# #lastName#&nbsp;
-								<span style="font-weight:normal;font-size:.9em;">(<span id="ut_#replace(userid,'-','','ALL')#"><cfif admin>Admin<cfelse>User</cfif></span>)<cfif session.user.admin>&nbsp; [<a href="./admin/editUser.cfm?from=people&p=#url.p#&u=#userid#">edit</a>]</cfif></span>
+								<span style="font-weight:normal;font-size:.9em;">(<span id="ut_#replace(userid,'-','','ALL')#"><cfif admin>Admin<cfelse>User</cfif></span>)<cfif session.user.admin>&nbsp; [<a href="./admin/editUser.cfm?from=people&amp;p=#url.p#&amp;u=#userid#">edit</a>]</cfif></span>
 							</h4>
 					 		<cfif compare(email,'')><a href="mailto:#email#">#email#</a><br /></cfif>
 					 		<cfif compare(phone,'')>#request.udf.phoneFormat(phone,"(xxx) xxx-xxxx")#
@@ -147,9 +147,9 @@
 					 		
 					 		<cfif admin or session.user.admin>
 						 		<div style="font-size:.9em;margin-top:3px;">[
-							 		<a href="userPermissions.cfm?u=#userID#&p=#url.p#">edit permissions</a> /
-							 		<cfif userid neq project.ownerid><a href="##" onclick="remove_user('#url.p#','#userID#','#lastName#','#firstName#');$('###userID#').fadeOut(500);return false;">remove from project</a><cfelse><span class="b">project owner</span>
-							 		 / <a href="#cgi.script_name#?p=#url.p#&mo=#userID#">make owner</a></cfif>
+							 		<a href="userPermissions.cfm?u=#userID#&amp;p=#url.p#">edit permissions</a> /
+							 		<cfif userid neq project.ownerid><a href="##" onclick="remove_user('#url.p#','#userID#','#lastName#','#firstName#');$('##u#userID#').fadeOut(500);return false;">remove from project</a><cfelse><span class="b">project owner</span>
+							 		 / <a href="#cgi.script_name#?p=#url.p#&amp;mo=#userID#">make owner</a></cfif>
 							 	]</div>
 					 		</cfif>
 					 		
@@ -186,7 +186,7 @@
 		<div class="content">
 			<ul>
 				<cfloop query="proj_admins">
-					<li>#firstName# #lastName#<cfif (admin or session.user.admin) and userid neq project.ownerid> <span style="font-size:.8em;">(<a href="#cgi.script_name#?p=#url.p#&mo=#userID#">make owner</a>)</span></cfif></li>
+					<li>#firstName# #lastName#<cfif (admin or session.user.admin) and userid neq project.ownerid> <span style="font-size:.8em;">(<a href="#cgi.script_name#?p=#url.p#&amp;mo=#userID#">make owner</a>)</span></cfif></li>
 				</cfloop>
 			</ul>
 		</div>

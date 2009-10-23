@@ -158,7 +158,7 @@ $(document).ready(function(){
 						<cfset thisRow = 1>
 						<cfloop query="issues">
 						<tr class="<cfif thisRow mod 2 eq 0>even<cfelse>odd</cfif>">
-							<td><a href="issue.cfm?p=#projectID#&i=#issueID#">#shortID#</a></td>
+							<td><a href="issue.cfm?p=#projectID#&amp;i=#issueID#">#shortID#</a></td>
 							<td><a href="project.cfm?p=#projectID#">#name#</a></td>
 							<td>#issue#</td>
 							<td>#type#</td>
@@ -197,8 +197,8 @@ $(document).ready(function(){
 		<form action="#cgi.script_name#" method="post">
 		<div class="b">Show issues assigned to:</div>
 		<select name="assignedTo" onchange="this.form.submit();">
-			<option value="">Anyone</a>
-			<option value="#session.user.userid#"<cfif not compare(session.assignedTo,session.user.userID)> selected="selected"</cfif>>Me (#session.user.firstName# #session.user.lastName#)</a>
+			<option value="">Anyone</option>
+			<option value="#session.user.userid#"<cfif not compare(session.assignedTo,session.user.userID)> selected="selected"</cfif>>Me (#session.user.firstName# #session.user.lastName#)</option>
 			<cfloop query="projectUsers">
 				<cfif compare(session.user.userid,userID)>
 				<option value="#userID#"<cfif not compare(session.assignedTo,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>

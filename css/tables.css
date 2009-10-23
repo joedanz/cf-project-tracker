@@ -67,10 +67,10 @@ table#milestone_cal tr td ul.cal_ms { list-style:none; }
 table#milestone_cal tr td ul.cal_ms li { list-style-type:none; }
 table#milestone_cal tr td.mth { background-color:#fff; color:#000; font-size:1.1em; font-weight:bold; text-align:right; padding:3px; width:35px; }
 
-table#alltodos { width:100%; }
-table#alltodos tr td { border-top:1px solid #ccc; padding:5px; vertical-align:top; }
-table#alltodos tr td:first-child { background-color:#eee; text-align:right; width:28%; font-weight:bold; }
-table#alltodos li { list-style-type:none; margin-bottom:5px; }
+table.alltodos { width:100%; }
+table.alltodos tr td { border-top:1px solid #ccc; padding:5px; vertical-align:top; }
+table.alltodos tr td:first-child { background-color:#eee; text-align:right; width:28%; font-weight:bold; }
+table.alltodos li { list-style-type:none; margin-bottom:5px; }
 
 table.perms {
 	width:350px;

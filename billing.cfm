@@ -51,7 +51,7 @@
 						<fieldset class="bill mb15">
 							<legend>Incomplete Milestones</legend>
 	
-							<table class="clean full" id="time">
+							<table class="clean full" id="msinc">
 							 	<thead>
 									<tr>
 										<th class="first">Due Date</th>
@@ -98,7 +98,7 @@
 						<fieldset class="bill mb15">
 							<legend>Completed Milestones</legend>
 							
-							<table class="clean full" id="time">
+							<table class="clean full" id="mscomp">
 							 	<thead>
 									<tr>
 										<th class="first">Due Date</th>

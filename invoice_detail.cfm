@@ -108,7 +108,7 @@
 								<a href="todos.cfm?p=#projectID###id_#replace(todolistID,'-','','all')#">#task#</a>		
 							</cfcase>		
 							<cfcase value="issue">
-								<a href="issue.cfm?p=#projectID#&i=#itemID#"> #issue#</a>
+								<a href="issue.cfm?p=#projectID#&amp;i=#itemID#"> #issue#</a>
 							</cfcase>	
 						</cfswitch>
 						</cfif>#description#</td>

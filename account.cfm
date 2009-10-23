@@ -176,16 +176,17 @@
 							<p>
 							<label for="carrier">Carrier:</label>
 							<select name="carrierID" id="carrier">
-								<option value=""></option>
+								<option value="">&nbsp;</option>
 						</cfoutput>								
 								<cfoutput query="application.carriers" group="country">
 								<optgroup label="#country#">
 								<cfoutput>
-								<option value="#carrierID#"<cfif not compare(user.carrierID,carrierID)> selected="selected"</cfif>>#carrier#</option>
+									<option value="#carrierID#"<cfif not compare(user.carrierID,carrierID)> selected="selected"</cfif>>#HTMLEditFormat(carrier)#</option>
 								</cfoutput>
+								</optgroup>
 								</cfoutput>
 						<cfoutput>
-							</select> <span style="font-size:85%;" class="i">(used for SMS notifications)
+							</select> <span style="font-size:85%;" class="i">(used for SMS notifications)</span>
 							</p>
 							<label for="submit1">&nbsp;</label>
 							<input type="submit" class="button" name="submit1" id="submit1" value="Update Account" onclick="return confirmSubmit1();" />				
@@ -207,7 +208,7 @@
 							<td class="tac"><img src="./images/<cfif not compareNoCase(session.user.userid,ownerid)>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(compareNoCase(session.user.userid,ownerid))#" /></td>
 							<td class="tac">#YesNoIcon('admin')#</td>
 							<td class="tac">[<a href="##p#currentRow#" rel="##p#currentRow#" title="#name# Permissions" class="jt">Show Popup</a>]</td>
-							<td class="tac"><a href="">[<a href="##n#currentRow#" rel="##n#currentRow#" title="#name# Notifications" class="jt">Show Popup</a> / <a href="projectNotify.cfm?p=#projectID#">Edit</a>]</a></td>
+							<td class="tac">[<a href="##n#currentRow#" rel="##n#currentRow#" title="#name# Notifications" class="jt">Show Popup</a> / <a href="projectNotify.cfm?p=#projectID#">Edit</a>]</td>
 							<td class="tac">[<a href="#cgi.script_name#?rp=#projectid###projects" onclick="return confirm('Are you sure you wish to remove yourself from this project?')">remove</a>]</td>
 						</tr>
 						</cfloop>
@@ -626,7 +627,7 @@
 		            </div>
 					<cfif application.isCF8 or application.isBD or application.isRailo>			
 		            <div id="avatar">
-						<form action="#cgi.script_name#" method="post" name="edit" class="frm" enctype="multipart/form-data">
+						<form action="#cgi.script_name#" method="post" name="editavatar" class="frm" enctype="multipart/form-data">
 							<p>
 							<label for="img">&nbsp;</label>
 							<cfif user.avatar eq 1>
@@ -646,7 +647,7 @@
 		            </div>
 					</cfif>
 		            <div id="skin">
-						<form action="#cgi.script_name#" method="post" name="edit" class="frm">
+						<form action="#cgi.script_name#" method="post" name="editstyle" class="frm">
 							<p>
 							<label for="headstyle">Your Style:</label>
 							<select name="style" id="headstyle">
@@ -662,10 +663,10 @@
 						</form>
 		            </div>
 		            <div id="locale">
-						<form action="#cgi.script_name#" method="post" name="edit" class="frm">
+						<form action="#cgi.script_name#" method="post" name="editlocale" class="frm">
 							<p>
-							<label for="locale">Your Locale:</label>
-							<select name="locale" id="locale">
+							<label for="yourlocale">Your Locale:</label>
+							<select name="locale" id="yourlocale">
 							<cfloop list="#Server.Coldfusion.SupportedLocales#" index="i">
 								<option value="#i#"<cfif not compare(i,session.locale)> selected="selected"</cfif>>#i#</option>
 							</cfloop>				

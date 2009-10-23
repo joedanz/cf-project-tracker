@@ -78,7 +78,7 @@
 							<cfset thisRow = 1>
 							<cfloop collection="#path#" item="resource">
 							<cfset filebreaker = request.udf.RFind('/',resource)>
-								#thisRow#: <cfif filebreaker gt 1 and find('.',resource)><a href="svnResource.cfm?p=#url.p#&wd=#URLEncodedFormat(left(resource,filebreaker-1))#&f=#right(resource,len(resource)-filebreaker)#" class="nounder">#resource#</a><cfelse>#resource#</cfif><br />
+								#thisRow#: <cfif filebreaker gt 1 and find('.',resource)><a href="svnResource.cfm?p=#url.p#&amp;wd=#URLEncodedFormat(left(resource,filebreaker-1))#&amp;f=#right(resource,len(resource)-filebreaker)#" class="nounder">#resource#</a><cfelse>#resource#</cfif><br />
 								<cfset thisRow = thisRow + 1>
 							</cfloop>
 							</td></tr>

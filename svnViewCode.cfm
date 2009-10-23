@@ -51,7 +51,7 @@
 							<cfelse>
 								<cfset buildPath = buildPath & i>
 							</cfif>
-							/ <a href="#cgi.script_name#?p=#url.p#&wd=#buildPath#" class="nounder">#replace(replace(buildPath,prevBuildPath,''),'/','','all')#</a>
+							/ <a href="#cgi.script_name#?p=#url.p#&amp;wd=#buildPath#" class="nounder">#replace(replace(buildPath,prevBuildPath,''),'/','','all')#</a>
 						</cfloop>
 						
 						</caption>
@@ -73,7 +73,7 @@
 							<td>#LSDateFormat(fileQ.date,"ddd mmm d 'yy")# @ <cfif application.settings.clockHours eq 12>#LSTimeFormat(fileQ.date,"h:mmtt")#<cfelse>#LSTimeFormat(fileQ.date,"HH:mm")#</cfif></td>
 							<td>#fileQ.revision#</td>
 							<td>#fileQ.author#</td>
-							<td><a href="svnGetFile.cfm?p=#url.p#&wd=#url.wd#&f=#url.f#&r=#url.r#" class="nounder">download file</a></td>
+							<td><a href="svnGetFile.cfm?p=#url.p#&amp;wd=#url.wd#&amp;f=#url.f#&amp;r=#url.r#" class="nounder">download file</a></td>
 						</tr>
 					</table>
 

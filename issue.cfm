@@ -109,29 +109,29 @@
 				<div class="header" style="margin-bottom:0;">
 				<cfif session.user.admin or project.issue_edit eq 1>
 				<span class="rightmenu">
-					<a href="editIssue.cfm?p=#url.p#&i=#url.i#" class="edit">Edit</a> 
+					<a href="editIssue.cfm?p=#url.p#&amp;i=#url.i#" class="edit">Edit</a> 
 					<cfif session.user.admin or project.issue_assign eq 1>
 						<cfif not compare(issue.assignedTo,'')>
 							| <span style="position:relative;"><a href="##" onclick="$('##assignmenu').slideToggle();return false;" class="assign">Assign Ticket To...</a>
 								<ul id="assignmenu">
-									<li><a href="#cgi.script_name#?p=#url.p#&i=#url.i#&u=#session.user.userID#&assign=1" class="b">Myself</a></li>
+									<li><a href="#cgi.script_name#?p=#url.p#&amp;i=#url.i#&amp;u=#session.user.userID#&amp;assign=1" class="b">Myself</a></li>
 									<cfloop query="projectUsers">
 									<cfif compare(userID,session.user.userID)>
-										<li><a href="#cgi.script_name#?p=#url.p#&i=#url.i#&u=#userID#&assign=1">#firstName# #lastName#</a></li>
+										<li><a href="#cgi.script_name#?p=#url.p#&amp;i=#url.i#&amp;u=#userID#&amp;assign=1">#firstName# #lastName#</a></li>
 									</cfif>
 									</cfloop>
 								</ul>
 							  </span>
 						<cfelseif not listFind('Closed,Resolved',issue.status) and not compare(issue.assignedTo,session.user.userid)>
-							| <a href="#cgi.script_name#?p=#url.p#&i=#url.i#&unaccept=1" class="cancel">Unaccept Ticket</a>
+							| <a href="#cgi.script_name#?p=#url.p#&amp;i=#url.i#&amp;unaccept=1" class="cancel">Unaccept Ticket</a>
 						</cfif>
 					</cfif>
 					<cfif listFind('Accepted,Assigned',issue.status) and (session.user.admin or project.issue_resolve eq 1)>
 						| <a href="##" onclick="$('##resolve').slideToggle(300);return false;" class="close">Resolve Ticket</a>
 					<cfelseif not compare(issue.status,'Resolved') and (session.user.admin or project.issue_close eq 1)>
-						| <a href="#cgi.script_name#?p=#url.p#&i=#url.i#&close=1" class="close">Close Ticket</a>
+						| <a href="#cgi.script_name#?p=#url.p#&amp;i=#url.i#&amp;close=1" class="close">Close Ticket</a>
 					<cfelseif not compare(issue.status,'Closed')>
-						| <a href="#cgi.script_name#?p=#url.p#&i=#url.i#&reopen=1" class="close">Reopen Ticket</a>
+						| <a href="#cgi.script_name#?p=#url.p#&amp;i=#url.i#&amp;reopen=1" class="close">Reopen Ticket</a>
 					</cfif>
 				</span>
 				</cfif>
@@ -196,7 +196,7 @@
 							</tr>
 							<tr>
 								<td class="label">Milestone:</td>
-								<td><cfif compare(issue.milestone,'')><a href="milestone.cfm?p=#url.p#&m=#issue.milestoneID#">#issue.milestone#</a><cfelse><span class="g">&lt;none&gt;</span></cfif></td>
+								<td><cfif compare(issue.milestone,'')><a href="milestone.cfm?p=#url.p#&amp;m=#issue.milestoneID#">#issue.milestone#</a><cfelse><span class="g">&lt;none&gt;</span></cfif></td>
 							</tr>			
 						</table>
 					
@@ -257,7 +257,7 @@
 						</table>	
 
 						<div class="attachbar">
-							<cfif session.user.admin or project.issue_edit eq 1><span style="float:right;margin-top:2px;"><a href="editScreen.cfm?p=#url.p#&i=#url.i#" class="button2 nounder">Upload Screenshot</a></span></cfif>
+							<cfif session.user.admin or project.issue_edit eq 1><span style="float:right;margin-top:2px;"><a href="editScreen.cfm?p=#url.p#&amp;i=#url.i#" class="button2 nounder">Upload Screenshot</a></span></cfif>
 							Screenshots (#screenshots.recordCount#)
 						</div>						
 						<cfif screenshots.recordCount>
@@ -281,8 +281,8 @@
 										<td>#ceiling(filesize/1024)#K</td>
 										<td>#LSDateFormat(DateAdd("h",session.tzOffset,uploaded),"medium")#</td>
 										<cfif not compareNoCase(session.user.userID,uploadedBy) or session.user.admin>
-											<td><a href="editScreen.cfm?p=#url.p#&i=#url.i#&f=#fileID#" class="edit">Edit</a></td>
-											<td><a href="#cgi.script_name#?p=#url.p#&i=#url.i#&ds=#fileID#" class="delete" onclick="return confirm('Are you sure you wish to delete this screenshot?');">Delete</a></td>										
+											<td><a href="editScreen.cfm?p=#url.p#&amp;i=#url.i#&amp;f=#fileID#" class="edit">Edit</a></td>
+											<td><a href="#cgi.script_name#?p=#url.p#&amp;i=#url.i#&amp;ds=#fileID#" class="delete" onclick="return confirm('Are you sure you wish to delete this screenshot?');">Delete</a></td>										
 										</cfif>
 									</tr>
 								</cfloop>
@@ -449,7 +449,7 @@
 								<cfloop query="attachments">
 									<tr>
 										<td>#title#</td>
-										<td><a href="download.cfm?p=#url.p#&f=#fileID#" class="#lcase(filetype)#">#filename#</a></td>
+										<td><a href="download.cfm?p=#url.p#&amp;f=#fileID#" class="#lcase(filetype)#">#filename#</a></td>
 										<td>#category#</td>
 										<td>#ceiling(filesize/1024)#K</td>
 										<td>#LSDateFormat(uploaded,"medium")#</td>
@@ -478,7 +478,7 @@
 						</cfloop>						
 						
 						<cfif session.user.admin or project.issue_comment eq 1>
-						<form action="#cgi.script_name#?p=#url.p#&i=#url.i#" method="post" name="add" id="add" class="frm" onsubmit="return confirm_comment();">
+						<form action="#cgi.script_name#?p=#url.p#&amp;i=#url.i#" method="post" name="add" id="add" class="frm" onsubmit="return confirm_comment();">
 						<div class="b">Post a new comment...</div>
 						<cfscript>
 							basePath = 'includes/fckeditor/';

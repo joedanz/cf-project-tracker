@@ -203,12 +203,12 @@ $(document).ready(function(){
 								<ul class="cal_ms">
 									<cfif todays_ms.recordCount>
 										<cfloop query="todays_ms">
-											<li><a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a> (<a href="project.cfm?p=#projectID#">#projName#</a>) (milestone)</li>
+											<li><a href="milestone.cfm?p=#projectID#&amp;m=#milestoneID#">#name#</a> (<a href="project.cfm?p=#projectID#">#projName#</a>) (milestone)</li>
 										</cfloop>
 									</cfif>
 									<cfif todays_issues.recordCount>
 										<cfloop query="todays_issues">
-											<li><a href="issue.cfm?p=#projectID#&i=#issueID#">#issue#</a> (<a href="project.cfm?p=#projectID#">#name#</a>) (issue)</li>
+											<li><a href="issue.cfm?p=#projectID#&amp;i=#issueID#">#issue#</a> (<a href="project.cfm?p=#projectID#">#name#</a>) (issue)</li>
 										</cfloop>
 									</cfif>
 								</ul>
@@ -226,7 +226,7 @@ $(document).ready(function(){
 						<cfloop query="milestones_overdue">
 							<cfset daysago = DateDiff("d",dueDate,Now())>
 						<li><span class="b" style="color:##f00;"><cfif daysago eq 0>Today<cfelse>#daysago# day<cfif daysago neq 1>s</cfif> ago</cfif>:</span> 
-							<a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a>
+							<a href="milestone.cfm?p=#projectID#&amp;m=#milestoneID#">#name#</a>
 							<span class="sm">(<a href="project.cfm?p=#projectID#" class="b">#projName#</a><cfif compare(lastName,'')> | #firstName# #lastName# is responsible</cfif>)</span>
 						</li>
 						</cfloop>
@@ -244,7 +244,7 @@ $(document).ready(function(){
 						<cfloop query="milestones_upcoming">
 							<cfset daysDiff = DateDiff("d",CreateDate(year(Now()),month(Now()),day(Now())),dueDate)>
 						<li><span class="b"><cfif daysDiff eq 0>Today<cfelseif daysDiff eq 1>Tomorrow<cfelse>#daysDiff# days away</cfif>:</span> 
-							<a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a>
+							<a href="milestone.cfm?p=#projectID#&amp;m=#milestoneID#">#name#</a>
 							<span class="sm">(<a href="project.cfm?p=#projectID#" class="b">#projName#</a><cfif compare(lastName,'')> | #firstName# #lastName# is responsible</cfif>)</span>
 						</li>
 						</cfloop>
@@ -274,12 +274,12 @@ $(document).ready(function(){
 					<cfset thisRow = 1>
 					<cfloop query="issues">
 					<tr>
-						<td><a href="issue.cfm?p=#projectID#&i=#issueID#">#shortID#</a></td>
+						<td><a href="issue.cfm?p=#projectID#&amp;i=#issueID#">#shortID#</a></td>
 						<td><a href="project.cfm?p=#projectID#">#name#</a></td>
 						<td>#type#</td>
 						<td>#severity#</td>
 						<td>#status#</td>
-						<td><a href="issue.cfm?p=#projectID#&i=#issueID#">#issue#</a></td>
+						<td><a href="issue.cfm?p=#projectID#&amp;i=#issueID#">#issue#</a></td>
 						<td>#assignedFirstName# #assignedLastName#</td>
 						<td>#LSDateFormat(DateAdd("h",session.tzOffset,created),"mmm dd, yyyy")#</td>
 						<td><cfif isDate(updated)>#DateFormat(DateAdd("h",session.tzOffset,updated),"mmm dd, yyyy")#</cfif></td>
@@ -296,7 +296,7 @@ $(document).ready(function(){
 					<cfif activity.recordCount>
 					<div style="border:1px solid ##ddd;">
 					<div style="background-color:##eee;font-weight:bold;font-size:1.2em;padding:5px;margin-bottom:1px;">
-					<span class="feedlink"><a href="rss.cfm?u=#session.user.userID#&type=allact" class="feed">RSS Feed</a></span>Recent Activity
+					<span class="feedlink"><a href="rss.cfm?u=#session.user.userID#&amp;type=allact" class="feed">RSS Feed</a></span>Recent Activity
 					</div>
 					<table class="activity full tablesorter" id="activity">
 						<thead>
@@ -329,14 +329,14 @@ $(document).ready(function(){
 								</cfswitch>	
 							</div></td>
 							<td><cfswitch expression="#type#">
-									<cfcase value="Issue"><a href="issue.cfm?p=#projectID#&i=#id#">#name#</a></cfcase>		
-									<cfcase value="Message"><a href="message.cfm?p=#projectID#&m=#id#">#name#</a></cfcase>
-									<cfcase value="Milestone"><a href="milestones.cfm?p=#projectID#&m=#id#">#name#</a></cfcase>
+									<cfcase value="Issue"><a href="issue.cfm?p=#projectID#&amp;i=#id#">#name#</a></cfcase>		
+									<cfcase value="Message"><a href="message.cfm?p=#projectID#&amp;m=#id#">#name#</a></cfcase>
+									<cfcase value="Milestone"><a href="milestones.cfm?p=#projectID#&amp;m=#id#">#name#</a></cfcase>
 									<cfcase value="To-Do"><a href="todos.cfm?p=#projectID###id_#id#">#name#</a></cfcase>
-									<cfcase value="To-Do List"><a href="todos.cfm?p=#projectID#&t=#id#">#name#</a></cfcase>
-									<cfcase value="File"><a href="files.cfm?p=#projectID#&f=#id#">#name#</a></cfcase>
+									<cfcase value="To-Do List"><a href="todos.cfm?p=#projectID#&amp;t=#id#">#name#</a></cfcase>
+									<cfcase value="File"><a href="files.cfm?p=#projectID#&amp;f=#id#">#name#</a></cfcase>
 									<cfcase value="Project"><a href="project.cfm?p=#projectID#">#name#</a></cfcase>
-									<cfcase value="Screenshot"><a href="issue.cfm?p=#projectID#&i=#id###screen">#name#</a></cfcase>
+									<cfcase value="Screenshot"><a href="issue.cfm?p=#projectID#&amp;i=#id###screen">#name#</a></cfcase>
 									<cfdefaultcase>#name#</cfdefaultcase>
 								</cfswitch>
 								</td>
@@ -418,7 +418,7 @@ $(document).ready(function(){
 		<div class="content">
 			<ul>
 				<cfloop query="allow_reg_projects">
-					<li><a href="#cgi.script_name#?reg=1&p=#projectID#">#name#</a></li>
+					<li><a href="#cgi.script_name#?reg=1&amp;p=#projectID#">#name#</a></li>
 				</cfloop>
 			</ul>
 		</div>

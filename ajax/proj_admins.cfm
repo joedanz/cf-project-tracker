@@ -14,7 +14,7 @@
 <div class="content">
 	<ul>
 		<cfloop query="proj_admins">
-			<li>#firstName# #lastName#<cfif (project.admin or session.user.admin) and userid neq project.ownerid> <span style="font-size:.8em;">(<a href="#cgi.script_name#?p=#url.p#&mo=#userID#">make owner</a>)</span></cfif></li>
+			<li>#firstName# #lastName#<cfif (project.admin or session.user.admin) and userid neq project.ownerid> <span style="font-size:.8em;">(<a href="#cgi.script_name#?p=#url.p#&amp;mo=#userID#">make owner</a>)</span></cfif></li>
 		</cfloop>
 	</ul>
 </div>

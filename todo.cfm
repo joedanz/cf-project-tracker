@@ -46,11 +46,11 @@
 				<div class="header">
 					<cfif session.user.admin or project.todolist_view eq 1>
 					<span class="rightmenu">
-						<a href="todos.cfm?p=#url.p#&t=#todo.todolistid#" class="back">View complete to-do list</a>
+						<a href="todos.cfm?p=#url.p#&amp;t=#todo.todolistid#" class="back">View complete to-do list</a>
 					</span>
 					</cfif>
 					
-					<h2 class="comments">Comments on this to-do from <a href="todos.cfm?p=#url.p#&t=#todo.todolistid#">#todolist.title#</a></h2>
+					<h2 class="comments">Comments on this to-do from <a href="todos.cfm?p=#url.p#&amp;t=#todo.todolistid#">#todolist.title#</a></h2>
 				</div>
 				<div class="content">
 				 	<div class="wrapper">

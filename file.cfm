@@ -41,13 +41,13 @@
 				<span class="rightmenu">
 					<a href="files.cfm?p=#url.p#" class="back">Back</a>
 					<cfif file.uploadedBy eq session.user.userID or session.user.admin>
-						| <a href="editFile.cfm?p=#url.p#&f=#url.f#&fh=#hash(url.f)#" class="edit">Edit</a>
-						| <a href="files.cfm?p=#url.p#&df=#url.f#&dfh=#hash(url.f)#" class="delete" onclick="return confirm('Are you sure you wish to delete this file and all associated comments?')">Delete</a>
+						| <a href="editFile.cfm?p=#url.p#&amp;f=#url.f#&amp;fh=#hash(url.f)#" class="edit">Edit</a>
+						| <a href="files.cfm?p=#url.p#&amp;df=#url.f#&amp;dfh=#hash(url.f)#" class="delete" onclick="return confirm('Are you sure you wish to delete this file and all associated comments?')">Delete</a>
 					</cfif>
 				</span>
 				
 				<h2 class="files">#file.title#</h2>
-				<h4>posted by #file.firstName# #file.lastName# in <a href="files.cfm?p=#url.p#&c=#file.categoryID#">#file.category#</a> on #LSDateFormat(DateAdd("h",session.tzOffset,file.uploaded),"ddd, d mmm")# at <cfif application.settings.clockHours eq 12>#LSTimeFormat(DateAdd("h",session.tzOffset,file.uploaded),"h:mmtt")#<cfelse>#LSTimeFormat(DateAdd("h",session.tzOffset,file.uploaded),"HH:mm")#</cfif></h4>
+				<h4>posted by #file.firstName# #file.lastName# in <a href="files.cfm?p=#url.p#&amp;c=#file.categoryID#">#file.category#</a> on #LSDateFormat(DateAdd("h",session.tzOffset,file.uploaded),"ddd, d mmm")# at <cfif application.settings.clockHours eq 12>#LSTimeFormat(DateAdd("h",session.tzOffset,file.uploaded),"h:mmtt")#<cfelse>#LSTimeFormat(DateAdd("h",session.tzOffset,file.uploaded),"HH:mm")#</cfif></h4>
 				
 			</div>
 			<div class="content">
@@ -76,7 +76,7 @@
 					</cfloop>
 					
 					<cfif session.user.admin or project.file_edit>
-					<form action="#cgi.script_name#?p=#url.p#&f=#url.f#" method="post" name="add" id="add" class="frm" onsubmit="return confirm_comment();">
+					<form action="#cgi.script_name#?p=#url.p#&amp;f=#url.f#" method="post" name="add" id="add" class="frm" onsubmit="return confirm_comment();">
 					<div class="b">Post a new comment...</div>
 					<cfscript>
 						basePath = 'includes/fckeditor/';

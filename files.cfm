@@ -41,11 +41,7 @@
 	<div class="left">
 		<div class="main">
 
-				<div class="header">
-					<span class="rightmenu">
-						
-					</span>
-										
+				<div class="header">		
 					<h2 class="files">
 					<cfif compare(url.c,'')>
 						<cfset category = application.category.get(url.p,'file',url.c)>
@@ -94,13 +90,13 @@
 							<cfelse>
 							#Int(filesize/1024)#K,
 							</cfif>
-							uploaded to <a href="#cgi.script_name#?p=#url.p#&c=#categoryID#">#category#</a> by #firstName# #lastName# on #LSDateFormat(DateAdd("h",session.tzOffset,uploaded),"mmm d")#
-							| <a href="download.cfm?p=#url.p#&f=#fileID#" class="download">Download</a>
+							uploaded to <a href="#cgi.script_name#?p=#url.p#&amp;c=#categoryID#">#category#</a> by #firstName# #lastName# on #LSDateFormat(DateAdd("h",session.tzOffset,uploaded),"mmm d")#
+							| <a href="download.cfm?p=#url.p#&amp;f=#fileID#" class="download">Download</a>
 							<cfif session.user.userID eq uploadedBy or session.user.admin>
-							| <a href="editFile.cfm?p=#url.p#&f=#fileID#" class="edit">Edit</a>
-							| <a href="#cgi.script_name#?p=#url.p#&df=#fileID#&dfh=#hash(fileID)#" class="delete" onclick="return confirm('<cfif attached.recordCount>This file is currently attached to <cfif isDefined("msgAttached") and isDefined("issueAttached")> a message and issue<cfelseif isDefined("msgAttached")>a message<cfelseif isDefined("issueAttached")>an issue</cfif>.\n</cfif>Are you sure you wish to delete this file?');">Delete</a>
+							| <a href="editFile.cfm?p=#url.p#&amp;f=#fileID#" class="edit">Edit</a>
+							| <a href="#cgi.script_name#?p=#url.p#&amp;df=#fileID#&amp;dfh=#hash(fileID)#" class="delete" onclick="return confirm('<cfif attached.recordCount>This file is currently attached to <cfif isDefined("msgAttached") and isDefined("issueAttached")> a message and issue<cfelseif isDefined("msgAttached")>a message<cfelseif isDefined("issueAttached")>an issue</cfif>.\n</cfif>Are you sure you wish to delete this file?');">Delete</a>
 							</cfif>
-							| <a href="file.cfm?p=#url.p#&f=#fileID#" class="comment"><cfif commentCount gt 0>#commentCount# Comments<cfelse>Post the first comment</cfif></a>
+							| <a href="file.cfm?p=#url.p#&amp;f=#fileID#" class="comment"><cfif commentCount gt 0>#commentCount# Comments<cfelse>Post the first comment</cfif></a>
 							</div>
 							</div>
 							</cfoutput>
@@ -132,8 +128,8 @@
 		<div class="header"><h3>Sort by</h3></div>
 		<div class="content">
 			<ul class="nobullet">
-				<li><input type="radio" name="sort" value="date"<cfif not compare(session.user.fileorder,'date')> checked="checked"</cfif> onclick="window.location='#cgi.script_name#?p=#url.p#&c=#url.c#&o=date'" /> Date and time</li>
-				<li><input type="radio" name="sort" value="alpha"<cfif not compare(session.user.fileorder,'alpha')> checked="checked"</cfif> onclick="window.location='#cgi.script_name#?p=#url.p#&c=#url.c#&o=alpha'" /> A-Z</li>
+				<li><input type="radio" name="sort" value="date"<cfif not compare(session.user.fileorder,'date')> checked="checked"</cfif> onclick="window.location='#cgi.script_name#?p=#url.p#&amp;c=#url.c#&amp;o=date'" /> Date and time</li>
+				<li><input type="radio" name="sort" value="alpha"<cfif not compare(session.user.fileorder,'alpha')> checked="checked"</cfif> onclick="window.location='#cgi.script_name#?p=#url.p#&amp;c=#url.c#&amp;o=alpha'" /> A-Z</li>
 			</ul>		
 		</div>
 		
@@ -141,7 +137,7 @@
 		<div class="content">
 			<ul>
 				<cfloop query="categories">
-					<li><a href="#cgi.script_name#?p=#url.p#&c=#categoryID#"<cfif not compareNoCase(url.c,categoryID)> class="b"</cfif>>#category#</a></li>
+					<li><a href="#cgi.script_name#?p=#url.p#&amp;c=#categoryID#"<cfif not compareNoCase(url.c,categoryID)> class="b"</cfif>>#category#</a></li>
 				</cfloop>
 			</ul>
 		</div>

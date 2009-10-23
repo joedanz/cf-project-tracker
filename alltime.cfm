@@ -135,8 +135,8 @@
 		<form action="#cgi.script_name#" method="post">
 		<div class="b">Show time tracking assigned to:</div>
 		<select name="assignedTo" onchange="this.form.submit();">
-			<option value="">Anyone</a>
-			<option value="#session.user.userid#"<cfif not compare(session.assignedTo,session.user.userID)> selected="selected"</cfif>>Me (#session.user.firstName# #session.user.lastName#)</a>
+			<option value="">Anyone</option>
+			<option value="#session.user.userid#"<cfif not compare(session.assignedTo,session.user.userID)> selected="selected"</cfif>>Me (#session.user.firstName# #session.user.lastName#)</option>
 			<cfloop query="projectUsers">
 				<cfif compare(session.user.userid,userID)>
 				<option value="#userID#"<cfif not compare(session.assignedTo,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>

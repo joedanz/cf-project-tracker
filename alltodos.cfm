@@ -61,7 +61,7 @@
 					<cfoutput query="todos" group="name">
 						<h3 class="padtop padbottom list"><a href="project.cfm?p=#projectID#">#name#</a></h3>
 						
-						<table id="alltodos">	
+						<table class="alltodos">	
 							<cfoutput group="title">
 								<cfquery name="todos_notcompleted" dbtype="query">
 									select * from todos where todolistID = '#todolistID#' and completed IS NULL
@@ -72,7 +72,7 @@
 								</cfquery>
 								<cfif todos_notcompleted.recordCount>
 								<tr>
-									<td><a href="todos.cfm?p=#projectID#&t=#todolistID#">#title#</a></td>
+									<td><a href="todos.cfm?p=#projectID#&amp;t=#todolistID#">#title#</a></td>
 									<td>
 										<ul>
 										<cfoutput>
@@ -116,8 +116,8 @@
 		<form action="#cgi.script_name#" method="post">
 		<div class="b">Show to-dos assigned to:</div>
 		<select name="assignedTo" onchange="this.form.submit();">
-			<option value="">Anyone</a>
-			<option value="#session.user.userid#"<cfif not compare(session.assignedTo,session.user.userID)> selected="selected"</cfif>>Me (#session.user.firstName# #session.user.lastName#)</a>
+			<option value="">Anyone</option>
+			<option value="#session.user.userid#"<cfif not compare(session.assignedTo,session.user.userID)> selected="selected"</cfif>>Me (#session.user.firstName# #session.user.lastName#)</option>
 			<cfloop query="distinctProjectUsers">
 				<cfif compare(session.user.userid,userID)>
 				<option value="#userID#"<cfif not compare(session.assignedTo,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>

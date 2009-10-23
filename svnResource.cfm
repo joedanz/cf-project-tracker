@@ -33,7 +33,7 @@
 		<div class="main">
 
 			<div class="header">
-				<span class="rightmenu"><a href="svnBrowse.cfm?p=#url.p#&wd=#url.wd#" class="back">Back to Repository Browsing</a></span>
+				<span class="rightmenu"><a href="svnBrowse.cfm?p=#url.p#&amp;wd=#url.wd#" class="back">Back to Repository Browsing</a></span>
 				
 				<h2 class="svn">Subversion source browsing</h2>
 			</div>
@@ -57,7 +57,7 @@
 						<cfelse>
 							<cfset buildPath = buildPath & i>
 						</cfif>
-						/ <a href="svnBrowse.cfm?p=#url.p#&wd=#buildPath#" class="nounder">#replace(replace(buildPath,prevBuildPath,''),'/','','all')#</a>
+						/ <a href="svnBrowse.cfm?p=#url.p#&amp;wd=#buildPath#" class="nounder">#replace(replace(buildPath,prevBuildPath,''),'/','','all')#</a>
 					</cfloop>
 					
 					</caption>
@@ -80,17 +80,17 @@
 						<tr class="<cfif numFiles mod 2 eq 0>odd<cfelse>even</cfif>">
 							<td>
 							<cfif listFindNoCase('cfm,cfc',fileExt)>
-								<a href="svnViewCode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(name)#&r=#revision#" class="nounder"><img src="images/file_cf.gif" height="16" width="16" border="0" alt="ColdFusion File" />
+								<a href="svnViewCode.cfm?p=#url.p#&amp;wd=#URLEncodedFormat(url.wd)#&amp;f=#URLEncodedFormat(name)#&amp;r=#revision#" class="nounder"><img src="images/file_cf.gif" height="16" width="16" border="0" alt="ColdFusion File" />
 							<cfelseif listFindNoCase('.htm,html',fileExt)>
-								<a href="svnViewCode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(name)#&r=#revision#" class="nounder"><img src="images/file_htm.gif" height="16" width="16" border="0" alt="HTML File" />
+								<a href="svnViewCode.cfm?p=#url.p#&amp;wd=#URLEncodedFormat(url.wd)#&amp;f=#URLEncodedFormat(name)#&amp;r=#revision#" class="nounder"><img src="images/file_htm.gif" height="16" width="16" border="0" alt="HTML File" />
 							<cfelseif not compareNoCase(fileExt,'js')>
-								<a href="svnViewCode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(name)#&r=#revision#" class="nounder"><img src="images/file.gif" height="16" width="16" border="0" alt="Javascript File" />
+								<a href="svnViewCode.cfm?p=#url.p#&amp;wd=#URLEncodedFormat(url.wd)#&amp;f=#URLEncodedFormat(name)#&amp;r=#revision#" class="nounder"><img src="images/file.gif" height="16" width="16" border="0" alt="Javascript File" />
 							<cfelseif not compareNoCase(fileExt,'css')>
-								<a href="svnViewCode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(name)#&r=#revision#" class="nounder"><img src="images/file.gif" height="16" width="16" border="0" alt="CSS File" />
+								<a href="svnViewCode.cfm?p=#url.p#&amp;wd=#URLEncodedFormat(url.wd)#&amp;f=#URLEncodedFormat(name)#&amp;r=#revision#" class="nounder"><img src="images/file.gif" height="16" width="16" border="0" alt="CSS File" />
 							<cfelseif listFindNoCase('png,jpg,gif,exe,pdf,doc,rtf,xls,ppt',fileExt)>
-								<a href="svnGetFile.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(name)#&r=#revision#" class="nounder"><img src="images/file.gif" height="16" width="16" border="0" alt="File" />
+								<a href="svnGetFile.cfm?p=#url.p#&amp;wd=#URLEncodedFormat(url.wd)#&amp;f=#URLEncodedFormat(name)#&amp;r=#revision#" class="nounder"><img src="images/file.gif" height="16" width="16" border="0" alt="File" />
 							<cfelse>
-								<a href="svnViewCode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(name)#&r=#revision#" class="nounder"><img src="images/file.gif" height="16" width="16" border="0" alt="File" />
+								<a href="svnViewCode.cfm?p=#url.p#&amp;wd=#URLEncodedFormat(url.wd)#&amp;f=#URLEncodedFormat(name)#&amp;r=#revision#" class="nounder"><img src="images/file.gif" height="16" width="16" border="0" alt="File" />
 							</cfif>
 							#name#</a></td>
 							<!---<cfset dt = request.udf.DateConvertISO8601(date,-getTimeZoneInfo().utcHourOffset)>--->
@@ -99,9 +99,9 @@
 							
 							
 							
-							<td class="tac"><a href="svnViewCode.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(name)#&r=#revision#"><img src="./images/zoom.gif" height="16" width="16" border="0" alt="View" /></a></td>
-							<td class="tac"><a href="svnGetFile.cfm?p=#url.p#&wd=#url.wd#&f=#name#&r=#revision#"><img src="./images/files_sm.gif" height="16" width="16" border="0" alt="Download" /></td>
-							<td class="tac"><cfif currentRow neq recordCount><a href="svnDiff.cfm?p=#url.p#&wd=#url.wd#&f=#URLEncodedFormat(name)#&r1=#revision[currentRow+1]#&r2=#revision#">Perform Diff</a><cfelse>&nbsp;</cfif></td>
+							<td class="tac"><a href="svnViewCode.cfm?p=#url.p#&amp;wd=#URLEncodedFormat(url.wd)#&amp;f=#URLEncodedFormat(name)#&amp;r=#revision#"><img src="./images/zoom.gif" height="16" width="16" border="0" alt="View" /></a></td>
+							<td class="tac"><a href="svnGetFile.cfm?p=#url.p#&amp;wd=#url.wd#&amp;f=#name#&amp;r=#revision#"><img src="./images/files_sm.gif" height="16" width="16" border="0" alt="Download" /></td>
+							<td class="tac"><cfif currentRow neq recordCount><a href="svnDiff.cfm?p=#url.p#&amp;wd=#url.wd#&amp;f=#URLEncodedFormat(name)#&amp;r1=#revision[currentRow+1]#&amp;r2=#revision#">Perform Diff</a><cfelse>&nbsp;</cfif></td>
 							<td>#author#</td>
 							<td>#message#</td>
 						</tr>						

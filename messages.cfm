@@ -46,8 +46,8 @@
 				<div class="header">
 					<cfif messages.recordCount>
 					<span class="rightmenu">
-						<cfif not compare(session.user.msgview,'full')><span class="current">Expanded View</span><cfelse><a href="#cgi.script_name#?p=#url.p#&v=full">Expanded View</a></cfif> | 
-						<cfif not compare(session.user.msgview,'list')><span class="current">List View</span><cfelse><a href="#cgi.script_name#?p=#url.p#&v=list">List View</a></cfif>
+						<cfif not compare(session.user.msgview,'full')><span class="current">Expanded View</span><cfelse><a href="#cgi.script_name#?p=#url.p#&amp;v=full">Expanded View</a></cfif> | 
+						<cfif not compare(session.user.msgview,'list')><span class="current">List View</span><cfelse><a href="#cgi.script_name#?p=#url.p#&amp;v=list">List View</a></cfif>
 					</span>
 					</cfif>
 					
@@ -79,7 +79,7 @@
 					<h3 class="padtop">#title#</h3>
 					<cfif commentCount>
 						<cfset comment = application.comment.get(url.p,'msg',messageID,'1')>
-						<a class="b" href="message.cfm?p=#url.p#&m=#messageID###comments">#commentCount# comment<cfif commentCount gt 1>s</cfif></a>
+						<a class="b" href="message.cfm?p=#url.p#&amp;m=#messageID###comments">#commentCount# comment<cfif commentCount gt 1>s</cfif></a>
 						<span style="color:##666;">
 						&nbsp;Last by #comment.firstName# #comment.lastName# on #LSDateFormat(DateAdd("h",session.tzOffset,comment.stamp),"ddd, mmm d")# at <cfif application.settings.clockHours eq 12>#LSTimeFormat(DateAdd("h",session.tzOffset,comment.stamp),"h:mmtt")#<cfelse>#LSTimeFormat(DateAdd("h",session.tzOffset,comment.stamp),"HH:mm")#</cfif>
 						</span>
@@ -87,11 +87,11 @@
 					<p>#message#</p>
 					<cfif compare(name,'')><div class="ms">Milestone: #name#</div></cfif>
 					<div class="byline">
-						Posted by #firstName# #lastName# in <a href="#cgi.script_name#?p=#url.p#&c=#categoryID#">#category#</a>
-						<cfif session.user.admin or project.msg_edit eq 1 or userID eq session.user.userID> | <a href="editMessage.cfm?p=#url.p#&m=#messageID#&mh=#hash(messageID)#" class="edit">Edit</a>
-						 | <a href="messages.cfm?p=#url.p#&dm=#messageID#&dmh=#hash(messageID)#" class="delete" onclick="return confirm('Are you sure you wish to delete this message and all associated comments?')">Delete</a></cfif>
-						<cfif allowComments> | <a href="message.cfm?p=#url.p#&m=#messageID###comments" class="comment"><cfif not commentCount>Post the first comment<cfelse>#commentCount# comment<cfif commentCount gt 1>s</cfif> posted</cfif></a></cfif>
-						<cfif attachcount gt 0> | <a href="message.cfm?p=#url.p#&m=#messageID###attach" class="attach">#attachcount# file<cfif attachcount gt 1>s</cfif> attached</a></cfif>
+						Posted by #firstName# #lastName# in <a href="#cgi.script_name#?p=#url.p#&amp;c=#categoryID#">#category#</a>
+						<cfif session.user.admin or project.msg_edit eq 1 or userID eq session.user.userID> | <a href="editMessage.cfm?p=#url.p#&amp;m=#messageID#&amp;mh=#hash(messageID)#" class="edit">Edit</a>
+						 | <a href="messages.cfm?p=#url.p#&amp;dm=#messageID#&amp;dmh=#hash(messageID)#" class="delete" onclick="return confirm('Are you sure you wish to delete this message and all associated comments?')">Delete</a></cfif>
+						<cfif allowComments> | <a href="message.cfm?p=#url.p#&amp;m=#messageID###comments" class="comment"><cfif not commentCount>Post the first comment<cfelse>#commentCount# comment<cfif commentCount gt 1>s</cfif> posted</cfif></a></cfif>
+						<cfif attachcount gt 0> | <a href="message.cfm?p=#url.p#&amp;m=#messageID###attach" class="attach">#attachcount# file<cfif attachcount gt 1>s</cfif> attached</a></cfif>
 					</div>
 					</div>
 					</cfloop>
@@ -112,10 +112,10 @@
 					</div>	
 					
 					<div style="float:right;width:120px;margin-right:20px;">
-					<cfif attachcount gt 0><a href="message.cfm?p=#url.p#&m=#messageID###attach" class="attach">#attachcount# file<cfif attachcount gt 1>s</cfif> attached</a></cfif>
+					<cfif attachcount gt 0><a href="message.cfm?p=#url.p#&amp;m=#messageID###attach" class="attach">#attachcount# file<cfif attachcount gt 1>s</cfif> attached</a></cfif>
 					</div>
 						
-					<a href="message.cfm?p=#url.p#&m=#messageID#" class="fs12">#title#</a><br />
+					<a href="message.cfm?p=#url.p#&amp;m=#messageID#" class="fs12">#title#</a><br />
 					by #firstName# #lastName# on #LSDateFormat(DateAdd("h",session.tzOffset,stamp),"ddd, d mmm")# at <cfif application.settings.clockHours eq 12>#LSTimeFormat(DateAdd("h",session.tzOffset,stamp),"h:mmtt")#<cfelse>#LSTimeFormat(DateAdd("h",session.tzOffset,stamp),"HH:mm")#</cfif>
 					</div>
 					</cfloop>
@@ -152,7 +152,7 @@
 		<div class="content">
 			<ul>
 				<cfloop query="categories">
-					<li><a href="#cgi.script_name#?p=#url.p#&c=#categoryID#"<cfif not compareNoCase(url.c,categoryID)> class="b"</cfif>>#category#</a></li>
+					<li><a href="#cgi.script_name#?p=#url.p#&amp;c=#categoryID#"<cfif not compareNoCase(url.c,categoryID)> class="b"</cfif>>#category#</a></li>
 				</cfloop>
 			</ul>
 		</div>
@@ -163,7 +163,7 @@
 		<div class="content">
 			<ul>
 				<cfloop query="milestones">
-					<li><a href="#cgi.script_name#?p=#url.p#&ms=#milestoneid#"<cfif not compareNoCase(url.ms,milestoneID)> class="b"</cfif>>#name#</a></li>
+					<li><a href="#cgi.script_name#?p=#url.p#&amp;ms=#milestoneid#"<cfif not compareNoCase(url.ms,milestoneID)> class="b"</cfif>>#name#</a></li>
 				</cfloop>
 			</ul>
 		</div>
@@ -174,7 +174,7 @@
 		<div class="content">
 			<ul>
 				<cfloop query="dates">
-					<li><a href="#cgi.script_name#?p=#url.p#&m=#m#&y=#y#"<cfif not compareNoCase(url.m,m) and not compareNoCase(url.y,y)> class="b"</cfif>>#monthAsString(m)# #y#</a></li>
+					<li><a href="#cgi.script_name#?p=#url.p#&amp;m=#m#&amp;y=#y#"<cfif not compareNoCase(url.m,m) and not compareNoCase(url.y,y)> class="b"</cfif>>#monthAsString(m)# #y#</a></li>
 				</cfloop>
 			</ul>
 		</div>

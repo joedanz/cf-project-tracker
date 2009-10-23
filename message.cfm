@@ -42,13 +42,13 @@
 				<span class="rightmenu">
 					<a href="messages.cfm?p=#url.p#" class="back">Back</a>
 					<cfif message.userID eq session.user.userID or session.user.admin>
-						| <a href="editMessage.cfm?p=#url.p#&m=#url.m#&mh=#hash(url.m)#" class="edit">Edit</a>
-						| <a href="messages.cfm?p=#url.p#&dm=#url.m#&dmh=#hash(url.m)#" class="delete" onclick="return confirm('Are you sure you wish to delete this message and all associated comments?')">Delete</a>
+						| <a href="editMessage.cfm?p=#url.p#&amp;m=#url.m#&amp;mh=#hash(url.m)#" class="edit">Edit</a>
+						| <a href="messages.cfm?p=#url.p#&amp;dm=#url.m#&amp;dmh=#hash(url.m)#" class="delete" onclick="return confirm('Are you sure you wish to delete this message and all associated comments?')">Delete</a>
 					</cfif>
 				</span>
 				
 				<h2 class="msg">#message.title#</h2>
-				<h4>posted by #message.firstName# #message.lastName# in <a href="messages.cfm?p=#url.p#&c=#message.categoryID#">#message.category#</a> on #LSDateFormat(DateAdd("h",session.tzOffset,message.stamp),"ddd, d mmm")# at <cfif application.settings.clockHours eq 12>#LSTimeFormat(DateAdd("h",session.tzOffset,message.stamp),"h:mmtt")#<cfelse>#LSTimeFormat(DateAdd("h",session.tzOffset,message.stamp),"HH:mm")#</cfif></h4>
+				<h4>posted by #message.firstName# #message.lastName# in <a href="messages.cfm?p=#url.p#&amp;c=#message.categoryID#">#message.category#</a> on #LSDateFormat(DateAdd("h",session.tzOffset,message.stamp),"ddd, d mmm")# at <cfif application.settings.clockHours eq 12>#LSTimeFormat(DateAdd("h",session.tzOffset,message.stamp),"h:mmtt")#<cfelse>#LSTimeFormat(DateAdd("h",session.tzOffset,message.stamp),"HH:mm")#</cfif></h4>
 				
 			</div>
 			<div class="content">
@@ -64,7 +64,7 @@
 					<div class="commentbar">#attachments.recordCount# project file<cfif attachments.recordCount neq 1>s are<cfelse> is</cfif> associated with this message</div>
 					<ul class="filelist">
 						<cfloop query="attachments">
-						<li><a href="download.cfm?p=#url.p#&f=#fileID#" class="#lcase(filetype)#">#filename#</a> in &quot;#category#&quot; <span class="g i">(#ceiling(filesize/1024)#K - #LSDateFormat(DateAdd("h",session.tzOffset,uploaded),"medium")#)</span></li>
+						<li><a href="download.cfm?p=#url.p#&amp;f=#fileID#" class="#lcase(filetype)#">#filename#</a> in &quot;#category#&quot; <span class="g i">(#ceiling(filesize/1024)#K - #LSDateFormat(DateAdd("h",session.tzOffset,uploaded),"medium")#)</span></li>
 						</cfloop>
 					</ul>
 					</cfif>
@@ -88,7 +88,7 @@
 					</cfloop>
 					
 					<cfif session.user.admin or project.msg_edit eq 1>
-					<form action="#cgi.script_name#?p=#url.p#&m=#url.m#" method="post" name="add" id="add" class="frm" onsubmit="return confirm_comment();">
+					<form action="#cgi.script_name#?p=#url.p#&amp;m=#url.m#" method="post" name="add" id="add" class="frm" onsubmit="return confirm_comment();">
 					<div class="b">Post a new comment...</div>
 					<cfscript>
 						basePath = 'includes/fckeditor/';
@@ -134,7 +134,7 @@
 			The following people will receive email notification when new comments are posted.
 			<ul style="margin-top:5px;">
 				<cfif listFind(valueList(notifyList.userID),session.user.userID)>
-				<li>You (<a href="#cgi.script_name#?p=#url.p#&m=#url.m#&rn=#session.user.userID#">remove</a>)</li>
+				<li>You (<a href="#cgi.script_name#?p=#url.p#&amp;m=#url.m#&amp;rn=#session.user.userID#">remove</a>)</li>
 				</cfif>
 				<cfloop query="notifyList">
 					<cfif userID neq session.user.userID>

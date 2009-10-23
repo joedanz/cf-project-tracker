@@ -196,11 +196,11 @@ $(document).ready(function(){
 						<cfset thisRow = 1>
 						<cfloop query="issues">
 						<tr>
-							<td><a href="issue.cfm?p=#url.p#&i=#issueID#">#shortID#</a></td>
+							<td><a href="issue.cfm?p=#url.p#&amp;i=#issueID#">#shortID#</a></td>
 							<td>#type#</td>
 							<td>#severity#</td>
 							<td>#status#</td>
-							<td><a href="issue.cfm?p=#url.p#&i=#issueID#">#issue#</a></td>
+							<td><a href="issue.cfm?p=#url.p#&amp;i=#issueID#">#issue#</a></td>
 							<td>#component#</td>
 							<td>#version#</td>
 							<td>#assignedFirstName# #assignedLastName#</td>

@@ -35,7 +35,7 @@
 							<td>#name#</td>
 							<td>#clientName#</td>
 							<td class="tac">#status#</td>
-							<td class="tac"><a href="../editProject.cfm?from=admin&p=#projectid#">edit</a></td>
+							<td class="tac"><a href="../editProject.cfm?from=admin&amp;p=#projectid#">edit</a></td>
 						</tr>					
 					</cfloop>
 					</table><br />

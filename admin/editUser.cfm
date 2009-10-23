@@ -199,18 +199,19 @@
 						<p>
 							<label for="carrier">Carrier:</label>
 							<select name="carrierID" id="carrier">
-								<option value=""></option>
+								<option value="">&nbsp;</option>
 						</cfoutput>
 
 						<cfoutput query="application.carriers" group="country">
 						<optgroup label="#country#">
 						<cfoutput>
-						<option value="#carrierID#"<cfif not compare(form.carrierID,carrierID)> selected="selected"</cfif>>#carrier#</option>
+						<option value="#carrierID#"<cfif not compare(form.carrierID,carrierID)> selected="selected"</cfif>>#HTMLEditFormat(carrier)#</option>
 						</cfoutput>
+						</optgroup>
 						</cfoutput>
 						
 						<cfoutput>
-							</select> <span style="font-size:85%;" class="i">(used for SMS notifications)
+							</select> <span style="font-size:85%;" class="i">(used for SMS notifications)</span>
 						</p>
 						<p>
 						<label for="locale">Locale:</label>
@@ -250,6 +251,7 @@
 					<div id="projects" class="wrapper">
 
 						<table id="perm" class="admin full permissions mt20">
+						<thead>
 						<tr>
 							<th class="tal">Project</th>
 							<th>Active</th>
@@ -259,23 +261,24 @@
 								<th>Notifications</th>
 							</cfif>
 						</tr>
-						
+						</thead>
+						<tbody>
 						<cfloop query="projects">
 						<tr>
 							<td class="tal"><label for="p_#replace(projectid,'-','','ALL')#" class="cb">#name#</label></td>
 							<cfif StructKeyExists(url,"u")>
 								<td><img src="../images/<cfif listFind(valueList(user_projects.projectid),projectid)>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(listFind(valueList(user_projects.projectid),projectid))#" /></td>
 								<td><img src="../images/<cfif listFind(valueList(admin_projects.projectid),projectid)>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(listFind(valueList(admin_projects.projectid),projectid))#" /></td>
-								<td><a href="../userPermissions.cfm?u=#url.u#&p=#projectID#&from=admin">Permissions</a></td>
-								<td><a href="userNotifications.cfm?u=#url.u#&p=#projectID#">Notifications</a></td>
+								<td><a href="../userPermissions.cfm?u=#url.u#&amp;p=#projectID#&amp;from=admin">Permissions</a></td>
+								<td><a href="userNotifications.cfm?u=#url.u#&amp;p=#projectID#">Notifications</a></td>
 							<cfelse>
 								<td><input type="checkbox" name="projectids" value="#projectID#" /></td>
-								<td><input type="checkbox" name="adminids" value="#projectID#" /></td>
+								<td><input type="checkbox" name="adminids" value="#projectID#" />
+								<input type="hidden" name="all_proj_ids" value="#projectid#" /></td>
 							</cfif>
-							<input type="hidden" name="all_proj_ids" value="#projectid#" />
 						</tr>
 						</cfloop>
-						
+						</tbody>
 						</table>
 				 	</div>
 				</div>

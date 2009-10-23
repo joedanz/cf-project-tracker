@@ -112,10 +112,10 @@
 									<cfloop query="backups">
 										<tr>
 											<td>#currentRow#)</td>
-											<td><a href="#cgi.script_name#?action=restore&file=#URLEncodedFormat(name)#" onclick="return confirm('Are you sure you wish to restore this backup?\nThis will permanently delete all current data in the application.')">#name#</a></td>
+											<td><a href="#cgi.script_name#?action=restore&amp;file=#URLEncodedFormat(name)#" onclick="return confirm('Are you sure you wish to restore this backup?\nThis will permanently delete all current data in the application.')">#name#</a></td>
 											<td>#LSDateFormat(DateAdd("h",session.tzOffset,datelastmodified),"long")# @ #LSTimeFormat(datelastmodified,"h:mmtt")#</td>
 											<td>#numberFormat(size)#</td>
-											<td class="tac"><a href="#cgi.script_name#?action=choose&rmv=#URLEncodedFormat(name)#" onclick="return confirm('Are you sure you wish to delete this backup file?')" class="delete"></a></td>
+											<td class="tac"><a href="#cgi.script_name#?action=choose&amp;rmv=#URLEncodedFormat(name)#" onclick="return confirm('Are you sure you wish to delete this backup file?')" class="delete"></a></td>
 										</tr>
 									</cfloop>
 								</tbody>

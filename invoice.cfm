@@ -120,7 +120,7 @@
 					</p>
 					
 					<label for="submit">&nbsp;</label>
-					<input type="submit" value="Generate Invoice" class="button" class="shortest" />
+					<input type="submit" value="Generate Invoice" class="button" />
 					
 					<input type="hidden" name="u" value="" id="u" />
 					<input type="hidden" name="invoice" value="invoice" id="invoice" />

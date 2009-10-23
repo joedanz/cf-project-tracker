@@ -91,21 +91,21 @@
 					<cfswitch expression="#url.report#">
 						<cfdefaultcase>
 							<span class="b">Complete</span> 
-							/ <a href="#cgi.script_name#?p=#url.p#&report=user">by User</a>
+							/ <a href="#cgi.script_name#?p=#url.p#&amp;report=user">by User</a>
 							<cfif not compare(url.p,'') and (session.user.admin or session.user.report)> 
-								/ <a href="#cgi.script_name#?p=#url.p#&report=client">by Client</a>
+								/ <a href="#cgi.script_name#?p=#url.p#&amp;report=client">by Client</a>
 							</cfif>
 						</cfdefaultcase>
 						<cfcase value="user">
 							<a href="#cgi.script_name#?p=#url.p#">Complete</a>
 							/ <span class="b">by User</span>
 							<cfif not compare(url.p,'') and (session.user.admin or session.user.report)> 
-								/ <a href="#cgi.script_name#?p=#url.p#&report=client">by Client</a>
+								/ <a href="#cgi.script_name#?p=#url.p#&amp;report=client">by Client</a>
 							</cfif>
 						</cfcase>
 						<cfcase value="client">
 							<a href="#cgi.script_name#?p=#url.p#">Complete</a>
-							/ <a href="#cgi.script_name#?p=#url.p#&report=user">by User</a>
+							/ <a href="#cgi.script_name#?p=#url.p#&amp;report=user">by User</a>
 							/ <span class="b">by Client</span>
 						</cfcase>
 					</cfswitch>
@@ -147,7 +147,7 @@
 					<input type="text" name="endDate" id="endDate" value="#form.endDate#" class="shortest date-pick" />
 					</p>
 					<label for="submit">&nbsp;</label>
-					<input type="submit" value="Generate Report" class="button" class="shortest" />		
+					<input type="submit" value="Generate Report" class="button" />		
 					<input type="hidden" name="generate" value="generate" id="generate" />		
 				</form>
 			</div>

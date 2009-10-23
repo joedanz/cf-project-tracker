@@ -58,7 +58,7 @@
 								<cfloop query="milestones_overdue">
 									<cfset daysago = DateDiff("d",dueDate,Now())>
 								<li><span class="b" style="color:##f00;"><cfif daysago eq 0>Today<cfelseif daysago eq 1>Yesterday<cfelse>#daysago# day ago</cfif>:</span> 
-									<a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a>
+									<a href="milestone.cfm?p=#projectID#&amp;m=#milestoneID#">#name#</a>
 									<span class="sm">(<a href="project.cfm?p=#projectID#" class="b">#projName#</a><cfif compare(lastName,'') or compare(firstName,'')> | #firstName# #lastName# is responsible</cfif>)</span>
 								</li>
 								</cfloop>
@@ -144,7 +144,7 @@
 												<ul class="cal_ms">
 													<cfif todays_ms.recordCount>
 														<cfloop query="todays_ms">
-															<li><a href="milestone.cfm?p=#projectID#&m=#milestoneID#">#name#</a> (<a href="project.cfm?p=#projectID#">#projName#</a>)</li>
+															<li><a href="milestone.cfm?p=#projectID#&amp;m=#milestoneID#">#name#</a> (<a href="project.cfm?p=#projectID#">#projName#</a>)</li>
 														</cfloop>
 													</cfif>
 												</ul>
@@ -183,8 +183,8 @@
 		<form action="#cgi.script_name#" method="post">
 		<div class="b">Show milestones assigned to:</div>
 		<select name="assignedTo" onchange="this.form.submit();">
-			<option value="">Anyone</a>
-			<option value="#session.user.userid#"<cfif not compare(session.assignedTo,session.user.userID)> selected="selected"</cfif>>Me (#session.user.firstName# #session.user.lastName#)</a>
+			<option value="">Anyone</option>
+			<option value="#session.user.userid#"<cfif not compare(session.assignedTo,session.user.userID)> selected="selected"</cfif>>Me (#session.user.firstName# #session.user.lastName#)</option>
 			<cfloop query="projectUsers">
 				<cfif compare(session.user.userid,userID)>
 				<option value="#userID#"<cfif not compare(session.assignedTo,userID)> selected="selected"</cfif>>#lastName#, #firstName#</option>

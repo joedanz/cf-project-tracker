@@ -304,7 +304,7 @@
 								<p>
 								<label for="img">&nbsp;</label>
 								<img src="#application.settings.userFilesMapping#/projects/#logo_img#" border="0" alt="#application.settings.company_name#" style="border:1px solid ##666;" />
-								<a href="#cgi.script_name#?p=#url.p#&rmvimg">remove</a>
+								<a href="#cgi.script_name#?p=#url.p#&amp;rmvimg">remove</a>
 								</p>
 							</cfif>
 							<p>
@@ -358,7 +358,7 @@
 									<ul id="filecats">
 										<cfif StructKeyExists(url,"p")>
 										<cfloop query="filecats">
-											<li id="filer#currentRow#">#currentRow#) #category# &nbsp; <a href="##" onclick="$('##filer#currentRow#').hide();$('##edit_filer#currentRow#').show();$('##filecat#currentRow#').focus();return false;">Edit</a> &nbsp;<cfif numFiles><span class="g i">(#numFiles# file<cfif numFiles gt 1>s</cfif>)</span><cfelse><a href="" onclick="confirm_cat_delete('#url.p#','#categoryID#','#category#','file');return false;" class="delete"></a></cfif></li>
+											<li id="filer#currentRow#">#currentRow#) #category# &nbsp; <a href="##" onclick="$('##filer#currentRow#').hide();$('##edit_filer#currentRow#').show();$('##filecat#currentRow#').focus();return false;">Edit</a> &nbsp;<cfif numFiles><span class="g i">(#numFiles# file<cfif numFiles gt 1>s</cfif>)</span><cfelse><a href="##" onclick="confirm_cat_delete('#url.p#','#categoryID#','#category#','file');return false;" class="delete"></a></cfif></li>
 											<li id="edit_filer#currentRow#" style="display:none;">
 												<input type="text" id="filecat#currentRow#" value="#category#" class="short" />
 												<input type="button" value="Save" onclick="edit_cat('#url.p#','#categoryID#','#currentRow#','file'); return false;" /> or <a href="##" onclick="$('##filer#currentRow#').show();$('##edit_filer#currentRow#').hide();return false;">Cancel</a>
@@ -382,7 +382,7 @@
 									<ul id="msgcats">
 										<cfif StructKeyExists(url,"p")>
 										<cfloop query="msgcats">
-											<li id="msgr#currentRow#">#currentRow#) #category# &nbsp; <a href="##" onclick="$('##msgr#currentRow#').hide();$('##edit_msgr#currentRow#').show();$('##msgcat#currentRow#').focus();return false;">Edit</a> &nbsp;<cfif numMsgs><span class="g i">(#numMsgs# msgs)</span><cfelse><a href="" onclick="confirm_cat_delete('#url.p#','#categoryID#','#category#','msg');return false;" class="delete"></a></cfif></li>
+											<li id="msgr#currentRow#">#currentRow#) #category# &nbsp; <a href="##" onclick="$('##msgr#currentRow#').hide();$('##edit_msgr#currentRow#').show();$('##msgcat#currentRow#').focus();return false;">Edit</a> &nbsp;<cfif numMsgs><span class="g i">(#numMsgs# msgs)</span><cfelse><a href="##" onclick="confirm_cat_delete('#url.p#','#categoryID#','#category#','msg');return false;" class="delete"></a></cfif></li>
 											<li id="edit_msgr#currentRow#" style="display:none;">
 												<input type="text" id="msgcat#currentRow#" value="#category#" class="short" />
 												<input type="button" value="Save" onclick="edit_cat('#url.p#','#categoryID#','#currentRow#','msg'); return false;" /> or <a href="##" onclick="$('##msgr#currentRow#').show();$('##edit_msgr#currentRow#').hide();return false;">Cancel</a>
@@ -422,7 +422,7 @@
 
 						<p>
 							<label for="issue_timetrack" class="half">Allow time tracking on issues?</label>
-							<input type="checkbox" name="issue_timetrack" id="issue_timetrack" class="checkbox" value="1"<cfif form.issue_timetrack eq 1> checked="checked"</cfif> /> <span class="sma g">(requires time tracking to be enabled under <a href="##" onclick="section_toggle('tab');return false;" id="tablink">features</a>)</span>
+							<input type="checkbox" name="issue_timetrack" id="issue_timetrack" class="checkbox" value="1"<cfif form.issue_timetrack eq 1> checked="checked"</cfif> /> <span class="sma g">(requires time tracking to be enabled under <a href="##" onclick="section_toggle('tab');return false;">features</a>)</span>
 						</p>
 						
 						<cfif StructKeyExists(url,"p")>
@@ -433,7 +433,7 @@
 								<legend>Project Components</legend>
 									<ul id="components">
 										<cfloop query="components">
-											<li id="componentr#currentRow#">#currentRow#) #component# &nbsp; <a href="##" onclick="$('##componentr#currentRow#').hide();$('##edit_componentr#currentRow#').show();$('##component#currentRow#').focus();return false;">Edit</a> &nbsp;<cfif numIssues><span class="g i">(#numIssues# issue<cfif numIssues gt 1>s</cfif>)</span><cfelse><a href="" onclick="confirm_item_delete('#url.p#','#componentID#','#component#','component');return false;" class="delete"></a></cfif></li>
+											<li id="componentr#currentRow#">#currentRow#) #component# &nbsp; <a href="##" onclick="$('##componentr#currentRow#').hide();$('##edit_componentr#currentRow#').show();$('##component#currentRow#').focus();return false;">Edit</a> &nbsp;<cfif numIssues><span class="g i">(#numIssues# issue<cfif numIssues gt 1>s</cfif>)</span><cfelse><a href="##" onclick="confirm_item_delete('#url.p#','#componentID#','#component#','component');return false;" class="delete"></a></cfif></li>
 											<li id="edit_componentr#currentRow#" style="display:none;">
 												<input type="text" id="component#currentRow#" value="#component#" class="short" />
 												<input type="button" value="Save" onclick="edit_proj_item('#url.p#','#componentID#','#currentRow#','component'); return false;" /> or <a href="##" onclick="$('##componentr#currentRow#').show();$('##edit_componentr#currentRow#').hide();return false;">Cancel</a>
@@ -455,7 +455,7 @@
 								<legend>Project Versions</legend>
 									<ul id="versions">
 										<cfloop query="versions">
-											<li id="versionr#currentRow#">#currentRow#) #version# &nbsp; <a href="##" onclick="$('##versionr#currentRow#').hide();$('##edit_versionr#currentRow#').show();$('##version#currentRow#').focus();return false;">Edit</a> &nbsp;<cfif numIssues><span class="g i">(#numIssues# issue<cfif numIssues gt 1>s</cfif>)</span><cfelse><a href="" onclick="confirm_item_delete('#url.p#','#versionID#','#version#','version');return false;" class="delete"></a></cfif></li>
+											<li id="versionr#currentRow#">#currentRow#) #version# &nbsp; <a href="##" onclick="$('##versionr#currentRow#').hide();$('##edit_versionr#currentRow#').show();$('##version#currentRow#').focus();return false;">Edit</a> &nbsp;<cfif numIssues><span class="g i">(#numIssues# issue<cfif numIssues gt 1>s</cfif>)</span><cfelse><a href="##" onclick="confirm_item_delete('#url.p#','#versionID#','#version#','version');return false;" class="delete"></a></cfif></li>
 											<li id="edit_versionr#currentRow#" style="display:none;">
 												<input type="text" id="version#currentRow#" value="#version#" class="short" />
 												<input type="button" value="Save" onclick="edit_proj_item('#url.p#','#versionID#','#currentRow#','version'); return false;" /> or <a href="##" onclick="$('##versionr#currentRow#').show();$('##edit_versionr#currentRow#').hide();return false;">Cancel</a>
@@ -781,7 +781,7 @@
 		<div class="content">
 			Deleting a project immediately and permanently deletes all the messages, milestones, and to-do lists associated with this project. There is no Undo so make sure you're absolutely sure you want to delete this project.<br /><br />
 
-			<a href="#cgi.script_name#?p=#url.p#&ph=#hash(url.p)#&del" class="check" onclick="return confirm('Are you absolutely sure???\nPlease Note: there is no undo.')">Yes, I understand - delete this project</a>
+			<a href="#cgi.script_name#?p=#url.p#&amp;ph=#hash(url.p)#&amp;del" class="check" onclick="return confirm('Are you absolutely sure???\nPlease Note: there is no undo.')">Yes, I understand - delete this project</a>
 		</div>
 		</cfif>
 

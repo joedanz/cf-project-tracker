@@ -50,7 +50,7 @@
 			<div class="header">
 				
 				<span class="rightmenu">
-					<a href="svnResource.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(url.f)#" class="back">View All Revisions</a>
+					<a href="svnResource.cfm?p=#url.p#&amp;wd=#URLEncodedFormat(url.wd)#&amp;f=#URLEncodedFormat(url.f)#" class="back">View All Revisions</a>
 				</span>
 				
 				<h2 class="svn">Subversion source browsing</h2>
@@ -88,7 +88,7 @@
 						</cfif>
 						<cfset IsDiff=true>
 					
-						<p>You may also view the <cfif FullDiff><a href="#CGI.SCRIPT_NAME##CGI.PATH_INFO#?p=#url.p#&wd=#url.wd#&f=#url.f#&r1=#url.r1#&r2=#url.r2#">unified diff</a><cfelse><a href="#CGI.SCRIPT_NAME##CGI.PATH_INFO#?p=#url.p#&wd=#url.wd#&f=#url.f#&r1=#url.r1#&r2=#url.r2#&full=1">full diff</a></cfif>.</p>
+						<p>You may also view the <cfif FullDiff><a href="#CGI.SCRIPT_NAME##CGI.PATH_INFO#?p=#url.p#&amp;wd=#url.wd#&amp;f=#url.f#&amp;r1=#url.r1#&amp;r2=#url.r2#">unified diff</a><cfelse><a href="#CGI.SCRIPT_NAME##CGI.PATH_INFO#?p=#url.p#&amp;wd=#url.wd#&amp;f=#url.f#&amp;r1=#url.r1#&amp;r2=#url.r2#&amp;full=1">full diff</a></cfif>.</p>
 						<table class="diff" cellspacing="0">
 							<tr>
 								<th class="linenum" style="border-right:none;border-bottom:none;">&nbsp;</th>

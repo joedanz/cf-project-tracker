@@ -63,7 +63,7 @@
 							<cfelse>
 								<cfset buildPath = buildPath & i>
 							</cfif>
-							/ <a href="#cgi.script_name#?p=#url.p#&wd=#buildPath#" class="nounder">#replace(replace(buildPath,prevBuildPath,''),'/','','all')#</a>
+							/ <a href="#cgi.script_name#?p=#url.p#&amp;wd=#buildPath#" class="nounder">#replace(replace(buildPath,prevBuildPath,''),'/','','all')#</a>
 						</cfloop>
 						
 						</caption>
@@ -84,7 +84,7 @@
 							<tr class="odd">
 								<td>
 								<img src="images/folder.gif" height="16" width="16" border="0" alt="Directory" />
-								<a href="#cgi.script_name#?p=#url.p#&act=browse&wd=#URLEncodedFormat(pd)#" class="nounder">..</a></td>
+								<a href="#cgi.script_name#?p=#url.p#&amp;act=browse&amp;wd=#URLEncodedFormat(pd)#" class="nounder">..</a></td>
 								<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
 							</tr>
 						<cfset thisrow = thisrow + 1>			
@@ -94,7 +94,7 @@
 							<cfif not compareNoCase(kind,'Dir')>
 							<tr class="<cfif thisRow mod 2 eq 0>odd<cfelse>even</cfif>">
 								<td>
-								<a href="#cgi.script_name#?p=#url.p#&act=browse&wd=#URLEncodedFormat(url.wd & '/' & name)#" class="nounder">
+								<a href="#cgi.script_name#?p=#url.p#&amp;act=browse&amp;wd=#URLEncodedFormat(url.wd & '/' & name)#" class="nounder">
 								<img src="images/folder.gif" height="16" width="16" border="0" alt="Directory" />
 								#name#</a></td>
 								<td>-----</td>
@@ -112,7 +112,7 @@
 							
 							<tr class="<cfif thisRow mod 2 eq 0>odd<cfelse>even</cfif>">
 								<td>
-									<a href="svnResource.cfm?p=#url.p#&wd=#URLEncodedFormat(url.wd)#&f=#URLEncodedFormat(name)#" class="nounder">
+									<a href="svnResource.cfm?p=#url.p#&amp;wd=#URLEncodedFormat(url.wd)#&amp;f=#URLEncodedFormat(name)#" class="nounder">
 								<cfif listFindNoCase('.cfm,.cfc',right(name,4))>
 									<img src="images/file_cf.gif" height="16" width="16" border="0" alt="ColdFusion File" />
 								<cfelseif listFindNoCase('.htm,html',right(name,4))>
