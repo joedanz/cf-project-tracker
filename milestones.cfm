@@ -150,7 +150,7 @@
 									]</span></h3>
 							<cfelse>
 								<h3>#name#</h3>
-								<cfif project_mstone_comment>
+								<cfif project.mstone_comment>
 									<span style="font-size:.65em;font-weight:normal;">[<a href="milestone.cfm?p=#url.p#&amp;m=#milestoneID#" class="comment"><cfif commentCount gt 0>#commentCount# Comments<cfelse>Post the first comment</cfif></a>]</span>
 								</cfif>
 							</cfif>
@@ -230,7 +230,7 @@
 									]</span></h3>
 							<cfelse>
 								<h3>#name#</h3>
-								<cfif project_mstone_comment>
+								<cfif project.mstone_comment>
 									<span style="font-size:.65em;font-weight:normal;">[<a href="milestone.cfm?p=#url.p#&amp;m=#milestoneID#" class="comment"><cfif commentCount gt 0>#commentCount# Comments<cfelse>Post the first comment</cfif></a>]</span>
 								</cfif>
 							</cfif>
