@@ -5,6 +5,11 @@
 <cfparam name="form.remain" default="0">
 <cfhtmlhead text="<style type=""text/css"">a:link, a:visited {color:##00f;}</style>">
 
+<cftry>
+	<cfset test = application.settings.app_title>
+	<cfcatch><cflocation url="./install/" addtoken="false"></cfcatch>
+</cftry>
+
 <!--- Loads header/footer --->
 <cfmodule template="tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Login">
 
