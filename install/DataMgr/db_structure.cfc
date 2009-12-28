@@ -25,6 +25,26 @@
 				<field ColumnName="activity" CF_DataType="CF_SQL_VARCHAR" Length="50" />
 				<field ColumnName="stamp" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 			</table>
+			<table name="#arguments.tablePrefix#accounts">
+				<field ColumnName="accountID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="name" CF_DataType="CF_SQL_VARCHAR" Length="120" />
+				<field ColumnName="parentID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
+				<field ColumnName="typeID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
+				<field ColumnName="phone" CF_DataType="CF_SQL_VARCHAR" Length="12" />
+				<field ColumnName="fax" CF_DataType="CF_SQL_CHAR" Length="35" />
+				<field ColumnName="website" CF_DataType="CF_SQL_VARCHAR" Length="200" />
+				<field ColumnName="activity" CF_DataType="CF_SQL_VARCHAR" Length="50" />
+				<field ColumnName="stamp" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
+			</table>
+			<table name="#arguments.tablePrefix#account_industries">
+				<field ColumnName="industryID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="industry" CF_DataType="CF_SQL_VARCHAR" Length="80" />
+			</table>
+			<table name="#arguments.tablePrefix#account_types">
+				<field ColumnName="typeID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
+				<field ColumnName="type" CF_DataType="CF_SQL_VARCHAR" Length="80" />
+			</table>
+			
 			<table name="#arguments.tablePrefix#carriers">
 				<field ColumnName="carrierID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
 				<field ColumnName="carrier" CF_DataType="CF_SQL_VARCHAR" Length="20" />
@@ -371,6 +391,55 @@
 				<field ColumnName="invoice" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 				<field ColumnName="active" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 			</table>
+			<data table="#arguments.tablePrefix#account_industries">
+				<row industryID="C783B898-E39A-AAFF-0011069C96DD9733" industry="Agriculture" />
+				<row industryID="C783B8A2-9A4C-8ED1-379D54BF940C7A04" industry="Apparel" />
+				<row industryID="C783B8A3-B2D3-328E-A29A50435ECBC469" industry="Banking" />
+				<row industryID="C783B8A4-90A9-9D15-5C816C1C5343D6C5" industry="Biotechnology" />
+				<row industryID="C783B8A5-90AA-D63D-3C74939D7DFF9AE2" industry="Chemicals" />
+				<row industryID="C783B8A6-E2ED-4089-E3720399EF847D63" industry="Communications" />
+				<row industryID="C783B8A7-9156-8114-BFBF5D951E8FF543" industry="Construction" />
+				<row industryID="C783B8A8-0968-A168-DE0F06633A076749" industry="Consulting" />
+				<row industryID="C783B8A9-E5FB-4443-C888BEC71B3DCCCB" industry="Education" />
+				<row industryID="C783B8AA-FABD-A4E0-04C464692F3FF27A" industry="Electronics" />
+				<row industryID="C783B8AB-9845-8B44-3043681A551E0548" industry="Energy" />
+				<row industryID="C783B8AC-0CF5-A9AC-A09BB2ABD27DE93A" industry="Engineering" />
+				<row industryID="C783B8AD-C86B-5CAB-60063E3D5689F0EC" industry="Entertainment" />
+				<row industryID="C783B8AE-EBAB-FAB9-9968397EA9BBB613" industry="Environmental" />
+				<row industryID="C783B8AF-ECFC-14F6-4F2009B68F48ADF2" industry="Finance" />
+				<row industryID="C783B8B0-D4CD-48FA-B78557C834533F43" industry="Food & Beverage" />
+				<row industryID="C783B8B1-E8C1-9C1C-A6D845D90C79FF21" industry="Government" />
+				<row industryID="C783B8B2-CE55-F05B-0FBF1190A93C1C0B" industry="Healthcare" />
+				<row industryID="C783B8B3-A0C8-4784-0179588CFC37DFBE" industry="Hospitality" />
+				<row industryID="C783B8B4-9039-84D5-7137A42A5144CF2C" industry="Insurance" />
+				<row industryID="C79DA6E2-F727-4F5A-55E2A3EDEBB73609" industry="Machinery" />
+				<row industryID="C79DA724-F087-1F0B-778DF858A538D1BB" industry="Manufacturing" />
+				<row industryID="C79DA727-09E1-389A-57E429FF7C5E7187" industry="Media" />
+				<row industryID="C79DA729-B426-8E5E-6FD3F4AB2E0BC26B" industry="Not For Profit" />
+				<row industryID="C79DA72C-FB8C-F377-6427A58010A1F97A" industry="Other" />
+				<row industryID="C79DA72E-9FCB-784F-EADD23EA3831AAE9" industry="Recreation" />
+				<row industryID="C7CE5A17-D7D3-4981-A439EF8737F13E26" industry="Retail" />
+				<row industryID="C7CE5A18-B3C1-54A1-2446206625E95EA4" industry="Shipping" />
+				<row industryID="C7CE5A19-9EE3-B90C-72BD2A9B82C2C491" industry="Technology" />
+				<row industryID="C7CE5A1A-EE1A-925B-500D7575FBF73FDD" industry="Telecommunications" />
+				<row industryID="C7CE5A1B-E1C6-D22F-DA891AE9DB3A5C10" industry="Transportation" />
+				<row industryID="C7CE5A1C-96F1-EEDA-7B778D179C767E2C" industry="Utilities" />
+			</data>
+			<data table="#arguments.tablePrefix#account_types">
+				<row typeID="C79DA731-EA21-B4DB-24E6D470F521F848" type="Analyst" />
+				<row typeID="C79DA733-D84F-DD94-9442DC4A7EFBC4AC" type="Competitor" />
+				<row typeID="C79DA736-01C9-F22A-1E1C635AEDD6CFAC" type="Customer" />
+				<row typeID="C79DA739-B8EA-CCC1-C6F4BFA98F59E16F" type="Integrator" />
+				<row typeID="C79DA73B-D517-4B81-21BABAA27C07CD77" type="Investor" />
+				<row typeID="C79DA73E-A969-789E-85E330620463F4E4" type="Partner" />
+				<row typeID="C79DA740-9954-2352-213EE9B6A75CC71A" type="Press" />
+				<row typeID="C79DA743-F5F5-BEF0-6B4BFBE88BE4F100" type="Prospect" />
+				<row typeID="C79DA746-0250-4CEC-2B2ED5CB9A63F1CF" type="Reseller" />
+				<row typeID="C79DA748-F693-5780-55CB42366B36ADF7" type="SMTP" />
+				<row typeID="C79DA74B-A815-3DFC-8BC2DFB0B15532E3" type="Vendor" />
+				<row typeID="C79DA74D-EA20-AC31-2A9347477E439D62" type="Other" />
+				<row typeID="C79DA750-988D-AB7F-5A4510C0EB98971E" type="" />
+			</data>
 			<data table="#arguments.tablePrefix#users">
 				<row userID="FCDCF4CD-16E6-58DE-13EDC6A2B362B22C" firstName="Admin" lastName="User" username="admin" password="21232F297A57A5A743894A0E4A801FC3" avatar="0" style="blue" locale="English (US)" timezone="US/Eastern" admin="1" report="1" invoice="1" active="1" />
 				<row userID="7F16CA08-1372-7975-6F7F9DA33EBD6A09" firstName="Guest" lastName="User" username="guest" password="084E0343A0486FF05530DF6C705C8BB4" avatar="0" style="blue" locale="English (US)" timezone="US/Eastern" admin="0" report="0" invoice="0" active="1" />
