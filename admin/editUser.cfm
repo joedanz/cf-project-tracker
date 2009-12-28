@@ -246,6 +246,11 @@
 						<input type="checkbox" name="active" id="active" value="1" class="checkbox"<cfif form.active> checked="checked"</cfif> />
 						</p>
 					
+						<p><label>&nbsp;</label>
+						<input type="submit" name="submit" value="<cfif StructKeyExists(url,"u")>Update<cfelse>Add</cfif> User" class="button shorter" />
+						or <a href="<cfif not compare(form.from,'admin')>users.cfm<cfelse>../people.cfm?p=#url.p#</cfif>">Cancel</a>
+						</p>
+					
 					</div>
 					
 					<div id="projects" class="wrapper">
@@ -282,11 +287,7 @@
 						</table>
 				 	</div>
 				</div>
-			
-				<p><label>&nbsp;</label>
-				<input type="submit" name="submit" value="<cfif StructKeyExists(url,"u")>Update<cfelse>Add</cfif> User" class="button shorter" />
-				or <a href="<cfif not compare(form.from,'admin')>users.cfm<cfelse>../people.cfm?p=#url.p#</cfif>">Cancel</a>
-				</p>
+
 				<cfif StructKeyExists(url,"u")>
 					<input type="hidden" name="userid" value="#url.u#" />
 				</cfif>
