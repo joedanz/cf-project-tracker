@@ -29,7 +29,7 @@
 						</cfloop>
 					</ul>
 					<cfelse>
-						<div class="alert mt15 b r i">There are no billing rates set for this client.</div>
+						<div class="alert mt15 b r i">There are no billing rates set.</div>
 					</cfif>
 					
 					<br /><a href="##" class="b add" onclick="$('##add').slideDown();return false;">Add New Billing Category</a><br />
