@@ -105,8 +105,8 @@
 	<cfset form.phone = "">
 	<cfset form.mobile = "">
 	<cfset form.carrierID = "">
-	<cfset form.locale = "">
-	<cfset form.timezone = "">
+	<cfset form.locale = application.settings.default_locale>
+	<cfset form.timezone = application.settings.default_timezone>
 	<cfset form.admin = 0>
 	<cfset form.report = 0>
 	<cfset form.invoice = 0>
