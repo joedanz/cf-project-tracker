@@ -39,21 +39,21 @@
 <cfparam name="form.active" default="1">
 
 <cfif StructKeyExists(url,"c")>
-	<cfset client = application.client.get(url.c)>
-	<cfset form.name = client.name>
-	<cfset form.address = client.address>
-	<cfset form.city = client.city>
-	<cfset form.locality = client.locality>
-	<cfset form.country = client.country>
-	<cfset form.postal = client.postal>
-	<cfset form.phone = client.phone>
-	<cfset form.fax = client.fax>
-	<cfset form.contactName = client.contactName>
-	<cfset form.contactPhone = client.contactPhone>
-	<cfset form.contactEmail = client.contactEmail>
-	<cfset form.website = client.website>
-	<cfset form.notes = client.notes>
-	<cfset form.active = client.active>
+	<cfset thisClient = application.client.get(url.c)>
+	<cfset form.name = thisClient.name>
+	<cfset form.address = thisClient.address>
+	<cfset form.city = thisClient.city>
+	<cfset form.locality = thisClient.locality>
+	<cfset form.country = thisClient.country>
+	<cfset form.postal = thisClient.postal>
+	<cfset form.phone = thisClient.phone>
+	<cfset form.fax = thisClient.fax>
+	<cfset form.contactName = thisClient.contactName>
+	<cfset form.contactPhone = thisClient.contactPhone>
+	<cfset form.contactEmail = thisClient.contactEmail>
+	<cfset form.website = thisClient.website>
+	<cfset form.notes = thisClient.notes>
+	<cfset form.active = thisClient.active>
 </cfif>
 
 <!--- Loads header/footer --->
