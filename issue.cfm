@@ -91,7 +91,6 @@
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#project.name# &raquo; Issue Detail" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
 
 <cfhtmlhead text='<script type="text/javascript" src="./js/jquery-select.js"></script>
-<script type="text/javascript" src="./js/comments.js"></script>
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
 		$(".date-pick").datepicker();
