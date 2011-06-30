@@ -95,7 +95,7 @@
 			<cfset application.isRailo = not compareNoCase(server.coldfusion.productname,"railo")>
 
 			<!--- get CF version --->
-			<cfif application.isBD>
+			<cfif application.isBD and find('.',server.coldfusion.productversion)>
 				<cfset majorVersion = listFirst(server.coldfusion.productversion,'.')>
 				<cfset minorVersion = listGetAt(server.coldfusion.productversion,2,'.')>
 				<cfset cfversion = server.coldfusion.productversion>
