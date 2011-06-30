@@ -12,6 +12,9 @@
 <cfset setEncoding('Form','UTF-8')>
 <cfcontent type="text/html; charset=UTF-8">
 
+<!--- include UDFs --->
+<cfinclude template="#application.settings.mapping#/includes/udf.cfm">
+
 <!--- double check lock, so we don't do this twice --->
 <cfif not StructKeyExists(application,"init") or StructKeyExists(url,"reinit")>
 	<cflock name="init.#applicationName#" timeout="120">
@@ -37,10 +40,7 @@
 				<cfset application.userFilesPath = ExpandPath('#settings.mapping#/userfiles/')>
 			</cfif>
 			<!--- create userfiles directory if it doesn't exist --->
-			<cftry>
-				<cfdirectory action="create" directory="#application.userFilesPath#">
-				<cfcatch></cfcatch>
-			</cftry>
+			<cfset request.udf.makeDirs(application.userFilesPath)>
 
 			<!--- application CFCs --->
 			<cfset application.activity = createObject("component","cfcs.activity").init(settings)>
@@ -129,9 +129,6 @@
 <cfif application.settings.errorPage>
 	<cferror type="exception" template="#application.settings.mapping#/error.cfm">
 </cfif>
-
-<!--- include UDFs --->
-<cfinclude template="#application.settings.mapping#/includes/udf.cfm">
 
 <cftry>
 	<cfparam name="session.style" default="#application.settings.default_style#">
