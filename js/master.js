@@ -357,19 +357,35 @@ function add_svn_link(projectid,itemid,itemtype) {
 			$('#revrows').prepend(txt);
 		}
 	});
-	var count = parseInt($('#revcount').html());
-	$('#revcount').html(eval(count+1));
-	$("#rev").removeOption($('#rev').val());
+	if ($('#rev').val() != '') {
+		var count = parseInt($('#revcount').html());
+		$('#revcount').html(eval(count + 1));
+		$("#rev").removeOption($('#rev').val());
+	}
 }
 
-function delete_svn_link(revision,linkid,msg) {
+function add_svn_link_open(projectid,itemid,itemtype) {
+	$.ajax({
+		type: 'post',
+		url: './ajax/svn_link.cfm',
+		data: 'a=addopen&p=' + projectid + '&r=' + escape($('#revid').val()) + '&i=' + itemid + '&t=' + itemtype,
+		success: function(txt){
+			$('#revrows').prepend(txt);
+			var count = parseInt($('#revcount').html());
+			$('#revcount').html(eval(count + 1));
+			$("#revid").val('');
+		}
+	});
+}
+
+function delete_svn_link(issueid,revision,linkid,msg) {
 	var check = confirm('Are you sure you wish to remove the link to revision ' + revision + '?');	
 	if (check == true) {
 		$('#r' + revision).fadeOut(600, function(){	$(this).remove(); });
 		$.ajax({
 			type: 'post',
 			url: './ajax/svn_link.cfm',
-			data: 'a=del&l=' + linkid
+			data: 'a=del&i=' + issueid + '&l=' + linkid
 		});
 		var count = parseInt($('#revcount').html());
 		$('#revcount').html(eval(count-1));

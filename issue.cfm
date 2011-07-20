@@ -401,7 +401,7 @@
 										<p>
 										<label for="revid" class="none">Rev ##:</label>
 										<input type="text" name="revid" id="revid" class="shortest" />
-										<input type="submit" class="button2 shortest" value="Add Link" />
+										<input type="button" class="button2 shortest" value="Add Link" onclick="add_svn_link_open('#url.p#','#url.i#','issue');" />
 										</p>
 									</td>
 								</tr>
@@ -410,12 +410,12 @@
 							<cfif StructKeyExists(form,"revid") and isDefined("error")>
 								<div class="alertbox">#error#</div>
 							</cfif>
-							<cfif svnfull.recordCount>
-							<table class="clean full sm">
+							<table class="clean full sm" id="svnRevs">
 								<thead>
 									<tr>
 										<th>Rev</th>
 										<th>Comment</th>
+										<th class="tac">Delete?</th>
 									</tr>
 								</thead>
 								<tbody id="revrows">
@@ -423,12 +423,11 @@
 										<tr id="r#revision#">
 											<td>#revision#</td>
 											<td>#message#</td>
-											<td><a href="##" onclick="delete_svn_link('#revision#','#linkID#','#JSStringFormat(message)#');return false;"><img src="./images/x.png" height="12" width="12" border="0" alt="Delete Link?" /></a></td>
+											<td class="tac"><a href="##" onclick="delete_svn_link('#url.i#','#revision#','#linkID#','#JSStringFormat(message)#');return false;"><img src="./images/x.png" height="12" width="12" border="0" alt="Delete Link?" /></a></td>
 										</tr>
 									</cfloop>
 								</tbody>
 							</table>
-							</cfif>
 						</cfif>
 										
 						<cfif attachments.recordCount>
