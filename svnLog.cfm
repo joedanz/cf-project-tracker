@@ -40,7 +40,7 @@
 					<span class="b g">Last #numrevisions# Revisions</span>
 				</span>
 				
-				<h2 class="svn">Subversion source browsing</h2>
+				<h2 class="svn">Subversion Source Browsing</h2>
 			</div>
 			<div class="content">
 			 	<div class="wrapper">

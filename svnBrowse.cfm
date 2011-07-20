@@ -40,7 +40,7 @@
 					<a href="svnLog.cfm?p=#url.p#">Last #numrevisions# Revisions</a>
 				</span>
 				
-				<h2 class="svn">Subversion source browsing</h2>
+				<h2 class="svn">Subversion Source Browsing</h2>
 			</div>
 			<div class="content">
 			 	<div class="wrapper">
@@ -94,7 +94,11 @@
 							<cfif not compareNoCase(kind,'Dir')>
 							<tr class="<cfif thisRow mod 2 eq 0>odd<cfelse>even</cfif>">
 								<td>
-								<a href="#cgi.script_name#?p=#url.p#&amp;act=browse&amp;wd=#URLEncodedFormat(url.wd & '/' & name)#" class="nounder">
+								<cfif not compare(url.wd,'')>
+                                	<a href="#cgi.script_name#?p=#url.p#&amp;act=browse&amp;wd=#URLEncodedFormat(name)#" class="nounder">
+                                <cfelse>
+                                	<a href="#cgi.script_name#?p=#url.p#&amp;act=browse&amp;wd=#URLEncodedFormat(url.wd & '/' & name)#" class="nounder">
+                                </cfif>
 								<img src="images/folder.gif" height="16" width="16" border="0" alt="Directory" />
 								#name#</a></td>
 								<td>-----</td>
@@ -142,7 +146,7 @@
 						</tbody>
 						<tfoot><tr><td colspan="5">#NumberFormat(totalFileSize)# bytes in <cfif numFiles gt 0>#numFiles# files</cfif><cfif numFiles gt 0 and numDirs gt 0> and </cfif><cfif numDirs gt 0> #numDirs# directories</cfif>.</tr></tfoot>
 						</table>
-					
+
 						<cfcatch>
 							<div class="alert">There was a problem accessing the Subversion repository at #project.svnurl#</div>
 							<div class="fs80 g" style="margin-left:20px;">If your repository requires authentication, please ensure that your username and password are correct.</div>

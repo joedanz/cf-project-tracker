@@ -24,7 +24,7 @@
 			<div class="header">
 				<span class="rightmenu"><a href="javascript:history.back();" class="back">Back to Repository Browsing</a></span>
 				
-				<h2 class="svn">Subversion source browsing</h2>
+				<h2 class="svn">Subversion Source Browsing</h2>
 			</div>
 			<div class="content">
 			 	<div class="wrapper">

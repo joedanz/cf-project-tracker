@@ -30,14 +30,18 @@
 			<div class="header">
 				<span class="rightmenu"><a href="javascript:history.back();" class="back">View All Revisions</a></span>
 				
-				<h2 class="svn">Subversion source browsing</h2>
+				<h2 class="svn">Subversion Source Browsing</h2>
 			</div>
 			<div class="content">
 			 	<div class="wrapper">
 
 				<cftry>
+					<cfparam name="filetype" type="string" default="string">
+					<cfif listFindNoCase('png,gif,jpg,doc,rtf,xls,ppt,mdb,pdf,exe',right(url.f,3))>
+						<cfset filetype = 'binary'>
+					</cfif>
 					<cfset svn = createObject("component", "cfcs.SVNBrowser").init(project.svnurl,project.svnuser,project.svnpass)>
-					<cfset fileQ = svn.FileVersion('#url.wd#/#url.f#',url.r)>
+					<cfset fileQ = svn.FileVersion('#url.wd#/#url.f#',url.r,filetype)>
 					<cfset buildPath = "/">
 					<cfset listCount = listLen(url.wd, "/")>
 					<cfset loopCount = 0>	
@@ -73,18 +77,18 @@
 							<td>#LSDateFormat(fileQ.date,"ddd mmm d 'yy")# @ <cfif application.settings.clockHours eq 12>#LSTimeFormat(fileQ.date,"h:mmtt")#<cfelse>#LSTimeFormat(fileQ.date,"HH:mm")#</cfif></td>
 							<td>#fileQ.revision#</td>
 							<td>#fileQ.author#</td>
-							<td><a href="svnGetFile.cfm?p=#url.p#&amp;wd=#url.wd#&amp;f=#url.f#&amp;r=#url.r#" class="nounder">download file</a></td>
+							<td><a href="svnGetFile.cfm?p=#url.p#&amp;wd=#url.wd#&amp;f=#url.f#&amp;r=#url.r#" class="nounder"><img src="./images/files_sm.gif" height="16" width="16" border="0" alt="Download" /> Download</a></td>
 						</tr>
 					</table>
 
 					<pre name="code" class="html">
-						#replace(fileQ.content,'<','&lt;','all')#
+						#replace(toString(fileQ.content),'<','&lt;','all')#
 					</pre>
 					<cfcatch>
 						<div class="alert">There was a problem accessing the Subversion repository at #project.svnurl#</div>
 						<div class="fs80 g" style="margin-left:20px;">If your repository requires authentication, please ensure that your username and password are correct.</div>
 					</cfcatch>
-				</cftry>			
+				</cftry>
 
 			 	</div>
 			</div>

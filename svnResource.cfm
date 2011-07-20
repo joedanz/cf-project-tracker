@@ -35,7 +35,7 @@
 			<div class="header">
 				<span class="rightmenu"><a href="svnBrowse.cfm?p=#url.p#&amp;wd=#url.wd#" class="back">Back to Repository Browsing</a></span>
 				
-				<h2 class="svn">Subversion source browsing</h2>
+				<h2 class="svn">Subversion Source Browsing</h2>
 			</div>
 			<div class="content">
 			 	<div class="wrapper">
