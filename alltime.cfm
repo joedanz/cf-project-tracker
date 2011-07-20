@@ -70,7 +70,7 @@
 										<th>Project</th>
 										<th>Person</th>
 										<th>Hours</th>
-										<cfif listLen(visible_project_billlist)>
+										<cfif compare(visible_project_billlist,'NONE')>
 											<th>Billing Category</th>
 											<th>Fee</th>
 										</cfif>
@@ -88,7 +88,7 @@
 										<cfif listFind(visible_project_billlist,projectID)>
 											<td><cfif compare(category,'') and not compareNoCase(clientID,projClientID)>#category# ($#NumberFormat(rate,"0")#/hr)</cfif></td>
 											<td><cfif isNumeric(rate) and not compareNoCase(clientID,projClientID)>$#NumberFormat(rate*hours,"0")#</cfif></td>
-										<cfelseif listLen(visible_project_billlist)>
+										<cfelseif compare(visible_project_billlist,'NONE')>
 											<td colspan="2">&nbsp;</td>
 										</cfif>
 										<td><cfif compare(itemType,'')><span class="catbox #itemtype#">#itemtype#</span> <a href="todos.cfm?p=#projectID###id_#replace(todolistID,'-','','all')#">#task#</a><cfif compare(description,'')> - </cfif></cfif>#description#</td>
@@ -103,11 +103,11 @@
 									<tr class="last">
 										<td colspan="3" class="tar b">TOTAL:&nbsp;&nbsp;&nbsp;</td>
 										<td class="b"><span id="totalhours">#NumberFormat(totalHours,"0.00")#</span></td>
-										<cfif listLen(visible_project_billlist)>
+										<cfif compare(visible_project_billlist,'NONE')>
 											<td class="tar b">TOTAL FEE:&nbsp;&nbsp;&nbsp;</td>
 											<td class="b"><span id="totalrate">$#NumberFormat(totalFee,"0")#</span></td>
 										</cfif>
-										<td colspan="3">&nbsp;</td>
+										<td>&nbsp;</td>
 									</tr>
 								</tfoot>
 							</table>
