@@ -20,9 +20,8 @@
 		<cfargument name="type" type="string" required="true">
 		<cfargument name="projectID" type="uuid" required="true">
 		<cfargument name="itemID" type="uuid" required="true">
-		<cfargument name="commentID" type="uuid" required="true">
 		<cfset var qProject = application.project.get('',arguments.projectID)>
-		<cfset var qComment = application.comment.get(projectID=arguments.projectID,itemID=arguments.commentID)>
+		<cfset var qComment = application.comment.get(projectID=arguments.projectID,itemID=arguments.itemID,lastOnly=1)>
 		<cfset var qItem = "">
 		<cfset var qNotifyList = "">
 		<cfset var theMessage = "">
