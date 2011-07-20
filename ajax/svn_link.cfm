@@ -13,8 +13,8 @@
 		<cfelse>
 			<cfset newID = createUUID()>
 			<cfset sentinal = find('|',form.r)>
-			<cfset revNum = left(form.r,sentinal-1)>
-			<cfset revMsg = right(form.r,len(form.r)-sentinal)>
+			<cfset revNum = listFirst(form.r,"|")>
+			<cfset revMsg = listLast(form.r,"|")>
 			<cfset application.svn.addLink(newID,form.p,revNum,form.i,form.t)>
 			<cfoutput>
 			<tr id="r#revNum#">
