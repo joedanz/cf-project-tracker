@@ -186,19 +186,6 @@ function relativeTime(pastdate) {
    }
 }
 request.udf.relativeTime = relativeTime;
-
-/**
- * Create all non exitant directories in a path.
- * 
- * @param p      The path to create. (Required)
- * @return Returns nothing. 
- * @author Jorge Iriso (jiriso@fitquestsl.com) 
- * @version 1, September 21, 2004 
- */
-function makeDirs(p){
-    createObject("java", "java.io.File").init(p).mkdirs();
-}
-request.udf.makeDirs = makeDirs;
 </cfscript>
 
 <cffunction name="sendEmail" access="public" hint="generates email based on settings" returntype="void">
