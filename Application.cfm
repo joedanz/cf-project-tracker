@@ -12,9 +12,6 @@
 <cfset setEncoding('Form','UTF-8')>
 <cfcontent type="text/html; charset=UTF-8">
 
-<!--- include UDFs --->
-<cfinclude template="#application.settings.mapping#/includes/udf.cfm">
-
 <!--- double check lock, so we don't do this twice --->
 <cfif not StructKeyExists(application,"init") or StructKeyExists(url,"reinit")>
 	<cflock name="init.#applicationName#" timeout="120">
@@ -40,7 +37,20 @@
 				<cfset application.userFilesPath = ExpandPath('#settings.mapping#/userfiles/')>
 			</cfif>
 			<!--- create userfiles directory if it doesn't exist --->
-			<cfset request.udf.makeDirs(application.userFilesPath)>
+			<cfscript>
+				/**
+				 * Create all non exitant directories in a path.
+				 * 
+				 * @param p      The path to create. (Required)
+				 * @return Returns nothing. 
+				 * @author Jorge Iriso (jiriso@fitquestsl.com) 
+				 * @version 1, September 21, 2004 
+				 */
+				function makeDirs(p){
+				    createObject("java", "java.io.File").init(p).mkdirs();
+				}			
+			</cfscript>
+			<cfset makeDirs(application.userFilesPath)>
 
 			<!--- application CFCs --->
 			<cfset application.activity = createObject("component","cfcs.activity").init(settings)>
@@ -124,6 +134,9 @@
 		</cfif>
 	</cflock>
 </cfif>
+
+<!--- include UDFs --->
+<cfinclude template="#application.settings.mapping#/includes/udf.cfm">
 
 <!--- error page --->
 <cfif application.settings.errorPage>
