@@ -95,7 +95,7 @@
 							<h5 class="sub">To-Do Lists:</h5>
 							<ul class="sub">
 							<cfloop query="tl">
-							<li class="sub"><a href="todos.cfm?p=#url.p#&amp;tlid=#todolistid#">#title#</a> - #completed_count# complete / #uncompleted_count# pending - Added #LSDateFormat(DateAdd("h",session.tzOffset,added),"d mmm, yyyy")#<cfif compare(firstName,'') or compare(lastName,'')> for #firstName# #lastName#</cfif></li>
+							<li class="sub"><a href="todos.cfm?p=#url.p#&amp;t=#todolistid#">#title#</a> - #completed_count# complete / #uncompleted_count# pending - Added #LSDateFormat(DateAdd("h",session.tzOffset,added),"d mmm, yyyy")#<cfif compare(firstName,'') or compare(lastName,'')> for #firstName# #lastName#</cfif></li>
 							</cfloop>
 							</ul>	
 							</cfif>
