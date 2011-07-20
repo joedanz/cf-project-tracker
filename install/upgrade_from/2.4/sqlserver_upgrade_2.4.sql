@@ -87,6 +87,8 @@ ALTER TABLE [dbo].[pt_project_users] ADD [bill_invoices] [tinyint] NULL
 GO
 ALTER TABLE [dbo].[pt_project_users] ADD [bill_markpaid] [tinyint] NULL
 GO
+ALTER TABLE [dbo].[pt_project_users] ADD [report] [tinyint] NULL
+GO
 UPDATE [dbo].[pt_project_users] SET file_view = 0
 GO
 UPDATE [dbo].[pt_project_users] SET file_edit = 0
@@ -138,6 +140,8 @@ GO
 UPDATE [dbo].[pt_project_users] SET bill_invoices = 0
 GO
 UPDATE [dbo].[pt_project_users] SET bill_markpaid = 0
+GO
+UPDATE [dbo].[pt_project_users] SET report = 0
 GO
 
 /* pt_projects - add new columns + columns for default permissions */
@@ -208,6 +212,12 @@ GO
 ALTER TABLE [dbo].[pt_projects] ADD [reg_bill_markpaid] [tinyint] NULL
 GO
 ALTER TABLE [dbo].[pt_projects] ADD [reg_report] [tinyint] NULL
+GO
+UPDATE [dbo].[pt_projects] SET reg_report = 0
+GO
+ALTER TABLE [dbo].[pt_projects] ADD [allow_def_rates] [tinyint] NULL
+GO
+UPDATE [dbo].[pt_projects] SET allow_def_rates = 1
 GO
 
 /* pt_settings - add new settings */

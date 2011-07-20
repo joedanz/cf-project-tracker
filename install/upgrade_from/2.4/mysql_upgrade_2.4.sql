@@ -47,6 +47,8 @@ ALTER TABLE `pt_project_users` ADD `bill_edit` int(1) default NULL;
 ALTER TABLE `pt_project_users` ADD `bill_rates` int(1) default NULL;
 ALTER TABLE `pt_project_users` ADD `bill_invoices` int(1) default NULL;
 ALTER TABLE `pt_project_users` ADD `bill_markpaid` int(1) default NULL;
+ALTER TABLE `pt_project_users` ADD `report` int(1) default NULL;
+UPDATE `pt_project_users` set `report` = 0;
 UPDATE `pt_project_users` set `file_view` = 0;
 UPDATE `pt_project_users` set `file_edit` = 0;
 UPDATE `pt_project_users` set `file_comment` = 0;
@@ -73,6 +75,7 @@ UPDATE `pt_project_users` set `bill_edit` = 0;
 UPDATE `pt_project_users` set `bill_rates` = 0;
 UPDATE `pt_project_users` set `bill_invoices` = 0;
 UPDATE `pt_project_users` set `bill_markpaid` = 0;
+UPDATE `pt_project_users` set `report` = 0;
 
 /* pt_projects - add new columns + columns for default permissions */
 ALTER TABLE `pt_projects` ADD `logo_img` varchar(150) default NULL;
@@ -109,6 +112,9 @@ ALTER TABLE `pt_projects` ADD `reg_bill_rates` int(1) default NULL;
 ALTER TABLE `pt_projects` ADD `reg_bill_invoices` int(1) default NULL;
 ALTER TABLE `pt_projects` ADD `reg_bill_markpaid` int(1) default NULL;
 ALTER TABLE `pt_projects` ADD `reg_report` int(1) default NULL;
+UPDATE `pt_projects` set `reg_report` = 0;
+ALTER TABLE `pt_projects` ADD `allow_def_rates` tinyint(1) default NULL;
+UPDATE `pt_projects` set `allow_def_rates` = 1;
 
 /* pt_settings - add new settings */
 INSERT INTO `pt_settings` values ('1E5ED63A-C938-2FE9-C60035D81F955266','company_name','');

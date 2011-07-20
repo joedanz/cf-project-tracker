@@ -60,7 +60,8 @@ add
    bill_edit NUMBER(1,0) NULL,
    bill_rates NUMBER(1,0) NULL,
    bill_invoices NUMBER(1,0) NULL,
-   bill_markpaid NUMBER(1,0) NULL
+   bill_markpaid NUMBER(1,0) NULL,
+   report NUMBER(1,0) NULL
    );
 update pt_project_users set file_view = 0;
 update pt_project_users set file_edit = 0;
@@ -88,6 +89,7 @@ update pt_project_users set bill_edit = 0;
 update pt_project_users set bill_rates = 0;
 update pt_project_users set bill_invoices = 0;
 update pt_project_users set bill_markpaid = 0;
+update pt_project_users set report = 0;
 
 /* pt_projects - add new columns + columns for default permissions */
 alter table
@@ -124,11 +126,14 @@ add
    reg_bill_rates NUMBER(1,0) NULL,
    reg_bill_invoices NUMBER(1,0) NULL,
    reg_bill_markpaid NUMBER(1,0) NULL,
-   reg_report NUMBER(1,0) NULL
+   reg_report NUMBER(1,0) NULL,
+   allow_def_rates NUMBER(1,0) NULL
    );
 update pt_projects set tab_billing = 0;
 update pt_projects set issue_svn_link = 1;
 update pt_projects set issue_timetrack = 1;
+update pt_projects set reg_report = 0;
+update pt_projects set allow_def_rates = 1;
 
 /* pt_settings - add new settings */
 INSERT INTO pt_settings (settingid,setting,settingvalue) values 
