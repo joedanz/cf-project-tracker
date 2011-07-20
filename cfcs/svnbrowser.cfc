@@ -27,7 +27,7 @@
 		<cfset var paths = arrayNew(1) />
 		<cfif variables.useClassLoader>
 			<cfif not structKeyExists(variables, "_javaClassLoader")>
-				<cfset paths[1] = getDirectoryFromPath(ExpandPath('.')) & application.settings.mapping & "/includes/svnkit-1.3.0.5847/svnkit.jar" />
+				<cfset paths[1] = getDirectoryFromPath(getMetaData(this).path) & "/../includes/svnkit-1.3.0.5847/svnkit.jar" />
 				<cfset variables._javaClassLoader = createObject("component", "cfcs.JavaLoader").init(paths) />
 			</cfif>
 			<cfreturn variables._javaClassLoader.create(arguments.class) />
