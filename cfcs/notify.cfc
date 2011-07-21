@@ -65,7 +65,7 @@
 #qItem.task#</cfcase>
 				</cfswitch>
 
-#request.udf.CleanText(qComment.commentText)#
+#request.udf.CleanText(request.udf.CleanHighAscii(qComment.commentText))#
 <cfswitch expression="#arguments.type#">
 	<cfcase value="msg">
 To view the message and leave comments, visit this link:
