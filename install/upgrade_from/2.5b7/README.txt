@@ -1,0 +1,1 @@
+The upgrade scripts in this directory are only for those who were running a 2.5 beta version.
