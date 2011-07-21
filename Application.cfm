@@ -151,7 +151,7 @@
 </cftry>
 
 <!--- check for logout --->
-<cfif StructKeyExists(url,"logout") or not isDefined("session.user.userid")>
+<cfif StructKeyExists(url,"logout") or not isDefined("session.user.userid") or StructKeyExists(url,'guest')>
 	<cfset structDelete(session, "user")>
 	<cfif StructKeyExists(cookie,"ptuser") and StructKeyExists(url,"logout")>
 		<cfif compare(application.settings.mapping,'')>
