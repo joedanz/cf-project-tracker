@@ -44,6 +44,8 @@ various versions.  Please run the necessary DB and/or CF scripts.
 You may need to reinitialize you app by adding a "?reinit" on the 
 end of a URL.  Also, be sure to keep the contents of your existing 
 "userfiles" directory, which is stored under the web root by default.
+Upgrades from version 2.4 or prior should pay attention to any 
+additional files to run in the upgrade directories.
 
 DEMO VERSION:
 A demo of this app can currently be found at http://ajaxcf.com/project

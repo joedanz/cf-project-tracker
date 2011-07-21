@@ -1,3 +1,5 @@
+<!--- This converts all dates in the database to be UTC-Based --->
+
 <cfsetting requesttimeout="300">
 
 <cfquery name="getActivity" datasource="#application.settings.dsn#">
