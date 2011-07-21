@@ -38,18 +38,6 @@ make sure to match the settings in the config files.
 If you change setting in the config files, you'll need to add 
 "&reinit=1" at the end of any URL to refresh the system settings.
 
-UPGRADING FROM 1.0 BETA:
-To upgrade, simply copy the latest files over the existing ones.
-You may need to reinitialize you app by adding a "?reinit" on the 
-end of a URL.  All of the settings are contained in the config 
-directory and in the database.  You should keep your existing 
-config files and copy them back on top of the newly installed 
-ones, but you may want to check for any added settings.  There
-are also 2 database upgrade scripts to be run.
-** Note: if you receive upgrade errors, it may be from ntext
-   fields that cannot be altered automatically.  You may need
-   to change these manually if you run into a problem.
-   
 UPGRADING FROM OTHER VERSIONS:
 There are upgrade scripts included in the install directory for the
 various versions.  Please run the necessary DB and/or CF scripts. 
@@ -71,6 +59,7 @@ REQUIREMENTS:
 ColdFusion, BlueDragon, or Railo
 CF8/BD/Railo required for avatars
 mySQL, SQL Server, or Oracle
+If on Railo, Strict Variable Scoping must be off. 
 
 AUTO-LOGIN MODIFICATION:
 To launch the application in an already logged in state as the guest user
