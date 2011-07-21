@@ -21,17 +21,17 @@
 <cfif compare(form.p,'')>
 	<cfset projects = application.project.get(projectID=form.p) />	
 	<cfset project = projects />			
-<cfelseif report IS 'client'>
+<cfelseif form.report IS 'client'>
 	<cfset clients = application.client.get() />
 	<cfif compare(form.Invoice,'')  >
 		<cfset projects = application.project.get(clientID=form.c) />
 	</cfif>
-<cfelseif report IS 'programmer'>
+<cfelseif form.report IS 'programmer'>
 	<cfset users = application.user.get() />
 	<cfif compare(form.Invoice,'')  >
 		<cfset projects = application.project.get(userID=form.u) />
 	</cfif>
-<cfelseif report IS 'all'>
+<cfelseif form.report IS 'all'>
 	<cfset projects = application.project.get() />
 </cfif>
 
