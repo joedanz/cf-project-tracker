@@ -113,7 +113,7 @@
 						</cfswitch>
 						</cfif>#description#</td>
 						<td class="tar">#numberFormat(hours,"0.00")#</td>
-						<td class="tar"><cfif compare(category,'')>#DollarFormat(rate)#<cfelse>$0.00</cfif></td>
+						<td class="tar"><cfif compare(category,'')>#LSCurrencyFormat(rate)#<cfelse>$0.00</cfif></td>
 					</tr>
 					<cfset totalHours = totalHours + hours>
 					<cfif compare(category,'')><cfset totalAmount = totalAmount + (rate * hours)></cfif>
@@ -123,7 +123,7 @@
 					<tr class="last">
 						<td colspan="3" class="tar b">TOTALS:</td>
 						<td class="b tar"><span id="totalhours">#NumberFormat(totalHours,"0.00")#</span></td>
-						<td class="b tar"><span id="totalamount">#DollarFormat(totalAmount)#</span></td>
+						<td class="b tar"><span id="totalamount">#LSCurrencyFormat(totalAmount)#</span></td>
 					</tr>
 				</tfoot>
 		 	</cfcase>	 	

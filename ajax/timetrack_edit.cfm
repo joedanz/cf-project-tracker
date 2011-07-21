@@ -22,7 +22,7 @@
 			<select name="rateID" id="rateID#timeline.timetrackid#">
 				<option value="">None</option>
 				<cfloop query="rates">
-					<option value="#rateID#"<cfif not compare(thisRateID,rateID)> selected="selected"</cfif>>#category# (#DollarFormat(rate)#)</option>
+					<option value="#rateID#"<cfif not compare(thisRateID,rateID)> selected="selected"</cfif>>#category# (#LSCurrencyFormat(rate)#)</option>
 				</cfloop>
 			</select>
 		</td>

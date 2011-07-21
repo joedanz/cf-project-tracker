@@ -25,7 +25,7 @@
 					<cfif rates.recordCount>
 					<ul id="client_rates" class="mt15 ml40">
 						<cfloop query="rates">
-							<li id="r#rateID#">#category# - #DollarFormat(rate)#/hr&nbsp;<cfif numLines eq 0> <a href="##" class="x" onclick="delete_rate('#rateID#');return false;"></a><cfelse> <span class="sm g">(#numLines# time tracking item<cfif numLines gt 1>s</cfif>)</span></cfif></li>
+							<li id="r#rateID#">#category# - #LSCurrencyFormat(rate)#/hr&nbsp;<cfif numLines eq 0> <a href="##" class="x" onclick="delete_rate('#rateID#');return false;"></a><cfelse> <span class="sm g">(#numLines# time tracking item<cfif numLines gt 1>s</cfif>)</span></cfif></li>
 						</cfloop>
 					</ul>
 					<cfelse>

@@ -7,7 +7,7 @@
 		<cfset application.client.addRate(newID,url.cat,url.r,url.c)>
 		<cfset rates = application.client.getRates(clientID=url.c,allowDefaultRates='false')>
 		<cfoutput query="rates">
-			<li id="r#rateID#"<cfif not compare(newID,rateID)> class="cur_rate"</cfif>>#category# - #DollarFormat(rate)#/hr&nbsp;<cfif numLines eq 0> <a href="##" class="x" onclick="delete_rate('#rateID#');return false;"></a><cfelse> <small class="g">(#numLines# time tracking items)</small></cfif></li>
+			<li id="r#rateID#"<cfif not compare(newID,rateID)> class="cur_rate"</cfif>>#category# - #LSCurrencyFormat(rate)#/hr&nbsp;<cfif numLines eq 0> <a href="##" class="x" onclick="delete_rate('#rateID#');return false;"></a><cfelse> <small class="g">(#numLines# time tracking items)</small></cfif></li>
 		</cfoutput>
 		<cfoutput>
 			<script type="text/javascript">
@@ -20,7 +20,7 @@
 		<cfset application.client.addRate(newID,url.cat,url.r)>
 		<cfset rates = application.client.getRates(defaultOnly='true')>
 		<cfoutput query="rates">
-			<li id="r#rateID#"<cfif not compare(newID,rateID)> class="cur_rate"</cfif>>#category# - #DollarFormat(rate)#/hr&nbsp;<cfif numLines eq 0> <a href="##" class="x" onclick="delete_rate('#rateID#');return false;"></a><cfelse> <small class="g">(#numLines# time tracking items)</small></cfif></li>
+			<li id="r#rateID#"<cfif not compare(newID,rateID)> class="cur_rate"</cfif>>#category# - #LSCurrencyFormat(rate)#/hr&nbsp;<cfif numLines eq 0> <a href="##" class="x" onclick="delete_rate('#rateID#');return false;"></a><cfelse> <small class="g">(#numLines# time tracking items)</small></cfif></li>
 		</cfoutput>
 		<cfoutput>
 			<script type="text/javascript">

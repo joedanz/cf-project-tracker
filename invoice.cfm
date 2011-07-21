@@ -226,7 +226,7 @@
 											<tr>
 												<td class="first">#name#</td>
 												<td class="tar"><cfif compare(hours.totalHours,'')>#hours.totalHours#<cfelse>0.0</cfif></td>
-												<td class="tar">#DollarFormat(totalAmount)#</td>
+												<td class="tar">#LSCurrencyFormat(totalAmount)#</td>
 											</tr>
 											<cfset allProjHours = allProjHours + hours.totalHours>
 											<cfset allProjAmount = allProjAmount + totalAmount>
@@ -236,7 +236,7 @@
 											<tr class="last">
 												<td class="tar b">TOTALS:</td>
 												<td class="b tar"><span id="totalhours">#NumberFormat(allProjHours,"0.00")#</span></td>
-												<td class="b tar"><span id="totalamount">#DollarFormat(allProjAmount)#</span></td>
+												<td class="b tar"><span id="totalamount">#LSCurrencyFormat(allProjAmount)#</span></td>
 											</tr>
 										</tfoot>
 									</table>
