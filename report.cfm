@@ -113,7 +113,7 @@
 				<br/><br/>
 				
 				<form action="#cgi.script_name#?#cgi.query_string#" method="post" class="frm">				
-					<cfif not compare(url.p,'') and report IS "client">
+					<cfif not compare(url.p,'') and url.report IS "client">
 						<cfquery name="clientsWithProjects" dbtype="query">
 							SELECT * FROM clients WHERE numProjects > 0
 						</cfquery>
@@ -127,7 +127,7 @@
 						</select>
 						</p>
 					</cfif>
-					<cfif report IS "user">
+					<cfif url.report IS "user">
 							
 						<p>
 						<label for="u" >Programmer:</label>
