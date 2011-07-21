@@ -84,8 +84,16 @@
 	<cfset form.phone = user.phone>
 	<cfset form.mobile = user.mobile>
 	<cfset form.carrierID = user.carrierID>
-	<cfset form.locale = user.locale>
-	<cfset form.timezone = user.timezone>
+	<cfif compare(user.locale,'')>
+		<cfset form.locale = user.locale>
+	<cfelse>
+		<cfset form.locale = application.settings.default_locale>
+	</cfif>
+	<cfif compare(user.timezone,'')>
+		<cfset form.timezone = user.timezone>
+	<cfelse>
+		<cfset form.timezone = application.settings.default_timezone>
+	</cfif>
 	<cfset form.admin = user.admin>
 	<cfset form.report = user.report>
 	<cfset form.invoice = user.invoice>
