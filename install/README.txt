@@ -33,7 +33,8 @@ directory.  Manual install scripts are also included.
 
 The user table includes an admin and a guest user, plus 2 entries for 
 default settings.  You can name your database whatever you'd like but 
-make sure to match the settings in the config files.
+make sure to match the settings in the config files.  The default 
+password for the admin account is "admin", and for the guest, "guest".
 
 If you change setting in the config files, you'll need to add 
 "&reinit=1" at the end of any URL to refresh the system settings.
@@ -76,6 +77,7 @@ THANKS:
 To Mark Mandel for getting the SVNKit and JavaLoader stuff working.
 To Jeffry Houser and Jeff Coughlin for their many suggestions.
 To Jason Dean for getting things going on Oracle.
+To Tim Garver for helping to get the SVN functionality back on track.
 
 FEEDBACK?
 Please email joe@ajaxcf.com with any suggestions or other feedback.
