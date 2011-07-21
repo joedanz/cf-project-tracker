@@ -65,7 +65,7 @@
 						<cfoutput query="files" group="#sortfield#">
 							<div class="stamp">
 							<cfif not compareNoCase(session.user.fileorder,'date')>
-								#DateFormat(DateAdd("h",session.tzOffset,uploaddate),"dddd, d mmmm")#
+								#LSDateFormat(DateAdd("h",session.tzOffset,uploaddate),"dddd, d mmmm")#
 							<cfelseif not compareNoCase(session.user.fileorder,'alpha')>
 								#leftChar#
 							</cfif>

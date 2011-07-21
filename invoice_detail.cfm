@@ -34,7 +34,7 @@
 				<tbody>	
 				<cfloop query="timelinesByDate">			
 					<tr>
-						<td class="first">#DateFormat(dateStamp,"mmm d, yyyy")#</td>
+						<td class="first">#LSDateFormat(dateStamp,"mmm d, yyyy")#</td>
 						<td class="tar b">#numberFormat(hours,"0.00")#</td>
 					</tr>
 					<cfset totalHours = totalHours + hours>
@@ -93,7 +93,7 @@
 				<tbody>	
 				<cfloop query="timelines">
 					<tr>
-						<td class="first">#DateFormat(dateStamp,"mmm d, yyyy")#</td>
+						<td class="first">#LSDateFormat(dateStamp,"mmm d, yyyy")#</td>
 						<td>
 							<cfif compare(category,'')>
 								#category#

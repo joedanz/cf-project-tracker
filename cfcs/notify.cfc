@@ -462,7 +462,7 @@ Due Date: <cfif isDate(qMilestone.dueDate)>#LSDateFormat(qMilestone.dueDate,"ddd
 				<cfoutput>The following #qProject.name# milestone has been updated:
 #qMilestone.name#
 
-Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
+Due Date: #LSDateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
 
 #request.udf.CleanText(qMilestone.description)#
 
@@ -507,7 +507,7 @@ Due Date: #DateFormat(qMilestone.dueDate,"ddd, mmmm d, yyyy")#
 				<cfoutput>A new #qProject.name# to-do has been added to list #qTodolist.title#:
 #qTodo.task#
 
-<cfif isDate(qTodo.due)>Due Date: #DateFormat(qTodo.due,"ddd, mmmm d, yyyy")#
+<cfif isDate(qTodo.due)>Due Date: #LSDateFormat(qTodo.due,"ddd, mmmm d, yyyy")#
 
 </cfif>To view file details or to download, visit this link:
 #application.settings.rootURL##application.settings.mapping#/todo.cfm?p=#arguments.projectID#&t=#arguments.todoID#
@@ -548,7 +548,7 @@ List: #qTodolist.title#
 				<cfoutput>The following #qProject.name# to-do has been updated in list #qTodolist.title#:
 #qTodo.task#
 
-<cfif isDate(qTodo.due)>Due Date: #DateFormat(qTodo.due,"ddd, mmmm d, yyyy")#
+<cfif isDate(qTodo.due)>Due Date: #LSDateFormat(qTodo.due,"ddd, mmmm d, yyyy")#
 
 </cfif>To view file details or to download, visit this link:
 #application.settings.rootURL##application.settings.mapping#/todos.cfm?p=#arguments.projectID#&t=#arguments.todoID#

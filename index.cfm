@@ -282,7 +282,7 @@ $(document).ready(function(){
 						<td><a href="issue.cfm?p=#projectID#&amp;i=#issueID#">#issue#</a></td>
 						<td>#assignedFirstName# #assignedLastName#</td>
 						<td>#LSDateFormat(DateAdd("h",session.tzOffset,created),"mmm dd, yyyy")#</td>
-						<td><cfif isDate(updated)>#DateFormat(DateAdd("h",session.tzOffset,updated),"mmm dd, yyyy")#</cfif></td>
+						<td><cfif isDate(updated)>#LSDateFormat(DateAdd("h",session.tzOffset,updated),"mmm dd, yyyy")#</cfif></td>
 						<td><cfif isDate(dueDate)>#LSDateFormat(dueDate,"mmm dd, yyyy")#</cfif></td>
 					</tr>
 					<cfset thisRow = thisRow + 1>

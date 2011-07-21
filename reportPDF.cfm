@@ -36,7 +36,7 @@
 </cfif>
 
 <cfif compare(form.startDate,'') AND NOT compare(form.endDate,'')>
-	<cfset form.endDate = #DateFormat(Now(), "mm/dd/yyyy")#>
+	<cfset form.endDate = #LSDateFormat(Now(), "mm/dd/yyyy")#>
 </cfif>
 
 <cfdocument format="pdf">
@@ -70,7 +70,7 @@
 			<br/>
 		</td>
 		<td style="text-align:right; vertical-align:top;">
-			Date: #DateFormat(Now(), "mmmm dd, yyyy")#
+			Date: #LSDateFormat(Now(), "mmmm dd, yyyy")#
 		</td>
 	</tr>						
 

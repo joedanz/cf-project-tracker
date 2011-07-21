@@ -142,7 +142,7 @@
 										<tr>
 											<td class="cb#todolistID#"><cfif session.user.admin or project.todo_edit eq 1><input type="checkbox" name="todoID" value="#todoID#" checked="checked" onclick="mark_incomplete('#url.p#','#todolistID#','#todoID#');" /></cfif></td>
 											<td class="t#todolistID#"><cfif (session.user.admin or (project.todo_edit eq 1 and project.time_edit eq 1)) and thisTimetrack eq 1><img src="./images/time<cfif numTimeTracks gt 0>3<cfelse>2</cfif>.gif" height="16" width="16" onclick="todo_time('edit','#url.p#','#todolistID#','#todoID#','#replace(todoID,'-','','ALL')#','1');" /></cfif></td>
-											<td id="edit#todoID#" class="sm"<cfif numComments eq 0> onmouseover="$('##c#todoID#').show();" onmouseout="$('##c#todoID#').hide();"</cfif>><cfif isDate(completed)>#LSDateFormat(DateAdd("h",session.tzOffset,completed),"mmm d")# </cfif><strike>#task#</strike><cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)<cfif isDate(due)> - due on #DateFormat(due,"mmm d, yyyy")#</cfif></span></cfif><cfif session.user.admin or project.todolist_edit eq 1> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="edit_item('#url.p#','#todolistID#','#todoID#');return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#url.p#','#todolistID#','#todoID#');return false;" /> <a href="todo.cfm?p=#url.p#&amp;t=#todoID#" class="nounder" id="c#todoID#"<cfif numComments eq 0> style="display:none;"</cfif>><img src="./images/comment.png" height="11" width="14" alt="Comments" class="link" /><cfif numComments gt 0> #numComments#</cfif></a></span></cfif></td>
+											<td id="edit#todoID#" class="sm"<cfif numComments eq 0> onmouseover="$('##c#todoID#').show();" onmouseout="$('##c#todoID#').hide();"</cfif>><cfif isDate(completed)>#LSDateFormat(DateAdd("h",session.tzOffset,completed),"mmm d")# </cfif><strike>#task#</strike><cfif compare(lastname,'')> <span class="g">(#firstName# #lastName#)<cfif isDate(due)> - due on #LSDateFormat(due,"mmm d, yyyy")#</cfif></span></cfif><cfif session.user.admin or project.todolist_edit eq 1> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="edit_item('#url.p#','#todolistID#','#todoID#');return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#url.p#','#todolistID#','#todoID#');return false;" /> <a href="todo.cfm?p=#url.p#&amp;t=#todoID#" class="nounder" id="c#todoID#"<cfif numComments eq 0> style="display:none;"</cfif>><img src="./images/comment.png" height="11" width="14" alt="Comments" class="link" /><cfif numComments gt 0> #numComments#</cfif></a></span></cfif></td>
 										</tr>
 									</table>
 								</li>
@@ -156,7 +156,7 @@
 							<div class="liststamp">
 								<cfset daysago = DateDiff("d",DateAdd("h",session.tzOffset,added),Now())>
 								<cfif compare(name,'')><div class="ms mstone">Milestone: #name#</div></cfif>
-								<div class="posted">Posted by #firstName# #lastName# on #DateFormat(DateAdd("h",session.tzOffset,added),"dddd, mmmm d, yyyy")# (<cfif daysago eq 0>Today<cfelse>#daysago# Day<cfif daysago neq 1>s</cfif> Ago</cfif>)</div>
+								<div class="posted">Posted by #firstName# #lastName# on #LSDateFormat(DateAdd("h",session.tzOffset,added),"dddd, mmmm d, yyyy")# (<cfif daysago eq 0>Today<cfelse>#daysago# Day<cfif daysago neq 1>s</cfif> Ago</cfif>)</div>
 							</div>
 
 						</div>
