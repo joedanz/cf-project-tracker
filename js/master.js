@@ -32,7 +32,7 @@ function all_mark_complete(projectid,todolistid,todoid) {
 	$.ajax({
 		type: 'get',
 		url: './ajax/todo.cfm',
-		data: 'action=mark_complete&p=' + projectid + &tl=' + todolistid + '&t=' + todoid
+		data: 'action=mark_complete&p=' + projectid + '&tl=' + todolistid + '&t=' + todoid
 	});
 }
 
@@ -466,6 +466,26 @@ function delete_time_ajax(projectid,timetrackid,from,itemid) {
 }
 
 // *** TO-DOS ***
+function upcoming_todos(pid,limit) {
+    $.ajax({
+		type: 'get',
+		url: './ajax/todos.cfm',
+		data: 'type=upcoming&p=' + pid + '&l=' + limit,
+		success: function(txt){
+	     $('#upcoming_todos').html(txt);
+		}
+	});
+}
+function all_upcoming_todos(limit) {
+    $.ajax({
+		type: 'get',
+		url: './ajax/todos.cfm',
+		data: 'type=allupcoming&l=' + limit,
+		success: function(txt){
+	     $('#upcoming_todos').html(txt);
+		}
+	});
+}
 function redraw_incomplete(projectid,todolistid,todoid,type) {
     $.ajax({
 		type: 'get',
@@ -500,7 +520,7 @@ function mark_incomplete(projectid,todolistid,todoid) {
 	$.ajax({
 		type: 'get',
 		url: './ajax/todo.cfm',
-		data: 'action=mark_incomplete&tl=' + todolistid + '&t=' + todoid
+		data: 'action=mark_incomplete&p=' + projectid + '&tl=' + todolistid + '&t=' + todoid
 	});
 	redraw_incomplete(projectid,todolistid,todoid,'update');
 }

@@ -15,7 +15,7 @@
 		<cfreturn this>
 	</cffunction>
 
-	<cffunction name="get" access="public" returnType="query" output="false"
+	<cffunction name="get" access="public" returnType="query" output="true"
 				hint="Returns projects.">
 		<cfargument name="projectID" type="string" required="false" default="">
 		<cfargument name="todolistID" type="string" required="false" default="">
@@ -25,6 +25,8 @@
 		<cfargument name="projectIDlist" type="string" required="false" default="">
 		<cfargument name="todoID" type="string" required="false" default="">
 		<cfargument name="fullJoin" type="boolean" required="false" default="false">
+		<cfargument name="type" type="string" required="false" default="">
+		<cfargument name="limit" type="string" required="false" default="">
 		<cfset var qGetTodos = "">
 		<cfquery name="qGetTodos" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT t.todoID,t.todolistID,t.projectID,t.task,t.userID,t.rank,t.due,t.completed,
@@ -58,8 +60,25 @@
 				<cfif compare(arguments.assignedTo,'')>
 					AND t.userID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.assignedTo#" maxlength="35">
 				</cfif>
+				<cfswitch expression="#arguments.type#">
+					<cfcase value="overdue">
+						AND t.due < #CreateODBCDate(Now())# AND t.completed IS NULL
+					</cfcase>
+					<cfcase value="upcoming">
+						AND t.due >= #CreateODBCDate(Now())# AND t.completed IS NULL
+						<cfif compare(arguments.limit,'')>
+							AND t.due <= #DateAdd("m",arguments.limit,CreateODBCDate(Now()))#
+						</cfif>					
+					</cfcase>
+					<cfcase value="completed">
+						AND t.completed IS NOT NULL					
+					</cfcase>
+					<cfcase value="incomplete">
+						AND t.completed IS NULL					
+					</cfcase>
+				</cfswitch>
 			GROUP BY
-				<cfif arguments.fullJoin>
+				<cfif arguments.fullJoin and arguments.fullJoin NEQ 0>
 					p.name, p.projectID, tl.title, 
 				</cfif> 
 				t.todoID,t.todolistID,t.projectID,t.task,t.userID,t.rank,t.added,t.due,
@@ -82,7 +101,7 @@
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todoID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.todolistID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.task#" maxlength="300">,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.task#">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					999,
 					<cfqueryparam cfsqltype="cf_sql_timestamp" value="#DateConvert("local2Utc",Now())#">,
@@ -105,7 +124,7 @@
 		<cfargument name="due" type="string" required="true">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#todos
-				SET task = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.task#" maxlength="300">,
+				SET task = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.task#">,
 					userID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					due = 
 						<cfif isDate(arguments.due)>

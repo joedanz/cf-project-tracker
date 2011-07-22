@@ -46,6 +46,7 @@
 </cfif>
 <cfset visible_project_list_mstones = "">
 <cfset visible_project_list_issues = "">
+<cfset visible_project_list_todo = "">
 <cfloop query="projects">
 	<cfif mstone_view gt 0>
 		<cfset visible_project_list_mstones = listAppend(visible_project_list_mstones,projectID)>
@@ -54,6 +55,11 @@
 <cfloop query="projects">
 	<cfif issue_view gt 0>
 		<cfset visible_project_list_issues = listAppend(visible_project_list_issues,projectID)>
+	</cfif>
+</cfloop>
+<cfloop query="projects">
+	<cfif todolist_view gt 0>
+		<cfset visible_project_list_todo = listAppend(visible_project_list_todo,projectID)>
 	</cfif>
 </cfloop>
 <cfset activity = application.activity.get('',valueList(projects.projectID),'true')>
@@ -68,6 +74,13 @@
 	<cfset issues = application.issue.get('','','New|Accepted|Assigned',visible_project_list_issues)>
 <cfelse>
 	<cfset issues = QueryNew("issueID,dueDate","VarChar,Date")>
+</cfif>
+<cfif listLen(visible_project_list_todo)>
+	<cfset todos_overdue = application.todo.get('','','','t.due','',visible_project_list_issues,'',1,'overdue')>
+	<cfset todos_upcoming = application.todo.get('','','','t.due','',visible_project_list_issues,'',1,'upcoming','1')>
+<cfelse>
+	<cfset todos_overdue = QueryNew("todoID,dueDate","VarChar,Date")>
+	<cfset todos_upcoming = QueryNew("todoID,dueDate","VarChar,Date")>
 </cfif>
 
 <!--- Loads header/footer --->
@@ -166,7 +179,11 @@ $(document).ready(function(){
 						select * from issues where dueDate <= 
 						<cfqueryparam value="#CreateODBCDate(DateAdd("d",13,Now()))#" cfsqltype="CF_SQL_DATE" />
 					</cfquery>
-					<cfif ms_next_14.recordCount or issues_next_14.recordCount>
+					<cfquery name="todo_next_14" dbtype="query">
+						select * from todos_upcoming where due <= 
+						<cfqueryparam value="#CreateODBCDate(DateAdd("d",13,Now()))#" cfsqltype="CF_SQL_DATE" />
+					</cfquery>
+					<cfif ms_next_14.recordCount or issues_next_14.recordCount or todo_next_14.recordCount>
 					<div class="mb5 b" style="border-bottom:1px solid ##000;">Due in the next 14 days</div>
 					<cfset theDay = dayOfWeek(now())>
 					<table border="0" cellpadding="0" cellspacing="1" width="100%" id="milestone_cal">
@@ -189,10 +206,14 @@ $(document).ready(function(){
 									select issueid,issue,projectid,name from issues where dueDate = 
 									<cfqueryparam value="#CreateODBCDate(DateAdd("d",i,Now()))#" cfsqltype="CF_SQL_DATE" />
 								</cfquery>
+								<cfquery name="todays_todo" dbtype="query">
+									select todoid,todolistid,task,projectid,name from todos_upcoming where due = 
+									<cfqueryparam value="#CreateODBCDate(DateAdd("d",i,Now()))#" cfsqltype="CF_SQL_DATE" />
+								</cfquery>
 								<cfif i eq 0>
 									<td class="today"><span class="b">TODAY</span>
 								<cfelse>
-									<cfif todays_ms.recordCount or todays_issues.recordCount>
+									<cfif todays_ms.recordCount or todays_issues.recordCount or todays_todo.recordCount>
 										<td class="active"><span class="b"><cfif i eq 1 or DatePart("d",DateAdd("d",i,Now())) eq 1>#Left(MonthAsString(Month(DateAdd("d",i,Now()))),3)#</cfif>
 										#LSDateFormat(DateAdd("d",i,Now()),"d")#</span>
 									<cfelse>
@@ -209,6 +230,11 @@ $(document).ready(function(){
 									<cfif todays_issues.recordCount>
 										<cfloop query="todays_issues">
 											<li><a href="issue.cfm?p=#projectID#&amp;i=#issueID#">#issue#</a> (<a href="project.cfm?p=#projectID#">#name#</a>) (issue)</li>
+										</cfloop>
+									</cfif>
+									<cfif todays_todo.recordCount>
+										<cfloop query="todays_todo">
+											<li><a href="todo.cfm?p=#projectID#&amp;t=#todoid#">#task#</a> (<a href="project.cfm?p=#projectID#">#name#</a>) (todo)</li>
 										</cfloop>
 									</cfif>
 								</ul>
@@ -250,7 +276,38 @@ $(document).ready(function(){
 						</cfloop>
 					</ul><br />
 					</cfif>
-
+					
+					<cfif listLen(visible_project_list_todo) and todos_overdue.recordCount>
+					<div class="overdue">
+					<div class="mb5 b" style="color:##f00;border-bottom:1px solid ##f00;">Late ToDos</div>
+					<ul class="nobullet">
+						<cfloop query="todos_overdue">
+							<cfset daysago = DateDiff("d",due,Now())>
+						<li><span class="b" style="color:##f00;"><cfif daysago eq 0>Today<cfelse>#daysago# day<cfif daysago neq 1>s</cfif> ago</cfif>:</span> 
+							<a href="todo.cfm?p=#projectID#&amp;t=#todoid#">#task#</a>
+							<span class="sm">(<a href="project.cfm?p=#projectID#" class="b">#name#</a><cfif compare(lastName,'')> | #firstName# #lastName# is responsible</cfif>)</span>
+						</li>
+						</cfloop>
+					</ul>
+					</div><br />
+					</cfif>
+					
+					<cfif listLen(visible_project_list_todo) and todos_upcoming.recordCount>
+					<div class="mb5 b" style="border-bottom:1px solid ##000;">
+						
+					<span style="float:right;font-size:.75em;"><a href="##" onclick="all_upcoming_todos('1');$(this).addClass('subactive');$('##t_threem').removeClass('subactive');$('##all').removeClass('subactive');" class="sublink subactive" id="t_onem">1 month</a> | <a href="##" onclick="all_upcoming_todos('3');$('##t_onem').removeClass('subactive');$(this).addClass('subactive');$('##t_all').removeClass('subactive');" class="sublink" id="t_threem">3 months</a> | <a href="##" onclick="all_upcoming_todos('');$('##t_onem').removeClass('subactive');$('##t_threem').removeClass('subactive');$(this).addClass('subactive');" class="sublink" id="t_all">All</a></span>
+						
+						Upcoming Todos</div>
+					<ul class="nobullet" id="upcoming_todos">
+						<cfloop query="todos_upcoming">
+							<cfset daysDiff = DateDiff("d",CreateDate(year(Now()),month(Now()),day(Now())),due)>
+						<li><span class="b"><cfif daysDiff eq 0>Today<cfelseif daysDiff eq 1>Tomorrow<cfelse>#daysDiff# days away</cfif>:</span> 
+							<a href="todo.cfm?p=#projectID#&amp;t=#todoid#">#task#</a>
+							<span class="sm">(<a href="project.cfm?p=#projectID#" class="b">#name#</a><cfif compare(lastName,'')> | #firstName# #lastName# is responsible</cfif>)</span>
+						</li>
+						</cfloop>
+					</ul><br />
+					</cfif>
 
 				 	<cfif listLen(visible_project_list_issues) and issues.recordCount>
 					<div style="border:1px solid ##ddd;" class="mb20">
