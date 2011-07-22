@@ -572,6 +572,129 @@ List: #qTodolist.title#
 		</cfloop>
 	</cffunction>
 
+	<cffunction name="todoDel" access="public" returnType="void" output="false"
+				hint="Notification of deleted todo.">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="todolistID" type="uuid" required="true">
+		<cfargument name="todoID" type="uuid" required="true">
+		<cfset var qProject = application.project.get('',arguments.projectID)>
+		<cfset var qProjectUsers = application.project.projectUsers(arguments.projectID)>
+		<cfset var qTodolist = application.todolist.get(arguments.projectID,arguments.todolistID)>
+		<cfset var qTodo = application.todo.get(projectID=arguments.projectID,todolistID=arguments.todolistID,todoID=arguments.todoID)>
+		<cfset var theMessage = "">
+		<cfloop query="qProjectUsers">		
+			<cfif email_todo_new and request.udf.isEmail(email)>
+			
+				<cfsavecontent variable="theMessage">
+				<cfoutput>A new #qProject.name# to-do has been deleted from list #qTodolist.title#:
+#qTodo.task#
+
+<cfif isDate(qTodo.due)>Due Date: #LSDateFormat(qTodo.due,"ddd, mmmm d, yyyy")#
+
+</cfif>To view file details or to download, visit this link:
+#application.settings.rootURL##application.settings.mapping#/todo.cfm?p=#arguments.projectID#&t=#arguments.todoID#
+				</cfoutput>
+				</cfsavecontent>
+			
+				<cfset request.udf.sendEmail(application.settings.adminEmail,email,"#application.settings.email_subject_prefix#[Deleted] To-Do in '#qTodolist.title#'#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#",theMessage)>
+			</cfif>
+			<cfif mobile_todo_new and isNumeric(mobile)>
+				
+				<cfsavecontent variable="theMessage">
+				<cfoutput>Deleted #qProject.name# to-do:
+#qTodo.task#
+
+List: #qTodolist.title#
+				</cfoutput>
+				</cfsavecontent>
+				
+				<cfset request.udf.sendEmail(application.settings.adminEmail,"#prefix##mobile##suffix#","#application.settings.sms_subject_prefix#[Deleted] To-Do#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#",theMessage)>
+			</cfif>
+		</cfloop>
+	</cffunction>
+
+	<cffunction name="todoComp" access="public" returnType="void" output="false"
+				hint="Notification of completed todo.">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="todolistID" type="uuid" required="true">
+		<cfargument name="todoID" type="uuid" required="true">
+		<cfset var qProject = application.project.get('',arguments.projectID)>
+		<cfset var qProjectUsers = application.project.projectUsers(arguments.projectID)>
+		<cfset var qTodolist = application.todolist.get(arguments.projectID,arguments.todolistID)>
+		<cfset var qTodo = application.todo.get(projectID=arguments.projectID,todolistID=arguments.todolistID,todoID=arguments.todoID)>
+		<cfset var theMessage = "">
+		<cfloop query="qProjectUsers">		
+			<cfif email_todo_new and request.udf.isEmail(email)>
+			
+				<cfsavecontent variable="theMessage">
+				<cfoutput>A new #qProject.name# to-do has been marked completed from list #qTodolist.title#:
+#qTodo.task#
+
+<cfif isDate(qTodo.due)>Due Date: #LSDateFormat(qTodo.due,"ddd, mmmm d, yyyy")#
+
+</cfif>To view file details or to download, visit this link:
+#application.settings.rootURL##application.settings.mapping#/todo.cfm?p=#arguments.projectID#&t=#arguments.todoID#
+				</cfoutput>
+				</cfsavecontent>
+			
+				<cfset request.udf.sendEmail(application.settings.adminEmail,email,"#application.settings.email_subject_prefix#[Completed] To-Do in '#qTodolist.title#'#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#",theMessage)>
+			</cfif>
+			<cfif mobile_todo_new and isNumeric(mobile)>
+				
+				<cfsavecontent variable="theMessage">
+				<cfoutput>Completed #qProject.name# to-do:
+#qTodo.task#
+
+List: #qTodolist.title#
+				</cfoutput>
+				</cfsavecontent>
+				
+				<cfset request.udf.sendEmail(application.settings.adminEmail,"#prefix##mobile##suffix#","#application.settings.sms_subject_prefix#[Completed] To-Do#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#",theMessage)>
+			</cfif>
+		</cfloop>
+	</cffunction>
+
+	<cffunction name="todoIncomp" access="public" returnType="void" output="false"
+				hint="Notification of completed todo.">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfargument name="todolistID" type="uuid" required="true">
+		<cfargument name="todoID" type="uuid" required="true">
+		<cfset var qProject = application.project.get('',arguments.projectID)>
+		<cfset var qProjectUsers = application.project.projectUsers(arguments.projectID)>
+		<cfset var qTodolist = application.todolist.get(arguments.projectID,arguments.todolistID)>
+		<cfset var qTodo = application.todo.get(projectID=arguments.projectID,todolistID=arguments.todolistID,todoID=arguments.todoID)>
+		<cfset var theMessage = "">
+		<cfloop query="qProjectUsers">		
+			<cfif email_todo_new and request.udf.isEmail(email)>
+			
+				<cfsavecontent variable="theMessage">
+				<cfoutput>A new #qProject.name# to-do has been marked incomplete from list #qTodolist.title#:
+#qTodo.task#
+
+<cfif isDate(qTodo.due)>Due Date: #LSDateFormat(qTodo.due,"ddd, mmmm d, yyyy")#
+
+</cfif>To view file details or to download, visit this link:
+#application.settings.rootURL##application.settings.mapping#/todo.cfm?p=#arguments.projectID#&t=#arguments.todoID#
+				</cfoutput>
+				</cfsavecontent>
+			
+				<cfset request.udf.sendEmail(application.settings.adminEmail,email,"#application.settings.email_subject_prefix#[Incomplete] To-Do in '#qTodolist.title#'#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#",theMessage)>
+			</cfif>
+			<cfif mobile_todo_new and isNumeric(mobile)>
+				
+				<cfsavecontent variable="theMessage">
+				<cfoutput>Incomplete #qProject.name# to-do:
+#qTodo.task#
+
+List: #qTodolist.title#
+				</cfoutput>
+				</cfsavecontent>
+				
+				<cfset request.udf.sendEmail(application.settings.adminEmail,"#prefix##mobile##suffix#","#application.settings.sms_subject_prefix#[Incomplete] To-Do#IIF(compare(qProject.name,''),DE(' (##qProject.name##)'),'')#",theMessage)>
+			</cfif>
+		</cfloop>
+	</cffunction>
+
 	<cffunction name="add" access="public" returntype="void" output="false"
 				hint="Updates a user's notification settings.">
 		<cfargument name="userID" type="string" required="true">
@@ -604,6 +727,10 @@ List: #qTodolist.title#
 		<cfargument name="mobile_todo_new" type="numeric" required="false" default="0">
 		<cfargument name="email_todo_upd" type="numeric" required="false" default="0">
 		<cfargument name="mobile_todo_upd" type="numeric" required="false" default="0">
+		<cfargument name="email_todo_del" type="numeric" required="false" default="0">
+		<cfargument name="mobile_todo_del" type="numeric" required="false" default="0">
+		<cfargument name="email_todo_cmp" type="numeric" required="false" default="0">
+		<cfargument name="mobile_todo_cmp" type="numeric" required="false" default="0">
 		<cfargument name="email_todo_com" type="numeric" required="false" default="0">
 		<cfargument name="mobile_todo_com" type="numeric" required="false" default="0">
 		<cfargument name="email_time_new" type="numeric" required="false" default="0">
@@ -623,7 +750,8 @@ List: #qTodolist.title#
 				email_issue_upd, mobile_issue_upd, email_issue_com, mobile_issue_com, email_msg_new, mobile_msg_new,
 				email_msg_upd, mobile_msg_upd, email_msg_com, mobile_msg_com, email_mstone_new, mobile_mstone_new,
 				email_mstone_upd, mobile_mstone_upd, email_mstone_com, mobile_mstone_com, email_todo_new, 
-				mobile_todo_new, email_todo_upd, mobile_todo_upd, email_todo_com, mobile_todo_com,
+				mobile_todo_new, email_todo_upd, mobile_todo_upd, email_todo_del, mobile_todo_del,
+				email_todo_cmp, mobile_todo_cmp, email_todo_com, mobile_todo_com,
 				email_time_new, mobile_time_new, email_time_upd, mobile_time_upd, email_bill_new, 
 				mobile_bill_new, email_bill_upd, mobile_bill_upd, email_bill_paid, mobile_bill_paid)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#">,
@@ -656,6 +784,10 @@ List: #qTodolist.title#
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todo_new#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todo_upd#">, 
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todo_upd#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todo_del#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todo_del#">,
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todo_cmp#">, 
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todo_cmp#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todo_com#">, 
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todo_com#">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_time_new#">, 
@@ -704,6 +836,10 @@ List: #qTodolist.title#
 		<cfargument name="mobile_todo_new" type="numeric" required="true">
 		<cfargument name="email_todo_upd" type="numeric" required="true">
 		<cfargument name="mobile_todo_upd" type="numeric" required="true">
+		<cfargument name="email_todo_del" type="numeric" required="true">
+		<cfargument name="mobile_todo_del" type="numeric" required="true">
+		<cfargument name="email_todo_cmp" type="numeric" required="true">
+		<cfargument name="mobile_todo_cmp" type="numeric" required="true">
 		<cfargument name="email_todo_com" type="numeric" required="true">
 		<cfargument name="mobile_todo_com" type="numeric" required="true">
 		<cfargument name="email_time_new" type="numeric" required="true">
@@ -747,6 +883,10 @@ List: #qTodolist.title#
 				mobile_todo_new = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todo_new#" maxlength="1">,
 				email_todo_upd = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todo_upd#" maxlength="1">,
 				mobile_todo_upd = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todo_upd#" maxlength="1">,
+				email_todo_del = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todo_del#" maxlength="1">,
+				mobile_todo_del = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todo_del#" maxlength="1">,
+				email_todo_cmp = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todo_cmp#" maxlength="1">,
+				mobile_todo_cmp = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todo_cmp#" maxlength="1">,
 				email_todo_com = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_todo_com#" maxlength="1">,
 				mobile_todo_com = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.mobile_todo_com#" maxlength="1">,
 				email_time_new = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.email_time_new#" maxlength="1">,

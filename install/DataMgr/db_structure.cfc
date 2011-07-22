@@ -338,6 +338,10 @@
 				<field ColumnName="mobile_todo_new" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 				<field ColumnName="email_todo_upd" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 				<field ColumnName="mobile_todo_upd" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_todo_del" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_todo_del" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="email_todo_cmp" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
+				<field ColumnName="mobile_todo_cmp" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 				<field ColumnName="email_todo_com" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 				<field ColumnName="mobile_todo_com" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />
 				<field ColumnName="email_time_new" CF_DataType="CF_SQL_BIT" Precision="1" Scale="0" />

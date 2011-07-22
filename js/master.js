@@ -32,7 +32,7 @@ function all_mark_complete(projectid,todolistid,todoid) {
 	$.ajax({
 		type: 'get',
 		url: './ajax/todo.cfm',
-		data: 'action=mark_complete&tl=' + todolistid + '&t=' + todoid
+		data: 'action=mark_complete&p=' + projectid + &tl=' + todolistid + '&t=' + todoid
 	});
 }
 
@@ -491,7 +491,7 @@ function mark_complete(projectid,todolistid,todoid) {
 	$.ajax({
 		type: 'get',
 		url: './ajax/todo.cfm',
-		data: 'action=mark_complete&tl=' + todolistid + '&t=' + todoid
+		data: 'action=mark_complete&p=' + projectid + '&tl=' + todolistid + '&t=' + todoid
 	});
 	redraw_completed(projectid,todolistid,todoid);
 }

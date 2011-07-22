@@ -74,12 +74,15 @@
 	</cfcase>
 	<cfcase value="delete">
 		<cfset application.todo.delete(url.p,url.tl,url.t)>
+		<cfset application.notify.todoDel(url.p,url.tl,url.t)>
 	</cfcase>
 	<cfcase value="mark_complete">
 		<cfset application.todo.markCompleted(url.tl,url.t,'true')>
+		<cfset application.notify.todoComp(url.p,url.tl,url.t)>
 	</cfcase>
 	<cfcase value="mark_incomplete">
 		<cfset application.todo.markCompleted(url.tl,url.t,'false')>
+		<cfset application.notify.todoIncomp(url.p,url.tl,url.t)>
 	</cfcase>		
 	<cfcase value="mark_todo">
 		<cfset todo = application.todo.get(todoID=url.t)>
