@@ -98,7 +98,7 @@
 		<cfset projectUsers = application.project.projectUsers(url.p)>
 		<cfset todolist = application.todolist.get(url.p,url.tl)>
 		<cfoutput query="todos_completed">
-		<li class="g" id="id_#replace(todoID,'-','','ALL')#">
+		<li class="g" id="id_#todoID#">
 			<table>
 				<tr>
 					<td class="cb#todolistID#"><cfif project.todo_edit><input type="checkbox" name="todoID" value="#todoID#" checked="checked" onclick="mark_incomplete('#url.p#','#todolistID#','#todoID#');" /></cfif></td>
