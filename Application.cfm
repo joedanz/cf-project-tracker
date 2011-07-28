@@ -63,7 +63,6 @@
 			<cfset application.config = createObject("component","cfcs.config").init(settings)>
 			<cfset application.diff = createObject("component","cfcs.diff").init()>
 			<cfset application.file = createObject("component","cfcs.file").init(settings)>
-			<cfset application.gCal = createObject("component", "cfcs.GoogleCalendar").init(settings.googlecal_user,settings.googlecal_pass,settings.googlecal_offset)>
 			<cfset application.issue = createObject("component","cfcs.issue").init(settings)>
 			<cfset application.message = createObject("component","cfcs.message").init(settings)>
 			<cfset application.milestone = createObject("component","cfcs.milestone").init(settings)>
@@ -78,6 +77,11 @@
 			<cfset application.todo = createObject("component","cfcs.todo").init(settings)>
 			<cfset application.todolist = createObject("component","cfcs.todolist").init(settings)>
 			<cfset application.user = createObject("component","cfcs.user").init(settings)>
+			<!--- Google Calendar --->
+			<cftry>
+				<cfset application.gCal = createObject("component", "cfcs.GoogleCalendar").init(settings.googlecal_user,settings.googlecal_pass,settings.googlecal_offset)>
+				<cfcatch></cfcatch>
+			</cftry>
 			
 			<!--- DataMgr --->
 			<cftry>

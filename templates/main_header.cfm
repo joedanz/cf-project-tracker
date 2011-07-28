@@ -55,7 +55,10 @@
 		</cfif>
 		<h1>#attributes.project#</h1>
 	<cfelse>
-		<h1>#application.settings.app_title#</h1>
+		<cftry>
+			<h1>#application.settings.app_title#</h1>
+			<cfcatch><h1>Project Tracker</h1></cfcatch>
+		</cftry>
 	</cfif>
 
 	<cfif session.user.projects.recordCount gt 1>
