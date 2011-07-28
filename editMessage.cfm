@@ -5,11 +5,17 @@
 <cfparam name="form.notifylist" default="">
 <cfparam name="form.fileslist" default="">
 <cfif StructKeyExists(form,"messageID")> <!--- update message --->
+	<cfif not compare(form.message,'<br />')>
+		<cfset form.message = "">
+	</cfif>
 	<cfset application.message.update(form.messageID,form.projectid,form.title,form.category,form.message,form.milestoneID,form.allowComments,session.user.userid,form.notifylist,form.fileslist)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Message',form.messageID,form.title,'edited')>
 	<cflocation url="messages.cfm?p=#form.projectID#" addtoken="false">
 <cfelseif StructKeyExists(form,"projectID")> <!--- add message --->
 	<cfset newID = createUUID()>
+	<cfif not compare(form.message,'<br />')>
+		<cfset form.message = "">
+	</cfif>
 	<cfset application.message.add(newID,form.projectID,form.title,form.category,form.message,form.milestoneID,form.allowComments,session.user.userid,form.notifylist,form.fileslist)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Message',newID,form.title,'added')>
 	<cflocation url="messages.cfm?p=#form.projectID#" addtoken="false">

@@ -4,6 +4,9 @@
 <cfparam name="form.display" default="0">
 <cfparam name="form.fileslist" default="">
 <cfif StructKeyExists(form,"issueID")> <!--- update issue --->
+	<cfif not compare(form.detail,'<br />')>
+		<cfset form.detail = "">
+	</cfif>
 	<cfset application.issue.update(form.issueID,form.projectid,form.issue,form.detail,form.type,form.severity,form.componentID,form.versionID,form.dueDate,form.assignedTo,form.milestone,form.relevantURL,session.user.userid,form.fileslist)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Issue',form.issueID,form.issue,'edited')>
 	<cfset application.notify.issueUpdate(form.projectid,form.issueID)>
@@ -14,6 +17,9 @@
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#form.issueID#" addtoken="false">
 <cfelseif StructKeyExists(form,"submit")> <!--- add issue --->
 	<cfset newID = createUUID()>
+	<cfif not compare(form.detail,'<br />')>
+		<cfset form.detail = "">
+	</cfif>
 	<cfset application.issue.add(newID,form.projectID,form.ticketPrefix,form.issue,form.detail,form.type,form.severity,form.componentID,form.versionID,form.dueDate,form.assignedTo,form.milestone,form.relevantURL,session.user.userid,form.fileslist)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Issue',newID,form.issue,'created')>
 	<cfset application.notify.issueNew(form.projectid,newID)>

@@ -2,6 +2,9 @@
 <cfprocessingdirective pageencoding="utf-8">
 
 <cfif StructKeyExists(form,"fileID")> <!--- update file --->
+	<cfif not compare(form.description,'<br />')>
+		<cfset form.description = "">
+	</cfif>
 	<cfset application.screenshot.update(form.fileID,form.issueid,form.title,form.description)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Screenshot',url.i,form.title,'edited')>
 	<cfset application.notify.fileUpdate(form.projectid,form.fileID)>
@@ -13,6 +16,9 @@
 	</cftry>
 	<cffile action="upload" filefield="fileupload" destination = "#application.userFilesPath##form.projectID#" nameConflict = "MakeUnique">
 	<cfset newID = createUUID()>
+	<cfif not compare(form.description,'<br />')>
+		<cfset form.description = "">
+	</cfif>
 	<cfset application.screenshot.add(newID,url.i,form.title,form.description,cffile.ClientFile,cffile.ServerFile,cffile.ClientFileExt,cffile.FileSize,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Screenshot',url.i,form.title,'added')>
 	<cfset application.notify.fileNew(form.projectid,newID)>

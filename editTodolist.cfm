@@ -3,12 +3,18 @@
 
 <cfif StructKeyExists(form,"todolistID")> <!--- update todo list --->
 	<cfparam name="form.timetrack" default="0">
+	<cfif not compare(form.description,'<br />')>
+		<cfset form.description = "">
+	</cfif>
 	<cfset application.todolist.update(form.todolistID,form.projectid,form.title,form.description,form.milestoneID,form.timetrack)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'To-Do List',form.todolistID,form.title,'edited')>
 	<cflocation url="todos.cfm?p=#form.projectID#" addtoken="false">
 <cfelseif StructKeyExists(form,"submit")> <!--- add todo list --->
 	<cfset newID = createUUID()>
 	<cfparam name="form.timetrack" default="0">
+	<cfif not compare(form.description,'<br />')>
+		<cfset form.description = "">
+	</cfif>
 	<cfset application.todolist.add(newID,form.projectID,form.title,form.description,form.milestoneID,form.timetrack,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'To-Do List',newID,form.title,'added')>
 	<cflocation url="todos.cfm?p=#form.projectID#" addtoken="false">

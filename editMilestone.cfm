@@ -3,6 +3,9 @@
 
 <cfparam name="form.completed" default="0">
 <cfif StructKeyExists(form,"milestoneID")> <!--- update milestone --->
+	<cfif not compare(form.description,'<br />')>
+		<cfset form.description = "">
+	</cfif>
 	<cfset application.milestone.update(form.milestoneID,form.projectid,form.name,createDate(form.y,form.m,form.d),form.description,form.forID,form.rate,form.completed)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Milestone',form.milestoneID,form.name,'edited')>
 	<cfset application.notify.milestoneUpdate(form.projectid,form.milestoneID)>
@@ -17,6 +20,9 @@
 	</cfif>
 <cfelseif StructKeyExists(form,"projectID")> <!--- add milestone --->
 	<cfset newID = createUUID()>
+	<cfif not compare(form.description,'<br />')>
+		<cfset form.description = "">
+	</cfif>
 	<cfset application.milestone.add(newID,form.projectID,form.name,createDate(form.y,form.m,form.d),form.description,form.forID,form.rate,form.completed,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Milestone',newID,form.name,'added')>
 	<cfset application.notify.milestoneNew(form.projectid,newID)>
