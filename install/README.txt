@@ -1,8 +1,8 @@
-Project Tracker v2.5.1
+Project Tracker v2.6
 by Joe Danziger (joe@ajaxcf.com)
 
 Initial Release: June 5, 2007
-Current Release: October 23, 2009
+Current Release: July 28, 2011
 
 This application was inspired by Basecamp (http://www.basecamphq.com) 
 put out by the 37signals crew.  Not too much documentation but 
@@ -78,6 +78,7 @@ To Mark Mandel for getting the SVNKit and JavaLoader stuff working.
 To Jeffry Houser and Jeff Coughlin for their many suggestions.
 To Jason Dean for getting things going on Oracle.
 To Tim Garver for helping to get the SVN functionality back on track.
+To Matthew Williams for the Google Calendar integration.
 
 FEEDBACK?
 Please email joe@ajaxcf.com with any suggestions or other feedback.
