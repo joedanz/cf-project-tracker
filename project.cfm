@@ -328,7 +328,7 @@ $(document).ready(function(){
 						
 						<cfloop query="activity">						
 							<cfif session.user.admin or ((not compareNoCase(type,'issue') and project.issue_view eq 1) or (not compareNoCase(type,'message') and project.msg_view eq 1) or (not compareNoCase(type,'milestone') and project.mstone_view eq 1) or (not compareNoCase(type,'to-do list') and project.todolist_view eq 1) or (not compareNoCase(type,'file') and project.file_view eq 1))>
-							<tr><td><div class="catbox
+							<tr><td><div class="catbox 
 								<cfswitch expression="#type#">
 									<cfcase value="Issue">issue">Issue</cfcase>		
 									<cfcase value="Message">message">Message</cfcase>

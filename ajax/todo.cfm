@@ -7,6 +7,10 @@
 		<cfset application.todo.add(newID,form.l,form.p,form.t,form.fw,form.d)>
 		<cfset application.activity.add(createUUID(),form.p,session.user.userid,'To-Do',newID,form.t,'added')>
 		<cfset application.notify.todoNew(form.p,form.l,newID)>
+		<cfset project = application.project.get(projectID=form.p)>
+		<cfif application.settings.googlecal_enable and compare(project.googlecal,'') and isDate(form.d)>
+			<cfset application.calendar.todoAdd(newID,form.p,form.t,session.user.userid,form.d)>
+		</cfif>
 	</cfcase>
 	<cfcase value="edit">
 		<cfset projectUsers = application.project.projectUsers(url.p)>
@@ -51,8 +55,7 @@
 		<cfset todo = application.todo.get(todoID=form.t)>
 		<cfoutput>	
 		<cfif isDate(todo.completed)><strike>#todo.task#</strike><cfelse>#todo.task#</cfif><cfif compare(todo.lastName,'')> <span class="g">(#todo.firstName# #todo.lastName#)</span></cfif><cfif isDate(todo.due)> - due on #LSDateFormat(todo.due,"mmm d, yyyy")#</cfif>
-		
-<cfif project.todo_edit> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="edit_item('#form.p#','#form.tl#','#form.t#');return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#form.p#','#form.tl#','#form.t#');return false;" /> <a href="todo.cfm?p=#form.p#&amp;tl=#form.tl#&amp;t=#form.t#" class="nounder" id="c#form.t#"<cfif todo.numComments eq 0> style="display:none;"</cfif>><img src="./images/comment.png" height="11" width="14" alt="Comments" class="link" /><cfif todo.numComments gt 0> #todo.numComments#</cfif></a></span></cfif>
+		<cfif project.todo_edit> <span class="li_edit"><img src="./images/edit_sm.gif" height="11" width="13" alt="Edit?" class="link" onclick="edit_item('#form.p#','#form.tl#','#form.t#');return false;" /> <img src="./images/trash_sm.gif" height="12" width="13" alt="Delete?" class="link" onclick="delete_li('#form.p#','#form.tl#','#form.t#');return false;" /> <a href="todo.cfm?p=#form.p#&amp;tl=#form.tl#&amp;t=#form.t#" class="nounder" id="c#form.t#"<cfif todo.numComments eq 0> style="display:none;"</cfif>><img src="./images/comment.png" height="11" width="14" alt="Comments" class="link" /><cfif todo.numComments gt 0> #todo.numComments#</cfif></a></span></cfif>
 		</cfoutput>	
 	</cfcase>
 	<cfcase value="update">
@@ -71,14 +74,23 @@
 			$('##id_#form.t#').animate({backgroundColor:'##ffffb7'},200).animate({backgroundColor:'##f7f7f7'},1500);
 		</script>
 		</cfoutput>
+		<cfif application.settings.googlecal_enable and compare(project.googlecal,'') and isDate(form.d)>
+			<cfset application.calendar.todoUpdate(form.t,form.p,form.task,session.user.userid,form.d)>
+		</cfif>
 	</cfcase>
 	<cfcase value="delete">
 		<cfset application.todo.delete(url.p,url.tl,url.t)>
 		<cfset application.notify.todoDel(url.p,url.tl,url.t)>
+		<cfif application.settings.googlecal_enable and compare(project.googlecal,'')>
+			<cfset application.calendar.todoDelete(url.t)>
+		</cfif>
 	</cfcase>
 	<cfcase value="mark_complete">
 		<cfset application.todo.markCompleted(url.tl,url.t,'true')>
 		<cfset application.notify.todoComp(url.p,url.tl,url.t)>
+		<cfif application.settings.googlecal_enable and compare(project.googlecal,'')>
+			<cfset application.calendar.todoDelete(url.t)>
+		</cfif>
 	</cfcase>
 	<cfcase value="mark_incomplete">
 		<cfset application.todo.markCompleted(url.tl,url.t,'false')>
@@ -88,6 +100,9 @@
 		<cfset todo = application.todo.get(todoID=url.t)>
 		<cfset application.todo.markCompleted(url.tl,url.t,url.v)>
 		<cfoutput><cfif url.v><strike>#todo.task#</strike><cfelse>#todo.task#</cfif></cfoutput>
+		<cfif application.settings.googlecal_enable and compare(project.googlecal,'')>
+			<cfset application.calendar.todoDelete(url.t)>
+		</cfif>
 	</cfcase>		
 	<cfcase value="redraw_completed">
 		<cfset thread = CreateObject("java", "java.lang.Thread")>

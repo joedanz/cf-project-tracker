@@ -9,6 +9,7 @@
 <li><a href="#application.settings.mapping#/admin/billRates.cfm"<cfif findNoCase('/admin/billRates.cfm',cgi.script_name)> class="current"</cfif>>Rates</a></li>
 <li><a href="#application.settings.mapping#/admin/settings.cfm"<cfif findNoCase('/admin/settings.cfm',cgi.script_name)> class="current"</cfif>>Settings</a></li>
 <li><a href="#application.settings.mapping#/admin/notifications.cfm"<cfif findNoCase('/admin/notifications.cfm',cgi.script_name)> class="current"</cfif>>Notifications</a></li>
+<li><a href="#application.settings.mapping#/admin/calendar.cfm"<cfif findNoCase('/admin/calendar.cfm',cgi.script_name)> class="current"</cfif>>Calendar</a></li>
 <li><a href="#application.settings.mapping#/admin/carriers.cfm"<cfif findNoCase('/admin/carriers.cfm',cgi.script_name) or findNoCase('/admin/editCarrier.cfm',cgi.script_name)> class="current"</cfif>>SMS Carriers</a></li>
 <li><a href="#application.settings.mapping#/admin/api.cfm"<cfif findNoCase('/admin/api.cfm',cgi.script_name)> class="current"</cfif>>API</a></li>
 </cfoutput>

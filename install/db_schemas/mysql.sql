@@ -128,6 +128,7 @@ CREATE TABLE `pt_issues` (
   `componentID` varchar(35) default NULL,
   `versionID` varchar(35) default NULL,
   `dueDate` datetime default NULL,
+  `googlecalID` varchar(500) default NULL,
   PRIMARY KEY  (`issueID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -169,6 +170,7 @@ CREATE TABLE `pt_milestones` (
   `rate` decimal(8,2) default NULL,  
   `billed` int(1) default NULL,
   `paid` int(1) default NULL,
+  `googlecalID` varchar(500) default NULL,
   PRIMARY KEY  (`milestoneID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -284,6 +286,7 @@ CREATE TABLE `pt_projects` (
   `tab_todos` int(1) default NULL,
   `issue_svn_link` int(1) default NULL,
   `issue_timetrack` int(1) default NULL,
+  `googlecal` varchar(200) default NULL,
   PRIMARY KEY  (`projectID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -367,6 +370,7 @@ CREATE TABLE `pt_todos` (
   `added` datetime default NULL,
   `due` datetime default NULL,
   `completed` datetime default NULL,
+  `googlecalID` varchar(500) default NULL,
   PRIMARY KEY  (`todoID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -462,6 +466,11 @@ INSERT INTO `pt_settings` values ('1E77669A-963D-735E-C7C22FA82FABC398','company
 INSERT INTO `pt_settings` values ('5D717D09-1372-7975-6F21844EACDAFC54','invoice_logo','');
 INSERT INTO `pt_settings` values ('89DDF566-1372-7975-6F192B9AFBDB218A','default_locale','English (US)');
 INSERT INTO `pt_settings` values ('89B9B664-1372-7975-6F7D802298571968','default_timezone','US/Eastern');
+INSERT INTO `pt_settings` values ('3CB6A28B-78E7-D183-3355FDC2AD339924','googlecal_enable','0');
+INSERT INTO `pt_settings` values ('3CB6A28C-78E7-D183-33556DE390587F08','googlecal_user','');
+INSERT INTO `pt_settings` values ('3CB6A28D-78E7-D183-335507D438CAEB30','googlecal_pass','');
+INSERT INTO `pt_settings` values ('424E6B2F-78E7-D183-3355A1D332D34969','googlecal_timezone','US/Eastern');
+INSERT INTO `pt_settings` values ('3CB6A28E-78E7-D183-33550BDFD7405ECF','googlecal_offset','-5');
 
 /*Add carriers */
 INSERT INTO `pt_carriers` values('8464AB28-1372-7975-6F2E9747CA6E4693','AT&T','US','United States','','@txt.att.net',1);

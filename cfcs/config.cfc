@@ -106,7 +106,44 @@
 
 		<cfreturn true>
 	</cffunction>	
-	
+
+	<cffunction name="saveCalendar" access="public" returnType="boolean" output="false"
+				hint="Sets application Calendar settings.">
+		<cfargument name="googlecal_enable" type="numeric" required="true">
+		<cfargument name="googlecal_user" type="string" required="true">
+		<cfargument name="googlecal_pass" type="string" required="true">
+		<cfargument name="googlecal_timezone" type="string" required="true">
+		<cfargument name="googlecal_offset" type="string" required="true">
+		
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
+			UPDATE #application.settings.tableprefix#settings
+				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.googlecal_enable#" maxlength="1">
+					WHERE setting = 'googlecal_enable'
+		</cfquery>
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
+			UPDATE #application.settings.tableprefix#settings
+				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.googlecal_user#" maxlength="50">
+					WHERE setting = 'googlecal_user'
+		</cfquery>
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
+			UPDATE #application.settings.tableprefix#settings
+				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.googlecal_pass#" maxlength="50">
+					WHERE setting = 'googlecal_pass'
+		</cfquery>
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
+			UPDATE #application.settings.tableprefix#settings
+				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.googlecal_timezone#" maxlength="50">
+					WHERE setting = 'googlecal_timezone'
+		</cfquery>
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
+			UPDATE #application.settings.tableprefix#settings
+				SET settingValue = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.googlecal_offset#" maxlength="50">
+					WHERE setting = 'googlecal_offset'
+		</cfquery>
+		
+		<cfreturn true>
+	</cffunction>
+
 	<cffunction name="saveCompanyLogo" access="public" returnType="boolean" output="false"
 				hint="Sets company logo setting.">
 		<cfargument name="filename" type="string" required="true">

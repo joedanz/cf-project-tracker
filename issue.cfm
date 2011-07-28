@@ -32,11 +32,17 @@
 			<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Issue',url.i,issue.issue,'closed')>
 			<cfset application.notify.issueUpdate(url.p,url.i)>
 		</cfif>
+		<cfif application.settings.googlecal_enable and compare(project.googlecal,'')>
+			<cfset application.calendar.issueDelete(url.i)>
+		</cfif>
 	<cfelseif StructKeyExists(url,"close")>
 		<cfset application.issue.close(url.i,url.p,session.user.userid)>
 		<cfset issue = application.issue.get(url.p,url.i)>
 		<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Issue',url.i,issue.issue,'closed')>
 		<cfset application.notify.issueUpdate(url.p,url.i)>
+		<cfif application.settings.googlecal_enable and compare(project.googlecal,'')>
+			<cfset application.calendar.issueDelete(url.i)>
+		</cfif>
 	<cfelseif StructKeyExists(url,"assign")>
 		<cfset application.issue.assign(url.i,url.p,url.u)>
 		<cfset issue = application.issue.get(url.p,url.i)>

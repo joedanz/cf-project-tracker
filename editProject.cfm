@@ -55,7 +55,7 @@
 <cfparam name="form.tab_svn" default="0">
 <cfparam name="form.issue_svn_link" default="0">
 <cfparam name="form.issue_timetrack" default="0">
-
+<cfparam name="form.googlecal" default="">
 <cfif StructKeyExists(url,"from")>
 	<cfset form.from = url.from>
 </cfif>
@@ -83,7 +83,7 @@
 </cfif>
 	
 <cfif StructKeyExists(form,"submit") and not compare(form.submit,'Update Project')> <!--- update project --->
-	<cfset application.project.update(form.projectid,form.ownerID,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,logoimg,form.allow_reg,form.allow_def_rates,form.reg_file_view,form.reg_file_edit,form.reg_file_comment,form.reg_issue_view,form.reg_issue_edit,form.reg_issue_assign,form.reg_issue_resolve,form.reg_issue_close,form.reg_issue_comment,form.reg_msg_view,form.reg_msg_edit,form.reg_msg_comment,form.reg_mstone_view,form.reg_mstone_edit,form.reg_mstone_comment,form.reg_todolist_view,form.reg_todolist_edit,form.reg_todo_edit,form.reg_todo_comment,form.reg_time_view,form.reg_time_edit,form.reg_bill_view,form.reg_bill_edit,form.reg_bill_rates,form.reg_bill_invoices,form.reg_bill_markpaid,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,form.issue_timetrack)>
+	<cfset application.project.update(form.projectid,form.ownerID,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,logoimg,form.allow_reg,form.allow_def_rates,form.reg_file_view,form.reg_file_edit,form.reg_file_comment,form.reg_issue_view,form.reg_issue_edit,form.reg_issue_assign,form.reg_issue_resolve,form.reg_issue_close,form.reg_issue_comment,form.reg_msg_view,form.reg_msg_edit,form.reg_msg_comment,form.reg_mstone_view,form.reg_mstone_edit,form.reg_mstone_comment,form.reg_todolist_view,form.reg_todolist_edit,form.reg_todo_edit,form.reg_todo_comment,form.reg_time_view,form.reg_time_edit,form.reg_bill_view,form.reg_bill_edit,form.reg_bill_rates,form.reg_bill_invoices,form.reg_bill_markpaid,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,form.issue_timetrack,form.googlecal)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'edited')>
 	<cfif not compare(form.from,'admin')>
 		<cflocation url="./admin/projects.cfm" addtoken="false">
@@ -91,7 +91,7 @@
 		<cflocation url="project.cfm?p=#form.projectID#" addtoken="false">
 	</cfif>
 <cfelseif StructKeyExists(form,"submit") and not compare(form.submit,'Add Project')> <!--- add project --->
-	<cfset application.project.add(form.projectID,form.ownerid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,logoimg,form.allow_reg,form.allow_def_rates,form.reg_file_view,form.reg_file_edit,form.reg_file_comment,form.reg_issue_view,form.reg_issue_edit,form.reg_issue_assign,form.reg_issue_resolve,form.reg_issue_close,form.reg_issue_comment,form.reg_msg_view,form.reg_msg_edit,form.reg_msg_comment,form.reg_mstone_view,form.reg_mstone_edit,form.reg_mstone_comment,form.reg_todolist_view,form.reg_todolist_edit,form.reg_todo_edit,form.reg_todo_comment,form.reg_time_view,form.reg_time_edit,form.reg_bill_view,form.reg_bill_edit,form.reg_bill_rates,form.reg_bill_invoices,form.reg_bill_markpaid,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,form.issue_timetrack,session.user.userid)>
+	<cfset application.project.add(form.projectID,form.ownerid,form.name,form.description,form.display,form.clientID,form.status,form.ticketPrefix,form.svnurl,form.svnuser,form.svnpass,logoimg,form.allow_reg,form.allow_def_rates,form.reg_file_view,form.reg_file_edit,form.reg_file_comment,form.reg_issue_view,form.reg_issue_edit,form.reg_issue_assign,form.reg_issue_resolve,form.reg_issue_close,form.reg_issue_comment,form.reg_msg_view,form.reg_msg_edit,form.reg_msg_comment,form.reg_mstone_view,form.reg_mstone_edit,form.reg_mstone_comment,form.reg_todolist_view,form.reg_todolist_edit,form.reg_todo_edit,form.reg_todo_comment,form.reg_time_view,form.reg_time_edit,form.reg_bill_view,form.reg_bill_edit,form.reg_bill_rates,form.reg_bill_invoices,form.reg_bill_markpaid,form.reg_svn,form.tab_files,form.tab_issues,form.tab_msgs,form.tab_mstones,form.tab_todos,form.tab_time,form.tab_billing,form.tab_svn,form.issue_svn_link,form.issue_timetrack,form.googlecal,session.user.userid)>
 	<cfset application.role.add(form.projectID,session.user.userid,'1')>
 	<cfset application.notify.add(session.user.userid,form.projectID)>	
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Project',form.projectID,form.name,'added')>
@@ -118,6 +118,7 @@
 <cfparam name="form.svnurl" default="">
 <cfparam name="form.svnuser" default="">
 <cfparam name="form.svnpass" default="">
+<cfparam name="form.googlecal" default="">
 <cfparam name="title_action" default="Add">
 
 <cfif StructKeyExists(url,"p")>
@@ -175,6 +176,7 @@
 	<cfset form.tab_svn = thisProject.tab_svn>
 	<cfset form.issue_svn_link = thisProject.issue_svn_link>
 	<cfset form.issue_timetrack = thisProject.issue_timetrack>
+	<cfset form.googlecal = thisProject.googlecal>
 	<cfset title_action = "Edit">
 	<cfset projectUsers = application.project.projectUsers(url.p)>
 	<cfset msgcats = application.message.getCatMsgs(url.p)>
@@ -257,6 +259,8 @@
 								fckEditor.ToolbarSet	= "Basic";
 								fckEditor.create(); // create the editor.
 							</cfscript>
+							<!--->
+							<textarea id="description" name="description" rows="15" cols="80" style="width: 80%" class="tinymce">#form.description#</textarea>--->
 							</p>
 							<p style="font-size:.8em;">
 							<label for="display">&nbsp;</label>
@@ -495,6 +499,26 @@
 						</p>
 						</div>
 						</fieldset>
+						
+						<cfif application.settings.googlecal_enable>
+							<fieldset class="settings">
+								<legend><a href="##" onclick="section_toggle('cal');return false;" class="collapsed" id="callink"> Google Calendar</a></legend>
+								<div id="calinfo" style="display:none;">
+									<p>
+									<label for="googlecal">Project Calendar:</label>
+									<cfset calendars = application.gCal.getCalendars()>
+									<select name="googlecal" id="googlecal">
+										<option value=""></option>
+										<cfloop query="calendars">
+											<option value="#id#"<cfif not compare(form.googlecal,id)> selected="selected"</cfif>>#Title#</option>
+										</cfloop>
+									</select>
+									</p>
+								</div>
+							</fieldset>
+						<cfelse>
+							<input type="hidden" name="googlecal" value="#form.googlecal#" />
+						</cfif>
 
 						<fieldset class="settings">
 						<legend><a href="##" onclick="section_toggle('sr');return false;" class="collapsed" id="srlink"> Self Registrations</a></legend>

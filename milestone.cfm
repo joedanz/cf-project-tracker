@@ -21,12 +21,18 @@
 <cfelseif StructKeyExists(url,"c")> <!--- mark completed --->
 	<cfset application.milestone.markCompleted(url.m,url.p)>
 	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Milestone',url.m,url.ms,'marked completed')>
+	<cfif application.settings.googlecal_enable and compare(project.googlecal,'')>
+		<cfset application.calendar.milestoneDelete(url.m)>
+	</cfif>
 <cfelseif StructKeyExists(url,"a")> <!--- mark active --->
 	<cfset application.milestone.markActive(url.m,url.p)>
 	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Milestone',url.m,url.ms,'reactivated')>
 <cfelseif StructKeyExists(url,"d")> <!--- delete --->
 	<cfset application.milestone.delete(url.d,url.p)>
 	<cfset application.activity.add(createUUID(),url.p,session.user.userid,'Milestone',url.d,url.ms,'deleted')>
+	<cfif application.settings.googlecal_enable and compare(project.googlecal,'')>
+		<cfset application.calendar.milestoneDelete(url.d)>
+	</cfif>
 </cfif>
 
 <cfset milestone = application.milestone.get(url.p,url.m)>

@@ -7,6 +7,10 @@
 	<cfset application.issue.update(form.issueID,form.projectid,form.issue,form.detail,form.type,form.severity,form.componentID,form.versionID,form.dueDate,form.assignedTo,form.milestone,form.relevantURL,session.user.userid,form.fileslist)>
 	<cfset application.activity.add(createUUID(),form.projectID,session.user.userid,'Issue',form.issueID,form.issue,'edited')>
 	<cfset application.notify.issueUpdate(form.projectid,form.issueID)>
+	<cfset project = application.project.get(projectID=form.projectid)>
+	<cfif application.settings.googlecal_enable and compare(project.googlecal,'') and isDate(form.dueDate)>
+		<cfset application.calendar.issueUpdate(form.issueID,form.projectid,form.issue,form.detail,form.dueDate)>
+	</cfif>
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#form.issueID#" addtoken="false">
 <cfelseif StructKeyExists(form,"submit")> <!--- add issue --->
 	<cfset newID = createUUID()>
@@ -21,6 +25,10 @@
 		<cffile action="upload" filefield="fileupload" destination = "#application.userFilesPath##form.projectID#" nameConflict = "MakeUnique">
 		<cfset newID2 = createUUID()>
 		<cfset application.screenshot.add(newID2,newID,form.title,'',cffile.ClientFile,cffile.ServerFile,cffile.ClientFileExt,cffile.FileSize,session.user.userid)>
+	</cfif>
+	<cfset project = application.project.get(projectID=form.projectid)>
+	<cfif application.settings.googlecal_enable and compare(project.googlecal,'') and isDate(form.dueDate)>
+		<cfset application.calendar.issueAdd(newID,form.projectid,form.issue,form.detail,form.dueDate)>
 	</cfif>
 	<cflocation url="issue.cfm?p=#form.projectID#&i=#newID#" addtoken="false">
 <cfelseif StructKeyExists(url,"del") and hash(url.p) eq url.ph> <!--- delete issue --->

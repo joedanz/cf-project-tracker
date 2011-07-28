@@ -56,12 +56,14 @@
 			<cfset application.activity = createObject("component","cfcs.activity").init(settings)>
 			<cfset application.billing = createObject("component","cfcs.billing").init(settings)>
 			<cfset application.carrier = createObject("component","cfcs.carrier").init(settings)>
+			<cfset application.calendar = createObject("component","cfcs.calendar").init(settings)>
 			<cfset application.category = createObject("component","cfcs.category").init(settings)>
 			<cfset application.client = createObject("component","cfcs.client").init(settings)>
 			<cfset application.comment = createObject("component","cfcs.comment").init(settings)>
 			<cfset application.config = createObject("component","cfcs.config").init(settings)>
 			<cfset application.diff = createObject("component","cfcs.diff").init()>
 			<cfset application.file = createObject("component","cfcs.file").init(settings)>
+			<cfset application.gCal = createObject("component", "cfcs.GoogleCalendar").init(settings.googlecal_user,settings.googlecal_pass,settings.googlecal_offset)>
 			<cfset application.issue = createObject("component","cfcs.issue").init(settings)>
 			<cfset application.message = createObject("component","cfcs.message").init(settings)>
 			<cfset application.milestone = createObject("component","cfcs.milestone").init(settings)>

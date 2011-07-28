@@ -6,6 +6,10 @@
 	<cfset application.milestone.update(form.milestoneID,form.projectid,form.name,createDate(form.y,form.m,form.d),form.description,form.forID,form.rate,form.completed)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Milestone',form.milestoneID,form.name,'edited')>
 	<cfset application.notify.milestoneUpdate(form.projectid,form.milestoneID)>
+	<cfset project = application.project.get(projectID=form.projectid)>
+	<cfif application.settings.googlecal_enable and compare(project.googlecal,'') and isDate(createDate(form.y,form.m,form.d))>
+		<cfset application.calendar.milestoneUpdate(form.milestoneID,form.projectid,form.name,form.description,createDate(form.y,form.m,form.d),session.user.userid)>
+	</cfif>
 	<cfif StructKeyExists(url,"one")>
 		<cflocation url="milestone.cfm?p=#form.projectID#&m=#form.milestoneid#" addtoken="false">
 	<cfelse>
@@ -16,6 +20,10 @@
 	<cfset application.milestone.add(newID,form.projectID,form.name,createDate(form.y,form.m,form.d),form.description,form.forID,form.rate,form.completed,session.user.userid)>
 	<cfset application.activity.add(createUUID(),form.projectid,session.user.userid,'Milestone',newID,form.name,'added')>
 	<cfset application.notify.milestoneNew(form.projectid,newID)>
+	<cfset project = application.project.get(projectID=form.projectid)>
+	<cfif application.settings.googlecal_enable and compare(project.googlecal,'') and isDate(createDate(form.y,form.m,form.d))>
+		<cfset application.calendar.milestoneAdd(newID,form.projectid,form.name,form.description,createDate(form.y,form.m,form.d),session.user.userid)>
+	</cfif>
 	<cflocation url="milestones.cfm?p=#form.projectID#" addtoken="false">
 </cfif>
 

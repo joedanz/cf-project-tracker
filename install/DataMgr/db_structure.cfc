@@ -112,6 +112,7 @@
 				<field ColumnName="componentID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
 				<field ColumnName="versionID" CF_DataType="CF_SQL_VARCHAR" Length="35" />
 				<field ColumnName="dueDate" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
+				<field ColumnName="googlecalID" CF_DataType="CF_SQL_VARCHAR" Length="500" />
 			</table>
 			<table name="#arguments.tablePrefix#message_notify">
 				<field ColumnName="messageID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
@@ -141,6 +142,7 @@
 				<field ColumnName="rate" CF_DataType="CF_SQL_NUMERIC" Precision="8" Scale="2" />
 				<field ColumnName="billed" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="paid" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="googlecalID" CF_DataType="CF_SQL_VARCHAR" Length="500" />
 			</table>
 			<table name="#arguments.tablePrefix#project_components">
 				<field ColumnName="componentID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
@@ -241,6 +243,7 @@
 				<field ColumnName="tab_todos" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="issue_svn_link" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
 				<field ColumnName="issue_timetrack" CF_DataType="CF_SQL_TINYINT" Precision="1" Scale="0" />
+				<field ColumnName="googlecal" CF_DataType="CF_SQL_VARCHAR" Length="200" />
 			</table>
 			<table name="#arguments.tablePrefix#screenshots">
 				<field ColumnName="fileID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
@@ -306,6 +309,7 @@
 				<field ColumnName="added" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 				<field ColumnName="due" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
 				<field ColumnName="completed" CF_DataType="CF_SQL_DATE" Precision="23" Scale="3" />
+				<field ColumnName="googlecalID" CF_DataType="CF_SQL_VARCHAR" Length="500" />
 			</table>
 			<table name="#arguments.tablePrefix#user_notify">
 				<field ColumnName="userID" CF_DataType="CF_SQL_CHAR" PrimaryKey="true" Length="35" />
@@ -391,6 +395,11 @@
 				<row settingID="5D717D09-1372-7975-6F21844EACDAFC54" setting="invoice_logo" settingValue="" />
 				<row settingID="89DDF566-1372-7975-6F192B9AFBDB218A" setting="default_locale" settingValue="English (US)" />
 				<row settingID="89B9B664-1372-7975-6F7D802298571968" setting="default_timezone" settingValue="US/Eastern" />
+				<row settingID="3CB6A28B-78E7-D183-3355FDC2AD339924" setting="googlecal_enable" settingValue="0" />
+				<row settingID="3CB6A28C-78E7-D183-33556DE390587F08" setting="googlecal_user" settingValue="" />
+				<row settingID="3CB6A28D-78E7-D183-335507D438CAEB30" setting="googlecal_pass" settingValue="" />
+				<row settingID="424E6B2F-78E7-D183-3355A1D332D34969" setting="googlecal_timezone" settingValue="US/Eastern" />
+				<row settingID="3CB6A28E-78E7-D183-33550BDFD7405ECF" setting="googlecal_offset" settingValue="-5" />
 			</data>
 			<data table="#arguments.tablePrefix#carriers">
 				<row carrierID="8464AB28-1372-7975-6F2E9747CA6E4693" carrier="AT&amp;T" countryCode="US" country="United States" prefix="" suffix="@txt.att.net" active="1" />

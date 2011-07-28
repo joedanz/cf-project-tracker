@@ -25,7 +25,7 @@
 			SELECT p.projectID, p.ownerID, p.clientID, p.name, p.description, p.display, p.added, p.allow_def_rates,
 				p.addedBy, p.status, p.ticketPrefix, p.svnurl, p.svnuser, p.svnpass, p.logo_img,
 				p.tab_billing, p.tab_files, p.tab_issues, p.tab_msgs, p.tab_mstones,p.tab_todos, 
-				p.tab_time, p.tab_svn, p.issue_svn_link, p.issue_timetrack,
+				p.tab_time, p.tab_svn, p.issue_svn_link, p.issue_timetrack, p.googlecal,
 				<cfif compare(arguments.userID,'')> 
 					pu.admin, pu.file_view, pu.file_edit, pu.file_comment, pu.issue_view, pu.issue_edit, 
 					pu.issue_assign, pu.issue_resolve, pu.issue_close, pu.issue_comment, pu.msg_view, 
@@ -103,7 +103,7 @@
 				p.reg_todolist_view, p.reg_todolist_edit, p.reg_todo_edit, p.reg_todo_comment, p.reg_time_view, 
 				p.reg_time_edit, p.reg_bill_view, p.reg_bill_edit, p.reg_bill_rates, p.reg_bill_invoices, 
 				p.reg_bill_markpaid, p.reg_report, p.reg_svn, p.tab_billing, p.tab_files, p.tab_issues, p.tab_msgs, 
-				p.tab_mstones, p.tab_todos, p.tab_time, p.tab_svn, p.issue_svn_link, p.issue_timetrack,
+				p.tab_mstones, p.tab_todos, p.tab_time, p.tab_svn, p.issue_svn_link, p.issue_timetrack, p.googlecal,
 				c.name as clientName, u.firstName as ownerFirstName, u.lastName as ownerLastName
 			FROM #variables.tableprefix#projects p
 				INNER JOIN #variables.tableprefix#users u ON p.ownerID = u.userID
@@ -211,9 +211,10 @@
 		<cfargument name="tab_svn" type="numeric" required="true">
 		<cfargument name="issue_svn_link" type="numeric" required="true">
 		<cfargument name="issue_timetrack" type="numeric" required="true">
+		<cfargument name="googlecal" type="string" required="true">
 		<cfargument name="addedBy" type="string" required="true">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
-			INSERT INTO #variables.tableprefix#projects (projectID,ownerID,name,description,display,added,addedBy,clientID,status,ticketPrefix,svnurl,svnuser,svnpass,logo_img,allow_reg,allow_def_rates,reg_file_view,reg_file_edit,reg_file_comment,reg_issue_view,reg_issue_edit,reg_issue_assign,reg_issue_resolve,reg_issue_close,reg_issue_comment,reg_msg_view,reg_msg_edit,reg_msg_comment,reg_mstone_view,reg_mstone_edit,reg_mstone_comment,reg_todolist_view,reg_todolist_edit,reg_todo_edit,reg_todo_comment,reg_time_view,reg_time_edit,reg_bill_view,reg_bill_edit,reg_bill_rates,reg_bill_invoices,reg_bill_markpaid,reg_svn,tab_files,tab_issues,tab_msgs,tab_mstones,tab_todos,tab_time,tab_billing,tab_svn,issue_svn_link,issue_timetrack)
+			INSERT INTO #variables.tableprefix#projects (projectID,ownerID,name,description,display,added,addedBy,clientID,status,ticketPrefix,svnurl,svnuser,svnpass,logo_img,allow_reg,allow_def_rates,reg_file_view,reg_file_edit,reg_file_comment,reg_issue_view,reg_issue_edit,reg_issue_assign,reg_issue_resolve,reg_issue_close,reg_issue_comment,reg_msg_view,reg_msg_edit,reg_msg_comment,reg_mstone_view,reg_mstone_edit,reg_mstone_comment,reg_todolist_view,reg_todolist_edit,reg_todo_edit,reg_todo_comment,reg_time_view,reg_time_edit,reg_bill_view,reg_bill_edit,reg_bill_rates,reg_bill_invoices,reg_bill_markpaid,reg_svn,tab_files,tab_issues,tab_msgs,tab_mstones,tab_todos,tab_time,tab_billing,tab_svn,issue_svn_link,issue_timetrack,googlecal)
 			VALUES (<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.ownerID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
@@ -266,7 +267,8 @@
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.tab_billing#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.tab_svn#" maxlength="1">,
 					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.issue_svn_link#" maxlength="1">,
-					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.issue_timetrack#" maxlength="1">)
+					<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.issue_timetrack#" maxlength="1">,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.googlecal#" maxlength="200">)
 		</cfquery>
 		<cfreturn true>
 	</cffunction>	
@@ -324,6 +326,7 @@
 		<cfargument name="tab_svn" type="numeric" required="true">
 		<cfargument name="issue_svn_link" type="numeric" required="true">
 		<cfargument name="issue_timetrack" type="numeric" required="true">
+		<cfargument name="googlecal" type="string" required="true">
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix#projects 
 				SET name = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#" maxlength="50">,
@@ -377,7 +380,8 @@
 					tab_billing = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.tab_billing#" maxlength="1">,
 					tab_svn = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.tab_svn#" maxlength="1">,
 					issue_svn_link = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.issue_svn_link#" maxlength="1">,
-					issue_timetrack = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.issue_timetrack#" maxlength="1">
+					issue_timetrack = <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.issue_timetrack#" maxlength="1">,
+					googlecal = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.googlecal#" maxlength="200">
 				WHERE projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
 		<cfreturn true>
@@ -624,6 +628,18 @@
 			ORDER BY version
 		</cfquery>		
 		<cfreturn qRecords>
+	</cffunction>
+
+	<cffunction name="getCalID" access="public" returnType="query" output="false"
+				hint="Get google calendar ID.">
+		<cfargument name="projectID" type="uuid" required="true">
+		<cfset var qCalID = "">
+		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#" name="qCalID">
+			select googlecal
+			from #variables.tableprefix#projects
+			where projectid=<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">	
+		</cfquery>
+		<cfreturn qCalID>
 	</cffunction>
 
 </CFCOMPONENT>

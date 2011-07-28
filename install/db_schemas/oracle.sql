@@ -110,6 +110,7 @@ CREATE TABLE  "PT_ISSUES"
 	"COMPONENTID" VARCHAR2(35), 
 	"VERSIONID" VARCHAR2(35), 
 	"DUEDATE" DATE, 
+	"GOOGLECALID" VARCHAR2(500), 
 	 CONSTRAINT "PK_PT_ISSUES" PRIMARY KEY ("ISSUEID") ENABLE
    )
 /
@@ -145,6 +146,7 @@ CREATE TABLE  "PT_MILESTONES"
 	"RATE" NUMBER(8,2),
 	"BILLED" NUMBER(1,0), 
 	"PAID" NUMBER(1,0), 
+	"GOOGLECALID" VARCHAR2(500), 
 	 CONSTRAINT "PK_PT_MILESTONES" PRIMARY KEY ("MILESTONEID") ENABLE
    )
 /
@@ -252,6 +254,7 @@ CREATE TABLE  "PT_PROJECTS"
 	"TAB_TODOS" NUMBER(1,0) NULL,
     "ISSUE_SVN_LINK" NUMBER(1,0) NULL,
     "ISSUE_TIMETRACK" NUMBER(1,0) NULL,
+    "GOOGLECAL" VARCHAR2(200), 
 	 CONSTRAINT "PK_PT_PROJECTS" PRIMARY KEY ("PROJECTID") ENABLE
    )
 /
@@ -323,6 +326,7 @@ CREATE TABLE  "PT_TODOS"
 	"ADDED" DATE, 
 	"DUE" DATE, 
 	"COMPLETED" DATE, 
+	"GOOGLECALID" VARCHAR2(500), 
 	 CONSTRAINT "PK_PT_TODOS" PRIMARY KEY ("TODOID") ENABLE
    )
 /
@@ -490,6 +494,21 @@ INSERT INTO pt_settings (settingid,setting,settingvalue) values
 
 INSERT INTO pt_settings (settingid,setting,settingvalue) values 
 ('89B9B664-1372-7975-6F7D802298571968','default_timezone','US/Eastern');
+
+INSERT INTO pt_settings (settingid,setting,settingvalue) values 
+('3CB6A28B-78E7-D183-3355FDC2AD339924','googlecal_enable','0');
+
+INSERT INTO pt_settings (settingid,setting,settingvalue) values 
+('3CB6A28C-78E7-D183-33556DE390587F08','googlecal_user','');
+
+INSERT INTO pt_settings (settingid,setting,settingvalue) values 
+('3CB6A28D-78E7-D183-335507D438CAEB30','googlecal_pass','');
+
+INSERT INTO pt_settings (settingid,setting,settingvalue) values 
+('424E6B2F-78E7-D183-3355A1D332D34969','googlecal_timezone','US/Eastern');
+
+INSERT INTO pt_settings (settingid,setting,settingvalue) values 
+('3CB6A28E-78E7-D183-33550BDFD7405ECF','googlecal_offset','-5');
 
 INSERT INTO pt_users
 (userID,firstName,lastName,username,password,style,avatar,locale,timezone,admin,report,invoice,active) 
