@@ -186,7 +186,11 @@
 		</cfif>
 	
 		<cfif NOT StructKeyExists(form,"username") AND (not StructKeyExists(cookie,"ptuser") or not len(cookie.ptuser))>
-			<cfinclude template="login.cfm">
+			<cfif findNoCase('/mobile',cgi.script_name)>
+				<cfinclude template="mobile/login.cfm">
+			<cfelse>
+				<cfinclude template="login.cfm">
+			</cfif>
 			<cfabort>
 		<cfelse>
 			<!--- are we trying to logon? --->
