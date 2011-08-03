@@ -1,8 +1,8 @@
-Project Tracker v2.6
+Project Tracker v2.6.1
 by Joe Danziger (joe@ajaxcf.com)
 
 Initial Release: June 5, 2007
-Current Release: July 28, 2011
+Current Release: August 3, 2011
 
 This application was inspired by Basecamp (http://www.basecamphq.com) 
 put out by the 37signals crew.  Not too much documentation but 
@@ -59,6 +59,14 @@ to any projects.  Project owners can edit project settings and add users
 to projects.  Project users can contribute to any project they have been
 assigned to (by an admin or project owner). 
 
+ABOUT GOOGLE CALENDAR:
+To use Google Calendar with Project Tracker, you must enable it in the 
+Admin and provide login credentials.  Each Project uses it's own Calendar, 
+which you'll need to create first using Google Calendar directly.  You can
+then edit the Project Settings to select the calendar you'd like to use 
+for that project.  All issues, to-dos, and milestones with a due date will
+then publish to the corresponding Google Calendar.
+
 REQUIREMENTS:
 ColdFusion, BlueDragon, or Railo
 CF8/BD/Railo required for avatars
@@ -90,7 +98,8 @@ SVN REPOSITORY:
 http://svn.riaforge.org/projecttracker
 
 INCLUDED CODE:
-RSS feeds created using rss.cfc by Ray Camden (www.coldfusionjedi.com)
+RSS feeds created using rss.cfc by Ray Camden (http://cfrss.riaforge.org)
 SVNBrowser and CFDiff CFCs by Rick Osborne (http://rickosborne.org/)
 JavaLoader by Mark Mandel used for SVNKit (http://www.compoundtheory.com/)
+Google Calendar CFC by Ray Camden (http://googlecal.riaforge.org)
 API help from BasecampCFC by Terrence Ryan (http://www.numtopia.com/terry/)
