@@ -99,18 +99,22 @@
 						</p>
 						<p>
 						<label for="description">Description:</label> 
-						<cfscript>
-							basePath = 'includes/fckeditor/';
-							fckEditor = createObject("component", "#basePath#fckeditor");
-							fckEditor.instanceName	= "description";
-							fckEditor.value			= '#description#';
-							fckEditor.basePath		= basePath;
-							fckEditor.width			= 460;
-							fckEditor.height		= 150;
-							fckEditor.ToolbarSet	= "Basic";
-							fckEditor.create(); // create the editor.
-						</cfscript>&nbsp;
-						</p><br />			
+						<cfif session.mobileBrowser>
+							<textarea name="description" id="description"></textarea>
+						<cfelse>
+							<cfscript>
+								basePath = 'includes/fckeditor/';
+								fckEditor = createObject("component", "#basePath#fckeditor");
+								fckEditor.instanceName	= "description";
+								fckEditor.value			= '#description#';
+								fckEditor.basePath		= basePath;
+								fckEditor.width			= 460;
+								fckEditor.height		= 150;
+								fckEditor.ToolbarSet	= "Basic";
+								fckEditor.create(); // create the editor.
+							</cfscript>&nbsp;
+						</cfif>
+						</p><br />
 						<label for="submit">&nbsp;</label>
 						<cfif StructKeyExists(url,"f")>
 							<input type="submit" class="button" name="submit" id="submit" value="Update File" onclick="return confirmSubmit();" />

@@ -93,17 +93,21 @@
 						</p>					
 						<p>
 						<label for="description">Description:</label> 
-						<cfscript>
-							basePath = 'includes/fckeditor/';
-							fckEditor = createObject("component", "#basePath#fckeditor");
-							fckEditor.instanceName	= "description";
-							fckEditor.value			= '#description#';
-							fckEditor.basePath		= basePath;
-							fckEditor.width			= 460;
-							fckEditor.height		= 150;
-							fckEditor.ToolbarSet	= "Basic";
-							fckEditor.create(); // create the editor.
-						</cfscript>&nbsp;
+						<cfif session.mobileBrowser>
+							<textarea name="description" id="description">#description#</textarea>
+						<cfelse>
+							<cfscript>
+								basePath = 'includes/fckeditor/';
+								fckEditor = createObject("component", "#basePath#fckeditor");
+								fckEditor.instanceName	= "description";
+								fckEditor.value			= '#description#';
+								fckEditor.basePath		= basePath;
+								fckEditor.width			= 460;
+								fckEditor.height		= 150;
+								fckEditor.ToolbarSet	= "Basic";
+								fckEditor.create(); // create the editor.
+							</cfscript>&nbsp;
+						</cfif>
 						</p>
 						<p>
 						<label for="milestone">Milestone:</label>

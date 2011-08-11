@@ -109,17 +109,21 @@
 						</p>						
 						<p>
 						<label for="message" class="req">Message:</label> 
-						<cfscript>
-							basePath = 'includes/fckeditor/';
-							fckEditor = createObject("component", "#basePath#fckeditor");
-							fckEditor.instanceName	= "message";
-							fckEditor.value			= '#message#';
-							fckEditor.basePath		= basePath;
-							fckEditor.width			= 460;
-							fckEditor.height		= 300;
-							fckEditor.ToolbarSet	= "Basic";
-							fckEditor.create(); // create the editor.
-						</cfscript>&nbsp;
+						<cfif session.mobileBrowser>
+							<textarea name="message" id="message">#message#</textarea>
+						<cfelse>
+							<cfscript>
+								basePath = 'includes/fckeditor/';
+								fckEditor = createObject("component", "#basePath#fckeditor");
+								fckEditor.instanceName	= "message";
+								fckEditor.value			= '#message#';
+								fckEditor.basePath		= basePath;
+								fckEditor.width			= 460;
+								fckEditor.height		= 300;
+								fckEditor.ToolbarSet	= "Basic";
+								fckEditor.create(); // create the editor.
+							</cfscript>&nbsp;
+						</cfif>
 						</p>
 				
 						<p>

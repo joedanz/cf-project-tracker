@@ -79,17 +79,21 @@
 					<cfif session.user.admin or project.todo_comment eq 1>
 					<form action="#cgi.script_name#?#cgi.query_string#" method="post" name="add" id="add" class="frm" onsubmit="return confirm_comment();">
 					<div class="b">Leave a comment...</div>
-					<cfscript>
-						basePath = 'includes/fckeditor/';
-						fckEditor = createObject("component", "#basePath#fckeditor");
-						fckEditor.instanceName	= "comment";
-						fckEditor.value			= '';
-						fckEditor.basePath		= basePath;
-						fckEditor.width			= "100%";
-						fckEditor.height		= 150;
-						fckEditor.ToolbarSet	= "Basic";
-						fckEditor.create(); // create the editor.
-					</cfscript>
+					<cfif session.mobileBrowser>
+						<textarea name="comment" id="comment"></textarea>
+					<cfelse>
+						<cfscript>
+							basePath = 'includes/fckeditor/';
+							fckEditor = createObject("component", "#basePath#fckeditor");
+							fckEditor.instanceName	= "comment";
+							fckEditor.value			= '';
+							fckEditor.basePath		= basePath;
+							fckEditor.width			= "100%";
+							fckEditor.height		= 150;
+							fckEditor.ToolbarSet	= "Basic";
+							fckEditor.create(); // create the editor.
+						</cfscript>
+					</cfif>
 	
 					<div id="preview" class="sm" style="display:none;margin:15px 0;">
 					<fieldset style="padding:10px;"><legend style="padding:0 5px;font-weight:bold;font-size:1em;">Comment Preview (<a href="##" onclick="$('##preview').hide();">X</a>)</legend>

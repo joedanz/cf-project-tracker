@@ -126,17 +126,21 @@
 						</p>					
 						<p>
 						<label for="detail" class="req">Detail:</label> 
-						<cfscript>
-							basePath = 'includes/fckeditor/';
-							fckEditor = createObject("component", "#basePath#fckeditor");
-							fckEditor.instanceName	= "detail";
-							fckEditor.value			= '#detail#';
-							fckEditor.basePath		= basePath;
-							fckEditor.width			= 460;
-							fckEditor.height		= 200;
-							fckEditor.ToolbarSet	= "Basic";
-							fckEditor.create(); // create the editor.
-						</cfscript>&nbsp;
+						<cfif session.mobileBrowser>
+							<textarea name="detail" id="detail">#detail#</textarea>
+						<cfelse>
+							<cfscript>
+								basePath = 'includes/fckeditor/';
+								fckEditor = createObject("component", "#basePath#fckeditor");
+								fckEditor.instanceName	= "detail";
+								fckEditor.value			= '#detail#';
+								fckEditor.basePath		= basePath;
+								fckEditor.width			= 460;
+								fckEditor.height		= 200;
+								fckEditor.ToolbarSet	= "Basic";
+								fckEditor.create(); // create the editor.
+							</cfscript>&nbsp;
+						</cfif>
 						</p>
 						<p>
 						<label for="type">Type:</label>

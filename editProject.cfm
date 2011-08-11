@@ -254,17 +254,21 @@
 							</p>					
 							<p>
 							<label for="description">Description:</label> 
-							<cfscript>
-								basePath = 'includes/fckeditor/';
-								fckEditor = createObject("component", "#basePath#fckeditor");
-								fckEditor.instanceName	= "description";
-								fckEditor.value			= '#form.description#';
-								fckEditor.basePath		= basePath;
-								fckEditor.width			= 390;
-								fckEditor.height		= 220;
-								fckEditor.ToolbarSet	= "Basic";
-								fckEditor.create(); // create the editor.
-							</cfscript>
+							<cfif session.mobileBrowser>
+								<textarea name="description" id="description">#description#</textarea>
+							<cfelse>
+								<cfscript>
+									basePath = 'includes/fckeditor/';
+									fckEditor = createObject("component", "#basePath#fckeditor");
+									fckEditor.instanceName	= "description";
+									fckEditor.value			= '#form.description#';
+									fckEditor.basePath		= basePath;
+									fckEditor.width			= 390;
+									fckEditor.height		= 220;
+									fckEditor.ToolbarSet	= "Basic";
+									fckEditor.create(); // create the editor.
+								</cfscript>&nbsp;
+							</cfif>
 							<!--->
 							<textarea id="description" name="description" rows="15" cols="80" style="width: 80%" class="tinymce">#form.description#</textarea>--->
 							</p>
