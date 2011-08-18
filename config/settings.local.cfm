@@ -20,4 +20,4 @@ mailUseTLS=false
 showDebug=true
 errorPage=false
 showError=true
-version=2.6
+version=2.6.2
