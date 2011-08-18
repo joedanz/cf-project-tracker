@@ -205,7 +205,7 @@
 						<cfloop query="projects">
 						<tr id="r#currentRow#">
 							<td>#name#</td>
-							<td class="tac"><img src="./images/<cfif not compareNoCase(session.user.userid,ownerid)>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(compareNoCase(session.user.userid,ownerid))#" /></td>
+							<td class="tac"><img src="./images/<cfif not compareNoCase(session.user.userid,ownerid)>close<cfelse>cancel</cfif>.gif" height="16" width="16" border="0" alt="#YesNoFormat(not compareNoCase(session.user.userid,ownerid))#" /></td>
 							<td class="tac">#YesNoIcon('admin')#</td>
 							<td class="tac">[<a href="##p#currentRow#" rel="##p#currentRow#" title="#name# Permissions" class="jt">Show Popup</a>]</td>
 							<td class="tac">[<a href="##n#currentRow#" rel="##n#currentRow#" title="#name# Notifications" class="jt">Show Popup</a> / <a href="projectNotify.cfm?p=#projectID#">Edit</a>]</td>
