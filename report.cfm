@@ -29,6 +29,8 @@
 <cfif compare(url.p,'')>
 	<cfset project = projects>
 	<cfset url.report = "">
+<cfelse>
+	<cfset project = QueryNew("projectID,name,svnurl")>
 </cfif>
 
 <cfif not compare(url.report,'user')>
@@ -48,7 +50,7 @@
 </cfif>
 
 <!--- Loads header/footer --->
-<cfmodule template="tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Reports" project="#IIf(isDefined("project.name"),'project.name','')#" projectid="#url.p#" svnurl="#IIf(isDefined("project.svnurl"),'project.svnurl','')#">
+<cfmodule template="tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Reports" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
 
 <cfsavecontent variable="js">
 <cfoutput>

@@ -11,6 +11,8 @@
 
 <cfif compare(url.p,'')>
 	<cfset project = application.project.get(projectID=url.p)>
+<cfelse>
+	<cfset project = QueryNew("projectID,name,svnurl")>
 </cfif>
 
 <cfif compare(form.search,'')>
@@ -97,7 +99,7 @@
 </cfif>
 
 <!--- Loads header/footer --->
-<cfmodule template="tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Search" project="#IIf(compare(url.p,''),'project.name','')#" projectid="#url.p#" svnurl="#IIf(compare(url.p,''),'project.svnurl','')#">
+<cfmodule template="tags/layout.cfm" templatename="main" title="#application.settings.app_title# &raquo; Search" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
 
 <cfsavecontent variable="js">
 <cfoutput>
