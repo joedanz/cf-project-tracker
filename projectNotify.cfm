@@ -30,6 +30,10 @@
 	<cfparam name="form.mobile_todo_new" default="0">
 	<cfparam name="form.email_todo_upd" default="0">
 	<cfparam name="form.mobile_todo_upd" default="0">
+	<cfparam name="form.email_todo_del" default="0">
+	<cfparam name="form.mobile_todo_del" default="0">
+	<cfparam name="form.email_todo_cmp" default="0">
+	<cfparam name="form.mobile_todo_cmp" default="0">
 	<cfparam name="form.email_todo_com" default="0">
 	<cfparam name="form.mobile_todo_com" default="0">
 	<cfparam name="form.email_time_new" default="0">
@@ -42,7 +46,7 @@
 	<cfparam name="form.mobile_bill_upd" default="0">
 	<cfparam name="form.email_bill_paid" default="0">
 	<cfparam name="form.mobile_bill_paid" default="0">
-	<cfset application.notify.update(session.user.userID,url.p,form.email_file_new,form.mobile_file_new,form.email_file_upd,form.mobile_file_upd,form.email_file_com,form.mobile_file_com,form.email_issue_new,form.mobile_issue_new,form.email_issue_upd,form.mobile_issue_upd,form.email_issue_com,form.mobile_issue_com,form.email_msg_new,form.mobile_msg_new,form.email_msg_upd,form.mobile_msg_upd,form.email_msg_com,form.mobile_msg_com,form.email_mstone_new,form.mobile_mstone_new,form.email_mstone_upd,form.mobile_mstone_upd,form.email_mstone_com,form.mobile_mstone_com,form.email_todo_new,form.mobile_todo_new,form.email_todo_upd,form.mobile_todo_upd,form.email_todo_com,form.mobile_todo_com,form.email_time_new,form.mobile_time_new,form.email_time_upd,form.mobile_time_upd,form.email_bill_new,form.mobile_bill_new,form.email_bill_upd,form.mobile_bill_upd,form.email_bill_paid,form.mobile_bill_paid)>
+	<cfset application.notify.update(session.user.userID,url.p,form.email_file_new,form.mobile_file_new,form.email_file_upd,form.mobile_file_upd,form.email_file_com,form.mobile_file_com,form.email_issue_new,form.mobile_issue_new,form.email_issue_upd,form.mobile_issue_upd,form.email_issue_com,form.mobile_issue_com,form.email_msg_new,form.mobile_msg_new,form.email_msg_upd,form.mobile_msg_upd,form.email_msg_com,form.mobile_msg_com,form.email_mstone_new,form.mobile_mstone_new,form.email_mstone_upd,form.mobile_mstone_upd,form.email_mstone_com,form.mobile_mstone_com,form.email_todo_new,form.mobile_todo_new,form.email_todo_upd,form.mobile_todo_upd,form.email_todo_del,form.mobile_todo_del,form.email_todo_cmp,form.mobile_todo_cmp,form.email_todo_com,form.mobile_todo_com,form.email_time_new,form.mobile_time_new,form.email_time_upd,form.mobile_time_upd,form.email_bill_new,form.mobile_bill_new,form.email_bill_upd,form.mobile_bill_upd,form.email_bill_paid,form.mobile_bill_paid)>
 	<cflocation url="account.cfm##projects" addtoken="false">
 </cfif>
 
@@ -203,10 +207,20 @@
 								<td class="tac"><input type="checkbox" name="mobile_todo_upd" value="1"<cfif user.mobile_todo_upd eq 1> checked="checked"</cfif> /></td>
 							</tr>
 							<tr>
+								<td>Deleted to-do item</td>
+								<td class="tac"><input type="checkbox" name="email_todo_del" value="1"<cfif user.email_todo_del eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_todo_del" value="1"<cfif user.mobile_todo_del eq 1> checked="checked"</cfif> /></td>
+							</tr>
+							<tr>
+								<td>Completed to-do item</td>
+								<td class="tac"><input type="checkbox" name="email_todo_cmp" value="1"<cfif user.email_todo_cmp eq 1> checked="checked"</cfif> /></td>
+								<td class="tac"><input type="checkbox" name="mobile_todo_cmp" value="1"<cfif user.mobile_todo_cmp eq 1> checked="checked"</cfif> /></td>
+							</tr>
+							<tr>
 								<td>Comment on to-do item</td>
 								<td class="tac"><input type="checkbox" name="email_todo_com" value="1"<cfif user.email_todo_com eq 1> checked="checked"</cfif> /></td>
 								<td class="tac"><input type="checkbox" name="mobile_todo_com" value="1"<cfif user.mobile_todo_com eq 1> checked="checked"</cfif> /></td>
-							</tr>							
+							</tr>
 						</tbody>
 					</table>
 
