@@ -214,7 +214,7 @@ request.udf.relativeTime = relativeTime;
 	<cfargument	name="Text"	type="string" required="true" hint="The string that we are going to be cleaning."/>
  
 	<!--- Set up local scope. --->
-	<cfset var LOCAL = {} />
+	<cfset var LOCAL = StructNew() />
  
 	<!---
 		When cleaning the string, there are going to be ascii
