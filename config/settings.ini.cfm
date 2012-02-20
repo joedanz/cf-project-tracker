@@ -17,6 +17,12 @@ mailPassword=
 mailPort=25
 mailUseSSL=false
 mailUseTLS=false
+ldapHost=ldap.example.com
+ldapPort=389
+ldapBindDN=CN=login,OU=group,DC=ldap,DC=example,DC=com
+ldapBindPw=password
+ldapBaseDN=OU=group,OU=users,DC=ldap,DC=example,DC=com
+ldapUid=sAMAccountName
 showDebug=false
 errorPage=true
 showError=false
