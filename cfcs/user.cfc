@@ -22,13 +22,20 @@
 		<cfargument name="cookieLogin" type="boolean" required="false" default="false">
 		<cfset var qLogin = "">
 		<cfset var sLogin = StructNew()>
+		<cfset var sAuth = StructNew()>
 		<cfset var qProjects = "">
+		<cfset sAuth.Authenticated = 0 />
+		
+		<cfif Trim(application.settings.ldapHost) NEQ "">
+			<cfset oLDAP = createObject("component","cfcs.ldap").init(application.settings)>
+			<cfset sAuth = oLDAP.AuthLDAP(arguments.username,arguments.password) />
+		</cfif>
 		<cfquery name="qLogin" datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			SELECT userID, firstName, lastName, username, email, phone, lastLogin, avatar, style, locale, timezone, 
 				admin, report, invoice, active
 			FROM #variables.tableprefix#users
 			WHERE username = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#" maxlength="35">
-			<cfif not cookieLogin>
+			<cfif not cookieLogin AND sAuth.Authenticated EQ 0>
 				AND password = <cfqueryparam cfsqltype="cf_sql_varchar" value="#hash(arguments.password)#" maxlength="32">
 			</cfif>
 		</cfquery>
@@ -50,6 +57,7 @@
 				sLogin.invoice = qLogin.invoice;
 				sLogin.active = qLogin.active;
 				sLogin.projects = application.project.get(qLogin.userID);
+				sLogin.sAuth = sAuth;
 			</cfscript>
 		</cfif>
 		<cfreturn sLogin>
