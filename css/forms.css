@@ -1,0 +1,283 @@
+form.frm {
+	font-size:1.2em;
+}
+
+form.frm label {
+	width: 160px;
+	margin-right:6px;
+	text-align: right;
+	float:left;
+}
+
+form.frm label.short {
+	width: 120px;
+}
+
+form.frm label.med {
+	width: 180px;
+}
+
+form.frm label.none {
+	width: 50px;
+	margin-right:6px;
+	text-align: right;
+	float:left;
+}
+
+form.frm label.cb {
+	width: 160px;
+	margin-right:6px;
+	text-align: left;
+	float:none;
+}
+
+form.frm label.half {
+	width: 228px;
+	margin-right:6px;
+	float:left;
+}
+
+form.frm label.full {
+	width: 320px;
+	margin-right:6px;
+	float:left;
+}
+
+form.frm label.wide {
+	width:300px;
+	margin-right:0;
+	text-align:left;
+	float:none;
+}
+
+form.frm p input.cb {
+	margin-left:5px;
+	width:auto;
+}
+
+form.frm label.req {
+	font-weight: bold;
+}
+
+form.frm label.req:before { content: " * " }
+
+form.frm label.list {
+	float:none;
+}	
+
+form.frm p {
+	clear:left;
+	margin-bottom:10px;
+}
+
+form.frm p input, form.frm p textarea {
+	width:450px;
+	padding:2px;
+}
+
+form.frm p input.short, form.frm p textarea.short, tr.input td input.short {
+	width:390px;
+}
+
+form.frm p input.short2, #container .left .main .content #listWrapper .todolist td form textarea {
+	width:300px;	
+}
+
+tr.input td input.short2 {
+	width:200px;
+}
+
+form.frm p input.shorter {
+	width:180px;
+} 
+
+form.frm p input.shortest, tr.input td input.shortest, div#report input.date,
+#container .left .main .content #listWrapper .todolist td form input.shortest {
+	width:80px;	
+}
+
+tr.input td input.tiny, form.frm p input.tiny, 
+#container .left .main .content #listWrapper .todolist td form input.tiny {
+	width:40px;
+}
+
+form.frm p input.checkbox {
+	width:20px;
+}
+
+form.frm p textarea {
+	height:250px;
+}
+
+form.frm p textarea.short {
+	height:125px;
+}
+
+form.frm p textarea.address {
+	height:50px;
+	width:390px;
+}
+
+form.frm p input.title {
+	padding:4px;
+	font-weight:bold;
+}
+
+form.frm ul.projects, ul.errors {
+	list-style:none;
+	padding:15px;
+}
+
+ul.errors li { margin-bottom:5px; }
+
+form.frm ul.projects li input.checkbox {
+	float:left;
+	margin-right:4px;
+}
+
+form.frm ul.projects li label {
+	width:auto;
+	text-align:left;
+	margin-right:30px;
+}
+
+/* buttons */
+.button {
+	border: 3px double #999;
+	border-top-color: #CCC;
+	border-left-color: #CCC;
+	padding: 0.25em;
+	background-color: #F5f5f5;
+	background-image: url(../images/input-bg.gif);
+	background-repeat:repeat-x;
+	color: #333;
+	font-size: 85%;
+	font-weight: bold;
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+}
+.button2 {
+	border: 3px double #999;
+	border-top-color: #CCC;
+	border-left-color: #CCC;
+	padding: 0.15em;
+	background-color: #F5f5f5;
+	background-image: url(../images/input-bg.gif);
+	background-repeat:repeat-x;
+	color: #333;
+	font-size: 75%;
+	font-weight: bold;
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+}
+.button:active,input.button2:active {
+	border: 3px double #CCC;
+	border-top-color: #999;
+	border-left-color: #999;
+}
+textarea.addtask {
+	padding:2px;
+	width:400px;
+	height:54px;
+}
+textarea.addtask:focus {
+	background-color:#ffc;
+}
+
+fieldset.addnew label { text-align:left;width:auto;display:block; }
+fieldset.addnew label > input,fieldset.addnew select.block { display:block; }
+
+.idleField {
+	border:1px solid #999;
+	background-color:#fff;
+}
+.focusField {
+	border:1px solid #f00;
+	background-color:#ffc;
+}
+
+form#login label { font-weight:bold; font-size:1.2em; }
+form#login input {
+	width:180px;
+	padding:4px;
+	margin-bottom:5px;
+}
+form#login input#remain { text-align:left; width:15px; border:none; }
+form#login label#rem { font-weight:normal; font-size:1em; }
+form#login small { margin-left:20px; font-size:.9em; }
+form#login input.sub {
+	width:100px;
+	padding:3px;
+	font-size:1.1em;
+	font-weight:bold;
+	margin-top:5px;
+}
+
+form.forgot { clear:both; }
+form.forgot label { font-weight:bold; font-size:1.1em; display:block; }
+form.forgot input.forgot {
+	width:300px;
+	border:2px solid #999;
+	padding:4px;
+	float:left;
+}
+form.forgot input.uname {
+	width:150px;
+}
+form.forgot input.sub {
+	padding:3px;
+	font-size:1.1em;
+	margin-left:5px;
+}
+#container .left .main .content .wrapper form.forgot p { margin:5px 0 15px 0; }
+
+#res_desc { height:70px; width:480px;}
+
+input#searchbox {
+	width:450px;
+	border:1px solid #7f9db9;
+	padding:4px;
+	margin:5px 0;
+}
+#search .button { height:27px; }
+
+fieldset.settings {
+	border:0;
+	border-top:2px solid #d9eaf5;
+	margin:0 30px;
+	font-size:.9em;
+}
+fieldset.settings legend {
+	padding:0 3px;
+	font-weight:bold;
+}
+fieldset.settings ul {
+	list-style:none;
+}
+fieldset.settings ul li {
+	margin-bottom:3px;
+}
+fieldset.settings fieldset {
+	margin:auto;
+	width:280px;
+	border:1px solid #ccc;
+}
+
+fieldset.settings table td { vertical-align:top; }
+
+#container .left .main .content #listWrapper .todolist td form label {
+	display:block;
+	float:left;
+	font-weight:bold;
+	text-align:right;
+	width:80px;
+	padding-right:5px;
+}
+
+#container .left .main .content #listWrapper .todolist td form input,
+#container .left .main .content #listWrapper .todolist td form textarea,
+div#report input, div#report select, form.frm select.rev {
+	padding:2px;
+}
+
+#container .left .main .content #listWrapper .todolist td form select {
+	padding:1px;
+}

@@ -1,0 +1,97 @@
+#header {
+	background-repeat: repeat-x;
+	padding:6px 30px 13px 30px;
+}
+
+#header #loggedin {
+	float:right; 
+	font-size:.85em; 
+	margin-top:5px; 
+	color:#fff;
+}
+
+#header #projectmenu {
+	background-color:#ffc;
+	position:absolute;
+	left:190px; top:0;
+	font-size:.9em;	
+	z-index:1000;
+}
+
+#header #projectmenu ul { list-style-type:none; }
+#header #projectmenu ul li { border:1px solid #ffd61f; padding:3px 5px; }
+#header #projectmenu ul li a { text-decoration:none; color:#00f; } 
+
+#header h1 {
+	font-size:2.6em;
+	font-weight:bold;
+	color:#f5f5f5;
+	margin:3px 0 6px 0;
+}
+
+#header #linksback {
+	font-size:.85em;
+	color:#f5f5f5;
+}
+
+#header a {
+	color: #fff;
+}
+
+#header #loggedin a.current {
+	color: #fc0;
+	font-weight:bold;
+	text-decoration:none;
+}
+
+#header #tabs { 
+	bottom:0;
+	position:relative;
+}
+
+#header #tabs #maintabs { float:left; }
+#header #tabs #admintabs { float:right; }
+
+#header #tabs ul li {
+	list-style: none;
+	float:left;
+
+}
+
+#header #tabs ul li a {
+	text-decoration: none;
+	font-size:1.2em;
+	font-weight: bold;
+	padding:.2em .5em;
+	display:block;
+	margin-left:.2em;
+	line-height:1.2em;
+	margin-top:3px;
+}
+
+
+#header #tabs ul li a.current {
+	font-size:1.4em;
+	padding:.1em .5em;
+	background: #e5e5e5 url(../images/tab-bg.png) top repeat-x;
+	color: #393;
+	border-bottom:none;
+	line-height:1.4em;
+	margin-top:0;
+}
+
+#header #tabs ul li a:hover {
+    color: #000;
+    background-color: #ffc;
+	border-bottom: 1px solid #ffc;
+}
+
+#header #tabs ul li a.current:hover {
+	color: #393;
+	background-color: #e5e5e5;
+	border-bottom:none;
+}
+
+.subheader { padding:10px 20px; margin-bottom:15px; border-bottom:1px solid #ccc; border-top:1px solid #ccc; background:#ddd url(../images/grad3.gif) repeat-x; }
+
+.menuhover { background-color:#fc0; cursor:pointer; }

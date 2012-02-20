@@ -1,0 +1,9 @@
+#header {
+	background: #0d651f url("../../images/header/header-green.png");
+}
+
+#header #tabs ul li a {
+    background-color: #12942C;
+    color: #fff;
+    border-bottom: 1px solid #12942C;
+}

@@ -1,0 +1,174 @@
+/* LAYOUT */
+table.full { width:100%; }
+table.half { width:65%; margin-right:auto; margin-left:auto; }
+table.activity tbody td { padding:4px; text-align:left; }
+table.clean tr th, table.clean tr td, table.svn tr th, table.svn tr td { padding:4px 2px; vertical-align:top; }
+table.svn tr th:first-child, table.svn tr td:first-child { padding:4px 0 4px 5px; }
+table#milestone_cal tr th, table#milestone_cal tr td { padding:3px; vertical-align:top; }
+table#milestone_cal tr td ul.cal_ms li { padding-top:4px; }
+table.todo td { padding:3px; vertical-align:top; }
+table.todo tr td { font-size:.8em; }
+table.todoadd tr td, table.sm tr { font-size:.9em; }
+table.todo tr td.pad { padding-left:12px; }
+
+/* STYLE */
+table tbody tr.even { background-color:#fff; }
+table tbody tr.odd { background-color:#fafafa; }
+table caption.plain { background:#eee; font-size:1.2em; font-weight:bold; color:#000; border:none; text-transform:none; }
+table.svn caption { font-size:1.2em; font-weight: bold; margin-bottom:10px; background-color:#ddd; padding:5px; }
+table.svn tfoot tr td { padding:3px 5px; background-color:#ddd; }
+table.clean tbody tr.odd, table.svn tbody tr.odd { background: #f9f9f9;	border-top:1px solid #FFF; }
+table.clean tr, table.svn tr { border-bottom:1px solid #ccc; }
+table.clean tr th, table.svn tr th { font-weight:bold; vertical-align:bottom; }
+table.activity caption { font-size:1.2em; font-weight:bold; background-color:#eee; padding:4px; }
+table.activity thead th { 
+	padding-right:4px; padding-top:4px;	padding-bottom:4px;
+	text-align:left; font-weight:bold; background-color:#f5f5f5; 
+}
+table.bug tr td.label { font-weight:bold; text-align:right; width:100px; padding-right:10px; vertical-align:top; }
+table.bug tr td { padding:3px; }
+table.bug tr td > p { margin:0; padding:0; }
+table.admin th { background:url(../images/grad3.gif) repeat-x; border:1px solid #ccc; }
+table.admin td { border:1px solid #ccc; }
+
+/* diff stuff */
+table.diff td, .diff th { vertical-align: top; padding:3px; }
+table.diff .linenum { font-size: 0.9em; background-color: #eee; border-left: 1px solid #ddd; border-right: 1px solid #ddd; text-align: right; color: #999; }
+table.diff th { background-color: #eee; border: 1px solid #ddd; border-left: none; }
+table.diff .top td, .diff .whole td { border-top: 2px solid #999; margin-top: 1em; }
+table.diff .bot td, .diff .whole td { border-bottom: 2px solid #999; margin-bottom: 1em; }
+table.diff .only td { border-top: none; border-bottom: none; margin-top: auto; margin-bottom: auto; }
+table.diff .ins { background-color: #dfd; }
+table.diff .del { background-color: #fdd; }
+table.diff .upd { background-color: #ddf; }
+table.diff .code { width: 50%; }
+table.diff .code div { overflow: hidden; }
+table.diff { font-family: 'Bitstream Vera Sans Mono', 'Bitstream Vera Mono', 'Vera Mono', 'Vera Sans Mono', 'Lucida Console', 'Lucida Typewriter', monospace, fixed-width, fixed; font-size: 0.85em; }
+
+table.permissions tr th, table.permissions tr td, table.notify tr th, table.notify tr td {
+	font-size:1em; border:1px solid #ccc; padding:3px;
+}
+table.permissions tr th, table.notify tr th { background-color:#eee; text-align:center; }
+table.permissions tr td, table.notify tr td { text-align:center; }
+
+table.permissions td.hover, table.permissions tbody tr:hover {
+	background-color: #EFF5FF !important;
+}
+
+table.notify label { float:none; }
+
+table#milestone_cal { background:#e0e0e0; border-collapse:separate;	border-spacing:1px; }
+table#milestone_cal tr th, table#milestone_cal tr td { font-family:Verdana, Arial, sans-serif; font-size:80%; }
+table#milestone_cal tr th,table#milestone_cal tr td.blank { background-color:#e0e0e0; color:#666; font-weight:bold;	border-bottom:none; }
+table#milestone_cal tr td {	background-color:#f0f0f0; color:#aaa; }
+table#milestone_cal tr td.today { border:2px solid #fc6; background-color:#ffc;	color:#000; }
+table#milestone_cal tr td.active { border:1px solid #000; background-color:#fff; color:#000; }
+table#milestone_cal tr td ul.cal_ms { list-style:none; }
+table#milestone_cal tr td ul.cal_ms li { list-style-type:none; }
+table#milestone_cal tr td.mth { background-color:#fff; color:#000; font-size:1.1em; font-weight:bold; text-align:right; padding:3px; width:35px; }
+
+table.alltodos { width:100%; }
+table.alltodos tr td { border-top:1px solid #ccc; padding:5px; vertical-align:top; }
+table.alltodos tr td:first-child { background-color:#eee; text-align:right; width:28%; font-weight:bold; }
+table.alltodos li { list-style-type:none; margin-bottom:5px; }
+
+table.perms {
+	width:350px;
+	margin-left:30px;
+}
+table.def {
+	width:300px;
+}
+table.permspop, table.notifypop {
+	width:200px;
+	margin-left:10px;
+}
+table.perms th, table.perms td, table.permspop th, table.permspop td, table.notifypop th, table.notifypop td {
+	border-bottom:1px solid #ccc;
+	padding:2px;
+	font-size:.9em;
+}
+table.permspop td.tac {
+	width:20px;
+}
+table.permspop th, table.notifypop th, table.notifylist th, #permsinfo th {
+	background-color:#eee;	
+}
+table.notifylist td.tac {
+	width:50px;
+}
+table.notifypop td.tac {
+	width:25px;
+}
+
+.yes, .no {
+	width:50px;
+}
+
+tr.input td {
+	padding:10px;
+	background-color:#eee;
+	height:32px;
+	border-top:1px solid #aaa;
+}
+table#time tr td.first, table#time tr th.first {
+	padding-left:10px;
+}
+table#time tr.last td {
+	border-bottom:1px solid #fff;
+	border-top:2px solid #aaa;
+}
+tr.input td input, tr.input td select {
+	padding:2px;
+}
+
+table.input2 {
+	background-color:#eee;
+	border:1px solid #ccc;
+}
+table.input2 thead tr th, table.input2 tbody tr td, table.input2 tbody tr td input {
+	padding:2px;
+}
+table.input2 thead tr th {
+	padding:5px 10px 0 10px;
+}
+table.input2 tbody tr td {
+	padding:0 10px 5px 10px;
+}
+table.input2 tbody tr td input.short { width:250px; }
+table.input2 tbody tr td input.tiny { width:50px; }
+
+/* tablesort plugin */
+table.tablesorter {
+	background-color: #CDCDCD;
+	margin:0;
+}
+table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+	background-color: #e6EEEE;
+	border: 1px solid #FFF;
+	font-size: 8pt;
+	padding: 4px;
+}
+table.tablesorter thead tr .theader {
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+table.tablesorter tbody td {
+	color: #3D3D3D;
+	padding: 4px;
+	background-color: #FFF;
+	vertical-align: top;
+}
+table.tablesorter tbody tr.odd td {
+	background-color:#f5f5f5;
+}
+table.tablesorter thead tr .headerSortUp {
+	background-image: url(../images/asc.gif);
+}
+table.tablesorter thead tr .headerSortDown {
+	background-image: url(../images/desc.gif);
+}
+table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+	background-color: #8dbdd8;
+}
