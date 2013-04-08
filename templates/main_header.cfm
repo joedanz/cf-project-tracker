@@ -82,16 +82,16 @@
 		<ul id="admintabs">
 			<cfif compare(attributes.projectid,'')>
 				<cfset userRole = application.role.get(session.user.userid,attributes.projectid)>
-				<cfif session.user.admin or userRole.admin>
+				<cfif session.user.admin or (userRole.recordCount and userRole.admin)>
 					<li><a href="#application.settings.mapping#/editProject.cfm?p=#attributes.projectid#" title="Settings"<cfif find('/editProject.cfm',cgi.script_name) and StructKeyExists(url,"p")> class="current"</cfif>>Settings</a></li>
 					<li><a href="#application.settings.mapping#/people.cfm?p=#attributes.projectid#" title="People"<cfif find('/people.cfm',cgi.script_name)> class="current"</cfif>>People</a></li>
 				</cfif>
 			</cfif>
 			<li><a href="#application.settings.mapping#/search.cfm<cfif StructKeyExists(url,"p")>?p=#url.p#</cfif>" title="Search"<cfif find('/search.cfm',cgi.script_name)> class="current"</cfif>>Search</a></li>
-			<cfif session.user.admin or session.user.report or (compare(attributes.projectid,'') and userRole.report)>
+			<cfif session.user.admin or session.user.report or (compare(attributes.projectid,'') and (userRole.recordCount and userRole.report))>
 				<li><a href="#application.settings.mapping#/report.cfm<cfif StructKeyExists(url,"p")>?p=#url.p#</cfif>" title="Report"<cfif find('/report.cfm',cgi.script_name)> class="current"</cfif>>Report</a></li>
 			</cfif>
-			<cfif session.user.admin or session.user.invoice or (compare(attributes.projectid,'') and userRole.bill_invoices)>
+			<cfif session.user.admin or session.user.invoice or (compare(attributes.projectid,'') and (userRole.recordCount and userRole.bill_invoices))>
 				<li><a href="#application.settings.mapping#/invoice.cfm<cfif StructKeyExists(url,"p")>?p=#url.p#</cfif>" title="Invoice"<cfif find('/invoice.cfm',cgi.script_name)> class="current"</cfif>>Invoice</a></li>
 			</cfif>
 			<cfif session.user.admin>
@@ -103,28 +103,28 @@
 			<cfif compare(attributes.projectid,'')>
 				<cfset project = application.project.getDistinct(attributes.projectid)>
 				<li><a href="#application.settings.mapping#/project.cfm?p=#attributes.projectid#" title="Overview"<cfif find('/project.cfm',cgi.script_name)> class="current"</cfif>>Overview</a></li>
-				<cfif project.tab_msgs eq 1 and (session.user.admin or userRole.admin or userRole.msg_view)>
+				<cfif project.tab_msgs eq 1 and (session.user.admin or (userRole.recordCount and (userRole.admin or userRole.msg_view)))>
 					<li><a href="#application.settings.mapping#/messages.cfm?p=#attributes.projectid#" title="Messages"<cfif find('/messages.cfm',cgi.script_name) or find('/editMessage.cfm',cgi.script_name) or find('/message.cfm',cgi.script_name)> class="current"</cfif>>Messages</a></li>
 				</cfif>
-				<cfif project.tab_todos eq 1 and (session.user.admin or userRole.admin or userRole.todolist_view)>
+				<cfif project.tab_todos eq 1 and (session.user.admin or (userRole.recordCount and (userRole.admin or userRole.todolist_view)))>
 					<li><a href="#application.settings.mapping#/todos.cfm?p=#attributes.projectid#" title="To-Dos"<cfif find('/todo',cgi.script_name) or find('/editTodolist.cfm',cgi.script_name)> class="current"</cfif>>To-Do</a></li>
 				</cfif>
-				<cfif project.tab_mstones eq 1 and (session.user.admin or userRole.admin or userRole.mstone_view)>
+				<cfif project.tab_mstones eq 1 and (session.user.admin or (userRole.recordCount and (userRole.admin or userRole.mstone_view)))>
 					<li><a href="#application.settings.mapping#/milestones.cfm?p=#attributes.projectid#" title="Milestones"<cfif find('/milestone',cgi.script_name) or find('/editMilestone.cfm',cgi.script_name)> class="current"</cfif>>Milestones</a></li>
 				</cfif>
-				<cfif project.tab_issues eq 1 and (session.user.admin or userRole.admin or userRole.issue_view)>
+				<cfif project.tab_issues eq 1 and (session.user.admin or (userRole.recordCount and (userRole.admin or userRole.issue_view)))>
 					<li><a href="#application.settings.mapping#/issues.cfm?p=#attributes.projectid#" title="Issues"<cfif find('/issue',cgi.script_name) or find('/editIssue.cfm',cgi.script_name)> class="current"</cfif>>Issues</a></li>
 				</cfif>
-				<cfif project.tab_time eq 1 and (session.user.admin or userRole.admin or userRole.time_view)>
+				<cfif project.tab_time eq 1 and (session.user.admin or (userRole.recordCount and (userRole.admin or userRole.time_view)))>
 					<li><a href="#application.settings.mapping#/time.cfm?p=#attributes.projectid#" title="Time"<cfif find('/time.cfm',cgi.script_name)> class="current"</cfif>>Time</a></li>
 				</cfif>
-				<cfif project.tab_billing eq 1 and (session.user.admin or userRole.admin or userRole.bill_view)>
+				<cfif project.tab_billing eq 1 and (session.user.admin or (userRole.recordCount and (userRole.admin or userRole.bill_view)))>
 					<li><a href="#application.settings.mapping#/billing.cfm?p=#attributes.projectid#" title="Billing"<cfif find('/billing.cfm',cgi.script_name)> class="current"</cfif>>Billing</a></li>
 				</cfif>
-				<cfif project.tab_files eq 1 and (session.user.admin or userRole.admin or userRole.file_view)>
+				<cfif project.tab_files eq 1 and (session.user.admin or (userRole.recordCount and (userRole.admin or userRole.file_view)))>
 					<li><a href="#application.settings.mapping#/files.cfm?p=#attributes.projectid#" title="Files"<cfif find('/file',cgi.script_name) or find('/editFile.cfm',cgi.script_name)> class="current"</cfif>>Files</a></li>
 				</cfif>
-				<cfif project.tab_svn eq 1 and compare(attributes.svnurl,'') and (session.user.admin or userRole.admin or userRole.svn)>
+				<cfif project.tab_svn eq 1 and compare(attributes.svnurl,'') and (session.user.admin or (userRole.recordCount and (userRole.admin or userRole.svn)))>
 				<li><a href="#application.settings.mapping#/svnBrowse.cfm?p=#attributes.projectid#" title="SVN"<cfif find('/svn',cgi.script_name)> class="current"</cfif>>SVN</a></li>
 				</cfif>
 			<cfelse>
