@@ -198,7 +198,7 @@ $(document).ready(function(){
 												<cfif compare(messageID,'')>
 													<a href="message.cfm?p=#projectID#&amp;m=#messageID#">#title#</a>
 												<cfelseif compare(issueID,'')>
-													<a href="issue.cfm?p=#projectID#&amp;m=#issueID#">#issue#</a>
+													<a href="issue.cfm?p=#projectID#&amp;i=#issueID#">#issue#</a>
 												</cfif>
 											</h4>
 											<cfif compare(commentText,'')><p>#left(commentText,200)#<cfif len(commentText) gt 200>...</cfif></p></cfif>
