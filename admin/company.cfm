@@ -19,7 +19,7 @@
 	<cfif compare(form.invimagefile,'')>
 		<cfif compare(application.settings.invoice_logo,'')>
 			<cftry>
-				<cffile action="delete" file="#application.userFilesPath#company/#application.settings.company_logo#">
+				<cffile action="delete" file="#application.userFilesPath#company/#application.settings.invoice_logo#">
 				<cfcatch></cfcatch>
 			</cftry>
 		</cfif>
