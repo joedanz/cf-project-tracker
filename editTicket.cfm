@@ -224,7 +224,7 @@
 						</cfif>						
 											
 						<p>
-						<label for="issue">Relevant URL:</label>
+						<label for="relevantURL">Relevant URL:</label>
 						<input type="text" name="relevantURL" id="relevantURL" value="#HTMLEditFormat(relevantURL)#" maxlength="255" />
 						</p>
 						
