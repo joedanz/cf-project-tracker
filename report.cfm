@@ -240,7 +240,7 @@
 										<tbody>
 											<cfloop query="byClient">
 											<tr>
-												<td><cfif compare(client,'')>#client#<cfelse>Miscellaneous</cfif></td>
+												<td><cfif compare(byClient.client,'')>#byClient.client#<cfelse>Miscellaneous</cfif></td>
 												<td>#totalHours#</td>
 											</tr>
 											</cfloop>

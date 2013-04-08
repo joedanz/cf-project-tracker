@@ -114,7 +114,7 @@
 				<tbody>
 					<cfloop query="byClient">
 					<tr>
-						<td>#client#</td>
+						<td>#byClient.client#</td>
 						<td>#totalHours#</td>
 					</tr>
 					</cfloop>
