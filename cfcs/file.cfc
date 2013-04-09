@@ -54,8 +54,8 @@
 			  <cfset datesOnly[currentRow] = LSDateFormat(uploaded)>
 			  <cfset leftChar[currentRow] = left(title,1)>
 		  </cfloop>
-		  <cfset queryAddColumn(qGetFiles,"uploadDate",datesOnly)>
-		  <cfset queryAddColumn(qGetFiles,"leftChar",leftChar)>
+		  <cfset queryAddColumn(qGetFiles,"uploadDate","varchar",datesOnly)>
+		  <cfset queryAddColumn(qGetFiles,"leftChar","varchar",leftChar)>
 		  
 		<cfreturn qGetFiles>
 	</cffunction>
