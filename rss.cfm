@@ -30,7 +30,7 @@
 					<cfcase value="Message"><cfset querySetCell(data,"link","#site_url#/messages.cfm?p=#url.p#&amp;mid=#id#")></cfcase>
 					<cfcase value="Milestone"><cfset querySetCell(data,"link","#site_url#/milestones.cfm?p=#url.p#&amp;m=#id#")></cfcase>
 					<cfcase value="To-Do List"><cfset querySetCell(data,"link","#site_url#/todos.cfm?p=#url.p#&amp;t=#id#")></cfcase>
-					<cfcase value="File"><cfset querySetCell(data,"link","#site_url#/files.cfm?p=#url.p#&amp;f=#id#")></cfcase>
+					<cfcase value="File"><cfset querySetCell(data,"link","#site_url#/file.cfm?p=#url.p#&amp;f=#id#")></cfcase>
 					<cfcase value="Project"><cfset querySetCell(data,"link","#site_url#/project.cfm?p=#url.p#")></cfcase>
 					<cfdefaultcase>#site_url#</cfdefaultcase>
 				</cfswitch>			
@@ -63,7 +63,7 @@
 				<cfcase value="Message"><cfset querySetCell(data,"link","#site_url#/messages.cfm?p=#projectID#&amp;mid=#id#")></cfcase>
 				<cfcase value="Milestone"><cfset querySetCell(data,"link","#site_url#/milestones.cfm?p=#projectID#&amp;m=#id#")></cfcase>
 				<cfcase value="To-Do List"><cfset querySetCell(data,"link","#site_url#/todos.cfm?p=#projectID#&amp;t=#id#")></cfcase>
-				<cfcase value="File"><cfset querySetCell(data,"link","#site_url#/files.cfm?p=#projectID#&amp;f=#id#")></cfcase>
+				<cfcase value="File"><cfset querySetCell(data,"link","#site_url#/file.cfm?p=#projectID#&amp;f=#id#")></cfcase>
 				<cfcase value="Project"><cfset querySetCell(data,"link","#site_url#/project.cfm?p=#projectID#")></cfcase>
 				<cfdefaultcase>#site_url#</cfdefaultcase>
 			</cfswitch>			

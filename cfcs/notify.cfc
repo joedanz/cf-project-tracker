@@ -77,7 +77,7 @@ To view the issue and leave comments, visit this link:
 	</cfcase>
 	<cfcase value="file">
 To view the file and leave comments, visit this link:
-#application.settings.rootURL##application.settings.mapping#/files.cfm?p=#arguments.projectID#&f=#arguments.itemID#
+#application.settings.rootURL##application.settings.mapping#/file.cfm?p=#arguments.projectID#&f=#arguments.itemID#
 	</cfcase>
 	<cfcase value="mstone">
 To view the milestone and leave comments, visit this link:
@@ -170,7 +170,7 @@ Category: #qFile.category#
 #request.udf.CleanText(qFile.description)#
 
 To view file details or to download, visit this link:
-#application.settings.rootURL##application.settings.mapping#/files.cfm?p=#arguments.projectID#&f=#arguments.fileID#
+#application.settings.rootURL##application.settings.mapping#/file.cfm?p=#arguments.projectID#&f=#arguments.fileID#
 				</cfoutput>
 				</cfsavecontent>
 				
@@ -211,7 +211,7 @@ Category: #qFile.category#
 #request.udf.CleanText(qFile.description)#
 
 To view file details or to download, visit this link:
-#application.settings.rootURL##application.settings.mapping#/files.cfm?p=#arguments.projectID#&f=#arguments.fileID#				
+#application.settings.rootURL##application.settings.mapping#/file.cfm?p=#arguments.projectID#&f=#arguments.fileID#				
 				</cfoutput>
 				</cfsavecontent>				
 				

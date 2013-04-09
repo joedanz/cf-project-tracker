@@ -371,7 +371,7 @@ $(document).ready(function(){
 									<cfcase value="Milestone"><a href="milestones.cfm?p=#url.p#&amp;m=#id#">#name#</a></cfcase>
 									<cfcase value="To-Do"><a href="todos.cfm?p=#url.p###id_#id#">#name#</a></cfcase>
 									<cfcase value="To-Do List"><a href="todos.cfm?p=#url.p#&amp;t=#id#">#name#</a></cfcase>
-									<cfcase value="File"><a href="files.cfm?p=#url.p#&amp;f=#id#">#name#</a></cfcase>
+									<cfcase value="File"><a href="file.cfm?p=#url.p#&amp;f=#id#">#name#</a></cfcase>
 									<cfcase value="Project"><a href="project.cfm?p=#url.p#">#name#</a></cfcase>
 									<cfcase value="Screenshot"><a href="issue.cfm?p=#url.p#&amp;i=#id###screen">#name#</a></cfcase>
 									<cfdefaultcase>#name#</cfdefaultcase>
