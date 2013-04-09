@@ -20,16 +20,16 @@
 
 <!-- CSS -->
 <link rel="stylesheet" href="#application.settings.mapping#/css/smoothness/jquery-ui-1.8.14.custom.css" media="screen,projection" type="text/css" />
+<link rel="stylesheet" href="#application.settings.mapping#/css/bootstrap.min.css" media="screen,projection" type="text/css" />
 <link rel="stylesheet" href="#application.settings.mapping#/css/header/#session.style#.css" media="screen,projection" type="text/css" />
 <link rel="stylesheet" href="#application.settings.mapping#/css/all_styles.css" media="screen,projection" type="text/css" />
 
 <!-- JavaScript -->
 <!-- Grab Google CDN's jQuery. fall back to local if necessary -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-<script>!window.jQuery && document.write('<script src="#application.settings.mapping#/js/jquery-1.6.2.min.js"><\/script>')</script>
-<script type="text/javascript" src="#application.settings.mapping#/js/jquery-1.6.2.min.js"></script>
-<script type="text/javascript" src="#application.settings.mapping#/js/jquery.tablesorter.js"></script>
-<script type="text/javascript" src="#application.settings.mapping#/js/webtoolkit.scrollabletable.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>!window.jQuery && document.write('<script src="#application.settings.mapping#/js/jquery-1.8.3.min.js"><\/script>')</script>
+<script type="text/javascript" src="#application.settings.mapping#/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="#application.settings.mapping#/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div id="header">

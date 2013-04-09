@@ -11,6 +11,7 @@
 <script type="text/javascript" src="#application.settings.mapping#/js/jquery.color.js"></script>
 <script type="text/javascript" src="#application.settings.mapping#/js/jquery.checkboxes.js"></script>
 <script type="text/javascript" src="#application.settings.mapping#/js/jquery.prettyPhoto.js"></script>
+<script type="text/javascript" src="#application.settings.mapping#/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="#application.settings.mapping#/js/jquery.columnhover.pack.js"></script>
 <script type="text/javascript" src="#application.settings.mapping#/js/jquery-ui-1.8.14.custom.min.js"></script>
 </body>

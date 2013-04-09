@@ -91,41 +91,66 @@
 <script type='text/javascript'>
 $(document).ready(function(){
 	<cfif issues.recordCount>
-    $.tablesorter.addParser({ 
-        id: 'severity', 
-        is: function(s) {  
-            return false; // return false so this parser is not auto detected
-        }, 
-        format: function(s) { 
-            return s.toLowerCase().replace(/critical/,4).replace(/major/,3).replace(/normal/,2).replace(/minor/,1).replace(/trivial/,0); 
-        }, 
-        type: 'numeric' 
-    });
-	$.tablesorter.addParser({ 
-        id: 'status', 
-        is: function(s) {  
-            return false; // return false so this parser is not auto detected
-        }, 
-        format: function(s) { 
-            return s.toLowerCase().replace(/closed/,3).replace(/resolved/,2).replace(/assigned/,1).replace(/accepted/,1).replace(/new/,0); 
-        }, 
-        type: 'numeric' 
-    });
-	$('##issues').tablesorter({
-			cssHeader: 'theader',
-			sortList: [[0,0]],
-			headers: { 3: { sorter:'severity' }, 4: { sorter:'statuses' }, 7: { sorter:'usLongDate' }, 8: { sorter:'usLongDate' }, 9: { sorter:'usLongDate' } },
-			widgets: ['zebra']  
-	});
+    jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+	    "severity-pre": function ( a ) {
+	        // Add / alter the switch statement below to match your enum list
+	        switch( a ) {
+	            case "Trivial":   return 1;
+	            case "Minor": 	return 2;
+	            case "Normal":    return 3;
+	            case "Major":    return 4;
+	            case "Critical":    return 5;
+	            default:       return 6;
+	        }
+	    },
+	    "severity-asc": function ( a, b ) {
+	        return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+	    },
+	    "severity-desc": function ( a, b ) {
+	        return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+	    }
+	} );
+	jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+	    "status-pre": function ( a ) {
+	        // Add / alter the switch statement below to match your enum list
+	        switch( a ) {
+	            case "New":   return 1;
+	            case "Accepted": return 2;
+	            case "Assigned":    return 3;
+	            case "Resolved":    return 4;
+	            case "Closed":    return 5;
+	            default:       return 6;
+	        }
+	    },
+	    "status-asc": function ( a, b ) {
+	        return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+	    },
+	    "status-desc": function ( a, b ) {
+	        return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+	    }
+	} );
+	$('##issues').dataTable( {
+        "bJQueryUI": true,
+        "sPaginationType": "full_numbers",
+        "aoColumns": [
+               null,
+               null,
+               null,
+               { "sType": "severity" },
+               { "sType": "status" },
+               null,
+               null,
+               null,
+               null
+           ]
+    } );
 	</cfif>
 	<cfif activity.recordCount>
-	$('##activity').tablesorter({
-			cssHeader: 'theader',
-			sortList: [[5,1]],
-			headers: { 5: { sorter:'usLongDate' } },
-			widgets: ['zebra']
-	});
-	$('table##activity').Scrollable(250,'');
+	$('##activity').dataTable( {
+        "bJQueryUI": true,
+        "sPaginationType": "full_numbers",
+        "aaSorting": [[ 5, "desc" ]]
+    } );
 	</cfif>
 });
 </script>
@@ -311,7 +336,7 @@ $(document).ready(function(){
 
 				 	<cfif listLen(visible_project_list_issues) and issues.recordCount>
 					<div style="border:1px solid ##ddd;" class="mb20">
-				 	<table class="activity full tablesorter" id="issues">
+				 	<table class="activity table table-striped" id="issues">
 					<caption class="plain">Open Issues</caption>	 	
 					<thead>
 						<tr>
@@ -355,7 +380,7 @@ $(document).ready(function(){
 					<div style="background-color:##eee;font-weight:bold;font-size:1.2em;padding:5px;margin-bottom:1px;">
 					<span class="feedlink"><a href="rss.cfm?u=#session.user.userID#&amp;type=allact" class="feed">RSS Feed</a></span>Recent Activity
 					</div>
-					<table class="activity full tablesorter" id="activity">
+					<table class="activity table table-striped" id="activity">
 						<thead>
 							<tr>
 								<th>Project</th>

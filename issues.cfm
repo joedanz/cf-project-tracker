@@ -32,58 +32,66 @@
 <!--- Loads header/footer --->
 <cfmodule template="#application.settings.mapping#/tags/layout.cfm" templatename="main" title="#project.name# &raquo; Issues" project="#project.name#" projectid="#url.p#" svnurl="#project.svnurl#">
 
-<cfhtmlhead text="<script type='text/javascript'>
+<cfhtmlhead text='<script type="text/javascript">
 $(document).ready(function(){
-    $.tablesorter.addParser({ 
-        id: 'shortid', 
-        is: function(s) {  
-            return false; // return false so this parser is not auto detected
-        }, 
-        format: function(s) { 
-            return s.toLowerCase().replace(/#LCase(project.ticketPrefix)#/,''); 
-        }, 
-        type: 'numeric' 
-    });
-	$.tablesorter.addParser({ 
-        id: 'severity', 
-        is: function(s) {  
-            return false; // return false so this parser is not auto detected
-        }, 
-        format: function(s) { 
-            return s.toLowerCase().replace(/critical/,4).replace(/major/,3).replace(/normal/,2).replace(/minor/,1).replace(/trivial/,0); 
-        }, 
-        type: 'numeric' 
-    });
-	$.tablesorter.addParser({ 
-        id: 'status', 
-        is: function(s) {  
-            return false; // return false so this parser is not auto detected
-        }, 
-        format: function(s) { 
-            return s.toLowerCase().replace(/closed/,3).replace(/resolved/,2).replace(/assigned/,1).replace(/accepted/,1).replace(/new/,0); 
-        }, 
-        type: 'numeric' 
-    });
-    $.tablesorter.addParser({
-		id: 'usMonthOnlyDate',
-		is: function(s) {
-			return s.match(new RegExp(/^[A-Za-z]{3,10}\.? [0-9]{1,2}$/));
-		},
-		format: function(s) {
-			s += ', ' + new Date().getYear();
-			return $.tablesorter.formatFloat((new Date(s)).getTime());;
-		}, 
-        type: 'numeric' 
-	});
-	$('##issues').tablesorter({
-			cssHeader: 'theader',
-			sortList: [[0,0]],
-			headers: { 0: { sorter:'shortid' }, 2: { sorter:'severity' }, 3: { sorter:'status' }, 6: { sorter:'text' }, 8: { sorter:'usLongDate' }, 9: { sorter:'usLongDate' }, 10: { sorter:'usLongDate' } },
-			widgets: ['zebra'] 
-	});
+    jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+	    "severity-pre": function ( a ) {
+	        // Add / alter the switch statement below to match your enum list
+	        switch( a ) {
+	            case "Trivial":   return 1;
+	            case "Minor": 	return 2;
+	            case "Normal":    return 3;
+	            case "Major":    return 4;
+	            case "Critical":    return 5;
+	            default:       return 6;
+	        }
+	    },
+	    "severity-asc": function ( a, b ) {
+	        return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+	    },
+	    "severity-desc": function ( a, b ) {
+	        return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+	    }
+	} );
+	jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+	    "status-pre": function ( a ) {
+	        // Add / alter the switch statement below to match your enum list
+	        switch( a ) {
+	            case "New":   return 1;
+	            case "Accepted": return 2;
+	            case "Assigned":    return 3;
+	            case "Resolved":    return 4;
+	            case "Closed":    return 5;
+	            default:       return 6;
+	        }
+	    },
+	    "status-asc": function ( a, b ) {
+	        return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+	    },
+	    "status-desc": function ( a, b ) {
+	        return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+	    }
+	} );
+	$("##issues").dataTable( {
+        "bJQueryUI": true,
+        "sPaginationType": "full_numbers",
+        "aoColumns": [
+               null,
+               null,
+               { "sType": "severity" },
+               { "sType": "status" },
+               null,
+               null,
+               null,
+               null,
+               null,
+			   null,
+			   null
+           ]
+    } );
 });
 </script>
-">
+'>
 
 <cfoutput>
 <div id="container">
