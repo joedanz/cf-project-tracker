@@ -67,6 +67,8 @@
 				c.carrier, c.prefix, c.suffix
 			FROM #variables.tableprefix#message_notify m
 				LEFT JOIN #variables.tableprefix#users u ON m.userID = u.userID
+				INNER JOIN #variables.tableprefix#project_users pu ON u.userID = pu.userID
+						AND pu.projectID = m.projectID
 				LEFT JOIN #variables.tableprefix#user_notify un ON u.userID = un.userID
 				LEFT JOIN #variables.tableprefix#carriers c ON u.carrierID = c.carrierID
 			WHERE m.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
