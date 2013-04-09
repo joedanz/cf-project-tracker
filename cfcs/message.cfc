@@ -73,6 +73,7 @@
 				LEFT JOIN #variables.tableprefix#carriers c ON u.carrierID = c.carrierID
 			WHERE m.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 				AND m.messageID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.messageID#" maxlength="35">
+				AND un.projectID = <cfqueryparam cfsqltype="cf_sql_char" value="#arguments.projectID#" maxlength="35">
 		</cfquery>
 		<cfreturn qGetNotifyList>
 	</cffunction>
