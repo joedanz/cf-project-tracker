@@ -225,10 +225,12 @@
 											</cfloop>											
 											<tr>
 												<td class="first">#name#</td>
-												<td class="tar"><cfif compare(hours.totalHours,'')>#hours.totalHours#<cfelse>0.0</cfif></td>
+												<td class="tar"><cfif isNumeric(hours.totalHours)>#hours.totalHours#<cfelse>0.0</cfif></td>
 												<td class="tar">#LSCurrencyFormat(totalAmount)#</td>
 											</tr>
-											<cfset allProjHours = allProjHours + hours.totalHours>
+											<cfif isNumeric(hours.totalHours)>
+												<cfset allProjHours = allProjHours + hours.totalHours>
+											</cfif>
 											<cfset allProjAmount = allProjAmount + totalAmount>
 										</cfloop>
 										</tbody>
