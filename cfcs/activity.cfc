@@ -109,8 +109,8 @@
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.userID#" maxlength="35">,
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.type#">,
 					<cfqueryparam cfsqltype="cf_sql_char" value="#arguments.id#" maxlength="35">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.name#">,
-					<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.activity#">,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#left(arguments.name,100)#">,
+					<cfqueryparam cfsqltype="cf_sql_varchar" value="#left(arguments.activity,50)#">,
 					<cfqueryparam cfsqltype="cf_sql_timestamp" value="#DateConvert("local2Utc",Now())#">)
 		</cfquery>
 		<cfreturn true>
