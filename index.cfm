@@ -48,17 +48,17 @@
 <cfset visible_project_list_issues = "">
 <cfset visible_project_list_todo = "">
 <cfloop query="projects">
-	<cfif mstone_view gt 0>
+	<cfif mstone_view gt 0 and status is 'Active'>
 		<cfset visible_project_list_mstones = listAppend(visible_project_list_mstones,projectID)>
 	</cfif>
 </cfloop>
 <cfloop query="projects">
-	<cfif issue_view gt 0>
+	<cfif issue_view gt 0 and status is 'Active'>
 		<cfset visible_project_list_issues = listAppend(visible_project_list_issues,projectID)>
 	</cfif>
 </cfloop>
 <cfloop query="projects">
-	<cfif todolist_view gt 0>
+	<cfif todolist_view gt 0 and status is 'Active'>
 		<cfset visible_project_list_todo = listAppend(visible_project_list_todo,projectID)>
 	</cfif>
 </cfloop>
