@@ -140,6 +140,7 @@
 				un.email_bill_upd, un.mobile_bill_upd, un.email_bill_paid, un.mobile_bill_paid, 
 				u.userid, u.firstName, u.lastName, u.email, u.mobile, c.prefix, c.suffix 
 			FROM #variables.tableprefix#projects p 
+				INNER JOIN #variables.tableprefix#project_users pu ON p.projectID = pu.projectID
 				INNER JOIN #variables.tableprefix#user_notify un ON p.projectID = un.projectID
 				INNER JOIN #variables.tableprefix#users u ON un.userID = u.userID
 				LEFT JOIN #variables.tableprefix#carriers c ON u.carrierID = c.carrierID

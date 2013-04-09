@@ -63,12 +63,13 @@
 	<div class="left medium">
 		<div class="main">
 
-				<div class="header">
-					<h2 class="admin">My Notifications : #user.name#</h2>
-				</div>
-				<div class="content">
-					<div class="wrapper">
-				 	
+			<div class="header">
+				<h2 class="admin">My Notifications<cfif user.recordCount> : #user.name#</cfif></h2>
+			</div>
+			<div class="content">
+				<div class="wrapper">
+			 	
+			 	<cfif user.recordCount>
 				 	<cfif not isNumeric(user.mobile)>
 						<h5 class="b r i mb10">Note: User must have a valid mobile number to enable Mobile Notifications.</h5>
 					</cfif>
@@ -281,12 +282,16 @@
 					or <a href="account.cfm?##projects">Cancel</a>
 					</p>
 
-					</form>		
+					</form>
+					
+				<cfelse>
+					<h5 class="b r i mb10">It appears that you are not a member of this project.</h5>
+				</cfif>
+					
 
-					</div>
 				</div>
+			</div>
 
-			
 		</div>
 		<div class="bottom">&nbsp;</div>
 		<div class="footer">
