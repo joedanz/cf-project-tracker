@@ -24,6 +24,13 @@
 	</cfif>
 	<cfset application.user.acctUpdate(session.user.userID,form.username,newPass)>
 	<cfset session.user.username = form.username>
+	<cfif StructKeyExists(cookie,"ptuser")>
+		<cfif compare(application.settings.mapping,'')>
+			<cfcookie name="ptuser" expires="now" domain="#replaceNoCase(replaceNoCase(application.settings.rootURL,'http://',''),'https://','')#" path="#application.settings.mapping#">
+		<cfelse>
+			<cfcookie name="ptuser" expires="now" domain="#replaceNoCase(replaceNoCase(application.settings.rootURL,'http://',''),'https://','')#">
+		</cfif>
+	</cfif>
 	<cfset whichTab = 3>
 <cfelseif StructKeyExists(form,"submitimage")>
 	<!--- this include prevents invalid tag error from on earlier versions --->
