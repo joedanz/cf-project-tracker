@@ -3,6 +3,7 @@
 
 <cfset projectUsers = application.project.projectUsers(url.p,'0','firstName, lastName')>
 <cfset timeline = application.timetrack.get(url.tt)>
+<cfset project = application.project.get(projectID=timeline.projectID)>
 
 <cfoutput>
 <tr id="r#timeline.timetrackid#" class="input">
@@ -16,7 +17,7 @@
 	</td>
 	<td><input type="text" name="hours" id="hrs#timeline.timetrackid#" value="#numberFormat(timeline.hours,"0.00")#" class="tiny" /></td>
 	<cfif url.tb and url.b>
-		<cfset rates = application.client.getRates(url.c)>
+		<cfset rates = application.client.getRates(clientID=url.c,allowDefaultRates=project.allow_def_rates)>
 		<cfset thisRateID = timeline.rateID>
 		<td>
 			<select name="rateID" id="rateID#timeline.timetrackid#">
