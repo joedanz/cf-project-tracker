@@ -20,14 +20,14 @@
 		<cfargument name="itemID" type="string" required="true">
 		<cfargument name="itemType" type="string" required="true">
 		<cfargument name="itemWhich" type="string" required="true">
-		<cfargument name="itemValue" type="boolean" required="true">
+		<cfargument name="itemValue" type="string" required="true">
 
 		<cfquery datasource="#variables.dsn#" username="#variables.dbUsername#" password="#variables.dbPassword#">
 			UPDATE #variables.tableprefix##arguments.itemType#<cfif not compareNoCase(arguments.itemType,'milestone')>s</cfif>
 			SET #itemWhich# = 
 				<cfswitch expression="#arguments.itemValue#">
-					<cfcase value="true">1</cfcase>
-					<cfcase value="false">0</cfcase>
+					<cfcase value="true,checked">1</cfcase>
+					<cfcase value="false,undefined">0</cfcase>
 				</cfswitch>
 			WHERE #arguments.itemType#ID = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.itemID#" maxlength="35">
 		</cfquery>
