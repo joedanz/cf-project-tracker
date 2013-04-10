@@ -1,7 +1,7 @@
 <cfsetting enablecfoutputonly="true">
 <cfprocessingdirective pageencoding="utf-8">
 
-<cfset client = application.client.get(url.c)>
+<cfset thisClient = application.client.get(url.c)>
 <cfset rates = application.client.getRates(clientID=url.c,allowDefaultRates='false')>
 
 <!--- Loads header/footer --->
@@ -21,7 +21,7 @@
 				</ul>
 				<div class="content">
 					<div class="wrapper">
-					<h3>#client.name# &raquo; Billing Rates</h3>
+					<h3>#thisClient.name# &raquo; Billing Rates</h3>
 
 					<cfif rates.recordCount>
 					<ul id="client_rates" class="mt15 ml40">
