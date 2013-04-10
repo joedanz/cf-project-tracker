@@ -102,7 +102,7 @@
 						
 						<p>
 						<input type="submit" name="submit" value="<cfif StructKeyExists(url,"c")>Update<cfelse>Add</cfif> Carrier" class="button shorter" />
-						or <a href="users.cfm">Cancel</a>
+						or <a href="carriers.cfm">Cancel</a>
 						</p>
 						<cfif StructKeyExists(url,"c")>
 							<input type="hidden" name="carrierID" value="#url.c#" />

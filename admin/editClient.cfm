@@ -146,7 +146,7 @@
 						
 						<p>
 						<input type="submit" name="submit" value="<cfif StructKeyExists(url,"c")>Update<cfelse>Add</cfif> Client" class="button shorter" />
-						or <a href="users.cfm">Cancel</a>
+						or <a href="clients.cfm">Cancel</a>
 						</p>
 						<cfif StructKeyExists(url,"c")>
 							<input type="hidden" name="clientID" value="#url.c#" />
