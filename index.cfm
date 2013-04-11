@@ -336,8 +336,10 @@ $(document).ready(function(){
 
 				 	<cfif listLen(visible_project_list_issues) and issues.recordCount>
 					<div style="border:1px solid ##ddd;" class="mb20">
+					<div style="background-color:##eee;font-weight:bold;font-size:1.2em;padding:5px;margin-bottom:1px;">
+						Open Issues
+					</div>
 				 	<table class="activity table table-striped" id="issues">
-					<caption class="plain">Open Issues</caption>	 	
 					<thead>
 						<tr>
 							<th>ID</th>
